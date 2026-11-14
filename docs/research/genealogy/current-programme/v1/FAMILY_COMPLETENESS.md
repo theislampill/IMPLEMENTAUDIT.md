@@ -1,5 +1,11 @@
 # Eight-family documentary scope — current receiving
 
+## Later public scientific edition
+
+The [current research guide](CURRENT_RESEARCH.md) and [32-unit scientific map](PUBLIC_SCIENCE.json) provide the later substantive public accounts. The owner authorization of 13 November permits all 32 scientifically faithful derived explanations after exact independent fidelity and source-safety review; the [publication review record](PUBLICATION_REVIEW.json) records that separate gate. The assessment below is preserved at its earlier public/private scope. Its pending-disclosure and withheld-current-science descriptions are historical and do not override the later edition.
+
+## Preserved earlier assessment
+
 **Eight four-unit documentary packages are assembled at their authorized public/private scopes.** Each contains three distinct constituent accounts and a separate fourth-stage synthesis responsibility. [Continuation 09](increments/2026-11-13-documentary-continuation-09.md) receives the genuine 8/8 synthesis and 32/32 scientific-unit result. Scientific qualification, documentary review, public disclosure, source publication and native implementation remain separate.
 
 This is a scope and navigation record. Exact family review records and the independently reviewed integrated candidate establish documentary acceptance; this table does not supply a new scientific verdict. Historical author-stage pending labels remain dated evidence and must be read with the later receiving records.

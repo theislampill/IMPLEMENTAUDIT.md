@@ -1,5 +1,8 @@
 # SSS-L2 — Canonical Software Maintenance and Evolution
 
+> **Current scientific reading route — 13 November 2026:** the substantial [SSS-L2 account](current/SSS-L2.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 This account describes the **historical public** canonical study: 105 criteria and hypotheses, 106 source/resource records, and two preserved ancestor studies. The current accepted r4 subject and its protected detailed interpretation are separate. [Family](README.md) · [Genealogy](GENEALOGY.md) · [All 105 historical properties](SSS-L2-HISTORICAL-PROPERTIES.md) · [Current identity registry](../../PROGRAMME.json).
 
 ## Maintenance as a continuing obligation

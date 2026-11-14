@@ -1,0 +1,89 @@
+{
+  "schema": "scientific-json-storage-index/1",
+  "kind": "lossless-gzip-storage-index",
+  "logical_path": "docs/research/genealogy/current-programme/v1/families/bwp/current/data/relationships/pairs.json",
+  "payload": {
+    "href": "pairs.json.gz",
+    "media_type": "application/json",
+    "content_encoding": "gzip",
+    "bytes": 500211,
+    "sha256": "d8fab9e692972331f79788f2c25cc0026b8a6e96889898028ad5be34cc3dadeb",
+    "git_blob_sha1": "837ae7d4860e33aea6ef08e804dc688e33fd4b1d",
+    "uncompressed": {
+      "bytes": 25222280,
+      "sha256": "4f819a59777801a0c34894725957f434d90f24e294161472630398d666661b3a",
+      "git_blob_sha1": "324e5889c1bcacd63bbe0847bc6ef0e743e7cf43"
+    }
+  },
+  "records": {
+    "json_pointer": "/body/pairs",
+    "count": 18221
+  },
+  "original_metadata": {
+    "body": {
+      "count": 18221,
+      "current_inquiry_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "historical_research_cutoff": "2026-09-06",
+      "materiality_policy": {
+        "BWP-NMR01": "No identified direct coupling after those screens. Indirect graph paths and generic co-use are not direct materiality. Each status is a bounded analytical judgement, not a proof that no possible interaction exists.",
+        "method": "Complete enumeration using manually authored operative-semantic cohorts, directed claim-specific judgements, exact source-identity joins and explicit unresolved-transfer records. Not title similarity and not 18,221 independently authored essays.",
+        "negative_policy": "Negative, duplicate and superseded rows participate as their retained interpretive constraints, never resurrected requirements.",
+        "r2_negative_repair": "Exact native-function block membership replaces the selected-eight-producer residual rule. Neither a default all-negative nor all-positive frontier is used.",
+        "successor_correction": "A necessary or materially useful input can be a positive direction without proving the receiving conclusion. Actual use, operand/constraint and remaining premises are explicit. No symmetry or all-topic dependency is inferred.",
+        "unit": "unordered cross-lineage property pair with directional relation records",
+        "unresolved_policy": "A pair can retain known bounded relations while a material general/formal compatibility remains unresolved."
+      },
+      "pair_family_counts": {
+        "EBPM_EPM": {
+          "MATERIAL_RELATION": 2215,
+          "NO_MATERIAL_RELATION": 3916,
+          "UNRESOLVED_RELATION": 1,
+          "total": 6132
+        },
+        "EBPM_EWM": {
+          "MATERIAL_RELATION": 1756,
+          "NO_MATERIAL_RELATION": 3864,
+          "UNRESOLVED_RELATION": 1,
+          "total": 5621
+        },
+        "EWM_EPM": {
+          "MATERIAL_RELATION": 2509,
+          "NO_MATERIAL_RELATION": 3957,
+          "UNRESOLVED_RELATION": 2,
+          "total": 6468
+        }
+      },
+      "r3_materiality_policy": "Actual consequential input consumption is sufficient for a partial forward role; actual produced/delivered/consumed task result is separately required for a return. No quota or reciprocal inference.",
+      "r4_negative_scope": "Bounded actual native-output/receiving-premise judgments; not universal absence. Actual unresolved-row objects remain exact.",
+      "r4_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "r5_negative_scope": "Current actual-use decisions; no universal absence theorem. Four unresolved objects are unchanged.",
+      "r5_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "r6_negative_scope": "A bounded use without a supplied case-choice operand; this is not universal impossibility or an empirical exhaustive claim. Four unresolved objects are unchanged.",
+      "r6_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "r7_s003_negative_scope": "R7_CAUSAL_SCOPE_SCREEN and explicit remaining memberships govern. Label-only controls remain; the three substantive native inputs are excluded from negative blocks. No all-use negative theorem.",
+      "r7_s003_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "research_cutoff": "2026-11-11",
+      "revision": "BWP-S-2026-11-12-r7_recovered_s003",
+      "schema_version": "1.0.0",
+      "status_counts": {
+        "MATERIAL_RELATION": 6480,
+        "NO_MATERIAL_RELATION": 11737,
+        "UNRESOLVED_RELATION": 4
+      }
+    },
+    "encoding": "Recursively resolve $scientific_ref from this directory’s shared-records.json definitions. No scientific value or list order is inferred.",
+    "expanded_semantic_sha256": "027f047122fa1c4a101d1bb3fe3e28bfbcbdeb83004f4450e84547ff0633a686",
+    "family": "BWP",
+    "historical_state_interpretation": "Original author-stage status/qualification fields are immutable history; see the current source qualification companion.",
+    "record_set": "pairs",
+    "schema": "public-scientific-records/1",
+    "shared_records": "shared-records.json",
+    "source_binding": {
+      "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+      "bytes": 25233695,
+      "filename": "EVOLVED_BWP_INTRA_CROSSWALK_MATRIX.json",
+      "sha256": "58b880f69c1c9dbddbc8a2763126bf24b02fe8a29cfe7f7b8c07133e981e4bf6"
+    }
+  },
+  "reading_rule": "This file is a storage index, not the scientific dataset. Decompress the sibling payload to recover the complete original JSON bytes. Original metadata and all payload references retain the interpretation and reference base of the original logical file location."
+}

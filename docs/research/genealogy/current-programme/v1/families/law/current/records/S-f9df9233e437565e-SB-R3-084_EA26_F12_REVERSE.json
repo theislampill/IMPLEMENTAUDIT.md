@@ -1,0 +1,858 @@
+{
+  "source_identity": {
+    "source_id": "S-f9df9233e437565e",
+    "scientific_name": "SB-R3-084_EA26_F12_REVERSE.json",
+    "original_bytes": 66156,
+    "original_sha256": "f9df9233e437565e1dff1de9d2fc238f63ea6d23a06f2b21d07602b673863a91"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-084",
+    "title": "EA-26_REVERSE_RESPONSIBILITY_KNOWLEDGE_AND_AUTHORITY",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T02:26:46.008419+00:00",
+    "inquiry_family": 12,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_011.json",
+      "bytes": 1939,
+      "sha256": "af045a3e5335bd4ef49b7dc4fe426b7673195bdbcad9e731dc9ed5de6638809b"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY12_NATIVE_MEANINGS.json",
+      "bytes": 104023,
+      "sha256": "928650cb596b2c1d87704137d61c7e05e7adaaf3ae948c8775c39e33464217ab"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY12_COMPLETE_CORE_LITERAL_ARGUMENTS.json",
+      "bytes": 41703,
+      "sha256": "6126864a1a39073b7e15aa3f523bc870723f4dc529ddc31290a434226923e308"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY12_CONTROLS.json",
+      "bytes": 6479,
+      "sha256": "e656678df1e5f965e2e56f37071108b41792a0106b4f1e243fb7a873491df8da"
+    },
+    "bounded_interface_domain": [
+      "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+      "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+      "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+      "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+      "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+    ],
+    "native_common_basis": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+    "common_cost_and_alternative": [
+      "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+      "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+      "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+      "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+    ],
+    "evidence_ceiling": "Root literal analytical arguments from the complete selected native bodies and eight executed finite discriminators. One bounded NASA standard corroborates scoped distinctions, not universal authority requirements or causal effect sizes. No new property, field experiment, whole-synthesis completion or independent acceptance.",
+    "common_subconditions": {
+      "P1": "The literal common object and actual receiving use exist.",
+      "P2": "Both complete native meanings govern, including nontriggers and limits.",
+      "P3": "The separately reasoned partial contribution follows under its actual scope.",
+      "P4": "Residual premises, stronger-claim witnesses, alternatives and re-entry remain."
+    },
+    "inference": "The named input changes the specified receiving inquiry, capability or decision under its guard. It does not grant another role, certify a whole object, establish causal superiority or create a new implementation requirement.",
+    "common_source_dependence": "One scoped NASA primary standard; multiple retrieved passages count once. Existing selected native sources retain their evidence ceilings.",
+    "exceptions": [],
+    "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-26",
+        "argument": "Impact analysis identifies the critical interface assumptions and rationale that backups must actually understand, directing a bounded sharing effort."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-26",
+        "argument": "Acceptance criteria and documented exceptions identify the knowledge the recipient or successor must retain to assess later deliveries or handover obligations."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-26",
+        "argument": "The exact basis and continuing obligations identify which specialized knowledge must remain available and which decisions stay with external authority."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-26",
+        "argument": "The challenge arrangement's actual competence and independence needs identify where separate specialist knowledge must be cultivated without collapsing author and reviewer roles."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-26",
+        "argument": "Explicit claims, premises and defeaters reveal which reasoning and evidence expertise must remain available and where reliance on one knower is consequential."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-26",
+        "argument": "Actual control requirements and permitted specialist alternatives identify the minimal knowledge coverage needed, avoiding indiscriminate rotation."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-26",
+        "argument": "Explicit model semantics, authority and reconciliation evidence provide a concrete learning object and delimit what a backup must understand."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-26",
+        "argument": "The actual operating limits, monitoring duties and escalation conditions identify which critical knowledge must be retained and which acts require a separate delegation."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-26",
+        "overclaim": "A complete change ticket read by nobody does not remove the single-person knowledge dependency.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-26",
+        "overclaim": "A signed acceptance disposition may be opaque to every remaining maintainer and therefore does not itself distribute knowledge.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-26",
+        "overclaim": "A certificate can remain on file while no maintainer understands its assumptions; possession is not knowledge resilience.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-26",
+        "overclaim": "A separately named reviewer with no relevant understanding is independent in name only and does not establish adequate knowledge coverage.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-26",
+        "overclaim": "An assurance diagram with unexplained specialist assumptions does not transfer their meaning to a successor.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-26",
+        "overclaim": "A well-tailored checklist does not mean that any available person can competently execute it.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-26",
+        "overclaim": "A self-described authoritative model can remain opaque to all successors; model availability alone is not knowledge distribution.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-26",
+        "overclaim": "A risk grant naming an unavailable specialist does not establish resilient operational knowledge coverage.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L3::EW-P008->LAW-L2::EA-26",
+      "LAW-L3::EW-P014->LAW-L2::EA-26",
+      "LAW-L3::EW-P015->LAW-L2::EA-26",
+      "LAW-L3::EW-P016->LAW-L2::EA-26",
+      "LAW-L3::EW-P019->LAW-L2::EA-26",
+      "LAW-L3::EW-P024->LAW-L2::EA-26",
+      "LAW-L3::EW-P030->LAW-L2::EA-26",
+      "LAW-L3::EW-P032->LAW-L2::EA-26"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-26",
+        "source_native_id": "EW-P008",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "A proposed change whose impact assessment otherwise depends on one unavailable knower.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Impact analysis identifies the critical interface assumptions and rationale that backups must actually understand, directing a bounded sharing effort.",
+        "receiving_consequence": "Impact analysis identifies the critical interface assumptions and rationale that backups must actually understand, directing a bounded sharing effort.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Impact analysis identifies the critical interface assumptions and rationale that backups must actually understand, directing a bounded sharing effort."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A complete change ticket read by nobody does not remove the single-person knowledge dependency.",
+        "counter_control": "A complete change ticket read by nobody does not remove the single-person knowledge dependency.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P008",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "A proposed change whose impact assessment otherwise depends on one unavailable knower.",
+          "literal_bridge": "Impact analysis identifies the critical interface assumptions and rationale that backups must actually understand, directing a bounded sharing effort."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-26",
+        "source_native_id": "EW-P014",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "Acceptance of an identified delivery whose criterion or evidence interpretation depends on scarce knowledge.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Acceptance criteria and documented exceptions identify the knowledge the recipient or successor must retain to assess later deliveries or handover obligations.",
+        "receiving_consequence": "Acceptance criteria and documented exceptions identify the knowledge the recipient or successor must retain to assess later deliveries or handover obligations.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Acceptance criteria and documented exceptions identify the knowledge the recipient or successor must retain to assess later deliveries or handover obligations."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A signed acceptance disposition may be opaque to every remaining maintainer and therefore does not itself distribute knowledge.",
+        "counter_control": "A signed acceptance disposition may be opaque to every remaining maintainer and therefore does not itself distribute knowledge.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P014",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "Acceptance of an identified delivery whose criterion or evidence interpretation depends on scarce knowledge.",
+          "literal_bridge": "Acceptance criteria and documented exceptions identify the knowledge the recipient or successor must retain to assess later deliveries or handover obligations."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-26",
+        "source_native_id": "EW-P015",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14",
+          "expected_native_id": "EW-P015"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "An actual certification claim whose evidence interpretation or continuing change obligations depend on one expert.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A certification or regulatory credit claim",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The exact basis and continuing obligations identify which specialized knowledge must remain available and which decisions stay with external authority.",
+        "receiving_consequence": "The exact basis and continuing obligations identify which specialized knowledge must remain available and which decisions stay with external authority.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The exact basis and continuing obligations identify which specialized knowledge must remain available and which decisions stay with external authority."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A certificate can remain on file while no maintainer understands its assumptions; possession is not knowledge resilience.",
+        "counter_control": "A certificate can remain on file while no maintainer understands its assumptions; possession is not knowledge resilience.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P015",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A certification or regulatory credit claim",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "An actual certification claim whose evidence interpretation or continuing change obligations depend on one expert.",
+          "literal_bridge": "The exact basis and continuing obligations identify which specialized knowledge must remain available and which decisions stay with external authority."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-26",
+        "source_native_id": "EW-P016",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15",
+          "expected_native_id": "EW-P016"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "A challenge arrangement that needs competent understanding of a critical area whose knowledge is concentrated.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The challenge arrangement's actual competence and independence needs identify where separate specialist knowledge must be cultivated without collapsing author and reviewer roles.",
+        "receiving_consequence": "The challenge arrangement's actual competence and independence needs identify where separate specialist knowledge must be cultivated without collapsing author and reviewer roles.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The challenge arrangement's actual competence and independence needs identify where separate specialist knowledge must be cultivated without collapsing author and reviewer roles."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A separately named reviewer with no relevant understanding is independent in name only and does not establish adequate knowledge coverage.",
+        "counter_control": "A separately named reviewer with no relevant understanding is independent in name only and does not establish adequate knowledge coverage.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P016",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "A challenge arrangement that needs competent understanding of a critical area whose knowledge is concentrated.",
+          "literal_bridge": "The challenge arrangement's actual competence and independence needs identify where separate specialist knowledge must be cultivated without collapsing author and reviewer roles."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-26",
+        "source_native_id": "EW-P019",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "An assurance argument whose critical inference or evidence interpretation is understood by only one person.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Explicit claims, premises and defeaters reveal which reasoning and evidence expertise must remain available and where reliance on one knower is consequential.",
+        "receiving_consequence": "Explicit claims, premises and defeaters reveal which reasoning and evidence expertise must remain available and where reliance on one knower is consequential.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Explicit claims, premises and defeaters reveal which reasoning and evidence expertise must remain available and where reliance on one knower is consequential."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "An assurance diagram with unexplained specialist assumptions does not transfer their meaning to a successor.",
+        "counter_control": "An assurance diagram with unexplained specialist assumptions does not transfer their meaning to a successor.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P019",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "An assurance argument whose critical inference or evidence interpretation is understood by only one person.",
+          "literal_bridge": "Explicit claims, premises and defeaters reveal which reasoning and evidence expertise must remain available and where reliance on one knower is consequential."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-26",
+        "source_native_id": "EW-P024",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "Selection of assurance activities where critical knowledge concentration affects their feasible execution and resilience.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "Selection of assurance activities for a context",
+            "criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Actual control requirements and permitted specialist alternatives identify the minimal knowledge coverage needed, avoiding indiscriminate rotation.",
+        "receiving_consequence": "Actual control requirements and permitted specialist alternatives identify the minimal knowledge coverage needed, avoiding indiscriminate rotation.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Actual control requirements and permitted specialist alternatives identify the minimal knowledge coverage needed, avoiding indiscriminate rotation."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A well-tailored checklist does not mean that any available person can competently execute it.",
+        "counter_control": "A well-tailored checklist does not mean that any available person can competently execute it.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P024",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "Selection of assurance activities for a context",
+            "criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "Selection of assurance activities where critical knowledge concentration affects their feasible execution and resilience.",
+          "literal_bridge": "Actual control requirements and permitted specialist alternatives identify the minimal knowledge coverage needed, avoiding indiscriminate rotation."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-26",
+        "source_native_id": "EW-P030",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "An authoritative model whose semantics or reconciliation rules depend on one inaccessible expert.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An authoritative engineering model or digital environment",
+            "criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Explicit model semantics, authority and reconciliation evidence provide a concrete learning object and delimit what a backup must understand.",
+        "receiving_consequence": "Explicit model semantics, authority and reconciliation evidence provide a concrete learning object and delimit what a backup must understand.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Explicit model semantics, authority and reconciliation evidence provide a concrete learning object and delimit what a backup must understand."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A self-described authoritative model can remain opaque to all successors; model availability alone is not knowledge distribution.",
+        "counter_control": "A self-described authoritative model can remain opaque to all successors; model availability alone is not knowledge distribution.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P030",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An authoritative engineering model or digital environment",
+            "criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "An authoritative model whose semantics or reconciliation rules depend on one inaccessible expert.",
+          "literal_bridge": "Explicit model semantics, authority and reconciliation evidence provide a concrete learning object and delimit what a backup must understand."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-26",
+        "source_native_id": "EW-P032",
+        "receiving_native_id": "EA-26",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/25",
+          "expected_native_id": "EA-26",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/25",
+            "expected_native_id": "AGQ-EA-26"
+          }
+        },
+        "shared_question_or_object": "An operational risk decision whose evidence interpretation or response capability depends on one person.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "receiver": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The actual operating limits, monitoring duties and escalation conditions identify which critical knowledge must be retained and which acts require a separate delegation.",
+        "receiving_consequence": "The actual operating limits, monitoring duties and escalation conditions identify which critical knowledge must be retained and which acts require a separate delegation.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The actual operating limits, monitoring duties and escalation conditions identify which critical knowledge must be retained and which acts require a separate delegation."
+        ],
+        "premises_remaining": [
+          "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A risk grant naming an unavailable specialist does not establish resilient operational knowledge coverage.",
+        "counter_control": "A risk grant naming an unavailable specialist does not establish resilient operational knowledge coverage.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-26->LAW-L3::EW-P032",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system whose maintainability depends on knowledge concentrated in too few people.",
+            "criterion": "Distribute critical knowledge sufficiently to maintain the system through absence or turnover; choose the collaboration practice by its trade-offs."
+          },
+          "actual_object": "An operational risk decision whose evidence interpretation or response capability depends on one person.",
+          "literal_bridge": "The actual operating limits, monitoring duties and escalation conditions identify which critical knowledge must be retained and which acts require a separate delegation."
+        }
+      }
+    ],
+    "independent_review_scope": "Every literal membership, shared premise, native correspondence, counterexample, evidence ceiling and complete study remain for fidelity and distinct adversarial review."
+  }
+}

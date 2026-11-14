@@ -1,0 +1,1726 @@
+{
+  "source_identity": {
+    "source_id": "S-3a74dd1e1505cc2d",
+    "scientific_name": "DRF-L3-ANALYSIS_REGISTERS.json",
+    "original_bytes": 67063,
+    "original_sha256": "3a74dd1e1505cc2db5f4009a7cefde0c502a5a33e0d724048b1d894e5398e1ad"
+  },
+  "reading_rule": "Original selected scientific record. Source-state tokens remain dated history; later original qualification is separate.",
+  "source_record": {
+    "schema": "drf-analysis-registers/1",
+    "author_state": "AUTHOR_ANALYSIS_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW",
+    "cutoff": "2026-11-11",
+    "timeline": [
+      {
+        "id": "T01",
+        "date": "1949",
+        "event": "Turing's checking-a-routine conference paper is documented by the archival record; its method and later influence are not newly examined here.",
+        "sources": [
+          "N001"
+        ],
+        "basis": "ARCHIVAL_IDENTITY_ONLY"
+      },
+      {
+        "id": "T02",
+        "date": "1967–1969",
+        "event": "Floyd and Hoare formulate conditional reasoning about programs; termination, machine axioms and statement interpretation remain distinct questions.",
+        "sources": [
+          "S001",
+          "S002"
+        ],
+        "basis": "SELECTED_PRIMARY_TEXT"
+      },
+      {
+        "id": "T03",
+        "date": "1971",
+        "event": "Scott and Strachey's PRG6 develops mathematical program semantics; later reproduction dates are not a second invention.",
+        "sources": [
+          "S004"
+        ],
+        "basis": "SELECTED_PRIMARY_TEXT"
+      },
+      {
+        "id": "T04",
+        "date": "1975",
+        "event": "Dijkstra's guarded commands and weakest-precondition treatment make nondeterminism and termination obligations explicit.",
+        "sources": [
+          "S003"
+        ],
+        "basis": "SELECTED_PRIMARY_TEXT"
+      },
+      {
+        "id": "T05",
+        "date": "1977",
+        "event": "Abstract interpretation and temporal program reasoning address different problems: sound semantic approximation and time-dependent concurrent behavior.",
+        "sources": [
+          "S005",
+          "S006"
+        ],
+        "basis": "PRIMARY_ABSTRACT_OR_SELECTED_SCOPE"
+      },
+      {
+        "id": "T06",
+        "date": "1978–1980",
+        "event": "CSP, VDM and CCS belong to different communicating-process and specification traditions in the native account; a single chain of descent is not established.",
+        "sources": [
+          "S013",
+          "S018",
+          "S019"
+        ],
+        "basis": "NATIVE_ACCOUNT_RETAINED_EXTERNAL_TEXT_NOT_FRESHLY_EXAMINED"
+      },
+      {
+        "id": "T07",
+        "date": "1981–1982",
+        "event": "Clarke/Emerson's synchronization-skeleton work and Queille/Sifakis's CESAR work provide distinct early model-checking lines.",
+        "sources": [
+          "N002",
+          "N003"
+        ],
+        "basis": "PRIMARY_IDENTITY_ABSTRACT_AND_SELECTED_TEXT"
+      },
+      {
+        "id": "T08",
+        "date": "1979–1990",
+        "event": "Social-process criticism, program/execution criticism and Hall's response challenge both perfection claims and categorical impracticality.",
+        "sources": [
+          "S055",
+          "S056",
+          "S057"
+        ],
+        "basis": "SELECTED_PRIMARY_AND_REPRINT_ABSTRACT"
+      },
+      {
+        "id": "T09",
+        "date": "1985–1994",
+        "event": "Safety/liveness definitions, concurrent history criteria and temporal/action models diversify the meanings of correctness.",
+        "sources": [
+          "S086",
+          "S090",
+          "S017"
+        ],
+        "basis": "MIXED_SELECTED_PRIMARY_AND_NATIVE_ACCOUNT"
+      },
+      {
+        "id": "T10",
+        "date": "1996",
+        "event": "Jackson and Wing articulate several dimensions of lightweight formalization, preserving deliberate partiality.",
+        "sources": [
+          "S015"
+        ],
+        "basis": "FULL_SHORT_AUTHOR_MANUSCRIPT"
+      },
+      {
+        "id": "T11",
+        "date": "1997–2007",
+        "event": "Vacuity, counterexample-guided refinement and local heap reasoning address inadequacy of successful checks, spurious warnings and aliasing.",
+        "sources": [
+          "S059",
+          "S060",
+          "S061",
+          "S048",
+          "S049"
+        ],
+        "basis": "MIXED_SELECTED_PRIMARY_AND_METADATA"
+      },
+      {
+        "id": "T12",
+        "date": "1997–2009",
+        "event": "Proof-carrying evidence, per-run translation validation, realistic compiler verification and kernel verification move assurance across explicit interfaces.",
+        "sources": [
+          "S022",
+          "S023",
+          "S024",
+          "S025",
+          "S110",
+          "S093"
+        ],
+        "basis": "NATIVE_ORIGIN_ACCOUNT_WITH_CURRENT_BOUNDARY_CHECKS"
+      },
+      {
+        "id": "T13",
+        "date": "2008–2009",
+        "event": "KLEE's path exploration and industrial surveys show practical uses with different scopes and evidence designs.",
+        "sources": [
+          "S034",
+          "S062"
+        ],
+        "basis": "SELECTED_PRIMARY_TEXT"
+      },
+      {
+        "id": "T14",
+        "date": "2014",
+        "event": "Refinement types for lazy Haskell expose an evaluation-order assumption and introduce a guarded repair.",
+        "sources": [
+          "S047"
+        ],
+        "basis": "INDEXED_PRIMARY_FIRST_PAGE"
+      },
+      {
+        "id": "T15",
+        "date": "2017–2020",
+        "event": "Verified-distributed-system bugs, SMT-solver defect campaigns and RustBelt's relaxed-memory extension locate defects at specific boundaries.",
+        "sources": [
+          "S092",
+          "S097",
+          "S046",
+          "N011"
+        ],
+        "basis": "SELECTED_PRIMARY_OR_PRIMARY_ABSTRACT"
+      },
+      {
+        "id": "T16",
+        "date": "2022 data / 2025 publications",
+        "event": "Coq user experience, Isabelle compatibility and Dafny/Dezyne studies examine distinct maintenance and practitioner questions; publication year is not measurement date.",
+        "sources": [
+          "S076",
+          "S095",
+          "S100",
+          "S112"
+        ],
+        "basis": "SELECTED_PRIMARY_TEXT"
+      },
+      {
+        "id": "T17",
+        "date": "2025–2026",
+        "event": "Unit proofs, repository theorem benchmarks, autoformalization and proof-certificate work advance distinct tasks with different evaluation populations.",
+        "sources": [
+          "S107",
+          "S111",
+          "S102",
+          "S108",
+          "S109",
+          "N008"
+        ],
+        "basis": "SELECTED_PRIMARY_TEXT_WITH_VERSION_LIMITS"
+      },
+      {
+        "id": "T18",
+        "date": "2026-08-12",
+        "event": "The native 50-property/113-source replacement freeze is the historical scientific subject retained unchanged.",
+        "sources": [],
+        "basis": "EXACT_RECEIVED_NATIVE_METADATA"
+      },
+      {
+        "id": "T19",
+        "date": "2026-08-30 to 2026-09-22",
+        "event": "CompCert 3.18, SMT-LIB 2.7 revision of 2026-09-09 and later S102/S111 preprints supply subsequent versions, not independent replications.",
+        "sources": [
+          "S110",
+          "S039",
+          "S102",
+          "S111"
+        ],
+        "basis": "CURRENT_PRIMARY_VERSION_CHECKS"
+      },
+      {
+        "id": "T20",
+        "date": "2026-11-11",
+        "event": "This author's selected inquiry and constructed cases qualify the native study; independent scientific acceptance remains unperformed.",
+        "sources": [],
+        "basis": "ACTUAL_AUTHOR_WORK"
+      }
+    ],
+    "genealogy": [
+      {
+        "id": "G01",
+        "from": [
+          "N001"
+        ],
+        "to": [
+          "S001"
+        ],
+        "type": "ANTECEDENT_CHRONOLOGY_NOT_PROVEN_TRANSMISSION",
+        "claim": "A 1949 checking paper predates the 1967 work, but metadata alone does not establish a direct intellectual transmission path.",
+        "evidence_locator": "N001 archival record, lines 6–10; S001 selected paper passages",
+        "evidence_ceiling": "Do not draw a causal priority arrow from date alone."
+      },
+      {
+        "id": "G02",
+        "from": [
+          "S001"
+        ],
+        "to": [
+          "S002"
+        ],
+        "type": "SHARED_ASSERTIONAL_TRADITION_WITH_DOCUMENTED_REFERENCE",
+        "claim": "The native and selected primary accounts place assertional meanings and axiomatic composition in a connected tradition, with distinct presentation and logical scope.",
+        "evidence_locator": "S001 selected predicate and termination passages; S002 selected partial-correctness, consequence and composition passages",
+        "evidence_ceiling": "Not a claim that all later formal methods derive from one author."
+      },
+      {
+        "id": "G03",
+        "from": [
+          "S002"
+        ],
+        "to": [
+          "S003"
+        ],
+        "type": "RELATED_RULE_SYSTEM_WITH_CHANGED_SEMANTIC_TARGET",
+        "claim": "Weakest-precondition total-correctness treatment connects program rules to explicit nondeterministic/termination reasoning; it is not merely a new name for partial correctness.",
+        "evidence_locator": "S003 EWD472 selected sections; S002 published-paper selected rules",
+        "evidence_ceiling": "Current comparison is mathematical/semantic; exact individual influence beyond source citations is not newly established."
+      },
+      {
+        "id": "G04",
+        "from": [
+          "S004"
+        ],
+        "to": [
+          "S005"
+        ],
+        "type": "SHARED_SEMANTIC_PROBLEM_AND_HISTORICAL_CONNECTION",
+        "claim": "Fixed-point semantics and sound approximation address related semantic objects; the native genealogy retains the connection while original 1977 proof text remains uninspected.",
+        "evidence_locator": "S004 introduction; S005 author abstract and bibliography",
+        "evidence_ceiling": "Do not equate shared fixed-point language with proof of direct causation."
+      },
+      {
+        "id": "G05",
+        "from": [
+          "S006"
+        ],
+        "to": [
+          "N002"
+        ],
+        "type": "RELATED_TEMPORAL_PROBLEM_NOT_SINGLE_PARENT_PROOF",
+        "claim": "Temporal reasoning supplies an important problem/language context for early finite-state checking; N002 also documents branching-time/fixed-point/graph-algorithm connections.",
+        "evidence_locator": "S006 primary abstract; N002 abstract and bibliography",
+        "evidence_ceiling": "A multi-parent account is warranted; bibliography alone does not establish every dependency's causal strength."
+      },
+      {
+        "id": "G06",
+        "from": [
+          "S018"
+        ],
+        "to": [
+          "N003"
+        ],
+        "type": "DOCUMENTED_INFLUENCE",
+        "claim": "CESAR explicitly describes its high-level process language as inspired by CSP.",
+        "evidence_locator": "N003 primary abstract and PDF lines 0–87",
+        "evidence_ceiling": "Inspiration concerns language design; it is not identity of operational semantics."
+      },
+      {
+        "id": "G07",
+        "from": [
+          "N002"
+        ],
+        "to": [
+          "N003"
+        ],
+        "type": "PARALLEL_DEVELOPMENT_WITH_DISTINCT_ARTIFACTS",
+        "claim": "Both early lines use temporal specifications and algorithmic checking, but different implementations and source accounts remain separate.",
+        "evidence_locator": "N002 primary identity and abstract; N003 primary identity and abstract",
+        "evidence_ceiling": "No new historical priority or personal influence claim."
+      },
+      {
+        "id": "G08",
+        "from": [
+          "S005"
+        ],
+        "to": [
+          "S061"
+        ],
+        "type": "WITHIN_LINEAGE_HYBRIDIZATION",
+        "claim": "Counterexample-guided refinement links abstraction with model-checking feedback; feasible/spurious distinctions alter the next abstraction rather than merely adding a second tool.",
+        "evidence_locator": "S061 primary abstract; C05",
+        "evidence_ceiling": "The original technical proof is not fully inspected; the local direction is demonstrated independently in C05."
+      },
+      {
+        "id": "G09",
+        "from": [
+          "S048"
+        ],
+        "to": [
+          "S046"
+        ],
+        "type": "DOCUMENTED_ADAPTATION",
+        "claim": "RustBelt explicitly uses Iris concurrent separation logic and ownership semantics to interpret types and unsafe-library conditions.",
+        "evidence_locator": "S046 PDF lines 142–225, including references to Reynolds and O’Hearn",
+        "evidence_ceiling": "A modeled subset and SC memory remain explicit; not all Rust is proved."
+      },
+      {
+        "id": "G10",
+        "from": [
+          "S046"
+        ],
+        "to": [
+          "N011"
+        ],
+        "type": "DOCUMENTED_DESCENT_AND_REPAIR",
+        "claim": "The RustBelt relaxed-memory follow-up extends the earlier SC model, revises reasoning for relaxed memory and reports an Arc data-race repair.",
+        "evidence_locator": "N011 primary paper lines 45–117",
+        "evidence_ceiling": "A stronger application model does not retroactively refute the original SC theorem."
+      },
+      {
+        "id": "G11",
+        "from": [
+          "S002"
+        ],
+        "to": [
+          "S047"
+        ],
+        "type": "DOCUMENTED_GENERALIZATION_WITH_SEMANTIC_REPAIR",
+        "claim": "The refinement-types paper presents predicates/contracts as a generalization of Floyd–Hoare reasoning and demonstrates failure of an eager-language assumption under laziness.",
+        "evidence_locator": "S047 indexed first page and author abstract",
+        "evidence_ceiling": "This specificconnection is source-stated; not all dependent types share that origin."
+      },
+      {
+        "id": "G12",
+        "from": [
+          "S055"
+        ],
+        "to": [
+          "S057"
+        ],
+        "type": "CRITICISM_AND_REACTION",
+        "claim": "Hall responds to absolutist portrayals with qualified practical specification experience; criticisms about model/world correspondence remain.",
+        "evidence_locator": "S055 selected criticism; S057 selected discussion of myths 1 and 5",
+        "evidence_ceiling": "Cost-benefit advocacy is not a controlled refutation of every skeptical prediction."
+      },
+      {
+        "id": "G13",
+        "from": [
+          "S015"
+        ],
+        "to": [
+          "S107"
+        ],
+        "type": "CONVERGENCE_AND_REUSE_OF_SELECTIVITY",
+        "claim": "Unit proofs exemplify selective component checking, a concern also articulated in lightweight methods; no direct influence claim is made without an explicit path.",
+        "evidence_locator": "S015 short manuscript; S107 selected methods and results",
+        "evidence_ceiling": "Conceptual resemblance and shared purpose do not prove descent."
+      },
+      {
+        "id": "G14",
+        "from": [
+          "S108"
+        ],
+        "to": [
+          "S109"
+        ],
+        "type": "SHARED_PROOF_FORMAT_AND_ECOSYSTEM",
+        "claim": "Alethe production, elaboration and checking/reconstruction share artifacts and theory support; their evaluations are not independent evidence families by default.",
+        "evidence_locator": "S108 selected architecture; S109 selected architecture and evaluation",
+        "evidence_ceiling": "Different tasks and filters remain separate; no pooled success rate."
+      },
+      {
+        "id": "G15",
+        "from": [
+          "N008"
+        ],
+        "to": [
+          "N007"
+        ],
+        "type": "DOCUMENTED_IMPLEMENTATION_RELATION",
+        "claim": "Logos documentation identifies CPC/Eunoia as the calculus/compiler input and explains the checker/semantics relationship.",
+        "evidence_locator": "N007 README lines 192–279; N008 selected CPC architecture",
+        "evidence_ceiling": "Unpinned documentation and unexecuted proofs limit currentness and independent validation."
+      },
+      {
+        "id": "G16",
+        "from": [
+          "S102"
+        ],
+        "to": [
+          "S111"
+        ],
+        "type": "RELATED_FRONTIER_DIFFERENT_TASKS",
+        "claim": "Autoformalization fidelity and fixed-statement repository proof completion are related workflow stages, not interchangeable benchmark targets.",
+        "evidence_locator": "S102 selected version 3; S111 selected version 2",
+        "evidence_ceiling": "No causal descent or shared superiority claim."
+      },
+      {
+        "id": "G17",
+        "from": [
+          "S051"
+        ],
+        "to": [
+          "S054"
+        ],
+        "type": "SHARED_NORMATIVE_DOMAIN_NOT_TEMPORAL_DESCENT",
+        "claim": "The 2017 FAA guidance and the 2014 NASA case report relate to the DO-333 domain but have different normative and case-study roles. The earlier report cannot derive from the later circular.",
+        "evidence_locator": "S051 date and selected guidance; S052 2011 supplement identity; S054 date and selected case passages",
+        "evidence_ceiling": "This is a shared-domain relation, not evidence of chronological descent or complete certification."
+      },
+      {
+        "id": "G18",
+        "from": [
+          "S012",
+          "S013",
+          "S010",
+          "S011",
+          "S014"
+        ],
+        "to": [
+          "S015"
+        ],
+        "type": "PLURAL_SPECIFICATION_SCHOOLS_RETAINED_AS_NATIVE_ACCOUNT",
+        "claim": "Z, VDM, B/Event-B and algebraic/interface specification contribute different representational methods; lightweight selection can be applied across them.",
+        "evidence_locator": "Original report genealogy and source identities; S011 metadata; S015 selective formalization",
+        "evidence_ceiling": "Their complete book-level theorems and all historical transmission paths are not newly reverified."
+      }
+    ],
+    "criticism": [
+      {
+        "id": "K01",
+        "challenge": "A true formal statement may miss the intended requirement or world.",
+        "sources": [
+          "S055",
+          "S056",
+          "S081",
+          "S102"
+        ],
+        "native_properties": [
+          "P001",
+          "P003",
+          "P020",
+          "P039",
+          "P040",
+          "P049"
+        ],
+        "response_trace": "Separate theorem validity, statement relevance and external correspondence; use deliberate positive and negative examples.",
+        "discriminators": [
+          "C02",
+          "C13"
+        ],
+        "strongest_conditional_alternative": "A valid narrow lemma or hypothetical model does not require a complete stakeholder process.",
+        "ceiling": "Current access to Fetzer’s full argument is limited; local cases establish the stated logical separations."
+      },
+      {
+        "id": "K02",
+        "challenge": "Specifications, annotations and proofs can cost more than their decision value.",
+        "sources": [
+          "S015",
+          "S057",
+          "S062",
+          "S064",
+          "S107",
+          "S112"
+        ],
+        "native_properties": [
+          "P037",
+          "P038",
+          "P041",
+          "P042",
+          "P043"
+        ],
+        "response_trace": "Use selective models, tractable fragments and explicit cost comparisons at the decision’s actual scope.",
+        "discriminators": [
+          "C14",
+          "C18"
+        ],
+        "strongest_conditional_alternative": "A cheap complete check or justified continuation with the existing control can be adequate.",
+        "ceiling": "There is no controlled universal return estimate; recruitment and timing denominators remain source specific."
+      },
+      {
+        "id": "K03",
+        "challenge": "State explosion and undecidability block universal automatic completion.",
+        "sources": [
+          "S005",
+          "N005",
+          "S039"
+        ],
+        "native_properties": [
+          "P016",
+          "P018",
+          "P019",
+          "P024",
+          "P025"
+        ],
+        "response_trace": "Retain finite exact domains as genuinely decidable cases and keep UNKNOWN inconclusive.",
+        "discriminators": [
+          "C06",
+          "C14"
+        ],
+        "strongest_conditional_alternative": "A small complete state space can be exhaustively checked without an unbounded theorem prover.",
+        "ceiling": "No named reduction establishes a universal complexity improvement."
+      },
+      {
+        "id": "K04",
+        "challenge": "Abstract models can omit faults or produce spurious warnings.",
+        "sources": [
+          "S005",
+          "S061",
+          "S092",
+          "S106"
+        ],
+        "native_properties": [
+          "P013",
+          "P014",
+          "P015",
+          "P017",
+          "P029"
+        ],
+        "response_trace": "Make the transfer depend on the property class and approximation direction; determine whether witnesses are concrete or spurious.",
+        "discriminators": [
+          "C05",
+          "C15",
+          "C17"
+        ],
+        "strongest_conditional_alternative": "A useful under-approximate witness or intentionally coarse model can be sufficient for its stated question.",
+        "ceiling": "The original abstract-interpretation theorems were not fully re-read; local mathematical examples have only their specified scope."
+      },
+      {
+        "id": "K05",
+        "challenge": "Modular proofs may have incompatible or circular assumptions.",
+        "sources": [
+          "N004",
+          "S048",
+          "S046"
+        ],
+        "native_properties": [
+          "P010",
+          "P011",
+          "P012"
+        ],
+        "response_trace": "Use sound composition rules, compatible interfaces, frames and explicit remaining premises; do not ban every circular proof structure.",
+        "discriminators": [
+          "C07",
+          "C08"
+        ],
+        "strongest_conditional_alternative": "Useful partial component contributions and guarded circular rules are legitimate.",
+        "ceiling": "The finite examples do not reproduce every published assume-guarantee theorem."
+      },
+      {
+        "id": "K06",
+        "challenge": "Tools, translations and proof rules can contain defects.",
+        "sources": [
+          "S097",
+          "S098",
+          "S108",
+          "N007",
+          "N008"
+        ],
+        "native_properties": [
+          "P021",
+          "P022",
+          "P024",
+          "P033",
+          "P034",
+          "P035",
+          "P047"
+        ],
+        "response_trace": "Separate checking, semantic validation and testing by the boundary each addresses; disclose residual tool trust.",
+        "discriminators": [
+          "C09",
+          "C11",
+          "C19"
+        ],
+        "strongest_conditional_alternative": "A defect report does not invalidate all earlier results, and a narrow valid certificate retains value.",
+        "ceiling": "No current external tool binary was validated; code size is not a measured defect probability."
+      },
+      {
+        "id": "K07",
+        "challenge": "Proof maintenance can be brittle and encourage goal weakening.",
+        "sources": [
+          "S095",
+          "S076",
+          "S102"
+        ],
+        "native_properties": [
+          "P023",
+          "P039",
+          "P048"
+        ],
+        "response_trace": "Separate mathematical truth, script compatibility, statement meaning and present application support.",
+        "discriminators": [
+          "C12",
+          "C13"
+        ],
+        "strongest_conditional_alternative": "No change, affected-scope replay and historical retention remain admissible.",
+        "ceiling": "Compatibility counts are not logical-unsoundness counts; versions of one paper are not replications."
+      },
+      {
+        "id": "K08",
+        "challenge": "Safety, type safety or a model proof can be oversold as all correctness.",
+        "sources": [
+          "S003",
+          "S046",
+          "S090",
+          "S110"
+        ],
+        "native_properties": [
+          "P006",
+          "P007",
+          "P009",
+          "P027",
+          "P030",
+          "P043",
+          "P045",
+          "P046"
+        ],
+        "response_trace": "Name the actual property, semantics and transfer relation before extending a result to progress, function or security.",
+        "discriminators": [
+          "C03",
+          "C04",
+          "C08",
+          "C15",
+          "C16"
+        ],
+        "strongest_conditional_alternative": "Richer types or total-correctness reasoning can legitimately establish a stronger property.",
+        "ceiling": "There is no blanket hierarchy that makes one method family stronger for every question."
+      },
+      {
+        "id": "K09",
+        "challenge": "Monitoring may miss events or respond too late.",
+        "sources": [
+          "S066",
+          "S068",
+          "S099",
+          "S104"
+        ],
+        "native_properties": [
+          "P031",
+          "P032"
+        ],
+        "response_trace": "Separate observed-trace verdicts, detection, enforcement and recovery; quantify timing when the claim needs it.",
+        "discriminators": [
+          "C10"
+        ],
+        "strongest_conditional_alternative": "Passive detection and positive finite co-safety verdicts remain valid contributions.",
+        "ceiling": "No production-monitor or operational-availability benchmark was performed."
+      },
+      {
+        "id": "K10",
+        "challenge": "Industrial successes and studies may be selected or self-reported.",
+        "sources": [
+          "S062",
+          "S064",
+          "S065",
+          "S076",
+          "S100",
+          "S112",
+          "N009"
+        ],
+        "native_properties": [
+          "P036",
+          "P037",
+          "P042",
+          "P050"
+        ],
+        "response_trace": "Use case feasibility and practitioner experience at their actual scope, with study, project and version dependence recorded.",
+        "discriminators": [
+          "C18"
+        ],
+        "strongest_conditional_alternative": "Selected positive evidence can be useful; lack of random sampling does not make it false.",
+        "ceiling": "General causal effects, adoption prevalence and counterfactual cost remain unresolved."
+      },
+      {
+        "id": "K11",
+        "challenge": "Certification or formal-looking records can substitute for reasoning.",
+        "sources": [
+          "S051",
+          "S052",
+          "S054",
+          "S113",
+          "S057"
+        ],
+        "native_properties": [
+          "P038",
+          "P041"
+        ],
+        "response_trace": "Distinguish normative permission or obligation from formal truth and observed operational outcomes.",
+        "discriminators": [
+          "C14",
+          "C18"
+        ],
+        "strongest_conditional_alternative": "Useful records and unchanged accepted reuse can reduce work without being ceremonial proxies.",
+        "ceiling": "The paid DO-333 body was not read, and no clause-level compliance assessment is made."
+      },
+      {
+        "id": "K12",
+        "challenge": "AI evaluation can validate syntax or a shared mistranslation.",
+        "sources": [
+          "S101",
+          "S102",
+          "S111",
+          "S070",
+          "N007"
+        ],
+        "native_properties": [
+          "P001",
+          "P020",
+          "P039",
+          "P040",
+          "P049"
+        ],
+        "response_trace": "Separate fixed-goal proof search, translation, reference fidelity, model/context/version and comparable baseline cost.",
+        "discriminators": [
+          "C13"
+        ],
+        "strongest_conditional_alternative": "A checked AI-produced proof of the intended statement can be valid; whole regeneration can be an adequate baseline.",
+        "ceiling": "No model call, contamination audit or benchmark replication occurred."
+      },
+      {
+        "id": "K13",
+        "challenge": "Changes in memory/compilation semantics invalidate an application inference.",
+        "sources": [
+          "S046",
+          "N011",
+          "S110",
+          "N010"
+        ],
+        "native_properties": [
+          "P014",
+          "P015",
+          "P029",
+          "P033",
+          "P050"
+        ],
+        "response_trace": "Adapt the relation or logic to the receiving semantics while retaining the old model theorem at its stated scope.",
+        "discriminators": [
+          "C11",
+          "C17"
+        ],
+        "strongest_conditional_alternative": "A deliberate sequentially consistent model is not false because a relaxed implementation behaves differently.",
+        "ceiling": "No complete ISA, compiler-binary or physical side-channel verification was performed."
+      }
+    ],
+    "coverage": [
+      {
+        "module": "FM-G",
+        "topic": "Plural origins, schools, criticism, descent and analogy",
+        "native_property_ids": [
+          "P001",
+          "P004",
+          "P010",
+          "P013",
+          "P016",
+          "P021",
+          "P026",
+          "P029",
+          "P037"
+        ],
+        "source_ids": [
+          "S001",
+          "S002",
+          "S003",
+          "S004",
+          "S005",
+          "S006",
+          "S015",
+          "S048",
+          "S055",
+          "S057",
+          "N001",
+          "N002",
+          "N003",
+          "N011"
+        ],
+        "actual_scope": "Complete native genealogy and selected primary origins; typed edges G01–G18 distinguish descent, reaction, parallel work and analogy.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "Historical priority and all book-level theorems were not freshly verified; chronology cannot fill a transmission gap.",
+        "bounded_inquiry_stop_reason": "Additional generic overviews would not resolve the remaining causal questions. Their specific evidence gaps remain identified.",
+        "report_anchor": "s02"
+      },
+      {
+        "module": "FM01",
+        "topic": "Specification formation and world-machine validity",
+        "native_property_ids": [
+          "P001",
+          "P002",
+          "P003",
+          "P049"
+        ],
+        "source_ids": [
+          "S001",
+          "S002",
+          "S081",
+          "S056",
+          "S102",
+          "S054"
+        ],
+        "actual_scope": "All native claim-formation fields, selected primary conditional-proof and requirements passages, and C01, C02 and C13.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "The full Fetzer paper and all requirements books were not freshly read; no stakeholder field validation occurred.",
+        "bounded_inquiry_stop_reason": "Primary passages and the cases establish the conditional distinctions used here; no universal requirements consensus is claimed.",
+        "report_anchor": "s05"
+      },
+      {
+        "module": "FM02",
+        "topic": "Invariants, safety, liveness, fairness and property classes",
+        "native_property_ids": [
+          "P004",
+          "P005",
+          "P006",
+          "P007",
+          "P008",
+          "P009"
+        ],
+        "source_ids": [
+          "S001",
+          "S003",
+          "S006",
+          "S021",
+          "S086",
+          "S099"
+        ],
+        "actual_scope": "Native invariant, temporal and property-class distinctions; selected primary passages and C03, C04 and C15.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "Specialized probabilistic, timed and hybrid-system theorems were not rederived.",
+        "bounded_inquiry_stop_reason": "Cases distinguish inductiveness, progress, fairness and refinement overclaims. A later specialized application needs its own property-specific argument.",
+        "report_anchor": "s06"
+      },
+      {
+        "module": "FM03",
+        "topic": "Contracts, frames and compositional reasoning",
+        "native_property_ids": [
+          "P010",
+          "P011",
+          "P012"
+        ],
+        "source_ids": [
+          "S002",
+          "S048",
+          "S049",
+          "S046",
+          "N004"
+        ],
+        "actual_scope": "Selected primary frame and composition arguments, with aliasing, interface and guarded-circularity cases C07 and C08.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No external proof artifact was replayed; extraction of some N004 notation is limited.",
+        "bounded_inquiry_stop_reason": "Valid circular rules and useful partial contributions are preserved. Applying a particular theorem requires its exact conditions, not another generic overview.",
+        "report_anchor": "s07"
+      },
+      {
+        "module": "FM04",
+        "topic": "Abstraction and refinement",
+        "native_property_ids": [
+          "P013",
+          "P014",
+          "P015"
+        ],
+        "source_ids": [
+          "S005",
+          "S061",
+          "S021",
+          "S110"
+        ],
+        "actual_scope": "Native abstraction and correspondence claims, current source boundaries, and C01, C05, C11 and C15.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "The complete original abstract-interpretation and CEGAR proofs were not freshly read; no real-system correspondence was validated.",
+        "bounded_inquiry_stop_reason": "The explicit inference directions and counterexamples settle the general claims made here; no empirical precision advantage is asserted.",
+        "report_anchor": "s08"
+      },
+      {
+        "module": "FM05",
+        "topic": "Model checking and bounded evidence",
+        "native_property_ids": [
+          "P016",
+          "P017",
+          "P018",
+          "P019"
+        ],
+        "source_ids": [
+          "N002",
+          "N003",
+          "N005",
+          "S039",
+          "S107"
+        ],
+        "actual_scope": "Early primary model-checking records, current Alloy 6 documentation and complete finite or bounded cases C01 and C06.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No Alloy, SPIN or external SAT model was executed; detailed partial-order reduction algorithms were not revalidated.",
+        "bounded_inquiry_stop_reason": "The finite cases and documented current modes resolve the consequential scope questions. Tool-specific performance remains unclaimed.",
+        "report_anchor": "s09"
+      },
+      {
+        "module": "FM06",
+        "topic": "Proof checking and engineering",
+        "native_property_ids": [
+          "P021",
+          "P022",
+          "P023",
+          "P047",
+          "P048"
+        ],
+        "source_ids": [
+          "N006",
+          "N007",
+          "S095",
+          "S076",
+          "S108"
+        ],
+        "actual_scope": "Current primary documentation, selected maintenance-study passages and trust/currentness cases C09 and C12.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No Lean, Rocq or Isabelle kernel or external proof project was replayed; no long-term maintenance return was measured.",
+        "bounded_inquiry_stop_reason": "The trust and currentness states are explicit. Unexecuted artifacts remain unexecuted rather than being assigned a pass.",
+        "report_anchor": "s10"
+      },
+      {
+        "module": "FM07",
+        "topic": "SAT/SMT and symbolic execution",
+        "native_property_ids": [
+          "P024",
+          "P025"
+        ],
+        "source_ids": [
+          "S039",
+          "S034",
+          "S097",
+          "S109",
+          "N008"
+        ],
+        "actual_scope": "The current SMT-LIB response semantics, selected solver and symbolic-execution architectures, and C06 and C09.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No external solver binary was executed; no query-error probability or KLEE replication was established.",
+        "bounded_inquiry_stop_reason": "Response, witness and encoding distinctions are adequately discriminated. Comparative performance rankings are not part of the supported conclusion.",
+        "report_anchor": "s11"
+      },
+      {
+        "module": "FM08",
+        "topic": "Static analysis and types",
+        "native_property_ids": [
+          "P026",
+          "P027",
+          "P028",
+          "P046"
+        ],
+        "source_ids": [
+          "S005",
+          "S032",
+          "S046",
+          "S047"
+        ],
+        "actual_scope": "Native static/type guarantees, historical analyzer scope, refinement-type evaluation assumptions, and C05, C08 and C19.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No complete language or type-checker proof was reproduced; historical tool metrics were not updated.",
+        "bounded_inquiry_stop_reason": "Specific semantic counterexamples qualify the native guarantees. Contemporary validation of every feature is outside the claim.",
+        "report_anchor": "s12"
+      },
+      {
+        "module": "FM09",
+        "topic": "Concurrency, distributed systems and memory",
+        "native_property_ids": [
+          "P029",
+          "P030"
+        ],
+        "source_ids": [
+          "S090",
+          "S092",
+          "S106",
+          "N011"
+        ],
+        "actual_scope": "Primary concurrent-history criteria, selected bug-study and relaxed-memory-extension passages, and C04, C16 and C17.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No full ISA memory model or production protocol was verified; S106 was not read in full.",
+        "bounded_inquiry_stop_reason": "The documented extension and local memory-model witness resolve the stated risk. Detailed protocol claims retain their native source ceilings.",
+        "report_anchor": "s13"
+      },
+      {
+        "module": "FM10",
+        "topic": "Runtime observation and control",
+        "native_property_ids": [
+          "P031",
+          "P032"
+        ],
+        "source_ids": [
+          "S066",
+          "S068",
+          "S099",
+          "S104"
+        ],
+        "actual_scope": "Selected primary monitorability and overhead passages, with observation, verdict, latency and authority case C10.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No production monitor was instrumented or benchmarked; no real intervention occurred.",
+        "bounded_inquiry_stop_reason": "Passive utility, missing observations and response timing are separated without universal rejection or prevention claims.",
+        "report_anchor": "s14"
+      },
+      {
+        "module": "FM11",
+        "topic": "Verified toolchains and certificates",
+        "native_property_ids": [
+          "P033",
+          "P034",
+          "P035",
+          "P050"
+        ],
+        "source_ids": [
+          "S110",
+          "S094",
+          "S098",
+          "S108",
+          "S109",
+          "N007",
+          "N008",
+          "N010"
+        ],
+        "actual_scope": "The current compiler manual, selected translation-validation and certificate architectures, and C09 and C11.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No external toolchain or proof build was executed; the full paid supplement and all cryptographic-library proofs were not read.",
+        "bounded_inquiry_stop_reason": "The exact boundary claims are addressed. Full artifact validation would extend the evidence scope and is not inferred.",
+        "report_anchor": "s15"
+      },
+      {
+        "module": "FM12",
+        "topic": "Vacuity, weak claims and gaming",
+        "native_property_ids": [
+          "P020",
+          "P039"
+        ],
+        "source_ids": [
+          "S059",
+          "S081",
+          "S102"
+        ],
+        "actual_scope": "Primary vacuity identity/abstract and translation-limit evidence, plus C02, C12 and C13.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No motive is attributed to authors; no complete vacuity-algorithm benchmark was reproduced.",
+        "bounded_inquiry_stop_reason": "Positive controls and failure witnesses distinguish valid weak lemmas, inconsistent applications and unsupported relevance claims.",
+        "report_anchor": "s16"
+      },
+      {
+        "module": "FM13",
+        "topic": "Proof, testing and empirical assurance",
+        "native_property_ids": [
+          "P036",
+          "P044"
+        ],
+        "source_ids": [
+          "S092",
+          "S097",
+          "S100",
+          "S107"
+        ],
+        "actual_scope": "Selected solver and distributed-system defect studies, unit-proof evidence and C01, C09, C10 and C19.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No empirical replication or causal effect estimate was produced.",
+        "bounded_inquiry_stop_reason": "The native pure-theorem exception is retained; complementary evidence is conditioned on an actual unresolved premise.",
+        "report_anchor": "s17"
+      },
+      {
+        "module": "FM14",
+        "topic": "Currentness and semantic change",
+        "native_property_ids": [
+          "P023",
+          "P032",
+          "P048"
+        ],
+        "source_ids": [
+          "S095",
+          "S076",
+          "S113",
+          "S110",
+          "S102",
+          "S111"
+        ],
+        "actual_scope": "Versioned proof-maintenance and reuse evidence, exact statement/identity distinctions, and C12 and C18.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No new external release artifact was matched to its proof; future source changes are unobserved.",
+        "bounded_inquiry_stop_reason": "Version separation and affected-scope reconsideration are explicit. No indiscriminate recurring replay duty is invented.",
+        "report_anchor": "s18"
+      },
+      {
+        "module": "FM15",
+        "topic": "Lightweight choice, costs and ceremony",
+        "native_property_ids": [
+          "P037",
+          "P038",
+          "P041",
+          "P042",
+          "P043"
+        ],
+        "source_ids": [
+          "S015",
+          "S057",
+          "S062",
+          "S064",
+          "S107",
+          "S112",
+          "S113"
+        ],
+        "actual_scope": "The lightweight-methods position and observational cost/experience studies, with C14 and C18.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No universal return on investment or numerical risk threshold is claimed.",
+        "bounded_inquiry_stop_reason": "Cheap adequate and no-change alternatives retain standing. Additional controls need a concrete decision-changing contribution.",
+        "report_anchor": "s19"
+      },
+      {
+        "module": "FM16",
+        "topic": "AI-assisted proof and formalization",
+        "native_property_ids": [
+          "P040"
+        ],
+        "source_ids": [
+          "S069",
+          "S070",
+          "S073",
+          "S101",
+          "S102",
+          "S111",
+          "N007"
+        ],
+        "actual_scope": "Versioned primary research and official documentation at recorded scopes, with fixed-statement and mistranslation case C13.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No model was called, no training-exposure audit or benchmark replication occurred, and the ITP translation paper body was unavailable.",
+        "bounded_inquiry_stop_reason": "Current source counterevidence qualifies blanket pipeline claims. Missing artifact results remain explicitly unverified.",
+        "report_anchor": "s20"
+      },
+      {
+        "module": "FM17",
+        "topic": "Industry, criticism and source identity",
+        "native_property_ids": [
+          "P036",
+          "P037",
+          "P041",
+          "P042",
+          "P050"
+        ],
+        "source_ids": [
+          "S051",
+          "S052",
+          "S054",
+          "S062",
+          "S064",
+          "S065",
+          "S076",
+          "S092",
+          "S095",
+          "S100",
+          "S107",
+          "S112",
+          "N009"
+        ],
+        "actual_scope": "All 113 native source records, selected primary methods and sampling passages, and source-identity repairs.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "Historical-only external bodies were not freshly verified; the final N009 publication route returned 403; exact study overlap is incomplete.",
+        "bounded_inquiry_stop_reason": "Identity and evidence roles were examined where current claims depend on them. No source quota or pooled meta-analysis substitutes for that inquiry.",
+        "report_anchor": "s27"
+      },
+      {
+        "module": "FM18",
+        "topic": "Guarded within-lineage composition and novelty",
+        "native_property_ids": [
+          "P010",
+          "P011",
+          "P012",
+          "P013",
+          "P014",
+          "P015",
+          "P021",
+          "P022",
+          "P023",
+          "P024",
+          "P031",
+          "P033",
+          "P035",
+          "P036",
+          "P040",
+          "P049",
+          "P050"
+        ],
+        "source_ids": [
+          "N004",
+          "S048",
+          "S021",
+          "S109",
+          "S102",
+          "S113"
+        ],
+        "actual_scope": "Eight guarded within-lineage relations and four novelty ablations, including independently examined reverses and generic co-use controls.",
+        "state": "EXAMINED_AT_DECLARED_SCOPE",
+        "unperformed_or_limited": "No cross-lineage synthesis, target effectiveness or irreducible new-property acceptance is claimed.",
+        "bounded_inquiry_stop_reason": "Each relation retains its remaining premises, reverse and alternatives. Existing properties subsume the examined novelty candidates.",
+        "report_anchor": "s25"
+      }
+    ],
+    "composition": [
+      {
+        "id": "R01",
+        "name": "Inductive evidence contributes to safety",
+        "source_properties": [
+          "P006"
+        ],
+        "receiving_properties": [
+          "P007"
+        ],
+        "shared_object": "One transition system, an invariant I with initiation and consecution, and an implication from I to the selected safety predicate P.",
+        "joint_guard": "One transition system, an invariant I with initiation and consecution, and an implication from I to the selected safety predicate P.",
+        "material_contribution": "Establishes P for reachable states; liveness, fairness and implementation correspondence remain separate.",
+        "reverse_direction_assessment": "Safety alone does not establish that P itself is inductive; C03 refutes that reverse inference.",
+        "counterexample_and_positive_control": [
+          "C03",
+          "C04"
+        ],
+        "nontrigger_and_cheap_path": "A direct reachability argument or finite enumeration may already establish P.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: this is the inherited induction and consequence rule.",
+        "evidence_sources": [
+          "S001",
+          "S003"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      },
+      {
+        "id": "R02",
+        "name": "Abstraction transports a completed search result",
+        "source_properties": [
+          "P013"
+        ],
+        "receiving_properties": [
+          "P016"
+        ],
+        "shared_object": "A sound over-approximation for the selected universal property and an actually completed abstract check.",
+        "joint_guard": "A sound over-approximation for the selected universal property and an actually completed abstract check.",
+        "material_contribution": "Can establish safety of the concrete model; the preservation relation and any model-to-code correspondence remain premises.",
+        "reverse_direction_assessment": "An abstract counterexample can guide model repair without establishing a sound relation or a concrete failure; C05 gives a spurious witness.",
+        "counterexample_and_positive_control": [
+          "C05",
+          "C06",
+          "C15"
+        ],
+        "nontrigger_and_cheap_path": "Concrete enumeration can avoid abstraction; an under-approximate witness uses a different inference direction.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: the existing abstraction and checking rules express the relation.",
+        "evidence_sources": [
+          "S005",
+          "S061"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      },
+      {
+        "id": "R03",
+        "name": "Contracts and frames support modular composition",
+        "source_properties": [
+          "P010",
+          "P011"
+        ],
+        "receiving_properties": [
+          "P012"
+        ],
+        "shared_object": "Compatible preconditions and postconditions, shared state semantics and justified frame or ownership conditions; circular rules require their own soundness conditions.",
+        "joint_guard": "Compatible preconditions and postconditions, shared state semantics and justified frame or ownership conditions; circular rules require their own soundness conditions.",
+        "material_contribution": "Discharges part of a composition argument; environment, progress and unmodeled sharing can remain open.",
+        "reverse_direction_assessment": "A system goal can inform component-contract design, but it does not prove that each component satisfies the contract.",
+        "counterexample_and_positive_control": [
+          "C07",
+          "C08"
+        ],
+        "nontrigger_and_cheap_path": "A small monolithic model or direct proof can be adequate.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: contract and frame composition already express this material partial contribution.",
+        "evidence_sources": [
+          "S002",
+          "S048",
+          "N004"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      },
+      {
+        "id": "R04",
+        "name": "Certificate checking strengthens a solver result",
+        "source_properties": [
+          "P022",
+          "P035"
+        ],
+        "receiving_properties": [
+          "P024"
+        ],
+        "shared_object": "A complete accepted certificate bound to the intended encoded query under identified checker rules and assumptions.",
+        "joint_guard": "A complete accepted certificate bound to the intended encoded query under identified checker rules and assumptions.",
+        "material_contribution": "Reduces reliance on the search implementation while leaving encoding adequacy, parsing, runtime and checker trust explicit.",
+        "reverse_direction_assessment": "A solver can produce checker input; its raw answer does not establish the correctness of the checker or the encoding.",
+        "counterexample_and_positive_control": [
+          "C09",
+          "C13"
+        ],
+        "nontrigger_and_cheap_path": "Direct evaluation can suffice; explicitly accepted solver trust may be proportionate to a low-consequence decision.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: the certificate interface and encoding boundary already express the conditions.",
+        "evidence_sources": [
+          "S108",
+          "S109",
+          "N007",
+          "N008"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      },
+      {
+        "id": "R05",
+        "name": "Compiler preservation contributes to application correspondence",
+        "source_properties": [
+          "P033"
+        ],
+        "receiving_properties": [
+          "P015"
+        ],
+        "shared_object": "The actual source and target objects match the proved compilation stage and versions, and the selected property is preserved by the stated relation.",
+        "joint_guard": "The actual source and target objects match the proved compilation stage and versions, and the selected property is preserved by the stated relation.",
+        "material_contribution": "Supports one correspondence edge; front ends, linking, hardware, environment and omitted observations retain their own duties.",
+        "reverse_direction_assessment": "An application property can identify necessary compiler observations; it does not prove semantic preservation by the compiler.",
+        "counterexample_and_positive_control": [
+          "C11",
+          "C15"
+        ],
+        "nontrigger_and_cheap_path": "A direct exhaustive check or test can be adequate for a narrower claim.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: composing established relations does not confer automatic whole-system assurance.",
+        "evidence_sources": [
+          "S110",
+          "S094"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      },
+      {
+        "id": "R06",
+        "name": "Runtime evidence challenges an empirical proof premise",
+        "source_properties": [
+          "P031"
+        ],
+        "receiving_properties": [
+          "P036"
+        ],
+        "shared_object": "The monitor observes events relevant to a testable application premise with the required domain, coverage and timing.",
+        "joint_guard": "The monitor observes events relevant to a testable application premise with the required domain, coverage and timing.",
+        "material_contribution": "A violating observation can falsify the premise. A confirming observation supports only its stated observed trace and coverage; it is not proof of all future behavior.",
+        "reverse_direction_assessment": "A formal claim can identify what to observe, but it does not create observability or intervention authority.",
+        "counterexample_and_positive_control": [
+          "C10",
+          "C01"
+        ],
+        "nontrigger_and_cheap_path": "A pure theorem needs no physical monitor; a simple assertion can be sufficient for the selected empirical check.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: this is a relation between evidence roles, with no implicit prevention guarantee.",
+        "evidence_sources": [
+          "S099",
+          "S092",
+          "S100"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      },
+      {
+        "id": "R07",
+        "name": "Proof checking and statement validation bound AI assistance",
+        "source_properties": [
+          "P021",
+          "P049"
+        ],
+        "receiving_properties": [
+          "P040"
+        ],
+        "shared_object": "The intended statement is identified, translation adequacy is justified at the claimed scope, and the actual proof checks under its explicit assumptions.",
+        "joint_guard": "The intended statement is identified, translation adequacy is justified at the claimed scope, and the actual proof checks under its explicit assumptions.",
+        "material_contribution": "Establishes the formal claim and the separately justified translation result; shared omissions and data exposure can remain unresolved.",
+        "reverse_direction_assessment": "Formal diagnostics can inform an AI-assisted repair, but they do not prove intent preservation or a universal cost advantage.",
+        "counterexample_and_positive_control": [
+          "C13",
+          "C02"
+        ],
+        "nontrigger_and_cheap_path": "A human encoding or whole-regeneration baseline can be adequate or superior under a particular comparison.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: the existing statement/proof distinction and qualified repair relation suffice.",
+        "evidence_sources": [
+          "S102",
+          "S111",
+          "N007"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      },
+      {
+        "id": "R08",
+        "name": "Change impact supports justified reuse",
+        "source_properties": [
+          "P023"
+        ],
+        "receiving_properties": [
+          "P050"
+        ],
+        "shared_object": "The claim, dependencies, artifacts and use boundaries remain compatible, with affected changes identified.",
+        "joint_guard": "The claim, dependencies, artifacts and use boundaries remain compatible, with affected changes identified.",
+        "material_contribution": "Retains unaffected evidence and permits justified reuse; changed premises receive proportionate reconsideration.",
+        "reverse_direction_assessment": "A reuse context supplies assumptions for change-impact analysis; it does not establish proof-script replay.",
+        "counterexample_and_positive_control": [
+          "C12",
+          "C18",
+          "C11"
+        ],
+        "nontrigger_and_cheap_path": "Unchanged accepted use can avoid a full reproof; a dormant result can be retained as historical evidence.",
+        "cost": "Added checks are warranted only if this contribution changes a consequence-sensitive decision; no empirical superiority is demonstrated by the local case.",
+        "authority_boundary": "Neutral within-lineage research; no target adoption, execution authority or cross-lineage acceptance.",
+        "novelty_assessment": "No new property: currentness and correspondence conditions already express this relation.",
+        "evidence_sources": [
+          "S095",
+          "S113"
+        ],
+        "reentry": "Reopen if an inherited relation no longer subsumes the proposed composite or if a specific claim's semantics/premises change."
+      }
+    ],
+    "novelty": [
+      {
+        "id": "V01",
+        "candidate": "A new invariant-plus-runtime assurance property",
+        "parents": [
+          "P006",
+          "P031",
+          "P036"
+        ],
+        "ablation": "Removing induction leaves observed traces only; removing monitoring can leave a valid pure-model safety proof. Neither component is universally necessary.",
+        "failure_witness": "C01, C03 and C10 separate model validity, unsafe extension and missing observations.",
+        "subsumption": "Native P036 already conditions complementary evidence on unresolved empirical premises; R06 records the partial relation.",
+        "decision": "NO_IRREDUCIBLE_NEW_PROPERTY_ADMITTED"
+      },
+      {
+        "id": "V02",
+        "candidate": "A new certificate-plus-translation correctness property",
+        "parents": [
+          "P022",
+          "P024",
+          "P034",
+          "P035"
+        ],
+        "ablation": "A certificate cannot repair the encoding by itself; an exact small truth table can settle the query without a portable certificate. Component necessity is conditional.",
+        "failure_witness": "C09 includes wrong 8-bit encoding and a tampered resolution certificate.",
+        "subsumption": "The existing encoding, certificate and translation boundaries, plus R04, already express the conditions.",
+        "decision": "NO_IRREDUCIBLE_NEW_PROPERTY_ADMITTED"
+      },
+      {
+        "id": "V03",
+        "candidate": "A new AI roundtrip proof guarantee",
+        "parents": [
+          "P001",
+          "P021",
+          "P040",
+          "P049"
+        ],
+        "ablation": "Removing intent validation permits a shared omission; removing AI can leave a human statement and valid proof. AI is not necessary for the underlying guarantee.",
+        "failure_witness": "C13 has two translations omitting q; S102 provides qualified baseline counterevidence.",
+        "subsumption": "The existing statement/proof separation and guarded repair relation R07 subsume this candidate.",
+        "decision": "NO_IRREDUCIBLE_NEW_PROPERTY_ADMITTED"
+      },
+      {
+        "id": "V04",
+        "candidate": "A new currentness-and-reuse safety property",
+        "parents": [
+          "P023",
+          "P048",
+          "P050"
+        ],
+        "ablation": "Unchanged theorem truth can survive loss of current build evidence. A changed application needs correspondence without invalidating earlier mathematics. Universal retirement adds no justified property.",
+        "failure_witness": "C12 separates statement, proof and environment changes; C18 separates one-way implication and redundant conjunction.",
+        "subsumption": "Affected-scope currentness and component reuse already express R08.",
+        "decision": "NO_IRREDUCIBLE_NEW_PROPERTY_ADMITTED"
+      }
+    ],
+    "tensions": [
+      {
+        "tension": "Expressiveness and automation",
+        "analysis": "Richer properties can increase annotation/proof burden; a tractable fragment can be the intended result.",
+        "properties": [
+          "P009",
+          "P018",
+          "P028",
+          "P042"
+        ],
+        "decision": "Use a stronger language only when its extra distinctions affect the decision."
+      },
+      {
+        "tension": "Universal soundness and useful bug finding",
+        "analysis": "Overapproximation supports universal transfer but may warn spuriously; underapproximation can establish a concrete witness.",
+        "properties": [
+          "P013",
+          "P017",
+          "P025",
+          "P026"
+        ],
+        "decision": "Judge each inference direction against the actual question."
+      },
+      {
+        "tension": "Local modularity and hidden interference",
+        "analysis": "Smaller proofs need valid interfaces, frames and environment reasoning.",
+        "properties": [
+          "P010",
+          "P011",
+          "P012",
+          "P029"
+        ],
+        "decision": "A whole small model may be cheaper than an elaborate decomposition."
+      },
+      {
+        "tension": "Small trusted base and complete semantic chain",
+        "analysis": "Certificate checkers can reduce search-tooltrust while leaving encoding/parsing/runtime assumptions.",
+        "properties": [
+          "P022",
+          "P024",
+          "P034",
+          "P035",
+          "P047"
+        ],
+        "decision": "Identify which boundary is reduced; do not count tools as independent guarantees."
+      },
+      {
+        "tension": "Stable proof statements and changing needs",
+        "analysis": "Preserving a theorem can conflict with a legitimate requirement change; repairing scripts can hide weakening.",
+        "properties": [
+          "P023",
+          "P039",
+          "P048",
+          "P049"
+        ],
+        "decision": "Review meaning and impacted uses rather than preserving green status at all costs."
+      },
+      {
+        "tension": "Early detection and operational disruption",
+        "analysis": "Instrumentation/control can introduce overhead and false blocking; passive evidence can still be useful.",
+        "properties": [
+          "P031",
+          "P032",
+          "P036",
+          "P042"
+        ],
+        "decision": "State role and actionauthority before assigning fail-closed duties."
+      },
+      {
+        "tension": "Reuse and context sensitivity",
+        "analysis": "A reusable verifiedcomponent may lower cost, but a newplatform/use can violate assumptions.",
+        "properties": [
+          "P015",
+          "P033",
+          "P050"
+        ],
+        "decision": "No-change is justified only for compatibleuses; no universal fullreproof."
+      },
+      {
+        "tension": "Powerful AI search and statement fidelity",
+        "analysis": "Checked proofs may be reliable while translation remains mistaken; additional repair can increase cost without benefit.",
+        "properties": [
+          "P001",
+          "P020",
+          "P021",
+          "P040",
+          "P049"
+        ],
+        "decision": "Use matched baselines and independent semantic discriminators."
+      }
+    ],
+    "dependence": [
+      {
+        "id": "D01",
+        "sources": [
+          "S026",
+          "S093"
+        ],
+        "accounting_rule": "Same seL4 project and proof stack; two documentation pages do not create independent industrial replications."
+      },
+      {
+        "id": "D02",
+        "sources": [
+          "S024",
+          "S094",
+          "S110"
+        ],
+        "accounting_rule": "Same CompCert lineage with different paper/manual roles and versions; a current manual is not a second empirical study."
+      },
+      {
+        "id": "D03",
+        "sources": [
+          "S046",
+          "N011"
+        ],
+        "accounting_rule": "Related RustBelt projects and shared proof foundations; later relaxed-memory extension is new scope, not a duplicate SC proof."
+      },
+      {
+        "id": "D04",
+        "sources": [
+          "S108",
+          "S109",
+          "N007",
+          "N008"
+        ],
+        "accounting_rule": "Shared cvc5/Alethe/CPC/Lean/Isabelle ecosystem and components; claim-specific theory/data overlap must be considered before pooling."
+      },
+      {
+        "id": "D05",
+        "sources": [
+          "S102"
+        ],
+        "accounting_rule": "v1 and v3 are dependent versions of one research project; traffic/wildlife datasets and cross-model ablations are not interchangeable trials."
+      },
+      {
+        "id": "D06",
+        "sources": [
+          "S111"
+        ],
+        "accounting_rule": "Versions 1 and 2 share a benchmark family; the 500-goal main set and 100-goal comparison subset are different denominators, not independent replications."
+      },
+      {
+        "id": "D07",
+        "sources": [
+          "S107"
+        ],
+        "accounting_rule": "The 73 unit proofs and 89 reintroduced defects span four operating systems. Tasks and defects share projects; the last 21 proofs supply a post-learning developer-time measure, distinct from execution time."
+      },
+      {
+        "id": "D08",
+        "sources": [
+          "S076"
+        ],
+        "accounting_rule": "The 2022 Coq cohort recurs in blog, conference and 2025 journal accounts. Its 466 submitted responses are not 466 independent tool experiments."
+      },
+      {
+        "id": "D09",
+        "sources": [
+          "S062",
+          "S064",
+          "S065",
+          "S100",
+          "S112",
+          "N009"
+        ],
+        "accounting_rule": "Different surveys/interviews/literature collections; some reuse famous projects and author reports. Exact overlap is not fully identified, so no pooled effect/prevalence estimate."
+      },
+      {
+        "id": "D10",
+        "sources": [
+          "S055",
+          "S056",
+          "N001",
+          "N009"
+        ],
+        "accounting_rule": "Originals, reprints, transcriptions and short/extended versions remain dependent work families, with exact access version retained."
+      },
+      {
+        "id": "D11",
+        "sources": [
+          "S051",
+          "S052",
+          "S054",
+          "S113"
+        ],
+        "accounting_rule": "Guidance/standards/case studies share a normative domain but answer different questions; recognition is not empirical efficacy."
+      },
+      {
+        "id": "D12",
+        "sources": [
+          "S097"
+        ],
+        "accounting_rule": "Reports, unique confirmed bugs, fixed bugs and soundness bugs are nested or related campaign populations; they are neither all solver queries nor distinct independent studies."
+      },
+      {
+        "id": "D13",
+        "sources": [
+          "S101",
+          "S073",
+          "S111"
+        ],
+        "accounting_rule": "Prover languages, proof goals, directed translations and benchmark representations are different units. Shared libraries and training exposure remain incompletely known."
+      }
+    ],
+    "novelty_total_admitted": 0,
+    "novelty_scope": "No irreducible new property is admitted by this author. New examples, source repairs, typed qualifications and material partial relations remain substantive contributions. This conclusion is revisable, not a quota.",
+    "unexamined_boundaries": [
+      "No target implementation or operational adoption examined.",
+      "No full external proof artifact or benchmark replication executed.",
+      "Some original books/papers remain native-record-only; their detailed new theorems are not claimed.",
+      "Paid DO333body, failed originalPnueliPDF and unavailable finalN009publishedbody remain actual source-access ceilings.",
+      "Probabilistic,hybrid/realtime and specializedPORalgorithm technical correctness not rederived; property-class distinctions examined without those broader claims."
+    ]
+  }
+}

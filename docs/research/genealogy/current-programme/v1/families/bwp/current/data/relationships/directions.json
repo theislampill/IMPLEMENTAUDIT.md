@@ -1,0 +1,59 @@
+{
+  "schema": "scientific-json-storage-index/1",
+  "kind": "lossless-gzip-storage-index",
+  "logical_path": "docs/research/genealogy/current-programme/v1/families/bwp/current/data/relationships/directions.json",
+  "payload": {
+    "href": "directions.json.gz",
+    "media_type": "application/json",
+    "content_encoding": "gzip",
+    "bytes": 1527007,
+    "sha256": "e7df67c4f5f04412a627b0b91e612c7b28af141da138013f39b47a40beda7fb2",
+    "git_blob_sha1": "a8374d25d95ecf468eac54844df97213975f0bee",
+    "uncompressed": {
+      "bytes": 39003496,
+      "sha256": "33f962241cde360ca373fa6072b639336f98c354f9654d37e98bcef62dfff597",
+      "git_blob_sha1": "4d7b02d0260a0439bbb37deec61e30cd98a4487a"
+    }
+  },
+  "records": {
+    "json_pointer": "/body/relations",
+    "count": 15841
+  },
+  "original_metadata": {
+    "body": {
+      "count": 15841,
+      "formal_strength": "Bounded analytical contributions and constraints, not formal/empirical guarantees of composed success.",
+      "historical_research_cutoff": "2026-09-06",
+      "new_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "r1_owner": "../MATERIAL_INPUT_OWNER.json",
+      "r2_preservation": "First8760 records exactly equal the frozen r1 directional list; r2 appends distinct native-interface judgments.",
+      "r3_preservation": "First8760r1 objects remain exact; r2 objects change only their orientation-specific absence field; r3 appends explicitly authored native interfaces.",
+      "r4_preservation": "All15461r3 direction objects retained exactly, including original8760 and all129supportedr3 directions. Only explicitly authored r4 records are appended.",
+      "r5_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "r5_preservation": "All15733 r4 direction objects retained exactly, including the original8760 and all responsive earlier additions; only explicitly authored r5 records appended.",
+      "r6_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "r6_preservation": "All15819 r5 direction objects are exact, including the original8760. Nineteen specifically authored r6 records are appended.",
+      "r7_s003_owner": "../CAUSAL_FRONTIER_OWNER.json",
+      "r7_s003_preservation": "All 15838 r6 direction objects are retained exactly; three specifically authored conditional forward records are appended. No new reverse or property identity.",
+      "research_cutoff": "2026-11-11",
+      "revision": "BWP-S-2026-11-12-r7_recovered_s003",
+      "schema_version": "successor-1",
+      "source_history": "Exact original7068records remain in the immutable original synthesis. Current records resolve every scientific comparison dimension through qualified current profiles and preserve literal historical locators.",
+      "symmetry_policy": "Retained explicitly symmetric historical records keep their reverse. Each successor material-input direction is separately adjudicated; it is not automatically reciprocal."
+    },
+    "encoding": "Recursively resolve $scientific_ref from this directory’s shared-records.json definitions. No scientific value or list order is inferred.",
+    "expanded_semantic_sha256": "dce01ef4a82b1ff153f341bfa0dc4cd10980bffc8eca8b704d49819f4f8fcaa4",
+    "family": "BWP",
+    "historical_state_interpretation": "Original author-stage status/qualification fields are immutable history; see the current source qualification companion.",
+    "record_set": "directions",
+    "schema": "public-scientific-records/1",
+    "shared_records": "shared-records.json",
+    "source_binding": {
+      "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+      "bytes": 46333126,
+      "filename": "EVOLVED_BWP_DIRECTIONAL_RELATION_LEDGER.json",
+      "sha256": "fd1e7636f97342c12844440685db8da0d7f5547926b106a4dd7092710321c29d"
+    }
+  },
+  "reading_rule": "This file is a storage index, not the scientific dataset. Decompress the sibling payload to recover the complete original JSON bytes. Original metadata and all payload references retain the interpretation and reference base of the original logical file location."
+}

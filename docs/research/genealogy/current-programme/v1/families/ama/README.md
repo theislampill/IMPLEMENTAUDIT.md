@@ -1,5 +1,9 @@
 # AMA — four-unit documentation package
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/README.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+## Earlier documentary record
+
 Independent documentary fidelity, completeness and source-safety review has **passed for the exact repaired public projection**. The original candidate retains its source-safety finding; the accepted repair removes twelve private record locators and changes no scientific body. [Exact review receiving](REVIEW_STATUS.json) records the subject, repair and honest reading scope. Complete-tree integration, automated acceptance and branch publication require their own later evidence.
 
 This package connects **Autonomous Agents, Multi-Agent Systems, canonical Agent-Oriented Software Engineering and the separate AMA synthesis**. The historical public population is **70 + 76 + 132 = 278 rows**. The later accepted scientific subjects again select 278 constituent identities, but their revisions, interpretations and independent reviews are separate objects. The numbers do not authorize substituting the old research for the new.

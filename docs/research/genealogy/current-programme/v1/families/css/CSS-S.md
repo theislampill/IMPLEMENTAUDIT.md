@@ -1,5 +1,8 @@
 # CSS-S — guarded family composition and its evidence boundary
 
+> **Current scientific reading route — 13 November 2026:** the substantial [CSS-S account](current/CSS-S.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 [Family](README.md) · [Genealogy](GENEALOGY.md) · [Cognitive](CSS-L1.md) · [Statistical](CSS-L2.md) · [Safety](CSS-L3.md) · [Synthesis](CSS-S.md) · [Rough outlines](RLGWO_OUTLINES.md) · [Completeness](COMPLETENESS.md)
 
 ## Separately accepted scientific subject

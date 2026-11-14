@@ -1,0 +1,1046 @@
+{
+  "source_identity": {
+    "source_id": "S-7cd7de581313ea7c",
+    "scientific_name": "SB-R3-058_EA28_F10_REVERSE.json",
+    "original_bytes": 80106,
+    "original_sha256": "7cd7de581313ea7cab99a16f1c18143374e5bda787a2312237aa57c5de34c2b0"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-058",
+    "title": "EA-28_REVERSE_FEEDBACK_RISK_AND_COMMITMENT",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T00:56:37.976621+00:00",
+    "inquiry_family": 10,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_009.json",
+      "bytes": 2255,
+      "sha256": "30275ce0d0497e756226547c0fd20c982874b60d4bd54e5f3a1ad3c104ed3ac1"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY10_REMAINING132_NATIVE_MEANINGS.json",
+      "bytes": 125638,
+      "sha256": "12f74b20f49c095ce5835481b375996e084ded0910c6ac801a8ea94c07bc5c57"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY10_REMAINING132_LITERAL_ARGUMENTS.json",
+      "bytes": 51404,
+      "sha256": "e33fcc9f5b481afe2eccc596d417a3f4baca77c022211e6881530d5f46bfafd2"
+    },
+    "bounded_interface_domain": [
+      "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+      "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+      "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+      "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+      "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+    ],
+    "native_common_basis": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+    "common_cost_and_alternative": [
+      "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+      "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+      "No addition is warranted solely because another named method could be introduced.",
+      "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+    ],
+    "evidence_ceiling": "Conditional root analytical arguments from exact accepted native mechanisms. No new primary-body access, empirical effect, universal cadence, independent review, new property identity or scientific qualification claimed.",
+    "common_subconditions": {
+      "P1": "Actual common question, object and receiving use.",
+      "P2": "Exact native meaning and accepted overlay.",
+      "P3": "The separately reasoned partial consequence.",
+      "P4": "Counterexample, absent guard, remaining premises, cost, alternative and reentry."
+    },
+    "inference": "The specified partial input can materially change a decision premise or warrant even when the action is confirmed. No universal cadence, symmetric equivalence, temporal chain or requirement to add a new control follows.",
+    "common_source_dependence": "Shared evidence, method ancestry, prototype or model is not independent support twice.",
+    "exceptions": [],
+    "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-28",
+        "argument": "The authoritative intended outcome, dependencies and revision rights identify what would actually be abandoned and who may safely change it."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-28",
+        "argument": "The explicit unknown, discriminating evidence and dependent decision identify what additional learning could change and what uncertainty would remain on stopping."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-28",
+        "argument": "Actual feasibility, coupling and recovery constraints define the cost and admissible alternatives of abandoning or changing the architectural option."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-28",
+        "argument": "Representative risk evidence identifies whether the option or its premise remains viable and what a safe reduced or alternative path would require."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-28",
+        "argument": "Actual intended-use and outcome evidence supplies the benefit and harm premises needed to judge whether the remaining product effort is justified."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-28",
+        "argument": "The actual decision authority, criteria and escalation path determine who can stop the work and which residual risks must be accepted or controlled."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-28",
+        "argument": "The actual separability, option expiry and residual commitment determine the feasible stopping points and real cost of exercising abandonment."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-28",
+        "argument": "Actual process, configuration and integration dependencies identify the real boundary and residual work of a proposed stop or redirect."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-28",
+        "argument": "The tailored minimum obligations, justified alternatives and retirement criteria define which stopping options are permissible and what substitute evidence is required."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-28",
+        "argument": "Forecast ranges, assumptions and comparable evidence supply the uncertain future quantities for judging continuation and the sensitivity of the decision."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-28",
+        "argument": "Actual recovery feasibility, consequence, latency and binding constraints determine the minimum safe stopping or transition conditions."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-28",
+        "overclaim": "An approved requirement or large historical investment does not demonstrate that continuing it remains worthwhile.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-28",
+        "overclaim": "Listing unresolved uncertainty does not prove that more research has positive value or that every unknown must be eliminated.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-28",
+        "overclaim": "A technically feasible architecture does not show that completing it has more value than redirecting the remaining investment.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-28",
+        "overclaim": "A failed unrepresentative prototype need not justify abandonment, while a successful feasibility demonstration need not justify further investment.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-28",
+        "overclaim": "Observed user preference does not determine all strategic value, switching cost or legal obligations relevant to stopping.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-28",
+        "overclaim": "An authorized stop decision does not itself establish that all dependencies are unwound or the remaining state is safe.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-28",
+        "overclaim": "An available exit option does not prove that exiting is best; a delayed payoff can justify continuing a stage despite weak early indicators.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-28",
+        "overclaim": "Lifecycle flexibility does not make every partial exit safe or economically preferable to a predominantly staged completion.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-28",
+        "overclaim": "A documented tailoring rationale cannot establish that removing a control preserves its assurance function or that continuing it is beneficial.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-28",
+        "overclaim": "A favorable forecast cannot authorize abandonment of a duty or establish that its reference class captures the actual option and residual risks.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-28",
+        "overclaim": "Stronger stop controls do not prove that continued investment has positive value, and control strength has no universal numerical abandonment threshold.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L3::EW-P001->LAW-L2::EA-28",
+      "LAW-L3::EW-P002->LAW-L2::EA-28",
+      "LAW-L3::EW-P003->LAW-L2::EA-28",
+      "LAW-L3::EW-P004->LAW-L2::EA-28",
+      "LAW-L3::EW-P012->LAW-L2::EA-28",
+      "LAW-L3::EW-P021->LAW-L2::EA-28",
+      "LAW-L3::EW-P022->LAW-L2::EA-28",
+      "LAW-L3::EW-P023->LAW-L2::EA-28",
+      "LAW-L3::EW-P024->LAW-L2::EA-28",
+      "LAW-L3::EW-P025->LAW-L2::EA-28",
+      "LAW-L3::EW-P033->LAW-L2::EA-28"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-28",
+        "source_native_id": "EW-P001",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "An operative requirement or backlog item may no longer justify future investment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A shared engineering intent state",
+          "source_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The authoritative intended outcome, dependencies and revision rights identify what would actually be abandoned and who may safely change it.",
+        "receiving_consequence": "The authoritative intended outcome, dependencies and revision rights identify what would actually be abandoned and who may safely change it.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The authoritative intended outcome, dependencies and revision rights identify what would actually be abandoned and who may safely change it."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An approved requirement or large historical investment does not demonstrate that continuing it remains worthwhile.",
+        "counter_control": "An approved requirement or large historical investment does not demonstrate that continuing it remains worthwhile.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P001",
+        "member_to_common_premise": {
+          "source_bearer": "A shared engineering intent state",
+          "source_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "An operative requirement or backlog item may no longer justify future investment.",
+          "literal_bridge": "The authoritative intended outcome, dependencies and revision rights identify what would actually be abandoned and who may safely change it."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-28",
+        "source_native_id": "EW-P002",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "Further inquiry into an uncertain premise consumes resources and delays other options.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "source_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The explicit unknown, discriminating evidence and dependent decision identify what additional learning could change and what uncertainty would remain on stopping.",
+        "receiving_consequence": "The explicit unknown, discriminating evidence and dependent decision identify what additional learning could change and what uncertainty would remain on stopping.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The explicit unknown, discriminating evidence and dependent decision identify what additional learning could change and what uncertainty would remain on stopping."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Listing unresolved uncertainty does not prove that more research has positive value or that every unknown must be eliminated.",
+        "counter_control": "Listing unresolved uncertainty does not prove that more research has positive value or that every unknown must be eliminated.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P002",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "source_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "Further inquiry into an uncertain premise consumes resources and delays other options.",
+          "literal_bridge": "The explicit unknown, discriminating evidence and dependent decision identify what additional learning could change and what uncertainty would remain on stopping."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-28",
+        "source_native_id": "EW-P003",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "An architectural option still requires costly work before a hard commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Actual feasibility, coupling and recovery constraints define the cost and admissible alternatives of abandoning or changing the architectural option.",
+        "receiving_consequence": "Actual feasibility, coupling and recovery constraints define the cost and admissible alternatives of abandoning or changing the architectural option.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual feasibility, coupling and recovery constraints define the cost and admissible alternatives of abandoning or changing the architectural option."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A technically feasible architecture does not show that completing it has more value than redirecting the remaining investment.",
+        "counter_control": "A technically feasible architecture does not show that completing it has more value than redirecting the remaining investment.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P003",
+        "member_to_common_premise": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "An architectural option still requires costly work before a hard commitment.",
+          "literal_bridge": "Actual feasibility, coupling and recovery constraints define the cost and admissible alternatives of abandoning or changing the architectural option."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-28",
+        "source_native_id": "EW-P004",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "A prototype or risk investigation reaches a continuation, abandonment or productionization decision.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Representative risk evidence identifies whether the option or its premise remains viable and what a safe reduced or alternative path would require.",
+        "receiving_consequence": "Representative risk evidence identifies whether the option or its premise remains viable and what a safe reduced or alternative path would require.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Representative risk evidence identifies whether the option or its premise remains viable and what a safe reduced or alternative path would require."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A failed unrepresentative prototype need not justify abandonment, while a successful feasibility demonstration need not justify further investment.",
+        "counter_control": "A failed unrepresentative prototype need not justify abandonment, while a successful feasibility demonstration need not justify further investment.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P004",
+        "member_to_common_premise": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "A prototype or risk investigation reaches a continuation, abandonment or productionization decision.",
+          "literal_bridge": "Representative risk evidence identifies whether the option or its premise remains viable and what a safe reduced or alternative path would require."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-28",
+        "source_native_id": "EW-P012",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "Evidence about intended use changes the prospective value of continued product investment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system or concept in its intended use and operating context",
+          "source_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Actual intended-use and outcome evidence supplies the benefit and harm premises needed to judge whether the remaining product effort is justified.",
+        "receiving_consequence": "Actual intended-use and outcome evidence supplies the benefit and harm premises needed to judge whether the remaining product effort is justified.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual intended-use and outcome evidence supplies the benefit and harm premises needed to judge whether the remaining product effort is justified."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Observed user preference does not determine all strategic value, switching cost or legal obligations relevant to stopping.",
+        "counter_control": "Observed user preference does not determine all strategic value, switching cost or legal obligations relevant to stopping.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P012",
+        "member_to_common_premise": {
+          "source_bearer": "A system or concept in its intended use and operating context",
+          "source_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "Evidence about intended use changes the prospective value of continued product investment.",
+          "literal_bridge": "Actual intended-use and outcome evidence supplies the benefit and harm premises needed to judge whether the remaining product effort is justified."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-28",
+        "source_native_id": "EW-P021",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "An empowered commitment review includes stop, hold and redirect alternatives.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "source_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual decision authority, criteria and escalation path determine who can stop the work and which residual risks must be accepted or controlled.",
+        "receiving_consequence": "The actual decision authority, criteria and escalation path determine who can stop the work and which residual risks must be accepted or controlled.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual decision authority, criteria and escalation path determine who can stop the work and which residual risks must be accepted or controlled."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An authorized stop decision does not itself establish that all dependencies are unwound or the remaining state is safe.",
+        "counter_control": "An authorized stop decision does not itself establish that all dependencies are unwound or the remaining state is safe.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P021",
+        "member_to_common_premise": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "source_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "An empowered commitment review includes stop, hold and redirect alternatives.",
+          "literal_bridge": "The actual decision authority, criteria and escalation path determine who can stop the work and which residual risks must be accepted or controlled."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-28",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "A staged investment preserves an option to discontinue or redirect.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "source_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual separability, option expiry and residual commitment determine the feasible stopping points and real cost of exercising abandonment.",
+        "receiving_consequence": "The actual separability, option expiry and residual commitment determine the feasible stopping points and real cost of exercising abandonment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual separability, option expiry and residual commitment determine the feasible stopping points and real cost of exercising abandonment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An available exit option does not prove that exiting is best; a delayed payoff can justify continuing a stage despite weak early indicators.",
+        "counter_control": "An available exit option does not prove that exiting is best; a delayed payoff can justify continuing a stage despite weak early indicators.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P022",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "source_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "A staged investment preserves an option to discontinue or redirect.",
+          "literal_bridge": "The actual separability, option expiry and residual commitment determine the feasible stopping points and real cost of exercising abandonment."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-28",
+        "source_native_id": "EW-P023",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22",
+          "expected_native_id": "EW-P023"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "Part of an iterative or concurrent lifecycle may be discontinued while other obligations continue.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "source_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Actual process, configuration and integration dependencies identify the real boundary and residual work of a proposed stop or redirect.",
+        "receiving_consequence": "Actual process, configuration and integration dependencies identify the real boundary and residual work of a proposed stop or redirect.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual process, configuration and integration dependencies identify the real boundary and residual work of a proposed stop or redirect."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Lifecycle flexibility does not make every partial exit safe or economically preferable to a predominantly staged completion.",
+        "counter_control": "Lifecycle flexibility does not make every partial exit safe or economically preferable to a predominantly staged completion.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P023",
+        "member_to_common_premise": {
+          "source_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "source_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "Part of an iterative or concurrent lifecycle may be discontinued while other obligations continue.",
+          "literal_bridge": "Actual process, configuration and integration dependencies identify the real boundary and residual work of a proposed stop or redirect."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-28",
+        "source_native_id": "EW-P024",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "A control package or work item is reconsidered for retention, reduction or retirement.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "source_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The tailored minimum obligations, justified alternatives and retirement criteria define which stopping options are permissible and what substitute evidence is required.",
+        "receiving_consequence": "The tailored minimum obligations, justified alternatives and retirement criteria define which stopping options are permissible and what substitute evidence is required.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The tailored minimum obligations, justified alternatives and retirement criteria define which stopping options are permissible and what substitute evidence is required."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A documented tailoring rationale cannot establish that removing a control preserves its assurance function or that continuing it is beneficial.",
+        "counter_control": "A documented tailoring rationale cannot establish that removing a control preserves its assurance function or that continuing it is beneficial.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P024",
+        "member_to_common_premise": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "source_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "A control package or work item is reconsidered for retention, reduction or retirement.",
+          "literal_bridge": "The tailored minimum obligations, justified alternatives and retirement criteria define which stopping options are permissible and what substitute evidence is required."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-28",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "A continuation decision relies on forecasts of future cost, benefit or timing.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "source_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Forecast ranges, assumptions and comparable evidence supply the uncertain future quantities for judging continuation and the sensitivity of the decision.",
+        "receiving_consequence": "Forecast ranges, assumptions and comparable evidence supply the uncertain future quantities for judging continuation and the sensitivity of the decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Forecast ranges, assumptions and comparable evidence supply the uncertain future quantities for judging continuation and the sensitivity of the decision."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A favorable forecast cannot authorize abandonment of a duty or establish that its reference class captures the actual option and residual risks.",
+        "counter_control": "A favorable forecast cannot authorize abandonment of a duty or establish that its reference class captures the actual option and residual risks.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P025",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "source_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "A continuation decision relies on forecasts of future cost, benefit or timing.",
+          "literal_bridge": "Forecast ranges, assumptions and comparable evidence supply the uncertain future quantities for judging continuation and the sensitivity of the decision."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-28",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EA-28",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/27",
+          "expected_native_id": "EA-28",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/27",
+            "expected_native_id": "AGQ-EA-28"
+          }
+        },
+        "shared_question_or_object": "Stopping or changing commitment has consequence and recovery requirements.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "source_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Actual recovery feasibility, consequence, latency and binding constraints determine the minimum safe stopping or transition conditions.",
+        "receiving_consequence": "Actual recovery feasibility, consequence, latency and binding constraints determine the minimum safe stopping or transition conditions.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual recovery feasibility, consequence, latency and binding constraints determine the minimum safe stopping or transition conditions."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Stronger stop controls do not prove that continued investment has positive value, and control strength has no universal numerical abandonment threshold.",
+        "counter_control": "Stronger stop controls do not prove that continued investment has positive value, and control strength has no universal numerical abandonment threshold.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-28->LAW-L3::EW-P033",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "source_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "receiving_bearer": "A continuing investment or backlog option whose value, feasibility or opportunity cost can materially change.",
+          "receiving_criterion": "Keep an explicit option to stop or retire work when its premises fail, while respecting irreversible obligations and delayed benefits.",
+          "actual_object": "Stopping or changing commitment has consequence and recovery requirements.",
+          "literal_bridge": "Actual recovery feasibility, consequence, latency and binding constraints determine the minimum safe stopping or transition conditions."
+        }
+      }
+    ],
+    "independent_review_scope": "Full common premise, literal membership, native scope and controls require later fidelity and separate adversarial assessment."
+  }
+}

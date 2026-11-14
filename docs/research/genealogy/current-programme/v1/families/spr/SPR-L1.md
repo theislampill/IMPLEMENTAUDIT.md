@@ -1,5 +1,11 @@
 # System Identification — canonical — public documentary boundary
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/SPR-L1.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+> **SPR-L1 source exception:** the original final certificate, final-subject/review join and both final reviews remain unavailable. The complete r4 candidate is also unavailable in current recovery; available selected ledgers and the earlier account do not replace that proof. See the [precise current limit](current/SOURCES.md#spr-l1).
+
+## Earlier documentary record
+
 [Four-unit guide](README.md) · [Maintained family record](../spr.md) · [Source metadata](SOURCE_MAP.json)
 
 ## Scientific identity and receiving

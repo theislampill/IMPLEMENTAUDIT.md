@@ -1,0 +1,891 @@
+{
+  "source_identity": {
+    "source_id": "S-aba53e345548164f",
+    "scientific_name": "SB-R3-011_EL008_F7_FORWARD.json",
+    "original_bytes": 68547,
+    "original_sha256": "aba53e345548164f2f6059a5960ed851d45a5163c4d9cb16e8fc4b08bd9a127c"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-011",
+    "title": "EL-008_FORWARD_SUPPLIER_BUFFER_AND_CONTINUITY_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:12:24.154573+00:00",
+    "inquiry_family": 7,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_005.json",
+      "bytes": 7000,
+      "sha256": "7059b0b8192ede42bdfa0e9318bc2f31067e9c2a2413d47b5f3ca8c0c9a257a7"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal supplier rule, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-004",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        }
+      },
+      {
+        "native_id": "EL-008",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        }
+      },
+      {
+        "native_id": "EL-009",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        }
+      },
+      {
+        "native_id": "EL-010",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        }
+      },
+      {
+        "native_id": "EL-027",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        }
+      },
+      {
+        "native_id": "EL-028",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        }
+      },
+      {
+        "native_id": "EW-P009",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P026",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P028",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        }
+      },
+      {
+        "native_id": "EW-P029",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY7_SOURCE_INQUIRY.json",
+      "bytes": 3318,
+      "sha256": "8ae0f20c1d19caca960236df794b847df83ab4bef3197eeaa0fa699cb7ef2c60"
+    },
+    "native_common_basis": "Inventory, available capacity and time reserve are distinct; information and options count only for the stated decision or material activation path.",
+    "common_cost_and_alternative": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Information treated as physical capacity.",
+      "First-tier diversity treated as independent lower-tier supply.",
+      "A complete document treated as operational capability.",
+      "A partial exposure or criterion input rejected for failing the whole receiver.",
+      "Capacity, stock or staff double-counted for routine and contingency use.",
+      "Buyer savings treated as joint fair gain."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P009",
+        "argument": "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P022",
+        "argument": "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P025",
+        "argument": "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P026",
+        "argument": "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P027",
+        "argument": "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P028",
+        "argument": "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P029",
+        "argument": "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P033",
+        "argument": "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P009",
+        "overclaim": "A backup supplier name or dependency diagram does not establish compatible capacity at the receiving interface.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P022",
+        "overclaim": "Undesignated slack or inventory that expires before the decision does not preserve the option; its cost can exceed the avoided commitment loss.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P025",
+        "overclaim": "A nominal reserve can be simultaneously budgeted as routine output and emergency capacity; the forecast then double-counts it.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P026",
+        "overclaim": "Inventory at an inaccessible site or a substitute needing unavailable data rights does not cover the stipulated disruption.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P027",
+        "overclaim": "A reserved server cannot replace an absent trained operator, restore corrupted state or grant operational authority.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P028",
+        "overclaim": "A fallback sharing the failed power supply is not independent recovery; reserve stock without a compatible restoration process may be unusable.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P029",
+        "overclaim": "Hoarded spares may become obsolete while a critical repair skill disappears; more inventory alone does not sustain the fielded system.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P033",
+        "overclaim": "Extra capacity cannot undo disclosure, replace required independent assessment or justify every high-consequence change.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared capacity, information, organizations, tools or source works are not independent controls or benefits.",
+    "direction": "forward",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L1::EL-008->LAW-L3::EW-P009",
+      "LAW-L1::EL-008->LAW-L3::EW-P022",
+      "LAW-L1::EL-008->LAW-L3::EW-P025",
+      "LAW-L1::EL-008->LAW-L3::EW-P026",
+      "LAW-L1::EL-008->LAW-L3::EW-P027",
+      "LAW-L1::EL-008->LAW-L3::EW-P028",
+      "LAW-L1::EL-008->LAW-L3::EW-P029",
+      "LAW-L1::EL-008->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P009",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P009",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself."
+        },
+        "shared_question_or_object": "A consequential interface with a declared variability buffer and response commitment.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself."
+        },
+        "source_contribution": "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself.",
+        "receiving_consequence": "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself."
+        ],
+        "premises_remaining": [
+          "Actual two-sided semantics, compatibility evidence, ownership and change handling remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A backup supplier name or dependency diagram does not establish compatible capacity at the receiving interface.",
+        "counter_control": "A backup supplier name or dependency diagram does not establish compatible capacity at the receiving interface.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. Use local types or a focused contract test when the boundary is private and low consequence.",
+        "subcondition_evidence": {
+          "P1": "A consequential interface with a declared variability buffer and response commitment.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "A consequential boundary between components or organizations",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+            "literal_bridge": "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself."
+          },
+          "P3": "Identifying whether reserve is stock, usable capacity or allowed time makes the interface capacity and timing promise interpretable; information about a reserve is not the reserve itself.",
+          "P4": "Actual two-sided semantics, compatibility evidence, ownership and change handling remain necessary. Control: A backup supplier name or dependency diagram does not establish compatible capacity at the receiving interface."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P009->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P022",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open."
+        },
+        "shared_question_or_object": "A staged commitment that relies on reserve to keep an option feasible until evidence arrives.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open."
+        },
+        "source_contribution": "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open.",
+        "receiving_consequence": "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open."
+        ],
+        "premises_remaining": [
+          "Separable decisions, sufficient relevant evidence, real option feasibility and commitment authority remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Undesignated slack or inventory that expires before the decision does not preserve the option; its cost can exceed the avoided commitment loss.",
+        "counter_control": "Undesignated slack or inventory that expires before the decision does not preserve the option; its cost can exceed the avoided commitment loss.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. Stable well-understood delivery can justify a larger commitment without artificial staging.",
+        "subcondition_evidence": {
+          "P1": "A staged commitment that relies on reserve to keep an option feasible until evidence arrives.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "A sequence of commitments under uncertainty",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+            "literal_bridge": "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open."
+          },
+          "P3": "A justified reserve can buy a specific amount of decision time or absorb stated variability, changing whether the next irreversible commitment may safely remain open.",
+          "P4": "Separable decisions, sufficient relevant evidence, real option feasibility and commitment authority remain necessary. Control: Undesignated slack or inventory that expires before the decision does not preserve the option; its cost can exceed the avoided commitment loss."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P025",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast."
+        },
+        "shared_question_or_object": "A resource forecast that includes inventory, capacity, time and recovery choices.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast."
+        },
+        "source_contribution": "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast.",
+        "receiving_consequence": "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast."
+        ],
+        "premises_remaining": [
+          "Comparable data, explicit ranges, honest assumptions and actual forecast updates remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A nominal reserve can be simultaneously budgeted as routine output and emergency capacity; the forecast then double-counts it.",
+        "counter_control": "A nominal reserve can be simultaneously budgeted as routine output and emergency capacity; the forecast then double-counts it.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. A short-horizon forecast from recent throughput can suffice.",
+        "subcondition_evidence": {
+          "P1": "A resource forecast that includes inventory, capacity, time and recovery choices.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "A forecast used for resource or commitment decisions",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+            "literal_bridge": "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast."
+          },
+          "P3": "Separating real reserves from accidental queues exposes carrying, standby and delay costs and supplies scenario assumptions for the forecast.",
+          "P4": "Comparable data, explicit ranges, honest assumptions and actual forecast updates remain necessary. Control: A nominal reserve can be simultaneously budgeted as routine output and emergency capacity; the forecast then double-counts it."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P026",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P026",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+          "literal_bridge": "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations."
+        },
+        "shared_question_or_object": "A supplier dependency for which a reserve or alternate is proposed before commitment.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+          "literal_bridge": "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations."
+        },
+        "source_contribution": "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations.",
+        "receiving_consequence": "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations."
+        ],
+        "premises_remaining": [
+          "Actual commercial authority, usable data rights, configuration correspondence and feasible supplier capability remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Inventory at an inaccessible site or a substitute needing unavailable data rights does not cover the stipulated disruption.",
+        "counter_control": "Inventory at an inaccessible site or a substitute needing unavailable data rights does not cover the stipulated disruption.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. Direct coordination and a short dependency note can suffice at a simple shared-team boundary.",
+        "subcondition_evidence": {
+          "P1": "A supplier dependency for which a reserve or alternate is proposed before commitment.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+            "literal_bridge": "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations."
+          },
+          "P3": "A buffer portfolio identifies the kind of supplier interruption covered and its material replenishment or activation path, informing procurement timing and contingency obligations.",
+          "P4": "Actual commercial authority, usable data rights, configuration correspondence and feasible supplier capability remain necessary. Control: Inventory at an inaccessible site or a substitute needing unavailable data rights does not cover the stipulated disruption."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P026->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P027",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P027",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "Transition to operation or restart",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "literal_bridge": "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall."
+        },
+        "shared_question_or_object": "A cutover supported by a specific capacity, stock or time contingency.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "Transition to operation or restart",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "literal_bridge": "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall."
+        },
+        "source_contribution": "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall.",
+        "receiving_consequence": "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall."
+        ],
+        "premises_remaining": [
+          "Actual configured system, trained people, support, contingency and transition authority remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A reserved server cannot replace an absent trained operator, restore corrupted state or grant operational authority.",
+        "counter_control": "A reserved server cannot replace an absent trained operator, restore corrupted state or grant operational authority.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. Use proportionate existing readiness checks or a representative rehearsal where adequate and allowed.",
+        "subcondition_evidence": {
+          "P1": "A cutover supported by a specific capacity, stock or time contingency.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "Transition to operation or restart",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+            "literal_bridge": "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall."
+          },
+          "P3": "A verified reserve for the relevant startup uncertainty supplies a bounded support/readiness premise and can reduce a demonstrated transition shortfall.",
+          "P4": "Actual configured system, trained people, support, contingency and transition authority remain necessary. Control: A reserved server cannot replace an absent trained operator, restore corrupted state or grant operational authority."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P027->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P028",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P028",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A proposed recovery claim after failure or change",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "literal_bridge": "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed."
+        },
+        "shared_question_or_object": "A recovery objective relying on a named material reserve or alternate.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A proposed recovery claim after failure or change",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "literal_bridge": "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed."
+        },
+        "source_contribution": "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed.",
+        "receiving_consequence": "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed."
+        ],
+        "premises_remaining": [
+          "Actual state coverage, accessible compatible resources, timing, ownership and correlated-failure examination remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A fallback sharing the failed power supply is not independent recovery; reserve stock without a compatible restoration process may be unusable.",
+        "counter_control": "A fallback sharing the failed power supply is not independent recovery; reserve stock without a compatible restoration process may be unusable.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. A stateless isolated disposable experiment may need only restart or deletion.",
+        "subcondition_evidence": {
+          "P1": "A recovery objective relying on a named material reserve or alternate.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "A proposed recovery claim after failure or change",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+            "literal_bridge": "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed."
+          },
+          "P3": "A usable spare or available response capacity supplies one actual resource on the recovery path, whose timing and shared failure exposure can be assessed.",
+          "P4": "Actual state coverage, accessible compatible resources, timing, ownership and correlated-failure examination remain necessary. Control: A fallback sharing the failed power supply is not independent recovery; reserve stock without a compatible restoration process may be unusable."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P028->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P029",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P029",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A supported system over its operational life",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "literal_bridge": "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload."
+        },
+        "shared_question_or_object": "A long-lived support strategy choosing reserves against failure and obsolescence.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A supported system over its operational life",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "literal_bridge": "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload."
+        },
+        "source_contribution": "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload.",
+        "receiving_consequence": "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload."
+        ],
+        "premises_remaining": [
+          "Continuing ownership, configuration, skills, funding, rights and deliberate end-of-support decisions remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Hoarded spares may become obsolete while a critical repair skill disappears; more inventory alone does not sustain the fielded system.",
+        "counter_control": "Hoarded spares may become obsolete while a critical repair skill disappears; more inventory alone does not sustain the fielded system.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. A short-lived tool may use an explicit early retirement policy.",
+        "subcondition_evidence": {
+          "P1": "A long-lived support strategy choosing reserves against failure and obsolescence.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "A supported system over its operational life",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+            "literal_bridge": "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload."
+          },
+          "P3": "The portfolio makes the stock, skill, standby and delay tradeoffs explicit and exposes whether apparent support savings merely shift scarcity or workload.",
+          "P4": "Continuing ownership, configuration, skills, funding, rights and deliberate end-of-support decisions remain necessary. Control: Hoarded spares may become obsolete while a critical repair skill disappears; more inventory alone does not sustain the fielded system."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P029->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-008->LAW-L3::EW-P033",
+        "source_native_id": "EL-008",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score."
+        },
+        "shared_question_or_object": "Control selection for a decision with explicitly assessed reserve and contingency.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score."
+        },
+        "source_contribution": "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score.",
+        "receiving_consequence": "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score."
+        ],
+        "premises_remaining": [
+          "All material consequence dimensions and actual applicable obligations remain necessary; no universal scoring formula is asserted.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Extra capacity cannot undo disclosure, replace required independent assessment or justify every high-consequence change.",
+        "counter_control": "Extra capacity cannot undo disclosure, replace required independent assessment or justify every high-consequence change.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Carrying, standby, obsolescence, reserve raiding and activation costs count. Low-risk rapidly replaceable work may need only a small contingency and tested replacement. Use existing adequate controls and bounded preauthorization where the actual regime permits.",
+        "subcondition_evidence": {
+          "P1": "Control selection for a decision with explicitly assessed reserve and contingency.",
+          "P2": {
+            "source_bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+            "receiving_bearer": "A decision about assurance strength under change",
+            "source_native_proposition": "Optimise a portfolio of justified buffers; distinguish protective reserve from accidental queue and continuously reassess assumptions.",
+            "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+            "literal_bridge": "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score."
+          },
+          "P3": "A demonstrated reserve changes one consequence or recovery premise in the control decision, without collapsing other dimensions into a single buffer score.",
+          "P4": "All material consequence dimensions and actual applicable obligations remain necessary; no universal scoring formula is asserted. Control: Extra capacity cannot undo disclosure, replace required independent assessment or justify every high-consequence change."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L1::EL-008",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

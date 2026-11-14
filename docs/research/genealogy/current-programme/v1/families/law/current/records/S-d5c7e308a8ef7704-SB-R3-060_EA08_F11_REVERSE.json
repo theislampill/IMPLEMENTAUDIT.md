@@ -1,0 +1,948 @@
+{
+  "source_identity": {
+    "source_id": "S-d5c7e308a8ef7704",
+    "scientific_name": "SB-R3-060_EA08_F11_REVERSE.json",
+    "original_bytes": 73667,
+    "original_sha256": "d5c7e308a8ef7704e7548afc1ada68301c93744603d1e68829ce5bbbbd310197"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-060",
+    "title": "EA-08_REVERSE_CHANGE_EXPOSURE_AND_RECOVERY",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T02:08:23.473449+00:00",
+    "inquiry_family": 11,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_010.json",
+      "bytes": 1923,
+      "sha256": "a013c11f6dd82b0dfff8992948d504b8ad283424b0cb4ddd44145cc94d1b5599"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY11_NATIVE_MEANINGS.json",
+      "bytes": 109853,
+      "sha256": "8c33a36942b96e29f7debfe86266b599068b2e828d0a41c446011aa2350ed766"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY11_COMPLETE_CORE_LITERAL_ARGUMENTS.json",
+      "bytes": 52778,
+      "sha256": "9e6dd8e47bf991e72294a803acb6cb865f144922f6f446a0567f7338b7b5cf35"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY11_CONTROLS.json",
+      "bytes": 8305,
+      "sha256": "0b8aaa5f79923b9e758e18950db840244f5196979e0870ed7d6c505516d25831"
+    },
+    "bounded_interface_domain": [
+      "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+      "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+      "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+      "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+      "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+    ],
+    "native_common_basis": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+    "common_cost_and_alternative": [
+      "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+      "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+      "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+      "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+    ],
+    "evidence_ceiling": "Root analytical arguments from complete selected native bodies and seven own finite controls. Two bounded practitioner-source accesses corroborate mechanisms, not universal causal effects. No deployed experiment, new property, whole synthesis completion or independent acceptance.",
+    "common_subconditions": {
+      "P1": "The precise common object and actual receiving use exist.",
+      "P2": "The full source and receiver meanings govern, including cheap paths and rejected universal claims.",
+      "P3": "The literal separately reasoned partial consequence follows under its guard.",
+      "P4": "The stronger-claim witness, residual premises, alternatives and re-entry remain."
+    },
+    "inference": "The specifically identified partial capability, evidence or scope constraint is material to the receiving decision. This does not establish complete recovery, a universal cost curve, a deployment cadence, an authority grant or a new control requirement.",
+    "common_source_dependence": "Both new practitioner sources belong to the Google SRE ecosystem; no independent causal replication or duplicate credit. Shared artifacts and controls remain shared.",
+    "exceptions": [],
+    "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-08",
+        "argument": "Architecture analysis identifies the coupled interface and quality constraints that targeted restructuring must preserve, and separates the expensive seam from local reversible details."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-08",
+        "argument": "Observed configuration and environment correspondence determine whether the restructuring evidence concerns the maintained object and reveal drift that defeats a claimed preserved behavior."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L2::EA-08",
+        "argument": "The qualification envelope specifies which timing, resource and environmental properties a proposed behavior-preserving change must retain or re-examine, giving a concrete boundary to technical improvement."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L2::EA-08",
+        "argument": "Hazard scenarios and control dependencies identify the consequential behaviors and interactions that must survive structural work and make some apparently local changes safety-relevant."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L2::EA-08",
+        "argument": "The actual data, environment, operator and contingency requirements of cutover define which structural changes are needed now and which polishing can be deferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L2::EA-08",
+        "argument": "Recovery tests reveal which current-state assumptions, dependencies and inaccessible seams obstruct repair, supplying concrete priorities and acceptance conditions for changeability investment."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L2::EA-08",
+        "argument": "Support horizon, likely replacements, supplier rights and retirement plans identify which change options have value and which debt can rationally remain until retirement."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-08",
+        "argument": "The consequence, coupling, recovery and obligation profile bounds the verification and authority needed for the structural change, preserving a cheap existing path where it is adequate."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-08",
+        "argument": "The rejection of an unrestricted phase curve removes an invalid automatic justification for preventive restructuring and requires comparison with the anticipated change and other cost components."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-08",
+        "overclaim": "A diagram cannot establish that the code has become easier to change; a sound architecture can still have an unnecessarily tangled implementation.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-08",
+        "overclaim": "An exact deployment digest establishes an identity fact, not low future change cost or semantic equivalence of every behavior.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L2::EA-08",
+        "overclaim": "A qualification record for an old configuration does not prove that a new internal structure preserves the envelope or is worth its engineering cost.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L2::EA-08",
+        "overclaim": "A hazard log cannot by itself reduce duplication or repair unsafe implementation structure; an unrelated hazard analysis supplies no changeability premise.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L2::EA-08",
+        "overclaim": "A readiness meeting without a demonstrable implementation need does not justify restructuring a stable disposable component.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L2::EA-08",
+        "overclaim": "A successful restore from one snapshot does not establish that every later feature change will be cheap; an unused backup plan identifies no actual structural bottleneck.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L2::EA-08",
+        "overclaim": "A distant hypothetical change does not justify unlimited polishing; a short-lived component can be supportable through deliberate replacement instead.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-08",
+        "overclaim": "A high-risk label does not make every refactor require every review; an elaborate control package can cost more without addressing the named failure.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-08",
+        "overclaim": "Rejecting the universal law does not show that structural investment is wasteful; a repeatedly duplicated correction can still justify targeted improvement.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L3::EW-P003->LAW-L2::EA-08",
+      "LAW-L3::EW-P007->LAW-L2::EA-08",
+      "LAW-L3::EW-P013->LAW-L2::EA-08",
+      "LAW-L3::EW-P018->LAW-L2::EA-08",
+      "LAW-L3::EW-P027->LAW-L2::EA-08",
+      "LAW-L3::EW-P028->LAW-L2::EA-08",
+      "LAW-L3::EW-P029->LAW-L2::EA-08",
+      "LAW-L3::EW-P033->LAW-L2::EA-08",
+      "LAW-L3::EW-P038->LAW-L2::EA-08"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-08",
+        "source_native_id": "EW-P003",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "The maintained implementation contains a structural seam implicated in the next expensive architectural commitment.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Architecture analysis identifies the coupled interface and quality constraints that targeted restructuring must preserve, and separates the expensive seam from local reversible details.",
+        "receiving_consequence": "Architecture analysis identifies the coupled interface and quality constraints that targeted restructuring must preserve, and separates the expensive seam from local reversible details.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Architecture analysis identifies the coupled interface and quality constraints that targeted restructuring must preserve, and separates the expensive seam from local reversible details."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A diagram cannot establish that the code has become easier to change; a sound architecture can still have an unnecessarily tangled implementation.",
+        "counter_control": "A diagram cannot establish that the code has become easier to change; a sound architecture can still have an unnecessarily tangled implementation.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P003",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "The maintained implementation contains a structural seam implicated in the next expensive architectural commitment.",
+          "literal_bridge": "Architecture analysis identifies the coupled interface and quality constraints that targeted restructuring must preserve, and separates the expensive seam from local reversible details."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-08",
+        "source_native_id": "EW-P007",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/6",
+          "expected_native_id": "EW-P007"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "A verified structural change modifies the implementation whose designed, tested and deployed forms are being reconciled.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "The correspondence of designed, built, tested and operated states",
+            "criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Observed configuration and environment correspondence determine whether the restructuring evidence concerns the maintained object and reveal drift that defeats a claimed preserved behavior.",
+        "receiving_consequence": "Observed configuration and environment correspondence determine whether the restructuring evidence concerns the maintained object and reveal drift that defeats a claimed preserved behavior.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Observed configuration and environment correspondence determine whether the restructuring evidence concerns the maintained object and reveal drift that defeats a claimed preserved behavior."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "An exact deployment digest establishes an identity fact, not low future change cost or semantic equivalence of every behavior.",
+        "counter_control": "An exact deployment digest establishes an identity fact, not low future change cost or semantic equivalence of every behavior.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P007",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "The correspondence of designed, built, tested and operated states",
+            "criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "A verified structural change modifies the implementation whose designed, tested and deployed forms are being reconciled.",
+          "literal_bridge": "Observed configuration and environment correspondence determine whether the restructuring evidence concerns the maintained object and reveal drift that defeats a claimed preserved behavior."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L2::EA-08",
+        "source_native_id": "EW-P013",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "A structural improvement changes a component of a design with a stated timing, load or environmental envelope.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The qualification envelope specifies which timing, resource and environmental properties a proposed behavior-preserving change must retain or re-examine, giving a concrete boundary to technical improvement.",
+        "receiving_consequence": "The qualification envelope specifies which timing, resource and environmental properties a proposed behavior-preserving change must retain or re-examine, giving a concrete boundary to technical improvement.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The qualification envelope specifies which timing, resource and environmental properties a proposed behavior-preserving change must retain or re-examine, giving a concrete boundary to technical improvement."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A qualification record for an old configuration does not prove that a new internal structure preserves the envelope or is worth its engineering cost.",
+        "counter_control": "A qualification record for an old configuration does not prove that a new internal structure preserves the envelope or is worth its engineering cost.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P013",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "A structural improvement changes a component of a design with a stated timing, load or environmental envelope.",
+          "literal_bridge": "The qualification envelope specifies which timing, resource and environmental properties a proposed behavior-preserving change must retain or re-examine, giving a concrete boundary to technical improvement."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L2::EA-08",
+        "source_native_id": "EW-P018",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "A maintained code structure implements a named hazard control and is being corrected without losing that control.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Hazard scenarios and control dependencies identify the consequential behaviors and interactions that must survive structural work and make some apparently local changes safety-relevant.",
+        "receiving_consequence": "Hazard scenarios and control dependencies identify the consequential behaviors and interactions that must survive structural work and make some apparently local changes safety-relevant.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Hazard scenarios and control dependencies identify the consequential behaviors and interactions that must survive structural work and make some apparently local changes safety-relevant."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A hazard log cannot by itself reduce duplication or repair unsafe implementation structure; an unrelated hazard analysis supplies no changeability premise.",
+        "counter_control": "A hazard log cannot by itself reduce duplication or repair unsafe implementation structure; an unrelated hazard analysis supplies no changeability premise.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P018",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "A maintained code structure implements a named hazard control and is being corrected without losing that control.",
+          "literal_bridge": "Hazard scenarios and control dependencies identify the consequential behaviors and interactions that must survive structural work and make some apparently local changes safety-relevant."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L2::EA-08",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "A known structural impediment obstructs the actual migration, startup adaptation or deployment change required at cutover.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The actual data, environment, operator and contingency requirements of cutover define which structural changes are needed now and which polishing can be deferred.",
+        "receiving_consequence": "The actual data, environment, operator and contingency requirements of cutover define which structural changes are needed now and which polishing can be deferred.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The actual data, environment, operator and contingency requirements of cutover define which structural changes are needed now and which polishing can be deferred."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A readiness meeting without a demonstrable implementation need does not justify restructuring a stable disposable component.",
+        "counter_control": "A readiness meeting without a demonstrable implementation need does not justify restructuring a stable disposable component.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P027",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "A known structural impediment obstructs the actual migration, startup adaptation or deployment change required at cutover.",
+          "literal_bridge": "The actual data, environment, operator and contingency requirements of cutover define which structural changes are needed now and which polishing can be deferred."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L2::EA-08",
+        "source_native_id": "EW-P028",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "The maintained implementation contains an actual state-access or compatibility obstacle to a required recovery path.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Recovery tests reveal which current-state assumptions, dependencies and inaccessible seams obstruct repair, supplying concrete priorities and acceptance conditions for changeability investment.",
+        "receiving_consequence": "Recovery tests reveal which current-state assumptions, dependencies and inaccessible seams obstruct repair, supplying concrete priorities and acceptance conditions for changeability investment.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Recovery tests reveal which current-state assumptions, dependencies and inaccessible seams obstruct repair, supplying concrete priorities and acceptance conditions for changeability investment."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A successful restore from one snapshot does not establish that every later feature change will be cheap; an unused backup plan identifies no actual structural bottleneck.",
+        "counter_control": "A successful restore from one snapshot does not establish that every later feature change will be cheap; an unused backup plan identifies no actual structural bottleneck.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P028",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "The maintained implementation contains an actual state-access or compatibility obstacle to a required recovery path.",
+          "literal_bridge": "Recovery tests reveal which current-state assumptions, dependencies and inaccessible seams obstruct repair, supplying concrete priorities and acceptance conditions for changeability investment."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L2::EA-08",
+        "source_native_id": "EW-P029",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "A supported component faces foreseeable dependency replacement, patching or obsolescence during its retained service life.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Support horizon, likely replacements, supplier rights and retirement plans identify which change options have value and which debt can rationally remain until retirement.",
+        "receiving_consequence": "Support horizon, likely replacements, supplier rights and retirement plans identify which change options have value and which debt can rationally remain until retirement.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Support horizon, likely replacements, supplier rights and retirement plans identify which change options have value and which debt can rationally remain until retirement."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A distant hypothetical change does not justify unlimited polishing; a short-lived component can be supportable through deliberate replacement instead.",
+        "counter_control": "A distant hypothetical change does not justify unlimited polishing; a short-lived component can be supportable through deliberate replacement instead.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P029",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "A supported component faces foreseeable dependency replacement, patching or obsolescence during its retained service life.",
+          "literal_bridge": "Support horizon, likely replacements, supplier rights and retirement plans identify which change options have value and which debt can rationally remain until retirement."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-08",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "A control-selection decision depends on the actual effort and propagation of a proposed technical change.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The consequence, coupling, recovery and obligation profile bounds the verification and authority needed for the structural change, preserving a cheap existing path where it is adequate.",
+        "receiving_consequence": "The consequence, coupling, recovery and obligation profile bounds the verification and authority needed for the structural change, preserving a cheap existing path where it is adequate.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The consequence, coupling, recovery and obligation profile bounds the verification and authority needed for the structural change, preserving a cheap existing path where it is adequate."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A high-risk label does not make every refactor require every review; an elaborate control package can cost more without addressing the named failure.",
+        "counter_control": "A high-risk label does not make every refactor require every review; an elaborate control package can cost more without addressing the named failure.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P033",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "A control-selection decision depends on the actual effort and propagation of a proposed technical change.",
+          "literal_bridge": "The consequence, coupling, recovery and obligation profile bounds the verification and authority needed for the structural change, preserving a cheap existing path where it is adequate."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-08",
+        "source_native_id": "EW-P038",
+        "receiving_native_id": "EA-08",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/37",
+          "expected_native_id": "EW-P038"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7",
+          "expected_native_id": "EA-08",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/7",
+            "expected_native_id": "AGQ-EA-08"
+          }
+        },
+        "shared_question_or_object": "The rejected universal late-change curve is being applied to a maintained component whose structure affects real edit and propagation effort.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          },
+          "receiver": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The rejection of an unrestricted phase curve removes an invalid automatic justification for preventive restructuring and requires comparison with the anticipated change and other cost components.",
+        "receiving_consequence": "The rejection of an unrestricted phase curve removes an invalid automatic justification for preventive restructuring and requires comparison with the anticipated change and other cost components.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The rejection of an unrestricted phase curve removes an invalid automatic justification for preventive restructuring and requires comparison with the anticipated change and other cost components."
+        ],
+        "premises_remaining": [
+          "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Rejecting the universal law does not show that structural investment is wasteful; a repeatedly duplicated correction can still justify targeted improvement.",
+        "counter_control": "Rejecting the universal law does not show that structural investment is wasteful; a repeatedly duplicated correction can still justify targeted improvement.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P038",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A maintained codebase where structural complexity raises consequential change cost.",
+            "criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change."
+          },
+          "actual_object": "The rejected universal late-change curve is being applied to a maintained component whose structure affects real edit and propagation effort.",
+          "literal_bridge": "The rejection of an unrestricted phase curve removes an invalid automatic justification for preventive restructuring and requires comparison with the anticipated change and other cost components."
+        }
+      }
+    ],
+    "independent_review_scope": "Actual common premise, every literal membership, source and receiver meanings, cost, alternatives and controls remain subject to later whole-study fidelity and separate adversarial review."
+  }
+}

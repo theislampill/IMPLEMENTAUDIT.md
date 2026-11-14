@@ -1,0 +1,672 @@
+{
+  "source_identity": {
+    "source_id": "S-a0aa3e92254fc648",
+    "scientific_name": "LAW-L1-OPEN_BURDENS.json",
+    "original_bytes": 23852,
+    "original_sha256": "a0aa3e92254fc648b59ebf89996072986137b800dfdc136594c88deed0060d1c"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "unit": "LAW-L1",
+    "snapshot_scope": "Author.2 bounded correction after prior GAP_REVISE; no qualified programme outcome assigned.",
+    "required_acceptance_or_delivery_work": [
+      {
+        "burden_id": "B01",
+        "task": "Affected fidelity re-review after the author.1 GAP_REVISE finding",
+        "work_state": "REVIEW_PENDING",
+        "role": "Controller",
+        "consequence": "The corrected selected subject has no independent acceptance.",
+        "next_action": "Review this exact manifest, prior findings, correction mapping and affected source/view masks; preserve both subject identities."
+      },
+      {
+        "burden_id": "B02",
+        "task": "Correct any remaining substantive review findings and obtain affected rechecks",
+        "work_state": "CONDITIONAL_REQUIRED_WORK",
+        "role": "Author and controller",
+        "consequence": "LF-001–LF-004 have author repairs awaiting re-review; this is not reviewer closure.",
+        "next_action": "Fix the authoritative carrier if further findings arise, rebuild projections, rerun relevant checks and preserve all versions."
+      },
+      {
+        "burden_id": "B03",
+        "task": "Second independent adversarial review",
+        "work_state": "REVIEW_PENDING",
+        "role": "Controller",
+        "consequence": "No falsification review has been completed for this exact subject.",
+        "next_action": "After fidelity corrections, challenge consequential positives, negatives, reverse reasoning, controls and completion arguments."
+      },
+      {
+        "burden_id": "B04",
+        "task": "Both final acceptances on the same scientific meaning",
+        "work_state": "NOT_YET_PERFORMED",
+        "role": "Controller",
+        "consequence": "Historical or earlier-subject acceptance cannot transfer automatically.",
+        "next_action": "Re-review affected scientific changes; bind both final dispositions to the final subject."
+      },
+      {
+        "burden_id": "B05",
+        "task": "Final package/companion receiving and shipped-verifier run",
+        "work_state": "NOT_YET_PERFORMED",
+        "role": "Controller",
+        "consequence": "A local scientific manifest is not a delivered, reopened archive.",
+        "next_action": "Package original companion, selected files and later reviews; externally hash, reopen, safely extract and rerun verifier."
+      },
+      {
+        "burden_id": "B06",
+        "task": "Existing-site conversion, rendered navigation and status verification",
+        "work_state": "NOT_PERFORMED_BY_LINEAGE_RESEARCHER",
+        "role": "Controller",
+        "consequence": "Markdown source checks do not establish generated or live correspondence.",
+        "next_action": "Use the existing builder/styles; inspect rendering and exact links; no live publication is authorized here."
+      }
+    ],
+    "original_binding": {
+      "state": "UNCONFIRMED",
+      "role": "Controller/source custody",
+      "effect": "Exact original-contract failure cannot be established; candidate-scope comparison remains usable.",
+      "reentry": "Recover the selected execution attachment and final continuation with provenance."
+    },
+    "examined_scientific_unknowns": [
+      {
+        "unknown_id": "U01",
+        "question": "Exact TWI JI/JR chronology",
+        "current_conclusion": "S008 and S009 disagree; selective training influence survives.",
+        "discriminator": "Contemporaneous training records or a source resolving the discrepancy.",
+        "sources": [
+          "S008",
+          "S009"
+        ]
+      },
+      {
+        "unknown_id": "U02",
+        "question": "Broader Ford-flow transmission at exact passage scope",
+        "current_conclusion": "The Ford suggestion-system observation is documented; broader influence remains an unpromoted lead here.",
+        "discriminator": "Inspect a precise primary transmission passage before enlarging the edge.",
+        "sources": [
+          "S011",
+          "S019"
+        ]
+      },
+      {
+        "unknown_id": "U03",
+        "question": "Worker effects across institutional and work-design settings",
+        "current_conclusion": "Adverse and favorable evidence differ in design and perspective; no universal causal verdict.",
+        "discriminator": "A better identified comparison with worker-centered outcomes and meaningful alternative explanations.",
+        "sources": [
+          "S026",
+          "S027",
+          "S028",
+          "S031",
+          "S070",
+          "R003",
+          "R004"
+        ]
+      },
+      {
+        "unknown_id": "U04",
+        "question": "Economical resilience under correlated disruption",
+        "current_conclusion": "Information and contingent buffer/alternative choices are useful hypotheses; no universal optimum or causal package effect.",
+        "discriminator": "Measured common-cause exposure, feasible alternatives and a comparative outcome design.",
+        "sources": [
+          "S032",
+          "S033",
+          "S039",
+          "S040",
+          "R002",
+          "R009"
+        ]
+      },
+      {
+        "unknown_id": "U05",
+        "question": "Comparative set-based benefit and option carrying cost",
+        "current_conclusion": "Conceptual and case support does not establish universal superiority.",
+        "discriminator": "Comparable projects with uncertainty, coupling, integration and cost measured.",
+        "sources": [
+          "S050",
+          "S051",
+          "S052"
+        ]
+      },
+      {
+        "unknown_id": "U06",
+        "question": "Historical transmission of particular software mechanisms",
+        "current_conclusion": "Explicit translations are documented; direct Lean ancestry of every modern mechanism is unproved.",
+        "discriminator": "Dated primary transmission records for each asserted mechanism.",
+        "sources": [
+          "S053",
+          "R007",
+          "S057",
+          "S058"
+        ]
+      },
+      {
+        "unknown_id": "U07",
+        "question": "Domain outcome durability and causal attribution",
+        "current_conclusion": "Process changes do not by themselves identify beneficiary benefit; co-interventions and overlapping studies remain.",
+        "discriminator": "Better controlled primary outcome data with exposure and estimand preserved.",
+        "sources": [
+          "S060",
+          "S061",
+          "S062",
+          "R005",
+          "R006"
+        ]
+      }
+    ],
+    "source_access_limits": [
+      {
+        "source_id": "S001",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S002",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S003",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S004",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S005",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S006",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S007",
+        "access_levels": [
+          "NOT_NEWLY_ACCESSED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S008",
+        "access_levels": [
+          "SECTION_INSPECTED",
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S009",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+          "FULL_SUPPLIED_PDF_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S010",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S011",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S012",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S013",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S014",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S015",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S016",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S017",
+        "access_levels": [
+          "NOT_NEWLY_ACCESSED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S018",
+        "access_levels": [
+          "RELATED_CURRENT_DOCTRINE_INSPECTED_BOOK_NOT_ACCESSED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S019",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S020",
+        "access_levels": [
+          "METADATA_AND_OPENING_TEASER_ONLY"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S021",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S022",
+        "access_levels": [
+          "LOCATOR_INACCESSIBLE_RELATED_VERSION_LOCATED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S023",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S024",
+        "access_levels": [
+          "METADATA_INSPECTED_FULL_TEXT_INACCESSIBLE"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S025",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S026",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+          "PRIMARY_ABSTRACT_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S027",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S028",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S029",
+        "access_levels": [
+          "PUBLISHER_PREVIEW_ONLY"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S030",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S031",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED",
+          "PRIMARY_ABSTRACT_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S032",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S033",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S034",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S035",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S036",
+        "access_levels": [
+          "ORIGINAL_LOCATOR_INACCESSIBLE"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S037",
+        "access_levels": [
+          "WRONG_DOCUMENT_CONFIRMED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S038",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_RETRIEVAL_FAILED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S039",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_RESTRICTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S040",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S041",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S042",
+        "access_levels": [
+          "PUBLISHER_SEARCH_EXCERPT_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S043",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S044",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S045",
+        "access_levels": [
+          "METADATA_AND_AUTHOR_COMMENT_INSPECTED_FULL_TEXT_INACCESSIBLE"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S046",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S047",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S048",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S049",
+        "access_levels": [
+          "LOCATOR_INACCESSIBLE"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S050",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S051",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S052",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S053",
+        "access_levels": [
+          "SAMPLE_CHAPTER_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S054",
+        "access_levels": [
+          "ORIGINAL_LOCATOR_INACCESSIBLE_RELATED_AUTHOR_ACCOUNT_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S055",
+        "access_levels": [
+          "METADATA_INSPECTED_FULL_TEXT_NOT_RETRIEVED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S056",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_INACCESSIBLE"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S057",
+        "access_levels": [
+          "NOT_NEWLY_ACCESSED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S058",
+        "access_levels": [
+          "MAIN_BODY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S059",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S060",
+        "access_levels": [
+          "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S061",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S062",
+        "access_levels": [
+          "PUBLISHER_ABSTRACT_EXCERPT_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S063",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S064",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S065",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S066",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S067",
+        "access_levels": [
+          "SECTION_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S068",
+        "access_levels": [
+          "ORIGINAL_LOCATOR_INACCESSIBLE"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S069",
+        "access_levels": [
+          "SECTION_INSPECTED_ORIGINAL_LOCATOR_INACCESSIBLE"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      },
+      {
+        "source_id": "S070",
+        "access_levels": [
+          "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_RESTRICTED",
+          "PRIMARY_ABSTRACT_INSPECTED"
+        ],
+        "meaning": "Exact inspected passages and ceilings in SOURCES.json; this is not a full-text validation claim."
+      }
+    ],
+    "unperformed_extended_research": [
+      {
+        "task": "Independent complete reanalysis of all primary studies inside the manufacturing and healthcare reviews",
+        "classification": "NOT_PERFORMED; not represented as a review replication",
+        "consequence": "No new pooled effect or universal causal outcome claim."
+      },
+      {
+        "task": "Separate comprehensive construction/Lean Startup effectiveness reviews",
+        "classification": "NOT_PERFORMED; branch genealogy/mechanism inquiry only",
+        "consequence": "No branch-wide causal efficacy claim; additional studies needed before such promotion."
+      },
+      {
+        "task": "Full rereading of inaccessible original books and selected papers",
+        "classification": "SOURCE_ACCESS_LIMIT recorded by exact work",
+        "consequence": "Detailed uninspected assertions remain inherited or suspended; no full-text access is claimed."
+      }
+    ],
+    "mandatory_topic_unexamined_at_declared_scope": [],
+    "not_a_completion_rule": "Listing a required task here does not perform it. Access-limited claims are not promoted; further mandatory work identified in review remains executable work, not settled uncertainty."
+  }
+}

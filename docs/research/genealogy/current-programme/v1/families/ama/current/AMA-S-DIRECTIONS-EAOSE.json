@@ -1,0 +1,31 @@
+{
+  "schema": "scientific-json-storage-index/1",
+  "kind": "lossless-gzip-storage-index",
+  "logical_path": "docs/research/genealogy/current-programme/v1/families/ama/current/AMA-S-DIRECTIONS-EAOSE.json",
+  "payload": {
+    "href": "AMA-S-DIRECTIONS-EAOSE.json.gz",
+    "media_type": "application/json",
+    "content_encoding": "gzip",
+    "bytes": 704782,
+    "sha256": "03257806ea137464609610f5c0af2d8803bfee2dfbd41afd9025512b13231d41",
+    "git_blob_sha1": "757adbfa89b5e9b2b0662f8fc65995a7d159baed",
+    "uncompressed": {
+      "bytes": 18876878,
+      "sha256": "0cc00e9bd459583235ae37fa316960230cb187ee8075d99296eded734fd7a966",
+      "git_blob_sha1": "45ad8ca3883dd8b455d28936cb2f8fc4d0140db5"
+    }
+  },
+  "records": {
+    "json_pointer": "/relations",
+    "count": 8492
+  },
+  "original_metadata": {
+    "schema": "factored-directed-scientific-relations/1",
+    "source_sha256": "eef01a3fdd64197a53ab437b4a0a87d84b3f04e03e474f34550ef86135b83b37",
+    "source_lineage": "EAOSE",
+    "record_count": 8492,
+    "context_file": "AMA-S-DIRECTION-CONTEXT.json",
+    "interface_file": "AMA-S-INTERFACES.json"
+  },
+  "reading_rule": "This file is a storage index, not the scientific dataset. Decompress the sibling payload to recover the complete original JSON bytes. Original metadata and all payload references retain the interpretation and reference base of the original logical file location."
+}

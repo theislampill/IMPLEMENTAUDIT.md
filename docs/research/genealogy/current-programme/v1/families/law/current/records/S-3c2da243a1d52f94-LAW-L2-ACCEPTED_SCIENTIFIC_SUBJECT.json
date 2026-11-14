@@ -1,0 +1,235 @@
+{
+  "source_identity": {
+    "source_id": "S-3c2da243a1d52f94",
+    "scientific_name": "LAW-L2-ACCEPTED_SCIENTIFIC_SUBJECT.json",
+    "original_bytes": 10189,
+    "original_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+  },
+  "reading_rule": "Original selected scientific record. Source-state tokens remain dated history; later original qualification is separate.",
+  "source_record": {
+    "schema": "AGILE_SCIENTIFIC_SUBJECT_MANIFEST/1",
+    "subject_id": "LAW-L2-AGILE-AUTHOR-SUCCESSOR-2026-11-10-r1",
+    "unit_id": "LAW-L2",
+    "subject_type": "AUTHOR_PROPOSED_SCIENTIFIC_SUCCESSOR",
+    "unit_work_status": "PARTIAL_REVIEW_PENDING",
+    "review_status": "TWO_SEQUENTIAL_FRESH_REVIEWS_PENDING",
+    "authoring_metadata_rule": "Status statements inside this subject are pre-review authoring snapshots. Subsequent independent assessments and campaign selections must bind these exact bytes externally.",
+    "payload_base": "Directory containing this manifest; dependency paths resolve from companion campaign root.",
+    "files": [
+      {
+        "path": "RECEIVING_RECORD.json",
+        "bytes": 1777,
+        "sha256": "1a9af166dced3a3f9a054827a457315aa6589b9dfdf820e0e005400b0dc91300",
+        "role": "Original custody and candidate historical binding"
+      },
+      {
+        "path": "READ_LOG.json",
+        "bytes": 4748,
+        "sha256": "10f5cf2700e0fd754555dac8a053423c5bf0da2edbe50acb17117caec01ca082",
+        "role": "Actual complete-input reading and current method selection"
+      },
+      {
+        "path": "NATIVE_ADAPTER.json",
+        "bytes": 93565,
+        "sha256": "f81cbf36dc18d3f43d6051944cbb04354bbf7ca32ff727ac1b17e5a9a6153197",
+        "role": "Loss-aware native interface and preserved populations"
+      },
+      {
+        "path": "SOURCE_REGISTER.json",
+        "bytes": 87140,
+        "sha256": "28e59cbf7ccd733e6e6aafb465737248a632cbe7acefc9f717a6cffc2aa37a58",
+        "role": "Full native source rows and separate fresh source roles/access ceilings"
+      },
+      {
+        "path": "SOURCE_ACCESS_INDEX.json",
+        "bytes": 53131,
+        "sha256": "8d214df2b89d3b22821193015eb590bf37b2076ffa6dc6fb636f4129f03103ab",
+        "role": "Actual retained search/access metadata without full third-party texts"
+      },
+      {
+        "path": "CLAIMS.json",
+        "bytes": 86762,
+        "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+        "role": "28 original-linked conditional successor claim overlays"
+      },
+      {
+        "path": "INTAKE.json",
+        "bytes": 53246,
+        "sha256": "94ff33c4c2461e54fab7d92a2db4d5c00e80bb16a91870ae7aa4456a6a09fac3",
+        "role": "Neutral applicability questions, alternatives and no-change paths"
+      },
+      {
+        "path": "GENEALOGY.json",
+        "bytes": 27618,
+        "sha256": "8069b27a7834e032520dfcf624726cd9e4002b76bf06f3b6ae154a8b8511f06f",
+        "role": "Typed and bounded historical relations"
+      },
+      {
+        "path": "COMPOSITION.json",
+        "bytes": 17824,
+        "sha256": "e9630d806934728b7d455db8d7d914592e03fd062b3edf04e96acd456b03bb70",
+        "role": "Guarded relations, configurations and investigated novelty candidates"
+      },
+      {
+        "path": "CRITICISM.json",
+        "bytes": 22782,
+        "sha256": "875e658a1ec5b9e34b86c0652cac43996b4f923ce62a09237d8782cb07457576",
+        "role": "Preserved criticism and successor responses"
+      },
+      {
+        "path": "COVERAGE.json",
+        "bytes": 12458,
+        "sha256": "8b8c70a08af53c60f82cd90963d83e849bfa7a84397b756b9c3f3a5873f70c0a",
+        "role": "Actual substantive topic coverage, residuals and stopping reasoning"
+      },
+      {
+        "path": "CHANGE_MAP.json",
+        "bytes": 24448,
+        "sha256": "a87fbcb3df867c984c4aa286d22479a9a46af05d78fa46c8f242082f685fa635",
+        "role": "Original-to-successor rationale and impact"
+      },
+      {
+        "path": "REQUALIFICATION_REPORT.md",
+        "bytes": 17676,
+        "sha256": "e6124c41f07e3b51dfc47dae9ed488f48d279fc0cd1ff78f43e503cb7d37ac3b",
+        "role": "Readable scientific result and qualification limits"
+      },
+      {
+        "path": "PUBLIC_EXPLANATION.md",
+        "bytes": 11782,
+        "sha256": "fb832ed13336e7b7fa60a67d00caf2525322d1fc7d96fdd610e2726a9d8d8725",
+        "role": "Neutral public-facing scientific explanation"
+      },
+      {
+        "path": "AGILE_REQUALIFICATION_COMMISSION_v1.md",
+        "bytes": 17943,
+        "sha256": "7c5cfbe120b384575f36d91f549746bcd207ac46916c2d1997a13c3632b1eae2",
+        "role": "Authored future Agile-specific commission, static review pending"
+      },
+      {
+        "path": "READER_EXPLANATION.md",
+        "bytes": 4227,
+        "sha256": "27c1753b06217e843658c2da0cfa8a835e9bd03914075050b086ded77cc09fad",
+        "role": "Human navigation and exact native/successor record roots"
+      },
+      {
+        "path": "AUTHOR_READER_WALKTHROUGH.md",
+        "bytes": 6538,
+        "sha256": "34e57805b13ded779767dbc50d35a5cc9d3047a6273b356b489de149038416a0",
+        "role": "Exposed author semantic reader-task answers and verifier instructions"
+      },
+      {
+        "path": "READINESS.json",
+        "bytes": 13213,
+        "sha256": "452974dcd887568345633de783c93b69ecbde857eec2105bec3f16a74909031f",
+        "role": "Axis-specific authoring snapshot before independent review"
+      },
+      {
+        "path": "REVIEW_BRIEF.md",
+        "bytes": 3617,
+        "sha256": "31aed11b9495b5c05c6d5c60b95cc8df2504a8f94d3caf0a1b8b990c437526ae",
+        "role": "First fidelity and second adversarial review duties"
+      },
+      {
+        "path": "AUTHOR_CHECKS.json",
+        "bytes": 92762,
+        "sha256": "8fb5d5a6779753e90ef734f79bcec5b24b3fe2ba9ee3c586a7b09b8997295077",
+        "role": "Actual exposed author mechanical results, no scientific acceptance"
+      },
+      {
+        "path": "verify_subject.py",
+        "bytes": 8388,
+        "sha256": "9882ed5a8403f69a2de46b107b0fa9e776a269107d7f541eadbbb7ad0c1c1719",
+        "role": "Portable read-only native fidelity and digest verifier"
+      }
+    ],
+    "dependencies": [
+      {
+        "path": "inputs/launch/01_EVOLVED_ALL_TRIFECTAS_REQUALIFICATION_MASTER_PROMPT.md",
+        "bytes": 54874,
+        "sha256": "ba5c147ae5468552788ef68b479c6d330d327a69cefed877784afe39816b09ea",
+        "role": "Actual governing master",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "work/method_r2/QUALITY_STANDARD.md",
+        "bytes": 18451,
+        "sha256": "4cf99ef9b9f82b3e00ccde6de18e0834bd2f31fb3fa50c6b98e61372097391e6",
+        "role": "Selected common standard, identical scientific text to the originally read copy",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "work/method/QUALITY_STANDARD.md",
+        "bytes": 18451,
+        "sha256": "4cf99ef9b9f82b3e00ccde6de18e0834bd2f31fb3fa50c6b98e61372097391e6",
+        "role": "Historical path of the completely read identical standard",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "campaign/METHOD_QUALIFICATION.json",
+        "bytes": 3028,
+        "sha256": "80ed8a3460a50041e7b2b3809d06b906d98297710b86191dc25e7d55d2f3875e",
+        "role": "External campaign method selection",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "work/method_r2/METHOD_SUCCESSOR_SUBJECT.json",
+        "bytes": 3967,
+        "sha256": "76cf644d06f47614e77a53bcc99be03a0da0f51fb186f48584a0b282d45c3c9b",
+        "role": "Selected method subject identity",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "work/method_assessment/ASSESSMENT_RECEIPT.json",
+        "bytes": 4982,
+        "sha256": "ad809dd44c1aee4ff20921dc54a255de68d8f53321109ca63e2c6ecbea8fe400",
+        "role": "External independent method assessment receipt",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/packet/EVOLVED_AGILE_FROZEN_PACKET.zip",
+        "bytes": 73438,
+        "sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+        "role": "Immutable original archive",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_FROZEN_REPORT.md",
+        "bytes": 158201,
+        "sha256": "d3380082a7981ec1ccfdf411ac0a77cdb5e82dac7357937872c0bf9a759617c4",
+        "role": "Byte-identical native report projection",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+        "bytes": 96057,
+        "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+        "role": "Byte-identical native ledger projection",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "source-sha256:7b6d1e807beeb350a07508f402507bfbc374a3cedff5154ed88f93a0cde8718c",
+        "bytes": 17773,
+        "sha256": "7b6d1e807beeb350a07508f402507bfbc374a3cedff5154ed88f93a0cde8718c",
+        "role": "Candidate historical prompt; execution binding unconfirmed",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      },
+      {
+        "path": "source-sha256:755749855d880ab7a15441a0f74607f468b6562459b55981ebf92406eb5894db",
+        "bytes": 3892,
+        "sha256": "755749855d880ab7a15441a0f74607f468b6562459b55981ebf92406eb5894db",
+        "role": "Candidate historical continuation; execution binding unconfirmed",
+        "distribution": "Companion original/governing-input dependency; not copied into this payload"
+      }
+    ],
+    "excluded": [
+      "SCIENTIFIC_MANIFEST.json (self-hash recorded only in external receipt)",
+      "SCIENTIFIC_RECEIPT.json (external custody record)",
+      "RESEARCH_STATE.md (mutable continuity checkpoint)",
+      "build_successor.py (superseded draft generator)",
+      "working_access/ (raw third-party downloads, extracted text, provider responses, images and authoring/debug scripts)"
+    ],
+    "scientific_acceptance": "NOT_ESTABLISHED_BY_AUTHOR_FREEZE",
+    "custody_rule": "All listed nonmanifest payloads are hashed. No self-hash, final-archive hash or review receipt is invented. Root owns later companion packaging."
+  }
+}

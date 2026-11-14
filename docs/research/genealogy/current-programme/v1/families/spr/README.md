@@ -1,5 +1,11 @@
 # SPR — four-unit documentary guide
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/README.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+> **SPR-L1 source exception:** the original final certificate, final-subject/review join and both final reviews remain unavailable. The complete r4 candidate is also unavailable in current recovery; available selected ledgers and the earlier account do not replace that proof. See the [precise current limit](current/SOURCES.md#spr-l1).
+
+## Earlier documentary record
+
 This public guide distinguishes the private scientific account from permitted public identity metadata. The complete private manuscripts and current/historical property readers passed independent documentary-fidelity review at its declared reading scope, with the original final SPR-L1 join still missing. No authenticated public SPR property body was verified, and all four exact disclosure decisions remain **PENDING**.
 
 The original public proposal received two documentary findings. Its exact repaired

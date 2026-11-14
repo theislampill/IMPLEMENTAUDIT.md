@@ -1,0 +1,845 @@
+{
+  "source_identity": {
+    "source_id": "S-de1a1147f90b6996",
+    "scientific_name": "DIRECTION_ARGUMENTS_B33_I002.json",
+    "original_bytes": 59346,
+    "original_sha256": "de1a1147f90b6996ff15ac7d3caf8e8a6f0f6f74d897c8593e816a9ac8b250a9"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b33-current-directed-arguments/1",
+    "identity": "B33_INCREMENT_002",
+    "literal_source": {
+      "path": "authoring/B33_I002_LITERAL_ARGUMENTS.json",
+      "bytes": 30490,
+      "sha256": "3fa5010348a19b84f2ab700ca3e8f69fcb3d5ba2800f62f29cb182f6562cc5fc"
+    },
+    "common_contract": {
+      "population": "Six explicit, independently reasoned EA06 directions with P003, P022 and P032. The native inquiry determines these guarded uses; the pair universe, shared sources and finite recorded cases do not admit neighboring members.",
+      "partial_input": "An actual relevant input can change a local warrant, scope or option assessment before the entire architecture, commitment sequence or operational decision is proved. No final action flip, complete design, complete option valuation or already-proved authority arrangement is required for every evidence contribution.",
+      "application_distinctions": "Actual consumption at a stated guard differs from generic co-use. Unknown correspondence remains unknown. A known failed necessary same-scoped premise can refute its claim while other premises remain unresolved. Already adequate evidence, delegated tolerances and simple existing records can satisfy an input without new machinery.",
+      "purpose_distinctions": "Architecture feasibility, investment/commitment choice and residual-risk operating authority are different consumers. The same observation may inform each only through its own actual criterion and correspondence. Delivery acceptance does not automatically grant operational authority, and a declared waiver does not make a failed technical premise true.",
+      "source_scope": "Complete native P003/P022/P032 and current EA06 capsule were read. Twelve complete selected source/access metadata records were read, with zero fresh primary bodies. Normative guidance is neither causal effectiveness evidence nor a discovered applicable authority in a real project.",
+      "finite_scope": "No new scientific construction or behavior execution is claimed. Exact C23 recorded observations and outcomes are reused as bounded evidence of technical-scope and declared delivery-authority distinctions. Their application to architecture, commitment and operation is separately stated author reasoning, not a retroactive execution of those decisions.",
+      "cost_and_authority": "Charge repeated checking, interpretation, fixture maintenance, architectural modelling, coordination, option expiry and legitimate authority separately. Adequate direct/manual/analytic or no-change paths remain live. Neither economic attractiveness nor a green check creates a power to authorize operation.",
+      "reverse_rule": "Each reverse has its own receiving mechanism and guard. The six directions share exact native field factors and recorded observations, never an inferred symmetric verdict."
+    },
+    "directions": [
+      {
+        "id": "B33-I002-D01",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P003",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INVALIDATION"
+        ],
+        "shared_object": "A named behavioral constraint or interface assumption in the architecture/feasibility case for a particular consequential commitment.",
+        "guard": "An actual P003 inquiry consumes a credible EA06 observation or coverage limit as evidence about that constraint or assumption, with the observation-to-premise correspondence stated at the claimed scope. Other architectural constraints, whole-system feasibility and the commitment decision can remain unresolved.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "Repeatable behavior evidence can support a local architectural premise, expose a realized violation, or show that a design claim lacks a relevant checked condition. A known necessary failure can falsify the proposed combination at that scope before every other design question has been answered.",
+        "receiving_consequence": "The feasibility inquiry can retain a supported local budget, reopen an interface allocation, investigate a model-to-implementation discrepancy or withhold an unsupported feasibility claim before the expensive commitment. This is evidence for architectural reasoning; it is not proof of all constraints or an instruction to freeze the design.",
+        "remaining_premises": "Actual system-level requirement and consequence of the commitment; credible oracle; representative artifact/context mapping; other constraints and interactions; accountable integration and a legitimate ability to revise the design. Software checks alone cannot establish an unrepresented mass, physical safety or supplier constraint.",
+        "positive_witness": "C23 actually recorded the finite candidate's cold response as9 against the declared bound5 while hot behavior was unobserved. If that exact cold bound is a necessary premise of the architecture under consideration, the recorded contradiction is already useful even while other feasibility premises remain unknown. The if-clause is an explicit author application; C23 did not perform a real architecture review or a physical-temperature experiment.",
+        "stronger_claim_counterexample": "The nominal two-tick sample is green, but the candidate's cold behavior is nine ticks. An architecture diagram or nominal suite is therefore insufficient for the stated three-mode premise. Conversely, a wrong architectural oracle can make many repeatable checks agree with a wrong model; green does not prove that the architecture answers the actual need.",
+        "nontrigger": "No architectural constraint or commitment inquiry uses these results, or the supposed connection is only a preferred diagram format. A credible local refactor can use existing architectural knowledge without a new architecture phase. Unknown system correspondence is not evidence of an absent interface.",
+        "cheap_alternative_and_cost": "Use an adequate existing test result, source analysis, proof, simple model or targeted manual check for the actual premise. Preserve a thin architecture sketch when sufficient; avoid mandatory complete design and duplicated review packages. Repeated automation can lower acquisition burden but still needs model reconciliation and oracle maintenance.",
+        "removal_test": "Remove the only relevant behavior observation and the architecture loses that particular support or counterexample, unless an adequate analytic or other evidence path replaces it. Removing automation while preserving equivalent evidence need not impair feasibility reasoning. Removing the actual architecture consumer leaves ordinary regression work without this relation.",
+        "reentry": "Reassess the affected interface when the constraint, allocation, realized behavior, model correspondence or commitment changes; do not reopen every architectural premise solely because an unrelated check changes.",
+        "recorded_controls": [
+          "/purpose_assessments/known_cold_failure_with_hot_unknown",
+          "/purpose_assessments/finite_envelope_supported",
+          "/purpose_assessments/unestablished_representative_bridge"
+        ],
+        "finite_control_scope": "Exact recorded C23 logical-tick observations and finite criterion assessments, used as a conditional architectural counterexample. No new execution, real system budget or general feasibility estimate.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P003",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P003",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i002/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P003",
+            "capsule": {
+              "path": "reading/i002/native/EW-P003.json",
+              "bytes": 7006,
+              "sha256": "16ad10e317ec2dc04d7599884d985a9c24093c0a8026848113da1e0c7ada9bd6"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P003::MECHANISM",
+            "LAW-L3::EW-P003::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P003::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P003::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "recorded_control_bindings": [
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/known_cold_failure_with_hot_unknown",
+            "recorded_value_sha256": "1b38a6c490322c93c24d252d4c3ff053fc7f486db64079f06e2f7909db1dc99f",
+            "scope": "Exact recorded C23 logical-tick observations and finite criterion assessments, used as a conditional architectural counterexample. No new execution, real system budget or general feasibility estimate.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/finite_envelope_supported",
+            "recorded_value_sha256": "8637798782d082e7b2f1e80100d6f01bda5b1a5561efb98586e674f4cb37fae9",
+            "scope": "Exact recorded C23 logical-tick observations and finite criterion assessments, used as a conditional architectural counterexample. No new execution, real system budget or general feasibility estimate.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/unestablished_representative_bridge",
+            "recorded_value_sha256": "f24f09efff069ba8f162100e4eac7941a7cf98e64c3c003d33eb8fb203c3a725",
+            "scope": "Exact recorded C23 logical-tick observations and finite criterion assessments, used as a conditional architectural counterexample. No new execution, real system budget or general feasibility estimate.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I002-D02",
+        "source": "LAW-L3::EW-P003",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "shared_object": "A regression portfolio whose levels, inputs, oracle or interpretation depend on a particular architecture/interface constraint or feasibility assumption.",
+        "guard": "Actual architectural analysis supplies a relevant constraint, interface allocation, consequential interaction or explicit unresolved model assumption that is used in designing or interpreting an EA06 check. The whole architecture need not be validated first; tentative local inputs must remain labeled as hypotheses where their warrant is incomplete.",
+        "source_fields": [
+          "PROBLEM_IT_ADDRESSED",
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "Architecture can identify the system-relevant bound, coupled path or condition that ordinary local tests omit, and can specify which realized behavior a check is supposed to represent. It can also expose a model assumption whose uncertainty must limit a regression claim.",
+        "receiving_consequence": "EA06 can choose an appropriate integration or system-level check, preserve a specific architectural condition through later edits, or narrow a green claim to the justified model scope. A relevant hypothesis can be tested before the entire design is approved; a document's prestige cannot validate its oracle.",
+        "remaining_premises": "Validity and applicability of the local constraint; trustworthy observations; current implementation/interface correspondence; representative conditions; maintenance cost and access. Architectural labels alone supply neither credible thresholds nor complete risk coverage.",
+        "positive_witness": "Holding C23's nominal observation2 fixed, the relevant three-mode bound5 exposes that a nominal-only portfolio omits cold and hot conditions; the recorded cold9 observation then contradicts the necessary cold premise. Architectural reasoning would supply the actual significance of those modes and bound. C23's declared mode names are a finite illustration, not discovered physical constraints.",
+        "stronger_claim_counterexample": "An unchecked architecture model imposes a convenient bound or excludes the costly cold case, and the suite is then praised for matching it. The checks may be reproducible while missing the real constraint. Equally, requiring a complete architectural package before any targeted regression check would discard useful partial information.",
+        "nontrigger": "No actual architectural condition affects the test portfolio, or a purely documentary diagram is shared without a behavioral consequence. A small modular change may already have a clear local oracle and adequate known architecture, requiring no additional architecture process.",
+        "cheap_alternative_and_cost": "Keep the smallest clear interface contract, example or architecture fitness check that supplies the condition. Adequate source reasoning may establish the toy additional-mode behavior without another execution. Broader models and slower system tests add upkeep and can impede feedback; their incremental relevance must justify their burden.",
+        "removal_test": "Delete the only relevant architectural bound or interaction and the test may still run but lose the reason to cover the critical path or interpret its result as system-relevant. An equivalent concise contract or independent requirement can replace that input. Deleting irrelevant architecture ceremony changes no warranted regression claim.",
+        "reentry": "Revisit affected checks after an actual interface allocation, constraint, architecture assumption or implementation correspondence changes; preserve unaffected adequate evidence.",
+        "recorded_controls": [
+          "/purpose_assessments/known_cold_failure_with_hot_unknown",
+          "/purpose_assessments/unchanged_envelope_reuses_existing",
+          "/purpose_assessments/unestablished_representative_bridge"
+        ],
+        "finite_control_scope": "C23 makes finite evidence-scope distinctions; the architectural source of a meaningful criterion is an explicit native argument. The analytical cheaper-path addendum remains binding.",
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P003",
+        "entry_row": [
+          "LAW-L3::EW-P003->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P003",
+            "capsule": {
+              "path": "reading/i002/native/EW-P003.json",
+              "bytes": 7006,
+              "sha256": "16ad10e317ec2dc04d7599884d985a9c24093c0a8026848113da1e0c7ada9bd6"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i002/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P003::PROBLEM_IT_ADDRESSED",
+            "LAW-L3::EW-P003::MECHANISM",
+            "LAW-L3::EW-P003::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P003::IMPORTANT_CRITICISMS"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ]
+        },
+        "recorded_control_bindings": [
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/known_cold_failure_with_hot_unknown",
+            "recorded_value_sha256": "1b38a6c490322c93c24d252d4c3ff053fc7f486db64079f06e2f7909db1dc99f",
+            "scope": "C23 makes finite evidence-scope distinctions; the architectural source of a meaningful criterion is an explicit native argument. The analytical cheaper-path addendum remains binding.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/unchanged_envelope_reuses_existing",
+            "recorded_value_sha256": "8637798782d082e7b2f1e80100d6f01bda5b1a5561efb98586e674f4cb37fae9",
+            "scope": "C23 makes finite evidence-scope distinctions; the architectural source of a meaningful criterion is an explicit native argument. The analytical cheaper-path addendum remains binding.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/unestablished_representative_bridge",
+            "recorded_value_sha256": "f24f09efff069ba8f162100e4eac7941a7cf98e64c3c003d33eb8fb203c3a725",
+            "scope": "C23 makes finite evidence-scope distinctions; the architectural source of a meaningful criterion is an explicit native argument. The analytical cheaper-path addendum remains binding.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I002-D03",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P022",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "An actual commitment slice or retained option whose evidence assessment depends on identified behavior of the corresponding increment.",
+        "guard": "A P022 decision inquiry consumes a relevant EA06 result or limitation in deciding how much to commit, which option to retain, or which learning condition remains before the next consequential commitment. The actual increment/behavior correspondence is explicit; a complete option valuation or final investment decision need not already exist.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "Repeatable checks can reveal a failed premise of the next slice, support a specified technical condition, or expose that the current evidence says little about a proposed larger commitment. Maintaining relevant checks can preserve known behavior across increments while feedback arrives.",
+        "receiving_consequence": "The commitment assessment can identify a reason to investigate, constrain, defer or redesign an exposure, or use already sufficient evidence without an additional stage. A local technical contribution may be material even if economics, contracts or authority ultimately determine the same final action.",
+        "remaining_premises": "Actual decision separability and system integration; other necessary technical conditions; meaningful retained alternatives; option expiry and cancellation costs; funding/contract freedom and authorized commitment. Fast green tests cannot create an option that procurement or coupling has already removed.",
+        "positive_witness": "If C23's cold bound5 is necessary for a contemplated commitment, its recorded cold9 failure is a concrete reason not to count that technical premise as supported while hot behavior and the final commitment remain open. If the unchanged fixed candidate's finite scope already has adequate evidence, the existing three observations can be reused. Neither case measures an actual investment outcome or computes option value.",
+        "stronger_claim_counterexample": "A nominal green result is used to authorize all irreversible procurement despite an untested critical mode; or a team displays green incremental builds while the contractual and physical system remains one inseparable late integration. The test result supplies no proof of real option preservation.",
+        "nontrigger": "No commitment or retained-option assessment consumes these results, or arbitrary calendar gates merely collect them. Cheap reversible changes can proceed under an adequate direct test/revert path without formal commitment stages. Existing evidence that satisfies a real decision input is not an absent relation.",
+        "cheap_alternative_and_cost": "Reuse sufficient current checks, impact analysis or direct manual evidence. Where the actual delivery is stable and well understood, a larger commitment may be appropriate without artificial increments. Repeated integration, coordination and qualification can cost more than the retained option; no universal smaller-is-better result is claimed.",
+        "removal_test": "Without the relevant result the contemplated slice loses that technical support or counterexample unless another adequate method replaces it. Removing separate gate ceremony while preserving an actual evidence-informed decision may leave the function intact. Removing genuine decision separability cannot be repaired merely by running tests more often.",
+        "reentry": "Reopen when the candidate, consequential behavior, exposure, separability, option expiry or actual evidence requirement changes. A new result may justify reassessment without forcing a particular financial action.",
+        "recorded_controls": [
+          "/purpose_assessments/known_cold_failure_with_hot_unknown",
+          "/purpose_assessments/unchanged_envelope_reuses_existing"
+        ],
+        "finite_control_scope": "The exact reused finite technical observations provide conditional premises only. Increment boundaries, option availability, monetary costs and actual decisions are not measured or executed by C23.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P022",
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P022",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i002/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P022",
+            "capsule": {
+              "path": "reading/i002/native/EW-P022.json",
+              "bytes": 6898,
+              "sha256": "81df6f4d1a35fd70ab2a810d98216d27a894849a08a78a1d0377c4bddaeaae56"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P022::MECHANISM",
+            "LAW-L3::EW-P022::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P022::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P022::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "recorded_control_bindings": [
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/known_cold_failure_with_hot_unknown",
+            "recorded_value_sha256": "1b38a6c490322c93c24d252d4c3ff053fc7f486db64079f06e2f7909db1dc99f",
+            "scope": "The exact reused finite technical observations provide conditional premises only. Increment boundaries, option availability, monetary costs and actual decisions are not measured or executed by C23.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/unchanged_envelope_reuses_existing",
+            "recorded_value_sha256": "8637798782d082e7b2f1e80100d6f01bda5b1a5561efb98586e674f4cb37fae9",
+            "scope": "The exact reused finite technical observations provide conditional premises only. Increment boundaries, option availability, monetary costs and actual decisions are not measured or executed by C23.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I002-D04",
+        "source": "LAW-L3::EW-P022",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "The scope and timing of repeatable evidence for an identified incremental or irreversible commitment boundary.",
+        "guard": "An actual commitment/increment plan supplies a decision-relevant candidate boundary, retained alternative, consequence or evidence deadline that is used to select, order or interpret EA06 verification. The entire plan need not be economically optimal or all increments proven separable, but the claimed local boundary and its uncertainty must be represented honestly.",
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "The specific upcoming exposure determines which existing results remain relevant, what changed behavior needs evidence before that boundary, and which claims may legitimately wait for a later separable commitment. Option expiry and integration coupling can make a delayed test result ineffective even when it is technically correct.",
+        "receiving_consequence": "EA06 can prioritize a risk-relevant portfolio and preserve candidate/scope identity for the actual decision instead of optimizing only test count or green feedback speed. This does not create a new technical oracle by fiat or justify omitting a condition necessary for the present exposure.",
+        "remaining_premises": "Real architecture and requirements for the relevant slice; correct coupling and impact analysis; credible oracle; test feasibility and feedback time; actual options and deadlines. A planned administrative slice may not be independently deployable or acceptable.",
+        "positive_witness": "The same finite nominal result2 can be sufficient for a deliberately narrow technical inquiry yet insufficient for a decision whose stated necessary condition covers cold, nominal and hot behavior. The actual commitment scope supplies which claim the portfolio must address; C23 separately records the known cold failure and the fixed candidate's supported finite envelope. No program here discovers the right commitment boundary.",
+        "stronger_claim_counterexample": "An arbitrary quarterly gate makes every check mandatory while a costly irreversible supplier order has already been placed; or a nominal green build is treated as independently releasable merely because it was called an increment. Calendar labels neither set the right evidence deadline nor eliminate coupling.",
+        "nontrigger": "The proposed staging has no actual consequence for these checks, or generic project timing is the only link. A reversible local edit with clear impact and adequate immediate checks need not acquire a separate commitment-plan artifact.",
+        "cheap_alternative_and_cost": "Use the existing change/commitment boundary and adequate impact analysis to choose relevant checks. Retain direct ship/test/revert within actual permitted risk tolerances for cheap reversible work. Repeated full-suite and certification work at every artificial slice can waste effort; reducing checks is justified only while the current necessary conditions remain covered by adequate evidence.",
+        "removal_test": "Removing the actual next commitment boundary can leave technically correct results arriving after the option has expired or associated with the wrong slice. A concise existing decision record can replace a formal staged lifecycle. Removing an irrelevant calendar gate need not alter the scientifically appropriate portfolio.",
+        "reentry": "Reassess when the real irreversible boundary, increment coupling, timing, option or candidate changes. Unchanged valid evidence does not require a fresh execution solely because a review meeting recurs.",
+        "recorded_controls": [
+          "/purpose_assessments/known_cold_failure_with_hot_unknown",
+          "/purpose_assessments/finite_envelope_supported",
+          "/purpose_assessments/unchanged_envelope_reuses_existing"
+        ],
+        "finite_control_scope": "Recorded finite scope assessments support the distinction between a narrow and a broader evidence claim. Commitment deadlines, costs and option expiry are author-reasoned native inputs, not new observed case outcomes.",
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P022",
+        "entry_row": [
+          "LAW-L3::EW-P022->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P022",
+            "capsule": {
+              "path": "reading/i002/native/EW-P022.json",
+              "bytes": 6898,
+              "sha256": "81df6f4d1a35fd70ab2a810d98216d27a894849a08a78a1d0377c4bddaeaae56"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i002/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P022::MECHANISM",
+            "LAW-L3::EW-P022::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P022::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P022::IMPORTANT_CRITICISMS"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::OPEN_QUESTIONS"
+          ]
+        },
+        "recorded_control_bindings": [
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/known_cold_failure_with_hot_unknown",
+            "recorded_value_sha256": "1b38a6c490322c93c24d252d4c3ff053fc7f486db64079f06e2f7909db1dc99f",
+            "scope": "Recorded finite scope assessments support the distinction between a narrow and a broader evidence claim. Commitment deadlines, costs and option expiry are author-reasoned native inputs, not new observed case outcomes.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/finite_envelope_supported",
+            "recorded_value_sha256": "8637798782d082e7b2f1e80100d6f01bda5b1a5561efb98586e674f4cb37fae9",
+            "scope": "Recorded finite scope assessments support the distinction between a narrow and a broader evidence claim. Commitment deadlines, costs and option expiry are author-reasoned native inputs, not new observed case outcomes.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/unchanged_envelope_reuses_existing",
+            "recorded_value_sha256": "8637798782d082e7b2f1e80100d6f01bda5b1a5561efb98586e674f4cb37fae9",
+            "scope": "Recorded finite scope assessments support the distinction between a narrow and a broader evidence claim. Commitment deadlines, costs and option expiry are author-reasoned native inputs, not new observed case outcomes.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I002-D05",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P032",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "A particular residual-risk or operating-boundary decision whose evidence includes a relevant behavior result or coverage limit for the stated configuration.",
+        "guard": "An actual P032 operating-risk inquiry consumes credible EA06 evidence about a named condition or residual, with its configuration/context correspondence stated. The input may be useful while the empowered decision maker, other risks or final operational decision remain unresolved; the evidence is not relabeled as permission.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "The observed result or limit can support a specific operating condition, expose a known residual, or show that a purported approval rests on missing or stale technical evidence. Repeated checks can supply current evidence when behavior changes; they do not measure every operational risk.",
+        "receiving_consequence": "The risk decision can retain the failed condition explicitly, request an actual discriminator, constrain the proposed operating scope or recognize already sufficient technical evidence. Whether an appropriately empowered actor may accept the remaining risk is a separate question with its own versioned basis.",
+        "remaining_premises": "Actual legitimate authority and stop power; applicable jurisdiction, contract and delegation; evidence for other risks and conditions; current operational correspondence; transparent criteria, expiry and monitoring. A developer's test permission or delivery acceptance is not automatically operational authority, and no declared exception can waive an obligation beyond its scope.",
+        "positive_witness": "C23's known cold failure remains a known technical residual even under its declared allowed delivery waiver; the green fixed candidate still yields NOT_AUTHORIZED for the wrong declared delivery actor. Those recorded outcomes expose the evidence/authority distinction. For P032, applying the same logic to an actual operation requires that operation's separate legitimate authority and conditions, which C23 does not establish.",
+        "stronger_claim_counterexample": "An implementer mistakes a green suite or an old acceptance signature for permission to expose users or operate a changed configuration. Or a validly declared local risk waiver is used to erase a failed test result rather than record the residual. Neither technical evidence nor authority alone makes all unknown risk safe.",
+        "nontrigger": "No actual operating-risk or residual decision consumes the result; ordinary development checks can remain useful without that interface. An already valid delegated tolerance with adequate current evidence can realize the input without another committee or signature. Unknown authority remains unknown rather than proving absence of the evidence contribution.",
+        "cheap_alternative_and_cost": "Use current evidence in the existing operating-risk record or delegated route, with the smallest adequate condition/residual statement. Separate people are needed only where the actual regime and conflict call for them; role distinction alone does not mandate more staff. Additional evidence dashboards can repeat a weak oracle, and authority latency must be managed without inventing permission.",
+        "removal_test": "Remove the relevant observation and the operating-risk assessment loses that technical support or contrary residual unless adequate analysis, manual evidence or monitoring replaces it. Removing a redundant approval ceremony need not remove already effective delegated authority. Removing legitimate stop or acceptance authority is not repaired by keeping the suite green.",
+        "reentry": "Reassess the affected operating claim after relevant behavior, configuration, criterion, risk context, delegation, expiry or monitoring condition changes. A technical result can remain true about its old scope while permission for current operation changes.",
+        "recorded_controls": [
+          "/acceptance_assessments/green_without_authority",
+          "/acceptance_assessments/adequate_same_actor_direct_path",
+          "/acceptance_assessments/known_failure_no_waiver",
+          "/acceptance_assessments/allowed_explicit_waiver_preserves_failure"
+        ],
+        "finite_control_scope": "The existing C23 control executed a hypothetical delivery-acceptance rule, not a P032 operational-authority policy. Reuse is limited to the explicit evidence/permission and residual-preservation counterexamples; no actual approval or jurisdictional applicability is claimed.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P032",
+        "reverse_direction_key": "LAW-L3::EW-P032->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P032",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i002/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P032",
+            "capsule": {
+              "path": "reading/i002/native/EW-P032.json",
+              "bytes": 7255,
+              "sha256": "d45f99a75b08ac956e2242feeb586150e4665828401d48269b80135ff6c5b220"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31"
+            },
+            "selected_ref": null,
+            "selected_criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P032::MECHANISM",
+            "LAW-L3::EW-P032::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P032::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P032::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P032::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "recorded_control_bindings": [
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/acceptance_assessments/green_without_authority",
+            "recorded_value_sha256": "70062caf5ceaf53401c679dc454a3a7f3cfa648f75b691fcb8ad27c6b86ba5b7",
+            "scope": "The existing C23 control executed a hypothetical delivery-acceptance rule, not a P032 operational-authority policy. Reuse is limited to the explicit evidence/permission and residual-preservation counterexamples; no actual approval or jurisdictional applicability is claimed.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/acceptance_assessments/adequate_same_actor_direct_path",
+            "recorded_value_sha256": "9f48c7bdcc7255ba3861ac5fbc26f4035decee9534c61c1c4e32a51b28a65c91",
+            "scope": "The existing C23 control executed a hypothetical delivery-acceptance rule, not a P032 operational-authority policy. Reuse is limited to the explicit evidence/permission and residual-preservation counterexamples; no actual approval or jurisdictional applicability is claimed.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/acceptance_assessments/known_failure_no_waiver",
+            "recorded_value_sha256": "3c2cd1930e134066698f9a89a6ffd32c9257e06fee000a260ae75fdc802f8ec1",
+            "scope": "The existing C23 control executed a hypothetical delivery-acceptance rule, not a P032 operational-authority policy. Reuse is limited to the explicit evidence/permission and residual-preservation counterexamples; no actual approval or jurisdictional applicability is claimed.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/acceptance_assessments/allowed_explicit_waiver_preserves_failure",
+            "recorded_value_sha256": "575b05413037e5c44643a970bbe38c7664f29201ecaef759bdb57c11d4be5443",
+            "scope": "The existing C23 control executed a hypothetical delivery-acceptance rule, not a P032 operational-authority policy. Reuse is limited to the explicit evidence/permission and residual-preservation counterexamples; no actual approval or jurisdictional applicability is claimed.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I002-D06",
+        "source": "LAW-L3::EW-P032",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "shared_object": "A regression claim or checking plan used in a bounded operating-risk decision with named conditions and residuals.",
+        "guard": "An actual operating-risk inquiry or governing decision supplies a relevant configuration, operating condition, residual-risk distinction or authority boundary that is consumed in selecting or interpreting EA06 evidence. A proposed or unverified authority condition may inform a clearly labeled inquiry without being treated as an already valid authorization.",
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.failure_witness"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "The actual risk/operating scope identifies which behavior and conditions the evidence must address and distinguishes technical support from an authorized use of that support. An explicit accepted residual can change the operating decision while the corresponding technical failure remains faithfully recorded.",
+        "receiving_consequence": "EA06 can target checks to the actual configuration and conditions, retain failed or uncovered conditions, and avoid claiming that green grants permission. If authority expires or changes, a prior technical observation does not become false; its sufficiency for the current operating decision must be reconsidered independently.",
+        "remaining_premises": "Correct technical oracle and observations; actual authority/version/delegation and scope; representative operating conditions; relevant monitoring and expiry rules; separate permission for any consequential test execution. No authority's declaration proves a behavior, makes an unsafe condition safe or supplies missing measurement quality.",
+        "positive_witness": "C23 keeps the same finite technical state while changing the declared delivery actor or local waiver condition: green can remain unauthorized, and an allowed conditional acceptance keeps the failed response criterion false. P032's native operating scope similarly constrains how test evidence is represented and used, but its authority must be established separately for the actual operation.",
+        "stronger_claim_counterexample": "A dashboard suppresses a red result after a waiver, or treats an expired operating permission as if the code's historical observation had become false. The first hides the actual residual; the second confuses governance currentness with technical truth. An unrelated governance title supplies no useful regression criterion.",
+        "nontrigger": "No actual operating-risk condition or authority distinction reaches these checks, or the only connection is an administrative sign-off label. Routine low-consequence checks may proceed within existing pre-authorized tolerances without a new risk-approval system.",
+        "cheap_alternative_and_cost": "Keep the necessary scope, condition and residual in an existing item or directly accessible delegated rule. Use adequate existing checks, source analysis or manual evidence; do not require a new dashboard or repeated test merely because approval is reviewed. More formal separation has coordination cost and is warranted by actual authority/conflict needs.",
+        "removal_test": "Remove the true operating boundary and a valid narrow test result can be overstated as support for unrelated operation. Remove the authority distinction and green can be mistaken for permission; remove residual preservation and a waiver can hide failure. Equivalent concise scope/delegation records can replace large governance artifacts without losing these functions.",
+        "reentry": "Reopen the affected use of evidence when the operating scope, conditions, risk tolerance, authorized actor, expiry or required monitoring changes. Preserve valid historical observations and explicit failures rather than rewriting them to fit the new decision.",
+        "recorded_controls": [
+          "/acceptance_assessments/green_without_authority",
+          "/acceptance_assessments/allowed_explicit_waiver_preserves_failure",
+          "/purpose_assessments/unchanged_envelope_reuses_existing"
+        ],
+        "finite_control_scope": "C23's conditional delivery examples discriminate technical truth from a declared permission rule. They do not implement or validate operational authority; native P032 provides that separate purpose and limit.",
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P032",
+        "entry_row": [
+          "LAW-L3::EW-P032->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P032",
+            "capsule": {
+              "path": "reading/i002/native/EW-P032.json",
+              "bytes": 7255,
+              "sha256": "d45f99a75b08ac956e2242feeb586150e4665828401d48269b80135ff6c5b220"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31"
+            },
+            "selected_ref": null,
+            "selected_criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i002/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P032::MECHANISM",
+            "LAW-L3::EW-P032::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P032::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P032::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P032::REQUALIFICATION.failure_witness"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ]
+        },
+        "recorded_control_bindings": [
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/acceptance_assessments/green_without_authority",
+            "recorded_value_sha256": "70062caf5ceaf53401c679dc454a3a7f3cfa648f75b691fcb8ad27c6b86ba5b7",
+            "scope": "C23's conditional delivery examples discriminate technical truth from a declared permission rule. They do not implement or validate operational authority; native P032 provides that separate purpose and limit.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/acceptance_assessments/allowed_explicit_waiver_preserves_failure",
+            "recorded_value_sha256": "575b05413037e5c44643a970bbe38c7664f29201ecaef759bdb57c11d4be5443",
+            "scope": "C23's conditional delivery examples discriminate technical truth from a declared permission rule. They do not implement or validate operational authority; native P032 provides that separate purpose and limit.",
+            "new_execution": false
+          },
+          {
+            "result": {
+              "path": "inputs/reused/CONTROL_B26_C23.json",
+              "bytes": 22983,
+              "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+            },
+            "pointer": "/purpose_assessments/unchanged_envelope_reuses_existing",
+            "recorded_value_sha256": "8637798782d082e7b2f1e80100d6f01bda5b1a5561efb98586e674f4cb37fae9",
+            "scope": "C23's conditional delivery examples discriminate technical truth from a declared permission rule. They do not implement or validate operational authority; native P032 provides that separate purpose and limit.",
+            "new_execution": false
+          }
+        ]
+      }
+    ],
+    "scientific_verdicts_computed": false
+  }
+}

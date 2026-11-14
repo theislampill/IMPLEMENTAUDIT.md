@@ -1,0 +1,2261 @@
+{
+  "source_identity": {
+    "source_id": "S-7358a0aca652e2e3",
+    "scientific_name": "FRAME_COMPLEMENT_INQUIRY.json",
+    "original_bytes": 140486,
+    "original_sha256": "7358a0aca652e2e38cb1b3d3d0c731b2f6cf705e383c602aca162f4c30df9618"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-frame-complement-inquiry/1",
+    "authored_source": {
+      "path": "analysis_r14/frame_complement_inquiry.py",
+      "bytes": 42923,
+      "sha256": "9888de69a8630bbd08feb19ee19120b4fed4731e3cdf5e6c0d60fe2b7fd29c22"
+    },
+    "native_adapter": {
+      "path": "PROPERTY_INDEX.json",
+      "bytes": 523772,
+      "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+    },
+    "route_source": {
+      "path": "analysis_r3/formal_choice_routes.py",
+      "bytes": 39166,
+      "sha256": "64a4fa91a9608af4aa0feddd62f2082edc2681a949230fbb47c490968a25c53f"
+    },
+    "common": {
+      "source_rule": "Given a valid command judgment {P} C {Q}, the relevant frame rule can retain R in {P*R} C {Q*R} only under that logic's locality, disjointness, modified-variable and interference/permission conditions. It does not derive the base Q or the initial R from a resource name.",
+      "actual_shared_premise": "Each positive row names the command/changed region and the particular protected resource or exact frame-result use needed by that native inference. The complete native predicate/activity/comparator/residual remains at its exact route alias. Distinct variable names do not establish disjointness, and generic storage of a property's prose is excluded.",
+      "positive_kind": "Guarded program-state preservation, an actual bounded failure-path exclusion, or a concrete criterion/evidence-choice input. No claim that every instance of the receiving property uses heap reasoning, and no measured time/cost advantage follows.",
+      "implementation_guard": "If the claim concerns an implementation, its operation really has the proved footprint, ownership/interference semantics and supported exception/unsafe-library behavior. An immutable/value-passing implementation may avoid the frame obligation entirely. No particular tool is mandatory.",
+      "bounded_fault_guard": "Where the resource result is used for failure analysis, the admitted logical fault changes only values within the proved write region. A hardware corruption, arbitrary write outside that region or environmental failure is excluded unless separately modeled. Under this guard the specific overwrite path is absent pointwise; that is not statistical independence or a calibrated failure law.",
+      "observations_guard": "A preserved observation must be the useful event/context actually needed by the receiver. Its truth, original coverage, meaning and any later-currentness bridge remain separate. Preserving a false or stale value does not make it true or current.",
+      "two_countercontrols": "Already executed NX05: a reset of x preserves a disjoint useful-evidence resource but an alias can erase it; physical age is unchanged in that construction. Already executed NX06: distinct logical observer state can still share a stuck sensor or processing capacity. No new execution is claimed here.",
+      "cost_alternative": "Use immutable values, a small adequate before/after check, an enclosing local operation or a concise task instead when sufficient. Count ownership/proof upkeep, retained data, alias/interface maintenance and any burden shifted to users; no universal deployment or runtime-check bundle.",
+      "authority_and_external_effects": "Logical resource permission is not organizational operating authority, physical access, skill, credential validity, crash durability, live headroom or external-effect closure.",
+      "negative_test": "The negative inquiry considered the actual calculation, physical mechanism, observation assumptions and action/evidence alternatives. No command/frame-resource role was identified in that receiving use, nor does the native source supply one in the reverse. This is not a conclusion from inability to prove the whole receiver or from an unimplemented mechanism alone.",
+      "negative_reentry": "Re-enter on a specific mutable command/collector/controller and protected resource that actually participate in the native function or evidence operation, with the corresponding semantics and relevant code inspected. An arbitrary mutable wrapper, a copied title or unrelated storage is insufficient.",
+      "exposure_execution": "Own analytical mappings and controls, fully author-exposed. Existing NX05/NX06 and constituent calculations are reused at their actual attribution. No new program, model or physical experiment is executed.",
+      "global_limit": "This block resolves only previously unexamined F011 directions for the exact71-member union below. Earlier material and bounded-negative rows are retained; candidate ranges and profile applicability tags are not used as automatic scientific boundaries."
+    },
+    "native_members": [
+      {
+        "id": "D01",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P01",
+          "native_pointer": "/PROPERTIES/0",
+          "current_pointer": "/QUALIFICATIONS/0",
+          "current_object_sha256": "a61034e0a67d3d356cf48c2734cf197c9f2d9934ca6dc01807db1546b9f2bcda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D01",
+          "canonical_tuple_sha256": "156ddaba2015b151c5e98c049bbe70d7660f3372040f4671dd994c92a17fafe5"
+        },
+        "authored_role": "The local state-changing protocol/recovery command and the region that its admitted failures may modify.",
+        "forward_inquiry": "A valid frame states one concrete part of the failure model: this operation or admitted bounded write fault cannot change the protected program resource. Arbitrary memory corruption and external failure are not covered.",
+        "separate_reverse_inquiry": "The declared process/storage/failure model identifies whether the footprint restriction is legitimate and which excluded failures would invalidate an implementation-level frame inference.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D01",
+          "canonical_tuple_sha256": "a15dd90ffa6d547bd0d4676d497ee8ab83612d084b6f8cbdf30df06731a1e594"
+        }
+      },
+      {
+        "id": "D02",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P02",
+          "native_pointer": "/PROPERTIES/1",
+          "current_pointer": "/QUALIFICATIONS/1",
+          "current_object_sha256": "1749cbb5d8015f551d1a82614402b582411af42af497047b592b4fe5bbb0a9cb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D02",
+          "canonical_tuple_sha256": "15b778bbfa4b76cc568af83b1f23c6e0a043a3ca209327364d2eaee54bc4557a"
+        },
+        "authored_role": "The observed timeout/result record retained while a separate fixed-intent local recovery state is changed.",
+        "forward_inquiry": "The actually useful observation can survive the recovery step, retaining the evidence on which the unknown-effect inference rests. No past remote effect is reconstructed by preserving the record.",
+        "separate_reverse_inquiry": "The observation/effect distinction selects the actual record and its meaning; a protected status bit that merely asserts an unobserved remote outcome would not supply that evidence.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D02",
+          "canonical_tuple_sha256": "b8d02f200467a3e967139b0769ac76b25833a2df781c81dc5c85edbc0a7be8c4"
+        }
+      },
+      {
+        "id": "D03",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P03",
+          "native_pointer": "/PROPERTIES/2",
+          "current_pointer": "/QUALIFICATIONS/2",
+          "current_object_sha256": "f2f328c6106ec9ff81a2b923dabf4d704187a13ff488097ca0cc60e8d5446221",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D03",
+          "canonical_tuple_sha256": "fa57f8950a20d3c4663190827e2fb3b6c6d7e541ace3aafc26789c3beaba9ed4"
+        },
+        "authored_role": "A bounded faulty software command may alter its owned region while the required protected program function uses a disjoint resource.",
+        "forward_inquiry": "The frame excludes this particular overwrite-propagation path and can support a deterministic surviving-function premise. It supplies neither arbitrary-fault tolerance outside the footprint nor a probability of rescue.",
+        "separate_reverse_inquiry": "The actual protected function and admitted fault set determine which resource must survive and whether the bounded-write premise fits; nominal replica count cannot establish the frame.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D03",
+          "canonical_tuple_sha256": "489af5293ca9ff191566df796ca1e51c80a8063252bd213719a7bedcb90e7ac1"
+        }
+      },
+      {
+        "id": "D04",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P04",
+          "native_pointer": "/PROPERTIES/3",
+          "current_pointer": "/QUALIFICATIONS/3",
+          "current_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D04",
+          "canonical_tuple_sha256": "71ddb066b77511e611c6cdf6cba7604f48aa16ca420bd13521132a19490bf36a"
+        },
+        "authored_role": "An event's recorded logical/vector-clock value is preserved while the live clock advances for later events.",
+        "forward_inquiry": "Separating the recorded timestamp from a mutable live clock prevents later increments from silently rewriting the evidence used for the causal-order inference. The clock implication and physical-time questions remain separate.",
+        "separate_reverse_inquiry": "The order question identifies the exact recorded clock components/event identities that must retain their event-time meaning; preserving an unrelated counter is not enough.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D04",
+          "canonical_tuple_sha256": "899ff606444311e3f3ef4e7bf83756835107ada75326eb88e3381ffbc0864869"
+        }
+      },
+      {
+        "id": "D06",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P06",
+          "native_pointer": "/PROPERTIES/5",
+          "current_pointer": "/QUALIFICATIONS/5",
+          "current_object_sha256": "44b1bd9790135be10e9a01fb2e8bd24f6412c080f7272c6c5919722f0c295de4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D06",
+          "canonical_tuple_sha256": "6bc49808ec9869e85f23d6cd5f6672d87736dded07bea2ffa08784366a83ae16"
+        },
+        "authored_role": "A stateful session implementation retains its latest-observed version/token while other client state is reset or updated.",
+        "forward_inquiry": "Protecting that actual session resource can preserve a premise of the selected monotonic/freshness check. It does not supply authoritative server state, bounded staleness or a mandatory caller-visible certificate.",
+        "separate_reverse_inquiry": "The chosen session contract selects what token/history meaning is relevant and when a weaker local read makes this resource unnecessary. Names alone do not prove client-state separation.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D06",
+          "canonical_tuple_sha256": "70b0f57901c7271618abb3210414694351ec1c37d344ce4eb1cc23762105de5b"
+        }
+      },
+      {
+        "id": "D07",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P07",
+          "native_pointer": "/PROPERTIES/6",
+          "current_pointer": "/QUALIFICATIONS/6",
+          "current_object_sha256": "5d7f6cd2af22fe7a2ba1eb98dd78e87038c6a326a93f4a7fac9d4a4fd808d3dd",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D07",
+          "canonical_tuple_sha256": "ff8e7f1e23fdf1cfad09efc036de4df7ed526c329f4d879c3c4c2403f1337a19"
+        },
+        "authored_role": "A history collector appends a new operation record while preserving earlier invocation/response records used by the exact consistency check.",
+        "forward_inquiry": "A frame can preserve the actual earlier history input during collection. It does not prove linearizability/serializability of the operations or turn a finite passing history into all executions.",
+        "separate_reverse_inquiry": "The selected history predicate identifies which operation identities, intervals and results must remain unchanged; the correct ordering criterion cannot be selected by memory separation alone.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D07",
+          "canonical_tuple_sha256": "688cd283db44f7e6821918c01ca294583caba660916a5375167969dd3a44f65e"
+        }
+      },
+      {
+        "id": "D08",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P08",
+          "native_pointer": "/PROPERTIES/7",
+          "current_pointer": "/QUALIFICATIONS/7",
+          "current_object_sha256": "16f1085722e6c646d032711801e9ecb7a238c3c8d50ff70bf52f6af76d78b1b4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D08",
+          "canonical_tuple_sha256": "af035e1de176196501da8c26c39fa183bf51a222e4e74559449a545a2db560d1"
+        },
+        "authored_role": "A mutable vector-counter/merge implementation updates the selected owned component while preserving the other components used by its invariant and join.",
+        "forward_inquiry": "The frame supplies the unchanged-component conjunct of this specific update/merge proof. The changed component must separately satisfy its update rule, and merge closure/delivery are not established by the frame.",
+        "separate_reverse_inquiry": "The actual invariant and merge semantics identify the untouched component facts needed by the proof. A global coupled invariant cannot be declared separable merely because fields have different names.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D08",
+          "canonical_tuple_sha256": "27a988eff8dee10304368f3196360c30a7da80cf825415645e35b05aa3083b43"
+        }
+      },
+      {
+        "id": "D10",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P10",
+          "native_pointer": "/PROPERTIES/9",
+          "current_pointer": "/QUALIFICATIONS/9",
+          "current_object_sha256": "d5db1dda6d81cbfd03528814bad3ccce60743586bb5fdf777f7acdcbe5a7aa4b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D10",
+          "canonical_tuple_sha256": "97fa973b570be0df58a0ced6e64cac09addc088d225f450b3f72c348fa1337f7"
+        },
+        "authored_role": "The quorum-collection operation updates a reply slot without corrupting other retained member/phase/value records.",
+        "forward_inquiry": "Correct resource separation can preserve the actual reply evidence used by the selected quorum check. It does not create member independence, an intersection theorem or the rest of the consensus protocol.",
+        "separate_reverse_inquiry": "The phase-specific quorum/value question selects the records and identity distinctions the collection step must preserve; logical slot names are not proof of separate storage or real replies.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D10",
+          "canonical_tuple_sha256": "61559f2d7f32aad7dc4c38d88bf111f6937e5c82b480ca381f3a6dd9b1a63e92"
+        }
+      },
+      {
+        "id": "D11",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P11",
+          "native_pointer": "/PROPERTIES/10",
+          "current_pointer": "/QUALIFICATIONS/10",
+          "current_object_sha256": "fcae2bb307143f13aa0115ef9daed720593aff807738534f7fc6c5e1983c9cda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D11",
+          "canonical_tuple_sha256": "c819ca5a75898ab1474519bb00003f2d9e338dcd54d659bd0a0ed232afb1ab18"
+        },
+        "authored_role": "A correct replica's housekeeping/message operation preserves its already-decided value resource.",
+        "forward_inquiry": "This can discharge one local stability premise used by an agreement argument. It does not prove global agreement, validity, fairness or eventual response.",
+        "separate_reverse_inquiry": "The actual agreement/value predicate identifies which decided-state assertion must survive and which actions are permitted to modify it; a proof about an irrelevant log cell would not contribute.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D11",
+          "canonical_tuple_sha256": "fdc20deaae4ca8a66900719a85d103bce703c609d6677f5d0a384a20021fbc79"
+        }
+      },
+      {
+        "id": "D12",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P12",
+          "native_pointer": "/PROPERTIES/11",
+          "current_pointer": "/QUALIFICATIONS/11",
+          "current_object_sha256": "d85e5cd8c157f96587e253ae6c704e07afffe1a0010f8848a99aa2d5dd400ecf",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D12",
+          "canonical_tuple_sha256": "38102cc2069828210708dc304b439706f121daf60bc4a7c3c2a9a30b454ebca6"
+        },
+        "authored_role": "Membership-transition setup changes configuration state while retaining the committed history/resource required by state transfer.",
+        "forward_inquiry": "A valid frame prevents this local setup step from destroying the retained history input. Old/new authority compatibility, transfer completeness and actual durability still need their own arguments.",
+        "separate_reverse_inquiry": "The transition invariant identifies the committed state and membership facts that the operation must preserve; compatibility cannot be inferred from two nonaliasing buffers alone.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D12",
+          "canonical_tuple_sha256": "73f3f7e440ab728b103eed805b72e05329e567abb28e3b79178a17db22259d33"
+        }
+      },
+      {
+        "id": "D15",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P15",
+          "native_pointer": "/PROPERTIES/14",
+          "current_pointer": "/QUALIFICATIONS/14",
+          "current_object_sha256": "c7a789605bc6914d77ad45733fd9e262c026acfae6e4380848eb53917d79e15f",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D15",
+          "canonical_tuple_sha256": "4c6531517c21a825aae9b80c0606d5d6462f05be48ac68b1ab9b56b6b8bcaaa1"
+        },
+        "authored_role": "An admitted update changes an owned component while preserving the other conjuncts of an actually separable invariant.",
+        "forward_inquiry": "The frame can establish the untouched-state part of the invariant-preservation obligation before considering merge closure. It does not establish confluence for an arbitrary coupled invariant.",
+        "separate_reverse_inquiry": "The real invariant/transaction/merge definition decides whether the proposed separation is valid. Cross-replica copies of one logical resource are not independent owned resources by naming.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D15",
+          "canonical_tuple_sha256": "9d638aec5d4efc3c3ae185b196eb937a84fb0e5669db9f39fc3bb94b5eb4f3e8"
+        }
+      },
+      {
+        "id": "D16",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P16",
+          "native_pointer": "/PROPERTIES/15",
+          "current_pointer": "/QUALIFICATIONS/15",
+          "current_object_sha256": "c50a0ec1a7b9ea2c419a6f0eaeafe79d306cc8c552130659cb5013dd416069ea",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D16",
+          "canonical_tuple_sha256": "5c58078208eae85d6b25006f312ca3cea23a1af11f7ac98f9b4454018c513c1f"
+        },
+        "authored_role": "The particular coordination-avoidance implementation uses a stable owned-state boundary for independent updates.",
+        "forward_inquiry": "A frame can preserve the resource facts used by that selected local-update argument. Establishing or transferring ownership can still need communication; this is not a universal no-coordination theorem.",
+        "separate_reverse_inquiry": "The invoked monotonicity/confluence/ownership theorem identifies which state facts and update boundaries are actually required, preventing unrelated local-heap facts from earning the whole coordination result.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D16",
+          "canonical_tuple_sha256": "51dca2c4e1eb3c32ad119276de1c1ea588235b4aa41a80abd2682e63747981d1"
+        }
+      },
+      {
+        "id": "D17",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P17",
+          "native_pointer": "/PROPERTIES/16",
+          "current_pointer": "/QUALIFICATIONS/16",
+          "current_object_sha256": "ef95a8f0d71b9f632d4e0372c26d9b218073cf4d41ca03d626e397266f56f1bb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D17",
+          "canonical_tuple_sha256": "7e0db4cddba8c472f52f9f3bd7a213f84a3df4a5034e9beeeb63e17e50cc6971"
+        },
+        "authored_role": "An enclosed runtime updates one intent's replay/deduplication state while preserving the other enclosed intent records.",
+        "forward_inquiry": "The frame can protect those records against this local write step, supplying one concrete premise of the internal processing guarantee. Atomic persistence, replay correctness and excluded external effects remain separate.",
+        "separate_reverse_inquiry": "The exact internal participant/effect boundary determines which intent records belong in the protected state. Requiring protection of unrelated external history would change the claim.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D17",
+          "canonical_tuple_sha256": "13abadc8dfe91c4e1617e2750daecee704e4a25fa57472cb5263125fff89aa6d"
+        }
+      },
+      {
+        "id": "D21",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P21",
+          "native_pointer": "/PROPERTIES/20",
+          "current_pointer": "/QUALIFICATIONS/20",
+          "current_object_sha256": "a7a93b11ded474c2174379cab5d0dc64581264a3af0c4e370c509367e5c77929",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D21",
+          "canonical_tuple_sha256": "d0fc9a9516d9829ee4917200e5488e9daabccb3dfb79fa2ff56027c15f4d6384"
+        },
+        "authored_role": "The chosen local command returns its base postcondition while preserving the additional program resource the stated consumer actually requires.",
+        "forward_inquiry": "The framed postcondition supplies that preserved conjunct of the actual return-to-consumer implication. It neither invents a consumer requirement nor upgrades queue acceptance into an external effect.",
+        "separate_reverse_inquiry": "The precise consumer postcondition selects the necessary protected assertion and may show that the base return alone is enough. This criterion is not proof of locality or ownership.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D21",
+          "canonical_tuple_sha256": "14b33f479da7e36c259c5b908866302fed7b06816f8c7d580c94c7acc41857b2"
+        }
+      },
+      {
+        "id": "D27",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P27",
+          "native_pointer": "/PROPERTIES/26",
+          "current_pointer": "/QUALIFICATIONS/26",
+          "current_object_sha256": "347855de54d98f307db561e6cd3c1032a34473a71caec165997218dd1fb83e70",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D27",
+          "canonical_tuple_sha256": "ba91b56ff9663f56f5f29e4d96cde731cda2fe073108a2e42152a718950e2905"
+        },
+        "authored_role": "The actual bounded consumer objective includes a local state result and a named resource that must survive that operation.",
+        "forward_inquiry": "A valid frame can provide the preserved-resource premise needed by that narrow closure. Wider unknown effects can remain unknown, and an unneeded journal is not introduced.",
+        "separate_reverse_inquiry": "The selected closure predicate determines whether the preserved resource is consequential. If only the already established base postcondition is required, additional frame work has no compulsory role.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D27",
+          "canonical_tuple_sha256": "9491f6938528d515017ccea2077e461d447a23067b270442b486eaf58e12ecd0"
+        }
+      },
+      {
+        "id": "D30",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P30",
+          "native_pointer": "/PROPERTIES/29",
+          "current_pointer": "/QUALIFICATIONS/29",
+          "current_object_sha256": "6d2eb38f5dedc4e468e11082df3a61a7b640f4bc790cf6ae28dff73a8ae4d6a1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D30",
+          "canonical_tuple_sha256": "84a1ea6d6630328e9eb54ede6c18ea94d8e965c0bab6a7813a0e267b8251d808"
+        },
+        "authored_role": "A flow-control/credit update preserves the separate queued-work and acknowledgment records used by the aggregate-demand account.",
+        "forward_inquiry": "The frame can prevent one control-state update from erasing or confusing those actual records. It does not prove producer cooperation, total-demand conservation by itself or usable capacity.",
+        "separate_reverse_inquiry": "The producer/consumer/retry boundary identifies the records whose state must remain valid; hiding an upstream queue cannot be repaired by proving a local resource frame.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D30",
+          "canonical_tuple_sha256": "d1d2a9a072619d224cc3445ebc4b67bf50a8f05d3b33c703013547175363e1df"
+        }
+      },
+      {
+        "id": "D31",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P31",
+          "native_pointer": "/PROPERTIES/30",
+          "current_pointer": "/QUALIFICATIONS/30",
+          "current_object_sha256": "683d45369b8709e1112d04c92a321d4a057cf36e1be15834c1401eb2916bbb86",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D31",
+          "canonical_tuple_sha256": "746bfbf61f4a34dbf29ab394d73a7ac78cbf072f239160213ea80b14c1033679"
+        },
+        "authored_role": "An admitted low-priority drop/control operation preserves the resource holding the declared protected work.",
+        "forward_inquiry": "This is a concrete program-state preservation input for the priority rule. Its scheduling feasibility and the acceptability of rejected work remain separate.",
+        "separate_reverse_inquiry": "The actual critical-work predicate selects the protected state and allowed write set; resource ownership does not choose stakeholder priorities or authorize dropping work.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D31",
+          "canonical_tuple_sha256": "e475a5842cd3cf5ad3c4e034b2ddbd658aa6b2027ff2bb34dc357df990e2cf46"
+        }
+      },
+      {
+        "id": "D33",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P33",
+          "native_pointer": "/PROPERTIES/32",
+          "current_pointer": "/QUALIFICATIONS/32",
+          "current_object_sha256": "a3afc9aa60f8e5c340b196a57fe234607a0e6d9d9f28540de4c277c5dd632276",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D33",
+          "canonical_tuple_sha256": "515134fb899bddf23e1727eabddd616dbdf1ac2b67089b83000a7c9d09a79e93"
+        },
+        "authored_role": "The selected recovery intervention clears/changes its own retry/control state while preserving the required service-work state.",
+        "forward_inquiry": "A frame can bound what the intervention destroys or retains, making its modeled workload effect interpretable. The feedback/stability and drainage calculation still require actual rates and transition semantics.",
+        "separate_reverse_inquiry": "The stated intervention and restoration objective identify which work may be removed and which state must survive; a preserved heap resource is not a proof that recovery load fits capacity.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D33",
+          "canonical_tuple_sha256": "76190cedae725dde0f785670a3757b53c32ba3f4b0c9f1617d5bcf8ae9988b5d"
+        }
+      },
+      {
+        "id": "D35",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P35",
+          "native_pointer": "/PROPERTIES/34",
+          "current_pointer": "/QUALIFICATIONS/34",
+          "current_object_sha256": "8a5c939b3c85ff69935255dce539be74ac98fb6343cff299e6fd85cc8609b6bc",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D35",
+          "canonical_tuple_sha256": "43a422647ec84b737e3f8d76431fadfd78f5c5737166b538029afbb26d0a4fb5"
+        },
+        "authored_role": "The snapshot operation retains a local recorded-state buffer while the live state continues to change.",
+        "forward_inquiry": "Protecting the recorded resource prevents a later local write from silently changing the cut being interpreted. It does not establish global cut consistency or physical simultaneity.",
+        "separate_reverse_inquiry": "The snapshot/cut predicate identifies the exact local state and communication evidence that must remain tied to that cut. Aliased live storage cannot be accepted as a frozen record by label.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D35",
+          "canonical_tuple_sha256": "ca7a19c82acdc5d6947ad07003cc3caf6e9b800b44c913358735d96cf097c3bb"
+        }
+      },
+      {
+        "id": "D41",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P41",
+          "native_pointer": "/PROPERTIES/40",
+          "current_pointer": "/QUALIFICATIONS/40",
+          "current_object_sha256": "6268305c22db235a5379e139c911025675f2923972081983d3bef2ac36f09b87",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D41",
+          "canonical_tuple_sha256": "5cb640233f755ccf8f11912d35dc259f94c64cfb73088040a7aa09f580b58a34"
+        },
+        "authored_role": "The useful probe event and its capability/time context survive a distinct local reset/update.",
+        "forward_inquiry": "The frame preserves the actual observation premise. It does not convert a past successful probe into current readiness, write capability or authority; the received two-time counterexample remains.",
+        "separate_reverse_inquiry": "The capability/path/time question selects which observation and context must be protected and when an adequate new direct check makes old retention unnecessary.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D41",
+          "canonical_tuple_sha256": "26832e903b470027f24d2d6bbebd2be0f7a2efb5dd15e0cad70b33e7fb7769f8"
+        }
+      },
+      {
+        "id": "D44",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P44",
+          "native_pointer": "/PROPERTIES/43",
+          "current_pointer": "/QUALIFICATIONS/43",
+          "current_object_sha256": "4c0a287611bd99a93f17f83e700e4c6b90b96cf5ae7fb1982401cde7ab50f1f1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D44",
+          "canonical_tuple_sha256": "349bc37781cc65f0d2d977d2f4805cdf02283206b23d652e643c96582ab6c561"
+        },
+        "authored_role": "A software fault-injection command changes its admitted target while preserving the oracle code/configuration and required uninjected baseline resources.",
+        "forward_inquiry": "The frame can exclude this particular collateral-corruption path, so the claimed intervention/oracle contrast remains interpretable. It does not freeze the target's legitimate observed response or prove broad experimental coverage.",
+        "separate_reverse_inquiry": "The actual hypothesis and oracle specify which resources must stay fixed and which should respond to injection; merely preserving a constant green flag would not be a valid experiment.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D44",
+          "canonical_tuple_sha256": "133909ceb3fb1bde1bd0db5e2ea81c82e3ddb4b9d43c3f1f2267746ca22a4722"
+        }
+      },
+      {
+        "id": "D45",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P45",
+          "native_pointer": "/PROPERTIES/44",
+          "current_pointer": "/QUALIFICATIONS/44",
+          "current_object_sha256": "a582fab2a9b876b7dba2def590073f2ddc73a834727e9cf6391851de8ceabb9e",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D45",
+          "canonical_tuple_sha256": "bfcd6e5a70e94086ac5230daef030c2af1d28637ce1b43815295969cb3ba8f9d"
+        },
+        "authored_role": "A contemplated local design can perform the required update while preserving the other actual program-state obligations.",
+        "forward_inquiry": "A valid local frame is one concrete adequate alternative input when distribution was proposed solely for that state-separation need. It does not decide architecture-wide capacity, resilience or organizational cost.",
+        "separate_reverse_inquiry": "The reason for adding the remote boundary identifies whether protected local state is the real discriminator; a heap proof cannot substitute for an actually required remote capability.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D45",
+          "canonical_tuple_sha256": "512d4ffdce9e8a382ea41722dfa2c78117e91c8e6c90016bcbd847cf737fd96e"
+        }
+      },
+      {
+        "id": "D46",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P46",
+          "native_pointer": "/PROPERTIES/45",
+          "current_pointer": "/QUALIFICATIONS/45",
+          "current_object_sha256": "1f17fddbdc3d5b7092d1d148fb9337b1fdc827c6e268b344ec1642512c815085",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D46",
+          "canonical_tuple_sha256": "a55d650f79357a67bc06d1420123b75f89e8f0a2b1ee9b367564159ff2f49e46"
+        },
+        "authored_role": "The retirement/disable step writes the obsolete mechanism's state while preserving specified active program resources.",
+        "forward_inquiry": "The frame can support this local no-corruption part of removal. Future consumers, dormant obligations, external effects and eventual behavior still require inquiry.",
+        "separate_reverse_inquiry": "The removal question selects the active/dormant state that must be retained and the operation being retired; no recent caller is not a frame proof or absence of future need.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D46",
+          "canonical_tuple_sha256": "28d726663f58c490e6713674a6dbc1575a3c4f9f58b15d30cbf6f527468f3dc0"
+        }
+      },
+      {
+        "id": "D47",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P47",
+          "native_pointer": "/PROPERTIES/46",
+          "current_pointer": "/QUALIFICATIONS/46",
+          "current_object_sha256": "54fc860a1166317378ec3116b7386f0b828403cc91c2c2765778f278064525ce",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D47",
+          "canonical_tuple_sha256": "d1315729bfb9d262aa49a35a55df896c36499378c46a2b80ee5ae5a80623efde"
+        },
+        "authored_role": "The proposed split is compared with a valid local ownership boundary preserving one component's program state during another's writes.",
+        "forward_inquiry": "The local frame supplies a concrete bounded isolation alternative. It does not imply independent processes, power, CPU, storage capacity or an empirical benefit from microservices.",
+        "separate_reverse_inquiry": "The actual claimed failure/capacity boundary determines whether local memory preservation is relevant or insufficient. Deployment labels alone do not establish a resource boundary.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D47",
+          "canonical_tuple_sha256": "4767e9e539db3ba3f7241e6b14f309bfc520f86a300c7fe823d3545d7e1be827"
+        }
+      },
+      {
+        "id": "D48",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P48",
+          "native_pointer": "/PROPERTIES/47",
+          "current_pointer": "/QUALIFICATIONS/47",
+          "current_object_sha256": "eddb6c8732438c182047f84599be7b6d6af545a3f9fa3a29c7068b294985519b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D48",
+          "canonical_tuple_sha256": "8a1482b77c3590714e9f6e85c68d98b9d6b0e98bb7196b10eaddac8f47ff6da1"
+        },
+        "authored_role": "An enqueue/dequeue implementation updates its owned queue cells while preserving the actual other queued work/resources required by its contract.",
+        "forward_inquiry": "The frame supplies a state-preservation premise for stored-work semantics. It supplies neither additional service throughput nor drainage, and crash durability remains separate.",
+        "separate_reverse_inquiry": "The bounded-burst/service contract identifies which queued work may change or be discarded; an untouched buffer is not automatically useful work or an accepted loss policy.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D48",
+          "canonical_tuple_sha256": "a8549b9174c88c1aeebdc2a61ccb408003a09f33418ab91fb9f7b547ba103e8e"
+        }
+      },
+      {
+        "id": "D49",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P49",
+          "native_pointer": "/PROPERTIES/48",
+          "current_pointer": "/QUALIFICATIONS/48",
+          "current_object_sha256": "2029473cc55d54f519befd533cb19b5209065881f1bf3fb4f8378cd5177f845c",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D49",
+          "canonical_tuple_sha256": "feda998153ff5c55e74c9f7ccfe6ce1af648c404cefb4afe5c4b9fc88f96bfff"
+        },
+        "authored_role": "The valid enclosed processing implementation updates one replay/intent record while preserving the other relevant enclosed records.",
+        "forward_inquiry": "This supports a specific internal guarantee without extending it to arbitrary business effects. Rejecting the universal exactly-once claim does not erase this local contribution.",
+        "separate_reverse_inquiry": "The actual enclosed processing predicate identifies the retained records and excluded effects, avoiding both a universal impossibility claim and an unjustified external extension.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D49",
+          "canonical_tuple_sha256": "c35a88cb6d9b3110773e5504b986fef54b52a47b5dec38cde56300123e77cab6"
+        }
+      },
+      {
+        "id": "D51",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P51",
+          "native_pointer": "/PROPERTIES/50",
+          "current_pointer": "/QUALIFICATIONS/50",
+          "current_object_sha256": "f1302119c554710f4bc8df4332f6a1f16608765f3c55dd4ec480fbe85b46a90d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D51",
+          "canonical_tuple_sha256": "864a25df97084af69e0f9f50403dc0db0565183eed9ec5a5fc7e300f27b0c2b6"
+        },
+        "authored_role": "The NX05 frame result is considered as an artifact establishing a particular protected-state fact for a real consumer question.",
+        "forward_inquiry": "The result has a bounded discriminating role when preservation matters; its proof notation or tool label alone does not create that role. A direct adequate state check can remain cheaper.",
+        "separate_reverse_inquiry": "The artifact-use question identifies the protected fact and whether it changes the decision, rather than treating every frame proof as useful or every proof record as ceremony.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D51",
+          "canonical_tuple_sha256": "ef44fe3455d6bcc72e92cd4a94eea0599e84339a4d657dc4c6b251e0fb055efd"
+        }
+      },
+      {
+        "id": "D52",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P52",
+          "native_pointer": "/PROPERTIES/51",
+          "current_pointer": "/QUALIFICATIONS/51",
+          "current_object_sha256": "5b5fb064d4b42761c316c9e7890395c68b8b0ffe9b07b7e2bfe88c0fb4e1d01a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D52",
+          "canonical_tuple_sha256": "eb4ebb8d2804475efa00de5279985e54dbdb5a5f294b56b242ec0110e769993a"
+        },
+        "authored_role": "A correct replica's local handler preserves required log/control resources while processing an untrusted message through its verified interface.",
+        "forward_inquiry": "The frame can supply one correct-node implementation premise. It does not require Byzantine replicas to obey the logic or rule out arbitrary faults outside the modeled boundary.",
+        "separate_reverse_inquiry": "The actual arbitrary-fault/authentication model identifies which participants and handler actions may legitimately satisfy the frame premise; a theorem about correct nodes is not a theorem about faulty nodes.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D52",
+          "canonical_tuple_sha256": "ffa9ccf790775099fd73cff272d577ea317c0cb27f0e227f21b8a616c100d496"
+        }
+      },
+      {
+        "id": "D54",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P54",
+          "native_pointer": "/PROPERTIES/53",
+          "current_pointer": "/QUALIFICATIONS/53",
+          "current_object_sha256": "555984e854dfa089ba06bf6c6be4b298a367c23cc7f876a0068623e839f98707",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D54",
+          "canonical_tuple_sha256": "0b814cd41c9763de7dcab1c664999dc24d42033c3b8cedc8e11ba3b7b8e45ea4"
+        },
+        "authored_role": "An actual local update preserves separable state obligations, giving one candidate mechanism beside stronger coordinated service.",
+        "forward_inquiry": "The frame can support that local invariant input when comparing coordination choices. It does not prove global confluence or that minimum coordination minimizes total burden.",
+        "separate_reverse_inquiry": "The actual invariant and alternatives identify whether this local preserved-state result suffices or a stronger shared service is already adequate and cheaper.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "D54",
+          "canonical_tuple_sha256": "48d7822d81b3aebdb8c7a136d1f4604161071a94bfffc626ae028874fa36519a"
+        }
+      },
+      {
+        "id": "R001",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P001",
+          "native_pointer": "/properties/0/native_record",
+          "current_pointer": "/properties/0/current_claim",
+          "current_object_sha256": "860d73d5d0c8fa4791c09d55c995cf1de48c3bfb6b683fc23c6ede274d554a5a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R001",
+          "canonical_tuple_sha256": "aa30a8ec3f28709ebea73cc1f2defbe800e104f6b7f5ac24b44bd152a2f5da73"
+        },
+        "authored_role": "The selected required program function includes a resource predicate that must survive the named local action; NX05 provides a concrete protected-evidence instance.",
+        "forward_inquiry": "The frame establishes that actual preserved-function conjunct under its conditions, even if other mission predicates remain open. It does not choose the mission or make every physical function a heap property.",
+        "separate_reverse_inquiry": "The required-function and interval definition selects the resource assertion that matters. A frame for unrelated storage or a mere status label would not establish the intended function.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R001",
+          "canonical_tuple_sha256": "f65c84b7d40975af32ef31c5a61dfaec9f7d92b7b104f2bf33fd2b9534490325"
+        }
+      },
+      {
+        "id": "R002",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P002",
+          "native_pointer": "/properties/1/native_record",
+          "current_pointer": "/properties/1/current_claim",
+          "current_object_sha256": "550b727547563a2f317ee179f1fcc8388d81e46d8d8636c3f07e4b1d642b6fcf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R002",
+          "canonical_tuple_sha256": "225647cd3167cbaa418f8d04f664c4b8dc527f04d20bf1916f8e056b61f8bd48"
+        },
+        "authored_role": "The application profile includes configurations/inputs that do or do not satisfy the actual frame/alias premise in the NX05-style command.",
+        "forward_inquiry": "The frame premise identifies a consequential domain distinction for the profile-dependent application claim. It does not estimate the frequency of either configuration or provide population representativeness.",
+        "separate_reverse_inquiry": "The actual supported configuration/profile determines whether the local theorem applies to the executions being discussed; a valid theorem in its own model remains valid even when the claimed profile is wider.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R002",
+          "canonical_tuple_sha256": "c9f67a7f84f538a5504187a652dfa735a5a5b8d2e834f778c4f5c738b99b5bb0"
+        }
+      },
+      {
+        "id": "R003",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P003",
+          "native_pointer": "/properties/2/native_record",
+          "current_pointer": "/properties/2/current_claim",
+          "current_object_sha256": "b4504d7c01849fc60e4505c3e3d0d2b26c3ef6b33ac23a56425bbc0c3dafa7d9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R003",
+          "canonical_tuple_sha256": "98c43d845ead6880b549aed49b5d588f450da479c1834a558c9973887b05741f"
+        },
+        "authored_role": "A modeled recovery command changes one program-state component while the protected evidence/function component distinguishes two consequential states.",
+        "forward_inquiry": "The frame restricts the reachable poststates of this concrete recovery step and preserves the relevant state distinction. No transition probability or physical state correspondence is inferred.",
+        "separate_reverse_inquiry": "The functionally meaningful state partition selects the protected component and the transitions whose preservation matters; adding arbitrary state labels supplies no such assertion.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R003",
+          "canonical_tuple_sha256": "667694572841445dfee36466939d728eaf6602a7942b4f2a823e49ed76d4dd57"
+        }
+      },
+      {
+        "id": "R005",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P005",
+          "native_pointer": "/properties/4/native_record",
+          "current_pointer": "/properties/4/current_claim",
+          "current_object_sha256": "031c1c1eb0d3acc578d20a401a33dad54323006c40ddd5be99bfe080f4611c7f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R005",
+          "canonical_tuple_sha256": "a894bca8bc21458a0988d9233663faf7c2403704ca586de6555f0750901d9330"
+        },
+        "authored_role": "Retained C01 updates derived fields in one actual outage-pattern dictionary while the other scenario's data remain distinct.",
+        "forward_inquiry": "A frame can preserve the other scenario during those actual writes, supporting the finite availability/estimand comparison input. It does not turn equal time-average availability into equal outage distributions or establish regeneration.",
+        "separate_reverse_inquiry": "The estimand and compared scenarios identify which values must remain unchanged during calculation. A preserved object with different event/time meaning would not be the required comparison.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R005",
+          "canonical_tuple_sha256": "23785f33ba945e9f9e05b4512ff021ac8468dba85367e6c85232bd613920368a"
+        }
+      },
+      {
+        "id": "R006",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P006",
+          "native_pointer": "/properties/5/native_record",
+          "current_pointer": "/properties/5/current_claim",
+          "current_object_sha256": "e958d53163a11e5e3a7dacee11af922ece1d5d743725a84c14d1c9c866a45b08",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R006",
+          "canonical_tuple_sha256": "1d6cb386dd7630b211cb413b6ab709f38ec439334d499c9a44d2289f17434a90"
+        },
+        "authored_role": "The analyzed local command/fault changes only its owned region; the protected region is an actual required program resource in the failure-mode/effect model.",
+        "forward_inquiry": "A valid frame excludes one specified overwrite-propagation path and an alias supplies a concrete contrary mode. This is partial failure-analysis content, not proof of a complete mode list or arbitrary physical containment.",
+        "separate_reverse_inquiry": "The admitted failure mode and protected-function consequence specify the footprint/resource assertion and expose when an arbitrary-write or common physical fault lies outside the proof.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R006",
+          "canonical_tuple_sha256": "1f14ea781513b3dbae35a51c805f4dfd073b9e349e96456a32a9e0cbdbb912c6"
+        }
+      },
+      {
+        "id": "R007",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P007",
+          "native_pointer": "/properties/6/native_record",
+          "current_pointer": "/properties/6/current_claim",
+          "current_object_sha256": "982d508a0da81d6b8037f1dafcd3a17f04765bba818496668231b4f58802163a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R007",
+          "canonical_tuple_sha256": "085a031b4d71cc6df6f2cae3c005a06abdce1c2bbd5ba2e1f023abf530f981a0"
+        },
+        "authored_role": "A modeled active software region can fail within its permitted write footprint while a separately owned protected program-state path remains usable.",
+        "forward_inquiry": "The frame can establish that one local failure does not clobber the actual backup/protection state. Its real availability, latent faults, control path and shared hardware remain separate.",
+        "separate_reverse_inquiry": "The latent/single-point analysis identifies which actual program resource provides the protection path; preserving a standby-status flag alone is not preserving the protected function.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R007",
+          "canonical_tuple_sha256": "4ae1caaac7e3764577fe15a7189072c962328c016355921b5886d71bf584a9ec"
+        }
+      },
+      {
+        "id": "R008",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P008",
+          "native_pointer": "/properties/7/native_record",
+          "current_pointer": "/properties/7/current_claim",
+          "current_object_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R008",
+          "canonical_tuple_sha256": "100a475104d8b6c1261d40924141bbb444744d19995561652e485b560cd11841"
+        },
+        "authored_role": "One admitted logical common-cause candidate is an overwrite from the faulty command region into another required program resource.",
+        "forward_inquiry": "The frame can rule out that particular path under the bounded-fault guard, thereby restricting the feasible modeled transitions. It does not make the remaining failure events statistically independent or identify their joint law.",
+        "separate_reverse_inquiry": "The dependence model identifies the specific shared-write mechanism and required surviving resource. Physical common causes or unrestricted memory corruption cannot be silently included in the frame theorem.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R008",
+          "canonical_tuple_sha256": "a835967d51101df732bc427869b16780549b0c0d447c8fbaa462af945c0e68c2"
+        }
+      },
+      {
+        "id": "R009",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P009",
+          "native_pointer": "/properties/8/native_record",
+          "current_pointer": "/properties/8/current_claim",
+          "current_object_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R009",
+          "canonical_tuple_sha256": "daa4fee570fa16f90593776e7cb4fca2b2f253ca84b3dff68ac88266d31f0991"
+        },
+        "authored_role": "An added software protection path retains its required state while an active command changes a disjoint owned region.",
+        "forward_inquiry": "The frame can supply one conditional-rescue premise by excluding destructive aliasing between those paths. Added load, controller failures, physical dependence and total benefit remain separate.",
+        "separate_reverse_inquiry": "The actual rescue function and coverage conditions identify which protected state is consequential; a second object name or preserved flag is not an additional functioning redundant path.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R009",
+          "canonical_tuple_sha256": "0293a5e3caa28a226add3ebb30ad90f820c6364d87c509f030050826431c1327"
+        }
+      },
+      {
+        "id": "R011",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R011",
+          "canonical_tuple_sha256": "9bd97bb4bff156f62bb62b9094e13d22c22b794f74d49ec4c121e0f47be7dfa5"
+        },
+        "authored_role": "Retained C03/C12 detection-event/coverage tables and the native fault-population/latency denominator.",
+        "forward_inquiry": "The actual coverage calculation and Boolean detection relation use supplied observations; no mutable detector/collector command or protected heap assertion is part of this inspected use. Preserving arbitrary copied counts would not establish detection or its denominator.",
+        "separate_reverse_inquiry": "The population, latency and conditional-coverage criterion does not specify a frame for an actual command in this use. It can inform detection/analysis design, but adding an unprovided mutable collector would create a new premise and object.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R011",
+          "canonical_tuple_sha256": "ba567c22a815ccc42f904454a0b59d21f791b98ee2c3ee9c232fd8f14b133724"
+        }
+      },
+      {
+        "id": "R012",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P012",
+          "native_pointer": "/properties/11/native_record",
+          "current_pointer": "/properties/11/current_claim",
+          "current_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R012",
+          "canonical_tuple_sha256": "6cf1c9f6df96954c0751c8a344a90e8f195cb342b3bf27148380eedc3031ad07"
+        },
+        "authored_role": "An action-sufficient local remedy changes its selected program region while preserving the state needed by the function and later useful evidence.",
+        "forward_inquiry": "The frame can supply that bounded no-clobber premise across several still-plausible causes, without establishing unique diagnosis or the base restoration postcondition.",
+        "separate_reverse_inquiry": "The actual cause set, remedy and required preserved state identify the relevant frame. The receiving recovery profile explicitly retains state/data postconditions; it does not require every root cause to be resolved first.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R012",
+          "canonical_tuple_sha256": "029bd604db6caba92a5dfd1514a2f8de051ffec83fef5a43d11896c3aa2fee8a"
+        }
+      },
+      {
+        "id": "R013",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P013",
+          "native_pointer": "/properties/12/native_record",
+          "current_pointer": "/properties/12/current_claim",
+          "current_object_sha256": "6e2f6866b392ac7810543afe9e962c3e137433c350387154e32168293ed7d5b0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R013",
+          "canonical_tuple_sha256": "01ef83cf59753e17c31ae1d4d35965fc250fdf46e3801f510ee366f47165a413"
+        },
+        "authored_role": "Retained C03 and root r2/M3 stipulated detection-to-action comparisons, plus C10 capacity qualification.",
+        "forward_inquiry": "These actual roles supply scalar probabilities, losses and stipulated action effects. No particular heap-mutating action is given whose footprint supplies one of those effects; a generic future software actuator is not evidence about H, feasibility or benefit.",
+        "separate_reverse_inquiry": "The policy comparison selects consequences and feasible actions, but does not identify a concrete command/resource assertion in the inspected F011 use. The valid R038 method-choice relation and actual R016 restoration interfaces remain separate.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R013",
+          "canonical_tuple_sha256": "8125c038eefa855850a58a41215ccbd49b4a8879b8fea5c43b9b030c8a8f85f2"
+        }
+      },
+      {
+        "id": "R014",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "4e6fb7a41008bb356de97ac5a68f8add48966327a7bf53f05cbf09d294bc6839",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R014",
+          "canonical_tuple_sha256": "0b9094a495b716aad1df949fc2710c780fb52250171a99619a2cdf42fd5769a3"
+        },
+        "authored_role": "A degradation operation changes optional program-state resources while preserving those required by the declared critical function.",
+        "forward_inquiry": "The frame can establish the preserved-state part of that particular degraded-mode contract. Consumer acceptance, scheduling, usable capacity and physical actuation remain separate.",
+        "separate_reverse_inquiry": "The accepted degraded-function predicate identifies which state is critical and which changes are allowed; resource ownership cannot decide the acceptable degradation.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R014",
+          "canonical_tuple_sha256": "370a23a18e72c2df05129e2fc7ec1a1ba9336cd6c0ffa9847dd3c8ababc783d2"
+        }
+      },
+      {
+        "id": "R015",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P015",
+          "native_pointer": "/properties/14/native_record",
+          "current_pointer": "/properties/14/current_claim",
+          "current_object_sha256": "7bc229bf7572b626a880a68bb64d0cb0b419cd0ab747f2c741e42671aeb657f8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R015",
+          "canonical_tuple_sha256": "40ad6b15f57c542b2b285d5ce5e32cb0ca77c50a62523e41937f0bf3c913d88b"
+        },
+        "authored_role": "A bounded software stop/disable action leaves the program resources needed by the specified safe-state path intact.",
+        "forward_inquiry": "The frame can supply a local noninterference premise for that stop/continue design. It does not establish that stopping is physically safe, timely or authorized.",
+        "separate_reverse_inquiry": "The actual safe-state/hazard analysis identifies the state that must remain active and unchanged; a generic stop flag cannot substitute for that criterion.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R015",
+          "canonical_tuple_sha256": "8f0e956dcd22289bd0f0fbde059e0f927050039fa5130553afdffc52792d8396"
+        }
+      },
+      {
+        "id": "R017",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "4fc18c827dfcc1b467cb6d52705614002636fd259ea1b55fc28dc6886c4ce541",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R017",
+          "canonical_tuple_sha256": "12b41163bbfb775669e9e96fa0439ec31889c288a824b5cf4a1dbd1f4adb0281"
+        },
+        "authored_role": "The restoration scenario copies/changes its target region while preserving the required restore source and observation record.",
+        "forward_inquiry": "The frame can establish a precise state-preservation premise of the procedure being demonstrated. It is not an executed restore and does not validate every backup or scenario.",
+        "separate_reverse_inquiry": "The selected artifact/configuration/postcondition identifies the source and evidence resources that must remain valid; unrelated preserved bytes do not meet the restoration criterion.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R017",
+          "canonical_tuple_sha256": "4fd9c6d670637b55d6898e6f9e2374b1e36115a504b78dc0d72405c070f8edc7"
+        }
+      },
+      {
+        "id": "R019",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P019",
+          "native_pointer": "/properties/18/native_record",
+          "current_pointer": "/properties/18/current_claim",
+          "current_object_sha256": "cdc7888c27ecc76020d28bb5b0118170826eacdc4837d32cd7e6f87c0f46f6f3",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R019",
+          "canonical_tuple_sha256": "bcb9c5aa09b07d0db3967811122cfdb607412f0530535017466183a09d08626c"
+        },
+        "authored_role": "A modular repair/replacement step transfers or changes its program-state region while retaining the configuration/state that the actual restoration task still needs.",
+        "forward_inquiry": "The frame can remove a specific state-recreation burden or prevent clobbering that retained state. This is an intrinsic design/task contribution; physical access, skill, total repair time and actual supported restoration remain unproved.",
+        "separate_reverse_inquiry": "The native retained-state/configuration-transfer role specifies the exact preserved resource and task dependency. This resolves the earlier unassigned physical-task-only candidate without claiming a universal repair-time gain.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R019",
+          "canonical_tuple_sha256": "1408370618e414bdc10908c9aab7085e7502fa62bcf921bd9573940dea578d70"
+        }
+      },
+      {
+        "id": "R020",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P020",
+          "native_pointer": "/properties/19/native_record",
+          "current_pointer": "/properties/19/current_claim",
+          "current_object_sha256": "e8aeae316d37741c8fab93c3911f1fc0ddbb5c82144df49f871a7050adaaac2a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R020",
+          "canonical_tuple_sha256": "4588acafba7711b03648dc5419d7a370770470b03200176b2ec321c04bc5d7d9"
+        },
+        "authored_role": "A local reset/maintenance step preserves the required information or credential bytes in a separate program resource.",
+        "forward_inquiry": "The frame can retain this actual information-access prerequisite for a supported restoration. It does not establish credential validity, issuer stability, authorization, spares, human skill or the full resource window.",
+        "separate_reverse_inquiry": "The support scenario identifies which information is actually needed and the operation that might clobber it. Logical ownership cannot be substituted for physical access or organizational authority.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R020",
+          "canonical_tuple_sha256": "86827d9517cc23d63518b7d283d19f92331a248475d9a04b0f7d2315fde96cce"
+        }
+      },
+      {
+        "id": "R022",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P022",
+          "native_pointer": "/properties/21/native_record",
+          "current_pointer": "/properties/21/current_claim",
+          "current_object_sha256": "43ebbe8b0ac59a6424f6af26e1168721982a90a10c80624da731d5721bf399fd",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R022",
+          "canonical_tuple_sha256": "0e6680dc618ce49eaded7382097b43823b4a3c5acd74392d04341f0f35b223d3"
+        },
+        "authored_role": "Retained C05 scalar renewal-cost comparisons and physical age/replacement assumptions.",
+        "forward_inquiry": "The inspected function is read-only arithmetic over given parameters. A local heap frame neither establishes physical renewal nor supplies an actual protected resource operation in this calculation; no imaginary maintenance controller is added.",
+        "separate_reverse_inquiry": "The hazard/renewal/cost criterion does not identify a heap command or framed assertion for this inspected scalar comparison. A genuine stateful controller or retained-state maintenance use would require a new concrete correspondence.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R022",
+          "canonical_tuple_sha256": "03acafa05df1c82ab3b445907273f67614b5d28e3ea589fd5bae52433a94c708"
+        }
+      },
+      {
+        "id": "R023",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P023",
+          "native_pointer": "/properties/22/native_record",
+          "current_pointer": "/properties/22/current_claim",
+          "current_object_sha256": "e828ae7ebce0fa9097d71ae5e552c0861c991a56da1ebccd39c4c4370e10e4fe",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R023",
+          "canonical_tuple_sha256": "ce0f544abdfda2609386e47825f37174d6894a633024b82e3e0587eb1be6e16e"
+        },
+        "authored_role": "Retained C03/C05 conditional prediction/physical maintenance-policy roles and the actual precursor/intervention assumptions.",
+        "forward_inquiry": "The candidate has a causal precursor/physical intervention question and scalar policy calculations. No specific heap command/protected resource participates in the inspected path, so arbitrary storage of a predictor output is not credited as preservation of the precursor or effective action.",
+        "separate_reverse_inquiry": "The calibrated-precursor, lead-time and action-effect conditions do not supply a frame/ownership premise for a particular command here. Lack of a trial is not used as a negative, and narrower PdM benefits remain possible.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R023",
+          "canonical_tuple_sha256": "a6984bb719eb94aeb5334cc4369177d3fca6bb821196c8a38263cc12452f01a7"
+        }
+      },
+      {
+        "id": "R024",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P024",
+          "native_pointer": "/properties/23/native_record",
+          "current_pointer": "/properties/23/current_claim",
+          "current_object_sha256": "ea72a130bb66600ae48cdda9e0994243f57b54524c5abcab663d0e392ac76610",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R024",
+          "canonical_tuple_sha256": "2533373673610dc5eb7efb7d4a8f65718753285ae2d811703b1f54eba92abc33"
+        },
+        "authored_role": "Updating correction/work status preserves the actual failure/configuration record and later-evidence linkage in separately owned program state.",
+        "forward_inquiry": "The frame can retain the evidence linkage while a distinct status field changes. Closing the status still does not establish causal improvement or sufficient recurrence exposure.",
+        "separate_reverse_inquiry": "The failure/correction/evidence question identifies which record identities and provenance must stay linked; preserving only the closed-ticket label would not satisfy it.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R024",
+          "canonical_tuple_sha256": "12d8fb8c2cfd89dce22d19ec4e149f6d189c7432e455c86f8c208fd6078f3947"
+        }
+      },
+      {
+        "id": "R026",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P026",
+          "native_pointer": "/properties/25/native_record",
+          "current_pointer": "/properties/25/current_claim",
+          "current_object_sha256": "d6ae20d559814da88866f094abfe91c5a713634c75544563c50d885e83f13d50",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R026",
+          "canonical_tuple_sha256": "5208d4e20dec500e82761c1ec5a3b1ec3b902ad1ef32d9b3c251934e00815b77"
+        },
+        "authored_role": "Retained C06 read-only zero-count/censoring calculations and the probabilistic demonstration model.",
+        "forward_inquiry": "The actual formula computation has no identified mutable resource preservation step. A frame supplies neither the statistical model nor an unprovided observation-collection mechanism; copying a confidence label is not a partial demonstration input.",
+        "separate_reverse_inquiry": "The HPP/iid/censoring/ascertainment conditions constrain the statistical inference but do not identify a heap command and assertion in this inspected use. A real mutable observation procedure would reopen this boundary after its actual semantics are read.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R026",
+          "canonical_tuple_sha256": "d54a73121b6737ac9fc2cd25931b8d8b94c2e6556e0130d219da8180c578d5ad"
+        }
+      },
+      {
+        "id": "R027",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "34c53ef9a71bd9d15c55a45bcabd2fc069dc306f249cffd8b017e49a2d025f16",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R027",
+          "canonical_tuple_sha256": "99f5e3ef9196c6069b7899cbb7d9d78e8fc50a220a865e8b75f37f4b43b2dbe7"
+        },
+        "authored_role": "Retained C07 two-mode scalar acceleration calculation and the physical stress-to-use mapping.",
+        "forward_inquiry": "The inspected mapping uses supplied rates/factors without a resource-update command. Logical ownership is not stress control or physical mechanism stability, and no field apparatus is invented to obtain a frame application.",
+        "separate_reverse_inquiry": "The mode-specific physical law and mixture criterion do not supply a heap/resource assertion for this calculation. A concrete software-controlled apparatus can be examined separately if its actual program operation becomes part of the receiving use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R027",
+          "canonical_tuple_sha256": "bfaa8ec968d52b9c3037d986ee00564aa71734defa3b3f91399dae2a6d62a04a"
+        }
+      },
+      {
+        "id": "R028",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P028",
+          "native_pointer": "/properties/27/native_record",
+          "current_pointer": "/properties/27/current_claim",
+          "current_object_sha256": "418267456651f7dea158f19fdfb9a2727c5276382a7cd70bef9bced1357ea93f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R028",
+          "canonical_tuple_sha256": "97466fb4b382f1ba779cae778e6618e7fd97f8f592ca0b75521c3e292f126425"
+        },
+        "authored_role": "A field-data update changes the selected stratum/configuration record while preserving the other actual event/exposure/context records.",
+        "forward_inquiry": "The frame can establish that this data-update operation does not silently overwrite another stratum used in the analysis. It does not validate sampling, ascertainment or pooling across populations.",
+        "separate_reverse_inquiry": "The actual event/exposure/configuration grouping identifies the protected records and which update is legitimate; a generic large dataset or copied label does not supply that mapping.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R028",
+          "canonical_tuple_sha256": "db2ede075a1ee164392b0e9af4f35f186c49e14fc4c82627ee14273006716369"
+        }
+      },
+      {
+        "id": "R030",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P030",
+          "native_pointer": "/properties/29/native_record",
+          "current_pointer": "/properties/29/current_claim",
+          "current_object_sha256": "c6edae002a2ae521b442a4df04856550e4a94d8824178cc3007c8e1a74ae8ef9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R030",
+          "canonical_tuple_sha256": "60a011303cfd762855ebda84ef634b57cc3490c4bd24d0b08523a6c991be4cd4"
+        },
+        "authored_role": "A particular software correction removes an aliasing/clobber path while preserving the specified unaffected program state, as in the NX05 contrast.",
+        "forward_inquiry": "The frame can support a bounded software-behavior improvement under the corrected operation. Operational reliability still depends on the input/profile, and no physical rejuvenation follows.",
+        "separate_reverse_inquiry": "The affected behavior and unchanged-state requirement identify the command/resource obligations. A type or proof label does not establish the changed program's full function or operational probability.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R030",
+          "canonical_tuple_sha256": "83f3ac9cb43b8037ad7377b1e0d3fc6951f23f67a8694d8983771bc57fc27020"
+        }
+      },
+      {
+        "id": "R031",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P031",
+          "native_pointer": "/properties/30/native_record",
+          "current_pointer": "/properties/30/current_claim",
+          "current_object_sha256": "768f4d8e00ea87d8fbc4a93a02a6418df4839975ec6ca5d4a4eca8d026d86e97",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R031",
+          "canonical_tuple_sha256": "1ea1029cfad6e960fe3c35b50582228153136b372cea3e60db9efcc607191d49"
+        },
+        "authored_role": "A local journey step changes its own program state while preserving a resource required by the next named consumer.",
+        "forward_inquiry": "The framed conjunct can be a material interface input even when the rest of the journey is incomplete. It does not establish external dependency availability or require an infinite boundary.",
+        "separate_reverse_inquiry": "The actual next-consumer requirement selects which protected resource must survive; the same local guarantee can be sufficient for one journey and insufficient for another.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R031",
+          "canonical_tuple_sha256": "f9b7bbbe531d5ecd2c2b0e1a11b469c6981d0e0cbe5bae8b59b326c54be2da94"
+        }
+      },
+      {
+        "id": "R032",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P032",
+          "native_pointer": "/properties/31/native_record",
+          "current_pointer": "/properties/31/current_claim",
+          "current_object_sha256": "62e3c0a445ac340783111c21f41ac1292fbc2fa7ca66744c48279f3d59a99b96",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R032",
+          "canonical_tuple_sha256": "419556467b264374d96b6e32f1fca41676f7485399ab63a9449f36928f9fe6aa"
+        },
+        "authored_role": "Retained C09 aggregate/cohort ratio and the selected measurement/tolerance/authority policy question.",
+        "forward_inquiry": "The actual ratio calculation is scalar and the authorization distinction is normative. No heap-updating policy enforcer or protected measurement resource operation is specified. Resource ownership cannot serve as release authority.",
+        "separate_reverse_inquiry": "The event/window/denominator and legitimate decision authority do not identify a command frame in this inspected role. A specific implemented collector or controller may have a separate material interface, but is not inferred from the word policy.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R032",
+          "canonical_tuple_sha256": "ec73b171cb5a4abdb41ff7a3549482d05896fc316920a6c5f14eb186d9bc3073"
+        }
+      },
+      {
+        "id": "R033",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P033",
+          "native_pointer": "/properties/32/native_record",
+          "current_pointer": "/properties/32/current_claim",
+          "current_object_sha256": "61fdcfacfd16ae0836ed8efb68acb4f661bdd04a2d28b78674a4e0a15dc14999",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R033",
+          "canonical_tuple_sha256": "e05404dbcbd1def8b9e4679410db7f6c1bc9efd1cf763efea263cafe55163e43"
+        },
+        "authored_role": "The relevant probe result and capability/path/time context survive a distinct local recovery or monitor-state update.",
+        "forward_inquiry": "The frame retains the useful observation input. It does not prove the target remains healthy or that observer errors are independent; the currentness/classification bridge is still required.",
+        "separate_reverse_inquiry": "The actual capability/path question selects the observation/context assertion. Preserving a stale green bit without its interpretation is not the needed evidence.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R033",
+          "canonical_tuple_sha256": "c69a13d94502ed6dbd5eef3f198b273f0437808247320d4e2b6f6bd1e9463fdb"
+        }
+      },
+      {
+        "id": "R035",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P035",
+          "native_pointer": "/properties/34/native_record",
+          "current_pointer": "/properties/34/current_claim",
+          "current_object_sha256": "f933a618e99ee7e0295a4f2a47111ac160f2fa1887b15b181ce935478ab8ec11",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R035",
+          "canonical_tuple_sha256": "ae86c2a27fb9d1dbcc1de9a0dba3ded4f53843f6558e18db6e506251ec536b82"
+        },
+        "authored_role": "A software injection/recovery command preserves the actual oracle configuration and required unaffected test resources.",
+        "forward_inquiry": "The frame excludes a particular collateral-write confounder in the planned experiment. Actual injection, detection, recovery and broader field effects are not thereby executed or proved.",
+        "separate_reverse_inquiry": "The protection hypothesis and oracle identify what should change and what must remain fixed. Preserving the outcome as a constant would make the experiment nondiscriminating.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R035",
+          "canonical_tuple_sha256": "6c79427ae777cd8b7c79eb68d784fe4673a74b3e5dd3af090ea194506012ac17"
+        }
+      },
+      {
+        "id": "R036",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P036",
+          "native_pointer": "/properties/35/native_record",
+          "current_pointer": "/properties/35/current_claim",
+          "current_object_sha256": "921540cff9183aa5ce35608b2f69f33f9830d5906ffb37c3c9988a14432a7fd2",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R036",
+          "canonical_tuple_sha256": "9ca8e5a2fab047a9d28c12d24bcc42587b5d7f66d8f803106cd58c5540d198b0"
+        },
+        "authored_role": "A recovery/replay progress update preserves the actual pending-work resources and service-state accounting used by the restoration objective.",
+        "forward_inquiry": "The frame can prevent apparent drainage caused by corrupting or erasing required work. It supplies no live headroom, service-rate or physical-resource independence; those remain explicit native premises.",
+        "separate_reverse_inquiry": "The recovery workload and accepted discard policy identify which work/state must remain intact. An untouched counter or part inventory cannot be substituted for actual usable processing capacity.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R036",
+          "canonical_tuple_sha256": "d22b62ccc4f227e47d3d454a1c532fbee83c380a6e18f282d38a22b064db8180"
+        }
+      },
+      {
+        "id": "R038",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P038",
+          "native_pointer": "/properties/37/native_record",
+          "current_pointer": "/properties/37/current_claim",
+          "current_object_sha256": "f05d6e9a997e0d04152338eeda64f571af916541ea82a70ab404b7a75285e004",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R038",
+          "canonical_tuple_sha256": "fe7f42311ef5fecfabcb572ea3bc1e433e672898b26206fca2b44d71bb6cbc51"
+        },
+        "authored_role": "The exact NX05 preservation/alias question is the consequential discriminator under consideration.",
+        "forward_inquiry": "A valid frame can be one adequate bounded way to answer it, while a direct sufficient state check or immutable representation may be simpler. Proof complexity is not automatically justified.",
+        "separate_reverse_inquiry": "The previously accepted R038>F011 criterion remains unchanged: choose only work that addresses the real protected-state question and its actual consequences.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R038",
+          "canonical_tuple_sha256": "9b031fe46f30e586de78930f6eabd1e1c86b960e8a48cd07e82a8b093148817f"
+        }
+      },
+      {
+        "id": "R039",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P039",
+          "native_pointer": "/properties/38/native_record",
+          "current_pointer": "/properties/38/current_claim",
+          "current_object_sha256": "e7cfbb33edebeeb00991d665cd30c38b24afa24da36fbe510e6018d923e639e5",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R039",
+          "canonical_tuple_sha256": "3912ede3ca24e8f2f101f288357e2b35d87b47826f7f47e713b1a60ae765c8ec"
+        },
+        "authored_role": "The active use of a frame proof/check for an unchanged command and actual protected resource is being retained, replaced or retired.",
+        "forward_inquiry": "An unchanged valid frame result can retain evidential value without continual execution; an adequate substitute can permit retirement of redundant work. Changed alias/footprint premises reopen the protection claim.",
+        "separate_reverse_inquiry": "The actual removal inquiry identifies which state protection depends on this result, which consumer remains and what evidence survives. A theorem can remain true after its active use is retired.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R039",
+          "canonical_tuple_sha256": "8aad1e7b958e7c83f98ca5357ba6e32d3e8baee5ff68ad92e16f8ceed1e45de7"
+        }
+      },
+      {
+        "id": "R040",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P040",
+          "native_pointer": "/properties/39/native_record",
+          "current_pointer": "/properties/39/current_claim",
+          "current_object_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R040",
+          "canonical_tuple_sha256": "1077e15d798953677fb86e662e2ec9ab13a3c578da045f159ae9c4e5a857ff40"
+        },
+        "authored_role": "The claimed diverse mechanisms share or do not share a particular writable program resource in their actual local implementation.",
+        "forward_inquiry": "A valid frame can exclude that concrete alias/overwrite dependency. It does not establish different physical failure mechanisms, independent tools/specifications or a joint failure probability.",
+        "separate_reverse_inquiry": "The diversity/common-cause question identifies the actual resource and allowed writes; two implementations or two record names are not evidence of this separation.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R040",
+          "canonical_tuple_sha256": "36149f4ea174d5d06fca48ba3627721511e0d4d1db6598b2a7519e734a9a1635"
+        }
+      },
+      {
+        "id": "R043",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P043",
+          "native_pointer": "/properties/42/native_record",
+          "current_pointer": "/properties/42/current_claim",
+          "current_object_sha256": "030877485c80b6582c71dd6ce54d2b27a8dc8fabe42d19abc999a6f761f49ac0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R043",
+          "canonical_tuple_sha256": "59f3e383d19331391bd7365d2ea9fc8e741ad84c7060cb4965377afaaccc151b"
+        },
+        "authored_role": "Retained C05 scalar survival/hazard/policy calculations and rejection of a universal population shape.",
+        "forward_inquiry": "The actual analytical quantities have no identified mutable resource operation. A preserved memory cell cannot establish a hazard shape or discriminate it in this supplied-parameter calculation.",
+        "separate_reverse_inquiry": "The lifetime/population/hazard criterion does not supply a frame assertion for a particular command here. It can guide a mathematical model without requiring a heap representation.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R043",
+          "canonical_tuple_sha256": "5722ddce2677bd68c0e0679a69528d5635a2d565d984e61e08f21710a5e82b5b"
+        }
+      },
+      {
+        "id": "R044",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P044",
+          "native_pointer": "/properties/43/native_record",
+          "current_pointer": "/properties/43/current_claim",
+          "current_object_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R044",
+          "canonical_tuple_sha256": "daa380a0d54178aecbb4d725da8948a9b1a3bd53a88c2ab832bced5bbad5ceb9"
+        },
+        "authored_role": "Retained C07 illustrative scalar calculation and the handbook-transfer/provenance question.",
+        "forward_inquiry": "The actual cited calculation is read-only; no uninspected handbook routine or mutable application is claimed. Memory preservation would not validate institutional pedigree or transfer, and no actual resource role was found for the partial computational input.",
+        "separate_reverse_inquiry": "The model-provenance, technology and comparison criterion does not define a heap command/frame in the inspected example. A concrete stateful implementation would need its own source/semantics correspondence.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R044",
+          "canonical_tuple_sha256": "f238a2f2edfd9c6eb025004fb03d1988461823d1f94e0dec6dd6203202056ea0"
+        }
+      },
+      {
+        "id": "R045",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P045",
+          "native_pointer": "/properties/44/native_record",
+          "current_pointer": "/properties/44/current_claim",
+          "current_object_sha256": "cff1b4b93298c10a47f7b4e63bd66ad5f9e93ddb11d6d78d4f7029f93836d237",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R045",
+          "canonical_tuple_sha256": "b63aae4552ae8b5c61ed85811fa47794afa665d2e13ccb770a2c0197f091c925"
+        },
+        "authored_role": "The failure-analysis row concerns a specific clobber mode and a protected program resource, with the NX05 alias contrast as an explicit control.",
+        "forward_inquiry": "The frame can supply actual bounded protection evidence behind that row. Worksheet completion alone and unmodeled failure paths remain insufficient.",
+        "separate_reverse_inquiry": "The claimed failure effect/control identifies the relevant resource assertion and admitted fault model; a completed form cannot provide a missing frame premise.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R045",
+          "canonical_tuple_sha256": "29689a5caa5252118d97412f8084d136a82f46e3f56448b9a28c6018fab165e5"
+        }
+      },
+      {
+        "id": "R047",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P047",
+          "native_pointer": "/properties/46/native_record",
+          "current_pointer": "/properties/46/current_claim",
+          "current_object_sha256": "7d6ccff6e1441c4ce23de05928d504f6b672efcad60eb233e4548d063bd9fee1",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R047",
+          "canonical_tuple_sha256": "4008434213ffd17a21dbf192bf50341c8253d15c672e30d4561cbd20473caf18"
+        },
+        "authored_role": "The local failover staging/activation step preserves the transferred state required by the tested scenario.",
+        "forward_inquiry": "The frame can protect this actual state-transfer input against a distinct local update. It does not prove authority compatibility, current external function, every fault or actual execution of the scenario.",
+        "separate_reverse_inquiry": "The failover state/function criterion identifies which transferred data must remain intact and which writes are permitted; nominal success or a preserved status flag is not enough.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R047",
+          "canonical_tuple_sha256": "577840078541e255a513f323531c8bb44749d0727b91619586f758af5c92f8c4"
+        }
+      },
+      {
+        "id": "R048",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P048",
+          "native_pointer": "/properties/47/native_record",
+          "current_pointer": "/properties/47/current_claim",
+          "current_object_sha256": "07b9342ca3bbaab538bf073d1bebb8a09249290015e0822b9516d1ba2a247a93",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R048",
+          "canonical_tuple_sha256": "5dcc548d79f98de932bff8eb5850d363fe0c4ef0329bfca52f6ab0745282817d"
+        },
+        "authored_role": "The improvement inquiry has a specified software clobber defect and a correction whose frame preserves the required resource.",
+        "forward_inquiry": "A bounded defect-removal/preservation result can supply mechanistic evidence beyond falling counts. It still does not identify a field rate change, ascertainment quality or general causal reliability improvement.",
+        "separate_reverse_inquiry": "The actual claimed improvement must name the corrected failure path and protected function. The count comparison alone cannot identify this frame or establish that the correction was implemented.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R048",
+          "canonical_tuple_sha256": "7690cbcecaff2b5f01c27c73e80737e824781b9473e75d64e81ce964c76ec15e"
+        }
+      },
+      {
+        "id": "R049",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P049",
+          "native_pointer": "/properties/48/native_record",
+          "current_pointer": "/properties/48/current_claim",
+          "current_object_sha256": "f579ccb2f83a47ef4a3df7bc271b63d6b5defd442a4a07979981a6d8c4c2d61b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R049",
+          "canonical_tuple_sha256": "33655c982b13dee7ba20136bbaafcccbf23120ed8f7f5a7cde349bd44ee7c9ae"
+        },
+        "authored_role": "The actually observed green/probe event and its context survive a distinct local state update.",
+        "forward_inquiry": "The frame preserves that narrow evidence input without turning it into global current health or authority. Meaning and later-state stability remain separate.",
+        "separate_reverse_inquiry": "The narrow functional interpretation identifies which event/context resource matters; preserving a green label that covers a different path would not support the claim.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R049",
+          "canonical_tuple_sha256": "96364742caaf2ad5a922bc7f3442ee49f7b36820aede9a688fa4308cc62f4d77"
+        }
+      },
+      {
+        "id": "R050",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P050",
+          "native_pointer": "/properties/49/native_record",
+          "current_pointer": "/properties/49/current_claim",
+          "current_object_sha256": "2388c8cd320e3f9a6f894525fa12c0e0f74225cf1ed131e10c7573a8d40801f9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R050",
+          "canonical_tuple_sha256": "3664e390b1c9ef36ce7249896960f5bfc89bb76a6828127bab64ee6d0bae6e8d"
+        },
+        "authored_role": "The selected software fault experiment changes its admitted target while retaining the real oracle definition and required untouched resources.",
+        "forward_inquiry": "A frame can exclude one collateral-write confounder and support a faithful bounded experiment. It does not make chaos adoption or a passing run a universal resilience result.",
+        "separate_reverse_inquiry": "The actual fault/workload/oracle claim identifies the protected resource and intervention footprint. A universal-resilience slogan cannot specify the missing frame.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R050",
+          "canonical_tuple_sha256": "b92f3cc1d3bc4ec2ab673067b1349ffcf6a7113e14f5c8be2f3e58d49e093801"
+        }
+      },
+      {
+        "id": "R051",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P051",
+          "native_pointer": "/properties/50/native_record",
+          "current_pointer": "/properties/50/current_claim",
+          "current_object_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R051",
+          "canonical_tuple_sha256": "cf5e3f33700072458677d57fcbe792c8e0456d0ce7a96f229244a43d926bac19"
+        },
+        "authored_role": "The added redundant software path has actual protected state that an active-region write must not clobber.",
+        "forward_inquiry": "The frame can establish one conditional-rescue/noninterference input. New serial failures, load, sensor dependence and physical common causes can still make the overall addition harmful.",
+        "separate_reverse_inquiry": "The true rescue function and added-failure analysis identify the protected resource and actual interference risk; component count alone does not establish the assertion.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R051",
+          "canonical_tuple_sha256": "035e8659cc18dfe0fbcfa3a9bb91aae4a33faa277dd98a8e099f1870927c6751"
+        }
+      },
+      {
+        "id": "R052",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P052",
+          "native_pointer": "/properties/51/native_record",
+          "current_pointer": "/properties/51/current_claim",
+          "current_object_sha256": "ac830bfe71e2c6746a99e8f3a33fcc86a6cba1ca6853d8f1ed5795614ba2cb28",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R052",
+          "canonical_tuple_sha256": "8d89358265f4955651c8084321161144df27e606a5f46581ee0acf829a587305"
+        },
+        "authored_role": "Retained C03/C05 scalar policy comparisons and the rejection of universal predictive-maintenance superiority.",
+        "forward_inquiry": "The actual alternatives concern prediction, physical intervention, loss and feasibility. No particular heap command is supplied; encoding policy names or scores in cells would not change the comparison or establish action efficacy.",
+        "separate_reverse_inquiry": "The whole-policy consequence criterion does not provide a protected resource assertion for an actual F011 command in this use. This leaves specific justified PdM improvements and later concrete software interfaces open.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "NEGATIVE",
+          "literal_key": "R052",
+          "canonical_tuple_sha256": "393f46f4edeabb338c014d48e0c00ec6ff83832060921cfe7979956df7750533"
+        }
+      },
+      {
+        "id": "R054",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P054",
+          "native_pointer": "/properties/53/native_record",
+          "current_pointer": "/properties/53/current_claim",
+          "current_object_sha256": "e0f40b561ca50cc5f49efc8eb665d41e79240ec14709c7120b491f81cb4eb2a7",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R054",
+          "canonical_tuple_sha256": "ed1ab1a0379ed7fdc8474566f8c893aa44df529828c9a6b457eed1f9965c53d1"
+        },
+        "authored_role": "The bounded zero-bad-event claim is the exact local program property that the protected resource never changes under the admitted command/frame conditions.",
+        "forward_inquiry": "A valid frame can support this legitimate model-level exclusion. It does not establish arbitrary-world zero risk or an empirical absence claim.",
+        "separate_reverse_inquiry": "The intended bad event and admitted fault/operation domain determine whether the frame theorem is exactly the claimed exclusion or merely an unrelated safe-looking property.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R054",
+          "canonical_tuple_sha256": "75fb246458a54805bbe01f66858d4a07a78afcd775dac79d19dc1d7d4b16d5ba"
+        }
+      },
+      {
+        "id": "R055",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P055",
+          "native_pointer": "/properties/54/native_record",
+          "current_pointer": "/properties/54/current_claim",
+          "current_object_sha256": "7fa4765f23e3ebf1e3271b33685cc39376053ee7bec2fd4f5077f7e3694e4a5d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_predicate_activity_comparator_residual": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R055",
+          "canonical_tuple_sha256": "36e796530d837453e90ea344a2b1890195ea33adb7f77a4c733d0e1d49a0af56"
+        },
+        "authored_role": "A bounded AI-assisted controller uses a verified local interface whose command preserves specified critical program resources.",
+        "forward_inquiry": "The frame can supply that actual control-fragment preservation result even if the generated plan or diagnosis is imperfect. It does not establish task fidelity, beneficial action under shift or autonomous authority.",
+        "separate_reverse_inquiry": "The actual permitted action/interface and protected function identify the frame obligation. Unrestricted generated commands or unsupported unsafe operations cannot inherit the controlled interface's theorem.",
+        "disposition": "MATERIAL",
+        "argument_source": {
+          "path": "analysis_r14/frame_complement_inquiry.py",
+          "literal_dictionary": "MATERIAL",
+          "literal_key": "R055",
+          "canonical_tuple_sha256": "79a8e1b7df90271fb8e391007a4df9960d10eac73ff5dbff80b7c802680aea6b"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "id": "FRAME-COMPLEMENT-MATERIAL-FORWARD",
+        "orientation": "FORWARD",
+        "group": "MATERIAL",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "formal_current_statement": {
+          "claim_id": "DRF-C011",
+          "native_property_id": "P011",
+          "current_statement": "Local heap/resource reasoning requires a valid frame or ownership discipline; disjoint-looking names do not establish disjoint resources.",
+          "bearer": "A heap command, ownership assertion and framed resource",
+          "logical_class": "SEPARATION_AND_FRAME_RULE",
+          "quantifier_and_guard": "Apply the relevant logic's side conditions, including disjointness, modified variables and concurrency permissions; prove unsafe-library obligations where used.",
+          "negative_scope_and_legitimate_alternatives": "Immutable value passing can avoid heap separation. Ownership is a method-specific semantic resource, not a universal organizational metaphor.",
+          "expected_consequence": "Preserve facts about unaffected resources only under the required noninterference conditions.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S048",
+            "S046",
+            "S049"
+          ],
+          "case_ids": [
+            "C08"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary value types or a direct whole-state proof when the heap is small.",
+          "cost_and_evaluation_criterion": "Include alias analysis, permission annotations and abstraction-maintenance cost.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Retains native local reasoning; adds source-confirmed limits of RustBelt's modeled language and memory semantics.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "inference": "The specific command/resource use makes the frame a partial native input.",
+        "exact_ordered_membership": [
+          "F011>D01",
+          "F011>D02",
+          "F011>D03",
+          "F011>D04",
+          "F011>D06",
+          "F011>D07",
+          "F011>D08",
+          "F011>D10",
+          "F011>D11",
+          "F011>D12",
+          "F011>D15",
+          "F011>D16",
+          "F011>D17",
+          "F011>D21",
+          "F011>D27",
+          "F011>D30",
+          "F011>D31",
+          "F011>D33",
+          "F011>D35",
+          "F011>D41",
+          "F011>D44",
+          "F011>D45",
+          "F011>D46",
+          "F011>D47",
+          "F011>D48",
+          "F011>D49",
+          "F011>D51",
+          "F011>D52",
+          "F011>D54",
+          "F011>R001",
+          "F011>R002",
+          "F011>R003",
+          "F011>R005",
+          "F011>R006",
+          "F011>R007",
+          "F011>R008",
+          "F011>R009",
+          "F011>R012",
+          "F011>R014",
+          "F011>R015",
+          "F011>R017",
+          "F011>R019",
+          "F011>R020",
+          "F011>R024",
+          "F011>R028",
+          "F011>R030",
+          "F011>R031",
+          "F011>R033",
+          "F011>R035",
+          "F011>R036",
+          "F011>R038",
+          "F011>R039",
+          "F011>R040",
+          "F011>R045",
+          "F011>R047",
+          "F011>R048",
+          "F011>R049",
+          "F011>R050",
+          "F011>R051",
+          "F011>R054",
+          "F011>R055"
+        ]
+      },
+      {
+        "id": "FRAME-COMPLEMENT-MATERIAL-REVERSE",
+        "orientation": "REVERSE",
+        "group": "MATERIAL",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "formal_current_statement": {
+          "claim_id": "DRF-C011",
+          "native_property_id": "P011",
+          "current_statement": "Local heap/resource reasoning requires a valid frame or ownership discipline; disjoint-looking names do not establish disjoint resources.",
+          "bearer": "A heap command, ownership assertion and framed resource",
+          "logical_class": "SEPARATION_AND_FRAME_RULE",
+          "quantifier_and_guard": "Apply the relevant logic's side conditions, including disjointness, modified variables and concurrency permissions; prove unsafe-library obligations where used.",
+          "negative_scope_and_legitimate_alternatives": "Immutable value passing can avoid heap separation. Ownership is a method-specific semantic resource, not a universal organizational metaphor.",
+          "expected_consequence": "Preserve facts about unaffected resources only under the required noninterference conditions.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S048",
+            "S046",
+            "S049"
+          ],
+          "case_ids": [
+            "C08"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary value types or a direct whole-state proof when the heap is small.",
+          "cost_and_evaluation_criterion": "Include alias analysis, permission annotations and abstraction-maintenance cost.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Retains native local reasoning; adds source-confirmed limits of RustBelt's modeled language and memory semantics.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "inference": "The specific native requirement selects the relevant resource/footprint premise.",
+        "exact_ordered_membership": [
+          "D01>F011",
+          "D02>F011",
+          "D03>F011",
+          "D04>F011",
+          "D06>F011",
+          "D07>F011",
+          "D08>F011",
+          "D10>F011",
+          "D11>F011",
+          "D12>F011",
+          "D15>F011",
+          "D16>F011",
+          "D17>F011",
+          "D21>F011",
+          "D27>F011",
+          "D30>F011",
+          "D31>F011",
+          "D33>F011",
+          "D35>F011",
+          "D41>F011",
+          "D44>F011",
+          "D45>F011",
+          "D46>F011",
+          "D47>F011",
+          "D48>F011",
+          "D49>F011",
+          "D51>F011",
+          "D52>F011",
+          "D54>F011",
+          "R001>F011",
+          "R002>F011",
+          "R003>F011",
+          "R005>F011",
+          "R006>F011",
+          "R007>F011",
+          "R008>F011",
+          "R009>F011",
+          "R012>F011",
+          "R014>F011",
+          "R015>F011",
+          "R017>F011",
+          "R019>F011",
+          "R020>F011",
+          "R024>F011",
+          "R028>F011",
+          "R030>F011",
+          "R031>F011",
+          "R033>F011",
+          "R035>F011",
+          "R036>F011",
+          "R039>F011",
+          "R040>F011",
+          "R045>F011",
+          "R047>F011",
+          "R048>F011",
+          "R049>F011",
+          "R050>F011",
+          "R051>F011",
+          "R054>F011",
+          "R055>F011"
+        ]
+      },
+      {
+        "id": "FRAME-COMPLEMENT-NEGATIVE-FORWARD",
+        "orientation": "FORWARD",
+        "group": "NEGATIVE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "formal_current_statement": {
+          "claim_id": "DRF-C011",
+          "native_property_id": "P011",
+          "current_statement": "Local heap/resource reasoning requires a valid frame or ownership discipline; disjoint-looking names do not establish disjoint resources.",
+          "bearer": "A heap command, ownership assertion and framed resource",
+          "logical_class": "SEPARATION_AND_FRAME_RULE",
+          "quantifier_and_guard": "Apply the relevant logic's side conditions, including disjointness, modified variables and concurrency permissions; prove unsafe-library obligations where used.",
+          "negative_scope_and_legitimate_alternatives": "Immutable value passing can avoid heap separation. Ownership is a method-specific semantic resource, not a universal organizational metaphor.",
+          "expected_consequence": "Preserve facts about unaffected resources only under the required noninterference conditions.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S048",
+            "S046",
+            "S049"
+          ],
+          "case_ids": [
+            "C08"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary value types or a direct whole-state proof when the heap is small.",
+          "cost_and_evaluation_criterion": "Include alias analysis, permission annotations and abstraction-maintenance cost.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Retains native local reasoning; adds source-confirmed limits of RustBelt's modeled language and memory semantics.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "inference": "The inspected use lacks the particular command/resource correspondence, after the independently stated directional inquiry.",
+        "exact_ordered_membership": [
+          "F011>R011",
+          "F011>R013",
+          "F011>R023",
+          "F011>R032",
+          "F011>R052"
+        ]
+      },
+      {
+        "id": "FRAME-COMPLEMENT-NEGATIVE-REVERSE",
+        "orientation": "REVERSE",
+        "group": "NEGATIVE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "formal_current_statement": {
+          "claim_id": "DRF-C011",
+          "native_property_id": "P011",
+          "current_statement": "Local heap/resource reasoning requires a valid frame or ownership discipline; disjoint-looking names do not establish disjoint resources.",
+          "bearer": "A heap command, ownership assertion and framed resource",
+          "logical_class": "SEPARATION_AND_FRAME_RULE",
+          "quantifier_and_guard": "Apply the relevant logic's side conditions, including disjointness, modified variables and concurrency permissions; prove unsafe-library obligations where used.",
+          "negative_scope_and_legitimate_alternatives": "Immutable value passing can avoid heap separation. Ownership is a method-specific semantic resource, not a universal organizational metaphor.",
+          "expected_consequence": "Preserve facts about unaffected resources only under the required noninterference conditions.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S048",
+            "S046",
+            "S049"
+          ],
+          "case_ids": [
+            "C08"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary value types or a direct whole-state proof when the heap is small.",
+          "cost_and_evaluation_criterion": "Include alias analysis, permission annotations and abstraction-maintenance cost.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Retains native local reasoning; adds source-confirmed limits of RustBelt's modeled language and memory semantics.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "inference": "The inspected use lacks the particular command/resource correspondence, after the independently stated directional inquiry.",
+        "exact_ordered_membership": [
+          "R011>F011",
+          "R013>F011",
+          "R022>F011",
+          "R023>F011",
+          "R026>F011",
+          "R027>F011",
+          "R032>F011",
+          "R043>F011",
+          "R044>F011",
+          "R052>F011"
+        ]
+      }
+    ],
+    "retained_prior": [
+      {
+        "direction": "R038>F011",
+        "previous_disposition": "MATERIAL"
+      },
+      {
+        "direction": "F011>R022",
+        "previous_disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "direction": "F011>R026",
+        "previous_disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "direction": "F011>R027",
+        "previous_disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "direction": "F011>R043",
+        "previous_disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "direction": "F011>R044",
+        "previous_disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      }
+    ],
+    "case_evidence": [
+      {
+        "path": "analysis_r2/contract_models.py",
+        "bytes": 19121,
+        "sha256": "9b220caaf78f01278fc7d8f6e00da752ac73d14f1d1953a2d629b41547f6afb1"
+      },
+      {
+        "path": "analysis_r2/MODEL_OUTPUTS.json",
+        "bytes": 21289,
+        "sha256": "bdde6517ec44f62c87e08464dcebc392294227d0a500abdd68a26ba4fc34d0f7"
+      },
+      {
+        "path": "work/drf_reliability_maintainability/revisions/r2/research/model_cases.py",
+        "bytes": 17543,
+        "sha256": "4ae0f3c5c1cc0ae458ee578221273c91a7a3527418999e88ad88604cc61d9ed3"
+      },
+      {
+        "path": "work/drf_reliability_maintainability/revisions/r2/research/MODEL_CASE_RESULTS.json",
+        "bytes": 18518,
+        "sha256": "0941bbafc5cfbaa3c0d00acfb25482e3d04313586641774afd5cbd2b9e4c89eb"
+      }
+    ],
+    "new_scientific_executions": 0
+  }
+}

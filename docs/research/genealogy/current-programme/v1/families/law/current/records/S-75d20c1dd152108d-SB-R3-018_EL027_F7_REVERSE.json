@@ -1,0 +1,891 @@
+{
+  "source_identity": {
+    "source_id": "S-75d20c1dd152108d",
+    "scientific_name": "SB-R3-018_EL027_F7_REVERSE.json",
+    "original_bytes": 67698,
+    "original_sha256": "75d20c1dd152108d3077c883793935eadd786e69f9bfbd231107dbca498d7d65"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-018",
+    "title": "EL-027_REVERSE_SUPPLIER_BUFFER_AND_CONTINUITY_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:12:24.154573+00:00",
+    "inquiry_family": 7,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_005.json",
+      "bytes": 7000,
+      "sha256": "7059b0b8192ede42bdfa0e9318bc2f31067e9c2a2413d47b5f3ca8c0c9a257a7"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal supplier rule, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-004",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        }
+      },
+      {
+        "native_id": "EL-008",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        }
+      },
+      {
+        "native_id": "EL-009",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        }
+      },
+      {
+        "native_id": "EL-010",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        }
+      },
+      {
+        "native_id": "EL-027",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        }
+      },
+      {
+        "native_id": "EL-028",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        }
+      },
+      {
+        "native_id": "EW-P009",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P026",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P028",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        }
+      },
+      {
+        "native_id": "EW-P029",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY7_SOURCE_INQUIRY.json",
+      "bytes": 3318,
+      "sha256": "8ae0f20c1d19caca960236df794b847df83ab4bef3197eeaa0fa699cb7ef2c60"
+    },
+    "native_common_basis": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in.",
+    "common_cost_and_alternative": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Information treated as physical capacity.",
+      "First-tier diversity treated as independent lower-tier supply.",
+      "A complete document treated as operational capability.",
+      "A partial exposure or criterion input rejected for failing the whole receiver.",
+      "Capacity, stock or staff double-counted for routine and contingency use.",
+      "Buyer savings treated as joint fair gain."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-027",
+        "argument": "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-027",
+        "argument": "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-027",
+        "argument": "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-027",
+        "argument": "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-027",
+        "argument": "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-027",
+        "argument": "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-027",
+        "argument": "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-027",
+        "argument": "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-027",
+        "overclaim": "A signed ICD does not establish supplier learning, viability or fair gain allocation.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-027",
+        "overclaim": "A staged funding plan cannot prove the supplier can learn the required process or that bargaining is fair.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-027",
+        "overclaim": "A favorable forecast is not evidence that gains were shared or that observed performance changes were caused by the program.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-027",
+        "overclaim": "A complete contract can still leave a supplier incapable, coerced or unable to absorb development costs.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-027",
+        "overclaim": "A readiness sign-off does not create lasting supplier capability or justify unpaid standby obligations.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-027",
+        "overclaim": "A favorable rehearsal does not establish fairness of the contract or guarantee long-term supplier viability.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-027",
+        "overclaim": "A long support horizon cannot prove every proprietary supplier investment is worthwhile or that continuation beats replacement.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-027",
+        "overclaim": "A proportionality label does not establish fairness, supplier competence or causally effective development.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared capacity, information, organizations, tools or source works are not independent controls or benefits.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P009->LAW-L1::EL-027",
+      "LAW-L3::EW-P022->LAW-L1::EL-027",
+      "LAW-L3::EW-P025->LAW-L1::EL-027",
+      "LAW-L3::EW-P026->LAW-L1::EL-027",
+      "LAW-L3::EW-P027->LAW-L1::EL-027",
+      "LAW-L3::EW-P028->LAW-L1::EL-027",
+      "LAW-L3::EW-P029->LAW-L1::EL-027",
+      "LAW-L3::EW-P033->LAW-L1::EL-027"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-027",
+        "source_native_id": "EW-P009",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation."
+        },
+        "shared_question_or_object": "A recurring supplier relationship whose capability affects a shared consequential interface.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation."
+        },
+        "source_contribution": "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation.",
+        "receiving_consequence": "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A signed ICD does not establish supplier learning, viability or fair gain allocation.",
+        "counter_control": "A signed ICD does not establish supplier learning, viability or fair gain allocation.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. Use local types or a focused contract test when the boundary is private and low consequence.",
+        "subcondition_evidence": {
+          "P1": "A recurring supplier relationship whose capability affects a shared consequential interface.",
+          "P2": {
+            "source_bearer": "A consequential boundary between components or organizations",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation."
+          },
+          "P3": "A clear owned contract and testable boundary specify the capability gap and responsibilities to be developed, instead of demanding generic process imitation.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A signed ICD does not establish supplier learning, viability or fair gain allocation."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P009",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-027",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost."
+        },
+        "shared_question_or_object": "A staged investment in relationship-specific supplier capability.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost."
+        },
+        "source_contribution": "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost.",
+        "receiving_consequence": "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A staged funding plan cannot prove the supplier can learn the required process or that bargaining is fair.",
+        "counter_control": "A staged funding plan cannot prove the supplier can learn the required process or that bargaining is fair.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. Stable well-understood delivery can justify a larger commitment without artificial staging.",
+        "subcondition_evidence": {
+          "P1": "A staged investment in relationship-specific supplier capability.",
+          "P2": {
+            "source_bearer": "A sequence of commitments under uncertainty",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost."
+          },
+          "P3": "Separable commitments and option-expiry decisions identify when to fund, pause or exit capability development rather than continue because of sunk cost.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A staged funding plan cannot prove the supplier can learn the required process or that bargaining is fair."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P022",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-027",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings."
+        },
+        "shared_question_or_object": "A forecast of the total cost and benefit of supplier capability development.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings."
+        },
+        "source_contribution": "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings.",
+        "receiving_consequence": "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A favorable forecast is not evidence that gains were shared or that observed performance changes were caused by the program.",
+        "counter_control": "A favorable forecast is not evidence that gains were shared or that observed performance changes were caused by the program.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. A short-horizon forecast from recent throughput can suffice.",
+        "subcondition_evidence": {
+          "P1": "A forecast of the total cost and benefit of supplier capability development.",
+          "P2": {
+            "source_bearer": "A forecast used for resource or commitment decisions",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings."
+          },
+          "P3": "Ranges, external comparison and actual updates qualify the development business case and can challenge optimistic claimed savings.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A favorable forecast is not evidence that gains were shared or that observed performance changes were caused by the program."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P025",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-027",
+        "source_native_id": "EW-P026",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development."
+        },
+        "shared_question_or_object": "Governance of a strategically material recurring supplier dependency.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development."
+        },
+        "source_contribution": "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development.",
+        "receiving_consequence": "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A complete contract can still leave a supplier incapable, coerced or unable to absorb development costs.",
+        "counter_control": "A complete contract can still leave a supplier incapable, coerced or unable to absorb development costs.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. Direct coordination and a short dependency note can suffice at a simple shared-team boundary.",
+        "subcondition_evidence": {
+          "P1": "Governance of a strategically material recurring supplier dependency.",
+          "P2": {
+            "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development."
+          },
+          "P3": "Clear interfaces, data rights, lead times and commercial authority identify the feasible and permitted scope of capability development.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A complete contract can still leave a supplier incapable, coerced or unable to absorb development costs."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P026",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-027",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup."
+        },
+        "shared_question_or_object": "Operational startup relying on a supplier support or delivery capability.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup."
+        },
+        "source_contribution": "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup.",
+        "receiving_consequence": "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A readiness sign-off does not create lasting supplier capability or justify unpaid standby obligations.",
+        "counter_control": "A readiness sign-off does not create lasting supplier capability or justify unpaid standby obligations.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. Use proportionate existing readiness checks or a representative rehearsal where adequate and allowed.",
+        "subcondition_evidence": {
+          "P1": "Operational startup relying on a supplier support or delivery capability.",
+          "P2": {
+            "source_bearer": "Transition to operation or restart",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup."
+          },
+          "P3": "The actual operating configuration, support roles and readiness conditions identify the supplier skills and arrangements needed for startup.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A readiness sign-off does not create lasting supplier capability or justify unpaid standby obligations."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P027",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-027",
+        "source_native_id": "EW-P028",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer."
+        },
+        "shared_question_or_object": "A recovery claim relying on a recurring supplier relationship.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer."
+        },
+        "source_contribution": "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer.",
+        "receiving_consequence": "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A favorable rehearsal does not establish fairness of the contract or guarantee long-term supplier viability.",
+        "counter_control": "A favorable rehearsal does not establish fairness of the contract or guarantee long-term supplier viability.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. A stateless isolated disposable experiment may need only restart or deletion.",
+        "subcondition_evidence": {
+          "P1": "A recovery claim relying on a recurring supplier relationship.",
+          "P2": {
+            "source_bearer": "A proposed recovery claim after failure or change",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer."
+          },
+          "P3": "Recovery objectives, state requirements and tests expose the precise supplier capability gap to develop or a cheaper alternate to prefer.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A favorable rehearsal does not establish fairness of the contract or guarantee long-term supplier viability."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P028",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-027",
+        "source_native_id": "EW-P029",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value."
+        },
+        "shared_question_or_object": "Through-life support depending on recurring suppliers.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value."
+        },
+        "source_contribution": "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value.",
+        "receiving_consequence": "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A long support horizon cannot prove every proprietary supplier investment is worthwhile or that continuation beats replacement.",
+        "counter_control": "A long support horizon cannot prove every proprietary supplier investment is worthwhile or that continuation beats replacement.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. A short-lived tool may use an explicit early retirement policy.",
+        "subcondition_evidence": {
+          "P1": "Through-life support depending on recurring suppliers.",
+          "P2": {
+            "source_bearer": "A supported system over its operational life",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value."
+          },
+          "P3": "Support horizons, obsolescence and retirement obligations identify which supplier capability should be maintained and when development no longer has sufficient value.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A long support horizon cannot prove every proprietary supplier investment is worthwhile or that continuation beats replacement."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P029",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-027",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EL-027",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program."
+        },
+        "shared_question_or_object": "Control selection for a decision relying on supplier capability and shared risk.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+          "literal_bridge": "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program."
+        },
+        "source_contribution": "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program.",
+        "receiving_consequence": "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program."
+        ],
+        "premises_remaining": [
+          "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A proportionality label does not establish fairness, supplier competence or causally effective development.",
+        "counter_control": "A proportionality label does not establish fairness, supplier competence or causally effective development.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Training, disclosure, negotiation, proprietary limits and relationship investment count. Commodity low-risk dependencies can use ordinary qualification and diversification. Use existing adequate controls and bounded preauthorization where the actual regime permits.",
+        "subcondition_evidence": {
+          "P1": "Control selection for a decision relying on supplier capability and shared risk.",
+          "P2": {
+            "source_bearer": "A decision about assurance strength under change",
+            "receiving_bearer": "A buyer–supplier or dependency capability relationship",
+            "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+            "receiving_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+            "literal_bridge": "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program."
+          },
+          "P3": "The real failure mode and applicable obligations define which capability evidence and safeguards are proportionate rather than imposing a universal supplier program.",
+          "P4": "A recurring strategic dependency has a specific improvable capability gap; joint gain and supplier viability include shifted burden and lock-in. Actual fulfillment of the complete Lean criterion remains separate. Control: A proportionality label does not establish fairness, supplier competence or causally effective development."
+        },
+        "reverse_direction_key": "LAW-L1::EL-027->LAW-L3::EW-P033",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "family": "LAW",
+  "units": [
+    {
+      "unit": "LAW-L1",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "qualification": {
+        "bytes": 5449,
+        "sha256": "73f39a747a60f0aaad3cd6bc06914468b231aab5ac1604ff0031e88da628f6f4"
+      },
+      "scientific_subject": {
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "original_final_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 12168,
+            "sha256": "1dd01936e4f3b7de1d8fa541d83d9c9c14f3b5994074808549e26b48b0eb86b3"
+          }
+        },
+        {
+          "role": "ADVERSARIAL",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 15045,
+            "sha256": "46deb266826d948cea5779ecb305497d588a5674797593775522546166263da4"
+          }
+        }
+      ],
+      "scope": "Original same-subject scientific acceptance; no empirical, target, native-implementation or new public-review acceptance is implied."
+    },
+    {
+      "unit": "LAW-L2",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "qualification": {
+        "bytes": 7896,
+        "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+      },
+      "scientific_subject": {
+        "bytes": 10189,
+        "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+      },
+      "original_final_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 9600,
+            "sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          }
+        },
+        {
+          "role": "ADVERSARIAL",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 13240,
+            "sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        }
+      ],
+      "scope": "Original same-subject scientific acceptance; no empirical, target, native-implementation or new public-review acceptance is implied."
+    },
+    {
+      "unit": "LAW-L3",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "qualification": {
+        "bytes": 5024,
+        "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+      },
+      "scientific_subject": {
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      },
+      "original_final_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 7529,
+            "sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          }
+        },
+        {
+          "role": "ADVERSARIAL",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 15912,
+            "sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        }
+      ],
+      "scope": "Original same-subject scientific acceptance; no empirical, target, native-implementation or new public-review acceptance is implied."
+    },
+    {
+      "unit": "LAW-S",
+      "scientific_qualification": "QUALIFIED_AT_DECLARED_SCOPE",
+      "qualification": {
+        "bytes": 123056,
+        "sha256": "4b7b8ba7e41109967b4e48c170adf6070398c7b64980948cae1bef63cdd291bc"
+      },
+      "scientific_subject": {
+        "bytes": 27137,
+        "sha256": "7f62a136751c84fbbd0326eafdc59a26bc57db1c6da31ab4d09ca8a08b88b803"
+      },
+      "original_final_reviews": [
+        {
+          "role": "INDEPENDENT_WHOLE_FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPT",
+          "receipt": {
+            "bytes": 5350,
+            "sha256": "c7316a4ffd296a021d27ff4589d662e99e2b5c399faa5e528f4370ded57adb53"
+          }
+        },
+        {
+          "role": "DISTINCT_INDEPENDENT_WHOLE_ADVERSARIAL",
+          "disposition": "ACCEPT",
+          "receipt": {
+            "bytes": 5532,
+            "sha256": "c4c314b522fb8b3b9baa96ac5c142a7069259a896a5059b1d542ba793f5a4314"
+          }
+        }
+      ],
+      "scope": "Original same-subject scientific acceptance; no empirical, target, native-implementation or new public-review acceptance is implied."
+    }
+  ]
+}

@@ -1,0 +1,1046 @@
+{
+  "source_identity": {
+    "source_id": "S-514d9a5c09157ddf",
+    "scientific_name": "SB-R3-047_EA09_F10_FORWARD.json",
+    "original_bytes": 79939,
+    "original_sha256": "514d9a5c09157ddf2d7146109fcd696b56c89ceec5979ee274620fdcd616f4a9"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-047",
+    "title": "EA-09_FORWARD_FEEDBACK_RISK_AND_COMMITMENT",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T00:56:37.976621+00:00",
+    "inquiry_family": 10,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_009.json",
+      "bytes": 2255,
+      "sha256": "30275ce0d0497e756226547c0fd20c982874b60d4bd54e5f3a1ad3c104ed3ac1"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY10_REMAINING132_NATIVE_MEANINGS.json",
+      "bytes": 125638,
+      "sha256": "12f74b20f49c095ce5835481b375996e084ded0910c6ac801a8ea94c07bc5c57"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY10_REMAINING132_LITERAL_ARGUMENTS.json",
+      "bytes": 51404,
+      "sha256": "e33fcc9f5b481afe2eccc596d417a3f4baca77c022211e6881530d5f46bfafd2"
+    },
+    "bounded_interface_domain": [
+      "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+      "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+      "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+      "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+      "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+    ],
+    "native_common_basis": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+    "common_cost_and_alternative": [
+      "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+      "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+      "No addition is warranted solely because another named method could be introduced.",
+      "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+    ],
+    "evidence_ceiling": "Conditional root analytical arguments from exact accepted native mechanisms. No new primary-body access, empirical effect, universal cadence, independent review, new property identity or scientific qualification claimed.",
+    "common_subconditions": {
+      "P1": "Actual common question, object and receiving use.",
+      "P2": "Exact native meaning and accepted overlay.",
+      "P3": "The separately reasoned partial consequence.",
+      "P4": "Counterexample, absent guard, remaining premises, cost, alternative and reentry."
+    },
+    "inference": "The specified partial input can materially change a decision premise or warrant even when the action is confirmed. No universal cadence, symmetric equivalence, temporal chain or requirement to add a new control follows.",
+    "common_source_dependence": "Shared evidence, method ancestry, prototype or model is not independent support twice.",
+    "exceptions": [],
+    "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P001",
+        "argument": "Irreversibility, coupling and quality tradeoffs identify which unresolved intent must be clarified before dependent structural commitments and which locally reversible details can remain provisional."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P002",
+        "argument": "The coupling and reversibility analysis makes the consequence and decision horizon of the uncertain premise explicit, guiding proportionate learning before its options close."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P003",
+        "argument": "Irreversibility and coupling determine which structural claims deserve early analysis and fitness evidence before hard commitment, while preserving a thin path for local reversible choices."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P004",
+        "argument": "The architectural tradeoff and costly-to-reverse dependency identify the discriminating question that the executable investigation must address before commitment."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P012",
+        "argument": "The coupled and irreversible consequence identifies which use scenario must be validated early and how late discovery would affect the architecture."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P021",
+        "argument": "The explicit coupling, remaining reversibility, tradeoffs and fitness evidence give the empowered review a concrete basis for go, redirect, hold or stop."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P022",
+        "argument": "Coupling and recovery cost reveal whether an apparent small increment genuinely limits commitment or already fixes expensive downstream choices."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P023",
+        "argument": "Architectural coupling and irreversible interface decisions identify which activities may safely overlap and where premature parallel commitment creates expensive rework."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P024",
+        "argument": "The actual reversibility, coupling and quality consequence provide specific reasons to strengthen selected architectural evidence or omit unnecessary ceremony."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P025",
+        "argument": "Identified structural dependencies, uncertainty and costly rework expose assumptions that should widen or condition forecasts of delivery and change effort."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P033",
+        "argument": "Concrete structural coupling and reversal cost instantiate the consequence and commitment dimensions that justify stronger or thinner controls."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P001",
+        "overclaim": "A costly architectural commitment does not give its designer authority to redefine user needs; an impressive architecture diagram can implement an obsolete requirement.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P002",
+        "overclaim": "Labeling every design uncertainty irreversible can fund speculative studies with no discriminating result or consequential decision.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P003",
+        "overclaim": "Upfront analysis may lock in an untested speculative architecture; more analysis is not automatically better fitness evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P004",
+        "overclaim": "A convenient demonstration of an isolated component can leave the high-consequence cross-boundary interaction unexamined.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P012",
+        "overclaim": "An architect can choose an easily measurable quality attribute while ignoring the actual excluded users or operational harm.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P021",
+        "overclaim": "An architecture board presentation can conceal untested assumptions; the existence of a review does not validate the design.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P022",
+        "overclaim": "A short iteration can buy irreversible tooling or lock an external interface, preserving no meaningful option.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P023",
+        "overclaim": "A diagram of independent modules can hide shared timing, safety or integration constraints; declared modularity does not prove safe concurrency.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P024",
+        "overclaim": "A private estimate of architectural risk cannot waive a binding safety obligation or substitute a diagram for required evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P025",
+        "overclaim": "An architectural risk label is not a calibrated probability or a quantitative rework distribution.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P033",
+        "overclaim": "A reversible code edit can expose users to irreversible harm; reversibility of the artifact alone does not justify weak control.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-09->LAW-L3::EW-P001",
+      "LAW-L2::EA-09->LAW-L3::EW-P002",
+      "LAW-L2::EA-09->LAW-L3::EW-P003",
+      "LAW-L2::EA-09->LAW-L3::EW-P004",
+      "LAW-L2::EA-09->LAW-L3::EW-P012",
+      "LAW-L2::EA-09->LAW-L3::EW-P021",
+      "LAW-L2::EA-09->LAW-L3::EW-P022",
+      "LAW-L2::EA-09->LAW-L3::EW-P023",
+      "LAW-L2::EA-09->LAW-L3::EW-P024",
+      "LAW-L2::EA-09->LAW-L3::EW-P025",
+      "LAW-L2::EA-09->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P001",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P001",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "shared_question_or_object": "An operative requirement constrains a consequential architectural commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Irreversibility, coupling and quality tradeoffs identify which unresolved intent must be clarified before dependent structural commitments and which locally reversible details can remain provisional.",
+        "receiving_consequence": "Irreversibility, coupling and quality tradeoffs identify which unresolved intent must be clarified before dependent structural commitments and which locally reversible details can remain provisional.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Irreversibility, coupling and quality tradeoffs identify which unresolved intent must be clarified before dependent structural commitments and which locally reversible details can remain provisional."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A costly architectural commitment does not give its designer authority to redefine user needs; an impressive architecture diagram can implement an obsolete requirement.",
+        "counter_control": "A costly architectural commitment does not give its designer authority to redefine user needs; an impressive architecture diagram can implement an obsolete requirement.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P001->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "actual_object": "An operative requirement constrains a consequential architectural commitment.",
+          "literal_bridge": "Irreversibility, coupling and quality tradeoffs identify which unresolved intent must be clarified before dependent structural commitments and which locally reversible details can remain provisional."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P002",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P002",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "shared_question_or_object": "A structural or interface assumption is uncertain before a costly commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The coupling and reversibility analysis makes the consequence and decision horizon of the uncertain premise explicit, guiding proportionate learning before its options close.",
+        "receiving_consequence": "The coupling and reversibility analysis makes the consequence and decision horizon of the uncertain premise explicit, guiding proportionate learning before its options close.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The coupling and reversibility analysis makes the consequence and decision horizon of the uncertain premise explicit, guiding proportionate learning before its options close."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Labeling every design uncertainty irreversible can fund speculative studies with no discriminating result or consequential decision.",
+        "counter_control": "Labeling every design uncertainty irreversible can fund speculative studies with no discriminating result or consequential decision.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P002->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "actual_object": "A structural or interface assumption is uncertain before a costly commitment.",
+          "literal_bridge": "The coupling and reversibility analysis makes the consequence and decision horizon of the uncertain premise explicit, guiding proportionate learning before its options close."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P003",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P003",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "shared_question_or_object": "The same high-consequence architectural choice faces feasibility and interface constraints.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Irreversibility and coupling determine which structural claims deserve early analysis and fitness evidence before hard commitment, while preserving a thin path for local reversible choices.",
+        "receiving_consequence": "Irreversibility and coupling determine which structural claims deserve early analysis and fitness evidence before hard commitment, while preserving a thin path for local reversible choices.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Irreversibility and coupling determine which structural claims deserve early analysis and fitness evidence before hard commitment, while preserving a thin path for local reversible choices."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Upfront analysis may lock in an untested speculative architecture; more analysis is not automatically better fitness evidence.",
+        "counter_control": "Upfront analysis may lock in an untested speculative architecture; more analysis is not automatically better fitness evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "actual_object": "The same high-consequence architectural choice faces feasibility and interface constraints.",
+          "literal_bridge": "Irreversibility and coupling determine which structural claims deserve early analysis and fitness evidence before hard commitment, while preserving a thin path for local reversible choices."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P004",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P004",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "shared_question_or_object": "A prototype or analysis is intended to reduce risk of the same architectural commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The architectural tradeoff and costly-to-reverse dependency identify the discriminating question that the executable investigation must address before commitment.",
+        "receiving_consequence": "The architectural tradeoff and costly-to-reverse dependency identify the discriminating question that the executable investigation must address before commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The architectural tradeoff and costly-to-reverse dependency identify the discriminating question that the executable investigation must address before commitment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A convenient demonstration of an isolated component can leave the high-consequence cross-boundary interaction unexamined.",
+        "counter_control": "A convenient demonstration of an isolated component can leave the high-consequence cross-boundary interaction unexamined.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P004->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "actual_object": "A prototype or analysis is intended to reduce risk of the same architectural commitment.",
+          "literal_bridge": "The architectural tradeoff and costly-to-reverse dependency identify the discriminating question that the executable investigation must address before commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P012",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P012",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "shared_question_or_object": "An architectural quality choice affects actual users or operating conditions.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The coupled and irreversible consequence identifies which use scenario must be validated early and how late discovery would affect the architecture.",
+        "receiving_consequence": "The coupled and irreversible consequence identifies which use scenario must be validated early and how late discovery would affect the architecture.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The coupled and irreversible consequence identifies which use scenario must be validated early and how late discovery would affect the architecture."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An architect can choose an easily measurable quality attribute while ignoring the actual excluded users or operational harm.",
+        "counter_control": "An architect can choose an easily measurable quality attribute while ignoring the actual excluded users or operational harm.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P012->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "actual_object": "An architectural quality choice affects actual users or operating conditions.",
+          "literal_bridge": "The coupled and irreversible consequence identifies which use scenario must be validated early and how late discovery would affect the architecture."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P021",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P021",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "shared_question_or_object": "A commitment review concerns an architectural choice with costly dependencies.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The explicit coupling, remaining reversibility, tradeoffs and fitness evidence give the empowered review a concrete basis for go, redirect, hold or stop.",
+        "receiving_consequence": "The explicit coupling, remaining reversibility, tradeoffs and fitness evidence give the empowered review a concrete basis for go, redirect, hold or stop.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The explicit coupling, remaining reversibility, tradeoffs and fitness evidence give the empowered review a concrete basis for go, redirect, hold or stop."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An architecture board presentation can conceal untested assumptions; the existence of a review does not validate the design.",
+        "counter_control": "An architecture board presentation can conceal untested assumptions; the existence of a review does not validate the design.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "actual_object": "A commitment review concerns an architectural choice with costly dependencies.",
+          "literal_bridge": "The explicit coupling, remaining reversibility, tradeoffs and fitness evidence give the empowered review a concrete basis for go, redirect, hold or stop."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P022",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "shared_question_or_object": "The same design decision can preserve or destroy later investment options.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Coupling and recovery cost reveal whether an apparent small increment genuinely limits commitment or already fixes expensive downstream choices.",
+        "receiving_consequence": "Coupling and recovery cost reveal whether an apparent small increment genuinely limits commitment or already fixes expensive downstream choices.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Coupling and recovery cost reveal whether an apparent small increment genuinely limits commitment or already fixes expensive downstream choices."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A short iteration can buy irreversible tooling or lock an external interface, preserving no meaningful option.",
+        "counter_control": "A short iteration can buy irreversible tooling or lock an external interface, preserving no meaningful option.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "actual_object": "The same design decision can preserve or destroy later investment options.",
+          "literal_bridge": "Coupling and recovery cost reveal whether an apparent small increment genuinely limits commitment or already fixes expensive downstream choices."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P023",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P023",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22",
+          "expected_native_id": "EW-P023"
+        },
+        "shared_question_or_object": "Concurrent or recursive work shares architecture and integration dependencies.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Architectural coupling and irreversible interface decisions identify which activities may safely overlap and where premature parallel commitment creates expensive rework.",
+        "receiving_consequence": "Architectural coupling and irreversible interface decisions identify which activities may safely overlap and where premature parallel commitment creates expensive rework.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Architectural coupling and irreversible interface decisions identify which activities may safely overlap and where premature parallel commitment creates expensive rework."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A diagram of independent modules can hide shared timing, safety or integration constraints; declared modularity does not prove safe concurrency.",
+        "counter_control": "A diagram of independent modules can hide shared timing, safety or integration constraints; declared modularity does not prove safe concurrency.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P023->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "actual_object": "Concurrent or recursive work shares architecture and integration dependencies.",
+          "literal_bridge": "Architectural coupling and irreversible interface decisions identify which activities may safely overlap and where premature parallel commitment creates expensive rework."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P024",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P024",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "shared_question_or_object": "A control package is tailored for a consequential structural decision.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual reversibility, coupling and quality consequence provide specific reasons to strengthen selected architectural evidence or omit unnecessary ceremony.",
+        "receiving_consequence": "The actual reversibility, coupling and quality consequence provide specific reasons to strengthen selected architectural evidence or omit unnecessary ceremony.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual reversibility, coupling and quality consequence provide specific reasons to strengthen selected architectural evidence or omit unnecessary ceremony."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A private estimate of architectural risk cannot waive a binding safety obligation or substitute a diagram for required evidence.",
+        "counter_control": "A private estimate of architectural risk cannot waive a binding safety obligation or substitute a diagram for required evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P024->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "actual_object": "A control package is tailored for a consequential structural decision.",
+          "literal_bridge": "The actual reversibility, coupling and quality consequence provide specific reasons to strengthen selected architectural evidence or omit unnecessary ceremony."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P025",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "shared_question_or_object": "A forecast depends on the same architecture and its unresolved coupling.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Identified structural dependencies, uncertainty and costly rework expose assumptions that should widen or condition forecasts of delivery and change effort.",
+        "receiving_consequence": "Identified structural dependencies, uncertainty and costly rework expose assumptions that should widen or condition forecasts of delivery and change effort.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Identified structural dependencies, uncertainty and costly rework expose assumptions that should widen or condition forecasts of delivery and change effort."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An architectural risk label is not a calibrated probability or a quantitative rework distribution.",
+        "counter_control": "An architectural risk label is not a calibrated probability or a quantitative rework distribution.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "actual_object": "A forecast depends on the same architecture and its unresolved coupling.",
+          "literal_bridge": "Identified structural dependencies, uncertainty and costly rework expose assumptions that should widen or condition forecasts of delivery and change effort."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P033",
+        "source_native_id": "EA-09",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+          "expected_native_id": "EA-09",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/8",
+            "expected_native_id": "AGQ-EA-09"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "shared_question_or_object": "Control strength is chosen for the same architectural commitment and recovery conditions.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Concrete structural coupling and reversal cost instantiate the consequence and commitment dimensions that justify stronger or thinner controls.",
+        "receiving_consequence": "Concrete structural coupling and reversal cost instantiate the consequence and commitment dimensions that justify stronger or thinner controls.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Concrete structural coupling and reversal cost instantiate the consequence and commitment dimensions that justify stronger or thinner controls."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A reversible code edit can expose users to irreversible harm; reversibility of the artifact alone does not justify weak control.",
+        "counter_control": "A reversible code edit can expose users to irreversible harm; reversibility of the artifact alone does not justify weak control.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L2::EA-09",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential structural/interface choice with a stated decision horizon.",
+          "source_criterion": "Apply deliberate architectural analysis where irreversibility, coupling or quality-attribute trade-offs make late discovery expensive.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "actual_object": "Control strength is chosen for the same architectural commitment and recovery conditions.",
+          "literal_bridge": "Concrete structural coupling and reversal cost instantiate the consequence and commitment dimensions that justify stronger or thinner controls."
+        }
+      }
+    ],
+    "independent_review_scope": "Full common premise, literal membership, native scope and controls require later fidelity and separate adversarial assessment."
+  }
+}

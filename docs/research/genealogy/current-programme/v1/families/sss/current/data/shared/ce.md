@@ -1,0 +1,93 @@
+# Shared scientific records
+
+These records preserve repeated scientific material once. They are linked from the property, relationship and synthesis readers. Their keys identify exact normalized values, not strength of evidence.
+
+<a id="r-ce0aff56bff423f51bb0eb863c64f558ec54a76b7811f3591da6b0fa75c86558"></a>
+## Scientific record ce0aff56bff4
+
+<dl><dt>Input property key</dt><dd><p>B:ESME-033</p></dd><dt>Account</dt><dd><dl><dt>Account</dt><dd><p>The real-fault relationship is sample- and operator-dependent; equivalent mutants and selected reproducible bugs limit interpretation.</p></dd><dt>Source ids</dt><dd><ol><li><p>ESME-CS049</p></li></ol></dd><dt>Distinction</dt><dd><p>The sources’ findings and this researcher’s extrapolation/critique are separated in the criticism ledger and source limits.</p></dd></dl></dd></dl>
+
+<a id="r-ce0c85fe83691cc43b1acc7a52fbd0311727ffa471f417b7d97dfe743dbbae0f"></a>
+## Scientific record ce0c85fe8369
+
+<dl><dt>Conditions</dt><dd><ol><li><p>Task selection, experience, tooling, concurrency and quality standards are comparable.</p></li></ol></dd><dt>Related property ids</dt><dd><ol><li><p>ESME-C064</p></li><li><p>ESME-C072</p></li><li><p>ESME-C083</p></li><li><p>ESME-C085</p></li></ol></dd><dt>Interpretation</dt><dd><p>Related obligations and prerequisites, not a serial scheduling graph. Typed relations in the composition model control the relationship meaning.</p></dd></dl>
+
+<a id="r-ce113d11daff73a1011d6f5d884d0e6a5e867cd45e8abb2a4490b7d01d60742d"></a>
+## Scientific record ce113d11daff
+
+<dl><dt>Account</dt><dd><p>Every constituent technique has costs, prerequisites and non-trigger cases; their conjunction is not a universal workflow.</p></dd><dt>Antecedents</dt><dd><p><a href="28.md#r-2803a34c464018efa087f6fb97ae495cf9d16e332b8aba59e3da4239d3dff1f2">Shared scientific record 2803a34c4640</a></p></dd><dt>Attribution limit</dt><dd><p>No chronological-first or causal-influence claim follows solely from this antecedent list.</p></dd></dl>
+
+<a id="r-ce14af8449052ac50d53f2ab0557d9c418f71aef8477e3bfb8ce459c44b5c8e0"></a>
+## Scientific record ce14af844905
+
+<dl><dt>Input property key</dt><dd><p>B:ESME-018</p></dd><dt>Account</dt><dd><p><a href="4e.md#r-4e5de971d91159b2832fc0c7b155a62457ad9ab648ff5ed59e256bed55609573">Shared scientific record 4e5de971d911</a></p></dd></dl>
+
+<a id="r-ce249f39432bfabd56cf808256358070ffcac0f4f58e564b0d04665d79bed0ae"></a>
+## Scientific record ce249f39432b
+
+<dl><dt>Actor</dt><dd><dl><dt>Principal</dt><dd><p>r16-private-fixture-executor</p></dd><dt>Principal basis</dt><dd><p>Analytical role; actual PID/UID captured, no institutional authentication claim.</p></dd><dt>Process pid</dt><dd><p>5</p></dd><dt>Process uid</dt><dd><p>1000</p></dd></dl></dd><dt>At ns</dt><dd><p>1794515817247167071</p></dd><dt>Before</dt><dd><p>null</p></dd><dt>Configuration</dt><dd><dl><dt>Mode</dt><dd><p>persistent_write</p></dd></dl></dd><dt>Context id</dt><dd><p>r16-operation-correspondence-fdd0f1d1b89b48d791ba823566c27a50</p></dd><dt>Invocation id</dt><dd><p>r16-source-fa881e88c6184ea4a8383e1aa628036c</p></dd><dt>Operation</dt><dd><p>READ</p></dd><dt>Program sha256</dt><dd><p>43925838d391c2e0f887094caf4a547af6b76b41c6640cad35c2f08ffe3d250c</p></dd><dt>Resource</dt><dd><dl><dt>Artifact</dt><dd><p>working/reserve.dat</p></dd><dt>Bytes</dt><dd><p>2</p></dd><dt>Observation role</dt><dd><p>INLINE_HISTORICAL_RESOURCE_STATE_NOT_CURRENT_FILE_DESCRIPTOR</p></dd><dt>Sha256</dt><dd><p>d6d824abba4afde81129c71dea75b8100e96338da5f416d2f69088f1960cb091</p></dd><dt>Text</dt><dd><p>97</p></dd></dl></dd><dt>Resource concept</dt><dd><p>protected reserve resource</p></dd></dl>
+
+<a id="r-ce3d6cba5a5f0933603792096bf6fd2c6f2a3988d59d80ab4a7bdf6112303c5e"></a>
+## Scientific record ce3d6cba5a5f
+
+<dl><dt>Native id</dt><dd><p>ESPLE-S022</p></dd><dt>Locator</dt><dd><p>/sources/21</p></dd><dt>Complete selected record</dt><dd><p><a href="0d.md#r-0d9e1e06382dffa9ae426686dc361574ba2ebd8cbd610dc5735282fd45c2767a">Shared scientific record 0d9e1e06382d</a></p></dd><dt>Current access groups</dt><dd><ol></ol></dd><dt>Current assessment</dt><dd><p>Complete native citation and use records read; underlying work not freshly revisited. Preserve inherited access and limitations without a new full-reading claim.</p></dd><dt>Upgrade rule</dt><dd><p>A discovered later version or source opening is not independent replication or automatic claim upgrade.</p></dd></dl>
+
+<a id="r-ce3d75dbb507b4fbc36466333ee82b9f341d4a96c21b1fdc5805ae9c52fc0699"></a>
+## Scientific record ce3d75dbb507
+
+<dl><dt>Change intent and change class</dt><dd><p>A harness is new, changed, migrated or relied on for a consequential acceptance claim. Generated patches, suggested merges and changed learned components are candidate interventions, not self-validating outcomes.</p></dd><dt>Baseline and affected artefacts</dt><dd><p>Execution harness, environment, selected tests, exit conditions and recorded results. Identify issue text, reference patch, model/tool version, prompt, dataset, harness, repository state and non-code dependencies.</p></dd><dt>Preservation obligation and observer</dt><dd><p>Reviewer interpreting evidence rather than trusting its producer. Correctness follows justified requirements and relevant observations, not necessarily identity to one reference patch.</p></dd><dt>Impact boundary and dependency evidence</dt><dd><p>Repository, model/data/configuration and concurrent-change dependencies exceed isolated-function benchmarks.</p></dd><dt>Comprehension assumptions</dt><dd><p>Observability includes test execution and failures, not merely process completion. Automation may redistribute comprehension and review work; record what humans and tools actually inspected.</p></dd><dt>Oracle and regression limits</dt><dd><p>Weak tests, contaminated history, issue/PR mismatch and manual uncertainty constrain benchmark and patch claims.</p></dd><dt>Compatibility and migration preconditions</dt><dd><p>Generated or learned-component changes still owe the applicable interface, schema and version-combination obligations.</p></dd><dt>Release rollback or forward repair condition</dt><dd><p>Tools have no intrinsic deployment authority; actual effects must retain justified containment, restoration or forward-repair choices.</p></dd><dt>Maintainer and downstream consumers</dt><dd><p>Maintainers and reviewers receive proposed changes, assumptions and counterevidence; affected stakeholders resolve unclear objectives.</p></dd><dt>Lifecycle cost and retirement condition</dt><dd><p>A simple transparent command with known checks may need only a small sanity test rather than a framework audit. Measure total work and compute over an appropriate horizon; discontinue assistance when its net payoff or evidence boundary deteriorates.</p></dd></dl>
+
+<a id="r-ce67c3c1bc308537ab551c5e1e4f1bae81f70d42f58a6d44a389122cbb92c338"></a>
+## Scientific record ce67c3c1bc30
+
+<dl><dt>Analytical evaluation</dt><dd><p><a href="9d.md#r-9de18449f4a6a23d2fb16721b04786022f4fda974fb460853f900afb617ce460">Shared scientific record 9de18449f4a6</a></p></dd><dt>Fresh evidence limit</dt><dd><p>Only the cited new access events supply fresh evidence, each at its stated passage/design scope. Empty fresh list means the reviewed native evidence remains inherited; it does not mean the material row was left unexamined.</p></dd><dt>Polarity rule</dt><dd><p>The selected criterion is evaluated under its stated guard and premises; ancestry can contain an opposite-polarity or narrower candidate with its own unchanged status.</p></dd><dt>Scientific adjudication</dt><dd><p>RETAIN_NATIVE_DISPOSITION_WITH_EXPLICIT_SCOPE_AND_NEW_ACCESS_PARTITIONS</p></dd></dl>
+
+<a id="r-ce702d84f30b6d11ecbf96f59a4218a937cff98a1a3683aefa3c321835ef8d64"></a>
+## Scientific record ce702d84f30b
+
+<dl><dt>Actual after or read</dt><dd><dl><dt>Artifact</dt><dd><p>cases/action_scope/account.dat</p></dd><dt>Bytes</dt><dd><p>2</p></dd><dt>Sha256</dt><dd><p>eb1e33e8a81b697b75855af6bfcdbcbf7cbbde9f94962ceaec1ed8af21f5a50f</p></dd><dt>Text</dt><dd><p>31</p></dd></dl></dd><dt>Actual before</dt><dd><dl><dt>Artifact</dt><dd><p>cases/action_scope/account.dat</p></dd><dt>Bytes</dt><dd><p>2</p></dd><dt>Sha256</dt><dd><p>76a50887d8f1c2e9301755428990ad81479ee21c25b43215cf524541e0503269</p></dd><dt>Text</dt><dd><p>36</p></dd></dl></dd><dt>Artifact</dt><dd><p>cases/action_scope/account.dat</p></dd><dt>At ns</dt><dd><p>1794494099263282713</p></dd><dt>Operation</dt><dd><p>WRITE</p></dd><dt>Resource concept</dt><dd><p>SharedAccount</p></dd></dl>
+
+<a id="r-ce70be11f3ebc0d73530c31fa8387327a7d8899d572041f96147b79c18a7ed74"></a>
+## Scientific record ce70be11f3eb
+
+<dl><dt>Recipient and boundary</dt><dd><p>Maintainers and reviewers consume validation evidence; the generator cannot self-certify correctness solely through its own success flag.</p></dd><dt>Content</dt><dd><p>Check the actual transformed baseline using relevant semantic reasoning, tests or comparison; invalidate earlier evidence when consequential inputs change.</p></dd><dt>Adequacy test</dt><dd><p>The exact candidate has evidence for its intended and preserved obligations, with unresolved failures visible.</p></dd><dt>Non requirement</dt><dd><p>No separate person, meeting, registry or tool is required merely because the analytical roles are distinct.</p></dd></dl>
+
+<a id="r-ce7e42412bca35bf84eafda3a0514cc150b7c0cf929103f1585a56958bf4abe0"></a>
+## Scientific record ce7e42412bca
+
+<dl><dt>Id</dt><dd><p>ESME-C096</p></dd><dt>Semantic role</dt><dd><p>REJECTED_UNBOUNDED_DELEGATION</p></dd><dt>Scope and quantification</dt><dd><p>The rejected inference extends local model success to unrestricted autonomous production maintenance and external effects.</p></dd><dt>Discriminating evaluation</dt><dd><p>A successful narrow patch whose actor lacks a separate required execution power defeats self-expanding authority.</p></dd><dt>Additional qualification</dt><dd><p>Bounded delegated automation can still be appropriate. Rejection does not require a human click for every operation and is separate from C100&#x27;s empirical capability question.</p></dd><dt>Fresh access event ids</dt><dd><ol><li><p>F19_TIME_HORIZON</p></li><li><p>F22_APR</p></li></ol></dd></dl>
+
+<a id="r-ce848c77c38ef03999b6dbc40d9681bc2be9e02d349d60d93ea0522e67e33ddf"></a>
+## Scientific record ce848c77c38e
+
+<dl><dt>New property established</dt><dd><p>false</p></dd><dt>Predicate entailment after removal</dt><dd><p>The originally identified sufficient inherited criterion or criterion set remains. The same no-novelty adjudication applies, although this exact example loses a cited scope/input.</p></dd><dt>Remaining parent ids</dt><dd><ol><li><p>ESA:ESA-005</p></li><li><p>ESA:ESA-035</p></li><li><p>ESME:ESME-C071</p></li><li><p>ESME:ESME-C094</p></li><li><p>ESPLE:ESPLE-039</p></li></ol></dd><dt>Remaining sufficient criterion references</dt><dd><ol><li><p>ESA:ESA-005</p></li><li><p>ESPLE:ESPLE-039</p></li></ol></dd><dt>Removed function exact</dt><dd><p>Identify who controls assets, proposals, interfaces and releases; distinguish contractual or negotiated compatibility from internal derivation authority; export bounded interfaces rather than fictitious central control.</p></dd><dt>Removed parent</dt><dd><p>ESPLE:ESPLE-041</p></dd><dt>Result</dt><dd><p>The proposed novelty still fails: removing this parent cannot turn the remaining argument into a new established predicate. This removes a scoped input or diagnostic witness; it does not change the inherited rule or turn missing evidence into a new property.</p></dd><dt>Scope function replaceability</dt><dd><p>A named parent can be replaceable by another adequate mechanism; removal of its citation is not proof that all corresponding domain facts disappear.</p></dd></dl>
+
+<a id="r-ce9d79f1f23ceffceaae5d352a35e8f1a7c3164529d011604e069c5e242300d8"></a>
+## Scientific record ce9d79f1f23c
+
+<dl><dt>Source id</dt><dd><p>ESME-S051</p></dd><dt>Locators</dt><dd><ol><li><p>Requirements of a Canary Process; Choosing a Canary Population and Duration; Selecting and Evaluating Metrics; artificial load and traffic teeing limitations</p></li></ol></dd><dt>Use</dt><dd><p>Historical/conceptual premise or adverse/empirical limit. The mature coupling and audit question are researcher interpretation, not a quotation or claim of consensus.</p></dd></dl>
+
+<a id="r-cec4e58a2fadacf43bdeefc89ed98b51444ccf2fc0dd47d5f398cf64c62ec8ab"></a>
+## Scientific record cec4e58a2fad
+
+<dl><dt>Source id</dt><dd><p>ESPLE-S034</p></dd><dt>Title</dt><dd><p>Where Did the Variability Go? From Vibe Coding to Product Lines by Regeneration</p></dd><dt>Authors or organisation</dt><dd><ol><li><p>Xhevahire Tërnava</p></li></ol></dd><dt>Date</dt><dd><p>2026-06-17</p></dd><dt>Version or edition</dt><dd><p>arXiv 2606.19042 v1</p></dd><dt>Url or doi</dt><dd><p>https://arxiv.org/html/2606.19042v1</p></dd><dt>Source class</dt><dd><p>PRIMARY_EXPLORATORY_PREPRINT</p></dd><dt>Access date</dt><dd><p>2026-09-06</p></dd><dt>Access level</dt><dd><p>FULL_TEXT_TARGETED_INSPECTION</p></dd><dt>Claim locators</dt><dd><ol><li><dl><dt>Locator</dt><dd><p>Exploratory study and limitations</p></dd><dt>Inspected claim</dt><dd><p>Ten C/C++ projects and a small regeneration illustration.</p></dd><dt>Claim locator id</dt><dd><p>ESPLE-S034-L01</p></dd></dl></li><li><dl><dt>Locator</dt><dd><p>Proposal and future work</p></dd><dt>Inspected claim</dt><dd><p>Variability by regeneration using an LLM and specifications.</p></dd><dt>Claim locator id</dt><dd><p>ESPLE-S034-L02</p></dd></dl></li></ol></dd><dt>Supported property ids</dt><dd><ol><li><p>ESPLE-047</p></li><li><p>ESPLE-048</p></li></ol></dd><dt>Evidence limits</dt><dd><p><a href="97.md#r-9701c4cb83d0d8970423c0ce820bc67cfdac17738b08434d3dba3dab9cf9d56f">Shared scientific record 9701c4cb83d0</a></p></dd><dt>Dependence cluster ids</dt><dd><ol><li><p>LLM_REGENERATION</p></li></ol></dd><dt>Evidence roles</dt><dd><ol><li><p>RESEARCHER_INTERPRETATION</p></li><li><p>EMPIRICAL_COMPARISON</p></li></ol></dd><dt>What was inspected</dt><dd><p>Full text was available; targeted inspection covered the recorded passages, sections, figures or tables. This does not assert every cited reference or every page was independently analysed.</p></dd></dl>
+
+<a id="r-cedd73c0e7b98364cf43d6a1d71a68e697d18376d62437ef92186f1a46af0f53"></a>
+## Scientific record cedd73c0e7b9
+
+<dl><dt>Change intent and change class</dt><dd><p>Concurrent changes have plausible semantic interference that targeted automation can help expose. Generated patches, suggested merges and changed learned components are candidate interventions, not self-validating outcomes.</p></dd><dt>Baseline and affected artefacts</dt><dd><p>Base/parent/merged program, generated tests or build-conflict patterns. Identify issue text, reference patch, model/tool version, prompt, dataset, harness, repository state and non-code dependencies.</p></dd><dt>Preservation obligation and observer</dt><dd><p>Contributors and maintainers reconciling jointly intended changes. Correctness follows justified requirements and relevant observations, not necessarily identity to one reference patch.</p></dd><dt>Impact boundary and dependency evidence</dt><dd><p>Repository, model/data/configuration and concurrent-change dependencies exceed isolated-function benchmarks.</p></dd><dt>Comprehension assumptions</dt><dd><p>The tool’s language, conflict and observation model fits the case. Automation may redistribute comprehension and review work; record what humans and tools actually inspected.</p></dd><dt>Oracle and regression limits</dt><dd><p>Weak tests, contaminated history, issue/PR mismatch and manual uncertainty constrain benchmark and patch claims.</p></dd><dt>Compatibility and migration preconditions</dt><dd><p>Generated or learned-component changes still owe the applicable interface, schema and version-combination obligations.</p></dd><dt>Release rollback or forward repair condition</dt><dd><p>Tools have no intrinsic deployment authority; actual effects must retain justified containment, restoration or forward-repair choices.</p></dd><dt>Maintainer and downstream consumers</dt><dd><p>Maintainers and reviewers receive proposed changes, assumptions and counterevidence; affected stakeholders resolve unclear objectives.</p></dd><dt>Lifecycle cost and retirement condition</dt><dd><p>Manual joint review and focused integration tests may be enough; clean noninteracting changes need no special tool. Measure total work and compute over an appropriate horizon; discontinue assistance when its net payoff or evidence boundary deteriorates.</p></dd></dl>
+
+<a id="r-cedf03d7b4c9c81e675e2499286e71c776259d38f116243bf4ae435aeb1fea5b"></a>
+## Scientific record cedf03d7b4c9
+
+<dl><dt>Actual write</dt><dd><p>false</p></dd><dt>Baseline version</dt><dd><p>R16-B01</p></dd><dt>Bound actions</dt><dd><p><a href="f0.md#r-f06b871189554dcfba650037d8882be36808fa5715d012738a35317919c25c79">Shared scientific record f06b87118955</a></p></dd><dt>Control accepts</dt><dd><dl><dt>D</dt><dd><p>true</p></dd><dt>F</dt><dd><p>true</p></dd><dt>G</dt><dd><p>true</p></dd><dt>S</dt><dd><p>true</p></dd></dl></dd><dt>Functional</dt><dd><p>true</p></dd><dt>Invocation id</dt><dd><p>r16-source-19c27be1a1424518a53d1f7591323f77</p></dd><dt>Mapping</dt><dd><dl><dt>Working/reserve.dat</dt><dd><p>protected reserve resource</p></dd></dl></dd><dt>Mode</dt><dd><p>read_only</p></dd><dt>Producer</dt><dd><p>ESA038_NATIVE_CONFORMANCE</p></dd><dt>Program sha256</dt><dd><p>43925838d391c2e0f887094caf4a547af6b76b41c6640cad35c2f08ffe3d250c</p></dd><dt>Protected</dt><dd><p>true</p></dd><dt>Truth</dt><dd><p>true</p></dd></dl>
+
+<a id="r-cee1a88977a73673f7635bbcc4db36f29672a7489d3058dcd300df19c51987f4"></a>
+## Scientific record cee1a88977a7
+
+<ol><li><dl><dt>Input property key</dt><dd><p>A:ESME-083</p></dd><dt>Account</dt><dd><dl><dt>Critical assumption</dt><dd><p>The tool’s language, conflict and observation model fits the case.</p></dd><dt>Discriminating question</dt><dd><p>What semantic interaction lies outside this tool’s definition of conflict?</p></dd></dl></dd></dl></li><li><p><a href="37.md#r-373a0e555128eecc0383ac23a9ea36cceeb6d0cf1012fd8b679372c917d3e272">Shared scientific record 373a0e555128</a></p></li></ol>
+
+<a id="r-ceef0924aa89ab4b7b922f3919d33b69267019f1732f7ff6220c7b0502d1606b"></a>
+## Scientific record ceef0924aa89
+
+<dl><dt>Pointer</dt><dd><p>/properties/39/ASSUMPTION_SENSITIVITY</p></dd><dt>Value</dt><dd><p><a href="21.md#r-2174a82e11ca0a927a3a03400dc20fb7244099ce6319596db3e6ad4873e2ccb5">Shared scientific record 2174a82e11ca</a></p></dd></dl>

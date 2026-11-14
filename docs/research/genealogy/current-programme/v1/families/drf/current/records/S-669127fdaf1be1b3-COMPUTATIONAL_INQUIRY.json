@@ -1,0 +1,3948 @@
+{
+  "source_identity": {
+    "source_id": "S-669127fdaf1be1b3",
+    "scientific_name": "COMPUTATIONAL_INQUIRY.json",
+    "original_bytes": 184410,
+    "original_sha256": "669127fdaf1be1b309a6157a2eb934aef7a82360c9d4c9509acc497a18b1fc0d"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-computational-inquiry/1",
+    "authored_source": {
+      "path": "analysis_r20/computational_routes.py",
+      "bytes": 22087,
+      "sha256": "0c577877f742af39f698d1508745ac76bb7369c160469b86c966ebdc6eb89595"
+    },
+    "native_adapter": {
+      "path": "PROPERTY_INDEX.json",
+      "bytes": 523772,
+      "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+    },
+    "value_source": {
+      "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+      "bytes": 202376,
+      "sha256": "d4967b391f21755fb24421c638741930993a41ac1d7fc9d71a3f567de64f52a0"
+    },
+    "source_code_reading": {
+      "path": "analysis_r19/REUSED_SCIENTIFIC_CODE_READING.json",
+      "bytes": 3301,
+      "sha256": "ccd8d84fad90cfaf036d0a01e17a7d21fe817455b5c56b4e8062a1b9693e8fe0"
+    },
+    "common": {
+      "F019_forward": "A reduced search over this particular computation/model is admissible only if the reduction preserves its named native predicate, relevant branches, observation distinctions and any required weights/fairness. The specified semantic near-miss identifies a distinction that cannot be erased merely to reduce work. No reduction or efficiency result is claimed to have run.",
+      "F019_reverse": "The native value/predicate and actual computational facet select which state/path distinctions or equivalent cases may be merged, and which omissions would change the result. They permit the unreduced small calculation when reduction adds no benefit; they do not prove a proposed reduction sound.",
+      "F024_forward": "A SAT/SMT encoding of the stated finite or restricted logical/arithmetic predicate can supply a witness or valid absence result at its actual theory/status. Correspondence to this computation and the native predicate is required. UNKNOWN, unsupported arithmetic or a model after UNKNOWN cannot receive proved-SAT/UNSAT credit.",
+      "F024_reverse": "The native predicate and this actual computation identify the formula, domain, values, machine-arithmetic/real-arithmetic distinction and relevant exclusions the solver claim must cover. They do not make a solver reliable or validate two solvers sharing the same wrong formula.",
+      "F025_forward": "A feasible symbolic path through this named computation/model operation can expose a violated stated predicate or a discriminating admitted input. It supports the represented path and environment/library semantics. Incomplete absence, artificial impossible responses and unmodeled paths cannot establish a universal claim.",
+      "F025_reverse": "The actual native computational predicate determines which branches, inputs, environment returns and postconditions are consequential. It supplies the criterion for a useful witness and the completeness domain for absence, without pretending a model path is an observed deployment failure.",
+      "F026_forward": "An actual analyzer result for this named program/model facet contributes only under its supported language subset, property, abstraction, configuration and result interpretation. A useful heuristic warning and a sound restricted absence claim are different outcomes; deliberate escapes and implementation bugs are separate limitations.",
+      "F026_reverse": "The native computation and required predicate determine which supported operations, external calls, state changes and exclusions matter to this analysis result. A narrower useful witness or theorem remains creditable while a broader application remains open.",
+      "F033_forward": "For a compiled implementation of this exact computational facet, a matching compiler-preservation theorem can carry the proved source behavior to its covered target endpoint. This is a conditional implementation-correspondence contribution. The currently inspected Python case execution receives no CompCert or other verified-compiler credit: a supported source implementation, its relation to this facet, the real compiler/version/options and target artifacts would have to be supplied for such execution/application credit.",
+      "F033_reverse": "The native value/predicate and specific computational facet identify the source behavior and observations the compiler theorem must preserve. They can expose an unsupported language, omitted runtime/link stage or timing/quantity extension. They neither instantiate a compiler theorem for Python nor prove a source implementation correct.",
+      "F034_forward": "A per-run validator of the actual representation/implementation transformation used for this facet can check its required value/observation relation without proving every transformer run correct. At the bounded model level a direct input/output relation check may be sufficient. This is explicitly a methodological extension beyond compiler-only examples where a history/table/result representation is the transformation object, not an assertion that those examples were compiler builds.",
+      "F034_reverse": "The native predicate and computational facet select the exact input/output identities and preserved observation/value relation the validator must check. They reject merely equal shapes, a wrong unit/denominator, a pruned decisive branch or a different artifact; they do not establish validator correctness or turn unsupported/rejected validation into proof of a bad transformation.",
+      "actual_member_test": "Each member names an actual inspected computation or previously executed analytical model used as a partial input to its native scientific question. Its exact native value/predicate, formal activity, comparator, residual and consequential near-miss remain bound. The contribution concerns that specific facet, not a generic encoding of the property text or an assertion that the whole receiver is proved.",
+      "language_and_numeric_guard": "The source examples are Python finite models/calculations. Any symbolic/static/compiled/validated treatment needs explicit semantics for the operations it uses, including arbitrary versus bounded integers, Fraction, dictionaries/sets, exceptions, nondeterministic/environment behavior and numerical functions. exp/log/erf/sqrt are not silently linear-SMT terms or exact floating operations. A supported Boolean/finite/arithmetic subclaim may be useful without covering the full function.",
+      "compiler_boundary": "No selected case is relabeled a verified compiler run. F/C11 is abstract allowed/target behavior sets and byte labels; it demonstrates a relation/scope control only. A source-to-target preservation theorem must cover the actual observations required by the native claim, and ordinary trace inclusion need not preserve every probability, timing or relational property. NX04 supplies both the subset-closed positive case and the non-downward-closed countercase.",
+      "quantitative_boundary": "Correct program/model computation does not establish field probabilities, ascertainment, physical renewal, stress mechanisms, operational profiles, effective intervention or normative authority. These remaining premises are not a reason to erase the real computational input.",
+      "actual_controls": "F/C06 distinguishes complete finite exploration, bounded absence and an actual expansion-budget UNKNOWN. F/C09 checks a finite SAT witness/refutation and shows the integer/uint8 encoding difference; the two author algorithms share Python and their encoding. F/C19 explicitly omits unsafe_escape and misses value3; it is a constructed tool-model escape, not a newly found production defect. NX08 exposes a same-shaped wrong history transformation.",
+      "cost_alternatives": "Use the inspected direct evaluator, ordinary deterministic test, exact small unreduced model, human algebraic proof or unchanged sufficient component when adequate. Add only the method scope that resolves a consequential distinction; no mandatory solver/compiler/analyzer/validator pipeline or empirical speedup is asserted.",
+      "execution": "All relations here are own exposed analytical method-to-facet correspondences. No new solver, analyzer, symbolic engine, compiler, validator or scientific case program executes. All actual case results retain their original constituent[custody locator omitted; scientific source identity retained] authorship and execution scope."
+    },
+    "native_members": [
+      {
+        "id": "D01",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P01",
+          "native_pointer": "/PROPERTIES/0",
+          "current_pointer": "/QUALIFICATIONS/0",
+          "current_object_sha256": "a61034e0a67d3d356cf48c2734cf197c9f2d9934ca6dc01807db1546b9f2bcda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite clock/fault-model premise and quorum calculations, with memory semantics treated as a separate explicit model dimension.",
+        "case_source_anchors": "D/C02,D/C03;F/C17",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/0",
+          "canonical_object_sha256": "3d6acbd8252a6f28862c9c9bd53ef6b8a8dd9afeb1af86b0e5042dc832281030"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D01",
+          "canonical_value_sha256": "b8fb9069b1eeb32b84a9c1e22b8de8d4d13c0c9d1bed46e0e2a390a2db932491"
+        }
+      },
+      {
+        "id": "D02",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P02",
+          "native_pointer": "/PROPERTIES/1",
+          "current_pointer": "/QUALIFICATIONS/1",
+          "current_object_sha256": "1749cbb5d8015f551d1a82614402b582411af42af497047b592b4fe5bbb0a9cb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The two timeout-equivalent observation histories with different effects, and the separate current-state reset/world calculation.",
+        "case_source_anchors": "D/C01;NX01",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/1",
+          "canonical_object_sha256": "13744e56ee5598f2c35622d2bc808d778a64fc45b94feac56489984bb4355c5f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D02",
+          "canonical_value_sha256": "1dfc9c03f6d2a424d230a4bef9bd15da94b0cc7a279fbfb7f7f7319dac5f4691"
+        }
+      },
+      {
+        "id": "D03",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P03",
+          "native_pointer": "/PROPERTIES/2",
+          "current_pointer": "/QUALIFICATIONS/2",
+          "current_object_sha256": "f2f328c6106ec9ff81a2b923dabf4d704187a13ff488097ca0cc60e8d5446221",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite fault-set/system-function and joint-law threshold calculation; the all-real bound remains a separate analytic result.",
+        "case_source_anchors": "D/C12;NX07",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/2",
+          "canonical_object_sha256": "463895afe478fd87fab7b6a7a7406394ca28ae7f1fe4470ef85aa98f62d9d531"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D03",
+          "canonical_value_sha256": "b05cb587d354cd9d22d0539304d999da280b1cf54354a4920a509cc7258c1bc7"
+        }
+      },
+      {
+        "id": "D04",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P04",
+          "native_pointer": "/PROPERTIES/3",
+          "current_pointer": "/QUALIFICATIONS/3",
+          "current_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite event-order/prefix-state relation used to distinguish a causal cut from an actual chronological prefix; no full clock algorithm is claimed.",
+        "case_source_anchors": "D/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/3",
+          "canonical_object_sha256": "f6f9e2e4323cad84dfb22c27f56c518b7a959287ffaf72068d12c668f3bffba8"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D04",
+          "canonical_value_sha256": "c3c7dd543565dfd62b820183de1e3d4ba4db0c802e87c3204fe7d0788f9cf9b7"
+        }
+      },
+      {
+        "id": "D06",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P06",
+          "native_pointer": "/PROPERTIES/5",
+          "current_pointer": "/QUALIFICATIONS/5",
+          "current_object_sha256": "44b1bd9790135be10e9a01fb2e8bd24f6412c080f7272c6c5919722f0c295de4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The bounded-staleness versus authoritative-value predicate calculation for the declared consumer, rather than a universal read certificate.",
+        "case_source_anchors": "R/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/5",
+          "canonical_object_sha256": "f83a04acb606193aa9962c2039266bb21b26b445dffd97fa5c623aa0a8d1031f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D06",
+          "canonical_value_sha256": "12d5740d9b88b48ef3553fa7eade156a562dca3843dbc900206fad95112d81d3"
+        }
+      },
+      {
+        "id": "D07",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P07",
+          "native_pointer": "/PROPERTIES/6",
+          "current_pointer": "/QUALIFICATIONS/6",
+          "current_object_sha256": "5d7f6cd2af22fe7a2ba1eb98dd78e87038c6a326a93f4a7fac9d4a4fd808d3dd",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The complete finite register-history permutation and legal-sequential-order checker, with real-time precedence optionally enforced.",
+        "case_source_anchors": "F/C16;register_history_linearizations",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/6",
+          "canonical_object_sha256": "fb882f507350f36b009425bb8cf772ea5d4aa66e841ac03275476c1921ee6916"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D07",
+          "canonical_value_sha256": "1ce00c028625ade4262013ef87d3ef18eb763132843114dda61cc190a8affef1"
+        }
+      },
+      {
+        "id": "D08",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P08",
+          "native_pointer": "/PROPERTIES/7",
+          "current_pointer": "/QUALIFICATIONS/7",
+          "current_object_sha256": "16f1085722e6c646d032711801e9ecb7a238c3c8d50ff70bf52f6af76d78b1b4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The grow-only union and withdrawal/escrow arithmetic showing convergence and invariant preservation as different predicates.",
+        "case_source_anchors": "D/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/7",
+          "canonical_object_sha256": "6221abc44167acd438e21f0e74e9a9c7c075a96f183d13c763d8a67f0e9673c8"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D08",
+          "canonical_value_sha256": "5a11fb571a904627fde0bb65a8a9f0ed0566654a06f22754e068f85f951e067c"
+        }
+      },
+      {
+        "id": "D10",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P10",
+          "native_pointer": "/PROPERTIES/9",
+          "current_pointer": "/QUALIFICATIONS/9",
+          "current_object_sha256": "d5db1dda6d81cbfd03528814bad3ccce60743586bb5fdf777f7acdcbe5a7aa4b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The combinations/intersection calculation for the actual finite phase/configuration quorum families.",
+        "case_source_anchors": "D/C03",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/9",
+          "canonical_object_sha256": "3e83b3b049262d98792e3eed8bf7cc54c27e54c0b99915a6732fc18834e1bd0d"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D10",
+          "canonical_value_sha256": "f42d5307c60484cab727102fcc4149bbe0a1449c78cd3a3bdbdb027c0dfc21d9"
+        }
+      },
+      {
+        "id": "D11",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P11",
+          "native_pointer": "/PROPERTIES/10",
+          "current_pointer": "/QUALIFICATIONS/10",
+          "current_object_sha256": "fcae2bb307143f13aa0115ef9daed720593aff807738534f7fc6c5e1983c9cda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite certificate-intersection/valid-participant fact and the separate pending/serve model distinguishing safety from progress.",
+        "case_source_anchors": "D/C12;F/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/10",
+          "canonical_object_sha256": "e2be1648523d252d22ce075f3124b9d8ac5043de99153921dd1efffa0508e95f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D11",
+          "canonical_value_sha256": "c3d2583d58dbd0e67215abefc35dd2e182b758f04fcb720d68a745c0c23d75b9"
+        }
+      },
+      {
+        "id": "D12",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P12",
+          "native_pointer": "/PROPERTIES/11",
+          "current_pointer": "/QUALIFICATIONS/11",
+          "current_object_sha256": "d85e5cd8c157f96587e253ae6c704e07afffe1a0010f8848a99aa2d5dd400ecf",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The old-versus-changed membership quorum enumeration exposing an admitted disjoint old/new pair.",
+        "case_source_anchors": "D/C03",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/11",
+          "canonical_object_sha256": "235c27069f4ce0ead535aaf9440640c05a2a1aac4d323eda42acfff4d62c41ae"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D12",
+          "canonical_value_sha256": "fe4333725b2c68f73ecec87648be73c7163408e52bc9c4553fe0b84f05b61507"
+        }
+      },
+      {
+        "id": "D15",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P15",
+          "native_pointer": "/PROPERTIES/14",
+          "current_pointer": "/QUALIFICATIONS/14",
+          "current_object_sha256": "c7a789605bc6914d77ad45733fd9e262c026acfae6e4380848eb53917d79e15f",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The two locally valid withdrawals, their invalid merge and the changed escrow admission predicate.",
+        "case_source_anchors": "D/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/14",
+          "canonical_object_sha256": "18c0a1c8c2886864dc05f8611d7355dd11694c0e8d20f2c04247282a07425b28"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D15",
+          "canonical_value_sha256": "6600c97e44893489cbe894c389dde162fdd3ec3f4fc64ab8a19af6a833a3d3be"
+        }
+      },
+      {
+        "id": "D16",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P16",
+          "native_pointer": "/PROPERTIES/15",
+          "current_pointer": "/QUALIFICATIONS/15",
+          "current_object_sha256": "c50a0ec1a7b9ea2c419a6f0eaeafe79d306cc8c552130659cb5013dd416069ea",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The actual finite union/invariant/admission calculation used to distinguish the invoked merge/coordination premises.",
+        "case_source_anchors": "D/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/15",
+          "canonical_object_sha256": "b2c7a5d5a05ef16f2c0ad05263a6235a88c5c5dd22e6812ac4f99af34bf919be"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D16",
+          "canonical_value_sha256": "c8aa8a2ba363cb815253450ea88e1867811f224913ff940d2f1fccc547cc1ff1"
+        }
+      },
+      {
+        "id": "D17",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P17",
+          "native_pointer": "/PROPERTIES/16",
+          "current_pointer": "/QUALIFICATIONS/16",
+          "current_object_sha256": "ef95a8f0d71b9f632d4e0372c26d9b218073cf4d41ca03d626e397266f56f1bb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The internal atomic commit/replay counter and separately counted external retry effect.",
+        "case_source_anchors": "D/C06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/16",
+          "canonical_object_sha256": "b854bafde277bf4b88779655f4d73d2aa06451854faaa69f91862f650a59f4f5"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D17",
+          "canonical_value_sha256": "6ccfb18968e36cdf82a6243b1cf57ad93dd8a6f558e394697db303d4f08550d0"
+        }
+      },
+      {
+        "id": "D18",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P18",
+          "native_pointer": "/PROPERTIES/17",
+          "current_pointer": "/QUALIFICATIONS/17",
+          "current_object_sha256": "310053dfd384b870975f19ce4047f94b573fa8bf915389aabd2160bbe8333b7a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The seen-intent set and effect counter for repeated invoice-7, with parameter/principal generalization still requiring its native interface binding.",
+        "case_source_anchors": "D/C05;NX03 stable-intent model",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/17",
+          "canonical_object_sha256": "9be1c3df67dcc2dda9241b69eacccd900bc903d170c94d2dec5bb4fcf9cdab98"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D18",
+          "canonical_value_sha256": "f17b67cc31c99fa6cc5221d6ba9d67330de3531533db34c02db0eb03c321a9ec"
+        }
+      },
+      {
+        "id": "D20",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P20",
+          "native_pointer": "/PROPERTIES/19",
+          "current_pointer": "/QUALIFICATIONS/19",
+          "current_object_sha256": "b22560e6ccf9206f22d0d1fa78ef41d2845cc4665de92261fc5d2da2f4a3c3fb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The delayed_duplicate function at retention/admission boundary7, including explicit rejection of expired arrivals.",
+        "case_source_anchors": "D/C13",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/19",
+          "canonical_object_sha256": "b3a07289a8147ebb5851a0ce90f0c16c59b3e5b804b75defd207e0aecad7cfc0"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D20",
+          "canonical_value_sha256": "73bc58feb2e91da3b5e898aa58a9349a35526ef53558bd9e4b109f4f8371384f"
+        }
+      },
+      {
+        "id": "D21",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P21",
+          "native_pointer": "/PROPERTIES/20",
+          "current_pointer": "/QUALIFICATIONS/20",
+          "current_object_sha256": "a7a93b11ded474c2174379cab5d0dc64581264a3af0c4e370c509367e5c77929",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite internal commit/return and local-versus-consumer Boolean implication.",
+        "case_source_anchors": "D/C06;R/C04;NX01",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/20",
+          "canonical_object_sha256": "9a7a55e32ccb558beac1de8674e59ec8a3bc00e1da63599c65708d649d49e25e"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D21",
+          "canonical_value_sha256": "460372816737f9adc32797ea412b9adbf96a48f58a7a31752c5e2909078bf09d"
+        }
+      },
+      {
+        "id": "D25",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P25",
+          "native_pointer": "/PROPERTIES/24",
+          "current_pointer": "/QUALIFICATIONS/24",
+          "current_object_sha256": "d7e9207213e88814a01f857e85ce1a902196e71cfe2420b798c7215696bc55b8",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The replay function comparing command order/length with retained workflow history and the internal/external effect counters.",
+        "case_source_anchors": "D/C06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/24",
+          "canonical_object_sha256": "a5917dc6c4913893b3bfa25aba5bea647c2c0a543b737e3fb54431e6e5068015"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D25",
+          "canonical_value_sha256": "34f04fc39dcff07b0f4d9ac7531b26229b61c49785595abc5be655327a38f6ec"
+        }
+      },
+      {
+        "id": "D26",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P26",
+          "native_pointer": "/PROPERTIES/25",
+          "current_pointer": "/QUALIFICATIONS/25",
+          "current_object_sha256": "1dd503ee78de60bc0e5e88b0c002a75aadfd262ae1d7823576fb439a7a95db46",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The late duplicate-admission branch and distinct fencing/deduplication predicates; these are not a physical worker-stop test.",
+        "case_source_anchors": "D/C10,D/C13",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/25",
+          "canonical_object_sha256": "d292d9250549ab97fcddb8fa2dfd8be45b8875087d0e8fa13927e5ac6ed7ae71"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D26",
+          "canonical_value_sha256": "07156220464a06c13976441b37c859633b6c5de9cb3fe031875307c13cd8bbad"
+        }
+      },
+      {
+        "id": "D27",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P27",
+          "native_pointer": "/PROPERTIES/26",
+          "current_pointer": "/QUALIFICATIONS/26",
+          "current_object_sha256": "347855de54d98f307db561e6cd3c1032a34473a71caec165997218dd1fb83e70",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The narrow Q versus past-effect/authority world table and selected current-state reset postcondition.",
+        "case_source_anchors": "NX01",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/26",
+          "canonical_object_sha256": "44dff34cdc5901b6b1fe2fdd626d267196c24acecdb7afbe67d32a6fd66cbf38"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D27",
+          "canonical_value_sha256": "3c0eb1f5de059064846b45426d1c91a06dbf876b4daccfdda38599dc4b26bb8e"
+        }
+      },
+      {
+        "id": "D29",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P29",
+          "native_pointer": "/PROPERTIES/28",
+          "current_pointer": "/QUALIFICATIONS/28",
+          "current_object_sha256": "b441a83174fb05e8a5ee201feb33e5c0f9510657af5171c2d263a5e9fc4a78e0",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite queue, arrival/service, observation and recovery-load recurrence under its stated horizon.",
+        "case_source_anchors": "NX06;R/C10",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/28",
+          "canonical_object_sha256": "28cfec5b3d59c5f011dae4033250b2003092bb4da49f86d0f84e115f1d2f9dcb"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D29",
+          "canonical_value_sha256": "47db4ebb98a205680a27f3ce229e7cca6f4a078a8887b37ef71cff90cbf64efc"
+        }
+      },
+      {
+        "id": "D30",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P30",
+          "native_pointer": "/PROPERTIES/29",
+          "current_pointer": "/QUALIFICATIONS/29",
+          "current_object_sha256": "6d2eb38f5dedc4e468e11082df3a61a7b640f4bc790cf6ae28dff73a8ae4d6a1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The nested-attempt count and aggregate retry workload computation, including demand beyond the local queue.",
+        "case_source_anchors": "D/C05;R/C10;NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/29",
+          "canonical_object_sha256": "3c82aef64bfe40a6181f27ce61c3f80a0371b7e741406fcd97b086996a528190"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D30",
+          "canonical_value_sha256": "5dfc9d21d9abca5aee3e811ed777901209395bc8d951420afc12dfb3986010c7"
+        }
+      },
+      {
+        "id": "D31",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P31",
+          "native_pointer": "/PROPERTIES/30",
+          "current_pointer": "/QUALIFICATIONS/30",
+          "current_object_sha256": "683d45369b8709e1112d04c92a321d4a057cf36e1be15834c1401eb2916bbb86",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The actual protected-function acceptance predicate used to decide whether a reduced service result is acceptable; this is a partial criterion, not an implemented priority scheduler.",
+        "case_source_anchors": "R/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/30",
+          "canonical_object_sha256": "9a9b33c2337b5ba8de3ff9d7780eeae60f8507f1299d64f797fd9c5fafe5b25f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D31",
+          "canonical_value_sha256": "d495ac6fd4bfd9f28b67aa84b2b7b52dc8fe6324cefd967a2142c0b7529c3488"
+        }
+      },
+      {
+        "id": "D33",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P33",
+          "native_pointer": "/PROPERTIES/32",
+          "current_pointer": "/QUALIFICATIONS/32",
+          "current_object_sha256": "a3afc9aa60f8e5c340b196a57fe234607a0e6d9d9f28540de4c277c5dd632276",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The workload/queue recurrence under the selected observer/recovery intervention, separating non-growth from drainage.",
+        "case_source_anchors": "NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/32",
+          "canonical_object_sha256": "97db320de7dad6a3f7b3bed37d794c8bbf68488b7b6bac661325cd3176f6bcea"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D33",
+          "canonical_value_sha256": "00211bd5e362563d6f4396e9169891f017d8894a050c7c1d0d30fe0b3667d9e6"
+        }
+      },
+      {
+        "id": "D34",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P34",
+          "native_pointer": "/PROPERTIES/33",
+          "current_pointer": "/QUALIFICATIONS/33",
+          "current_object_sha256": "efa67d0542abe88985b9e716ef0dd8204481fd2eb78210fe71582f7c0b12b45a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The shared-sensor and shared-capacity model in which nominally separate observers retain a common failure/resource path.",
+        "case_source_anchors": "NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/33",
+          "canonical_object_sha256": "335a046e0a000609977e6ff4d6e361b170437acb73fecf2c54bb3e83651daf59"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D34",
+          "canonical_value_sha256": "9983b6d9146c8758f97c2bb769d6e4df82b019a6b55fa862accf5ab41382eda1"
+        }
+      },
+      {
+        "id": "D35",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P35",
+          "native_pointer": "/PROPERTIES/34",
+          "current_pointer": "/QUALIFICATIONS/34",
+          "current_object_sha256": "8a5c939b3c85ff69935255dce539be74ac98fb6343cff299e6fd85cc8609b6bc",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "prefix_states and the finite cut/dependency test distinguishing consistency from actual coexistence.",
+        "case_source_anchors": "D/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/34",
+          "canonical_object_sha256": "d675b43c55d1257c11ff65779b62f08f752113effc38fc023bd68f8435685cb3"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D35",
+          "canonical_value_sha256": "52ae76c7ee096a53b7e3ebf4619ceb12b6d1dd3dd38f7aeb584b3a234e4136c9"
+        }
+      },
+      {
+        "id": "D36",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P36",
+          "native_pointer": "/PROPERTIES/35",
+          "current_pointer": "/QUALIFICATIONS/35",
+          "current_object_sha256": "92d036083c48f46b6d378b59e7eb8914f1626abe31dd16823bc3f6e0b4567732",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The local reset function and protected evidence/physical-age variables under alias and nonalias cases.",
+        "case_source_anchors": "NX05",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/35",
+          "canonical_object_sha256": "98cdb2418aac27aa5c686d064c26564ef5e0e5dd535317e1d570b2d14ce0087e"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D36",
+          "canonical_value_sha256": "61e5f28c50c41edb486a837cedb69dd4a2c14f1744b4b4ee625c007663b146f6"
+        }
+      },
+      {
+        "id": "D37",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P37",
+          "native_pointer": "/PROPERTIES/36",
+          "current_pointer": "/QUALIFICATIONS/36",
+          "current_object_sha256": "2557e498670d200c6bed857cb801eb5d8642ae2cd166689e426e1f4461a264ac",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The high-water resource-acceptance update and delayed actor arrivals, with authority distinct from duplicate identity.",
+        "case_source_anchors": "D/C02,D/C10",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/36",
+          "canonical_object_sha256": "55af803fa4500318b8e188a25785c469fc5c3fd45cabc3ae0c60c1b73d28473a"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D37",
+          "canonical_value_sha256": "1abae615263b19427bd9dc199f6c9da3fb2b31fed5113bb3654e25013e8f34d7"
+        }
+      },
+      {
+        "id": "D38",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P38",
+          "native_pointer": "/PROPERTIES/37",
+          "current_pointer": "/QUALIFICATIONS/37",
+          "current_object_sha256": "687b598503f3565f89e4c2f2e53af3341dad28e50e10bbf91756dd409fe3b0cf",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The bytes/format/application-state conjunction and separate credential/counterparty requirements used by the restore scenario.",
+        "case_source_anchors": "R/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/37",
+          "canonical_object_sha256": "723310dcf0321f95f61a38fce1e4f4074946e12348958b8a86b2132198d2471c"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D38",
+          "canonical_value_sha256": "081e5af32b4082a55e3516466648854f2b3b62c46f6ed6f531547d1dd1c69f44"
+        }
+      },
+      {
+        "id": "D41",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P41",
+          "native_pointer": "/PROPERTIES/40",
+          "current_pointer": "/QUALIFICATIONS/40",
+          "current_object_sha256": "6268305c22db235a5379e139c911025675f2923972081983d3bef2ac36f09b87",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The observation-time/later-state and capability-specific readiness truth tables, plus observer/load coupling.",
+        "case_source_anchors": "root-r2/M1,M2;NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/40",
+          "canonical_object_sha256": "c64e5402513db453e3b19d99208cf724f4e4376075876a04f9e54974009ec9e6"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D41",
+          "canonical_value_sha256": "a2724b45424b24d87547263008a1d54652ef23171a9404a445057d42cdee2477"
+        }
+      },
+      {
+        "id": "D42",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P42",
+          "native_pointer": "/PROPERTIES/41",
+          "current_pointer": "/QUALIFICATIONS/41",
+          "current_object_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The actual zero-event sample-bound and finite event/exposure arithmetic, with sampling/missingness premises kept outside program correctness.",
+        "case_source_anchors": "D/C08;R/C06,R/C08",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/41",
+          "canonical_object_sha256": "1cceee6cd392a3f167c0b49279501eab0b8cecd6683aa89903132d817a6981c9"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D42",
+          "canonical_value_sha256": "b5c4ca3be75ebdc84367ce01084d11dbbdfd965bef75930f479ecd344630d527"
+        }
+      },
+      {
+        "id": "D43",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P43",
+          "native_pointer": "/PROPERTIES/42",
+          "current_pointer": "/QUALIFICATIONS/42",
+          "current_object_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The observed finite event/edge and cut relation computation; physical causality beyond those edges is not an output of the program.",
+        "case_source_anchors": "D/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/42",
+          "canonical_object_sha256": "729b51b57d982b12d7c85d5100183a5fb2a177e59625981c1e2ce613879ca1f7"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D43",
+          "canonical_value_sha256": "ccd1ea079f89fab1e02eacab6b050d636f4f9e95963e4040a9248171bcc68453"
+        }
+      },
+      {
+        "id": "D44",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P44",
+          "native_pointer": "/PROPERTIES/43",
+          "current_pointer": "/QUALIFICATIONS/43",
+          "current_object_sha256": "4c0a287611bd99a93f17f83e700e4c6b90b96cf5ae7fb1982401cde7ab50f1f1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The observed-versus-actual event/oracle discriminator and the exact finite hypothesis/control comparisons.",
+        "case_source_anchors": "F/C10;NX01,NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/43",
+          "canonical_object_sha256": "2f23caafe796d22a05408fcbd24ee66497bbcec73987d2a6ac75911bebd25dc4"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D44",
+          "canonical_value_sha256": "ca6929c36d3de2f3ad61d26e1d0c5a62ee21c5ad037e8b34ac7e76f039ccd379"
+        }
+      },
+      {
+        "id": "D45",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P45",
+          "native_pointer": "/PROPERTIES/44",
+          "current_pointer": "/QUALIFICATIONS/44",
+          "current_object_sha256": "a582fab2a9b876b7dba2def590073f2ddc73a834727e9cf6391851de8ceabb9e",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The local commit/abort balance calculation satisfying the stated enclosed invariant, used as a concrete adequate-local alternative.",
+        "case_source_anchors": "D/C07",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/44",
+          "canonical_object_sha256": "0027a777624bedba0c8d989bcdb80d947799d1c3c4ce425a19f4340d2cdab41b"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D45",
+          "canonical_value_sha256": "682ccb29fc9310a428ded45f15676dd9992bef9733efe338b0fdb0844f6fe717"
+        }
+      },
+      {
+        "id": "D46",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P46",
+          "native_pointer": "/PROPERTIES/45",
+          "current_pointer": "/QUALIFICATIONS/45",
+          "current_object_sha256": "1f17fddbdc3d5b7092d1d148fb9337b1fdc827c6e268b344ec1642512c815085",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite control-cost/residual-consequence alternatives and no-change/removal choice, under stipulated obligations and probabilities.",
+        "case_source_anchors": "D/C09",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/45",
+          "canonical_object_sha256": "91f3774e197a262d50646f3c38258186d47c316d14e69f0a72d44b39f78d6295"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D46",
+          "canonical_value_sha256": "e079c14ed25134835d6cbee16cfdb76c2e92c47da02484449ebd3f63fae89316"
+        }
+      },
+      {
+        "id": "D47",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P47",
+          "native_pointer": "/PROPERTIES/46",
+          "current_pointer": "/QUALIFICATIONS/46",
+          "current_object_sha256": "54fc860a1166317378ec3116b7386f0b828403cc91c2c2765778f278064525ce",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The coupled observer/sensor/capacity computation used to test whether separate logical deployments change the actual failure boundary.",
+        "case_source_anchors": "NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/46",
+          "canonical_object_sha256": "c36a5053ce10d8ab1d84d379eab19785e289b34dedfec731346fe4fbef045acc"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D47",
+          "canonical_value_sha256": "8f0a1db423562b155861fbd6fb9f2971fc52ed2a68fe6769983aa6f197c196c2"
+        }
+      },
+      {
+        "id": "D48",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P48",
+          "native_pointer": "/PROPERTIES/47",
+          "current_pointer": "/QUALIFICATIONS/47",
+          "current_object_sha256": "eddb6c8732438c182047f84599be7b6d6af545a3f9fa3a29c7068b294985519b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The backlog recurrence for a finite burst and the equal-arrival/service countercase; the computation does not create throughput.",
+        "case_source_anchors": "NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/47",
+          "canonical_object_sha256": "575fb9c1bdf6dbcb1399c142497cd0215a2eb739fc5f8cdb39681e89e300625b"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D48",
+          "canonical_value_sha256": "c7930a03931555dd8ed84e847cb33b3bd85392ab61f236174badf5d2b1aaa011"
+        }
+      },
+      {
+        "id": "D51",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P51",
+          "native_pointer": "/PROPERTIES/50",
+          "current_pointer": "/QUALIFICATIONS/50",
+          "current_object_sha256": "f1302119c554710f4bc8df4332f6a1f16608765f3c55dd4ec480fbe85b46a90d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The exact finite Boolean/control predicate and duplicate/no-added-control comparison used to judge an artifact meaningful.",
+        "case_source_anchors": "F/C14;R/C14",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/50",
+          "canonical_object_sha256": "473ca0c4f202d58a6637fdb9bd6222ccfba4167277917555395dfbdd7729c9c0"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D51",
+          "canonical_value_sha256": "b7f9a48eed1b63b6e3480203a94a027f119c737e15df52e4760e876c1208a205"
+        }
+      },
+      {
+        "id": "D52",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P52",
+          "native_pointer": "/PROPERTIES/51",
+          "current_pointer": "/QUALIFICATIONS/51",
+          "current_object_sha256": "5b5fb064d4b42761c316c9e7890395c68b8b0ffe9b07b7e2bfe88c0fb4e1d01a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The n=4,f=1 quorum/certificate intersection and admitted faulty-member enumeration, with authentication distinct from non-equivocation.",
+        "case_source_anchors": "D/C12",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/51",
+          "canonical_object_sha256": "f1a18e193b4183d50e4db7593d859f8199013ad39921fafe1422e4133564813f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D52",
+          "canonical_value_sha256": "7defef195042b63a07ce96ed1f8c02d7599fcf2224630424d0e83ba03ba87331"
+        }
+      },
+      {
+        "id": "D53",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P53",
+          "native_pointer": "/PROPERTIES/52",
+          "current_pointer": "/QUALIFICATIONS/52",
+          "current_object_sha256": "c8916a7f30547092159fcb3b08f829df14ec266aab1e27328671652f10aba2d7",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The stable-intention/fresh-attempt bounded execution model and allowed local postcondition fragment, not an arbitrary agent task interpreter.",
+        "case_source_anchors": "NX03;NX01",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/52",
+          "canonical_object_sha256": "6206e44183990c1bc72a3bff2f71b63eca627549190585b5f0dc73d82a72fcf1"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D53",
+          "canonical_value_sha256": "96531e47124697dba702122882839229e629894d9f2e3efcd39d7731dd963cc5"
+        }
+      },
+      {
+        "id": "D54",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P54",
+          "native_pointer": "/PROPERTIES/53",
+          "current_pointer": "/QUALIFICATIONS/53",
+          "current_object_sha256": "555984e854dfa089ba06bf6c6be4b298a367c23cc7f876a0068623e839f98707",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_computational_facet": "The finite invariant/merge/admission alternatives and stipulated cost choice, keeping functional sufficiency separate from total burden.",
+        "case_source_anchors": "D/C04,D/C09",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/53",
+          "canonical_object_sha256": "0fef4d82da15ca6de3a4df5840ecb490960c7873efa5fd00a4c34d9e46fcc301"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D54",
+          "canonical_value_sha256": "16617c94b20b2b1dec88a9a6f2e2a80d169bbc040e079637a6838ebd0f05b71a"
+        }
+      },
+      {
+        "id": "R001",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P001",
+          "native_pointer": "/properties/0/native_record",
+          "current_pointer": "/properties/0/current_claim",
+          "current_object_sha256": "860d73d5d0c8fa4791c09d55c995cf1de48c3bfb6b683fc23c6ede274d554a5a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The local required-function and wider consumer predicate evaluation for the explicitly declared mission/function.",
+        "case_source_anchors": "R/C04,R/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/54",
+          "canonical_object_sha256": "0276f6303cad151dea49d828302642ca90187d6e23199b4be388ebce00dc3520"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R001",
+          "canonical_value_sha256": "2e6591c351273235a0a4006b016e3aae57d0edf66033f04a89288bac60ee0ae6"
+        }
+      },
+      {
+        "id": "R002",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P002",
+          "native_pointer": "/properties/1/native_record",
+          "current_pointer": "/properties/1/current_claim",
+          "current_object_sha256": "550b727547563a2f317ee179f1fcc8388d81e46d8d8636c3f07e4b1d642b6fcf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The supplied weighted finite worlds used by expected-loss computation; correctness does not calibrate those operational-profile weights.",
+        "case_source_anchors": "root-r2/M3",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/55",
+          "canonical_object_sha256": "a116ac7591a5f3eb3efc2da39b85fb88ebd981c976c17bf127d293e1122fdbf1"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R002",
+          "canonical_value_sha256": "f046abd23ef1876e6b0e3da59eb2394c5e719475531c6acd5bb8ba54976054ea"
+        }
+      },
+      {
+        "id": "R003",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P003",
+          "native_pointer": "/properties/2/native_record",
+          "current_pointer": "/properties/2/current_claim",
+          "current_object_sha256": "b4504d7c01849fc60e4505c3e3d0d2b26c3ef6b33ac23a56425bbc0c3dafa7d9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The finite detected/contained/restored/root-known state enumeration preserving partial functional distinctions.",
+        "case_source_anchors": "R/C12",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/56",
+          "canonical_object_sha256": "f062f98d4f2e2706fd5b919c93379e3746bb97eca9eed0f7ff6ddb31644ed1cd"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R003",
+          "canonical_value_sha256": "f6c62c1ca9816f2c0ad79be3c4d256bd9b1cb58b23b94ebfc937fcdc888aab7e"
+        }
+      },
+      {
+        "id": "R004",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P004",
+          "native_pointer": "/properties/3/native_record",
+          "current_pointer": "/properties/3/current_claim",
+          "current_object_sha256": "614e602cf3234d7cc86c3bca15155954d641534f6b04ffd0c0dfdcc74330bf1d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The internal restoration conjunction and the separate credential/counterparty consumer conjunction.",
+        "case_source_anchors": "R/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/57",
+          "canonical_object_sha256": "db922b9fb864af947f161062c6c2a7832847e7275202b5d1a887f37c20013dee"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R004",
+          "canonical_value_sha256": "e06880a52a8a9f548d3b15f2e5c71d7698762a4fb8215852e4fefb6ca23fc9db"
+        }
+      },
+      {
+        "id": "R005",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P005",
+          "native_pointer": "/properties/4/native_record",
+          "current_pointer": "/properties/4/current_claim",
+          "current_object_sha256": "031c1c1eb0d3acc578d20a401a33dad54323006c40ddd5be99bfe080f4611c7f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual C01 outage-record updates and time-average availability calculation, with durations and event counts distinct.",
+        "case_source_anchors": "R/C01",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/58",
+          "canonical_object_sha256": "d63a57e593854a71aa48a07e1d8b6c88bfe62286ac489899d68409b38ddc57e5"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R005",
+          "canonical_value_sha256": "6f11fbc73434780e06bba2f66e792fcf1f2b124b63b7cb75f7bf10503938fc0b"
+        }
+      },
+      {
+        "id": "R006",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P006",
+          "native_pointer": "/properties/5/native_record",
+          "current_pointer": "/properties/5/current_claim",
+          "current_object_sha256": "e958d53163a11e5e3a7dacee11af922ece1d5d743725a84c14d1c9c866a45b08",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The finite joint-state/control and fault-combination calculation exposing represented failure/effect paths, without all-world mode discovery.",
+        "case_source_anchors": "R/C02;D/C12",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/59",
+          "canonical_object_sha256": "9b5e485e290db864f3db6586a88f498649d98cb80801d0d14313cbbbdfa7c6b4"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R006",
+          "canonical_value_sha256": "4a9b3e0262ce4e89d461a255bd5cc436eac07e33a2da534a634217ca153ee931"
+        }
+      },
+      {
+        "id": "R007",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P007",
+          "native_pointer": "/properties/6/native_record",
+          "current_pointer": "/properties/6/current_claim",
+          "current_object_sha256": "982d508a0da81d6b8037f1dafcd3a17f04765bba818496668231b4f58802163a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The active/protection-path joint-state and additional serial-controller calculation, a partial protection-path discriminator rather than a full latent-fault model.",
+        "case_source_anchors": "R/C02;NX07",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/60",
+          "canonical_object_sha256": "858d59e4e3be8fc7742288a42b0db0b4af3e61a37f072eaa3b035c06bba7a909"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R007",
+          "canonical_value_sha256": "3c791db0cb1678c16a97f75d5a4f8104ea47a2c8c931ccf228cfa84556d370da"
+        }
+      },
+      {
+        "id": "R008",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P008",
+          "native_pointer": "/properties/7/native_record",
+          "current_pointer": "/properties/7/current_claim",
+          "current_object_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The constrained joint-law/system-function enumeration and its separate all-real analytic bound.",
+        "case_source_anchors": "NX07;R/C02",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/61",
+          "canonical_object_sha256": "407e09f5673706ef9830860f36a00c42a7bc11308362539bc0cd1851f7e06072"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R008",
+          "canonical_value_sha256": "90de9623d6cde0030beb66f52d48c4aaf1f86eb10db340f176227df62cb69ece"
+        }
+      },
+      {
+        "id": "R009",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P009",
+          "native_pointer": "/properties/8/native_record",
+          "current_pointer": "/properties/8/current_claim",
+          "current_object_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The dependent-pair benefit and added-controller harm calculation under its stipulated joint states.",
+        "case_source_anchors": "R/C02",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/62",
+          "canonical_object_sha256": "9986638201bd8de4c60c60e35ba9ce9d86201e9c97476979a0e5a6823db8d585"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R009",
+          "canonical_value_sha256": "2549a322ad661fb672760930d86d3307b0196f3e46831408acaa7daca0eab161"
+        }
+      },
+      {
+        "id": "R011",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual diagnostic numerator/denominator arithmetic and the sixteen Boolean containment/restoration rows.",
+        "case_source_anchors": "R/C03,R/C12",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/64",
+          "canonical_object_sha256": "d8ab53219f2ceb7a8fe5e1c1101f2a96826b8b1788e78e9c1dd3a3c278e45a96"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R011",
+          "canonical_value_sha256": "9fa9c4ed4f098782ca8125c48350a471aa361bc2975bb6e1469e27c6e341de57"
+        }
+      },
+      {
+        "id": "R012",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P012",
+          "native_pointer": "/properties/11/native_record",
+          "current_pointer": "/properties/11/current_claim",
+          "current_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The Boolean cause-known/containment/restoration combinations showing useful action without unique diagnosis.",
+        "case_source_anchors": "R/C12",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/65",
+          "canonical_object_sha256": "169d4b746957b7ea8835977c99dc36cf1f1301241b2e39800c7347eaf081e0d3"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R012",
+          "canonical_value_sha256": "107c617cce247afe8b7c40dc311d624b31fa234114eecf6328a750342a947847"
+        }
+      },
+      {
+        "id": "R013",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P013",
+          "native_pointer": "/properties/12/native_record",
+          "current_pointer": "/properties/12/current_claim",
+          "current_object_sha256": "6e2f6866b392ac7810543afe9e962c3e137433c350387154e32168293ed7d5b0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The four-world, three-regime weighted policy-loss loops and minimum selection with exact Fraction arithmetic.",
+        "case_source_anchors": "root-r2/M3",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/66",
+          "canonical_object_sha256": "5bbd5914401c064a3e4fe45fae90fdeabefe3c39790294f210ad3dd6aec6e758"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R013",
+          "canonical_value_sha256": "595a90d04dc0c7e85fc4b94cc793d2d190713b082c1eeca4464685f9c1255aa9"
+        }
+      },
+      {
+        "id": "R014",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "4e6fb7a41008bb356de97ac5a68f8add48966327a7bf53f05cbf09d294bc6839",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The two concrete degraded-function acceptance predicates for bounded-stale search and authoritative-value use.",
+        "case_source_anchors": "R/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/67",
+          "canonical_object_sha256": "7602ad3f70804cb3950d6891c5e70de43adc80365057558a27b7daa0eea3514e"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R014",
+          "canonical_value_sha256": "d3ed6c3ee0c93ff86bf543c638d42ea21fd589821d0925357d63bf86eec6c90b"
+        }
+      },
+      {
+        "id": "R015",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P015",
+          "native_pointer": "/properties/14/native_record",
+          "current_pointer": "/properties/14/current_claim",
+          "current_object_sha256": "7bc229bf7572b626a880a68bb64d0cb0b419cd0ab747f2c741e42671aeb657f8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual critical-function acceptance criterion used to show a reduced/disabled service need not be an acceptable safe outcome; no physical stop experiment.",
+        "case_source_anchors": "R/C11",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/68",
+          "canonical_object_sha256": "c69e723caa475632575bce13ccd75591b45e6f5ba5b16ac5a65930176bbf9247"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R015",
+          "canonical_value_sha256": "073e84ec7a6550d2911eb2a2ef4d340455be0b86e9174c508f295efe1811d3d4"
+        }
+      },
+      {
+        "id": "R016",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P016",
+          "native_pointer": "/properties/15/native_record",
+          "current_pointer": "/properties/15/current_claim",
+          "current_object_sha256": "14badd48115984148f53a3166e67c20067ad8cb26489a7540e241e74ebb49f01",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The fixed current-state reset and consumer-objective world table, with the separate protected-resource reset.",
+        "case_source_anchors": "NX01,NX05",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/69",
+          "canonical_object_sha256": "f0da19b88829d78b17ac7f692a44edd7b2dc414c30b07ecbba0fe28b223cd721"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R016",
+          "canonical_value_sha256": "5069510311619b9b60893633aea652d02cfd5cb3424654f895b5e9232891ea98"
+        }
+      },
+      {
+        "id": "R017",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "4fc18c827dfcc1b467cb6d52705614002636fd259ea1b55fc28dc6886c4ce541",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The explicit restore-scenario conjunction and missing external prerequisites; these are model values, not an executed backup restore.",
+        "case_source_anchors": "R/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/70",
+          "canonical_object_sha256": "b6801117ed2b8250c67502024e9161477882b7a72f04273eb80d4e98ba5c6800"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R017",
+          "canonical_value_sha256": "628e95f06b78fe755555ff7b27fde3ae5e461c439c0a03ed55362fafb8ed217c"
+        }
+      },
+      {
+        "id": "R019",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P019",
+          "native_pointer": "/properties/18/native_record",
+          "current_pointer": "/properties/18/current_claim",
+          "current_object_sha256": "cdc7888c27ecc76020d28bb5b0118170826eacdc4837d32cd7e6f87c0f46f6f3",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The local retained-state preservation/validation facet of the repair task. The abstract frame/reset computation can support that state facet without implementing physical access, replacement or human work.",
+        "case_source_anchors": "NX05;analysis_r14 R019 native-role correspondence",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/72",
+          "canonical_object_sha256": "8cb766b992e2f3af3a3abd6d40658fa3d4d56ee461e4e63b6ec31038a6846208"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R019",
+          "canonical_value_sha256": "c77c67a4775d15cabfb7d1611c14bc8f784bc871ffbf47b6c7ba6d021b44bbe0"
+        }
+      },
+      {
+        "id": "R020",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P020",
+          "native_pointer": "/properties/19/native_record",
+          "current_pointer": "/properties/19/current_claim",
+          "current_object_sha256": "e8aeae316d37741c8fab93c3911f1fc0ddbb5c82144df49f871a7050adaaac2a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The restoration prerequisite conjunction and actual information/evidence preservation facet, with credential validity and support availability as separate inputs.",
+        "case_source_anchors": "R/C04;NX05;analysis_r14 R020 correspondence",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/73",
+          "canonical_object_sha256": "c6db262089576f91b51cb7197706831d2b33563f0c8f75ba2033d56bac3c0a57"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R020",
+          "canonical_value_sha256": "328ebf4088c593f3810608bd52aa46479d53e1fc0b4c1727760d2443f52918d1"
+        }
+      },
+      {
+        "id": "R021",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P021",
+          "native_pointer": "/properties/20/native_record",
+          "current_pointer": "/properties/20/current_claim",
+          "current_object_sha256": "311f7cbcda9544188f29e7e97e45afb7f76d95aaa8e70a05dfca9216c72d3235",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The intended reset and nonalias/alias protected-resource contrast, with physical induced faults outside the program model.",
+        "case_source_anchors": "NX05",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/74",
+          "canonical_object_sha256": "44aa7181f711826b77f18390339a45c8cc033bad9e594200c8050a6cdd8e6603"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R021",
+          "canonical_value_sha256": "b60598cfb05983ec1a470f075c30bd9c61c5201390deeb933858d2ca586cfd3b"
+        }
+      },
+      {
+        "id": "R022",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P022",
+          "native_pointer": "/properties/21/native_record",
+          "current_pointer": "/properties/21/current_claim",
+          "current_object_sha256": "43ebbe8b0ac59a6424f6af26e1168721982a90a10c80624da731d5721bf399fd",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual exponential/Weibull survival, expected-cycle and age-replacement cost expressions at the supplied inputs.",
+        "case_source_anchors": "R/C05",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/75",
+          "canonical_object_sha256": "4b97916231b099eda9b4b02622c6534edd201ced36a94023a9aa56276808c24f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R022",
+          "canonical_value_sha256": "099677af7e8538763185915c35d5f354281a465040382f7feee130674d7fa754"
+        }
+      },
+      {
+        "id": "R023",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P023",
+          "native_pointer": "/properties/22/native_record",
+          "current_pointer": "/properties/22/current_claim",
+          "current_object_sha256": "e828ae7ebce0fa9097d71ae5e552c0861c991a56da1ebccd39c4c4370e10e4fe",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The finite detection/action cost and age-policy comparison inputs used as conditional policy facets; calibrated precursors and effective timely intervention are not calculated facts.",
+        "case_source_anchors": "R/C03,R/C05",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/76",
+          "canonical_object_sha256": "8781c9da93cd5970b38fd35f23bf4c133aa33d92ca9917ad6fd0e7b595d84850"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R023",
+          "canonical_value_sha256": "8d1dfa02fd0b3e0f027f7fbb496d79a8db0b708e3a6fb98d56c320d535993bec"
+        }
+      },
+      {
+        "id": "R024",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P024",
+          "native_pointer": "/properties/23/native_record",
+          "current_pointer": "/properties/23/current_claim",
+          "current_object_sha256": "ea72a130bb66600ae48cdda9e0994243f57b54524c5abcab663d0e392ac76610",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The before/after event/exposure comparison and the retained configuration/evidence association used by correction feedback; no causal success from a status label.",
+        "case_source_anchors": "R/C08",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/77",
+          "canonical_object_sha256": "525038e10c3ec386f38feab55c42b9293651df763ae47cb8ae3145b52a30206e"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R024",
+          "canonical_value_sha256": "a4a0c1ead0b6593f03b9c3af9675ed74f69c10b754fa3a299de13023ef6555d7"
+        }
+      },
+      {
+        "id": "R025",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P025",
+          "native_pointer": "/properties/24/native_record",
+          "current_pointer": "/properties/24/current_claim",
+          "current_object_sha256": "61449f169f2eb11cab51afa036457014ef22db350162a02c01d2f10259a87460",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual alias correction protecting the selected resource and the explicitly admitted versus omitted path contrast.",
+        "case_source_anchors": "NX05;F/C19",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/78",
+          "canonical_object_sha256": "7c6d3441063b7b1a1a4d1158371cc6bd0c4862122b7a1c08568238aacf9a753d"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R025",
+          "canonical_value_sha256": "653b5ad3d9bfdb830df8c40fe7a552517ca1412fd4396f0c7cba0de4c3c57b6b"
+        }
+      },
+      {
+        "id": "R026",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P026",
+          "native_pointer": "/properties/25/native_record",
+          "current_pointer": "/properties/25/current_claim",
+          "current_object_sha256": "d6ae20d559814da88866f094abfe91c5a713634c75544563c50d885e83f13d50",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual HPP/Bernoulli zero-count bounds and exponential censor-exposure calculations; the own ascertainment algebra remains a separate analytic input.",
+        "case_source_anchors": "R/C06;analysis_r13/ASCERTAINMENT_DERIVATION.md",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/79",
+          "canonical_object_sha256": "305c1487c14546ab006f66eff62894c4c842f4df1ed110d40181a4f15956ec54"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R026",
+          "canonical_value_sha256": "9045f8c582ddca710ca71d6d80c705448aeca5f5e6ed768aa5c4a63dd6bce8bd"
+        }
+      },
+      {
+        "id": "R027",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "34c53ef9a71bd9d15c55a45bcabd2fc069dc306f249cffd8b017e49a2d025f16",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The two-mode use-rate/factor sum and wrong-single-factor computation under supplied physical assumptions.",
+        "case_source_anchors": "R/C07",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/80",
+          "canonical_object_sha256": "88f841feb34792a97f592433768a734f712b8518accf4178c816814ac87b9766"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R027",
+          "canonical_value_sha256": "d8dda312750161472ce5e463b4ea0158706ce58cbd6ad0d7cc4bbef4403e4922"
+        }
+      },
+      {
+        "id": "R028",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P028",
+          "native_pointer": "/properties/27/native_record",
+          "current_pointer": "/properties/27/current_claim",
+          "current_object_sha256": "418267456651f7dea158f19fdfb9a2727c5276382a7cd70bef9bced1357ea93f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The finite event/exposure and cohort-denominator calculations used by the stratification/update question; observation quality remains separate.",
+        "case_source_anchors": "R/C08,R/C09",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/81",
+          "canonical_object_sha256": "3f35a19745cd806f1d4f329c09d9fafe4e43590c772f073420f37cceafce9ed3"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R028",
+          "canonical_value_sha256": "c98903180caf62ee2f82d2a7ff17371765ba049c88e34d6badf51b5f70ef8182"
+        }
+      },
+      {
+        "id": "R029",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P029",
+          "native_pointer": "/properties/28/native_record",
+          "current_pointer": "/properties/28/current_claim",
+          "current_object_sha256": "70bcff03d9c3f1949eceb3a70b7ff61b7907187849669392bc2c1bd2cb7e4338",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The exact theorem/proof/build identity comparisons and changed model-domain application check.",
+        "case_source_anchors": "F/C12",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/82",
+          "canonical_object_sha256": "23bfd3c764db86a59f0228c0b429bdff2cc478024b9822b943b1db03dedcc7b3"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R029",
+          "canonical_value_sha256": "289840bdffa10f2edbbf63c77cf53e07c6048073f3eae68e9fb6da4e536aa2b7"
+        }
+      },
+      {
+        "id": "R030",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P030",
+          "native_pointer": "/properties/29/native_record",
+          "current_pointer": "/properties/29/current_claim",
+          "current_object_sha256": "c6edae002a2ae521b442a4df04856550e4a94d8824178cc3007c8e1a74ae8ef9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The local corrected software/resource behavior and the explicit weak-versus-functional output predicate.",
+        "case_source_anchors": "NX05;R/C14;F/C02",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/83",
+          "canonical_object_sha256": "e7eb2049893d9da8869085a00fd46e6aa2b28d182db61bca6d2ed1977330d317"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R030",
+          "canonical_value_sha256": "5809308365800174c7c6153175b12cc69ecd0a90203e46a94939b100c837c161"
+        }
+      },
+      {
+        "id": "R031",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P031",
+          "native_pointer": "/properties/30/native_record",
+          "current_pointer": "/properties/30/current_claim",
+          "current_object_sha256": "768f4d8e00ea87d8fbc4a93a02a6418df4839975ec6ca5d4a4eca8d026d86e97",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The explicit local-to-consumer conjunction with missing external prerequisites, retaining the true local result.",
+        "case_source_anchors": "R/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/84",
+          "canonical_object_sha256": "9736aa7c209e95e13bb68ef74dd691c96b70d2d8ab9bc9fffd8904d24e9ff479"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R031",
+          "canonical_value_sha256": "71027474f5e460a4f503002f1d189590ded577849bdcd8e5697f39eb4a5a1dd9"
+        }
+      },
+      {
+        "id": "R032",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P032",
+          "native_pointer": "/properties/31/native_record",
+          "current_pointer": "/properties/31/current_claim",
+          "current_object_sha256": "62e3c0a445ac340783111c21f41ac1292fbc2fa7ca66744c48279f3d59a99b96",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual aggregate/minority ratio and target comparison with the stated window/cohort and policy-authority limit.",
+        "case_source_anchors": "R/C09",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/85",
+          "canonical_object_sha256": "3245411e20fa613c4ecb3a00dbea68af33feafd3e8795aedcf1b3fdd6a8ae182"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R032",
+          "canonical_value_sha256": "7bf776eca13fac080813ef97f881f2ecc0509921cec2b345eaadd1ed8d62bf41"
+        }
+      },
+      {
+        "id": "R033",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P033",
+          "native_pointer": "/properties/32/native_record",
+          "current_pointer": "/properties/32/current_claim",
+          "current_object_sha256": "61fdcfacfd16ae0836ed8efb68acb4f661bdd04a2d28b78674a4e0a15dc14999",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The exact observation-time/later-health and capability-specific probe truth tables.",
+        "case_source_anchors": "root-r2/M1,M2",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/86",
+          "canonical_object_sha256": "a96af567b5af6fc12ec1d78edb5f6d65f99fbf3c62be8109e5ed631f1f3093ca"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R033",
+          "canonical_value_sha256": "99293d1deb802f44fd614aebcdbec595e9e17afe13375824185adc173b12ad96"
+        }
+      },
+      {
+        "id": "R034",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "3761be6f2e9559e8979e109878e50e0b636a5b2646b85e6ff86e384467c658d6",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The finite producer/consumer implication or joint-state system-function calculation used for a specified structural inference; no graph-to-probability shortcut.",
+        "case_source_anchors": "F/C07;R/C02",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/87",
+          "canonical_object_sha256": "c68e7d5ae2e946de32b50ca70990ef068ad6286f9c42299bfc0d9616c5c213b3"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R034",
+          "canonical_value_sha256": "ce2952c7ecdcfb38ee00865f1074210390109f83eea09db95b7b59fc84a05550"
+        }
+      },
+      {
+        "id": "R035",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P035",
+          "native_pointer": "/properties/34/native_record",
+          "current_pointer": "/properties/34/current_claim",
+          "current_object_sha256": "f933a618e99ee7e0295a4f2a47111ac160f2fa1887b15b181ce935478ab8ec11",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The finite detection/action/oracle control comparison and the missing-event versus full-event observation contrast.",
+        "case_source_anchors": "R/C12;F/C10",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/88",
+          "canonical_object_sha256": "cd5ffbe543242c8f9aeac11af405d95e788d51cdf414680fce5349bc1da0a610"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R035",
+          "canonical_value_sha256": "063309d7e7c7ba288510d319d155482a808b967f73350e4b7de0d47cd42be87f"
+        }
+      },
+      {
+        "id": "R036",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P036",
+          "native_pointer": "/properties/35/native_record",
+          "current_pointer": "/properties/35/current_claim",
+          "current_object_sha256": "921540cff9183aa5ce35608b2f69f33f9830d5906ffb37c3c9988a14432a7fd2",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual live arrival/retry/recovery workload and queue-drainage recurrence under its declared constant-rate model.",
+        "case_source_anchors": "R/C10;NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/89",
+          "canonical_object_sha256": "5ec113eeee3fe8c77b92b63cfd7e4b04a765ccace1b69dbce7ed2afba43edd3f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R036",
+          "canonical_value_sha256": "b87c081efacee2cdf5b5d4eba7e0f67cb8dff8d68dec306c7c176418e5afb963"
+        }
+      },
+      {
+        "id": "R037",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P037",
+          "native_pointer": "/properties/36/native_record",
+          "current_pointer": "/properties/36/current_claim",
+          "current_object_sha256": "0f339908841f076abf1fcf7557124e07ccce64595a738ea42523db45b60bc37d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The useful observation resource retained through the real modeled reset, with the alias countercase.",
+        "case_source_anchors": "NX05",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/90",
+          "canonical_object_sha256": "e286cd4248601ce9937acebe744afd0d88071284274e2cc0f7ba984c17b7682c"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R037",
+          "canonical_value_sha256": "7cf9add82f007c976ff6c262b2fe23ee705e039b7935cb8db6166c23a71e251b"
+        }
+      },
+      {
+        "id": "R038",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P038",
+          "native_pointer": "/properties/37/native_record",
+          "current_pointer": "/properties/37/current_claim",
+          "current_object_sha256": "f05d6e9a997e0d04152338eeda64f571af916541ea82a70ab404b7a75285e004",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The weak sortedness-plus-sum versus actual ordered-permutation acceptance functions and the correct control output.",
+        "case_source_anchors": "R/C14",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/91",
+          "canonical_object_sha256": "3abcbb032287767c3220f97bf3eb92bc4614c592113ff187a8c24c2f202b65f8"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R038",
+          "canonical_value_sha256": "e2d15d4d1bd84f30888f2f83e2db6e122cd75785b7e300c282df586184eff5fc"
+        }
+      },
+      {
+        "id": "R039",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P039",
+          "native_pointer": "/properties/38/native_record",
+          "current_pointer": "/properties/38/current_claim",
+          "current_object_sha256": "e7cfbb33edebeeb00991d665cd30c38b24afa24da36fbe510e6018d923e639e5",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The unchanged theorem/changed application model distinction and the finite retained/removable control-cost comparison.",
+        "case_source_anchors": "F/C12;D/C09",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/92",
+          "canonical_object_sha256": "1db2ee7c704739eff96ce24ce32e954c893fafe2f386fdfab3d985e98f6749ad"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R039",
+          "canonical_value_sha256": "4b17cefc77f1ff29727d5c2d74559132ff286a08f30981e686af6697201dd34c"
+        }
+      },
+      {
+        "id": "R040",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P040",
+          "native_pointer": "/properties/39/native_record",
+          "current_pointer": "/properties/39/current_claim",
+          "current_object_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual shared sensor/capacity and shared encoding computations, distinguishing a common mechanism from independent labels.",
+        "case_source_anchors": "NX06;F/C09",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/93",
+          "canonical_object_sha256": "e335da70619444e8ad576788fd825832cf51e13e1fa594eef83bbbcbe49c053e"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R040",
+          "canonical_value_sha256": "a20242d8a94410e8608e65916e2d475fdaf70de9b54c0b901f19ea6d9ef98080"
+        }
+      },
+      {
+        "id": "R041",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "b12e1bae55d57ed5491f44fe8793836e0810516104575cea850c7949ed6c502b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The two actual outage-pattern dictionaries and their equal availability calculation; durations and event counts remain distinct.",
+        "case_source_anchors": "R/C01",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/94",
+          "canonical_object_sha256": "3a1b053024ca4f9dd941a87e9b31671e6d79ee38bf507845e18a3b004b014216"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R041",
+          "canonical_value_sha256": "1ce574106483c1dccc626aa5f13fee07fbfaa68772112d8ff5d86f8b190a6d33"
+        }
+      },
+      {
+        "id": "R042",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P042",
+          "native_pointer": "/properties/41/native_record",
+          "current_pointer": "/properties/41/current_claim",
+          "current_object_sha256": "07ae7d2dc556a6c63386ed6e60eee95bdeb2adfbbd3702ab4aa5131bc99aedd9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual time-average availability and aggregate/minority denominator calculations for their declared populations.",
+        "case_source_anchors": "R/C01,R/C09",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/95",
+          "canonical_object_sha256": "5c6bccb9713207e3c979c22f6f59b42ed7b3304472c8f9c357a73136b55c1ed0"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R042",
+          "canonical_value_sha256": "52a260e18ad2b9f6d2153fb71e374d8b91778a84f6e6f53b3b9cf63fbb9fff34"
+        }
+      },
+      {
+        "id": "R043",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P043",
+          "native_pointer": "/properties/42/native_record",
+          "current_pointer": "/properties/42/current_claim",
+          "current_object_sha256": "030877485c80b6582c71dd6ce54d2b27a8dc8fabe42d19abc999a6f761f49ac0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual exponential/Weibull cost expressions and mean/process-law countermodel quantities, with hazard and process intensity kept distinct.",
+        "case_source_anchors": "R/C05,R/C13",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/96",
+          "canonical_object_sha256": "db9ca10e4ca1343c305cc5462163800520f509d690aeb2f01c3a81aab4978edd"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R043",
+          "canonical_value_sha256": "46c6cfc6734caa45294d9c3a3b51013c5f8269f6017b37c6f16748b8d998c60b"
+        }
+      },
+      {
+        "id": "R044",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P044",
+          "native_pointer": "/properties/43/native_record",
+          "current_pointer": "/properties/43/current_claim",
+          "current_object_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual illustrative two-mode transformation arithmetic, with no uninspected handbook coefficient implementation.",
+        "case_source_anchors": "R/C07",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/97",
+          "canonical_object_sha256": "94a7e92ba4bd9ec1619fbbdce60f83df50578ab8719d26ab66846bf47fd7513f"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R044",
+          "canonical_value_sha256": "826c7998a5763c1d1632538b830a0c6f76ef3ab3cad718e054b04e6bbae3ac36"
+        }
+      },
+      {
+        "id": "R045",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P045",
+          "native_pointer": "/properties/44/native_record",
+          "current_pointer": "/properties/44/current_claim",
+          "current_object_sha256": "cff1b4b93298c10a47f7b4e63bd66ad5f9e93ddb11d6d78d4f7029f93836d237",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The represented joint failure/control calculation and explicit omitted-path countermodel behind substantive failure analysis, not a completed worksheet count.",
+        "case_source_anchors": "R/C02;F/C19",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/98",
+          "canonical_object_sha256": "819e244bd70726807ae65dd6c4b2707f0a26d1e93b7304dc3d93f475a45719bc"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R045",
+          "canonical_value_sha256": "39673cac8c3e217c39ebf444aae3e939a847a4a371ac393c3d99c05392fffec1"
+        }
+      },
+      {
+        "id": "R046",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P046",
+          "native_pointer": "/properties/45/native_record",
+          "current_pointer": "/properties/45/current_claim",
+          "current_object_sha256": "6d151c2cc1f756d0876ebc2e1e6d6dbcbe71f25e5eb6ab6d238f57531c6735cf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The internal restore-state conjunction and missing credential/counterparty postconditions for the named scenario.",
+        "case_source_anchors": "R/C04",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/99",
+          "canonical_object_sha256": "fb9ef04a2de207bc37bee0012d3ffc3f833b27fce072b02e400f55034c41aac2"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R046",
+          "canonical_value_sha256": "8f405c2f9ee7167170632fd4165c6a5b1bd1d064a1edf49577cbb4df105b54a3"
+        }
+      },
+      {
+        "id": "R047",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P047",
+          "native_pointer": "/properties/46/native_record",
+          "current_pointer": "/properties/46/current_claim",
+          "current_object_sha256": "7d6ccff6e1441c4ce23de05928d504f6b672efcad60eb233e4548d063bd9fee1",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The finite old/new resource-acceptance and changed-quorum cases supplying state/authority interface controls; no live failover execution.",
+        "case_source_anchors": "D/C02,D/C03",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/100",
+          "canonical_object_sha256": "33123d060343aebf478eafa4cb414837817168b44e71861c52060e5b4d274f2a"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R047",
+          "canonical_value_sha256": "39ed6bc119838ddd15593338e07c0e0197d97c2b300b52f924e453fa6bd639ea"
+        }
+      },
+      {
+        "id": "R048",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P048",
+          "native_pointer": "/properties/47/native_record",
+          "current_pointer": "/properties/47/current_claim",
+          "current_object_sha256": "07b9342ca3bbaab538bf073d1bebb8a09249290015e0822b9516d1ba2a247a93",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual C08 count and exposure-normalized rate comparison, retaining the changing denominator.",
+        "case_source_anchors": "R/C08",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/101",
+          "canonical_object_sha256": "f4872bf31e4bde9fc98adb2f244cf45f0f208f88460ab0ccd7b5cb4f21718a78"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R048",
+          "canonical_value_sha256": "3f574e48c5ade575d973f05d7999259b0e887364cedac24c428ea49f013c3a96"
+        }
+      },
+      {
+        "id": "R049",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P049",
+          "native_pointer": "/properties/48/native_record",
+          "current_pointer": "/properties/48/current_claim",
+          "current_object_sha256": "f579ccb2f83a47ef4a3df7bc271b63d6b5defd442a4a07979981a6d8c4c2d61b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The exact capability-specific green/probe truth table and the observed-versus-actual event distinction.",
+        "case_source_anchors": "root-r2/M2;F/C10",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/102",
+          "canonical_object_sha256": "eaeabeadb2c4560faeddd271bd59cde3108959337c8bbcb57c95344c5e9726d7"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R049",
+          "canonical_value_sha256": "90b8f2443b0369335ab3a67b4bdd95d87dbd80352c51999cf8c10d3772f329ec"
+        }
+      },
+      {
+        "id": "R050",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P050",
+          "native_pointer": "/properties/49/native_record",
+          "current_pointer": "/properties/49/current_claim",
+          "current_object_sha256": "2388c8cd320e3f9a6f894525fa12c0e0f74225cf1ed131e10c7573a8d40801f9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The bounded fault/observation/oracle and intervention-load controls; no live chaos tool, field workload or industrial comparison was run.",
+        "case_source_anchors": "F/C10;NX06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/103",
+          "canonical_object_sha256": "297b744b8463868be64a09aa70f52152ffbdbaf47ce29596e119003e35e43c9d"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R050",
+          "canonical_value_sha256": "6539dff1c0460f7c5045016840c70b15e9240aedf42b8f09e1725c7e1365a327"
+        }
+      },
+      {
+        "id": "R051",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P051",
+          "native_pointer": "/properties/50/native_record",
+          "current_pointer": "/properties/50/current_claim",
+          "current_object_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The dependent redundancy benefit, perfect shared-cause control and extra serial-controller harm calculation.",
+        "case_source_anchors": "R/C02",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/104",
+          "canonical_object_sha256": "88c4b759e182375a3184a8dfbf1368545b804ab8f18a8a4ed0b18e9f544ba4fe"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R051",
+          "canonical_value_sha256": "1a7c4b3bd1ba2fafe331fe7cead152ac226115c90f1adedcdbb28d7c3f58c090"
+        }
+      },
+      {
+        "id": "R052",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P052",
+          "native_pointer": "/properties/51/native_record",
+          "current_pointer": "/properties/51/current_claim",
+          "current_object_sha256": "ac830bfe71e2c6746a99e8f3a33fcc86a6cba1ca6853d8f1ed5795614ba2cb28",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The stipulated finite predictive/alternative policy cost facets and action-loss comparisons; these compute a conditional policy result rather than calibrated prediction.",
+        "case_source_anchors": "R/C05;root-r2/M3",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/105",
+          "canonical_object_sha256": "870de665a1f9d91d57129d97a1a8b2952cfa35d8973b0383edf4370fb917600d"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R052",
+          "canonical_value_sha256": "6e5995e29a934fbd8b7aa8dce5b2a77291866231217a217c1f7759f3799de6e9"
+        }
+      },
+      {
+        "id": "R053",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P053",
+          "native_pointer": "/properties/52/native_record",
+          "current_pointer": "/properties/52/current_claim",
+          "current_object_sha256": "2435e1ef324d0c7ad9019b40fc9bc26ac915f3492d4a07ba6ae01b93fa44c420",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The actual floor_mean_variance function at its two supplied inputs and the separate same-U fixed-time partition/algebra.",
+        "case_source_anchors": "R/C13;analysis_r16 fixed-time same-U partition correspondence",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/106",
+          "canonical_object_sha256": "89eb51d525e2bf2e1c1da4095cb0630e2bbf2c5b011293969e1546e5a904753a"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R053",
+          "canonical_value_sha256": "ccc0800fc0818a0d0b57ff4d4d75c30e73abd1e3cc4fb2d4f9dfd3f4873f1897"
+        }
+      },
+      {
+        "id": "R054",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P054",
+          "native_pointer": "/properties/53/native_record",
+          "current_pointer": "/properties/53/current_claim",
+          "current_object_sha256": "e0f40b561ca50cc5f49efc8eb665d41e79240ec14709c7120b491f81cb4eb2a7",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The exact finite three-state exclusion and the conditional positive statistical upper-bound calculation, with their different semantics retained.",
+        "case_source_anchors": "F/C01;R/C06",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/107",
+          "canonical_object_sha256": "0e16dde1fccf0fb8cc74fad30d9a6d88eea16b14a8e01c46325455f01cf2a407"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R054",
+          "canonical_value_sha256": "1d5d9f228a9d243bad0ba0996aa05db4bfbeb73580e1c58baad7164a1e5198ce"
+        }
+      },
+      {
+        "id": "R055",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P055",
+          "native_pointer": "/properties/54/native_record",
+          "current_pointer": "/properties/54/current_claim",
+          "current_object_sha256": "7fa4765f23e3ebf1e3271b33685cc39376053ee7bec2fd4f5077f7e3694e4a5d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_computational_facet": "The fixed Boolean statement versus wrong semantic translation and bounded stable-intent/control-fragment calculations; no AI benchmark or generated-agent field trial.",
+        "case_source_anchors": "F/C13;NX03",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/108",
+          "canonical_object_sha256": "f7f4fbc36c0e790066841fc58ed3148abc92607fe3dda9632dfee876877ce8b2"
+        },
+        "argument_source": {
+          "path": "analysis_r20/computational_routes.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "R055",
+          "canonical_value_sha256": "2ae6f918b0205b21a3ea8e050f72a62bb1c3d1156589ba9c790f94a93dda6867"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "id": "COMPUTATIONAL-F019-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P019",
+          "native_pointer": "/properties/18/native_record",
+          "current_pointer": "/properties/18/current_claim",
+          "current_object_sha256": "4157cb7ce9ae451c8c8482e307a12b1ade6c9d4c6d26edb3b0633f5645b0b502"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C019",
+          "native_property_id": "P019",
+          "current_statement": "Reduction techniques can make exploration feasible only while preserving the selected property and the required search semantics.",
+          "bearer": "A reduced search and preservation argument",
+          "logical_class": "SCALABILITY_WITH_PRESERVATION",
+          "quantifier_and_guard": "Partial-order, symmetry, symbolic and abstraction reductions each need their own soundness conditions; liveness and fairness can require additional treatment.",
+          "negative_scope_and_legitimate_alternatives": "Small models may need no reduction. Reduction efficiency does not establish model adequacy or all-property preservation.",
+          "expected_consequence": "Separate a scalability improvement from additional assurance scope.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S005",
+            "N002",
+            "N005"
+          ],
+          "case_ids": [
+            "C05",
+            "C06",
+            "C17"
+          ],
+          "nontrigger_or_cheap_path": "Use the concrete finite search or a simple invariant where sufficient.",
+          "cost_and_evaluation_criterion": "Measure total modeling/reduction/debugging effort, not only explored-state counts.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Detailed current partial-order algorithms are retained as unexamined source leads, not freshly revalidated theorems; no blanket performance claim.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "A reduced search over this particular computation/model is admissible only if the reduction preserves its named native predicate, relevant branches, observation distinctions and any required weights/fairness. The specified semantic near-miss identifies a distinction that cannot be erased merely to reduce work. No reduction or efficiency result is claimed to have run.",
+        "exact_ordered_membership": [
+          "F019>D02",
+          "F019>D17",
+          "F019>D18",
+          "F019>D21",
+          "F019>D41",
+          "F019>D42",
+          "F019>D43",
+          "F019>D45",
+          "F019>D46",
+          "F019>D47",
+          "F019>D51",
+          "F019>D53",
+          "F019>R001",
+          "F019>R002",
+          "F019>R003",
+          "F019>R004",
+          "F019>R005",
+          "F019>R011",
+          "F019>R012",
+          "F019>R013",
+          "F019>R019",
+          "F019>R020",
+          "F019>R021",
+          "F019>R022",
+          "F019>R023",
+          "F019>R024",
+          "F019>R025",
+          "F019>R026",
+          "F019>R027",
+          "F019>R028",
+          "F019>R030",
+          "F019>R031",
+          "F019>R032",
+          "F019>R033",
+          "F019>R037",
+          "F019>R038",
+          "F019>R039",
+          "F019>R041",
+          "F019>R042",
+          "F019>R043",
+          "F019>R044",
+          "F019>R046",
+          "F019>R048",
+          "F019>R049",
+          "F019>R052",
+          "F019>R053",
+          "F019>R055"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F019-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P019",
+          "native_pointer": "/properties/18/native_record",
+          "current_pointer": "/properties/18/current_claim",
+          "current_object_sha256": "4157cb7ce9ae451c8c8482e307a12b1ade6c9d4c6d26edb3b0633f5645b0b502"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C019",
+          "native_property_id": "P019",
+          "current_statement": "Reduction techniques can make exploration feasible only while preserving the selected property and the required search semantics.",
+          "bearer": "A reduced search and preservation argument",
+          "logical_class": "SCALABILITY_WITH_PRESERVATION",
+          "quantifier_and_guard": "Partial-order, symmetry, symbolic and abstraction reductions each need their own soundness conditions; liveness and fairness can require additional treatment.",
+          "negative_scope_and_legitimate_alternatives": "Small models may need no reduction. Reduction efficiency does not establish model adequacy or all-property preservation.",
+          "expected_consequence": "Separate a scalability improvement from additional assurance scope.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S005",
+            "N002",
+            "N005"
+          ],
+          "case_ids": [
+            "C05",
+            "C06",
+            "C17"
+          ],
+          "nontrigger_or_cheap_path": "Use the concrete finite search or a simple invariant where sufficient.",
+          "cost_and_evaluation_criterion": "Measure total modeling/reduction/debugging effort, not only explored-state counts.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Detailed current partial-order algorithms are retained as unexamined source leads, not freshly revalidated theorems; no blanket performance claim.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native value/predicate and actual computational facet select which state/path distinctions or equivalent cases may be merged, and which omissions would change the result. They permit the unreduced small calculation when reduction adds no benefit; they do not prove a proposed reduction sound.",
+        "exact_ordered_membership": [
+          "D02>F019",
+          "D17>F019",
+          "D18>F019",
+          "D21>F019",
+          "D41>F019",
+          "D42>F019",
+          "D43>F019",
+          "D45>F019",
+          "D46>F019",
+          "D47>F019",
+          "D51>F019",
+          "D53>F019",
+          "R001>F019",
+          "R002>F019",
+          "R003>F019",
+          "R004>F019",
+          "R005>F019",
+          "R011>F019",
+          "R012>F019",
+          "R013>F019",
+          "R019>F019",
+          "R020>F019",
+          "R021>F019",
+          "R022>F019",
+          "R023>F019",
+          "R024>F019",
+          "R025>F019",
+          "R026>F019",
+          "R027>F019",
+          "R028>F019",
+          "R030>F019",
+          "R031>F019",
+          "R032>F019",
+          "R033>F019",
+          "R037>F019",
+          "R039>F019",
+          "R041>F019",
+          "R042>F019",
+          "R043>F019",
+          "R044>F019",
+          "R046>F019",
+          "R048>F019",
+          "R049>F019",
+          "R052>F019",
+          "R053>F019",
+          "R055>F019"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F024-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P024",
+          "native_pointer": "/properties/23/native_record",
+          "current_pointer": "/properties/23/current_claim",
+          "current_object_sha256": "bc8f19b7cbc69e03316f03d5a3cbe63630e2d5115a83fbec78dede51ae68f6a0"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C024",
+          "native_property_id": "P024",
+          "current_statement": "A solver result concerns the encoded formula in declared theories and status; semantic correctness of the encoding and tool reliability are separate premises.",
+          "bearer": "A SAT/SMT query and result",
+          "logical_class": "SOLVER_AND_ENCODING_CONDITION",
+          "quantifier_and_guard": "Check intended-domain correspondence, arithmetic/undefined behavior, status and version; validate witnesses or certificates when justified.",
+          "negative_scope_and_legitimate_alternatives": "Two solvers sharing a wrong encoding do not independently validate intent. UNKNOWN and a model after UNKNOWN are not a proved satisfiable result.",
+          "expected_consequence": "Retain valid formula evidence without granting unintended program assurance.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S039",
+            "S097",
+            "S108",
+            "N008"
+          ],
+          "case_ids": [
+            "C09",
+            "C06"
+          ],
+          "nontrigger_or_cheap_path": "Use a direct evaluator for a small decidable predicate.",
+          "cost_and_evaluation_criterion": "Choose witness/certificate/diversity effort according to consequence and common-cause exposure.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native encoding boundary retained with current standard response semantics.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "A SAT/SMT encoding of the stated finite or restricted logical/arithmetic predicate can supply a witness or valid absence result at its actual theory/status. Correspondence to this computation and the native predicate is required. UNKNOWN, unsupported arithmetic or a model after UNKNOWN cannot receive proved-SAT/UNSAT credit.",
+        "exact_ordered_membership": [
+          "F024>D01",
+          "F024>D02",
+          "F024>D03",
+          "F024>D04",
+          "F024>D06",
+          "F024>D17",
+          "F024>D21",
+          "F024>D25",
+          "F024>D26",
+          "F024>D27",
+          "F024>D36",
+          "F024>D37",
+          "F024>D38",
+          "F024>D42",
+          "F024>D43",
+          "F024>D45",
+          "F024>D46",
+          "F024>D47",
+          "F024>D51",
+          "F024>D53",
+          "F024>R001",
+          "F024>R002",
+          "F024>R003",
+          "F024>R004",
+          "F024>R005",
+          "F024>R011",
+          "F024>R012",
+          "F024>R016",
+          "F024>R017",
+          "F024>R019",
+          "F024>R020",
+          "F024>R021",
+          "F024>R023",
+          "F024>R024",
+          "F024>R025",
+          "F024>R028",
+          "F024>R029",
+          "F024>R030",
+          "F024>R031",
+          "F024>R032",
+          "F024>R033",
+          "F024>R034",
+          "F024>R037",
+          "F024>R039",
+          "F024>R045",
+          "F024>R046",
+          "F024>R047",
+          "F024>R048",
+          "F024>R049",
+          "F024>R050",
+          "F024>R055"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F024-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P024",
+          "native_pointer": "/properties/23/native_record",
+          "current_pointer": "/properties/23/current_claim",
+          "current_object_sha256": "bc8f19b7cbc69e03316f03d5a3cbe63630e2d5115a83fbec78dede51ae68f6a0"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C024",
+          "native_property_id": "P024",
+          "current_statement": "A solver result concerns the encoded formula in declared theories and status; semantic correctness of the encoding and tool reliability are separate premises.",
+          "bearer": "A SAT/SMT query and result",
+          "logical_class": "SOLVER_AND_ENCODING_CONDITION",
+          "quantifier_and_guard": "Check intended-domain correspondence, arithmetic/undefined behavior, status and version; validate witnesses or certificates when justified.",
+          "negative_scope_and_legitimate_alternatives": "Two solvers sharing a wrong encoding do not independently validate intent. UNKNOWN and a model after UNKNOWN are not a proved satisfiable result.",
+          "expected_consequence": "Retain valid formula evidence without granting unintended program assurance.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S039",
+            "S097",
+            "S108",
+            "N008"
+          ],
+          "case_ids": [
+            "C09",
+            "C06"
+          ],
+          "nontrigger_or_cheap_path": "Use a direct evaluator for a small decidable predicate.",
+          "cost_and_evaluation_criterion": "Choose witness/certificate/diversity effort according to consequence and common-cause exposure.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native encoding boundary retained with current standard response semantics.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native predicate and this actual computation identify the formula, domain, values, machine-arithmetic/real-arithmetic distinction and relevant exclusions the solver claim must cover. They do not make a solver reliable or validate two solvers sharing the same wrong formula.",
+        "exact_ordered_membership": [
+          "D01>F024",
+          "D02>F024",
+          "D03>F024",
+          "D04>F024",
+          "D06>F024",
+          "D17>F024",
+          "D21>F024",
+          "D25>F024",
+          "D26>F024",
+          "D27>F024",
+          "D36>F024",
+          "D37>F024",
+          "D38>F024",
+          "D42>F024",
+          "D43>F024",
+          "D45>F024",
+          "D46>F024",
+          "D47>F024",
+          "D51>F024",
+          "D53>F024",
+          "R001>F024",
+          "R002>F024",
+          "R003>F024",
+          "R004>F024",
+          "R005>F024",
+          "R011>F024",
+          "R012>F024",
+          "R016>F024",
+          "R017>F024",
+          "R019>F024",
+          "R020>F024",
+          "R021>F024",
+          "R023>F024",
+          "R024>F024",
+          "R025>F024",
+          "R028>F024",
+          "R029>F024",
+          "R030>F024",
+          "R031>F024",
+          "R032>F024",
+          "R033>F024",
+          "R034>F024",
+          "R037>F024",
+          "R039>F024",
+          "R045>F024",
+          "R046>F024",
+          "R047>F024",
+          "R048>F024",
+          "R049>F024",
+          "R050>F024",
+          "R055>F024"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F025-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P025",
+          "native_pointer": "/properties/24/native_record",
+          "current_pointer": "/properties/24/current_claim",
+          "current_object_sha256": "5d0708a15d23780da147ce4ceb3da1dc856e1a4253382c1e627d8b472055d07c"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C025",
+          "native_property_id": "P025",
+          "current_statement": "Symbolic execution provides evidence about paths admitted by its semantics, environment models and exploration strategy; concrete witnesses and absence claims have different scopes.",
+          "bearer": "A symbolic path exploration",
+          "logical_class": "PATH_EVIDENCE",
+          "quantifier_and_guard": "Record explored paths, constraints, pruning, bounds, external-call models and solver outcomes; validate generated concrete witnesses as needed.",
+          "negative_scope_and_legitimate_alternatives": "Resource-limited or underapproximate search is useful for bug finding. Exhaustive all-path evidence needs a completeness argument.",
+          "expected_consequence": "Prevent path coverage or generated tests from becoming an unqualified all-program theorem.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S034",
+            "S039"
+          ],
+          "case_ids": [
+            "C05",
+            "C06",
+            "C09"
+          ],
+          "nontrigger_or_cheap_path": "Use fuzzing/direct tests for cheap exploration or a sound invariant for all-path assurance.",
+          "cost_and_evaluation_criterion": "Compare path explosion and environment-modeling effort with the question's scope.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native scope retained; KLEE2008 is historical evidence, not a claim about all current symbolic executors.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "A feasible symbolic path through this named computation/model operation can expose a violated stated predicate or a discriminating admitted input. It supports the represented path and environment/library semantics. Incomplete absence, artificial impossible responses and unmodeled paths cannot establish a universal claim.",
+        "exact_ordered_membership": [
+          "F025>D01",
+          "F025>D02",
+          "F025>D03",
+          "F025>D04",
+          "F025>D06",
+          "F025>D07",
+          "F025>D08",
+          "F025>D10",
+          "F025>D11",
+          "F025>D12",
+          "F025>D15",
+          "F025>D16",
+          "F025>D29",
+          "F025>D30",
+          "F025>D31",
+          "F025>D33",
+          "F025>D34",
+          "F025>D35",
+          "F025>D41",
+          "F025>D42",
+          "F025>D43",
+          "F025>D45",
+          "F025>D46",
+          "F025>D47",
+          "F025>D48",
+          "F025>D51",
+          "F025>D52",
+          "F025>D54",
+          "F025>R001",
+          "F025>R002",
+          "F025>R003",
+          "F025>R004",
+          "F025>R005",
+          "F025>R007",
+          "F025>R008",
+          "F025>R009",
+          "F025>R014",
+          "F025>R015",
+          "F025>R019",
+          "F025>R020",
+          "F025>R022",
+          "F025>R023",
+          "F025>R026",
+          "F025>R027",
+          "F025>R028",
+          "F025>R031",
+          "F025>R032",
+          "F025>R034",
+          "F025>R036",
+          "F025>R037",
+          "F025>R039",
+          "F025>R040",
+          "F025>R041",
+          "F025>R042",
+          "F025>R043",
+          "F025>R044",
+          "F025>R046",
+          "F025>R048",
+          "F025>R051",
+          "F025>R052",
+          "F025>R053"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F025-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P025",
+          "native_pointer": "/properties/24/native_record",
+          "current_pointer": "/properties/24/current_claim",
+          "current_object_sha256": "5d0708a15d23780da147ce4ceb3da1dc856e1a4253382c1e627d8b472055d07c"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C025",
+          "native_property_id": "P025",
+          "current_statement": "Symbolic execution provides evidence about paths admitted by its semantics, environment models and exploration strategy; concrete witnesses and absence claims have different scopes.",
+          "bearer": "A symbolic path exploration",
+          "logical_class": "PATH_EVIDENCE",
+          "quantifier_and_guard": "Record explored paths, constraints, pruning, bounds, external-call models and solver outcomes; validate generated concrete witnesses as needed.",
+          "negative_scope_and_legitimate_alternatives": "Resource-limited or underapproximate search is useful for bug finding. Exhaustive all-path evidence needs a completeness argument.",
+          "expected_consequence": "Prevent path coverage or generated tests from becoming an unqualified all-program theorem.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S034",
+            "S039"
+          ],
+          "case_ids": [
+            "C05",
+            "C06",
+            "C09"
+          ],
+          "nontrigger_or_cheap_path": "Use fuzzing/direct tests for cheap exploration or a sound invariant for all-path assurance.",
+          "cost_and_evaluation_criterion": "Compare path explosion and environment-modeling effort with the question's scope.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native scope retained; KLEE2008 is historical evidence, not a claim about all current symbolic executors.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The actual native computational predicate determines which branches, inputs, environment returns and postconditions are consequential. It supplies the criterion for a useful witness and the completeness domain for absence, without pretending a model path is an observed deployment failure.",
+        "exact_ordered_membership": [
+          "D01>F025",
+          "D02>F025",
+          "D03>F025",
+          "D04>F025",
+          "D06>F025",
+          "D07>F025",
+          "D08>F025",
+          "D10>F025",
+          "D11>F025",
+          "D12>F025",
+          "D15>F025",
+          "D16>F025",
+          "D29>F025",
+          "D30>F025",
+          "D31>F025",
+          "D33>F025",
+          "D34>F025",
+          "D35>F025",
+          "D41>F025",
+          "D42>F025",
+          "D43>F025",
+          "D45>F025",
+          "D46>F025",
+          "D47>F025",
+          "D48>F025",
+          "D51>F025",
+          "D52>F025",
+          "D54>F025",
+          "R001>F025",
+          "R002>F025",
+          "R003>F025",
+          "R004>F025",
+          "R005>F025",
+          "R007>F025",
+          "R008>F025",
+          "R009>F025",
+          "R014>F025",
+          "R015>F025",
+          "R019>F025",
+          "R020>F025",
+          "R022>F025",
+          "R023>F025",
+          "R026>F025",
+          "R027>F025",
+          "R028>F025",
+          "R031>F025",
+          "R032>F025",
+          "R034>F025",
+          "R036>F025",
+          "R037>F025",
+          "R039>F025",
+          "R040>F025",
+          "R041>F025",
+          "R042>F025",
+          "R043>F025",
+          "R044>F025",
+          "R046>F025",
+          "R048>F025",
+          "R051>F025",
+          "R052>F025",
+          "R053>F025"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F026-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P026",
+          "native_pointer": "/properties/25/native_record",
+          "current_pointer": "/properties/25/current_claim",
+          "current_object_sha256": "676ad0a3d334aec2c09f03fa51c028faee29f63073917a02bc5c807635f4025c"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C026",
+          "native_property_id": "P026",
+          "current_statement": "Static-analysis guarantees depend on the analyzed language subset, property, abstraction and actual tool behavior; declared unsound escape routes differ from implementation defects.",
+          "bearer": "An analyzer result and configured scope",
+          "logical_class": "STATIC_ANALYSIS_GUARANTEE",
+          "quantifier_and_guard": "State what behavior is covered and whether universal absence, possible alarm or heuristic ranking is intended; identify exclusions and unmodeled operations.",
+          "negative_scope_and_legitimate_alternatives": "Fast unsound lint can be valuable. A sound analysis may report false positives; an intentional exclusion need not invalidate its narrower theorem.",
+          "expected_consequence": "Separate method soundness, supported subset and concrete tool defect evidence.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S032",
+            "S005",
+            "S097"
+          ],
+          "case_ids": [
+            "C19",
+            "C05"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary lint freely for limited feedback while describing its guarantee accurately.",
+          "cost_and_evaluation_criterion": "Weigh false alarms, missed classes, modeling cost and maintenance.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native boundary retained; toy escape is not evidence that a named analyzer is defective.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "An actual analyzer result for this named program/model facet contributes only under its supported language subset, property, abstraction, configuration and result interpretation. A useful heuristic warning and a sound restricted absence claim are different outcomes; deliberate escapes and implementation bugs are separate limitations.",
+        "exact_ordered_membership": [
+          "F026>D02",
+          "F026>D03",
+          "F026>D04",
+          "F026>D06",
+          "F026>D07",
+          "F026>D08",
+          "F026>D10",
+          "F026>D11",
+          "F026>D12",
+          "F026>D15",
+          "F026>D16",
+          "F026>D29",
+          "F026>D30",
+          "F026>D31",
+          "F026>D33",
+          "F026>D34",
+          "F026>D35",
+          "F026>D41",
+          "F026>D42",
+          "F026>D43",
+          "F026>D45",
+          "F026>D46",
+          "F026>D47",
+          "F026>D48",
+          "F026>D51",
+          "F026>D52",
+          "F026>D54",
+          "F026>R001",
+          "F026>R002",
+          "F026>R003",
+          "F026>R004",
+          "F026>R005",
+          "F026>R007",
+          "F026>R008",
+          "F026>R009",
+          "F026>R014",
+          "F026>R015",
+          "F026>R019",
+          "F026>R020",
+          "F026>R022",
+          "F026>R023",
+          "F026>R026",
+          "F026>R027",
+          "F026>R028",
+          "F026>R031",
+          "F026>R032",
+          "F026>R034",
+          "F026>R036",
+          "F026>R037",
+          "F026>R039",
+          "F026>R040",
+          "F026>R041",
+          "F026>R042",
+          "F026>R043",
+          "F026>R044",
+          "F026>R046",
+          "F026>R048",
+          "F026>R051",
+          "F026>R052",
+          "F026>R053"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F026-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P026",
+          "native_pointer": "/properties/25/native_record",
+          "current_pointer": "/properties/25/current_claim",
+          "current_object_sha256": "676ad0a3d334aec2c09f03fa51c028faee29f63073917a02bc5c807635f4025c"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C026",
+          "native_property_id": "P026",
+          "current_statement": "Static-analysis guarantees depend on the analyzed language subset, property, abstraction and actual tool behavior; declared unsound escape routes differ from implementation defects.",
+          "bearer": "An analyzer result and configured scope",
+          "logical_class": "STATIC_ANALYSIS_GUARANTEE",
+          "quantifier_and_guard": "State what behavior is covered and whether universal absence, possible alarm or heuristic ranking is intended; identify exclusions and unmodeled operations.",
+          "negative_scope_and_legitimate_alternatives": "Fast unsound lint can be valuable. A sound analysis may report false positives; an intentional exclusion need not invalidate its narrower theorem.",
+          "expected_consequence": "Separate method soundness, supported subset and concrete tool defect evidence.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S032",
+            "S005",
+            "S097"
+          ],
+          "case_ids": [
+            "C19",
+            "C05"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary lint freely for limited feedback while describing its guarantee accurately.",
+          "cost_and_evaluation_criterion": "Weigh false alarms, missed classes, modeling cost and maintenance.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native boundary retained; toy escape is not evidence that a named analyzer is defective.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native computation and required predicate determine which supported operations, external calls, state changes and exclusions matter to this analysis result. A narrower useful witness or theorem remains creditable while a broader application remains open.",
+        "exact_ordered_membership": [
+          "D02>F026",
+          "D03>F026",
+          "D04>F026",
+          "D06>F026",
+          "D07>F026",
+          "D08>F026",
+          "D10>F026",
+          "D11>F026",
+          "D12>F026",
+          "D15>F026",
+          "D16>F026",
+          "D29>F026",
+          "D30>F026",
+          "D31>F026",
+          "D33>F026",
+          "D34>F026",
+          "D35>F026",
+          "D41>F026",
+          "D42>F026",
+          "D43>F026",
+          "D45>F026",
+          "D46>F026",
+          "D47>F026",
+          "D48>F026",
+          "D51>F026",
+          "D52>F026",
+          "D54>F026",
+          "R001>F026",
+          "R002>F026",
+          "R003>F026",
+          "R004>F026",
+          "R005>F026",
+          "R007>F026",
+          "R008>F026",
+          "R009>F026",
+          "R014>F026",
+          "R015>F026",
+          "R019>F026",
+          "R020>F026",
+          "R022>F026",
+          "R023>F026",
+          "R026>F026",
+          "R027>F026",
+          "R028>F026",
+          "R031>F026",
+          "R032>F026",
+          "R034>F026",
+          "R036>F026",
+          "R037>F026",
+          "R039>F026",
+          "R040>F026",
+          "R041>F026",
+          "R042>F026",
+          "R043>F026",
+          "R044>F026",
+          "R046>F026",
+          "R048>F026",
+          "R051>F026",
+          "R052>F026",
+          "R053>F026"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F033-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P033",
+          "native_pointer": "/properties/32/native_record",
+          "current_pointer": "/properties/32/current_claim",
+          "current_object_sha256": "36c7c5aab98e47653197f6958233682eb16dd68eae2d2846da737d89f25b8b23"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C033",
+          "native_property_id": "P033",
+          "current_statement": "A verified compiler's theorem concerns defined source/target semantics and selected compilation stages; it does not entail total deployed-system correctness.",
+          "bearer": "A compilation and semantic-preservation theorem",
+          "logical_class": "TOOLCHAIN_REFINEMENT",
+          "quantifier_and_guard": "Match the proved version, supported source semantics and target endpoints; retain undefined-behavior, compiler-failure and external-stage assumptions.",
+          "negative_scope_and_legitimate_alternatives": "A component preservation theorem remains valuable while assembly/linking/hardware/timing are unproved. A conventional compiler may be proportionate.",
+          "expected_consequence": "Prevent a correct compiler theorem from being credited to a mismatched binary or unmodeled effect.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S110",
+            "S094"
+          ],
+          "case_ids": [
+            "C11"
+          ],
+          "nontrigger_or_cheap_path": "Use existing testing, diversity or per-run validation if adequate for the consequence.",
+          "cost_and_evaluation_criterion": "Compare integration, language restrictions, performance and assurance value.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native scope retained; current3.18manual is separately versioned from the historical freeze.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "For a compiled implementation of this exact computational facet, a matching compiler-preservation theorem can carry the proved source behavior to its covered target endpoint. This is a conditional implementation-correspondence contribution. The currently inspected Python case execution receives no CompCert or other verified-compiler credit: a supported source implementation, its relation to this facet, the real compiler/version/options and target artifacts would have to be supplied for such execution/application credit.",
+        "exact_ordered_membership": [
+          "F033>D01",
+          "F033>D02",
+          "F033>D03",
+          "F033>D04",
+          "F033>D06",
+          "F033>D07",
+          "F033>D08",
+          "F033>D10",
+          "F033>D11",
+          "F033>D12",
+          "F033>D15",
+          "F033>D16",
+          "F033>D17",
+          "F033>D20",
+          "F033>D21",
+          "F033>D29",
+          "F033>D30",
+          "F033>D31",
+          "F033>D33",
+          "F033>D34",
+          "F033>D35",
+          "F033>D41",
+          "F033>D42",
+          "F033>D43",
+          "F033>D44",
+          "F033>D45",
+          "F033>D46",
+          "F033>D47",
+          "F033>D48",
+          "F033>D51",
+          "F033>D53",
+          "F033>D54",
+          "F033>R001",
+          "F033>R002",
+          "F033>R003",
+          "F033>R004",
+          "F033>R005",
+          "F033>R006",
+          "F033>R007",
+          "F033>R008",
+          "F033>R009",
+          "F033>R011",
+          "F033>R012",
+          "F033>R013",
+          "F033>R014",
+          "F033>R015",
+          "F033>R017",
+          "F033>R019",
+          "F033>R020",
+          "F033>R022",
+          "F033>R023",
+          "F033>R024",
+          "F033>R026",
+          "F033>R027",
+          "F033>R028",
+          "F033>R031",
+          "F033>R032",
+          "F033>R033",
+          "F033>R034",
+          "F033>R035",
+          "F033>R036",
+          "F033>R037",
+          "F033>R039",
+          "F033>R040",
+          "F033>R041",
+          "F033>R042",
+          "F033>R043",
+          "F033>R044",
+          "F033>R046",
+          "F033>R047",
+          "F033>R048",
+          "F033>R050",
+          "F033>R051",
+          "F033>R052",
+          "F033>R053",
+          "F033>R054",
+          "F033>R055"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F033-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P033",
+          "native_pointer": "/properties/32/native_record",
+          "current_pointer": "/properties/32/current_claim",
+          "current_object_sha256": "36c7c5aab98e47653197f6958233682eb16dd68eae2d2846da737d89f25b8b23"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C033",
+          "native_property_id": "P033",
+          "current_statement": "A verified compiler's theorem concerns defined source/target semantics and selected compilation stages; it does not entail total deployed-system correctness.",
+          "bearer": "A compilation and semantic-preservation theorem",
+          "logical_class": "TOOLCHAIN_REFINEMENT",
+          "quantifier_and_guard": "Match the proved version, supported source semantics and target endpoints; retain undefined-behavior, compiler-failure and external-stage assumptions.",
+          "negative_scope_and_legitimate_alternatives": "A component preservation theorem remains valuable while assembly/linking/hardware/timing are unproved. A conventional compiler may be proportionate.",
+          "expected_consequence": "Prevent a correct compiler theorem from being credited to a mismatched binary or unmodeled effect.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S110",
+            "S094"
+          ],
+          "case_ids": [
+            "C11"
+          ],
+          "nontrigger_or_cheap_path": "Use existing testing, diversity or per-run validation if adequate for the consequence.",
+          "cost_and_evaluation_criterion": "Compare integration, language restrictions, performance and assurance value.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native scope retained; current3.18manual is separately versioned from the historical freeze.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native value/predicate and specific computational facet identify the source behavior and observations the compiler theorem must preserve. They can expose an unsupported language, omitted runtime/link stage or timing/quantity extension. They neither instantiate a compiler theorem for Python nor prove a source implementation correct.",
+        "exact_ordered_membership": [
+          "D01>F033",
+          "D02>F033",
+          "D03>F033",
+          "D04>F033",
+          "D06>F033",
+          "D07>F033",
+          "D08>F033",
+          "D10>F033",
+          "D11>F033",
+          "D12>F033",
+          "D15>F033",
+          "D16>F033",
+          "D17>F033",
+          "D20>F033",
+          "D21>F033",
+          "D29>F033",
+          "D30>F033",
+          "D31>F033",
+          "D33>F033",
+          "D34>F033",
+          "D35>F033",
+          "D41>F033",
+          "D42>F033",
+          "D43>F033",
+          "D44>F033",
+          "D45>F033",
+          "D46>F033",
+          "D47>F033",
+          "D48>F033",
+          "D51>F033",
+          "D53>F033",
+          "D54>F033",
+          "R001>F033",
+          "R002>F033",
+          "R003>F033",
+          "R004>F033",
+          "R005>F033",
+          "R006>F033",
+          "R007>F033",
+          "R008>F033",
+          "R009>F033",
+          "R011>F033",
+          "R012>F033",
+          "R013>F033",
+          "R014>F033",
+          "R015>F033",
+          "R017>F033",
+          "R019>F033",
+          "R020>F033",
+          "R022>F033",
+          "R023>F033",
+          "R024>F033",
+          "R026>F033",
+          "R027>F033",
+          "R028>F033",
+          "R031>F033",
+          "R032>F033",
+          "R033>F033",
+          "R034>F033",
+          "R035>F033",
+          "R036>F033",
+          "R037>F033",
+          "R039>F033",
+          "R040>F033",
+          "R041>F033",
+          "R042>F033",
+          "R043>F033",
+          "R044>F033",
+          "R046>F033",
+          "R047>F033",
+          "R048>F033",
+          "R050>F033",
+          "R051>F033",
+          "R052>F033",
+          "R053>F033",
+          "R054>F033",
+          "R055>F033"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F034-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "01999bcfd375b2f3920a3d6b9bb3818e6b4581012bcb34981eb50a207a09a7b3"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C034",
+          "native_property_id": "P034",
+          "current_statement": "Translation validation can establish a particular transformation's required relation even when the transformer is not wholly verified, subject to validator and encoding premises.",
+          "bearer": "A transformation run and its validator",
+          "logical_class": "PER_RUN_CORRESPONDENCE",
+          "quantifier_and_guard": "Check the actual input/output identities and the validator's supported semantics; do not generalize a reduced benchmark to excluded language constructs.",
+          "negative_scope_and_legitimate_alternatives": "A rejected or unsupported validation is not necessarily a bad translation. A simple deterministic transformation can use direct proof or exhaustive checking.",
+          "expected_consequence": "Gain conditional correspondence without claiming all transformations or all tools correct.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S098",
+            "S109"
+          ],
+          "case_ids": [
+            "C11",
+            "C09"
+          ],
+          "nontrigger_or_cheap_path": "A small direct relation check may beat a general validation pipeline.",
+          "cost_and_evaluation_criterion": "Include validation cost and unsupported-feature handling in evaluation.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native per-run mechanism retained with source-confirmed subset and altered-benchmark limits.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "A per-run validator of the actual representation/implementation transformation used for this facet can check its required value/observation relation without proving every transformer run correct. At the bounded model level a direct input/output relation check may be sufficient. This is explicitly a methodological extension beyond compiler-only examples where a history/table/result representation is the transformation object, not an assertion that those examples were compiler builds.",
+        "exact_ordered_membership": [
+          "F034>D01",
+          "F034>D02",
+          "F034>D03",
+          "F034>D04",
+          "F034>D06",
+          "F034>D07",
+          "F034>D08",
+          "F034>D10",
+          "F034>D11",
+          "F034>D12",
+          "F034>D15",
+          "F034>D16",
+          "F034>D17",
+          "F034>D20",
+          "F034>D21",
+          "F034>D29",
+          "F034>D30",
+          "F034>D31",
+          "F034>D33",
+          "F034>D34",
+          "F034>D35",
+          "F034>D41",
+          "F034>D42",
+          "F034>D43",
+          "F034>D44",
+          "F034>D45",
+          "F034>D46",
+          "F034>D47",
+          "F034>D48",
+          "F034>D51",
+          "F034>D53",
+          "F034>D54",
+          "F034>R001",
+          "F034>R002",
+          "F034>R003",
+          "F034>R004",
+          "F034>R005",
+          "F034>R006",
+          "F034>R007",
+          "F034>R008",
+          "F034>R009",
+          "F034>R011",
+          "F034>R012",
+          "F034>R013",
+          "F034>R014",
+          "F034>R015",
+          "F034>R017",
+          "F034>R019",
+          "F034>R020",
+          "F034>R022",
+          "F034>R023",
+          "F034>R024",
+          "F034>R026",
+          "F034>R027",
+          "F034>R028",
+          "F034>R031",
+          "F034>R032",
+          "F034>R033",
+          "F034>R034",
+          "F034>R035",
+          "F034>R036",
+          "F034>R037",
+          "F034>R039",
+          "F034>R040",
+          "F034>R041",
+          "F034>R042",
+          "F034>R043",
+          "F034>R044",
+          "F034>R046",
+          "F034>R047",
+          "F034>R048",
+          "F034>R050",
+          "F034>R051",
+          "F034>R052",
+          "F034>R053",
+          "F034>R054",
+          "F034>R055"
+        ]
+      },
+      {
+        "id": "COMPUTATIONAL-F034-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "01999bcfd375b2f3920a3d6b9bb3818e6b4581012bcb34981eb50a207a09a7b3"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C034",
+          "native_property_id": "P034",
+          "current_statement": "Translation validation can establish a particular transformation's required relation even when the transformer is not wholly verified, subject to validator and encoding premises.",
+          "bearer": "A transformation run and its validator",
+          "logical_class": "PER_RUN_CORRESPONDENCE",
+          "quantifier_and_guard": "Check the actual input/output identities and the validator's supported semantics; do not generalize a reduced benchmark to excluded language constructs.",
+          "negative_scope_and_legitimate_alternatives": "A rejected or unsupported validation is not necessarily a bad translation. A simple deterministic transformation can use direct proof or exhaustive checking.",
+          "expected_consequence": "Gain conditional correspondence without claiming all transformations or all tools correct.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S098",
+            "S109"
+          ],
+          "case_ids": [
+            "C11",
+            "C09"
+          ],
+          "nontrigger_or_cheap_path": "A small direct relation check may beat a general validation pipeline.",
+          "cost_and_evaluation_criterion": "Include validation cost and unsupported-feature handling in evaluation.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native per-run mechanism retained with source-confirmed subset and altered-benchmark limits.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native predicate and computational facet select the exact input/output identities and preserved observation/value relation the validator must check. They reject merely equal shapes, a wrong unit/denominator, a pruned decisive branch or a different artifact; they do not establish validator correctness or turn unsupported/rejected validation into proof of a bad transformation.",
+        "exact_ordered_membership": [
+          "D01>F034",
+          "D02>F034",
+          "D03>F034",
+          "D04>F034",
+          "D06>F034",
+          "D07>F034",
+          "D08>F034",
+          "D10>F034",
+          "D11>F034",
+          "D12>F034",
+          "D15>F034",
+          "D16>F034",
+          "D17>F034",
+          "D20>F034",
+          "D21>F034",
+          "D29>F034",
+          "D30>F034",
+          "D31>F034",
+          "D33>F034",
+          "D34>F034",
+          "D35>F034",
+          "D41>F034",
+          "D42>F034",
+          "D43>F034",
+          "D44>F034",
+          "D45>F034",
+          "D46>F034",
+          "D47>F034",
+          "D48>F034",
+          "D51>F034",
+          "D53>F034",
+          "D54>F034",
+          "R001>F034",
+          "R002>F034",
+          "R003>F034",
+          "R004>F034",
+          "R005>F034",
+          "R006>F034",
+          "R007>F034",
+          "R008>F034",
+          "R009>F034",
+          "R011>F034",
+          "R012>F034",
+          "R013>F034",
+          "R014>F034",
+          "R015>F034",
+          "R017>F034",
+          "R019>F034",
+          "R020>F034",
+          "R022>F034",
+          "R023>F034",
+          "R024>F034",
+          "R026>F034",
+          "R027>F034",
+          "R028>F034",
+          "R031>F034",
+          "R032>F034",
+          "R033>F034",
+          "R034>F034",
+          "R035>F034",
+          "R036>F034",
+          "R037>F034",
+          "R039>F034",
+          "R040>F034",
+          "R041>F034",
+          "R042>F034",
+          "R043>F034",
+          "R044>F034",
+          "R046>F034",
+          "R047>F034",
+          "R048>F034",
+          "R050>F034",
+          "R051>F034",
+          "R052>F034",
+          "R053>F034",
+          "R054>F034",
+          "R055>F034"
+        ]
+      }
+    ],
+    "retained_prior_directions": [
+      "F019>D01",
+      "F019>D03",
+      "F019>D04",
+      "F019>D06",
+      "F019>D07",
+      "F019>D08",
+      "F019>D10",
+      "F019>D11",
+      "F019>D12",
+      "F019>D15",
+      "F019>D16",
+      "F019>D20",
+      "F019>D25",
+      "F019>D26",
+      "F019>D27",
+      "F019>D29",
+      "F019>D30",
+      "F019>D31",
+      "F019>D33",
+      "F019>D34",
+      "F019>D35",
+      "F019>D36",
+      "F019>D37",
+      "F019>D38",
+      "F019>D44",
+      "F019>D48",
+      "F019>D52",
+      "F019>D54",
+      "F019>R006",
+      "F019>R007",
+      "F019>R008",
+      "F019>R009",
+      "F019>R014",
+      "F019>R015",
+      "F019>R016",
+      "F019>R017",
+      "F019>R029",
+      "F019>R034",
+      "F019>R035",
+      "F019>R036",
+      "F019>R040",
+      "F019>R045",
+      "F019>R047",
+      "F019>R050",
+      "F019>R051",
+      "F019>R054",
+      "D01>F019",
+      "D03>F019",
+      "D04>F019",
+      "D06>F019",
+      "D07>F019",
+      "D08>F019",
+      "D10>F019",
+      "D11>F019",
+      "D12>F019",
+      "D15>F019",
+      "D16>F019",
+      "D20>F019",
+      "D25>F019",
+      "D26>F019",
+      "D27>F019",
+      "D29>F019",
+      "D30>F019",
+      "D31>F019",
+      "D33>F019",
+      "D34>F019",
+      "D35>F019",
+      "D36>F019",
+      "D37>F019",
+      "D38>F019",
+      "D44>F019",
+      "D48>F019",
+      "D52>F019",
+      "D54>F019",
+      "R006>F019",
+      "R007>F019",
+      "R008>F019",
+      "R009>F019",
+      "R014>F019",
+      "R015>F019",
+      "R016>F019",
+      "R017>F019",
+      "R029>F019",
+      "R034>F019",
+      "R035>F019",
+      "R036>F019",
+      "R038>F019",
+      "R040>F019",
+      "R045>F019",
+      "R047>F019",
+      "R050>F019",
+      "R051>F019",
+      "R054>F019",
+      "F024>D07",
+      "F024>D08",
+      "F024>D10",
+      "F024>D11",
+      "F024>D12",
+      "F024>D15",
+      "F024>D16",
+      "F024>D18",
+      "F024>D20",
+      "F024>D29",
+      "F024>D30",
+      "F024>D31",
+      "F024>D33",
+      "F024>D34",
+      "F024>D35",
+      "F024>D41",
+      "F024>D44",
+      "F024>D48",
+      "F024>D52",
+      "F024>D54",
+      "F024>R006",
+      "F024>R007",
+      "F024>R008",
+      "F024>R009",
+      "F024>R013",
+      "F024>R014",
+      "F024>R015",
+      "F024>R022",
+      "F024>R026",
+      "F024>R027",
+      "F024>R035",
+      "F024>R036",
+      "F024>R038",
+      "F024>R040",
+      "F024>R041",
+      "F024>R042",
+      "F024>R043",
+      "F024>R044",
+      "F024>R051",
+      "F024>R052",
+      "F024>R053",
+      "F024>R054",
+      "D07>F024",
+      "D08>F024",
+      "D10>F024",
+      "D11>F024",
+      "D12>F024",
+      "D15>F024",
+      "D16>F024",
+      "D18>F024",
+      "D20>F024",
+      "D29>F024",
+      "D30>F024",
+      "D31>F024",
+      "D33>F024",
+      "D34>F024",
+      "D35>F024",
+      "D41>F024",
+      "D44>F024",
+      "D48>F024",
+      "D52>F024",
+      "D54>F024",
+      "R006>F024",
+      "R007>F024",
+      "R008>F024",
+      "R009>F024",
+      "R013>F024",
+      "R014>F024",
+      "R015>F024",
+      "R022>F024",
+      "R026>F024",
+      "R027>F024",
+      "R035>F024",
+      "R036>F024",
+      "R038>F024",
+      "R040>F024",
+      "R041>F024",
+      "R042>F024",
+      "R043>F024",
+      "R044>F024",
+      "R051>F024",
+      "R052>F024",
+      "R053>F024",
+      "R054>F024",
+      "F025>D17",
+      "F025>D18",
+      "F025>D20",
+      "F025>D21",
+      "F025>D25",
+      "F025>D26",
+      "F025>D27",
+      "F025>D36",
+      "F025>D37",
+      "F025>D38",
+      "F025>D44",
+      "F025>D53",
+      "F025>R006",
+      "F025>R011",
+      "F025>R012",
+      "F025>R013",
+      "F025>R016",
+      "F025>R017",
+      "F025>R021",
+      "F025>R024",
+      "F025>R025",
+      "F025>R029",
+      "F025>R030",
+      "F025>R033",
+      "F025>R035",
+      "F025>R038",
+      "F025>R045",
+      "F025>R047",
+      "F025>R049",
+      "F025>R050",
+      "F025>R054",
+      "F025>R055",
+      "D17>F025",
+      "D18>F025",
+      "D20>F025",
+      "D21>F025",
+      "D25>F025",
+      "D26>F025",
+      "D27>F025",
+      "D36>F025",
+      "D37>F025",
+      "D38>F025",
+      "D44>F025",
+      "D53>F025",
+      "R006>F025",
+      "R011>F025",
+      "R012>F025",
+      "R013>F025",
+      "R016>F025",
+      "R017>F025",
+      "R021>F025",
+      "R024>F025",
+      "R025>F025",
+      "R029>F025",
+      "R030>F025",
+      "R033>F025",
+      "R035>F025",
+      "R038>F025",
+      "R045>F025",
+      "R047>F025",
+      "R049>F025",
+      "R050>F025",
+      "R054>F025",
+      "R055>F025",
+      "F026>D01",
+      "F026>D17",
+      "F026>D18",
+      "F026>D20",
+      "F026>D21",
+      "F026>D25",
+      "F026>D26",
+      "F026>D27",
+      "F026>D36",
+      "F026>D37",
+      "F026>D38",
+      "F026>D44",
+      "F026>D53",
+      "F026>R006",
+      "F026>R011",
+      "F026>R012",
+      "F026>R013",
+      "F026>R016",
+      "F026>R017",
+      "F026>R021",
+      "F026>R024",
+      "F026>R025",
+      "F026>R029",
+      "F026>R030",
+      "F026>R033",
+      "F026>R035",
+      "F026>R038",
+      "F026>R045",
+      "F026>R047",
+      "F026>R049",
+      "F026>R050",
+      "F026>R054",
+      "F026>R055",
+      "D01>F026",
+      "D17>F026",
+      "D18>F026",
+      "D20>F026",
+      "D21>F026",
+      "D25>F026",
+      "D26>F026",
+      "D27>F026",
+      "D36>F026",
+      "D37>F026",
+      "D38>F026",
+      "D44>F026",
+      "D53>F026",
+      "R006>F026",
+      "R011>F026",
+      "R012>F026",
+      "R013>F026",
+      "R016>F026",
+      "R017>F026",
+      "R021>F026",
+      "R024>F026",
+      "R025>F026",
+      "R029>F026",
+      "R030>F026",
+      "R033>F026",
+      "R035>F026",
+      "R038>F026",
+      "R045>F026",
+      "R047>F026",
+      "R049>F026",
+      "R050>F026",
+      "R054>F026",
+      "R055>F026",
+      "F033>D18",
+      "F033>D25",
+      "F033>D26",
+      "F033>D27",
+      "F033>D36",
+      "F033>D37",
+      "F033>D38",
+      "F033>D52",
+      "F033>R016",
+      "F033>R021",
+      "F033>R025",
+      "F033>R029",
+      "F033>R030",
+      "F033>R038",
+      "F033>R045",
+      "F033>R049",
+      "D18>F033",
+      "D25>F033",
+      "D26>F033",
+      "D27>F033",
+      "D36>F033",
+      "D37>F033",
+      "D38>F033",
+      "D52>F033",
+      "R016>F033",
+      "R021>F033",
+      "R025>F033",
+      "R029>F033",
+      "R030>F033",
+      "R038>F033",
+      "R045>F033",
+      "R049>F033",
+      "F034>D18",
+      "F034>D25",
+      "F034>D26",
+      "F034>D27",
+      "F034>D36",
+      "F034>D37",
+      "F034>D38",
+      "F034>D52",
+      "F034>R016",
+      "F034>R021",
+      "F034>R025",
+      "F034>R029",
+      "F034>R030",
+      "F034>R038",
+      "F034>R045",
+      "F034>R049",
+      "D18>F034",
+      "D25>F034",
+      "D26>F034",
+      "D27>F034",
+      "D36>F034",
+      "D37>F034",
+      "D38>F034",
+      "D52>F034",
+      "R016>F034",
+      "R021>F034",
+      "R025>F034",
+      "R029>F034",
+      "R030>F034",
+      "R038>F034",
+      "R045>F034",
+      "R049>F034"
+    ],
+    "new_scientific_executions": 0
+  }
+}

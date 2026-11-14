@@ -1,5 +1,8 @@
 # SSS-L3 — Software Product Line Engineering
 
+> **Current scientific reading route — 13 November 2026:** the substantial [SSS-L3 account](current/SSS-L3.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 This account explains the **historical public** 62-property study. Its selected sources, limits and analytical conclusions remain at that historical scope. The accepted current r1 interpretation has a separate exact identity and remains subject to source-specific disclosure. [Family](README.md) · [Genealogy](GENEALOGY.md) · [All 62 historical properties](SSS-L3-HISTORICAL-PROPERTIES.md) · [Current programme](../../PROGRAMME.json).
 
 ## When a family is warranted

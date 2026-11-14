@@ -1,5 +1,8 @@
 # BWP-L1 — Business Process Management
 
+> **Current scientific reading route — 13 November 2026:** the substantial [BWP-L1 account](current/BWP-L1.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 ## Public scope and current qualification
 
 This is a source-grounded reader of the **already-public historical** Business Process Management study. It preserves all 73 original property identities and every historical property field. Its findings are attributed to that historical source, including assertions later revised by the separately qualified current study. It does not present the old population as new research.

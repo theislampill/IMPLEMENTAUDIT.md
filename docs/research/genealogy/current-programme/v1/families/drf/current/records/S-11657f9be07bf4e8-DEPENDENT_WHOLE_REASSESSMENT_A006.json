@@ -1,0 +1,441 @@
+{
+  "source_identity": {
+    "source_id": "S-11657f9be07bf4e8",
+    "scientific_name": "DEPENDENT_WHOLE_REASSESSMENT_A006.json",
+    "original_bytes": 32758,
+    "original_sha256": "11657f9be07bf4e8b430b33383fd4f8f35aeecf95a6a4a11fad0d2dd0f4a006e"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "DRF-A006-dependent-whole-reassessment/1",
+    "at_utc": "2026-11-13T14:31:14.364774+00:00",
+    "changed_clock_outcomes": [
+      "R009>D04",
+      "R040>D04",
+      "R051>D04"
+    ],
+    "semantic_body_changes": 3,
+    "family_reference_redirects": 172,
+    "configurations": [
+      {
+        "id": "C1",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "The required fixed intent and present local completion boundary do not contain the reference-service comparison. A sufficient direct return and explicit outcome contract remain substitutes for additional observation. The clock corrections supply no new parent, no authority and no result about forgotten effects.",
+        "exact_A005_record_sha256": "10d59041e2354082de7ca01f4125fde389bf804e5ffb4fb080294c5bb19af6ac",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      },
+      {
+        "id": "C2",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "The original membership/quorum and joint mission-probability criteria remain distinct. Its R040/D10 supplements concern the actual membership/protection function, not R040/D04. Source-based reference diversity does not establish quorum eligibility, state transfer or a numerical independence law; the original dependent-rescue and perfect-cofailure countercases, seven parent removals and withheld R055/D12 application remain.",
+        "exact_A005_record_sha256": "e431974171233fb70b17840ac8636057265ccdbf86a011bc23e7d5567b07b97b",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      },
+      {
+        "id": "C3",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "The workflow still depends on effect identity, replay semantics, acknowledgment boundary and compensation. R051/D21 is an acknowledgment/effect comparison, not the corrected time-reference addition. Clock rescue cannot establish an external effect or erase a semantic refusal. All nine parent removals and the adequate local/transactional alternatives remain.",
+        "exact_A005_record_sha256": "255e5aa3a5dcc7ed0b8f551907011cb96d2368496746a78be37868e2b710f151",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      },
+      {
+        "id": "C4",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "Actual work paths, backlog, capacity and restoration obligations govern the overload feedback. R040/D33 concerns an alternate recovery/containment path; it does not consume the D04 reference argument. Only actual polling or diagnostic work may be charged to a chosen capacity model. A timer label alone adds no work, and a transient burst remains distinct from sustained overload.",
+        "exact_A005_record_sha256": "511ddadb3b2be2455710a868436176a0eca16d9b14c120d1aa812aca35d9b4b9",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      },
+      {
+        "id": "C5",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "The exact state/schema/worker conversion and eligible continuation contract remain the receiving object. None of its five parents or six original relations requires a diverse clock service. The n/100 to m/1000 example keeps its exact m=10n condition, finite-domain limit and direct conversion/proof alternatives.",
+        "exact_A005_record_sha256": "dafc3fad09634837399814d3ad2183a11892995735f966ac67db768d002a0add",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      },
+      {
+        "id": "C6",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "Physical renewal, software restoration and elapsed support time remain different functions. Replacing or diversifying a time reference is not an age reset or a repair-completion result. The R055/D36 physical replacement application remains withheld even though the separate SagaLLM compensation relation is material; positive cost and accepted run-to-failure alternatives survive.",
+        "exact_A005_record_sha256": "e91dd47bb0a319327c017940427f90cbdbb2e100d0bc7acec3f5803e311b9853",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      },
+      {
+        "id": "C7",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "The event process, ascertainment and demonstrated observation window remain the criterion. A possible reference rescue assigns no probability and does not identify an unknown detection fraction or an NHPP law from a mean. The direct event/observation model and its statistical limits subsume the same candidate; clock architecture adds no required parent.",
+        "exact_A005_record_sha256": "372340a1ae05b7e2392023367110b9e24895c38021e72e73165620787d41369b",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      },
+      {
+        "id": "C8",
+        "judgment": "RETAIN_CURRENT_CORE_AT_DECLARED_SCOPE",
+        "reason": "The actual detector/action and retained-consumer model remains ordinary stipulated decision analysis. Source-bound clock architecture supplies neither the missing AI alarm/retirement task nor permission to act. Preserve the finite prevalence/PPV example, explicitly perfect zero-delay confirmation assumption, complete cost comparison, hidden-consumer countercases and three withheld AI-related applications.",
+        "exact_A005_record_sha256": "fded0981a70805bb90bac48caa16b68111544b3cf6b02d3ca340e2e164676fea",
+        "changed_clock_original_uses": [],
+        "changed_clock_current_supplementary_uses": [],
+        "D04_required_parent": false,
+        "new_required_parent": false,
+        "new_original_relation_use": false,
+        "parent_and_lineage_removals": "Exact original complete binding remains; no changed clock direction is consumed.",
+        "cost_and_alternative_consequence": "Preserve the existing full cost, nontrigger and adequate-alternative arguments; no universal observation/redundancy bundle."
+      }
+    ],
+    "candidates": [
+      {
+        "id": "B09-J01",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The eligible correction/configuration/trace experiment retains its exact required-function question. Co-recorded local evidence remains a direct substitute; a reference architecture supplies no growth or causal-effect law.",
+        "exact_A005_candidate_core_sha256": "4258cfd3ca988d5649eaf372aba2fd1912a3433bde5f8113b8cee8bcbf32c295",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B09-J02",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The physical stress/mode-to-capacity correspondence stays necessary for this particular transfer. Reference diversity does not supply the missing physical mapping; direct functional measurements or field-like stress remain substitutes.",
+        "exact_A005_candidate_core_sha256": "8d28705ddd13adf58f6e23fef66015fc497565be457eb2fd9cde6bef4d3f5ae8",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B10-NOV-01",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The proposed rollout certificate still adds no criterion beyond its semantic, configuration, trace and process restrictions. The new clock arrows do not strengthen it into a general readiness certificate.",
+        "exact_A005_candidate_core_sha256": "a8d9195eb43e38c21ed7f9ce40788b7d323a480ae96562930435d5936e94a214",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B13-NX01",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "B13 uses D39 and R009 at the stated semantic-rescue event. The actual alternate/function correspondence there stays separate from D04. Its exact original novelty core and separately appended original configuration are retained; neither pointer bookkeeping nor the new clock example creates a distinct property.",
+        "exact_A005_candidate_core_sha256": "fdb12a424e5e44ba65dd49ef2b7acd3c4ae9a73070a9354f924a0d7ce2411237",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B17-C01",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "B17 binds D39 and the shared-cause, rescue, containment, diversity and added-loss parents to actual change paths. Correcting their clock application does not change those change-path guards or removal witnesses. The direct event/path comparison remains a subsumer, and shared R009/R051 evidence is not independent corroboration.",
+        "exact_A005_candidate_core_sha256": "aab3f1123996fe68877e18daad20e08600a278868718df907d81a3c5cfa1f4a3",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B19-CANDIDATE-BOUND-LIFE-RESET",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The bound/life/reset construction holds the required function and physical renewal premise fixed. R009 is an alternative in a removal, not a D04 dependency. A reference-source rescue is neither physical renewal nor a demonstrated life extension; original substitutions and costs remain.",
+        "exact_A005_candidate_core_sha256": "5a5accd2eccbe808d434c20726ed7e6e8e21fd47067e1f86af41244a2a5c95c3",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B21-CANDIDATE-RESTORE-UNDER-COMPETING-WORK",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The competing-work recovery construction retains a required restoration task and explicit resource recurrence. The native support/recovery scope includes software backup/rebuild, but this construction does not establish every pairwise operand. A clock comparison supplies no such recovery result; direct task/resource contracts remain sufficient.",
+        "exact_A005_candidate_core_sha256": "beaa17d21d5bc6a43adec249952365899810709032145b882e42aa9f321329dc",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B27-CANDIDATE-RECOVERY-EXPOSURE-CRITERIA",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The recovery/exposure criterion retains explicit tolerated fault and required-function premises. A new clock input supplies no mission probability or universal bypass of arbitrary-fault assumptions. Direct event/repair models still subsume the bounded conjunction.",
+        "exact_A005_candidate_core_sha256": "60557e4eaef2d544616953bb79df63d07743ab91f14de4d8e13065fe88bbf785",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B32-CANDIDATE-SET-RESTORATION-CRITERION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The set-restoration candidate still distinguishes present query membership from retained state that determines future merges. Clock diversity does not change add/delete semantics or prove restoration of that future behavior. Its direct state/effect contract remains sufficient.",
+        "exact_A005_candidate_core_sha256": "d9685579e673a31c62566347834d01f85de65277dc1bd302d2d290bf1ece705e",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B32-CANDIDATE-QUORUM-HISTORY-RESTORATION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The quorum-restoration candidate requires accepted retained history and eligible members, not merely returned processes. The corrected time-reference inputs do not prove consensus safety or supply a new necessary parent.",
+        "exact_A005_candidate_core_sha256": "49f36823ebd14ed22dc34b05ae9099d7e9b682813762f0d2645a55b708f9e262",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B34-CANDIDATE-FEEDBACK-PROBE-CRITERION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The feedback/probe claim concerns useful observation on an actual sustaining work path. Only charged work affects that recurrence. Clock-source polling is not inserted into this separate model; bounded direct observation/response remains the substitute.",
+        "exact_A005_candidate_core_sha256": "9ca51e23e4379e3adc2ed7e8c1b005bd4c8e188c7d8ba31f9eef7230cc0cc0b8",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B34-CANDIDATE-ACTION-SUFFICIENT-PROTECTION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The protection criterion retains a remedy adequate across remaining causes and the actual observation predicate. A reference-service rescue does not turn detection into repair or confer authority. The direct cause/action/observation contract still subsumes it.",
+        "exact_A005_candidate_core_sha256": "671c29f1599e64e723849e4d2c3aa671c3f88a58e6d6c32c394faf1570d83b1a",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B34-I002-CANDIDATE-QUEUE-OUTCOME-DECISION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The queue outcome claim retains custody, original age and completion as different predicates. Clock architecture does not establish capacity or turn an acknowledgment into a completed consequence. The direct queue/consequence model remains sufficient.",
+        "exact_A005_candidate_core_sha256": "947486724d2ed2bf1d8cead1e8dd14543a16eec2d5a84f80ba27fe1ccd030199",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B34-I002-CANDIDATE-RETRY-EFFECT-DECISION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The retry/effect claim retains intent, effect location, response semantics and total work. Neither a physical interval nor an alternate reference establishes a once-only business effect. Direct effect and work contracts preserve the same removal/subsumption result.",
+        "exact_A005_candidate_core_sha256": "42421675d71a74171a6c77f5b570b4f80c2576a6795c2c156f49df0348ab986d",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B34-I003-CANDIDATE-RETIREMENT-CONSUMER-DECISION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "Retirement depends on real continuing consumers, permissible actions, evidence and common-horizon burdens. Clock reference addition/removal is a separate comparison; it supplies no authority to erase history or backups. The original hidden-consumer alternative remains.",
+        "exact_A005_candidate_core_sha256": "3d08e0927ce26c82c1c6ab4e91f0c0eb78bd0298eb1b04c57d43cb10e8856c0c",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "B34-I004-CANDIDATE-INFORMATION-PRESERVING-RESPONSE-REPLACEMENT",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The exact ordinary detector/response construction remains unbound to an AI task. A source-based clock architecture creates no missing classifier or retirement consumer. Signal retention, harmful-response replacement, stated costs and imperfect-confirmation limits still determine the same result.",
+        "exact_A005_candidate_core_sha256": "f39cf498ce12e2a95481f7f57e70caf61cf4dc56e957a20533e0151dcd525470",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "drf_continuation_b34/increment004_followup001/new_candidate",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The add/delete merge construction still has its delete-sensitive counterexample and direct merge/consequence substitute. No AI merge task or clock-based conflict policy is invented; current R055 withdrawal and no-new-identity judgment remain.",
+        "exact_A005_candidate_core_sha256": "eeb5f5930da9da0959778346631383ca558065132adaa034baa5399429607ee8",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "CJ-I005-FUNCTION-DURATION-TRANSITION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The reduced-service transition keeps its output contract, duration and exit/continuation criterion. A directly specified interval can suffice without a varied-reference service. D06/R055 remains unknown on its separate actual-task interface; no automatic promotion occurs.",
+        "exact_A005_candidate_core_sha256": "4aa580daf1ea423e768ba30aa5578cfb11082c70d99618387f2bd206e3d1c41b",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "CJ-I006-RECOVERY-GUARD-OBSERVATION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The guarded recovery primitive still needs its actual failure/state model and required observations. The clock comparison is not its reset or repeat semantics. An adequate stop or direct path remains a valid alternative.",
+        "exact_A005_candidate_core_sha256": "199dd174fded86cde1aab39527eedd10a779f407d1896460a7c2257eb7577bd7",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "CJ-I007-VALIDATED-RESTORATION-TASK",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The repair task still needs justified state, catch-up capacity and capability-relevant validation under actual support conditions. Clock-source rescue does not instantiate that task or prove end-to-end repair.",
+        "exact_A005_candidate_core_sha256": "a25ecd8a7c8ebf6a47048e8a9095eaddbd022964c0c84c7ae3cfd98095e73066",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "CJ-I008-ELIGIBLE-SUPPORT-WINDOW",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The support-window construction keeps eligible continuation, old-attempt handling, capability evidence and joint resource availability separate. It still contains no identified AI task; the existing generic R055 withdrawal and accepted wait/direct contract remain.",
+        "exact_A005_candidate_core_sha256": "f45cc688eb0a5aa29fd436dab0c2c39c6890d23d851890c94b6f535f5055d454",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "CJ-I009-SCOPED_CHANGE_ACCEPTANCE",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The change-acceptance construction keeps shared paths, consumer-relevant evidence and partial versus whole objectives. Targeted clock diversity illustrates the same need for scope but supplies no extra core parent or causal field-effect estimate.",
+        "exact_A005_candidate_core_sha256": "6861c76d938d015cf274b7a46047d4c34a96d16215986e666d305e0bff848dea",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      },
+      {
+        "id": "CJ-I010-EXPOSURE-AND-TASK-OBSERVATION",
+        "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+        "reason": "The age-policy task keeps exposure observation separate from response acknowledgment and actual restoration effect. A time-reference description supplies no physical age reset or perfect observation. Direct/no-change alternatives and the same-horizon comparison remain.",
+        "exact_A005_candidate_core_sha256": "84a24acbbbf06f3bd36ec8d0ebc207302b414e192d887f194327c598c1bc7095",
+        "changed_clock_relation_uses": [],
+        "D04_core_parent_or_use": false,
+        "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+        "new_required_parent": false,
+        "no_fixed_zero_quota": true
+      }
+    ],
+    "whole_candidate": {
+      "judgment": "NEW_PROPERTY_NOT_ESTABLISHED",
+      "reason": "The whole evidence/feasibility/authority conjunction retains D42,R028,R036,F015,F031. The clock correction supplies no additional indispensable parent or criterion: a direct temporal contract and direct rescue/fault-mode/cost comparison express the bounded new example. Existing C7/C8 and direct-contract subsumers, individual and lineage removals remain.",
+      "changed_clock_uses": [],
+      "exact_A005_core_sha256": "735a500adefa97fa368a9ddcec12981907141189c4e1a47ab8f527db48dd095b"
+    },
+    "historical_changes": {
+      "H02": "The five prior clock/response corrections remain valid: joint error and corroboration, observation, containment and action-sufficient response qualify the existing physical-time branch without deriving a numeric bound or causal precedence. Fresh reading of the already admitted S036 section3 also binds the alternate-reference, targeted technological-diversity and declared addition/removal interfaces for R009,R040,R051. Their partial protection/comparison inputs are now material with accepted-rescue, same-function and actual-increment guards. No positive probability, independence or actual net benefit is inferred. R044 retains a missing handbook-model operand and R055 a missing AI-task operand. C2 has no D04 parent/relation use, so all its original removals and withheld R055/D12 application remain. No historical descent edge or new general redundancy property is established.",
+      "H15": "The A002155,A003150 and A004219 unknown counts above describe their actual historical revisions. A005 then corrected the D07 scope input, leaving218. A006 corrects three existing-source clock false negatives after explicit source/native re-entry, leaving215current unknowns while all348negatives and30originalunknown bodies remain exact. Five prior clock corrections are retained; only the handbook-model and AI-task clock unknowns remain in that selected ten-direction inquiry. Unknown quantitative parameters within a described architecture must not be mistaken for absent architecture. All historical verdicts remain attached to their own exact subjects."
+    },
+    "bounded_clock_removals": {
+      "schema": "EXPOSED_CLOCK_RELATION_COMPOSITION/1",
+      "status": "Analytical test of the proposed partial relations; not a new C1–C8 configuration or property identity.",
+      "bearer": "The already described bound-bearing time-reference service considered for the same explicit consumer function.",
+      "question": "Which protection and architecture-comparison claims are justified without changing the meaning of the required time result?",
+      "parents_considered": [
+        "D04",
+        "R009",
+        "R040",
+        "R051"
+      ],
+      "joint_derivation": "D04 specifies the interval/order meaning and relevant uncertainty/failure-response boundary. R009 distinguishes accepted same-function rescue from merely present copies. R040 qualifies targeted failure-mode separation and common acceptance. R051 prevents that partial rescue from being promoted to unqualified whole-architecture benefit. The inputs refine an existing choice/warrant and do not derive a new clock algorithm, numeric bound or generic law.",
+      "removals": [
+        {
+          "parent": "D04",
+          "loss": "Without the actual required temporal meaning, one can count a different function as rescue.",
+          "substitute": "A direct function, interval and failure-response specification."
+        },
+        {
+          "parent": "R009",
+          "loss": "Copy count could replace the actual accepted rescue event.",
+          "substitute": "An explicit event/path and acceptance comparison, already expressible without the R009 label."
+        },
+        {
+          "parent": "R040",
+          "loss": "Technological difference or agreement could be credited beyond its actual causal dimensions.",
+          "substitute": "A direct fault-mode/shared-assumption analysis, or one adequate reference where diversity is unnecessary."
+        },
+        {
+          "parent": "R051",
+          "loss": "The comparison could omit a genuinely added loss/burden path and overclaim whole benefit.",
+          "substitute": "A complete direct comparison; R009 and D04 already contain substantial cost/function restrictions, so irreducibility is not shown."
+        }
+      ],
+      "lineage_removal": {
+        "D": "A direct temporal contract supplies the same functional criterion.",
+        "R": "Direct rescue-set, fault-mode and burden reasoning supplies the same constraints.",
+        "F": "No distinct formal-verification constituent is required merely because finite Boolean/set controls are used."
+      },
+      "adequate_alternatives": [
+        "Keep one adequate reference with its supported uncertainty and accepted failure response.",
+        "Use a local sequence or already available total log if that is the actual consumer requirement.",
+        "Retain a sufficient current architecture unchanged.",
+        "Use varied references only where their guarded contribution and total burden answer the real mission."
+      ],
+      "cost_and_feedback": "Compare only burdens actually changed: reference upkeep, polling, synchronization/selection inputs, uncertainty growth, delay, unavailable service and maintenance. Existing common components must not be charged as new solely to produce a negative result. No prices, field frequencies, optimum or target permission are supplied.",
+      "novelty_result": "NEW_PROPERTY_IDENTITY_NOT_ESTABLISHED. The useful conjunction is expressible through existing native meanings and direct substitutes. No quota protects that conclusion if a future discriminating criterion defeats the substitutions."
+    },
+    "no_new_configuration_or_property_identity": true,
+    "all_prior_A005_D07_D06_D43_effects": "Exact source judgments and actual dependent explanations retained. Qualitative input does not prove physical restoration, generic renewal or every protocol task."
+  }
+}

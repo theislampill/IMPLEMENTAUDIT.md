@@ -1,5 +1,9 @@
 # SSD — four-unit documentation package
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/README.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+## Earlier documentary record
+
 SSD joins Systems Engineering, Systems Security Engineering and Decision and
 Operations Engineering with a separately qualified fourth-stage synthesis.
 This package preserves the complete historical public property population and

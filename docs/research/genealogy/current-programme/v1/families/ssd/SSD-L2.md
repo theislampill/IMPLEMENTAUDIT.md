@@ -1,5 +1,9 @@
 # SSD-L2 — Systems Security Engineering
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/SSD-L2.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+## Earlier documentary record
+
 [SSD family](README.md) · [Genealogy](GENEALOGY.md) · [Source map](SOURCE_MAP.md) · [Completeness](COMPLETENESS.md)
 
 ## Two source layers

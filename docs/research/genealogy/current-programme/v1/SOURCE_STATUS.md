@@ -1,5 +1,11 @@
 # Source, status and publication boundaries — v1
 
+## Later public scientific edition
+
+The [current research guide](CURRENT_RESEARCH.md) and [32-unit scientific map](PUBLIC_SCIENCE.json) provide the later substantive public accounts. The owner authorization of 13 November permits all 32 scientifically faithful derived explanations after exact independent fidelity and source-safety review; the [publication review record](PUBLICATION_REVIEW.json) records that separate gate. The assessment below is preserved at its earlier public/private scope. Its pending-disclosure and withheld-current-science descriptions are historical and do not override the later edition.
+
+## Preserved earlier assessment
+
 ## Source classes
 
 | Source class | Exact scope | Public treatment |

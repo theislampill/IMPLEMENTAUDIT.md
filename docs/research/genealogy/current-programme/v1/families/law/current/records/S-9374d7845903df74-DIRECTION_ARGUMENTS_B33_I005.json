@@ -1,0 +1,705 @@
+{
+  "source_identity": {
+    "source_id": "S-9374d7845903df74",
+    "scientific_name": "DIRECTION_ARGUMENTS_B33_I005.json",
+    "original_bytes": 39874,
+    "original_sha256": "9374d7845903df745c4032fa85b2ca714dad965087cfb395085b73fa0409bab7"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b33-current-factored-directed-arguments/1",
+    "identity": "B33_INCREMENT_005",
+    "literal_source": {
+      "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+      "bytes": 18891,
+      "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+    },
+    "common_contract": {
+      "population": "Only these four exact independently authored directions. P025 is a forecast/uncertainty property, not a generic project-plan label. P026 is an actual external dependency/interface/evidence boundary, not an assumed test-platform supplier.",
+      "partial_input": "A relevant actual, forecast assumption, interface criterion or coverage limit can be useful before whole forecast accuracy, supplier compliance, authority or receiver satisfaction is established. Actual use and correspondence remain necessary; uncertainty is explicit rather than treated as false or absent.",
+      "reverse": "Each reverse identifies a different source input and receiving consequence. No symmetry or same-project admission is inferred.",
+      "control_reuse": "Four old C25/C26 case objects are reused exactly. They contain seven old dependent observations in total, not new measurements or replications. No new scientific control, forecast, supplier behavior, contract execution or economic outcome is run.",
+      "history": "All476 examined unknowns and prior assignments remain untouched, including EA14/P035. Finite counts and existing positive totals are not targets."
+    },
+    "directions": [
+      {
+        "id": "B33-I005-D01",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P025",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I005-F01",
+          "B33-I005-F02"
+        ],
+        "shared_object": "A forecast assumption about verification work, relevant technical progress or remaining regression exposure that actually consumes checking evidence.",
+        "guard": "A resource/commitment forecast uses relevant EA06 actuals or explicit limitations to update a stated assumption, range or remaining-work scenario. The input's units and scope are preserved; full forecast accuracy, a complete reference class or the whole project plan need not already be established.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "OPEN_QUESTIONS"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "An observed required regression failure can defeat an assumption that the relevant technical condition is already satisfied. Actual acquisition or maintenance information can update the forecasted checking burden. A confirming result can retain an existing reasonable assumption without forcing a new commitment.",
+        "receiving_consequence": "The forecast can separate supported technical progress from a scheduled milestone or test count, expose uncertainty and replan the affected work. A failure does not by itself give its repair duration, total project percent complete or a calibrated completion date.",
+        "remaining_premises": "Actual relevant forecast, correct evidence-to-work correspondence, comparable units, remaining causes, dependencies and honest incentives. Repeated runs on one toy do not establish an empirical reference class or a general productivity coefficient.",
+        "positive_witness": "C25 records the local policy's r2 failure while the delayed policies later see a pass, plus three versus one actual acquisitions in the declared changing case. If a forecast consumes those observations, it must preserve their different observation times and scope. The fixed exogenous repair is not observed repair work or a causal estimate.",
+        "stronger_claim_counterexample": "Report a green nominal suite or a high count of executed checks as a precise percentage of completed engineering, or turn three finite acquisitions into a universal testing cost. An omitted necessary interaction can make that apparent progress misleading.",
+        "nontrigger": "No actual forecast assumption or update uses the result, or the result is merely displayed beside a schedule. A useful short-horizon forecast based on adequate current work evidence can already realize the relation without elaborate estimation machinery.",
+        "cheap_alternative_and_cost": "Reuse current credible evidence and a short range/assumption note. Separate collection cost, fixture maintenance and interpretation from repair or total programme cost. Avoid a reporting layer whose cost exceeds its actual decision value.",
+        "removal_test": "Remove the only relevant actual or counterexample and the forecast loses that warrant or warning unless another adequate evidence path supplies it. Removing a spreadsheet or status meeting while retaining the real update does not remove the function.",
+        "reentry": "Reopen the affected assumption after relevant new behavior, checking burden, correspondence or dependency evidence; preserve the distinction between an updated forecast and an authorized changed commitment.",
+        "controls": [
+          {
+            "control": "C25",
+            "case": "changing_project"
+          }
+        ],
+        "finite_control_scope": "Exact reuse of old finite timing/count observations. No forecast calibration, project-progress metric, field duration, repair causation or economic benefit is measured.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P025",
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P025",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i005/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P025",
+            "capsule": {
+              "path": "reading/i005/native/EW-P025.json",
+              "bytes": 6967,
+              "sha256": "1bea7e3e12a5c510f86c62d78e5e3bf2410249ec58a8b8f527ab961722a1c841"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::OPEN_QUESTIONS"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P025::MECHANISM",
+            "LAW-L3::EW-P025::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P025::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P025::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I005-F01",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "c12cafa8a5620eeac1ae87a48bd3b1cc36f98563ff2a3a014f6244da025d7418"
+          },
+          {
+            "factor_id": "B33-I005-F02",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "071b66ccdef4f4fa38255169c303b2228ffb03cf047f42df8a003d784248df8d"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C25",
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "reuse_capsule": {
+              "path": "reading/i005/RECORDED_EVIDENCE_REUSE_B33_I005.json",
+              "bytes": 26230,
+              "sha256": "63337dfb1c7619cd2c2fd45035a74ffa23b8a64b253be50048bdac6d4122b4de"
+            },
+            "reuse_pointer": "/records/0/value",
+            "scope": "Exact reuse of old finite timing/count observations. No forecast calibration, project-progress metric, field duration, repair causation or economic benefit is measured.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I005-D02",
+        "source": "LAW-L3::EW-P025",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "argument_factors": [
+          "B33-I005-F01",
+          "B33-I005-F02"
+        ],
+        "shared_object": "The forecasted repeat workload, feedback horizon or maintenance burden actually used in choosing a proportionate regression method.",
+        "guard": "A transparent forecast range, assumption or relevant reference estimate is consumed in EA06's automation/portfolio decision, whose selected proposition explicitly depends on repeatability and economics. Its uncertainty remains explicit; no correct final cost or completed optimal forecast is required for this input.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MATURE_OR_EVOLVED_FORM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "The forecast identifies whether expected repetitions and useful feedback time plausibly warrant acquisition and maintenance of automation, whether uncertainty calls for a bounded pilot or manual path, and which assumption would reopen the decision. A target or contract date is not substituted for that forecast.",
+        "receiving_consequence": "EA06 can choose an evidence method at a defensible horizon and retain alternatives instead of assuming automation always pays off. The forecast does not define a correct test oracle, prove coverage or authorize deleting a necessary check to meet a date.",
+        "remaining_premises": "Actual reuse horizon, credible local oracle, feasible alternatives, real maintenance/execution costs and consequence of missed regressions. Forecast data may be incomparable or strategically biased; the technical requirement and actual duties remain independent.",
+        "positive_witness": "In a reasoned choice, uncertainty about how often a check will recur can change whether setup cost is warranted or whether a small manual/pilot path is adequate. C25's exact-source-equivalence case also shows that a new revision label need not create another required execution. These are conditional selection arguments, not a forecast run or calibrated threshold.",
+        "stronger_claim_counterexample": "Choose a convenient high repetition estimate solely to justify a tool purchase, suppress uncertainty, or disable a needed check because a fixed target date says there is no time. None supplies warranted economics or coverage.",
+        "nontrigger": "The forecast has no actual bearing on checking method, horizon or interpretation, or a schedule label is merely copied. An adequate existing short-horizon estimate may already supply the necessary input.",
+        "cheap_alternative_and_cost": "Use a short transparent range, current throughput/maintenance evidence where comparable and a small reversible pilot where warranted. Avoid elaborate estimation for a one-off check; preserve valid existing evidence and analysis rather than forecasting mandatory reruns.",
+        "removal_test": "Remove the only relevant repeat-work/horizon assumption and an automation choice can lose its economic warrant while its local technical result remains true. Equivalent direct knowledge or a better estimate can replace the planning artifact.",
+        "reentry": "Revisit the choice when actual recurrence, feedback needs, maintenance cost, supported horizon or adequate alternative changes; update the estimate without pretending to rewrite an external commitment automatically.",
+        "controls": [
+          {
+            "control": "C25",
+            "case": "adequate_source_equivalence"
+          },
+          {
+            "control": "C25",
+            "case": "changing_project"
+          }
+        ],
+        "finite_control_scope": "Old finite work/reuse distinctions illustrate an input to a separately reasoned economic choice. No forecast distribution, break-even number, actual resource allocation or cost optimum is computed.",
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P025",
+        "entry_row": [
+          "LAW-L3::EW-P025->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P025",
+            "capsule": {
+              "path": "reading/i005/native/EW-P025.json",
+              "bytes": 6967,
+              "sha256": "1bea7e3e12a5c510f86c62d78e5e3bf2410249ec58a8b8f527ab961722a1c841"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i005/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P025::MECHANISM",
+            "LAW-L3::EW-P025::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P025::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P025::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L2::EA-06::OPEN_QUESTIONS"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I005-F01",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "c12cafa8a5620eeac1ae87a48bd3b1cc36f98563ff2a3a014f6244da025d7418"
+          },
+          {
+            "factor_id": "B33-I005-F02",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "071b66ccdef4f4fa38255169c303b2228ffb03cf047f42df8a003d784248df8d"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C25",
+            "case": "adequate_source_equivalence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_source_equivalence",
+            "canonical_value_sha256": "04bb49a620971942847634ea89e6cfe0677c2f5b8bb44d7adf5325fd95b103b7",
+            "reuse_capsule": {
+              "path": "reading/i005/RECORDED_EVIDENCE_REUSE_B33_I005.json",
+              "bytes": 26230,
+              "sha256": "63337dfb1c7619cd2c2fd45035a74ffa23b8a64b253be50048bdac6d4122b4de"
+            },
+            "reuse_pointer": "/records/1/value",
+            "scope": "Old finite work/reuse distinctions illustrate an input to a separately reasoned economic choice. No forecast distribution, break-even number, actual resource allocation or cost optimum is computed.",
+            "new_execution": false
+          },
+          {
+            "control": "C25",
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "reuse_capsule": {
+              "path": "reading/i005/RECORDED_EVIDENCE_REUSE_B33_I005.json",
+              "bytes": 26230,
+              "sha256": "63337dfb1c7619cd2c2fd45035a74ffa23b8a64b253be50048bdac6d4122b4de"
+            },
+            "reuse_pointer": "/records/0/value",
+            "scope": "Old finite work/reuse distinctions illustrate an input to a separately reasoned economic choice. No forecast distribution, break-even number, actual resource allocation or cost optimum is computed.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I005-D03",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P026",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I005-F01",
+          "B33-I005-F02"
+        ],
+        "shared_object": "A real supplier/component/interface evidence obligation that consumes repeatable technical evidence at the external dependency boundary.",
+        "guard": "Supplier coordination actually uses a relevant EA06 result or coverage limit about the supplied or integrated programmable behavior and its stated baseline. Actual boundary and evidence correspondence are explicit; complete supplier performance, all rights, long-lead maturity and whole acceptance need not already be proved.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "source_contribution": "Repeatable compatibility or behavior evidence can support a boundary premise, reveal a mismatched supplied version or identify a failed necessary requirement before incompatible commitments harden. This is evidence about the supplied behavior, not evidence that the test tool itself needs a vendor.",
+        "receiving_consequence": "The parties can distinguish actual technical support from completed data-item deliveries or approval labels and retain remaining rights, integration and commitment uncertainty. A relevant confirming result can be material without changing procurement or acceptance.",
+        "remaining_premises": "Actual external relationship, authoritative interface/configuration mapping, accessible technical evidence and legitimate commercial/acceptance roles. A local sample cannot prove all supplier obligations, physical lead time, data rights or permission to purchase/deploy.",
+        "positive_witness": "If the actual supplied boundary requires preserving the named record, C26-type code-only evidence exposes a missing required field despite a green quantity query, while its valid-restore observation supports that scoped record. The supplier/interface use is a separately guarded native application; C26 contains no actual supplier or contract.",
+        "stronger_claim_counterexample": "A vendor's green nominal suite is accepted as complete interoperability or rights evidence, or checks on the buyer's convenient build are attributed to the supplier's different baseline. The technical or authority bridge remains missing.",
+        "nontrigger": "No actual supplier/interface evidence obligation consumes the result, or the artifact is wholly local without the relevant external dependency. Normal commodity dependency management may already provide adequate coordination and compatibility evidence.",
+        "cheap_alternative_and_cost": "Use an existing interface, current lockfile/version identity, targeted compatibility check and concise direct coordination where sufficient. Avoid mandated internal processes and duplicate supplier data packages; preserve real boundary obligations and alternatives.",
+        "removal_test": "Remove the only relevant technical evidence and the boundary decision loses that premise unless another adequate verification method supplies it. Removing a supplier meeting while retaining authoritative evidence exchange can preserve the function.",
+        "reentry": "Reopen affected evidence after actual supplied-version, interface, data/rights, change-responsibility or commitment changes; do not infer that any dependency update invalidates every check.",
+        "controls": [
+          {
+            "control": "C26",
+            "case": "code_only_revert"
+          },
+          {
+            "control": "C26",
+            "case": "valid_snapshot_restore"
+          }
+        ],
+        "finite_control_scope": "Two old point observations with explicit behavior/state scope. No real cross-organization transaction, contractual right, supplier capacity or integration programme was executed.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P026",
+        "reverse_direction_key": "LAW-L3::EW-P026->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P026",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i005/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P026",
+            "capsule": {
+              "path": "reading/i005/native/EW-P026.json",
+              "bytes": 6989,
+              "sha256": "c964a7e2c9497fc6b1c3857006efb0e3880d3e48b33afcfe8e9e3f94feed426b"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P026::MECHANISM",
+            "LAW-L3::EW-P026::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P026::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P026::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I005-F01",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "c12cafa8a5620eeac1ae87a48bd3b1cc36f98563ff2a3a014f6244da025d7418"
+          },
+          {
+            "factor_id": "B33-I005-F02",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "071b66ccdef4f4fa38255169c303b2228ffb03cf047f42df8a003d784248df8d"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C26",
+            "case": "code_only_revert",
+            "result": {
+              "path": "research/increment_004/CONTROL_B33_C26.json",
+              "bytes": 31095,
+              "sha256": "f0dcfbcaf99b5a77e0323b8322ed1eb122395dad505e87143fbb03e602d64939"
+            },
+            "pointer": "/cases/code_only_revert",
+            "canonical_value_sha256": "bde2d8067fae3f501fe551446bb9133175a259937e1fc7e150ceedfa7bf8ea50",
+            "reuse_capsule": {
+              "path": "reading/i005/RECORDED_EVIDENCE_REUSE_B33_I005.json",
+              "bytes": 26230,
+              "sha256": "63337dfb1c7619cd2c2fd45035a74ffa23b8a64b253be50048bdac6d4122b4de"
+            },
+            "reuse_pointer": "/records/2/value",
+            "scope": "Two old point observations with explicit behavior/state scope. No real cross-organization transaction, contractual right, supplier capacity or integration programme was executed.",
+            "new_execution": false
+          },
+          {
+            "control": "C26",
+            "case": "valid_snapshot_restore",
+            "result": {
+              "path": "research/increment_004/CONTROL_B33_C26.json",
+              "bytes": 31095,
+              "sha256": "f0dcfbcaf99b5a77e0323b8322ed1eb122395dad505e87143fbb03e602d64939"
+            },
+            "pointer": "/cases/valid_snapshot_restore",
+            "canonical_value_sha256": "1171bd581680a418f3779ce1f9c83737eafa6122ddc4456ac2845501782a7135",
+            "reuse_capsule": {
+              "path": "reading/i005/RECORDED_EVIDENCE_REUSE_B33_I005.json",
+              "bytes": 26230,
+              "sha256": "63337dfb1c7619cd2c2fd45035a74ffa23b8a64b253be50048bdac6d4122b4de"
+            },
+            "reuse_pointer": "/records/3/value",
+            "scope": "Two old point observations with explicit behavior/state scope. No real cross-organization transaction, contractual right, supplier capacity or integration programme was executed.",
+            "new_execution": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I005-D04",
+        "source": "LAW-L3::EW-P026",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I005-F01",
+          "B33-I005-F02"
+        ],
+        "shared_object": "Regression criteria, baseline or evidence-access limits supplied by an actual external component/interface obligation.",
+        "guard": "Actual supplier/dependency coordination provides a relevant interface requirement, configuration identity, change responsibility or evidence/access condition consumed in EA06 verification. All legal/technical access obligations need not already be solved for that scoped input or explicit obstacle to be useful.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "source_contribution": "The actual boundary identifies which supplied or integrated behavior, version and expected response must be checked, or why evidence cannot yet be obtained. It prevents an internal implementation expectation from silently replacing the agreed interface requirement.",
+        "receiving_consequence": "EA06 can attach checks to the right baseline and oracle, preserve an unknown access/semantic bridge and choose an adequate direct or analytical alternative. The supplier label or contractual schedule does not make a weak test credible or confer rights to execute it.",
+        "remaining_premises": "Correct current interface meaning, credible oracle, testable supplied behavior or a justified alternative, representative integration scope and legitimate access. Identifying a blocked data right is not acquiring that right or observing the unavailable behavior.",
+        "positive_witness": "A boundary obligation that actually requires retaining the annotation would make C26's full-record criterion relevant beyond its passing quantity sample. The observation remains scoped to its declared code/state identity. This is the native interface/evidence mechanism applied conditionally, not a claim that the toy has a supplier.",
+        "stronger_claim_counterexample": "Supplier data items arrive but contain no usable current interface meaning, or contract dates are treated as authority to disable a failing check. An inaccessible opaque component cannot be made observed by adding an approval label.",
+        "nontrigger": "Only an unrelated vendor name or procurement form reaches the checking decision. A local shared team or normal commodity arrangement may already carry the needed interface information without a heavyweight supplier process.",
+        "cheap_alternative_and_cost": "Use authoritative existing interface/version data and the smallest adequate compatibility test or source analysis. Concise direct coordination can replace meetings; negotiation, data packages and forced internal process impose real cost and can freeze learning.",
+        "removal_test": "Remove the only actual boundary criterion or baseline and a locally valid check can answer the wrong supplier/integration question. An equivalent current specification or direct authorized exchange can replace the governance artifact without losing its information.",
+        "reentry": "Revisit upon actual interface, supplied baseline, accessible evidence, change responsibility or constraint change. Keep unchanged support and distinguish an evidence request from granted commercial authority.",
+        "controls": [
+          {
+            "control": "C26",
+            "case": "code_only_revert"
+          },
+          {
+            "control": "C26",
+            "case": "valid_snapshot_restore"
+          }
+        ],
+        "finite_control_scope": "Reused local behavior-versus-record criterion distinctions. No actual supplier data access, commercial authority, new specimen run or whole interoperability proof.",
+        "direction_key": "LAW-L3::EW-P026->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P026",
+        "entry_row": [
+          "LAW-L3::EW-P026->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P026",
+            "capsule": {
+              "path": "reading/i005/native/EW-P026.json",
+              "bytes": 6989,
+              "sha256": "c964a7e2c9497fc6b1c3857006efb0e3880d3e48b33afcfe8e9e3f94feed426b"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i005/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P026::MECHANISM",
+            "LAW-L3::EW-P026::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P026::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P026::REQUALIFICATION.qualitative_criterion"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I005-F01",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "c12cafa8a5620eeac1ae87a48bd3b1cc36f98563ff2a3a014f6244da025d7418"
+          },
+          {
+            "factor_id": "B33-I005-F02",
+            "source": {
+              "path": "authoring/B33_I005_LITERAL_ARGUMENTS.json",
+              "bytes": 18891,
+              "sha256": "61d994dadb75109c3e59a880a303a51d0b47cf0f762e76e43cd5c0f65be56135"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "071b66ccdef4f4fa38255169c303b2228ffb03cf047f42df8a003d784248df8d"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C26",
+            "case": "code_only_revert",
+            "result": {
+              "path": "research/increment_004/CONTROL_B33_C26.json",
+              "bytes": 31095,
+              "sha256": "f0dcfbcaf99b5a77e0323b8322ed1eb122395dad505e87143fbb03e602d64939"
+            },
+            "pointer": "/cases/code_only_revert",
+            "canonical_value_sha256": "bde2d8067fae3f501fe551446bb9133175a259937e1fc7e150ceedfa7bf8ea50",
+            "reuse_capsule": {
+              "path": "reading/i005/RECORDED_EVIDENCE_REUSE_B33_I005.json",
+              "bytes": 26230,
+              "sha256": "63337dfb1c7619cd2c2fd45035a74ffa23b8a64b253be50048bdac6d4122b4de"
+            },
+            "reuse_pointer": "/records/2/value",
+            "scope": "Reused local behavior-versus-record criterion distinctions. No actual supplier data access, commercial authority, new specimen run or whole interoperability proof.",
+            "new_execution": false
+          },
+          {
+            "control": "C26",
+            "case": "valid_snapshot_restore",
+            "result": {
+              "path": "research/increment_004/CONTROL_B33_C26.json",
+              "bytes": 31095,
+              "sha256": "f0dcfbcaf99b5a77e0323b8322ed1eb122395dad505e87143fbb03e602d64939"
+            },
+            "pointer": "/cases/valid_snapshot_restore",
+            "canonical_value_sha256": "1171bd581680a418f3779ce1f9c83737eafa6122ddc4456ac2845501782a7135",
+            "reuse_capsule": {
+              "path": "reading/i005/RECORDED_EVIDENCE_REUSE_B33_I005.json",
+              "bytes": 26230,
+              "sha256": "63337dfb1c7619cd2c2fd45035a74ffa23b8a64b253be50048bdac6d4122b4de"
+            },
+            "reuse_pointer": "/records/3/value",
+            "scope": "Reused local behavior-versus-record criterion distinctions. No actual supplier data access, commercial authority, new specimen run or whole interoperability proof.",
+            "new_execution": false
+          }
+        ]
+      }
+    ],
+    "scientific_verdicts_computed": false
+  }
+}

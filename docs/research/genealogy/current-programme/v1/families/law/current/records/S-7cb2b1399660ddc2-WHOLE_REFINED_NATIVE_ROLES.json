@@ -1,0 +1,1620 @@
+{
+  "source_identity": {
+    "source_id": "S-7cb2b1399660ddc2",
+    "scientific_name": "WHOLE_REFINED_NATIVE_ROLES.json",
+    "original_bytes": 34930,
+    "original_sha256": "7cb2b1399660ddc28b53959f303807d92a6bc8b3429ff6fa3c9029bfed6e8560"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "A005_NAVIGATIONAL_NATIVE_INDEX_NOT_A_VERDICT",
+    "profiles": {
+      "EL-001": {
+        "outputs": [
+          "outcome",
+          "labor_terms"
+        ],
+        "receiving_uses": [
+          "operating_context",
+          "measurement",
+          "commitment",
+          "control_economics",
+          "labor_terms",
+          "retirement"
+        ]
+      },
+      "EL-002": {
+        "outputs": [
+          "flow_boundary",
+          "critical_dependency"
+        ],
+        "receiving_uses": [
+          "identity",
+          "information_state",
+          "measurement",
+          "demand",
+          "coordination",
+          "operating_context",
+          "control_economics"
+        ]
+      },
+      "EL-003": {
+        "outputs": [
+          "information_state"
+        ],
+        "receiving_uses": [
+          "identity",
+          "knowledge",
+          "quality_criterion",
+          "anomaly",
+          "measurement",
+          "voice",
+          "control_economics"
+        ]
+      },
+      "EL-004": {
+        "outputs": [
+          "admission",
+          "flow_boundary",
+          "actual_admitted_or_deployed_population"
+        ],
+        "receiving_uses": [
+          "flow_boundary",
+          "demand",
+          "capacity",
+          "batch",
+          "commitment",
+          "authority_change",
+          "workload",
+          "measurement",
+          "control_economics",
+          "actual_operating_scope",
+          "stage_guardrail"
+        ]
+      },
+      "EL-005": {
+        "outputs": [
+          "batch",
+          "commitment",
+          "exposure",
+          "coherent_validation_delivery_exposure_unit"
+        ],
+        "receiving_uses": [
+          "setup",
+          "technical_evidence",
+          "recovery",
+          "exposure",
+          "commitment",
+          "flow_boundary",
+          "control_economics",
+          "options",
+          "operating_context",
+          "requirements",
+          "uncertainty",
+          "authority_acceptance",
+          "authority_external",
+          "authority_operation",
+          "quality_criterion"
+        ]
+      },
+      "EL-006": {
+        "outputs": [
+          "setup"
+        ],
+        "receiving_uses": [
+          "quality_criterion",
+          "technical_evidence",
+          "identity",
+          "recovery",
+          "automation",
+          "competence",
+          "critical_dependency",
+          "requirements",
+          "control_economics"
+        ]
+      },
+      "EL-007": {
+        "outputs": [
+          "demand",
+          "workload"
+        ],
+        "receiving_uses": [
+          "demand",
+          "capacity",
+          "setup",
+          "competence",
+          "workload",
+          "admission",
+          "measurement",
+          "options",
+          "control_economics"
+        ]
+      },
+      "EL-008": {
+        "outputs": [
+          "capacity",
+          "options",
+          "recovery"
+        ],
+        "receiving_uses": [
+          "demand",
+          "measurement",
+          "commitment",
+          "critical_dependency",
+          "recovery",
+          "supplier",
+          "authority_change",
+          "control_economics"
+        ]
+      },
+      "EL-009": {
+        "outputs": [
+          "capacity",
+          "admission",
+          "flow_boundary"
+        ],
+        "receiving_uses": [
+          "flow_boundary",
+          "demand",
+          "measurement",
+          "capacity",
+          "authority_change",
+          "workload",
+          "outcome",
+          "critical_dependency",
+          "control_economics"
+        ]
+      },
+      "EL-010": {
+        "outputs": [
+          "demand"
+        ],
+        "receiving_uses": [
+          "identity",
+          "information_state",
+          "demand",
+          "capacity",
+          "supplier",
+          "measurement",
+          "coordination",
+          "control_economics"
+        ]
+      },
+      "EL-011": {
+        "outputs": [
+          "anomaly",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "quality_criterion",
+          "identity",
+          "measurement",
+          "competence",
+          "voice",
+          "workload",
+          "authority_operation",
+          "control_economics"
+        ]
+      },
+      "EL-012": {
+        "outputs": [
+          "authority_operation",
+          "exposure",
+          "recovery"
+        ],
+        "receiving_uses": [
+          "anomaly",
+          "commitment",
+          "exposure",
+          "recovery",
+          "competence",
+          "capacity",
+          "workload",
+          "voice",
+          "authority_operation",
+          "control_economics"
+        ]
+      },
+      "EL-013": {
+        "outputs": [
+          "technical_evidence",
+          "quality_criterion",
+          "exposure"
+        ],
+        "receiving_uses": [
+          "quality_criterion",
+          "technical_evidence",
+          "identity",
+          "anomaly",
+          "recovery",
+          "independent_challenge",
+          "voice",
+          "control_economics"
+        ]
+      },
+      "EL-014": {
+        "outputs": [
+          "quality_criterion",
+          "exposure",
+          "automation",
+          "actual_known_error_constraint",
+          "validated_early_error_detection",
+          "type_contract_semantic_check",
+          "actual_safe_default"
+        ],
+        "receiving_uses": [
+          "anomaly",
+          "causal_learning",
+          "technical_evidence",
+          "operating_context",
+          "authority_change",
+          "recovery",
+          "knowledge",
+          "control_economics",
+          "actual_error_exception_model",
+          "actual_operating_context",
+          "actual_rule_upkeep_duty",
+          "exposure_and_detector_semantics"
+        ]
+      },
+      "EL-015": {
+        "outputs": [
+          "automation",
+          "information_state",
+          "exposure"
+        ],
+        "receiving_uses": [
+          "quality_criterion",
+          "anomaly",
+          "recovery",
+          "competence",
+          "capacity",
+          "workload",
+          "knowledge",
+          "voice",
+          "control_economics"
+        ]
+      },
+      "EL-016": {
+        "outputs": [
+          "measurement",
+          "technical_evidence"
+        ],
+        "receiving_uses": [
+          "measurement",
+          "identity",
+          "quality_criterion",
+          "operating_context",
+          "competence",
+          "authority_change",
+          "causal_learning",
+          "control_economics"
+        ]
+      },
+      "EL-017": {
+        "outputs": [
+          "knowledge",
+          "identity"
+        ],
+        "receiving_uses": [
+          "technical_evidence",
+          "causal_learning",
+          "voice",
+          "authority_change",
+          "change_impact",
+          "workload",
+          "knowledge",
+          "control_economics"
+        ]
+      },
+      "EL-018": {
+        "outputs": [
+          "operating_context",
+          "technical_evidence",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "identity",
+          "trace",
+          "measurement",
+          "voice",
+          "operating_context",
+          "independent_challenge",
+          "knowledge",
+          "control_economics"
+        ]
+      },
+      "EL-019": {
+        "outputs": [
+          "causal_learning",
+          "technical_evidence",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "anomaly",
+          "knowledge",
+          "identity",
+          "measurement",
+          "uncertainty",
+          "options",
+          "technical_evidence",
+          "independent_challenge",
+          "authority_change",
+          "control_economics"
+        ]
+      },
+      "EL-020": {
+        "outputs": [
+          "control_economics",
+          "retirement",
+          "support"
+        ],
+        "receiving_uses": [
+          "outcome",
+          "measurement",
+          "causal_learning",
+          "knowledge",
+          "authority_change",
+          "support",
+          "control_economics",
+          "change_impact"
+        ]
+      },
+      "EL-021": {
+        "outputs": [
+          "competence"
+        ],
+        "receiving_uses": [
+          "knowledge",
+          "identity",
+          "quality_criterion",
+          "workload",
+          "authority_change",
+          "voice",
+          "support",
+          "control_economics"
+        ]
+      },
+      "EL-022": {
+        "outputs": [
+          "voice",
+          "authority_change"
+        ],
+        "receiving_uses": [
+          "information_state",
+          "anomaly",
+          "labor_terms",
+          "workload",
+          "coordination",
+          "authority_change",
+          "authority_operation",
+          "control_economics"
+        ]
+      },
+      "EL-023": {
+        "outputs": [
+          "labor_terms",
+          "voice"
+        ],
+        "receiving_uses": [
+          "labor_terms",
+          "workload",
+          "control_economics",
+          "change_impact",
+          "voice",
+          "competence",
+          "support"
+        ]
+      },
+      "EL-024": {
+        "outputs": [
+          "authority_change",
+          "capacity",
+          "coordination"
+        ],
+        "receiving_uses": [
+          "anomaly",
+          "causal_learning",
+          "critical_dependency",
+          "change_impact",
+          "outcome",
+          "workload",
+          "labor_terms",
+          "independent_challenge",
+          "control_economics"
+        ]
+      },
+      "EL-025": {
+        "outputs": [
+          "measurement",
+          "outcome",
+          "labor_terms"
+        ],
+        "receiving_uses": [
+          "flow_boundary",
+          "measurement",
+          "operating_context",
+          "outcome",
+          "workload",
+          "labor_terms",
+          "independent_challenge",
+          "control_economics"
+        ]
+      },
+      "EL-026": {
+        "outputs": [
+          "recovery",
+          "support",
+          "technical_evidence"
+        ],
+        "receiving_uses": [
+          "anomaly",
+          "identity",
+          "critical_dependency",
+          "recovery",
+          "competence",
+          "capacity",
+          "supplier",
+          "measurement",
+          "control_economics"
+        ]
+      },
+      "EL-027": {
+        "outputs": [
+          "supplier",
+          "labor_terms"
+        ],
+        "receiving_uses": [
+          "requirements",
+          "quality_criterion",
+          "supplier",
+          "technical_evidence",
+          "coordination",
+          "labor_terms",
+          "options",
+          "control_economics"
+        ]
+      },
+      "EL-028": {
+        "outputs": [
+          "critical_dependency",
+          "options",
+          "supplier"
+        ],
+        "receiving_uses": [
+          "identity",
+          "supplier",
+          "critical_dependency",
+          "commitment",
+          "recovery",
+          "technical_evidence",
+          "support",
+          "control_economics"
+        ]
+      },
+      "EL-029": {
+        "outputs": [
+          "options",
+          "commitment",
+          "uncertainty"
+        ],
+        "receiving_uses": [
+          "uncertainty",
+          "technical_evidence",
+          "quality_criterion",
+          "commitment",
+          "capacity",
+          "coordination",
+          "control_economics",
+          "retirement"
+        ]
+      },
+      "EL-030": {
+        "outputs": [
+          "coordination",
+          "knowledge",
+          "requirements"
+        ],
+        "receiving_uses": [
+          "requirements",
+          "quality_criterion",
+          "technical_evidence",
+          "critical_dependency",
+          "authority_change",
+          "knowledge",
+          "commitment",
+          "control_economics"
+        ]
+      },
+      "EL-031": {
+        "outputs": [
+          "technical_evidence",
+          "automation",
+          "recovery",
+          "exposure",
+          "flow_boundary"
+        ],
+        "receiving_uses": [
+          "identity",
+          "quality_criterion",
+          "technical_evidence",
+          "information_state",
+          "recovery",
+          "competence",
+          "workload",
+          "outcome",
+          "authority_operation",
+          "control_economics"
+        ]
+      },
+      "EL-032": {
+        "outputs": [
+          "retirement",
+          "admission",
+          "control_economics"
+        ],
+        "receiving_uses": [
+          "outcome",
+          "measurement",
+          "uncertainty",
+          "commitment",
+          "options",
+          "control_economics",
+          "authority_change",
+          "support",
+          "labor_terms"
+        ]
+      },
+      "EA-01": {
+        "outputs": [
+          "uncertainty"
+        ],
+        "receiving_uses": [
+          "uncertainty",
+          "outcome",
+          "technical_evidence",
+          "operating_context",
+          "measurement",
+          "authority_change",
+          "commitment",
+          "control_economics"
+        ]
+      },
+      "EA-02": {
+        "outputs": [
+          "technical_evidence"
+        ],
+        "receiving_uses": [
+          "identity",
+          "quality_criterion",
+          "operating_context",
+          "technical_evidence",
+          "critical_dependency",
+          "control_economics"
+        ]
+      },
+      "EA-03": {
+        "outputs": [
+          "uncertainty",
+          "commitment",
+          "options"
+        ],
+        "receiving_uses": [
+          "uncertainty",
+          "quality_criterion",
+          "technical_evidence",
+          "commitment",
+          "outcome",
+          "critical_dependency",
+          "authority_change",
+          "control_economics"
+        ]
+      },
+      "EA-04": {
+        "outputs": [
+          "batch",
+          "commitment",
+          "exposure",
+          "proposed_build_integration_exposure_unit",
+          "repetition_boundary",
+          "total_batch_economics"
+        ],
+        "receiving_uses": [
+          "setup",
+          "technical_evidence",
+          "commitment",
+          "control_economics",
+          "quality_criterion",
+          "authority_external",
+          "coordination",
+          "options",
+          "outcome",
+          "automation",
+          "measurement",
+          "actual_containment",
+          "authority_operation",
+          "authority_change",
+          "requirements",
+          "identity",
+          "change_impact",
+          "anomaly",
+          "knowledge",
+          "competence",
+          "labor_terms",
+          "supplier",
+          "support",
+          "uncertainty"
+        ]
+      },
+      "EA-05": {
+        "outputs": [
+          "admission",
+          "flow_boundary"
+        ],
+        "receiving_uses": [
+          "flow_boundary",
+          "capacity",
+          "demand",
+          "measurement",
+          "authority_change",
+          "workload",
+          "outcome",
+          "control_economics"
+        ]
+      },
+      "EA-10": {
+        "outputs": [
+          "technical_evidence",
+          "identity",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "identity",
+          "technical_evidence",
+          "quality_criterion",
+          "automation",
+          "authority_operation",
+          "authority_external",
+          "change_impact",
+          "control_economics"
+        ]
+      },
+      "EA-11": {
+        "outputs": [
+          "exposure",
+          "recovery",
+          "technical_evidence"
+        ],
+        "receiving_uses": [
+          "operating_context",
+          "information_state",
+          "measurement",
+          "recovery",
+          "commitment",
+          "authority_operation",
+          "identity",
+          "quality_criterion",
+          "control_economics"
+        ]
+      },
+      "EA-12": {
+        "outputs": [
+          "operating_context",
+          "outcome"
+        ],
+        "receiving_uses": [
+          "operating_context",
+          "measurement",
+          "competence",
+          "authority_change",
+          "outcome",
+          "independent_challenge",
+          "control_economics"
+        ]
+      },
+      "EA-13": {
+        "outputs": [
+          "commitment",
+          "options",
+          "coordination"
+        ],
+        "receiving_uses": [
+          "uncertainty",
+          "technical_evidence",
+          "outcome",
+          "commitment",
+          "authority_change",
+          "admission",
+          "capacity",
+          "control_economics",
+          "supplier"
+        ]
+      },
+      "EA-14": {
+        "outputs": [
+          "measurement",
+          "outcome",
+          "uncertainty"
+        ],
+        "receiving_uses": [
+          "measurement",
+          "operating_context",
+          "outcome",
+          "technical_evidence",
+          "uncertainty",
+          "commitment",
+          "independent_challenge",
+          "control_economics"
+        ]
+      },
+      "EA-15": {
+        "outputs": [
+          "technical_evidence",
+          "causal_learning",
+          "uncertainty",
+          "exposure"
+        ],
+        "receiving_uses": [
+          "uncertainty",
+          "quality_criterion",
+          "measurement",
+          "operating_context",
+          "recovery",
+          "exposure",
+          "authority_operation",
+          "commitment",
+          "independent_challenge",
+          "control_economics"
+        ]
+      },
+      "EA-16": {
+        "outputs": [
+          "causal_learning",
+          "change_impact",
+          "actual_implemented_countermeasure",
+          "realized_process_state",
+          "subsequent_consequence_evidence"
+        ],
+        "receiving_uses": [
+          "anomaly",
+          "causal_learning",
+          "technical_evidence",
+          "authority_change",
+          "voice",
+          "capacity",
+          "workload",
+          "measurement",
+          "control_economics",
+          "actual_observation_boundary",
+          "genuine_enforcement",
+          "total_safe_transition_cost",
+          "task_specific_competence",
+          "actual_demand_semantics"
+        ]
+      },
+      "EA-17": {
+        "outputs": [
+          "measurement",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "measurement",
+          "flow_boundary",
+          "outcome",
+          "operating_context",
+          "voice",
+          "workload",
+          "independent_challenge",
+          "control_economics"
+        ]
+      },
+      "EA-18": {
+        "outputs": [
+          "authority_change",
+          "competence",
+          "coordination"
+        ],
+        "receiving_uses": [
+          "critical_dependency",
+          "coordination",
+          "competence",
+          "workload",
+          "authority_change",
+          "authority_external",
+          "requirements",
+          "control_economics"
+        ]
+      },
+      "EA-19": {
+        "outputs": [
+          "coordination",
+          "critical_dependency",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "identity",
+          "requirements",
+          "technical_evidence",
+          "critical_dependency",
+          "supplier",
+          "authority_change",
+          "flow_boundary",
+          "commitment",
+          "control_economics"
+        ]
+      },
+      "EA-20": {
+        "outputs": [
+          "support",
+          "coordination"
+        ],
+        "receiving_uses": [
+          "outcome",
+          "operating_context",
+          "authority_change",
+          "capacity",
+          "knowledge",
+          "support",
+          "retirement",
+          "control_economics"
+        ]
+      },
+      "EA-21": {
+        "outputs": [
+          "anomaly",
+          "technical_evidence",
+          "causal_learning",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "identity",
+          "information_state",
+          "measurement",
+          "voice",
+          "authority_change",
+          "knowledge",
+          "workload",
+          "operating_context",
+          "control_economics"
+        ]
+      },
+      "EA-22": {
+        "outputs": [
+          "quality_criterion",
+          "measurement",
+          "authority_operation"
+        ],
+        "receiving_uses": [
+          "outcome",
+          "measurement",
+          "operating_context",
+          "authority_operation",
+          "commitment",
+          "anomaly",
+          "requirements",
+          "control_economics"
+        ]
+      },
+      "EA-23": {
+        "outputs": [
+          "quality_criterion",
+          "technical_evidence",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "requirements",
+          "operating_context",
+          "technical_evidence",
+          "independent_challenge",
+          "authority_operation",
+          "critical_dependency",
+          "identity",
+          "anomaly",
+          "control_economics"
+        ]
+      },
+      "EA-24": {
+        "outputs": [
+          "knowledge",
+          "identity",
+          "trace",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "identity",
+          "requirements",
+          "knowledge",
+          "authority_external",
+          "authority_change",
+          "support",
+          "trace",
+          "control_economics"
+        ]
+      },
+      "EA-25": {
+        "outputs": [
+          "workload"
+        ],
+        "receiving_uses": [
+          "demand",
+          "admission",
+          "capacity",
+          "workload",
+          "voice",
+          "labor_terms",
+          "authority_change",
+          "support",
+          "control_economics"
+        ]
+      },
+      "EA-26": {
+        "outputs": [
+          "competence",
+          "knowledge",
+          "support"
+        ],
+        "receiving_uses": [
+          "knowledge",
+          "competence",
+          "workload",
+          "technical_evidence",
+          "support",
+          "coordination",
+          "control_economics"
+        ]
+      },
+      "EA-27": {
+        "outputs": [
+          "automation",
+          "knowledge"
+        ],
+        "receiving_uses": [
+          "operating_context",
+          "outcome",
+          "requirements",
+          "workload",
+          "technical_evidence",
+          "options",
+          "control_economics",
+          "authority_change",
+          "support"
+        ]
+      },
+      "EA-28": {
+        "outputs": [
+          "retirement",
+          "options",
+          "control_economics"
+        ],
+        "receiving_uses": [
+          "outcome",
+          "uncertainty",
+          "technical_evidence",
+          "commitment",
+          "authority_change",
+          "authority_external",
+          "support",
+          "options",
+          "control_economics"
+        ]
+      },
+      "EW-P001": {
+        "outputs": [
+          "requirements",
+          "information_state",
+          "authority_change"
+        ],
+        "receiving_uses": [
+          "identity",
+          "operating_context",
+          "uncertainty",
+          "authority_change",
+          "knowledge",
+          "change_impact",
+          "coordination",
+          "control_economics"
+        ]
+      },
+      "EW-P002": {
+        "outputs": [
+          "uncertainty",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "outcome",
+          "requirements",
+          "technical_evidence",
+          "operating_context",
+          "uncertainty",
+          "authority_change",
+          "knowledge",
+          "retirement",
+          "information_state",
+          "control_economics"
+        ]
+      },
+      "EW-P003": {
+        "outputs": [
+          "commitment",
+          "critical_dependency",
+          "quality_criterion"
+        ],
+        "receiving_uses": [
+          "requirements",
+          "technical_evidence",
+          "critical_dependency",
+          "supplier",
+          "uncertainty",
+          "operating_context",
+          "commitment",
+          "control_economics",
+          "coordination",
+          "outcome"
+        ]
+      },
+      "EW-P004": {
+        "outputs": [
+          "technical_evidence",
+          "uncertainty"
+        ],
+        "receiving_uses": [
+          "uncertainty",
+          "quality_criterion",
+          "operating_context",
+          "technical_evidence",
+          "capacity",
+          "authority_change",
+          "commitment",
+          "measurement",
+          "control_economics"
+        ]
+      },
+      "EW-P005": {
+        "outputs": [
+          "knowledge",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "identity",
+          "knowledge",
+          "trace",
+          "change_impact",
+          "support",
+          "control_economics",
+          "coordination"
+        ]
+      },
+      "EW-P006": {
+        "outputs": [
+          "identity",
+          "authority_change"
+        ],
+        "receiving_uses": [
+          "identity",
+          "knowledge",
+          "trace",
+          "authority_change",
+          "change_impact",
+          "support",
+          "automation",
+          "control_economics"
+        ]
+      },
+      "EW-P007": {
+        "outputs": [
+          "identity",
+          "technical_evidence",
+          "anomaly",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "identity",
+          "information_state",
+          "technical_evidence",
+          "measurement",
+          "authority_change",
+          "anomaly",
+          "operating_context",
+          "control_economics"
+        ]
+      },
+      "EW-P008": {
+        "outputs": [
+          "authority_change",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "critical_dependency",
+          "identity",
+          "trace",
+          "commitment",
+          "recovery",
+          "authority_change",
+          "authority_external",
+          "technical_evidence",
+          "control_economics"
+        ]
+      },
+      "EW-P009": {
+        "outputs": [
+          "requirements",
+          "coordination",
+          "technical_evidence",
+          "critical_dependency"
+        ],
+        "receiving_uses": [
+          "identity",
+          "requirements",
+          "technical_evidence",
+          "coordination",
+          "supplier",
+          "change_impact",
+          "authority_change",
+          "control_economics"
+        ]
+      },
+      "EW-P010": {
+        "outputs": [
+          "quality_criterion",
+          "requirements"
+        ],
+        "receiving_uses": [
+          "requirements",
+          "quality_criterion",
+          "operating_context",
+          "identity",
+          "technical_evidence",
+          "capacity",
+          "competence",
+          "independent_challenge",
+          "anomaly",
+          "supplier",
+          "control_economics"
+        ]
+      },
+      "EW-P011": {
+        "outputs": [
+          "technical_evidence",
+          "anomaly"
+        ],
+        "receiving_uses": [
+          "identity",
+          "requirements",
+          "quality_criterion",
+          "operating_context",
+          "critical_dependency",
+          "technical_evidence",
+          "measurement",
+          "anomaly",
+          "capacity",
+          "control_economics"
+        ]
+      },
+      "EW-P012": {
+        "outputs": [
+          "operating_context",
+          "outcome",
+          "technical_evidence"
+        ],
+        "receiving_uses": [
+          "outcome",
+          "operating_context",
+          "requirements",
+          "technical_evidence",
+          "identity",
+          "measurement",
+          "voice",
+          "authority_change",
+          "control_economics"
+        ]
+      },
+      "EW-P013": {
+        "outputs": [
+          "quality_criterion",
+          "technical_evidence"
+        ],
+        "receiving_uses": [
+          "identity",
+          "quality_criterion",
+          "operating_context",
+          "technical_evidence",
+          "measurement",
+          "anomaly",
+          "change_impact",
+          "capacity",
+          "control_economics"
+        ]
+      },
+      "EW-P014": {
+        "outputs": [
+          "authority_acceptance",
+          "requirements",
+          "coordination"
+        ],
+        "receiving_uses": [
+          "identity",
+          "requirements",
+          "quality_criterion",
+          "technical_evidence",
+          "operating_context",
+          "authority_acceptance",
+          "anomaly",
+          "support",
+          "control_economics"
+        ]
+      },
+      "EW-P015": {
+        "outputs": [
+          "authority_external",
+          "requirements"
+        ],
+        "receiving_uses": [
+          "authority_external",
+          "identity",
+          "trace",
+          "technical_evidence",
+          "change_impact",
+          "independent_challenge",
+          "coordination",
+          "control_economics"
+        ]
+      },
+      "EW-P016": {
+        "outputs": [
+          "independent_challenge",
+          "technical_evidence"
+        ],
+        "receiving_uses": [
+          "knowledge",
+          "identity",
+          "technical_evidence",
+          "competence",
+          "authority_change",
+          "voice",
+          "workload",
+          "requirements",
+          "control_economics"
+        ]
+      },
+      "EW-P017": {
+        "outputs": [
+          "trace",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "identity",
+          "requirements",
+          "knowledge",
+          "trace",
+          "change_impact",
+          "control_economics",
+          "automation"
+        ]
+      },
+      "EW-P018": {
+        "outputs": [
+          "quality_criterion",
+          "requirements",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "operating_context",
+          "technical_evidence",
+          "critical_dependency",
+          "identity",
+          "trace",
+          "anomaly",
+          "authority_operation",
+          "competence",
+          "independent_challenge",
+          "control_economics"
+        ]
+      },
+      "EW-P019": {
+        "outputs": [
+          "quality_criterion",
+          "knowledge",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "requirements",
+          "identity",
+          "trace",
+          "technical_evidence",
+          "uncertainty",
+          "independent_challenge",
+          "anomaly",
+          "operating_context",
+          "authority_operation",
+          "control_economics"
+        ]
+      },
+      "EW-P020": {
+        "outputs": [
+          "anomaly",
+          "information_state",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "identity",
+          "anomaly",
+          "technical_evidence",
+          "causal_learning",
+          "authority_change",
+          "authority_acceptance",
+          "trace",
+          "voice",
+          "control_economics"
+        ]
+      },
+      "EW-P021": {
+        "outputs": [
+          "commitment",
+          "authority_change",
+          "options"
+        ],
+        "receiving_uses": [
+          "commitment",
+          "uncertainty",
+          "identity",
+          "technical_evidence",
+          "independent_challenge",
+          "authority_change",
+          "options",
+          "requirements",
+          "control_economics"
+        ]
+      },
+      "EW-P022": {
+        "outputs": [
+          "commitment",
+          "options",
+          "batch"
+        ],
+        "receiving_uses": [
+          "uncertainty",
+          "technical_evidence",
+          "commitment",
+          "batch",
+          "coordination",
+          "supplier",
+          "authority_change",
+          "control_economics",
+          "retirement"
+        ]
+      },
+      "EW-P023": {
+        "outputs": [
+          "coordination",
+          "change_impact"
+        ],
+        "receiving_uses": [
+          "identity",
+          "technical_evidence",
+          "critical_dependency",
+          "coordination",
+          "change_impact",
+          "requirements",
+          "authority_change",
+          "control_economics"
+        ]
+      },
+      "EW-P024": {
+        "outputs": [
+          "control_economics"
+        ],
+        "receiving_uses": [
+          "commitment",
+          "uncertainty",
+          "workload",
+          "control_economics",
+          "requirements",
+          "authority_external",
+          "authority_change",
+          "technical_evidence",
+          "options"
+        ]
+      },
+      "EW-P025": {
+        "outputs": [
+          "uncertainty",
+          "control_economics"
+        ],
+        "receiving_uses": [
+          "measurement",
+          "demand",
+          "capacity",
+          "flow_boundary",
+          "operating_context",
+          "technical_evidence",
+          "independent_challenge",
+          "supplier",
+          "commitment",
+          "control_economics"
+        ]
+      },
+      "EW-P026": {
+        "outputs": [
+          "supplier",
+          "coordination",
+          "commitment"
+        ],
+        "receiving_uses": [
+          "supplier",
+          "identity",
+          "requirements",
+          "technical_evidence",
+          "critical_dependency",
+          "authority_change",
+          "coordination",
+          "options",
+          "control_economics"
+        ]
+      },
+      "EW-P027": {
+        "outputs": [
+          "authority_operation",
+          "technical_evidence",
+          "coordination"
+        ],
+        "receiving_uses": [
+          "identity",
+          "technical_evidence",
+          "competence",
+          "capacity",
+          "recovery",
+          "operating_context",
+          "anomaly",
+          "authority_operation",
+          "authority_external",
+          "support",
+          "control_economics"
+        ]
+      },
+      "EW-P028": {
+        "outputs": [
+          "recovery",
+          "exposure",
+          "options"
+        ],
+        "receiving_uses": [
+          "identity",
+          "technical_evidence",
+          "recovery",
+          "critical_dependency",
+          "capacity",
+          "authority_operation",
+          "competence",
+          "commitment",
+          "control_economics"
+        ]
+      },
+      "EW-P029": {
+        "outputs": [
+          "support",
+          "retirement",
+          "supplier"
+        ],
+        "receiving_uses": [
+          "identity",
+          "anomaly",
+          "technical_evidence",
+          "supplier",
+          "competence",
+          "capacity",
+          "knowledge",
+          "support",
+          "retirement",
+          "authority_change",
+          "control_economics"
+        ]
+      },
+      "EW-P030": {
+        "outputs": [
+          "identity",
+          "knowledge",
+          "trace",
+          "information_state",
+          "governed_representation_semantics",
+          "represented_version",
+          "actual_article_correspondence"
+        ],
+        "receiving_uses": [
+          "identity",
+          "requirements",
+          "measurement",
+          "technical_evidence",
+          "knowledge",
+          "trace",
+          "coordination",
+          "authority_change",
+          "control_economics",
+          "actual_coherent_integration_query",
+          "consequential_interactions",
+          "actual_representation_consumer"
+        ]
+      },
+      "EW-P031": {
+        "outputs": [
+          "technical_evidence",
+          "automation",
+          "information_state"
+        ],
+        "receiving_uses": [
+          "identity",
+          "technical_evidence",
+          "quality_criterion",
+          "automation",
+          "information_state",
+          "independent_challenge",
+          "authority_operation",
+          "competence",
+          "workload",
+          "control_economics"
+        ]
+      },
+      "EW-P032": {
+        "outputs": [
+          "authority_operation",
+          "requirements"
+        ],
+        "receiving_uses": [
+          "identity",
+          "technical_evidence",
+          "uncertainty",
+          "anomaly",
+          "operating_context",
+          "authority_operation",
+          "independent_challenge",
+          "requirements",
+          "control_economics",
+          "proposed_operating_scope"
+        ]
+      },
+      "EW-P033": {
+        "outputs": [
+          "control_economics",
+          "commitment"
+        ],
+        "receiving_uses": [
+          "commitment",
+          "recovery",
+          "critical_dependency",
+          "measurement",
+          "uncertainty",
+          "authority_external",
+          "authority_change",
+          "control_economics",
+          "technical_evidence"
+        ]
+      }
+    },
+    "refinement_source": "WHOLE_SEMANTIC_DECISIONS.json#/scope_refinements",
+    "a003_refinement": "A003_SCIENTIFIC_RESPONSE.json#/role_repair",
+    "use_limit": "Navigational only. Seven explicit authored judgments and the causal reassessment control current disposition; no tag-overlap reclassification.",
+    "a004_refinement": "A004_SCIENTIFIC_RESPONSE.json and CAUSAL_SCOPE_REASSESSMENT.json are the actual decision sources; added index terms do not promote any direction.",
+    "a005_refinement": "Actual source/receiver meanings are bound by A005_SCIENTIFIC_RESPONSE.json. These expanded navigational ports prevent omission; matching them still proves no relation.",
+    "a006_refinement": {
+      "native": "EL-014",
+      "source": "A006_SCIENTIFIC_RESPONSE.json",
+      "limit": "Modern validation/types/safe defaults are native analogy/convergence, not historical Toyota transmission."
+    },
+    "A007_navigation_note": {
+      "anchors": [
+        "EL-011",
+        "EA-01",
+        "EA-17"
+      ],
+      "source": "A007_SCIENTIFIC_RESPONSE.json",
+      "limit": "Existing role summaries are navigation, not an M classifier; explicit actual native consumer/function and countercontrols govern. No original native changed."
+    },
+    "A008_navigation_note": {
+      "anchors": [
+        "EL-022",
+        "EW-P015"
+      ],
+      "source": "A008_SCIENTIFIC_RESPONSE.json",
+      "limit": "Native roles orient; literal actual consumers/functions decide, never title matching. Original native records unchanged."
+    }
+  }
+}

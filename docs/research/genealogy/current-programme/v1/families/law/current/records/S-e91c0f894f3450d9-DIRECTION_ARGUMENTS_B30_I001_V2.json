@@ -1,0 +1,659 @@
+{
+  "source_identity": {
+    "source_id": "S-e91c0f894f3450d9",
+    "scientific_name": "DIRECTION_ARGUMENTS_B30_I001_V2.json",
+    "original_bytes": 50234,
+    "original_sha256": "e91c0f894f3450d9714e67c04c2a5b48c5c3cebe347a37563f3c31a9cb15cd36"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b30-exact-directed-arguments/1",
+    "identity": "B30_INCREMENT_001",
+    "literal_source": {
+      "path": "authoring/B30_I001_LITERAL_ARGUMENTS_V2.json",
+      "bytes": 34482,
+      "sha256": "1b40136d0dfce02de29a8ef31f9dca165b08c45da042ddf113788f0c796d88c3"
+    },
+    "common_contract": {
+      "population": "Only the six explicitly listed directed members. No cross-product or neighboring admission is generated.",
+      "material_meaning": "At the stated native guard the source supplies, constrains or challenges an actual receiving premise. It need not establish the complete receiving property, cause a final action to change, or create a new platform.",
+      "direction_rule": "Each reverse has its own source, receiving predicate, guard, contribution, contrary witness and removal reasoning.",
+      "application_states": "Known operative guard with adequate existing input can already satisfy the relation. An absent interface is a nontrigger. Unknown actual applicability or correspondence stays unknown in an application; it is not silently a negative. The present relation judgments are conditional native arguments, not findings about an actual regulated deployment.",
+      "authority_rule": "Technical evidence, claimed compliance, acceptance, residual-risk disposition and an empowered issuer's actual certification decision are different objects. A useful partial input is not conditioned on obtaining the final decision. No new legal applicability or current law claim is made from a stored source label.",
+      "evidence_rule": "Selected native records and their explicit criteria are the primary analytical premises. Earlier recorded C22/C23 finite results are reused at their actual scopes without importing or executing old code. Logical certification/independence/hazard examples below are new author constructions, not observed regulatory decisions, field experiments or independent review.",
+      "cost_rule": "Charge shared evidence acquisition once. Retain source-specific assurance, access, independence, interpretation, upkeep, stale-oracle and coordination burdens. Binding obligations are not waived by an economic argument; unnecessary duplication is not automatically a binding obligation.",
+      "control_scope": "C23 is an observation-only finite assessor with a separate analytic cheap path. Its table digest is not production provenance. C22's repaired executed portfolio and deliberate incomplete/circular-oracle cases retain their exact historical scope. Neither establishes current legal authority, empirical IV&V benefit or complete hazard control. No new control execution is required merely to obtain six rows."
+    },
+    "directions": [
+      {
+        "id": "B30-I001-D01",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P015",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "A named technical compliance objective for an identified configuration, and the repeatable behavioral evidence actually used to assess that objective under an applicable certification basis.",
+        "guard": "An actual relevant certification regime/basis has been identified, and a credible EA06 observation addresses a named objective or necessary technical premise of that basis for the claimed object/configuration. The evidence-to-objective correspondence is established at the claimed scope. Other objectives, required independence, final issuer action or approval status may remain unresolved.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "HOW_THE_PROPERTY_EVOLVED",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.failure_witness"
+        ],
+        "source_contribution": "Repeatable regression checking can supply configuration-bound results, coverage and counterexamples for an admitted means of compliance. A reliable failure of a necessary objective contradicts that same-scoped compliance claim even while the rest of the dossier remains unexamined. A pass supports only the exercised objective, assumptions and representativeness.",
+        "receiving_consequence": "The P015 evidence basis becomes partially supported, partially contradicted, or explicitly incomplete at the named objective. A relevant change may require replacing stale evidence through the applicable route. This is a technical contribution to certification work; it does not issue, waive or preserve external approval by itself.",
+        "remaining_premises": "Actual jurisdiction/version/contract and empowered issuer; correct identification of applicable objectives and permitted evidence; authentic configuration and execution provenance; method/oracle validity and representativeness; any required independence; other objectives and applicable change/reapproval route. No source title establishes these for a target.",
+        "positive_witness": "In a declared finite example, an issuer's stipulated basis includes objective O1: cold-mode logical response at most5 for candidate C. The already recorded C23 cold observation for candidate_cold_regression is9. With that explicit correspondence, O1 is contradicted before other objectives or the issuer's decision are known. The number is a toy execution result, not a measured physical response or actual regulatory limit. An ordinary passing nominal observation supplies narrower evidence without completing O1's full environmental scope.",
+        "stronger_claim_counterexample": "All recorded fixed-candidate toy checks pass, but no empowered external issuer or applicable basis is established; a team cannot infer certification from those results. Alternatively, a real basis requires independent substantiation or an untested objective: developer regression evidence remains useful without satisfying those additional requirements. An educational agile/certification paper grants no waiver.",
+        "nontrigger": "No relevant regime applies, or this regression evidence has no actual correspondence to any certification objective/premise. An internal badge is not P015. Unknown applicability or correspondence is not established absence, and adequate already-admitted evidence is not a nontrigger merely because no new tool is needed.",
+        "cheap_alternative_and_cost": "Use current admissible evidence once across consumers with explicit provenance and scope. Adequate analysis, similarity, inspection or targeted manual checking can supply the technical premise if the actual basis permits. Regression automation is worthwhile only for reusable high-value checks; evidence packaging, qualification of methods where actually required, independent scrutiny, change impact and upkeep remain costs. No duplicate campaign follows simply from the certification label.",
+        "removal_test": "Remove this actual behavioral input while keeping the basis: the receiving objective loses that support or counterexample unless another adequate permitted source replaces it. Remove automation but retain an adequate manual or analytic result and the local evidence need can survive. Remove the certification basis itself and the P015-specific consumer disappears; the result may still serve acceptance or engineering verification, which does not recreate certification.",
+        "reentry": "Reopen on changed objective, basis/version/contract, configuration, oracle validity, representative scope, permitted means of compliance, actual authority or change/reapproval rule. A corrected target correspondence may change application, not silently all six members.",
+        "controls": [
+          "PARENT_C23_KNOWN_NECESSARY_FAILURE_AND_PARTIAL_SCOPE",
+          "PARENT_C23_ANALYTIC_CHEAP_PATH",
+          "B30_LOGICAL_AUTHORITY_SEPARATION"
+        ],
+        "finite_control_scope": "The actual C23 cold/nominal observations and assessor outputs are inherited exact evidence. Mapping O1 to a stipulated certification objective is a new logical scenario. No old code is run and no real approval is claimed.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P015",
+        "reverse_direction_key": "LAW-L3::EW-P015->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P015",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i001/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P015",
+            "capsule": {
+              "path": "reading/i001/native/EW-P015.json",
+              "bytes": 9927,
+              "sha256": "25c4f0114ba00d47a2d873b841b356aee4b4e7ede47d3c1045bdfcb7457c5301"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P015::MECHANISM",
+            "LAW-L3::EW-P015::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P015::HOW_THE_PROPERTY_EVOLVED",
+            "LAW-L3::EW-P015::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P015::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P015::REQUALIFICATION.failure_witness"
+          ]
+        }
+      },
+      {
+        "id": "B30-I001-D02",
+        "source": "LAW-L3::EW-P015",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "INVALIDATION"
+        ],
+        "shared_object": "The objective, admissibility and change-sensitive scope of regression evidence that is actually claimed as certification support.",
+        "guard": "A correctly identified applicable basis or authority interface supplies a relevant objective, method/provenance/independence requirement or change trigger for a regression claim. The supplied criterion is actually consumed in selecting, maintaining or interpreting the EA06 checks; a final certification decision is not required for this criterion to matter.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.total_cost_and_tradeoff"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "The actual basis identifies the relevant objective, evidence/configuration boundary, permitted substantiation and continuing-validity/change conditions. These constrain which behavior a check must exercise, which oracle and provenance are adequate, what independence is separately needed, and when a prior result can support a current credit claim.",
+        "receiving_consequence": "EA06 gains or revises a concrete coverage/oracle/interpretation requirement. A green suite that misses a basis-required condition cannot be read as satisfying that objective. Conversely, unchanged applicable scope with valid evidence may permit reuse. This does not require TDD, a fixed lifecycle, a full duplicate portfolio per commit, or completion of every certification objective before useful checking.",
+        "remaining_premises": "Correct operative basis and its legal/contractual applicability; a meaningful objective-to-behavior mapping; technically feasible and credible checks; implementation/configuration identity; actual method adequacy; other engineering risks beyond the certification objective. The authority's decision is not evidence that every test or safety claim is true.",
+        "positive_witness": "In the finite O1 example, the actual claimed objective is cold-mode response, so nominal-only C23 coverage is insufficient evidence for O1. The criterion makes the missing cold check visible even before any issuer decides. If the admissible means includes an adequate source analysis, the fully visible fixed-candidate branches can justify an additional toy mode without another execution; C23's observation-only UNKNOWN is then a limit of that assessor, not an irreducible information gap.",
+        "stronger_claim_counterexample": "A team cites a document labelled certification without establishing jurisdiction, object or version, then imposes every listed practice on all commits. That does not supply an applicable EA06 criterion. An empowered approval also cannot turn an incorrect oracle into technical truth or erase a known failed necessary objective.",
+        "nontrigger": "No relevant certification basis applies, or the cited condition does not bear on this regression work or claim. Unknown applicability remains unknown. A basis that is already satisfied through an adequate current lightweight path can still be the operative constraint.",
+        "cheap_alternative_and_cost": "Resolve the actual objective and admissible evidence at the smallest responsible scope, reuse valid unchanged results and analysis, and automate only repeatable valuable checking. Do not invent an internal certification process. Where binding requirements actually demand separation or reapproval, cheapness alone cannot waive them; where they do not, additional boards or duplicated runs need their own justification.",
+        "removal_test": "Hold the behavior and suite fixed, then remove the applicable O1 criterion: the suite can no longer be assessed for O1 from its green label alone. A correctly mapped equivalent criterion can replace the P015-provided input. Remove the regime and the authority-specific restriction disappears, while ordinary engineering and intended-use requirements remain independently relevant.",
+        "reentry": "Reopen for a corrected basis, operative-version or jurisdiction distinction, changed objective/configuration, new method validity information, or changed continued-authority route. Reassess just the affected checks/claims rather than manufacturing a whole-lifecycle restart.",
+        "controls": [
+          "PARENT_C23_SCOPE_CHANGE_AND_WRONG_OBJECT",
+          "PARENT_C23_ANALYTIC_CHEAP_PATH",
+          "B30_LOGICAL_AUTHORITY_SEPARATION"
+        ],
+        "finite_control_scope": "C23 already records how different declared criteria and configuration matching change the same observations' meaning. The certification-role mapping is stipulated for this author construction; no actual law or issuer is implemented by the assessor.",
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P015",
+        "entry_row": [
+          "LAW-L3::EW-P015->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P015",
+            "capsule": {
+              "path": "reading/i001/native/EW-P015.json",
+              "bytes": 9927,
+              "sha256": "25c4f0114ba00d47a2d873b841b356aee4b4e7ede47d3c1045bdfcb7457c5301"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i001/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P015::MECHANISM",
+            "LAW-L3::EW-P015::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P015::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P015::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P015::REQUALIFICATION.total_cost_and_tradeoff"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::OPEN_QUESTIONS"
+          ]
+        }
+      },
+      {
+        "id": "B30-I001-D03",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P016",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "shared_object": "The specific behavioral claim, regression method/oracle, and evidence that an actual independent technical challenge examines.",
+        "guard": "An actual P016 technical-challenge inquiry names a critical behavioral claim and consumes EA06 observations or inspectable check/oracle/coverage artifacts to investigate that claim. Correspondence to that critical question is established at the stated scope. The inquiry's overall competence, relevant independence, wider product access, disposition authority and complete outcome may still require assessment; usefulness of this local input is not conditioned on first establishing their sufficiency.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "EA06 supplies inspectable repeatable observations, test design/oracle and coverage boundaries against which a challenger can compare the stated critical claim. A reliable local counterexample can defeat that claim at its actual scope and guide focused follow-up. Exposing a weak suite can also let challenge identify unsupported coverage; the suite's self-issued green result is not accepted uncritically.",
+        "receiving_consequence": "The independent inquiry gains a concrete evidence object and may localize a defect, challenge an overclaim, request a missing interaction test, or avoid repeating already adequate evidence acquisition. It does not acquire independent judgment, protected escalation or freedom from incentives merely by executing the developer's suite.",
+        "remaining_premises": "Actual competence and access; sufficient technical/managerial/financial separation for the risk; protected escalation and correction route; authentic source and object correspondence; willingness to inspect contrary evidence and assumptions beyond the suite; other critical claims and resource limits.",
+        "positive_witness": "The recorded C22 diagnostic cases expose that an incomplete portfolio or implementation-coupled oracle can be green while the independent fixed-value oracle detects a defect. An actual challenger given those artifacts can use that discrepancy as a concrete scope/oracle finding without redoing every test or resolving every project claim. These are developer-authored finite observations used as an inspectable object, not an independent review of LAW.",
+        "stronger_claim_counterexample": "A separately named reviewer runs the exact same circular oracle, cannot inspect the products or escalate failures, and signs the green summary. EA06 observations exist but P016's designed independence/competence/access criterion is not established; repeated execution does not remove the common-cause error.",
+        "nontrigger": "No actual independent challenge consumes or examines this regression claim/evidence, or the artifacts are unrelated to its critical question. An inaccessible relevant artifact is an unmet access premise, not automatically an absent semantic interface. Low-risk peer challenge may already be sufficient and does not require a standing IV&V organization.",
+        "cheap_alternative_and_cost": "Share trustworthy evidence and inspect the important oracle/scope assumptions, using targeted independently derived checks or a competent peer where risk and binding rules permit. Reuse one observation rather than charge a full duplicate test campaign. Access setup, reviewer learning, false findings, coordination latency and ongoing separation have real costs; native mixed historical evidence supports no universal staffing ratio or causal return.",
+        "removal_test": "Remove the relevant regression artifacts and the challenge loses that directly inspectable support or contradiction, requiring another sufficient technical source. Remove automation alone while retaining adequate manually reproducible evidence and this input can survive. Remove credible challenge and the evidence still exists, but its existence no longer supplies the separate P016 protection against incentives or correlated assumptions.",
+        "reentry": "Reopen when coverage/oracle independence, reviewer access/competence, escalation authority, configuration, relevant risk or supplied evidence changes. Newly sufficient direct challenge can remove extra organizational burden without erasing the relation.",
+        "controls": [
+          "PARENT_C22_INCOMPLETE_AND_CIRCULAR_ORACLES",
+          "B30_LOGICAL_INDEPENDENCE_SEPARATION"
+        ],
+        "finite_control_scope": "The C22 observations are reused from the required frozen companion and are not reexecuted. The independent challenger is a hypothetical role in the new example; this author has not independently reviewed its own study or empirically measured IV&V value.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P016",
+        "reverse_direction_key": "LAW-L3::EW-P016->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P016",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i001/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P016",
+            "capsule": {
+              "path": "reading/i001/native/EW-P016.json",
+              "bytes": 9747,
+              "sha256": "6fecf6a6beae1ca5fb03d6cae7425913e79c41be8f004247015ff55343143ef6"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P016::MECHANISM",
+            "LAW-L3::EW-P016::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P016::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P016::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P016::REQUALIFICATION.qualitative_criterion"
+          ]
+        }
+      },
+      {
+        "id": "B30-I001-D04",
+        "source": "LAW-L3::EW-P016",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "FEEDBACK_OR_CORRECTIVE_RETURN",
+          "INTERPRETATION_QUALIFIER",
+          "ALTERNATIVE_CONTROL"
+        ],
+        "shared_object": "The actual regression claim, oracle or portfolio assumption independently challenged for a consequential risk.",
+        "guard": "A competent, sufficiently separated challenger has actual access to this regression design/evidence and supplies a relevant technical criticism, independent oracle or adequate alternate assurance method. The input is consumed in defining or interpreting the EA06 checks. Completing the entire IV&V process is not a precondition to a useful scoped finding.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "source_contribution": "Credible challenge can identify a missing interaction, self-confirming oracle, unreliable test or unsupported claim and supply an independent expected behavior or a reasoned alternative. Its technical content corrects the regression portfolio's adequacy or the scope assigned to a result; a reviewer title alone supplies nothing.",
+        "receiving_consequence": "EA06 can add or repair a check, constrain the meaning of green, or replace an ineffective automated test with an adequate independent analytic/manual method. A valid finding matters before full assurance or action authority is settled. An unsupported or erroneous critique need not be adopted just because it came from a separate team.",
+        "remaining_premises": "Correctness and actual relevance of the criticism; competence/access/separation sufficient for the challenged risk; a usable oracle or method; testable design/data and resources; integration of feedback into current configuration; continued maintenance and unchallenged residual risks.",
+        "positive_witness": "In the C22 finite program, a critical upper-bound behavior is omitted in actual wrong_impact_map_green for r3; actual proper_ceiling_portfolio instead records8 against expected5. A challenger derives the expected bound independently and supplies that missing condition. The contribution is the missing condition/oracle, not a claim that a duplicate organization must rerun the entire suite or that all other hazards are closed. The separately named green_incomplete_portfolio is the r2 lower-bound example, not this r3 observation.",
+        "stronger_claim_counterexample": "A reviewer demands a duplicate test with the same implementation-derived expected value and no different information, or flags a behavior outside the real requirement. The organizational separation does not make that demand a credible oracle or material repair; it may add cost and delay without improving evidence.",
+        "nontrigger": "There is no actual relevant technical challenge input to these checks, or the comment is merely ceremonial/unrelated. Where a direct competent peer already supplies the adequate independent check, that satisfies the input and is not a nontrigger. Unknown reviewer competence or correspondence must remain an unresolved application premise.",
+        "cheap_alternative_and_cost": "Use the least burdensome adequate independent challenge: review of a small oracle, an alternative proof, rotation or targeted cross-check may suffice where permitted. Preserve timely access and corrective feedback. Do not require full duplicated lifecycle work or an arbitrary review percentage; complex separation can worsen feedback and is justified by actual risk and obligations.",
+        "removal_test": "Remove the independently derived missing condition/oracle while holding the flawed suite fixed and false confidence can persist. An equivalent technically sound criticism or proof can replace that particular reviewer arrangement. Remove the flaw or show adequate existing coverage and additional duplicate work may be unnecessary, without denying that the established criterion is being satisfied.",
+        "reentry": "Reassess after a corrected requirement, disproved critique, changed incentives/access, altered criticality, independent counterexample or adequate cheaper method. Do not promote one disputed review finding into a universal EA06 gate.",
+        "controls": [
+          "PARENT_C22_INCOMPLETE_AND_CIRCULAR_ORACLES",
+          "PARENT_C23_ANALYTIC_CHEAP_PATH",
+          "B30_LOGICAL_INDEPENDENCE_SEPARATION"
+        ],
+        "finite_control_scope": "The finite examples demonstrate only the specific oracle/coverage distinction. The new author reasoning does not claim measured review economics, independent LAW review, universal reviewer superiority or actual repair in an external system.",
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P016",
+        "entry_row": [
+          "LAW-L3::EW-P016->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P016",
+            "capsule": {
+              "path": "reading/i001/native/EW-P016.json",
+              "bytes": 9747,
+              "sha256": "6fecf6a6beae1ca5fb03d6cae7425913e79c41be8f004247015ff55343143ef6"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i001/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P016::MECHANISM",
+            "LAW-L3::EW-P016::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P016::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P016::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P016::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::IMPORTANT_CRITICISMS"
+          ]
+        }
+      },
+      {
+        "id": "B30-I001-D05",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P018",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "shared_object": "A concrete programmed behavior used as a control for an identified hazard in a stated operating/configuration context.",
+        "guard": "Actual hazard analysis links a behavior exercised by EA06 to an implemented risk control or a necessary technical premise of its effectiveness. The evidence and hazard/control context correspond at the claimed scope. Other controls, unknown hazards, operational assumptions and residual-risk disposition can remain unresolved.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.failure_witness"
+        ],
+        "source_contribution": "A repeatable behavioral check supplies evidence that a named control still exhibits a required behavior after a relevant change, or a counterexample that it does not. A known failed necessary control behavior can contradict the corresponding control claim while the broader hazard portfolio remains unknown. This is narrower than proving a hazard eliminated or residual risk acceptable.",
+        "receiving_consequence": "The living hazard/control record can retain, narrow or reopen the evidence for that actual control and trigger a concrete corrective inquiry. A green unrelated component test cannot close an operational hazard. Good evidence need not produce an additional platform or final acceptance action to be a material input.",
+        "remaining_premises": "Credible hazard and causal scenario; correct linkage from tested behavior to implemented control and actual operation; representative configuration/data/environment; independent credible oracle; other hardware/human/organizational controls and common causes; residual-risk owner/authority; unmodeled hazards and uncertainty.",
+        "positive_witness": "A declared toy hazard scenario requires a programmed upper bound to avoid a specified unsafe command. The recorded C22 ceiling-bug case violates the independently supplied expected bound, so the narrowly stated control behavior fails. The finite program does not model a physical hazard; the hazard-to-bound bridge is explicit in this author construction and would require domain evidence in an application. Other controls remain unexamined rather than becoming proven safe or unsafe by enumeration.",
+        "stronger_claim_counterexample": "All nominal component regressions pass, but the relevant unsafe interaction occurs only in an unrepresented degraded operating mode or human workflow. No full hazard-control conclusion follows. A hazard-log entry or a risk owner's signature also cannot repair a known failed technical behavior or make a missing operational bridge true.",
+        "nontrigger": "There is no relevant consequential hazard/control link for this ordinary functionality, or the regression observation does not address the claimed control. Unknown actual safety impact is not safely classified as absent by a green suite. Already adequate current evidence may satisfy the input with no extra test campaign.",
+        "cheap_alternative_and_cost": "Use bounded safety-impact screening where permitted, reuse current representative evidence, and choose adequate analysis/simulation/manual checks for unautomatable or infrequent behavior. Keep hazard-control linkage, oracle maintenance and change impact current. Additional tests do not compensate for a wrong hazard model; count common acquisition once but retain necessary multidisciplinary and operational work.",
+        "removal_test": "Remove this behavior evidence and the named control loses that support or contradiction unless an adequate alternative supplies it. Remove automation but keep an adequate analytic or manual substantiation and the hazard-control input can survive. Remove the actual hazard link and ordinary regression evidence remains, without warranting formal safety machinery for every feature.",
+        "reentry": "Reopen after a credible new hazard/interaction, changed operating context or configuration, invalidated control assumption, counterexample, new incident learning or corrected analysis. A change to residual-risk authority affects disposition separately from the truth of the observed behavior.",
+        "controls": [
+          "PARENT_C22_INCOMPLETE_AND_CIRCULAR_ORACLES",
+          "PARENT_C23_KNOWN_NECESSARY_FAILURE_AND_PARTIAL_SCOPE",
+          "B30_LOGICAL_HAZARD_BRIDGE"
+        ],
+        "finite_control_scope": "Actual recorded toy observations can witness a conditional behavior failure. The hazard model is expressly stipulated; no real injury risk, probability, safety certification or complete system assurance is measured.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P018",
+        "reverse_direction_key": "LAW-L3::EW-P018->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P018",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i001/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P018",
+            "capsule": {
+              "path": "reading/i001/native/EW-P018.json",
+              "bytes": 9368,
+              "sha256": "15de59262f9758b8e1d0a42ccd6a6b1e18b009bf165d0ba3eaa7c5a5ea5de57e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P018::MECHANISM",
+            "LAW-L3::EW-P018::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P018::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P018::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P018::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P018::REQUALIFICATION.failure_witness"
+          ]
+        }
+      },
+      {
+        "id": "B30-I001-D06",
+        "source": "LAW-L3::EW-P018",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "The hazard-derived behavioral condition, operating scenario and control assumption used to define or interpret a regression check.",
+        "guard": "Competent actual hazard/control analysis supplies a relevant scenario, constraint or changed premise for repeatable programmed behavior, and that input is consumed in the EA06 portfolio or its adequacy claim. The hazard analysis can be partial; complete safety proof, quantified risk and final authority decision are not required for a valid specific condition to matter.",
+        "source_fields": [
+          "MECHANISM",
+          "PROBLEM_IT_ADDRESSED",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "The actual causal scenario and control claim identify behavior and operating/degraded conditions that normal conformance tests may omit. They can supply a missing oracle, demand an interaction-level check, constrain a green result to its exercised domain, or show that a test cannot represent the relevant hazard and another assurance method is needed.",
+        "receiving_consequence": "EA06's scope, test level, trigger and interpretation become aligned to the real control behavior rather than merely local specification coverage. A relevant changed hazard/control premise can invalidate prior assurance credit. This does not require formal hazard analysis for every routine edit or force an unautomatable socio-technical control into a unit test.",
+        "remaining_premises": "Credible multidisciplinary hazard analysis and operational input; actual behavior/control mapping; credible and sufficiently independent oracle; feasible representation and test data; current configuration; risk-proportionate prioritization and complementary non-test assurance. A formal register or invented probability is not enough.",
+        "positive_witness": "The stipulated upper-command hazard supplies an expected upper-bound condition omitted in C22's actual r3 wrong_impact_map_green; proper_ceiling_portfolio records8 against expected5. That condition makes the recorded ceiling defect relevant and tells the test designer what cannot be inferred from nominal green. If adequate source analysis already establishes the toy bound under unchanged assumptions, another run can be unnecessary; a real physical/operational bridge still needs its own evidence.",
+        "stronger_claim_counterexample": "A generic hazard checklist contains no correspondence to the actual software, or a nominal component requirement is labelled safety without showing its causal role. It supplies no justified new oracle. Conversely, a valid human coordination control may require operational analysis rather than automation; inability to encode a unit test does not refute the hazard or justify ignoring it.",
+        "nontrigger": "No relevant safety hazard/control premise affects the behavior, or the supplied scenario has no actual correspondence to this regression claim. Unknown correspondence remains an application uncertainty. A simple, already documented correct constraint may be adequate and does not cease to be material because no separate hazard platform is built.",
+        "cheap_alternative_and_cost": "Target actual changed controls and credible scenarios; use proportionate screening, current evidence and analytic/manual alternatives where adequate. Charge multidisciplinary hazard discovery and upkeep explicitly. Avoid speculative exhaustive scenario enumeration and unjustified probability precision; apply only actual binding/domain obligations.",
+        "removal_test": "Hold the local suite fixed and remove the relevant hazard-derived bound: the suite can appear complete while missing the known unsafe command condition. A correct equivalent requirement or analysis may preserve the condition without a separate hazard artifact. Remove the causal hazard connection and ordinary regression goals remain, with no inferred requirement for formal system-safety apparatus.",
+        "reentry": "Reopen on changed hazard/control correspondence, new operating/degraded condition, incident learning, invalid oracle, configuration or credible adequate alternative. A novel hazard may warrant new analysis; a title or generic safety concern does not generate neighboring material relations.",
+        "controls": [
+          "PARENT_C22_INCOMPLETE_AND_CIRCULAR_ORACLES",
+          "PARENT_C23_ANALYTIC_CHEAP_PATH",
+          "B30_LOGICAL_HAZARD_BRIDGE"
+        ],
+        "finite_control_scope": "The recorded finite checks distinguish missing criterion from covered criterion; the author supplies the conditional hazard bridge. These cases are not a whole safety argument, empirical effect estimate or actual regulatory decision.",
+        "direction_key": "LAW-L3::EW-P018->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P018",
+        "entry_row": [
+          "LAW-L3::EW-P018->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P018",
+            "capsule": {
+              "path": "reading/i001/native/EW-P018.json",
+              "bytes": 9368,
+              "sha256": "15de59262f9758b8e1d0a42ccd6a6b1e18b009bf165d0ba3eaa7c5a5ea5de57e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i001/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it."
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P018::MECHANISM",
+            "LAW-L3::EW-P018::PROBLEM_IT_ADDRESSED",
+            "LAW-L3::EW-P018::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P018::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P018::REQUALIFICATION.qualitative_criterion"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::OPEN_QUESTIONS"
+          ]
+        }
+      }
+    ],
+    "scientific_verdicts_authored_by_model": true,
+    "generated_verdicts_from_native_titles_or_cartesian_queries": false,
+    "scoped_clarification": {
+      "path": "authoring/B30_I001_D03_PARTIAL_INPUT_CLARIFICATION.json",
+      "bytes": 4049,
+      "sha256": "03839bf456efb3ddc86654194af2e478ed51edea9a3c115c710190252e522fec"
+    }
+  }
+}

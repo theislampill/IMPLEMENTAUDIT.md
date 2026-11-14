@@ -1,0 +1,1392 @@
+{
+  "source_identity": {
+    "source_id": "S-d28656b145cb062d",
+    "scientific_name": "DIRECTION_ARGUMENTS_B33_I015.json",
+    "original_bytes": 71106,
+    "original_sha256": "d28656b145cb062da267fa8b2f313dc0af60d6915b85a0e5e4f4341b5801aaa8"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b33-current-factored-directed-arguments/1",
+    "identity": "B33_INCREMENT_015",
+    "literal_source": {
+      "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+      "bytes": 28824,
+      "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+    },
+    "common_contract": {
+      "materiality": "An actual changed artifact, preservation claim, governing constraint or technical finding must be consumed for the named receiving purpose. A useful partial input can matter while whole acceptance, certification, challenge quality or changeability economics remain unknown.",
+      "scope": "Six independent EA08 directions with acceptance, certification basis and independent technical challenge. One exact old C28 construction and three explicitly reasoned context comparisons illustrate bounded distinctions. No real approval, regulator, independent reviewer or new control execution is created.",
+      "reverse_rule": "Forward directions provide actual structural subject/claim/evidence content; reverse directions provide specific operative constraints or technical findings. Each reverse has a separate guard and consequence.",
+      "authority": "Author scope only. Root retains campaign, qualification and review authority. Reasoning about authority is not exercising or proving it."
+    },
+    "directions": [
+      {
+        "id": "B33-I015-D01",
+        "source": "LAW-L2::EA-08",
+        "receiver": "LAW-L3::EW-P014",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "argument_factors": [
+          "B33-I015-F01",
+          "B33-I015-F02",
+          "B33-I015-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition",
+          "selected.bearer"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "shared_object": "The actual structurally changed deliverable and a preservation claim or limitation relevant to its acceptance criteria.",
+        "guard": "An actual acceptance inquiry consumes the candidate's identity, structural-change scope or preservation evidence in assessing that delivery and its exceptions. The technical input can be useful before all acceptance conditions or authority are established; no recipient or contract is invented merely to connect the properties.",
+        "source_contribution": "Actual structural work supplies a successor artifact, a claim about behavior preserved and any realized contrary evidence. Those are concrete inputs to which item is being accepted and which technical criteria remain supported.",
+        "receiving_consequence": "The recipient can distinguish candidate from predecessor, retain a scoped technical conclusion, identify an unresolved exception or refuse an unsupported completion claim. This content does not itself enact transfer of responsibility.",
+        "remaining_premises": "The actual empowered recipient, applicable criteria, item correspondence, exception disposition and transition of responsibility remain separate; technical preservation does not establish intended-use fitness or certification.",
+        "positive_witness": "C28 V1/V2 meet the same finite R4 behavior but have different source identities. The actual transformation and V2 evidence are useful candidate-specific content if an acceptance criterion consumes that behavior. The predecessor-only view cannot be relabeled as V2 execution. AC01 separately holds the technical data fixed while varying acceptance power or subject scope.",
+        "nontrigger_or_counterexample": "A refactoring label with no acceptance consumer gives no such direction. V3's nominal green coexists with a required boundary failure; a signature or deadline cannot turn that preservation premise true. No real acceptance occurs in C28.",
+        "cheap_alternative_and_removal": "Use an existing identified revision, adequate result and simple authorized internal promotion where that is the real arrangement. Remove candidate/evidence correspondence and the inquiry loses that content; remove an extra meeting while the competent authorized decision remains and the function can survive.",
+        "reentry": "Changed artifact, acceptance criterion, evidence domain, exceptions, recipient power or responsibility transition.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity"
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          },
+          {
+            "control": "C28",
+            "case": "predecessor_result_wrong_execution_subject"
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence"
+          }
+        ],
+        "analytical_case_ids": [
+          "B33-I015-AC01"
+        ],
+        "finite_control_scope": "Exact old finite structural evidence only; AC01 is reasoned authority context, not an observed acceptance act.",
+        "direction_key": "LAW-L2::EA-08->LAW-L3::EW-P014",
+        "reverse_direction_key": "LAW-L3::EW-P014->LAW-L2::EA-08",
+        "entry_row": [
+          "LAW-L2::EA-08->LAW-L3::EW-P014",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i015/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "038d899cd2d712c08a1b6501a2a3cdf2d01164d051894dd7bdcea0a657419017"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P014",
+            "capsule": {
+              "path": "reading/i015/native/EW-P014.json",
+              "bytes": 6822,
+              "sha256": "2fddf55a343ae0a3781b1b533a2b5aa83ff14bdfba36d39a680c05635360318e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition",
+            "LAW-L2::EA-08::selected.bearer"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P014::MECHANISM",
+            "LAW-L3::EW-P014::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P014::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P014::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P014::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I015-F01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "5c99636f1b5651d934be0f96a98d32f8080fd98cacb1a7102f13b0819979d78e"
+          },
+          {
+            "factor_id": "B33-I015-F02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "eefe98fde6abc2a928ac58348ee9ee8449aea6f80be6cc6a18046f4daea8a3b7"
+          },
+          {
+            "factor_id": "B33-I015-F03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "80ba08655d86724bffecd22ee545541db937747eae210ea862d6593e47c44a21"
+          }
+        ],
+        "analytical_case_bindings": [
+          {
+            "case_id": "B33-I015-AC01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/analytical_cases/0",
+            "canonical_value_sha256": "5fa9ff2ce5c0592a1f3566909808c89c8bdbbcb5c721add44c297ca9368ce50b",
+            "evidence_kind": "REASONED_POSSIBLE_CONTEXTS_NOT_EXECUTION"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "1a61b727800912bd6a22315ae34ffe6074c8fb5ec772fa4320fb51ff93b68ed6",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Exact old finite structural evidence only; AC01 is reasoned authority context, not an observed acceptance act.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Exact old finite structural evidence only; AC01 is reasoned authority context, not an observed acceptance act.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "predecessor_result_wrong_execution_subject",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/4",
+            "canonical_value_sha256": "d5639c61cd07cd974090fd7b0a27b1fde447d084a994433c49ab21baf009e4a2",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Exact old finite structural evidence only; AC01 is reasoned authority context, not an observed acceptance act.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "2bed18665421c143c65f773ea61168a5c8200368a497f595217374bebcc09e8b",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Exact old finite structural evidence only; AC01 is reasoned authority context, not an observed acceptance act.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I015-D02",
+        "source": "LAW-L3::EW-P014",
+        "receiver": "LAW-L2::EA-08",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I015-F01",
+          "B33-I015-F02",
+          "B33-I015-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition",
+          "selected.simpler_path_and_cost"
+        ],
+        "shared_object": "An applicable acceptance criterion, accepted-configuration boundary, residual obligation or decision constraint actually consumed when scoping structural work.",
+        "guard": "The structural decision uses a specific real acceptance condition, disposition or scope limit for its candidate. A useful criterion or exception can constrain work while whole acceptance and the future economic benefit of restructuring remain unknown.",
+        "source_contribution": "The operative acceptance arrangement identifies what delivery and behavior the recipient requires, which exceptions remain and which decision lies within the actual actor's remit. It does not freeze every internal implementation detail by default.",
+        "receiving_consequence": "Structural work can target the relevant condition, preserve an identified obligation, record a remaining exception or use an applicable already-authorized path. An accepted predecessor is not silently substituted for a changed candidate.",
+        "remaining_premises": "Technical validity of the criterion, actual candidate evidence, expected change burden and governing scope must still be assessed. Acceptance authority is not a proof of engineering truth, and a single competent actor may legitimately hold multiple roles where permitted.",
+        "positive_witness": "C28's explicit R4 condition discriminates the preserving V2 from unsafe V3 and can be the technical part of a real acceptance criterion if actually adopted for that purpose. AC01 distinguishes such technical content from the actor and item scope of the acceptance arrangement; no adoption is assumed by the model.",
+        "nontrigger_or_counterexample": "An unrelated historical sign-off or an after-the-fact criterion chosen to excuse the failing boundary supplies no credible preservation warrant. If no acceptance condition is consumed, an ordinary private structural decision need not create a new acceptance ceremony.",
+        "cheap_alternative_and_removal": "Existing criteria, a compact recorded decision or an adequate pure-source argument may suffice for the real scope. Remove the relevant criterion/exception and the structural decision loses that constraint; remove only ceremonial separation while a permitted competent actor retains the role and the function can remain.",
+        "reentry": "Changed criteria, accepted configuration, residual obligation, permission scope or newly demonstrated technical contradiction.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity"
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative"
+          }
+        ],
+        "analytical_case_ids": [
+          "B33-I015-AC01"
+        ],
+        "finite_control_scope": "C28 provides behavior/identity discrimination, not an acceptance institution. The actual acceptance-consumption premise is explicit and separately required.",
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-08",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P014",
+        "entry_row": [
+          "LAW-L3::EW-P014->LAW-L2::EA-08",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P014",
+            "capsule": {
+              "path": "reading/i015/native/EW-P014.json",
+              "bytes": 6822,
+              "sha256": "2fddf55a343ae0a3781b1b533a2b5aa83ff14bdfba36d39a680c05635360318e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i015/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "038d899cd2d712c08a1b6501a2a3cdf2d01164d051894dd7bdcea0a657419017"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P014::MECHANISM",
+            "LAW-L3::EW-P014::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P014::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P014::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ],
+          "receiver": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition",
+            "LAW-L2::EA-08::selected.simpler_path_and_cost"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I015-F01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "5c99636f1b5651d934be0f96a98d32f8080fd98cacb1a7102f13b0819979d78e"
+          },
+          {
+            "factor_id": "B33-I015-F02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "eefe98fde6abc2a928ac58348ee9ee8449aea6f80be6cc6a18046f4daea8a3b7"
+          },
+          {
+            "factor_id": "B33-I015-F03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "80ba08655d86724bffecd22ee545541db937747eae210ea862d6593e47c44a21"
+          }
+        ],
+        "analytical_case_bindings": [
+          {
+            "case_id": "B33-I015-AC01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/analytical_cases/0",
+            "canonical_value_sha256": "5fa9ff2ce5c0592a1f3566909808c89c8bdbbcb5c721add44c297ca9368ce50b",
+            "evidence_kind": "REASONED_POSSIBLE_CONTEXTS_NOT_EXECUTION"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "1a61b727800912bd6a22315ae34ffe6074c8fb5ec772fa4320fb51ff93b68ed6",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "C28 provides behavior/identity discrimination, not an acceptance institution. The actual acceptance-consumption premise is explicit and separately required.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "C28 provides behavior/identity discrimination, not an acceptance institution. The actual acceptance-consumption premise is explicit and separately required.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "d423c39ad2b3f7df3bfb74aec44e2a7b0fa0ba5bbb0c878a289c24a35f645d10",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "C28 provides behavior/identity discrimination, not an acceptance institution. The actual acceptance-consumption premise is explicit and separately required.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I015-D03",
+        "source": "LAW-L2::EA-08",
+        "receiver": "LAW-L3::EW-P015",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "argument_factors": [
+          "B33-I015-F01",
+          "B33-I015-F02",
+          "B33-I015-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition",
+          "selected.bearer"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "shared_object": "A structurally changed artifact or evidence claim actually subject to an applicable certification-credit or continued-authority inquiry.",
+        "guard": "A real applicable versioned regime or binding contract consumes this candidate's change description, identity or scoped preservation evidence for its actual evidence/change route. A complete certification case is not needed before useful technical input exists; a hypothetical regulator or internal badge does not activate the relation.",
+        "source_contribution": "The structural transformation supplies the changed item, affected behavior/dependencies and bounded evidence or counterevidence relevant to an actually relied-on objective. It distinguishes preserved finite behavior from unchanged source and from preserved credit.",
+        "receiving_consequence": "The inquiry can determine which technical premises remain supported, what evidence refers to the successor and which real change-route questions need attention. It does not obtain an approval or waive a binding objective merely by calling the change refactoring.",
+        "remaining_premises": "Actual issuer, jurisdiction, applicable version, objective correspondence, artifact/evidence boundary and permitted change route remain separate. The informational RTCA paper is not regulatory policy; source labels and green results supply no authority.",
+        "positive_witness": "C28 provides different V1/V2 source identities with equal finite behavior and a V3 counterexample. That is concrete change/evidence content if the actual governing inquiry consumes the corresponding technical premise. AC02 distinguishes an applicable change route from no relevant regime and from impermissible transfer of predecessor credit.",
+        "nontrigger_or_counterexample": "No relevant regime or contract means no P015 apparatus is demanded. A valid sample cannot extend an approval whose actual scope excludes the changed item, nor can a development success grant permission to waive objectives. No real regime is instantiated in C28.",
+        "cheap_alternative_and_removal": "Use adequate existing configuration/evidence records and any analytic or bounded-update route actually permitted by the basis. Remove the actual changed-artifact/preservation content and that input must be reacquired; remove duplicated packaging while preserving required information and the function may remain. Economic convenience cannot erase an actual binding requirement.",
+        "reentry": "Changed artifact, objective, evidence subject, actual basis/version, contractual incorporation or authority change route.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity"
+          },
+          {
+            "control": "C28",
+            "case": "predecessor_result_wrong_execution_subject"
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          }
+        ],
+        "analytical_case_ids": [
+          "B33-I015-AC02"
+        ],
+        "finite_control_scope": "Old structural source/behavior evidence plus a reasoned applicability/credit comparison. No legal interpretation of a real target, regulatory filing, actual certification or new execution.",
+        "direction_key": "LAW-L2::EA-08->LAW-L3::EW-P015",
+        "reverse_direction_key": "LAW-L3::EW-P015->LAW-L2::EA-08",
+        "entry_row": [
+          "LAW-L2::EA-08->LAW-L3::EW-P015",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i015/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "038d899cd2d712c08a1b6501a2a3cdf2d01164d051894dd7bdcea0a657419017"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P015",
+            "capsule": {
+              "path": "reading/i015/native/EW-P015.json",
+              "bytes": 7294,
+              "sha256": "b22270979f39076d1735918b76595492e60e6d72d2e7a5bb4653d8d328578479"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14"
+            },
+            "selected_ref": null,
+            "native_status": "HIGH_CONSEQUENCE_CONTEXT_PROPERTY",
+            "selected_criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition",
+            "LAW-L2::EA-08::selected.bearer"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P015::MECHANISM",
+            "LAW-L3::EW-P015::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P015::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P015::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I015-F01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "5c99636f1b5651d934be0f96a98d32f8080fd98cacb1a7102f13b0819979d78e"
+          },
+          {
+            "factor_id": "B33-I015-F02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "eefe98fde6abc2a928ac58348ee9ee8449aea6f80be6cc6a18046f4daea8a3b7"
+          },
+          {
+            "factor_id": "B33-I015-F03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "80ba08655d86724bffecd22ee545541db937747eae210ea862d6593e47c44a21"
+          }
+        ],
+        "analytical_case_bindings": [
+          {
+            "case_id": "B33-I015-AC02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/analytical_cases/1",
+            "canonical_value_sha256": "715f44190f1f17d1e8ea245a78f1da7c54903039b5cb7a150a26494e2cf9ff1f",
+            "evidence_kind": "REASONED_POSSIBLE_CONTEXTS_NOT_EXECUTION"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "1a61b727800912bd6a22315ae34ffe6074c8fb5ec772fa4320fb51ff93b68ed6",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old structural source/behavior evidence plus a reasoned applicability/credit comparison. No legal interpretation of a real target, regulatory filing, actual certification or new execution.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "predecessor_result_wrong_execution_subject",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/4",
+            "canonical_value_sha256": "d5639c61cd07cd974090fd7b0a27b1fde447d084a994433c49ab21baf009e4a2",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old structural source/behavior evidence plus a reasoned applicability/credit comparison. No legal interpretation of a real target, regulatory filing, actual certification or new execution.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old structural source/behavior evidence plus a reasoned applicability/credit comparison. No legal interpretation of a real target, regulatory filing, actual certification or new execution.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I015-D04",
+        "source": "LAW-L3::EW-P015",
+        "receiver": "LAW-L2::EA-08",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I015-F01",
+          "B33-I015-F02",
+          "B33-I015-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.total_cost_and_tradeoff"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition",
+          "selected.simpler_path_and_cost"
+        ],
+        "shared_object": "An actual applicable objective, evidence/configuration boundary or change/continued-authority condition consumed by structural-change planning.",
+        "guard": "The actual basis supplies a specific relevant constraint or permissible route for the candidate's structural work. That partial input can matter before whole compliance or approval is established; no rule is generalized from an unrelated industry example.",
+        "source_contribution": "The governing basis identifies which behavior/evidence/configuration premises may change under what route and which obligations remain binding. It can permit a proportionate already-established path or reveal a missing condition; current edition publication does not by itself rewrite an older contract.",
+        "receiving_consequence": "Structural work can preserve the relevant objective, retain trace/evidence, narrow or stage a change, or follow the actual required update route. It need not be prohibited as a method, and technical equality alone is not used as an authority substitute.",
+        "remaining_premises": "Correct domain interpretation, actual applicability and delegated power, complete technical effect analysis and economic justification remain separate. This study does not determine a real system's legal status or prescribe a specific jurisdiction's procedure.",
+        "positive_witness": "AC02 holds C28 finite behavior fixed while actual applicability or credit scope differs. Thus the same technical result can support a preservation premise while the permissible change route differs. The old adequate-current view supplies unchanged technical evidence without a new run when its subject and purpose remain exact.",
+        "nontrigger_or_counterexample": "Where no relevant empowered regime or binding contract applies, an internal certified label imposes no P015 obligation. Conversely, cheapness cannot waive an actual applicable requirement. A generalized prohibition on iterative structural work is not inferred from domain-specific objectives.",
+        "cheap_alternative_and_removal": "Retain the actual already-permitted small-change, analysis or current-evidence route where adequate. Remove an applicable basis constraint and the structural decision loses that limit; remove invented certification machinery in a nontrigger setting and ordinary technical work may continue. No-change remains an option when no justified structural investment exists.",
+        "reentry": "Changed applicable basis, version incorporation, candidate/configuration boundary, objective or actual delegated change route.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity"
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence"
+          },
+          {
+            "control": "C28",
+            "case": "no_change_boundary"
+          }
+        ],
+        "analytical_case_ids": [
+          "B33-I015-AC02"
+        ],
+        "finite_control_scope": "Reasoned actual-basis dependency illustrated with unchanged old technical records, not an executed regulator or blanket reapproval requirement.",
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-08",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P015",
+        "entry_row": [
+          "LAW-L3::EW-P015->LAW-L2::EA-08",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P015",
+            "capsule": {
+              "path": "reading/i015/native/EW-P015.json",
+              "bytes": 7294,
+              "sha256": "b22270979f39076d1735918b76595492e60e6d72d2e7a5bb4653d8d328578479"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14"
+            },
+            "selected_ref": null,
+            "native_status": "HIGH_CONSEQUENCE_CONTEXT_PROPERTY",
+            "selected_criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i015/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "038d899cd2d712c08a1b6501a2a3cdf2d01164d051894dd7bdcea0a657419017"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P015::MECHANISM",
+            "LAW-L3::EW-P015::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P015::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P015::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P015::REQUALIFICATION.total_cost_and_tradeoff"
+          ],
+          "receiver": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition",
+            "LAW-L2::EA-08::selected.simpler_path_and_cost"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I015-F01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "5c99636f1b5651d934be0f96a98d32f8080fd98cacb1a7102f13b0819979d78e"
+          },
+          {
+            "factor_id": "B33-I015-F02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "eefe98fde6abc2a928ac58348ee9ee8449aea6f80be6cc6a18046f4daea8a3b7"
+          },
+          {
+            "factor_id": "B33-I015-F03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "80ba08655d86724bffecd22ee545541db937747eae210ea862d6593e47c44a21"
+          }
+        ],
+        "analytical_case_bindings": [
+          {
+            "case_id": "B33-I015-AC02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/analytical_cases/1",
+            "canonical_value_sha256": "715f44190f1f17d1e8ea245a78f1da7c54903039b5cb7a150a26494e2cf9ff1f",
+            "evidence_kind": "REASONED_POSSIBLE_CONTEXTS_NOT_EXECUTION"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "1a61b727800912bd6a22315ae34ffe6074c8fb5ec772fa4320fb51ff93b68ed6",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Reasoned actual-basis dependency illustrated with unchanged old technical records, not an executed regulator or blanket reapproval requirement.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "2bed18665421c143c65f773ea61168a5c8200368a497f595217374bebcc09e8b",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Reasoned actual-basis dependency illustrated with unchanged old technical records, not an executed regulator or blanket reapproval requirement.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "no_change_boundary",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/7",
+            "canonical_value_sha256": "1c906b7e022b0ce9041c8510efc4e5d765734c145f46a8e0ab884f16cc62d4d0",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Reasoned actual-basis dependency illustrated with unchanged old technical records, not an executed regulator or blanket reapproval requirement.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I015-D05",
+        "source": "LAW-L2::EA-08",
+        "receiver": "LAW-L3::EW-P016",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "argument_factors": [
+          "B33-I015-F01",
+          "B33-I015-F02",
+          "B33-I015-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "selected.proposition"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "shared_object": "The actual structural proposal, preservation claim, dependencies or economic claim being technically challenged.",
+        "guard": "An actual challenge inquiry consumes the changed sources, claimed preservation domain, affected consumers or change-cost rationale to identify and assess a relevant critical claim. Useful content can be supplied before every independence or access condition of the arrangement is established.",
+        "source_contribution": "Structural work exposes a concrete candidate and rationale that can be questioned: which semantics are preserved, which consumers change and what source-delta facts actually support the claimed benefit. This gives the challenger a subject and testable or analyzable premises.",
+        "receiving_consequence": "The challenger can target a boundary, dispute an unsupported economic inference, request missing source/context or distinguish a valid direct alternative. Supplying information does not prove that the person receiving it has sufficient independence, competence or corrective authority.",
+        "remaining_premises": "Actual competence, adequate access, protected escalation, relevant separation and timely feedback are independently required where relied upon. Author-created independent literal oracles are not an independently conducted review.",
+        "positive_witness": "C28 exposes V3's nominal pass/boundary failure, the two consumers affected by one helper edit and a valid complete direct alternative. Those are concrete issues for actual technical challenge of a structural claim. AC03 distinguishes useful content from the quality and freedom of the challenge arrangement.",
+        "nontrigger_or_counterexample": "A vague debt score without a concrete claim or actual challenger supplies no such relation. A reviewer seeing only a selected green summary may miss the available discrepancy; merely adding a team name does not establish access or independence. C28 did not itself execute an independent review.",
+        "cheap_alternative_and_removal": "An accessible small diff, existing criterion/result and competent peer challenge may be sufficient where consequence and binding rules allow. Remove the actual subject/rationale/evidence and the inquiry loses its content; remove a standing separate organization while an adequate challenge arrangement remains and the function may survive.",
+        "reentry": "Changed claim, source, dependency scope, economic assertion, access, challenger competence, independence or consequence.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          },
+          {
+            "control": "C28",
+            "case": "shared_edit_has_two_consumers"
+          },
+          {
+            "control": "C28",
+            "case": "actual_future_edit_and_direct_alternative"
+          }
+        ],
+        "analytical_case_ids": [
+          "B33-I015-AC03"
+        ],
+        "finite_control_scope": "Old author-created technical counterexamples, not findings produced by a genuinely independent reviewer or a causal estimate of review benefit.",
+        "direction_key": "LAW-L2::EA-08->LAW-L3::EW-P016",
+        "reverse_direction_key": "LAW-L3::EW-P016->LAW-L2::EA-08",
+        "entry_row": [
+          "LAW-L2::EA-08->LAW-L3::EW-P016",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i015/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "038d899cd2d712c08a1b6501a2a3cdf2d01164d051894dd7bdcea0a657419017"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P016",
+            "capsule": {
+              "path": "reading/i015/native/EW-P016.json",
+              "bytes": 7183,
+              "sha256": "f827ef47acce58fe20e94d77c6495bc18e481101f48dc470ffb4cc51b61c87e9"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15"
+            },
+            "selected_ref": null,
+            "native_status": "HIGH_CONSEQUENCE_CONTEXT_PROPERTY",
+            "selected_criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-08::selected.proposition"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P016::MECHANISM",
+            "LAW-L3::EW-P016::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P016::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P016::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I015-F01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "5c99636f1b5651d934be0f96a98d32f8080fd98cacb1a7102f13b0819979d78e"
+          },
+          {
+            "factor_id": "B33-I015-F02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "eefe98fde6abc2a928ac58348ee9ee8449aea6f80be6cc6a18046f4daea8a3b7"
+          },
+          {
+            "factor_id": "B33-I015-F03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "80ba08655d86724bffecd22ee545541db937747eae210ea862d6593e47c44a21"
+          }
+        ],
+        "analytical_case_bindings": [
+          {
+            "case_id": "B33-I015-AC03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/analytical_cases/2",
+            "canonical_value_sha256": "b61b4a151be1beda8b464f2cd45e4aca09b0d6951f0f2dcd4fe819d12bb5f57b",
+            "evidence_kind": "REASONED_POSSIBLE_CONTEXTS_NOT_EXECUTION"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old author-created technical counterexamples, not findings produced by a genuinely independent reviewer or a causal estimate of review benefit.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "shared_edit_has_two_consumers",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/3",
+            "canonical_value_sha256": "11eb75690041bf6d45e0e6929774ee80a871db50b0f96666ce1b5ec2ae42a883",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old author-created technical counterexamples, not findings produced by a genuinely independent reviewer or a causal estimate of review benefit.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "actual_future_edit_and_direct_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "01422db783745e55ed679c6f6ddb48220784dee458895a718006e2e8225284d4",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old author-created technical counterexamples, not findings produced by a genuinely independent reviewer or a causal estimate of review benefit.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I015-D06",
+        "source": "LAW-L3::EW-P016",
+        "receiver": "LAW-L2::EA-08",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I015-F01",
+          "B33-I015-F02",
+          "B33-I015-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "selected.proposition"
+        ],
+        "shared_object": "A specific credible technical finding, contrary argument or access/assumption gap actually returned to the structural decision.",
+        "guard": "The structural decision consumes an actual challenge finding relevant to its preservation, dependency or economic claim. A useful finding need not await complete assurance or proof of every reviewer-arrangement premise; credible independence is a separate claim and is not inferred from a label.",
+        "source_contribution": "Competent challenge can identify a necessary failed boundary, an unsupported source-to-deployment bridge, hidden consumers or an economic overclaim, and make that concern available for correction rather than suppression.",
+        "receiving_consequence": "Structural work can repair or narrow the claim, retain a valid alternative, request missing evidence or leave a real uncertainty explicit. A real returned finding can matter without proving that all restructuring is beneficial or that every independent review improves reliability.",
+        "remaining_premises": "The finding must be valid and correspond to the actual candidate/purpose; the responsible actor must respond appropriately. Competence, access and independence claims remain separately assessed, and there is no measured universal return on review cost.",
+        "positive_witness": "C28's input4 failure is the kind of concrete necessary-premise contradiction that an actual challenger could return; its complete-source analysis is an alternative that a finding should not incorrectly exclude. AC03 is explicitly reasoned: no independent reviewer actually produced these old author-controlled results.",
+        "nontrigger_or_counterexample": "A duplicate endorsement, irrelevant criticism or an unsupported demand for another run supplies no valid corrective information. A different team name with no effective access/freedom does not establish credible challenge, while an already adequate current result need not be reproduced to appear independent.",
+        "cheap_alternative_and_removal": "Use a proportionate competent peer or embedded challenge where permitted, with relevant current evidence or analysis. Remove the actual valid finding and the structural decision loses that corrective input; remove duplicated process while preserving the challenge and the function remains. An invalid finding should be rejected on evidence, not obeyed for its label.",
+        "reentry": "Changed candidate, criterion, contrary finding, evidence correspondence, response, independence condition or consequence.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative"
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence"
+          }
+        ],
+        "analytical_case_ids": [
+          "B33-I015-AC03"
+        ],
+        "finite_control_scope": "A technical discriminator and valid alternatives are recorded; independent production of a finding and actual corrective uptake are not observed by this construction.",
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-08",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P016",
+        "entry_row": [
+          "LAW-L3::EW-P016->LAW-L2::EA-08",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P016",
+            "capsule": {
+              "path": "reading/i015/native/EW-P016.json",
+              "bytes": 7183,
+              "sha256": "f827ef47acce58fe20e94d77c6495bc18e481101f48dc470ffb4cc51b61c87e9"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15"
+            },
+            "selected_ref": null,
+            "native_status": "HIGH_CONSEQUENCE_CONTEXT_PROPERTY",
+            "selected_criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i015/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "038d899cd2d712c08a1b6501a2a3cdf2d01164d051894dd7bdcea0a657419017"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P016::MECHANISM",
+            "LAW-L3::EW-P016::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P016::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P016::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ],
+          "receiver": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-08::selected.proposition"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I015-F01",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "5c99636f1b5651d934be0f96a98d32f8080fd98cacb1a7102f13b0819979d78e"
+          },
+          {
+            "factor_id": "B33-I015-F02",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "eefe98fde6abc2a928ac58348ee9ee8449aea6f80be6cc6a18046f4daea8a3b7"
+          },
+          {
+            "factor_id": "B33-I015-F03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "80ba08655d86724bffecd22ee545541db937747eae210ea862d6593e47c44a21"
+          }
+        ],
+        "analytical_case_bindings": [
+          {
+            "case_id": "B33-I015-AC03",
+            "source": {
+              "path": "authoring/B33_I015_LITERAL_ARGUMENTS.json",
+              "bytes": 28824,
+              "sha256": "389784fe489164aa6e14ce7532cbd272b0b98017a4fec819d6d802bb162629c8"
+            },
+            "pointer": "/analytical_cases/2",
+            "canonical_value_sha256": "b61b4a151be1beda8b464f2cd45e4aca09b0d6951f0f2dcd4fe819d12bb5f57b",
+            "evidence_kind": "REASONED_POSSIBLE_CONTEXTS_NOT_EXECUTION"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "A technical discriminator and valid alternatives are recorded; independent production of a finding and actual corrective uptake are not observed by this construction.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "d423c39ad2b3f7df3bfb74aec44e2a7b0fa0ba5bbb0c878a289c24a35f645d10",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "A technical discriminator and valid alternatives are recorded; independent production of a finding and actual corrective uptake are not observed by this construction.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "2bed18665421c143c65f773ea61168a5c8200368a497f595217374bebcc09e8b",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "A technical discriminator and valid alternatives are recorded; independent production of a finding and actual corrective uptake are not observed by this construction.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      }
+    ],
+    "scientific_verdicts_computed": false
+  }
+}

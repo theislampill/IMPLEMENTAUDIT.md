@@ -1,0 +1,858 @@
+{
+  "source_identity": {
+    "source_id": "S-5dd9cbd2e8b59c55",
+    "scientific_name": "SB-R3-076_EA18_F12_REVERSE.json",
+    "original_bytes": 65016,
+    "original_sha256": "5dd9cbd2e8b59c552dd370c90bfa89663644feab595b196b60568e6cfc9c76db"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-076",
+    "title": "EA-18_REVERSE_RESPONSIBILITY_KNOWLEDGE_AND_AUTHORITY",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T02:26:46.008419+00:00",
+    "inquiry_family": 12,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_011.json",
+      "bytes": 1939,
+      "sha256": "af045a3e5335bd4ef49b7dc4fe426b7673195bdbcad9e731dc9ed5de6638809b"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY12_NATIVE_MEANINGS.json",
+      "bytes": 104023,
+      "sha256": "928650cb596b2c1d87704137d61c7e05e7adaaf3ae948c8775c39e33464217ab"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY12_COMPLETE_CORE_LITERAL_ARGUMENTS.json",
+      "bytes": 41703,
+      "sha256": "6126864a1a39073b7e15aa3f523bc870723f4dc529ddc31290a434226923e308"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY12_CONTROLS.json",
+      "bytes": 6479,
+      "sha256": "e656678df1e5f965e2e56f37071108b41792a0106b4f1e243fb7a873491df8da"
+    },
+    "bounded_interface_domain": [
+      "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+      "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+      "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+      "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+      "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+    ],
+    "native_common_basis": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+    "common_cost_and_alternative": [
+      "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+      "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+      "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+      "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+    ],
+    "evidence_ceiling": "Root literal analytical arguments from the complete selected native bodies and eight executed finite discriminators. One bounded NASA standard corroborates scoped distinctions, not universal authority requirements or causal effect sizes. No new property, field experiment, whole-synthesis completion or independent acceptance.",
+    "common_subconditions": {
+      "P1": "The literal common object and actual receiving use exist.",
+      "P2": "Both complete native meanings govern, including nontriggers and limits.",
+      "P3": "The separately reasoned partial contribution follows under its actual scope.",
+      "P4": "Residual premises, stronger-claim witnesses, alternatives and re-entry remain."
+    },
+    "inference": "The named input changes the specified receiving inquiry, capability or decision under its guard. It does not grant another role, certify a whole object, establish causal superiority or create a new implementation requirement.",
+    "common_source_dependence": "One scoped NASA primary standard; multiple retrieved passages count once. Existing selected native sources retain their evidence ceilings.",
+    "exceptions": [],
+    "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-18",
+        "argument": "Impact analysis and the actual change route expose the boundary within which local decisions are delegated and the effects that require another authority."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-18",
+        "argument": "The recipient's scope, criteria and retained exception authority specify which acceptance decisions may be delegated and where local discretion ends."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-18",
+        "argument": "The applicable issuer and certification change route bound local discretion and identify actions that the delegation cannot privately waive."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-18",
+        "argument": "The required independence, information access and disposition boundaries specify constraints that the challenge team's autonomy must satisfy."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-18",
+        "argument": "The argument's shared assumptions and residual-risk ownership expose the system constraints that must bound the local team's decisions."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-18",
+        "argument": "Binding duties, consequential risks and admissible tailoring options delimit the control choices the team can make locally."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-18",
+        "argument": "Model authority, semantics, access and reconciled system scope supply concrete information and constraints for the team's local engineering decision."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-18",
+        "argument": "The actual risk owner's scope, expiry and stop conditions define the permissible local action space and escalation boundary."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-18",
+        "overclaim": "A change board can hold every decision while local information remains inaccessible; formal change control alone does not create useful autonomy.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-18",
+        "overclaim": "A recipient can validly retain acceptance centrally; that decision does not imply a generally autonomous delivery team.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-18",
+        "overclaim": "A certificate can be issued for a centrally controlled project; it does not establish beneficial decentralized decision making.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-18",
+        "overclaim": "An externally independent reviewer with no competence or access still cannot make sound autonomous technical decisions.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-18",
+        "overclaim": "A written assurance case cannot confer a delegation that the responsible authority never granted.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-18",
+        "overclaim": "A proportionate centrally selected control package does not itself place skills or authority near the work.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-18",
+        "overclaim": "A shared authoritative model can be inaccessible to the team or leave every decision centralized; it does not imply useful local autonomy.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-18",
+        "overclaim": "A valid risk acceptance signed centrally does not establish team competence or general authority for later decisions.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L3::EW-P008->LAW-L2::EA-18",
+      "LAW-L3::EW-P014->LAW-L2::EA-18",
+      "LAW-L3::EW-P015->LAW-L2::EA-18",
+      "LAW-L3::EW-P016->LAW-L2::EA-18",
+      "LAW-L3::EW-P019->LAW-L2::EA-18",
+      "LAW-L3::EW-P024->LAW-L2::EA-18",
+      "LAW-L3::EW-P030->LAW-L2::EA-18",
+      "LAW-L3::EW-P032->LAW-L2::EA-18"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-18",
+        "source_native_id": "EW-P008",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "A local team's proposed change inside a defined delegation, with identified effects on other commitments.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Impact analysis and the actual change route expose the boundary within which local decisions are delegated and the effects that require another authority.",
+        "receiving_consequence": "Impact analysis and the actual change route expose the boundary within which local decisions are delegated and the effects that require another authority.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Impact analysis and the actual change route expose the boundary within which local decisions are delegated and the effects that require another authority."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A change board can hold every decision while local information remains inaccessible; formal change control alone does not create useful autonomy.",
+        "counter_control": "A change board can hold every decision while local information remains inaccessible; formal change control alone does not create useful autonomy.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P008",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "A local team's proposed change inside a defined delegation, with identified effects on other commitments.",
+          "literal_bridge": "Impact analysis and the actual change route expose the boundary within which local decisions are delegated and the effects that require another authority."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-18",
+        "source_native_id": "EW-P014",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "A local team acting as the explicitly delegated recipient for an identified delivery.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The recipient's scope, criteria and retained exception authority specify which acceptance decisions may be delegated and where local discretion ends.",
+        "receiving_consequence": "The recipient's scope, criteria and retained exception authority specify which acceptance decisions may be delegated and where local discretion ends.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The recipient's scope, criteria and retained exception authority specify which acceptance decisions may be delegated and where local discretion ends."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A recipient can validly retain acceptance centrally; that decision does not imply a generally autonomous delivery team.",
+        "counter_control": "A recipient can validly retain acceptance centrally; that decision does not imply a generally autonomous delivery team.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P014",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "A local team acting as the explicitly delegated recipient for an identified delivery.",
+          "literal_bridge": "The recipient's scope, criteria and retained exception authority specify which acceptance decisions may be delegated and where local discretion ends."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L2::EA-18",
+        "source_native_id": "EW-P015",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14",
+          "expected_native_id": "EW-P015"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "A team decision within an actual certification process and its explicitly permitted delegation.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A certification or regulatory credit claim",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The applicable issuer and certification change route bound local discretion and identify actions that the delegation cannot privately waive.",
+        "receiving_consequence": "The applicable issuer and certification change route bound local discretion and identify actions that the delegation cannot privately waive.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The applicable issuer and certification change route bound local discretion and identify actions that the delegation cannot privately waive."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A certificate can be issued for a centrally controlled project; it does not establish beneficial decentralized decision making.",
+        "counter_control": "A certificate can be issued for a centrally controlled project; it does not establish beneficial decentralized decision making.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P015",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A certification or regulatory credit claim",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "A team decision within an actual certification process and its explicitly permitted delegation.",
+          "literal_bridge": "The applicable issuer and certification change route bound local discretion and identify actions that the delegation cannot privately waive."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L2::EA-18",
+        "source_native_id": "EW-P016",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15",
+          "expected_native_id": "EW-P016"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "A technical challenge team's actual method or finding-disposition decisions, with a defined delegation and protected constraints.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The required independence, information access and disposition boundaries specify constraints that the challenge team's autonomy must satisfy.",
+        "receiving_consequence": "The required independence, information access and disposition boundaries specify constraints that the challenge team's autonomy must satisfy.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The required independence, information access and disposition boundaries specify constraints that the challenge team's autonomy must satisfy."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "An externally independent reviewer with no competence or access still cannot make sound autonomous technical decisions.",
+        "counter_control": "An externally independent reviewer with no competence or access still cannot make sound autonomous technical decisions.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P016",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "A technical challenge team's actual method or finding-disposition decisions, with a defined delegation and protected constraints.",
+          "literal_bridge": "The required independence, information access and disposition boundaries specify constraints that the challenge team's autonomy must satisfy."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-18",
+        "source_native_id": "EW-P019",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "An assurance argument containing claims about decisions made by a locally delegated team.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The argument's shared assumptions and residual-risk ownership expose the system constraints that must bound the local team's decisions.",
+        "receiving_consequence": "The argument's shared assumptions and residual-risk ownership expose the system constraints that must bound the local team's decisions.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The argument's shared assumptions and residual-risk ownership expose the system constraints that must bound the local team's decisions."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A written assurance case cannot confer a delegation that the responsible authority never granted.",
+        "counter_control": "A written assurance case cannot confer a delegation that the responsible authority never granted.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P019",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "An assurance argument containing claims about decisions made by a locally delegated team.",
+          "literal_bridge": "The argument's shared assumptions and residual-risk ownership expose the system constraints that must bound the local team's decisions."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-18",
+        "source_native_id": "EW-P024",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "A local team's choice among assurance activities inside an actual, bounded tailoring delegation.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "Selection of assurance activities for a context",
+            "criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Binding duties, consequential risks and admissible tailoring options delimit the control choices the team can make locally.",
+        "receiving_consequence": "Binding duties, consequential risks and admissible tailoring options delimit the control choices the team can make locally.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Binding duties, consequential risks and admissible tailoring options delimit the control choices the team can make locally."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A proportionate centrally selected control package does not itself place skills or authority near the work.",
+        "counter_control": "A proportionate centrally selected control package does not itself place skills or authority near the work.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P024",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "Selection of assurance activities for a context",
+            "criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "A local team's choice among assurance activities inside an actual, bounded tailoring delegation.",
+          "literal_bridge": "Binding duties, consequential risks and admissible tailoring options delimit the control choices the team can make locally."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-18",
+        "source_native_id": "EW-P030",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "A delegated engineering decision made from a specifically identified authoritative model.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An authoritative engineering model or digital environment",
+            "criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Model authority, semantics, access and reconciled system scope supply concrete information and constraints for the team's local engineering decision.",
+        "receiving_consequence": "Model authority, semantics, access and reconciled system scope supply concrete information and constraints for the team's local engineering decision.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Model authority, semantics, access and reconciled system scope supply concrete information and constraints for the team's local engineering decision."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A shared authoritative model can be inaccessible to the team or leave every decision centralized; it does not imply useful local autonomy.",
+        "counter_control": "A shared authoritative model can be inaccessible to the team or leave every decision centralized; it does not imply useful local autonomy.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P030",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An authoritative engineering model or digital environment",
+            "criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "A delegated engineering decision made from a specifically identified authoritative model.",
+          "literal_bridge": "Model authority, semantics, access and reconciled system scope supply concrete information and constraints for the team's local engineering decision."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-18",
+        "source_native_id": "EW-P032",
+        "receiving_native_id": "EA-18",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/17",
+          "expected_native_id": "EA-18",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/17",
+            "expected_native_id": "AGQ-EA-18"
+          }
+        },
+        "shared_question_or_object": "A team's consequential operational choice within an explicit risk-acceptance delegation and operating boundary.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "receiver": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The actual risk owner's scope, expiry and stop conditions define the permissible local action space and escalation boundary.",
+        "receiving_consequence": "The actual risk owner's scope, expiry and stop conditions define the permissible local action space and escalation boundary.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The actual risk owner's scope, expiry and stop conditions define the permissible local action space and escalation boundary."
+        ],
+        "premises_remaining": [
+          "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A valid risk acceptance signed centrally does not establish team competence or general authority for later decisions.",
+        "counter_control": "A valid risk acceptance signed centrally does not establish team competence or general authority for later decisions.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L2::EA-18->LAW-L3::EW-P032",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A team decision inside a defined responsibility boundary and with required competencies available.",
+            "criterion": "Delegate decisions where local information helps while retaining explicit system, assurance and capacity constraints."
+          },
+          "actual_object": "A team's consequential operational choice within an explicit risk-acceptance delegation and operating boundary.",
+          "literal_bridge": "The actual risk owner's scope, expiry and stop conditions define the permissible local action space and escalation boundary."
+        }
+      }
+    ],
+    "independent_review_scope": "Every literal membership, shared premise, native correspondence, counterexample, evidence ceiling and complete study remain for fidelity and distinct adversarial review."
+  }
+}

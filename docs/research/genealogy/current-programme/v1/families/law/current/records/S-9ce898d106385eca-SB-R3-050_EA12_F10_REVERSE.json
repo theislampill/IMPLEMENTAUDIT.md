@@ -1,0 +1,1046 @@
+{
+  "source_identity": {
+    "source_id": "S-9ce898d106385eca",
+    "scientific_name": "SB-R3-050_EA12_F10_REVERSE.json",
+    "original_bytes": 78986,
+    "original_sha256": "9ce898d106385ecac835a0d909847c9bd2bf46140c3ae20174ba0c29bf5f82bd"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-050",
+    "title": "EA-12_REVERSE_FEEDBACK_RISK_AND_COMMITMENT",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T00:56:37.976621+00:00",
+    "inquiry_family": 10,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_009.json",
+      "bytes": 2255,
+      "sha256": "30275ce0d0497e756226547c0fd20c982874b60d4bd54e5f3a1ad3c104ed3ac1"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY10_REMAINING132_NATIVE_MEANINGS.json",
+      "bytes": 125638,
+      "sha256": "12f74b20f49c095ce5835481b375996e084ded0910c6ac801a8ea94c07bc5c57"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY10_REMAINING132_LITERAL_ARGUMENTS.json",
+      "bytes": 51404,
+      "sha256": "e33fcc9f5b481afe2eccc596d417a3f4baca77c022211e6881530d5f46bfafd2"
+    },
+    "bounded_interface_domain": [
+      "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+      "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+      "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+      "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+      "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+    ],
+    "native_common_basis": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+    "common_cost_and_alternative": [
+      "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+      "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+      "No addition is warranted solely because another named method could be introduced.",
+      "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+    ],
+    "evidence_ceiling": "Conditional root analytical arguments from exact accepted native mechanisms. No new primary-body access, empirical effect, universal cadence, independent review, new property identity or scientific qualification claimed.",
+    "common_subconditions": {
+      "P1": "Actual common question, object and receiving use.",
+      "P2": "Exact native meaning and accepted overlay.",
+      "P3": "The separately reasoned partial consequence.",
+      "P4": "Counterexample, absent guard, remaining premises, cost, alternative and reentry."
+    },
+    "inference": "The specified partial input can materially change a decision premise or warrant even when the action is confirmed. No universal cadence, symmetric equivalence, temporal chain or requirement to add a new control follows.",
+    "common_source_dependence": "Shared evidence, method ancestry, prototype or model is not independent support twice.",
+    "exceptions": [],
+    "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-12",
+        "argument": "The authoritative intended outcome, unresolved assumptions and revision owner define which user questions matter and where findings can affect dependent decisions."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-12",
+        "argument": "The explicit uncertain premise and dependent decision give the user inquiry a discriminating purpose rather than collecting feedback without a question."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-12",
+        "argument": "Architecture and feasibility constraints identify the particular use conditions and tradeoffs that must be investigated with actual users before commitment."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-12",
+        "argument": "A focused prototype or thin increment supplies a concrete intervention and observable task against which user assumptions can be examined."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-12",
+        "argument": "Explicit intended-use conditions and validation outcomes distinguish relevant user evidence from preferences unrelated to the actual system purpose."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-12",
+        "argument": "The actual decision criteria, options and authority explain which user findings can change reliance and who may act on them."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-12",
+        "argument": "The separable commitment, funding horizon and option expiry identify when user evidence must arrive to remain decision-relevant."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-12",
+        "argument": "The actual lifecycle and integration boundaries identify which user questions need system-level evidence and how findings reach dependent work."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-12",
+        "argument": "The tailored obligations and justified alternatives define admissible channels, required coverage and safeguards for user inquiry."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-12",
+        "argument": "Explicit forecast assumptions, uncertainty and comparable reference cases identify which user premises most need validation and the horizon of relevance."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-12",
+        "argument": "The actual consequence, recovery and test constraints determine how representative and protective the user inquiry must be before reliance."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-12",
+        "overclaim": "An approved requirement is not proof that users need it; authority cannot substitute for representative problem evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-12",
+        "overclaim": "A carefully worded learning obligation does not make available participants representative or their statements accurate.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-12",
+        "overclaim": "A feasible architecture can solve the wrong problem; technical constraints do not authorize excluding inconvenient user evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-12",
+        "overclaim": "A prototype changes the observation setting and may induce novelty effects; its success is not general product-value evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-12",
+        "overclaim": "A formal validation plan does not ensure representative access or truthful observations; a correctly authorized proxy can still be sufficient for a narrow stable interface.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-12",
+        "overclaim": "A review board can approve a proposal despite unrepresentative evidence; formal approval supplies no missing user observation.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-12",
+        "overclaim": "A small funding stage does not itself create representative access or make a weak user signal credible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-12",
+        "overclaim": "Iteration permission alone does not confer access, representation or authority to revise commitments.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-12",
+        "overclaim": "A tailored process can still collect biased evidence; documentation of a proxy does not validate its representativeness.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-12",
+        "overclaim": "A precise adoption forecast cannot substitute for actual problem evidence; reference populations may differ from the affected users.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-12",
+        "overclaim": "A high control category does not establish that the right users were consulted or that their needs were understood.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L3::EW-P001->LAW-L2::EA-12",
+      "LAW-L3::EW-P002->LAW-L2::EA-12",
+      "LAW-L3::EW-P003->LAW-L2::EA-12",
+      "LAW-L3::EW-P004->LAW-L2::EA-12",
+      "LAW-L3::EW-P012->LAW-L2::EA-12",
+      "LAW-L3::EW-P021->LAW-L2::EA-12",
+      "LAW-L3::EW-P022->LAW-L2::EA-12",
+      "LAW-L3::EW-P023->LAW-L2::EA-12",
+      "LAW-L3::EW-P024->LAW-L2::EA-12",
+      "LAW-L3::EW-P025->LAW-L2::EA-12",
+      "LAW-L3::EW-P033->LAW-L2::EA-12"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-12",
+        "source_native_id": "EW-P001",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "An operative intent baseline represents the needs of an identifiable affected population.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A shared engineering intent state",
+          "source_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The authoritative intended outcome, unresolved assumptions and revision owner define which user questions matter and where findings can affect dependent decisions.",
+        "receiving_consequence": "The authoritative intended outcome, unresolved assumptions and revision owner define which user questions matter and where findings can affect dependent decisions.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The authoritative intended outcome, unresolved assumptions and revision owner define which user questions matter and where findings can affect dependent decisions."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An approved requirement is not proof that users need it; authority cannot substitute for representative problem evidence.",
+        "counter_control": "An approved requirement is not proof that users need it; authority cannot substitute for representative problem evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P001",
+        "member_to_common_premise": {
+          "source_bearer": "A shared engineering intent state",
+          "source_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "An operative intent baseline represents the needs of an identifiable affected population.",
+          "literal_bridge": "The authoritative intended outcome, unresolved assumptions and revision owner define which user questions matter and where findings can affect dependent decisions."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-12",
+        "source_native_id": "EW-P002",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "A product assumption about users or context remains uncertain.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "source_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The explicit uncertain premise and dependent decision give the user inquiry a discriminating purpose rather than collecting feedback without a question.",
+        "receiving_consequence": "The explicit uncertain premise and dependent decision give the user inquiry a discriminating purpose rather than collecting feedback without a question.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The explicit uncertain premise and dependent decision give the user inquiry a discriminating purpose rather than collecting feedback without a question."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A carefully worded learning obligation does not make available participants representative or their statements accurate.",
+        "counter_control": "A carefully worded learning obligation does not make available participants representative or their statements accurate.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P002",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "source_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "A product assumption about users or context remains uncertain.",
+          "literal_bridge": "The explicit uncertain premise and dependent decision give the user inquiry a discriminating purpose rather than collecting feedback without a question."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-12",
+        "source_native_id": "EW-P003",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "A consequential architectural quality or interface choice depends on actual use conditions.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Architecture and feasibility constraints identify the particular use conditions and tradeoffs that must be investigated with actual users before commitment.",
+        "receiving_consequence": "Architecture and feasibility constraints identify the particular use conditions and tradeoffs that must be investigated with actual users before commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Architecture and feasibility constraints identify the particular use conditions and tradeoffs that must be investigated with actual users before commitment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A feasible architecture can solve the wrong problem; technical constraints do not authorize excluding inconvenient user evidence.",
+        "counter_control": "A feasible architecture can solve the wrong problem; technical constraints do not authorize excluding inconvenient user evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P003",
+        "member_to_common_premise": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "A consequential architectural quality or interface choice depends on actual use conditions.",
+          "literal_bridge": "Architecture and feasibility constraints identify the particular use conditions and tradeoffs that must be investigated with actual users before commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-12",
+        "source_native_id": "EW-P004",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "An executable investigation tests a hypothesis about the same users or problem.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "A focused prototype or thin increment supplies a concrete intervention and observable task against which user assumptions can be examined.",
+        "receiving_consequence": "A focused prototype or thin increment supplies a concrete intervention and observable task against which user assumptions can be examined.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A focused prototype or thin increment supplies a concrete intervention and observable task against which user assumptions can be examined."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A prototype changes the observation setting and may induce novelty effects; its success is not general product-value evidence.",
+        "counter_control": "A prototype changes the observation setting and may induce novelty effects; its success is not general product-value evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P004",
+        "member_to_common_premise": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "An executable investigation tests a hypothesis about the same users or problem.",
+          "literal_bridge": "A focused prototype or thin increment supplies a concrete intervention and observable task against which user assumptions can be examined."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-12",
+        "source_native_id": "EW-P012",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "Validation concerns actual intended use and the population affected by it.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system or concept in its intended use and operating context",
+          "source_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Explicit intended-use conditions and validation outcomes distinguish relevant user evidence from preferences unrelated to the actual system purpose.",
+        "receiving_consequence": "Explicit intended-use conditions and validation outcomes distinguish relevant user evidence from preferences unrelated to the actual system purpose.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Explicit intended-use conditions and validation outcomes distinguish relevant user evidence from preferences unrelated to the actual system purpose."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A formal validation plan does not ensure representative access or truthful observations; a correctly authorized proxy can still be sufficient for a narrow stable interface.",
+        "counter_control": "A formal validation plan does not ensure representative access or truthful observations; a correctly authorized proxy can still be sufficient for a narrow stable interface.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P012",
+        "member_to_common_premise": {
+          "source_bearer": "A system or concept in its intended use and operating context",
+          "source_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "Validation concerns actual intended use and the population affected by it.",
+          "literal_bridge": "Explicit intended-use conditions and validation outcomes distinguish relevant user evidence from preferences unrelated to the actual system purpose."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-12",
+        "source_native_id": "EW-P021",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "A commitment decision relies on claims about user needs or operational fit.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "source_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual decision criteria, options and authority explain which user findings can change reliance and who may act on them.",
+        "receiving_consequence": "The actual decision criteria, options and authority explain which user findings can change reliance and who may act on them.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual decision criteria, options and authority explain which user findings can change reliance and who may act on them."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A review board can approve a proposal despite unrepresentative evidence; formal approval supplies no missing user observation.",
+        "counter_control": "A review board can approve a proposal despite unrepresentative evidence; formal approval supplies no missing user observation.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P021",
+        "member_to_common_premise": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "source_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "A commitment decision relies on claims about user needs or operational fit.",
+          "literal_bridge": "The actual decision criteria, options and authority explain which user findings can change reliance and who may act on them."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-12",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "A staged investment depends on learning whether the product addresses an actual problem.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "source_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The separable commitment, funding horizon and option expiry identify when user evidence must arrive to remain decision-relevant.",
+        "receiving_consequence": "The separable commitment, funding horizon and option expiry identify when user evidence must arrive to remain decision-relevant.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The separable commitment, funding horizon and option expiry identify when user evidence must arrive to remain decision-relevant."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A small funding stage does not itself create representative access or make a weak user signal credible.",
+        "counter_control": "A small funding stage does not itself create representative access or make a weak user signal credible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P022",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "source_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "A staged investment depends on learning whether the product addresses an actual problem.",
+          "literal_bridge": "The separable commitment, funding horizon and option expiry identify when user evidence must arrive to remain decision-relevant."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-12",
+        "source_native_id": "EW-P023",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22",
+          "expected_native_id": "EW-P023"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "Iterative or concurrent work must incorporate actual use evidence across system levels.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "source_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual lifecycle and integration boundaries identify which user questions need system-level evidence and how findings reach dependent work.",
+        "receiving_consequence": "The actual lifecycle and integration boundaries identify which user questions need system-level evidence and how findings reach dependent work.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual lifecycle and integration boundaries identify which user questions need system-level evidence and how findings reach dependent work."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Iteration permission alone does not confer access, representation or authority to revise commitments.",
+        "counter_control": "Iteration permission alone does not confer access, representation or authority to revise commitments.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P023",
+        "member_to_common_premise": {
+          "source_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "source_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "Iterative or concurrent work must incorporate actual use evidence across system levels.",
+          "literal_bridge": "The actual lifecycle and integration boundaries identify which user questions need system-level evidence and how findings reach dependent work."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-12",
+        "source_native_id": "EW-P024",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "Validation and communication controls are tailored for a particular user population and context.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "source_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The tailored obligations and justified alternatives define admissible channels, required coverage and safeguards for user inquiry.",
+        "receiving_consequence": "The tailored obligations and justified alternatives define admissible channels, required coverage and safeguards for user inquiry.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The tailored obligations and justified alternatives define admissible channels, required coverage and safeguards for user inquiry."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A tailored process can still collect biased evidence; documentation of a proxy does not validate its representativeness.",
+        "counter_control": "A tailored process can still collect biased evidence; documentation of a proxy does not validate its representativeness.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P024",
+        "member_to_common_premise": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "source_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "Validation and communication controls are tailored for a particular user population and context.",
+          "literal_bridge": "The tailored obligations and justified alternatives define admissible channels, required coverage and safeguards for user inquiry."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-12",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "A forecast includes assumptions about demand, adoption, workflow or user-caused rework.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "source_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Explicit forecast assumptions, uncertainty and comparable reference cases identify which user premises most need validation and the horizon of relevance.",
+        "receiving_consequence": "Explicit forecast assumptions, uncertainty and comparable reference cases identify which user premises most need validation and the horizon of relevance.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Explicit forecast assumptions, uncertainty and comparable reference cases identify which user premises most need validation and the horizon of relevance."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A precise adoption forecast cannot substitute for actual problem evidence; reference populations may differ from the affected users.",
+        "counter_control": "A precise adoption forecast cannot substitute for actual problem evidence; reference populations may differ from the affected users.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P025",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "source_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "A forecast includes assumptions about demand, adoption, workflow or user-caused rework.",
+          "literal_bridge": "Explicit forecast assumptions, uncertainty and comparable reference cases identify which user premises most need validation and the horizon of relevance."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-12",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EA-12",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/11",
+          "expected_native_id": "EA-12",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/11",
+            "expected_native_id": "AGQ-EA-12"
+          }
+        },
+        "shared_question_or_object": "Control strength depends on consequences experienced by actual users or operators.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "source_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual consequence, recovery and test constraints determine how representative and protective the user inquiry must be before reliance.",
+        "receiving_consequence": "The actual consequence, recovery and test constraints determine how representative and protective the user inquiry must be before reliance.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual consequence, recovery and test constraints determine how representative and protective the user inquiry must be before reliance."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A high control category does not establish that the right users were consulted or that their needs were understood.",
+        "counter_control": "A high control category does not establish that the right users were consulted or that their needs were understood.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-12->LAW-L3::EW-P033",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "source_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "receiving_bearer": "A product assumption about identifiable affected populations and an observable outcome.",
+          "receiving_criterion": "Use evidence from the relevant users, problem and operating environment; distinguish access, decision authority and representation.",
+          "actual_object": "Control strength depends on consequences experienced by actual users or operators.",
+          "literal_bridge": "The actual consequence, recovery and test constraints determine how representative and protective the user inquiry must be before reliance."
+        }
+      }
+    ],
+    "independent_review_scope": "Full common premise, literal membership, native scope and controls require later fidelity and separate adversarial assessment."
+  }
+}

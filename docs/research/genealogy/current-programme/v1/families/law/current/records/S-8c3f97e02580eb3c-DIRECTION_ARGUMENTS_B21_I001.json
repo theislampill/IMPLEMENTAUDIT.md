@@ -1,0 +1,1317 @@
+{
+  "source_identity": {
+    "source_id": "S-8c3f97e02580eb3c",
+    "scientific_name": "DIRECTION_ARGUMENTS_B21_I001.json",
+    "original_bytes": 84629,
+    "original_sha256": "8c3f97e02580eb3cea2158a3ba04e4a36ce41e6ef096537275c3f85ebdc1ea68"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b21-explicit-direction-arguments/1",
+    "identity": "B21-I001",
+    "at_utc": "2026-11-12T16:46:10.657411+00:00",
+    "common_literal": {
+      "schema": "law-b21-literal-author-directions/1",
+      "identity": "B21-I001-ADMISSION-CAPACITY-AND-EVIDENCE-WORK",
+      "authorship": "Each direction below was separately reasoned from the complete native records and selected companions. The eight candidate pairs were questions; no membership is generated from a Cartesian rule or a desired count.",
+      "common_guard": {
+        "population": "A particular work class with stable identity, actual arrival/start/finish meanings, relevant service boundary and observation horizon. The member states the concrete integration, review or assurance work; a different private tool or generic organizational co-use does not satisfy the guard.",
+        "receiving_use": "The contributed bound, evidence, work definition or capacity information is actually consumed by the named receiving decision. A shared label, possible later application or an unused dashboard is insufficient.",
+        "authority": "Admission, priority, integration repair and consequential commitment rights are distinct. A bound, forecast, passed test or shorter queue creates none of these rights. An existing authorized actor may retain the same final action after using a material partial input.",
+        "unknown": "Known absence defeats this particular guarded route. Unestablished correspondence remains unknown rather than a global negative. These conditional material judgments do not assert that any particular organization satisfies their guards.",
+        "partial_effect": "A genuine partial contribution need not prove the whole receiver, a whole safe system, net benefit or a changed final action. Narrow integrated evidence can be useful while other evidence, value, safety and authority remain unresolved."
+      },
+      "common_evidence_ceiling": "Native mechanisms, selected method definitions and analytical source accounts support conditional receiving inferences. B21-C20 is an invented finite discriminator. No empirical software-effect estimate, optimal cap, current legal determination, independent review, new historical transmission or whole-study qualification is claimed.",
+      "common_cost_and_dependence": "Count the same admission mechanism, representative test environment, mainline repair effort and decision service once when shared across lineages. Include item-definition work, pre-entry delay, service-class exceptions, production/evaluation capacity, qualification, maintenance, evidence interpretation, coordination, scarce-skill opportunity cost and removal. Apparent improvements that move work outside a boundary or omit failed attempts are not net gains. Evidence sources, reused guidance and the same model are not independent controls.",
+      "common_reentry": "Reopen every affected member and composition when work identity, finish definition, arrival mix, service variability, actual bottleneck, evidence configuration, oracle, authority, exception policy, applicable obligation or cheaper adequate path changes. No automatic symmetric or transitive inference follows."
+    },
+    "directions": [
+      {
+        "judgment_id": "B21-I001-D01",
+        "direction_key": "LAW-L1::EL-004->LAW-L2::EA-02",
+        "reverse_direction_key": "LAW-L2::EA-02->LAW-L1::EL-004",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D01",
+          "source": "EL-004",
+          "receiver": "EA-02",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "factor_mapping": {
+            "source": "active admission bound",
+            "receiver": "production of a named integrated-behavior result"
+          },
+          "shared_object": "The identified increments or integration-evaluation requests admitted before their relevant integrated-behavior result is available.",
+          "specific_guard": "The actual release rule covers this evidence-producing population, and its exceptions and finish condition are explicit. The integrated-evidence policy uses the number and identity of unfinished requests to decide what may start or what evidence work must next be completed. Counting unrelated planning tickets does not qualify.",
+          "source_contribution": "A genuine admission rule bounds the declared active requests while retaining the pre-entry population and service-class exceptions. This is a bound on unfinished work, not an observation of runtime behavior.",
+          "receiving_consequence": "EA-02 can constrain how many integrated increments are being worked on without the specified result and avoid interpreting more component starts as more integrated progress. The bound supplies one workload/exposure premise for arranging the next representative exercise; it does not establish that an increment works.",
+          "native_bridge": "EA-02 specifically prevents late integration and disconnected artifacts masquerading as progress, and repeatedly exercises actual integrated behavior. EL-004 acts on the unfinished work feeding that very exercise, rather than on an invented external vendor or tool. The conditional connection is the actual admitted evidence-work class.",
+          "remaining": "Configuration identity, representative environment, an appropriate oracle, coverage of the present claim, actual capacity and whether fewer simultaneous requests helps remain separate. A successful narrow integration result still need not establish user value or safety.",
+          "contrary": "A one-item cap can starve a scarce evaluator or hold a needed integration dependency, and a tidy one-item board can still end in a mocked happy-path demonstration. B21-C20 makes cap-induced starvation concrete without estimating a real optimum.",
+          "nontrigger": "The cap concerns a separate administrative population, or a one-off proof/model already adequately answers the actual claim with no accumulating integration work.",
+          "cheap_or_unchanged_path": "Keep an already naturally bounded test or integrated slice and explicit completion criterion. A brief finish-before-start rule can be sufficient; a permanent board and new platform are not implied.",
+          "removal": "Removing the enforced bound removes the asserted population constraint, but not the value of an already valid integrated result. Retain evidence work where required; remove only redundant admission apparatus when the same boundary is otherwise genuinely maintained.",
+          "source_basis": [
+            "L-CAP",
+            "A-EVIDENCE"
+          ],
+          "control_scope": [
+            "B21-C20 cap/total-time distinction",
+            "B10-C09 partial input remains material"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/0"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/0"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D02",
+        "direction_key": "LAW-L2::EA-02->LAW-L1::EL-004",
+        "reverse_direction_key": "LAW-L1::EL-004->LAW-L2::EA-02",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D02",
+          "source": "EA-02",
+          "receiver": "EL-004",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INTERPRETATION_QUALIFIER",
+            "INPUT_TO_DECISION"
+          ],
+          "factor_mapping": {
+            "source": "integrated evidence scope",
+            "receiver": "admission work and finish definition"
+          },
+          "shared_object": "An admission population whose stated completion condition is an integrated-behavior answer, rather than completion of isolated component tasks.",
+          "specific_guard": "The work class actually promises that evidence result. A claim, configuration and environment are named so the received result can be distinguished from a mere processing attempt. This does not force all WIP populations to use a software integration finish condition.",
+          "source_contribution": "EA-02 supplies what evidence matches this work item's behavioral claim, including the difference between real integration and mocked or disconnected demonstrations.",
+          "receiving_consequence": "EL-004 can define an honest finish boundary, prevent premature removal of unresolved integration work from its active count, and classify an informative failure as evidence even though the product is not approved. If the chosen item is only an evaluation attempt, that narrower finish remains permissible but must not be reported as a resolved behavior claim.",
+          "native_bridge": "A stable item definition is an explicit EL-004 precondition. The actual integrated claim in EA-02 gives a substantive completion meaning to this particular work class, not a universal definition of work or an enforcement mechanism.",
+          "remaining": "The receiving actor still needs the actual admission mechanism, enforcement, service classes, capacity, exception authority and total-demand observations. Usable evidence can be negative, incomplete for other claims, or followed by a legitimate hold.",
+          "contrary": "Closing ten component tasks or receiving a green result for a different configuration does not finish one promised integration claim. Conversely, a relevant failing test may complete an investigation while creating a distinct repair obligation; keeping every failure forever in the same item would also distort the population.",
+          "nontrigger": "The bounded population is unrelated to integrated behavior, or its declared output is only a processing attempt and no one infers evidence sufficiency from that completion.",
+          "cheap_or_unchanged_path": "Use a concise claim-and-result note tied to the existing configuration, or the appropriate proof, model or simulation. A named sprint demo and a new tracking tool are optional.",
+          "removal": "Removing this evidence-specific definition permits a false progress interpretation even if the numerical cap remains enforced. An equally adequate existing finish rule can supply the same meaning without duplicate checks.",
+          "source_basis": [
+            "A-EVIDENCE",
+            "L-CAP"
+          ],
+          "control_scope": [
+            "B21-C20 processing versus useful evidence",
+            "B10-C09 whole result need not change"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/1"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/0"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D03",
+        "direction_key": "LAW-L1::EL-009->LAW-L2::EA-02",
+        "reverse_direction_key": "LAW-L2::EA-02->LAW-L1::EL-009",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D03",
+          "source": "EL-009",
+          "receiver": "EA-02",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "factor_mapping": {
+            "source": "queue-aware service capacity",
+            "receiver": "timely representative integrated exercise"
+          },
+          "shared_object": "Actual integration-evaluation work competing for a finite representative environment, evaluator or other identified integration resource.",
+          "specific_guard": "There is demonstrated waiting, variable demand or a shared constrained resource in this evidence path, and loading choices affect when the relevant integrated result is obtained. Generic statements that all work takes time are excluded.",
+          "source_contribution": "EL-009 supplies the boundary-specific arrival, waiting, throughput and response-capacity picture, including whether upstream starts outrun the resource that can produce a representative result.",
+          "receiving_consequence": "EA-02 can schedule the relevant integrated exercise, preserve needed evaluation capacity or choose an adequate cheaper analysis, instead of optimizing component activity while the behavioral uncertainty waits. Actual queue information can change this policy without making the evidence itself sufficient.",
+          "native_bridge": "The native mechanism requires repeated exercise in a representative environment. Where that actual environment or evaluator is the constrained service, queue-aware loading directly changes the timing and feasible production of the named evidence; it is not merely an unrelated organizational efficiency claim.",
+          "remaining": "The actual test's identity, relevance and oracle, other claims, lawful authority, causal net benefit and a justified capacity intervention remain separate. More nominal idle staff is useless if they cannot operate the required environment.",
+          "contrary": "A smaller cap may starve evaluation; a fully utilized deterministic balanced resource may have no queue; a fast unrepresentative environment can return the wrong evidence sooner. Lower utilization alone is not a solution.",
+          "nontrigger": "The adequate evidence path is stable, naturally low-load and has no relevant queue or constrained resource, or the measured queue serves a different class of work.",
+          "cheap_or_unchanged_path": "Keep the existing stable testing slot or use the smallest appropriate prototype, proof or simulation. Investigate a named wait directly before buying capacity or installing permanent queue analytics.",
+          "removal": "Without the actual capacity information the integrated-evidence policy can confuse frequent starts with timely results. If direct observation already gives the necessary loading information, remove a redundant dashboard rather than the evidence requirement.",
+          "source_basis": [
+            "L-CAPACITY",
+            "A-EVIDENCE"
+          ],
+          "control_scope": [
+            "B21-C20 two-stage starvation",
+            "B10-C03 variability and cheap adequate capacity"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/2"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/0"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D04",
+        "direction_key": "LAW-L2::EA-02->LAW-L1::EL-009",
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L2::EA-02",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D04",
+          "source": "EA-02",
+          "receiver": "EL-009",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INTERPRETATION_QUALIFIER",
+            "FEEDBACK_OR_CORRECTIVE_RETURN"
+          ],
+          "factor_mapping": {
+            "source": "claim-matched integrated result",
+            "receiver": "meaning of service output and remaining work"
+          },
+          "shared_object": "The queue/capacity analysis of a workflow intended to produce integrated-behavior evidence.",
+          "specific_guard": "Measured outputs are being used to estimate the service achieved on those evidence requests. Their actual configurations, environments and result scopes can be related to the pending claims.",
+          "source_contribution": "EA-02 distinguishes completed processing from an adequate result for the named integration claim and identifies informative failures or still-unanswered claims that affect subsequent work.",
+          "receiving_consequence": "EL-009 can evaluate useful evidence throughput and actual remaining/rework demand instead of maximizing component-test or demo counts. A failure observation may be useful output while a wrong-configuration pass leaves the requested claim unanswered; neither is automatically a release decision.",
+          "native_bridge": "EL-009 requires an actual end-to-end service boundary and outcome observations. EA-02 gives that particular boundary a behavioral meaning and a bounded corrective signal. It supplies neither the service distribution nor an optimal load.",
+          "remaining": "Actual arrivals, service variability, the cause of a failure, repair effort, scarce capability, obligations and decision rights must still be investigated. A single result is not an estimate of the whole system's capacity or value.",
+          "contrary": "Counting every green isolated check as an integrated completion inflates service output. Treating every useful negative observation as zero productivity hides learning, while treating it as an approved product overstates the result in the opposite direction.",
+          "nontrigger": "The loading decision concerns an unrelated service or uses an expressly narrower processing metric without any claim that it measures integrated progress.",
+          "cheap_or_unchanged_path": "Inspect a small number of actual blocked claims and their results, with explicit scope, before imposing a universal success dashboard. A valid existing analysis may remain the least costly output.",
+          "removal": "Without claim-to-result correspondence the capacity conclusion can count the wrong output. Once the correspondence is already present, adding another demonstration or duplicate evidence counter contributes no separate benefit.",
+          "source_basis": [
+            "A-EVIDENCE",
+            "L-CAPACITY"
+          ],
+          "control_scope": [
+            "B21-C20 evidence semantics",
+            "B10-C09 informative partial result"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/3"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/0"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D05",
+        "direction_key": "LAW-L1::EL-004->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L1::EL-004",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D05",
+          "source": "EL-004",
+          "receiver": "EA-07",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "factor_mapping": {
+            "source": "bounded active change population",
+            "receiver": "mainline integration and failure repair"
+          },
+          "shared_object": "Interacting changes admitted into active development/integration while their combined-state verification and necessary repair are unfinished.",
+          "specific_guard": "The release boundary actually covers these changes and exposes repair and dependency exceptions. The CI policy uses that population to regulate further change admission rather than merely counting pipeline jobs or branch labels.",
+          "source_contribution": "An enforced cap bounds the active change population and makes the admitted but unfinished integration/repair load visible.",
+          "receiving_consequence": "EA-07 can resist adding unlimited new changes while the mainline needs integration or repair, and coordinate new starts with the actual service path. This constrains one source of accumulating integration uncertainty without proving the current mainline healthy.",
+          "native_bridge": "EA-07 explicitly addresses multiple interacting changes, accumulated isolation uncertainty, frequent mainline combination and immediate failure repair. EL-004 controls the actual unfinished change population feeding those activities, not ownership of a CI server.",
+          "remaining": "Real merge behavior, reproducible build, credible tests, mainline authority, dependency compatibility and actual repair remain necessary to the corresponding CI claim. A cap alone supplies none of them.",
+          "contrary": "A cap on developer tickets can coexist with many hidden long-lived branches. A strict no-start rule can also block the corrective change needed to restore the mainline; a legitimate repair exception must be visible rather than silently defeating the cap.",
+          "nontrigger": "Solo low-change work already integrates at coherent changes without accumulated unfinished work, or the displayed cap is on an unrelated reporting population.",
+          "cheap_or_unchanged_path": "Finish and integrate the current coherent change before beginning another, with a simple explicit repair route. A new enterprise WIP system is not needed when the existing practice already maintains that boundary.",
+          "removal": "Removing genuine admission control removes the claimed bound on unfinished changes; it does not by itself remove CI. Preserve an adequate existing naturally bounded flow rather than duplicating the same cap under two method names.",
+          "source_basis": [
+            "L-CAP",
+            "A-CI"
+          ],
+          "control_scope": [
+            "B21-C20 starvation and exceptions limit",
+            "B10-C09 partial bound not whole CI"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/4"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/1"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D06",
+        "direction_key": "LAW-L2::EA-07->LAW-L1::EL-004",
+        "reverse_direction_key": "LAW-L1::EL-004->LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D06",
+          "source": "EA-07",
+          "receiver": "EL-004",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "INTERPRETATION_QUALIFIER"
+          ],
+          "factor_mapping": {
+            "source": "actual mainline integration/repair status",
+            "receiver": "change-item finish and exception policy"
+          },
+          "shared_object": "An admission rule whose work items promise combined-state integration of interacting changes.",
+          "specific_guard": "Actual mainline merge, verification and repair status correspond to those same change items, and the admission owner can use that state. A CI badge or separate branch build does not satisfy this mapping.",
+          "source_contribution": "EA-07 identifies which changes have reached the real combined state, which verification is meaningful and when a broken integration requires repair rather than more nominal completions.",
+          "receiving_consequence": "EL-004 can define finish and repair service classes honestly and avoid freeing capacity merely because code was written or an isolated branch was green. A failed mainline can justify a documented priority/repair exception through the existing rights.",
+          "native_bridge": "EL-004 needs stable item meanings and explicit exceptions. EA-07 supplies actual completion and abnormal-work information for the particular integrated change class; it does not mechanically enforce the cap.",
+          "remaining": "The limit's value, actual enforcement, total upstream backlog, appropriate service policy and authority to change it remain separate. Mainline health does not establish product value, complete security or delivery permission.",
+          "contrary": "A healthy mainline with twenty admitted but unmerged changes does not prove the WIP limit holds. Counting every test job as an independent item can also inflate both work and throughput without any additional integrated change.",
+          "nontrigger": "The admission class is unrelated to combined software changes, or an existing coherent-change practice already provides the needed finish evidence with no further CI apparatus.",
+          "cheap_or_unchanged_path": "Use the actual merge/build/repair record already maintained. Low-change solo work may use qualified periodic integration at a coherent change rather than unnecessary continuous infrastructure.",
+          "removal": "Removing the status-to-item correspondence reopens false completion and hidden integration work. Removing redundant reporting while retaining the same actual correspondence does not remove this scientific contribution.",
+          "source_basis": [
+            "A-CI",
+            "L-CAP"
+          ],
+          "control_scope": [
+            "B21-C20 attempt versus claim completion",
+            "B10-C09 partial input"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/5"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/1"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D07",
+        "direction_key": "LAW-L1::EL-009->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L1::EL-009",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D07",
+          "source": "EL-009",
+          "receiver": "EA-07",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "REINFORCEMENT_AT_GUARD"
+          ],
+          "factor_mapping": {
+            "source": "actual load and protected response capacity",
+            "receiver": "frequent integration with timely repair"
+          },
+          "shared_object": "The constrained verification/repair service for an actual mainline receiving interacting changes.",
+          "specific_guard": "Variable merge or failure arrivals, blocked verification or finite skilled repair capacity can delay the mainline response. The receiving integration policy can act on that loading information through real authority.",
+          "source_contribution": "EL-009 distinguishes nominal local busyness from usable integration and repair capacity, exposing where new changes or routine work consume the resource needed for the next relevant verification or failure response.",
+          "receiving_consequence": "EA-07 can protect feasible repair capacity, alter admission or priority, or remove an actual block so the named immediate-repair practice is operationally credible. It can also reject gratuitous slack when the existing stable service is adequate.",
+          "native_bridge": "Immediate mainline repair is an actual EA-07 mechanism, not an optional imagined tool. Its constrained service and interruptions are a concrete loading question for EL-009; the effect is on feasible response, not on whether the test oracle is correct.",
+          "remaining": "Correct test scope, reproducibility, diagnosis, personnel capability, actual interruption rights and the expected benefit of a particular reserve remain unproved. Average spare capacity may disappear during correlated failures.",
+          "contrary": "Fully allocated responders cannot simultaneously guarantee immediate repair during an unexpected failure. Conversely a deterministic balanced check path may run at full utilization with no waiting, and indiscriminate underloading can sacrifice output without improving repair.",
+          "nontrigger": "No material queue or response-capacity constraint exists in the actual integration path, or the proposed capacity belongs to workers without the needed skill, access or authority.",
+          "cheap_or_unchanged_path": "A clear temporary priority rule and direct investigation of a blocked build can be enough. Preserve adequate low-change coherent integration; do not infer a universal staffing reserve or utilization target.",
+          "removal": "Without usable response capacity, a written immediate-repair promise can fail despite a CI server. Where existing capacity already suffices, removing extra monitoring or reserve can be the adequate lower-cost option.",
+          "source_basis": [
+            "L-CAPACITY",
+            "A-CI"
+          ],
+          "control_scope": [
+            "B10-C03 variability matters",
+            "B21-C20 evaluator starvation"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/6"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/1"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D08",
+        "direction_key": "LAW-L2::EA-07->LAW-L1::EL-009",
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D08",
+          "source": "EA-07",
+          "receiver": "EL-009",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "FEEDBACK_OR_CORRECTIVE_RETURN",
+            "INPUT_TO_DECISION"
+          ],
+          "factor_mapping": {
+            "source": "combined-state verification and repair demand",
+            "receiver": "actual service classes and capacity investigation"
+          },
+          "shared_object": "The loading policy of the same integration, verification and failure-repair service.",
+          "specific_guard": "Actual mainline events and repair obligations are attributable to the work and resource being assessed, with honest treatment of repeated attempts and shared failures.",
+          "source_contribution": "EA-07 reveals when a combined-state verification is complete, when failure creates an immediate repair obligation, and when isolation or recurring broken builds are accumulating rather than retiring integration work.",
+          "receiving_consequence": "EL-009 can distinguish ordinary change load from actual repair demand, question nominal throughput that excludes failures, and investigate the bottleneck before changing capacity. These observations can alter priority or reserve assessment without identifying root cause or prescribing more servers.",
+          "native_bridge": "Actual frequent integration and repair generate operational feedback about this concrete service. The reverse is evidence for the loading inquiry, not a converse theorem that good CI implies adequate capacity.",
+          "remaining": "Arrival distributions, meaningful effort per change, source of flakiness, coupling, external blocks, applicable service objectives and authorization remain to be established. Repeated runs of one broken change are not independent completed changes.",
+          "contrary": "Ten reruns of the same flaky test can inflate job throughput while no integrated claim advances. A long queue awaiting an external decision does not prove that adding build machines will help.",
+          "nontrigger": "The observed pipeline is outside the relevant loading boundary or lacks credible integration/repair semantics; its badge and job count cannot supply this feedback.",
+          "cheap_or_unchanged_path": "Use existing actual mainline and failure records and a targeted wait investigation. Do not require a new platform, permanent measurement system or universal daily rate when a smaller adequate practice is available.",
+          "removal": "Without this feedback the capacity policy may omit repair demand or optimize the wrong output. If an existing operational record already carries the same information, duplicate dashboards add burden rather than a second independent contribution.",
+          "source_basis": [
+            "A-CI",
+            "L-CAPACITY"
+          ],
+          "control_scope": [
+            "B21-C20 processing/evidence separation",
+            "B10-C03 capacity conditionality"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/7"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/1"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D09",
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P021",
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L1::EL-004",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D09",
+          "source": "EL-004",
+          "receiver": "EW-P021",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "factor_mapping": {
+            "source": "admitted work bound",
+            "receiver": "actual consequential decision queue"
+          },
+          "shared_object": "Named consequential proposals whose active preparation/evaluation awaits a real evidence-based go, hold, redirect or stop decision.",
+          "specific_guard": "The actual admission boundary covers these decision-preparation items and is consumed in scheduling or sequencing their reviews. Commitments already made, dormant alternatives and pre-entry demand remain distinct. The cap is not treated as authorization to make the first commitment.",
+          "source_contribution": "EL-004 supplies the bounded active proposal population and explicit exceptions, exposing how much decision work has actually been admitted and what waits outside it.",
+          "receiving_consequence": "EW-P021 can coordinate review preparation with feasible evaluation and prevent expanding active stage work while calling every proposal ready. This is a workload/commitment-sequencing premise for the actual gate, not evidence that any proposal meets its entrance or exit criteria.",
+          "native_bridge": "The native gate concerns evidence-ready consequential commitments and explicitly faces batching and approval-queue latency. EL-004 acts on that native decision-work population. It is not an unrelated cap on an imagined review tool.",
+          "remaining": "Current evidence, residual risks, applicable obligations, reviewer capability and independence where required, and real stop/change rights remain separate. A number cannot determine readiness or waive a criterion.",
+          "contrary": "One admitted unsafe proposal still requires a legitimate hold; a smaller queue can conceal many waiting commitments. An over-tight cap can starve evaluation or delay an essential long-lead preparation task, as the two-stage construction illustrates.",
+          "nontrigger": "The actual decision is a low-risk routine promotion with an adequate existing route and no accumulating proposal queue, or the cap concerns unrelated tasks.",
+          "cheap_or_unchanged_path": "Use a clear finish-before-start preparation policy and an asynchronous evidence decision when adequate. A new board, central gate meeting or all-project cap is not implied.",
+          "removal": "Removing the actual bound removes its workload constraint, not the reviewer's decision authority. Where demand is naturally bounded, retain the evidence/authority function and remove unnecessary admission ceremony.",
+          "source_basis": [
+            "L-CAP",
+            "W-GATE"
+          ],
+          "control_scope": [
+            "B21-C20 pre-entry and evaluator feed",
+            "B10-C09 bound does not prove the gate"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/8"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/4"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D10",
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-004",
+        "reverse_direction_key": "LAW-L1::EL-004->LAW-L3::EW-P021",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D10",
+          "source": "EW-P021",
+          "receiver": "EL-004",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "SCOPE_CONSTRAINT",
+            "INPUT_TO_DECISION"
+          ],
+          "factor_mapping": {
+            "source": "consequential commitment evidence and rights",
+            "receiver": "legitimate admission and exception eligibility"
+          },
+          "shared_object": "An admission decision whose start or advancement would create the identified consequential commitment.",
+          "specific_guard": "The particular irreversible or high-consequence boundary and the applicable decision rights/criteria are established. Preparatory learning that does not cross it is not automatically forbidden.",
+          "source_contribution": "EW-P021 supplies the real commitment boundary, entrance/exit evidence, residual-risk decision and authority to go, hold, redirect or stop.",
+          "receiving_consequence": "EL-004 can distinguish an available capacity slot from an eligible commitment and make exceptions through the proper authority. A held commitment need not occupy scarce execution capacity if distinct permitted preparation can continue without silently crossing the boundary.",
+          "native_bridge": "EL-004 already requires explicit service-class exceptions and authority. EW-P021 gives those conditions substantive content where admission itself hardens a consequential commitment; it does not merely recommend another meeting.",
+          "remaining": "The numerical bound, enforcement, real queue/capacity effects and whether a particular preparation task crosses the commitment boundary remain to be established. Gate approval alone cannot prove the cap is enforced or service adequate.",
+          "contrary": "A free slot and a green dashboard cannot authorize an irreversible migration. Conversely requiring a full production gate before a permitted disposable experiment would impose an unnecessary sequence and could delay the very evidence the gate needs.",
+          "nontrigger": "The work cannot cross this consequential boundary and has no such applicable criterion, or the existing proportionate authorization route already supplies the needed admission condition.",
+          "cheap_or_unchanged_path": "Record the specific boundary and existing authorized decision, using automated or asynchronous promotion for genuinely routine low-risk work. Keep adequate existing rights without duplicating boards.",
+          "removal": "Removing the commitment/authority condition can make a perfectly enforced cap admit illegitimate work. Removing ceremonial presentation while retaining the actual condition preserves this contribution.",
+          "source_basis": [
+            "W-GATE",
+            "L-CAP"
+          ],
+          "control_scope": [
+            "B21-C20 no permission from queue",
+            "B10-C09 valid partial evidence with authority absent"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/9"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/4"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D11",
+        "direction_key": "LAW-L1::EL-009->LAW-L3::EW-P021",
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L1::EL-009",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D11",
+          "source": "EL-009",
+          "receiver": "EW-P021",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "INTERPRETATION_QUALIFIER"
+          ],
+          "factor_mapping": {
+            "source": "actual review queue and usable capacity",
+            "receiver": "evidence-ready consequential decision timing"
+          },
+          "shared_object": "The actual preparation, challenge and authorized decision service for consequential proposals.",
+          "specific_guard": "Waiting or variable arrival of evidence-ready proposals interacts with finite capable review/decision resources, and an authorized actor can alter sequencing, preparation or capacity without waiving binding criteria.",
+          "source_contribution": "EL-009 exposes where work waits, which resource is constrained, and whether apparent reviewer busyness or calendar batching delays a decision after the needed evidence is ready.",
+          "receiving_consequence": "EW-P021 can choose a feasible event-driven decision path, protect needed challenge capacity, remove redundant review work or identify an actual authority block. The information helps design the decision service; it does not make a proposal ready or remove required independence.",
+          "native_bridge": "Approval latency, gates that batch feedback and duplicated boards are explicit native failure modes. Queue-aware loading addresses that real mechanism, including the cost of excessive review and the contrary cost of insufficient capable evaluation.",
+          "remaining": "Evidence sufficiency, independent challenge where applicable, actual stop rights, risk judgment, applicable obligations and causal net benefit remain separate. Idle unqualified reviewers are not usable decision capacity.",
+          "contrary": "Deleting a required review to improve lead time can violate the decision's constraint; adding nominal reviewers cannot remove a missing authorized signatory. A stable sparse queue may need no new scheduling system at all.",
+          "nontrigger": "The consequential decision path already meets its actual service needs with low variability, or the measured queue is unrelated to its preparation/challenge/decision work.",
+          "cheap_or_unchanged_path": "Use the existing qualified asynchronous decision or a brief targeted investigation of a named wait. A standing central meeting or arbitrary utilization reserve is not automatically beneficial.",
+          "removal": "Without the capacity picture, an evidence-ready gate may become an avoidable calendar queue. If direct coordination already meets the service need, remove redundant analytics rather than inventing a new process.",
+          "source_basis": [
+            "L-CAPACITY",
+            "W-GATE"
+          ],
+          "control_scope": [
+            "B21-C20 evaluation-stage queue",
+            "B10-C03 deterministic adequate path"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/10"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/4"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D12",
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-009",
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P021",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D12",
+          "source": "EW-P021",
+          "receiver": "EL-009",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "factor_mapping": {
+            "source": "actual decision work and non-substitutable rights",
+            "receiver": "service definition and feasible capacity options"
+          },
+          "shared_object": "The loading/capacity decision for the consequential review service.",
+          "specific_guard": "The analysis concerns the gate's actual evidence preparation, independent challenge where needed and authorized decision, with their distinct tasks and rights. Unrelated administrative work does not qualify.",
+          "source_contribution": "EW-P021 identifies what makes an item decision-ready, which evaluation/authority functions cannot be substituted by more slide production, and when hold/redirect is the correct decision output.",
+          "receiving_consequence": "EL-009 can define service output as a real disposition with its evidence/risk scope, distinguish evidence delay from authority delay, and compare only capacity interventions that preserve applicable rights and challenge. It need not count only approvals as throughput.",
+          "native_bridge": "A loading policy requires a coherent system and outcome boundary. The gate supplies the real decision function and constraints, preventing local document-processing efficiency from masquerading as completed consequential decisions.",
+          "remaining": "Actual arrival/service data, the cause of each wait, effective reviewer capability, staffing cost and whether a change helps remain unresolved. A role chart or target review date is not capacity evidence.",
+          "contrary": "A team can maximize approved-gate counts by weakening criteria or deferring hard proposals; that does not improve the defined service. An authorized hold can be a completed useful decision even when product work does not advance.",
+          "nontrigger": "The service being loaded does not make these consequential decisions, or an existing clear decision definition already captures the actual rights and work without further process.",
+          "cheap_or_unchanged_path": "Separate the few actual evidence/authority waits using existing records. Preserve a stable adequate review route instead of adding universal gate telemetry or a new committee.",
+          "removal": "Removing the decision semantics can optimize document throughput while the commitment remains unresolved. Removing duplicate ceremony without losing the same criteria and rights preserves the contribution and may lower total cost.",
+          "source_basis": [
+            "W-GATE",
+            "L-CAPACITY"
+          ],
+          "control_scope": [
+            "B21-C20 processing not permission",
+            "B10-C15 shared work and unchanged alternative"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/11"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/4"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D13",
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P031",
+        "reverse_direction_key": "LAW-L3::EW-P031->LAW-L1::EL-004",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D13",
+          "source": "EL-004",
+          "receiver": "EW-P031",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "factor_mapping": {
+            "source": "active evidence-work admission",
+            "receiver": "recurring configuration-bound assurance pipeline"
+          },
+          "shared_object": "Identified configurations or evaluation requests admitted to the actual recurring assurance-evidence pipeline and awaiting the declared output.",
+          "specific_guard": "The cap covers that production/evaluation population with stable identities and explicit nonautomatable/manual stages. Repeated jobs for one configuration are not silently reclassified as independent completed configurations.",
+          "source_contribution": "EL-004 supplies an enforced bound on admitted assurance work and exposes exceptions and demand waiting outside the pipeline.",
+          "receiving_consequence": "EW-P031 can limit how much evidence-producing change it has actually taken on, coordinate automated production with the remaining evaluation path, and avoid calling a short internal queue proof of total assurance throughput. The bound is a partial workload condition, not assurance adequacy or deployment permission.",
+          "native_bridge": "EW-P031 expressly produces and consumes recurring configuration-bound evidence and retains human evaluation for nonautomatable claims. That native work population is the actual receiver of admission control; no external tool is posited to manufacture a connection.",
+          "remaining": "Reliable tests, representative environments, secure/reproducible pipeline, evidence semantics, configuration provenance, applicable independence and authority remain distinct. A bound cannot fix the wrong test or a compromised common pipeline.",
+          "contrary": "A cap on build jobs can still permit an unbounded backlog of distinct unassessed configurations. An overly tight end-to-end cap can starve evaluation; a cap on production alone can merely shift the queue downstream.",
+          "nontrigger": "The work is rare or not automatable and an existing periodic evaluation with traceable results is adequate, or the cap covers a different population from the assurance claim.",
+          "cheap_or_unchanged_path": "Keep a naturally bounded periodic integration/evidence route when it meets the actual obligation. Where a limit is needed, use the existing release mechanism and a clear exception rather than a separate platform.",
+          "removal": "Removing the actual admission mechanism removes its population bound, but not already valid evidence. Remove duplicated control names and reporting when a single existing mechanism already provides the same boundary.",
+          "source_basis": [
+            "L-CAP",
+            "W-PIPELINE"
+          ],
+          "control_scope": [
+            "B21-C20 multi-stage cap",
+            "B10-C09 partial bound without whole assurance"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/12"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/5"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D14",
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-004",
+        "reverse_direction_key": "LAW-L1::EL-004->LAW-L3::EW-P031",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D14",
+          "source": "EW-P031",
+          "receiver": "EL-004",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INTERPRETATION_QUALIFIER",
+            "INPUT_TO_DECISION"
+          ],
+          "factor_mapping": {
+            "source": "configuration/evidence/promotion semantics",
+            "receiver": "assurance work identity and finish policy"
+          },
+          "shared_object": "An admission population of changes or evaluation requests whose promised finish includes a specified assurance result or an authorized promotion decision.",
+          "specific_guard": "Actual pipeline provenance and evaluation status can be joined to those same items and to their declared claim. Evidence result, human evaluation and promotion authority remain separately typed endpoints.",
+          "source_contribution": "EW-P031 supplies configuration-linked results, the scope and limits of automated evidence, nonautomatable remainder and the actual decision boundary that consumes it.",
+          "receiving_consequence": "EL-004 can choose an honest finish condition for the declared class, expose work still awaiting human interpretation, and distinguish an evaluation-attempt completion from adequate evidence or authorized promotion. A relevant negative result can complete an evidence inquiry while creating a separately visible repair item.",
+          "native_bridge": "Stable item definitions and exception policies are native admission preconditions. Recurring assurance supplies their concrete meaning for this population, without forcing all work to wait for whole-system certification before any narrow item may finish.",
+          "remaining": "Actual cap enforcement, capacity, total backlog, appropriate exception rights and the truth of each evidence claim remain separate. Provenance alone does not prove semantic adequacy, and adequate evidence alone does not confer authority.",
+          "contrary": "Closing a work item on a green pipeline badge hides a pending mandatory human evaluation; alternatively making every local test wait for final release authorization falsely merges distinct service boundaries and can create needless queues.",
+          "nontrigger": "The admission population is unrelated to these configurations/evidence claims, or an adequate existing manual/periodic record already provides the required identity and finish distinctions.",
+          "cheap_or_unchanged_path": "Use existing configuration, result and decision records with only the actual missing distinction added. A new continuous platform is unnecessary for rare changes if the simpler route remains adequate.",
+          "removal": "Removing the item/result mapping permits misleading completion counts; removing duplicate automation while retaining adequate traceable evidence can preserve the function at lower cost.",
+          "source_basis": [
+            "W-PIPELINE",
+            "L-CAP"
+          ],
+          "control_scope": [
+            "B21-C20 evidence and authorization endpoints",
+            "B10-C09 whole-receiver gate rejected"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/13"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/5"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/2"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D15",
+        "direction_key": "LAW-L1::EL-009->LAW-L3::EW-P031",
+        "reverse_direction_key": "LAW-L3::EW-P031->LAW-L1::EL-009",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D15",
+          "source": "EL-009",
+          "receiver": "EW-P031",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "factor_mapping": {
+            "source": "end-to-end load and bottleneck",
+            "receiver": "timely production and consumption of recurring evidence"
+          },
+          "shared_object": "The actual producer, evaluator and authorized-consumer stages of the recurring assurance pipeline.",
+          "specific_guard": "Production and consumption rates or variable failure/review work create an actual queue or constrained service, including a nonautomatable stage where applicable. The proposed loading adjustment uses that real boundary and preserves its authority requirements.",
+          "source_contribution": "EL-009 supplies the end-to-end queue/capacity picture and distinguishes useful response capacity from merely faster local evidence generation.",
+          "receiving_consequence": "EW-P031 can coordinate generation with evaluation, protect failure-response capacity, remove redundant work or choose an adequate periodic route. It can recognize that accelerating automated production may simply enlarge a later human/authority queue, so a faster dashboard is not automatically faster assurance.",
+          "native_bridge": "EW-P031's own trigger is evidence work that cannot keep pace with change, and its own guards retain interpretation and human review of claims automation cannot decide. The capacity interface is inside this native production/consumption mechanism.",
+          "remaining": "Evidence quality, provenance, pipeline security, independent challenge, legitimate authorization and net benefit remain separate. Capacity arithmetic cannot decide whether a legally or technically required evaluation may be omitted.",
+          "contrary": "Faster generation of wrong tests or more automated artifacts can make local throughput look better while the relevant claim waits. A fully utilized deterministic stage can already be adequate; reserving idle capacity without a live response need can simply add cost.",
+          "nontrigger": "An adequate sparse or stable pipeline has no material production/consumption bottleneck, or the proposed resource has no capability to evaluate the actual claim.",
+          "cheap_or_unchanged_path": "Keep repeatable periodic evidence production at the required cadence; use targeted scheduling or repair of the actual bottleneck before broad platform expansion. Existing adequate low-load operation can remain unchanged.",
+          "removal": "Without the end-to-end view a local speedup can displace rather than remove waiting. If current direct coordination already maintains the necessary flow, removing redundant analytics preserves the same function.",
+          "source_basis": [
+            "L-CAPACITY",
+            "W-PIPELINE"
+          ],
+          "control_scope": [
+            "B21-C20 producer/evaluator tradeoff",
+            "B10-C03 adequate deterministic path",
+            "B10-C15 total shared cost"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/14"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/5"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      },
+      {
+        "judgment_id": "B21-I001-D16",
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-009",
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P031",
+        "disposition": "MATERIAL",
+        "literal_argument": {
+          "id": "B21-I001-D16",
+          "source": "EW-P031",
+          "receiver": "EL-009",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "FEEDBACK_OR_CORRECTIVE_RETURN",
+            "INTERPRETATION_QUALIFIER"
+          ],
+          "factor_mapping": {
+            "source": "actual recurring assurance observations",
+            "receiver": "meaningful flow and response-capacity analysis"
+          },
+          "shared_object": "The loading policy of that same configuration-bound evidence and decision service.",
+          "specific_guard": "Provenance-linked events distinguish generation, meaningful evaluation, failed attempts, remaining manual work and the separately authorized decision, and concern the resource boundary being assessed.",
+          "source_contribution": "EW-P031 supplies actual evidence-production and consumption states, repeated failures and nonautomatable remainder, tied to the relevant configurations rather than to undifferentiated artifact counts.",
+          "receiving_consequence": "EL-009 can measure the right service classes, investigate which stage constrains useful results, and account for repair/interpretation load rather than treating every generated artifact as completed assurance. The feedback can support retaining the present policy as well as changing it.",
+          "native_bridge": "EL-009's capacity inquiry needs truthful flow and outcome observations. EW-P031 offers those observations from its native recurring evidence mechanism, while its own evidence-quality and authority limits prevent a dashboard from becoming a capacity certificate.",
+          "remaining": "Observed events still need reliable semantics, actual resource attribution, arrival/service characterization and causal diagnosis. A common compromised pipeline can corrupt every displayed result; multiple dashboards do not become independent evidence.",
+          "contrary": "Counting reruns or stale configuration reports can show rising throughput while the actual assurance backlog grows. An authorization hold due to residual risk is not necessarily a machine-capacity shortage, and buying runners may leave it unchanged.",
+          "nontrigger": "The measurements concern unrelated configurations or lack a credible connection to the service claim, or an existing manual record already supplies the adequate sparse-flow observations.",
+          "cheap_or_unchanged_path": "Use existing provenance and decision records with a targeted investigation of a named wait. Retain periodic manual evaluation where it is adequate and count its full cost rather than assuming automation is always cheaper.",
+          "removal": "Removing the configuration/result/decision distinctions can optimize the wrong output. Removing duplicate dashboards while retaining an adequate shared observation preserves the contribution and avoids double-counted benefit.",
+          "source_basis": [
+            "W-PIPELINE",
+            "L-CAPACITY"
+          ],
+          "control_scope": [
+            "B21-C20 output/authority distinctions",
+            "B10-C15 shared observation counted once"
+          ]
+        },
+        "literal_binding": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointer": "/directions/15"
+        },
+        "source_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/5"
+        },
+        "receiver_native_factor": {
+          "path": "research/increment_001/NATIVE_FACTORS_B21_I001.json",
+          "bytes": 44693,
+          "sha256": "bdb29c3e6d48cc4c9406fb8bf93dcaa3f1e951ef657fc78ee98efac8860b954c",
+          "pointer": "/records/3"
+        },
+        "common_contract": {
+          "path": "authoring/B21_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 49006,
+          "sha256": "c481f5d16574179f59038007ea4d5834cd413d81fc768bc4ad12563f8002dcb3",
+          "pointers": [
+            "/common_guard",
+            "/common_evidence_ceiling",
+            "/common_cost_and_dependence",
+            "/common_reentry"
+          ]
+        },
+        "source_inquiry": {
+          "path": "research/increment_001/SOURCE_AND_COMPOSITION_INQUIRY_B21_I001.json",
+          "bytes": 16827,
+          "sha256": "b85205955c948af126db6d8c783f2ec72ef8018b71ad340466a6f0c9db2a41ea"
+        },
+        "new_control": {
+          "path": "research/increment_001/CONTROL_B21_C20.json",
+          "bytes": 17114,
+          "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7"
+        },
+        "scope": "The explicit native bridge and receiving use, not a Cartesian pairing rule. Conditional analytical author result; actual application guard must be established.",
+        "independent_review": false,
+        "qualification_effect": 0
+      }
+    ],
+    "direction_count": 16,
+    "counts": {
+      "MATERIAL": 16
+    },
+    "whole_author_complete": false
+  }
+}

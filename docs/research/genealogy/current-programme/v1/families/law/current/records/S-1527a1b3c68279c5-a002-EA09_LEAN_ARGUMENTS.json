@@ -1,0 +1,232 @@
+{
+  "source_identity": {
+    "source_id": "S-1527a1b3c68279c5",
+    "scientific_name": "a002-EA09_LEAN_ARGUMENTS.json",
+    "original_bytes": 33673,
+    "original_sha256": "1527a1b3c68279c5793398afd730bb0c6c1cf72571430081ce2abd985e3c21a9"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-a002-factored-directional-science/1",
+    "identity": "A002-EA09-LEAN",
+    "status": "AUTHOR_ANALYSIS_NOT_INDEPENDENT_ACCEPTANCE",
+    "source_basis": "Complete native EL001–EL010 and EL021–EL028 records and complete EA09 native plus selected overlay read by A002. Existing selected source warrants are inherited at their recorded access ceilings. No new full-paper access, empirical trial, numeric threshold or historical descent claim.",
+    "shared_factors": {
+      "F_ACTUAL_CONSUMER": "Each direction concerns the named source contribution actually consumed by the receiving decision at its native bearer. The guard must identify the relevant present choice, interface, work class or institution. Merely placing both practices in a project is insufficient. Materiality is a bounded input, constraint or interpretation; it does not imply the receiving property in full.",
+      "F_ARCHITECTURE": "EA09 classifies consequential structural/interface choices by reversibility, blast radius, coupling and quality-attribute trade-offs over a stated horizon. Its alternative is an adequate incumbent, short source argument, simple design or bounded probe for a local reversible decision. No fixed architecture-investment threshold, board or diagram is necessary or sufficient.",
+      "F_INDEPENDENT_REVERSE": "A Lean-to-architecture direction supplies actual outcome, work-system, information, resource or institutional premises. Its reverse supplies architectural consequences or boundary conditions to the particular Lean mechanism. One is not inferred from the other; the two source contributions and guard failures are separately stated for every member.",
+      "F_COST_AUTHORITY": "The decision must retain binding constraints and actual rights. Technical ability, observation, skill, participation and delegated authority are different. Count acquisition, maintenance, use and transferred workload in the relevant horizon; useful partial evidence can warrant a choice without proving total benefit. No numerical cost advantage or causal field effect is asserted.",
+      "F_COUNTERFACTUAL": "For each member remove only the named source contribution while preserving the other facts. The receiving inference loses that particular premise or constraint; an independently adequate substitute can restore it. This is a reasoned dependency contrast, not a claim that the entire school is necessary. Positive and negative contexts below are constructed scientific arguments, not executed experiments. C29 is not rerun or re-counted."
+    },
+    "pair_arguments": [
+      {
+        "lean_id": "EL-001",
+        "shared_object": "A structural choice whose quality and long-term maintenance consequences affect named beneficiaries.",
+        "lean_to_architecture": "EL001 supplies the intended beneficiary outcome, relevant horizon and nontradeable safety, labor or externality constraint. EA09 uses them to specify quality scenarios and compare a low-latency but costly or exclusionary interface against an adequate incumbent. Without that outcome premise, a technically attractive architecture can optimize the wrong objective.",
+        "lean_guard": "The actual architectural choice has competing outcomes or externalized effects, and the named value/constraint statement is legitimate and decision-relevant.",
+        "lean_counter": "A value slogan without representation or observable outcome does not supply the premise; a trivial local choice with already explicit purpose needs no new value exercise.",
+        "architecture_to_lean": "EA09 supplies the actual commitment horizon, propagation and quality trade-off of the proposed intervention. EL001 must then appraise the outcome over that horizon and include the affected boundary rather than treating a fast local output as the whole value proposition.",
+        "architecture_guard": "An outcome-selection decision actually compares alternatives with materially different architectural commitments or affected parties.",
+        "architecture_counter": "Architecture cannot select legitimate beneficiaries or establish that a predicted benefit occurred; unrelated structural detail adds no outcome evidence.",
+        "alternative_cost_reentry": "A one-sentence purpose plus a short scenario comparison can suffice. Include analysis and observation effort; reopen when beneficiaries, horizon, irreversible cost or binding constraints change."
+      },
+      {
+        "lean_id": "EL-002",
+        "shared_object": "A cross-service or cross-team work path whose queues, handoffs and dependency structure affect a consequential interface choice.",
+        "lean_to_architecture": "EL002 provides the real path, item identity, hidden waiting and rework dependencies. These distinguish a local speed improvement from a change that removes the actual coupling or bottleneck. EA09 can set its system boundary and latency scenario using that evidence rather than a convenient component boundary.",
+        "lean_guard": "The architecture choice changes or relies on the observed work path, and its timestamps, identity and causal interpretation are adequate for the claimed input.",
+        "lean_counter": "A stale value-stream picture or an unrelated factory map cannot establish software coupling; a short single-owner path can be inspected directly.",
+        "architecture_to_lean": "EA09 identifies structural propagation, shared state and public interface commitments that determine which work paths and feedback loops EL002 must include. For a shared persistence service, observing only the caller omits a real dependency and its migration delay.",
+        "architecture_guard": "The end-to-end flow appraisal traverses the particular architectural dependency or receives its consequences.",
+        "architecture_counter": "A diagram alone does not measure waiting or prove a causal delay reduction; no universal exhaustive map is required.",
+        "alternative_cost_reentry": "Use a sampled trace and a direct dependency note when adequate; include instrumentation/upkeep and privacy cost. Reopen on changed routing, item identity, shared state or downstream consumer."
+      },
+      {
+        "lean_id": "EL-003",
+        "shared_object": "The current state representation used by a responsible person to act on an architectural assumption, interface mismatch or structural decision.",
+        "lean_to_architecture": "EL003 supplies an interpretable and fresh statement of the relevant current state and its owner. EA09 can distinguish an unresolved migration assumption from a validated constraint rather than act on an obsolete or ambiguous display.",
+        "lean_guard": "A real architectural inquiry or decision depends on state that is otherwise ambiguous, with an identified responder and adequate freshness.",
+        "lean_counter": "A green board, cosmetic tidiness or surveillance score without correct state and actionability is not architectural evidence.",
+        "architecture_to_lean": "EA09 supplies which structural state and quality distinction matters at this commitment, who is affected and how a mistaken state classification propagates. EL003 uses that input to expose the minimum relevant state instead of adding an indiscriminate dashboard.",
+        "architecture_guard": "The visible state is intended to support the specified architectural decision or its execution boundary.",
+        "architecture_counter": "Architecture does not maintain a display's freshness, accessibility or truthful ownership; an already obvious low-risk state needs no extra representation.",
+        "alternative_cost_reentry": "An explicit assumption/version/status field and direct owner contact can suffice. Reopen on changed state semantics, audience, interface or evidence validity; count responder attention and maintenance."
+      },
+      {
+        "lean_id": "EL-004",
+        "shared_object": "A service or delivery architecture with a real admission rule, coupled work items and a consequential queue boundary.",
+        "lean_to_architecture": "EL004 supplies the actual bound on active commitments, exception classes and hidden pre-entry demand. EA09 must evaluate throughput, resource and coupling assumptions for that admission policy rather than equate a finite visible queue with bounded total demand.",
+        "lean_guard": "The structural choice is evaluated for a work/service system whose real admission policy affects capacity or latency scenarios.",
+        "lean_counter": "A Kanban label without enforced limits, or WIP from an unrelated team, cannot constrain the architecture; a bounded local inquiry may need only finish-before-start.",
+        "architecture_to_lean": "EA09 supplies actual inseparable state/interface commitments and blast-radius boundaries. EL004 uses them to define coherent work-item and exception classes, avoiding a nominal item split that admits an unbounded shared migration or blocks necessary long-lead preparation.",
+        "architecture_guard": "The admission rule governs work whose structural dependencies determine whether items can be completed independently.",
+        "architecture_counter": "Coupling does not set an optimal WIP number or prove total-waiting benefit, and independent local items need no architecture programme.",
+        "alternative_cost_reentry": "Use a direct item/dependency and exception rule; compare admission delay, starvation and pre-entry backlog. Reopen on changed item identity, capacity, coupling or exception rights."
+      },
+      {
+        "lean_id": "EL-005",
+        "shared_object": "A proposed incremental migration or release with a coherent technical unit and setup/validation costs.",
+        "lean_to_architecture": "EL005 supplies the actual economics and coherence of a batch: setup, integration, validation, delay and limited exposure. EA09 can compare a staged structural transition with an indivisible migration without assuming the smallest change is cheapest.",
+        "lean_guard": "Architecture alternatives differ in feasible batch structure or repeated transition cost that matters to the commitment.",
+        "lean_counter": "Arbitrary story splitting supplies no independent technical unit; a fixed high validation cost can support a larger batch.",
+        "architecture_to_lean": "EA09 supplies coupling, persistent-state consequences and the true reversibility of an increment. EL005's economic batch appraisal must retain an inseparable state transition or account for compatibility, rather than call every small patch safely reversible.",
+        "architecture_guard": "The batch crosses a structural/interface or persistent-state boundary whose consequences affect coherence or restoration.",
+        "architecture_counter": "An architectural concern does not negate a separately demonstrated reduction in the number of independent instances exposed; full recovery and total loss remain separate.",
+        "alternative_cost_reentry": "Retain the economic batch and improve feedback within it when adequate. Reopen on changed coupling, validation/setup cost, exposure boundary or recoverability."
+      },
+      {
+        "lean_id": "EL-006",
+        "shared_object": "A structural change whose preparation, transition, validation and recovery path determines commitment cost.",
+        "lean_to_architecture": "EL006 supplies total safe transition cost and feasible reductions through preparation, interface simplification or repeatable checks. EA09 can distinguish an actually cheap reversible option from a superficially fast release whose work was shifted elsewhere.",
+        "lean_guard": "Setup or transition effort is material to the architectural alternatives and the compared paths preserve relevant quality and safety.",
+        "lean_counter": "A local deployment-time metric that omits preparation or recovery is insufficient; rare immaterial setup does not justify automation.",
+        "architecture_to_lean": "EA09 supplies the quality and compatibility constraints that a faster transition must preserve, including non-recoverable state and expensive public interfaces. EL006 can remove avoidable setup while retaining the actual safety/quality function.",
+        "architecture_guard": "The proposed setup simplification changes a consequential structural boundary or relies on its asserted reversibility.",
+        "architecture_counter": "Architecture analysis does not itself automate or shorten setup, and a generic board requirement is not a technical safety constraint.",
+        "alternative_cost_reentry": "A documented direct path may beat a new pipeline; count automation acquisition/upkeep, displaced work and recovery. Reopen when interfaces, transition frequency or quality obligations change."
+      },
+      {
+        "lean_id": "EL-007",
+        "shared_object": "A service or production architecture assessed against a measurable recurring demand class and a feasible capacity plan.",
+        "lean_to_architecture": "EL007 distinguishes forecastable aggregate demand from residual variation and reports a sustainable pace. EA09 can use that bounded load scenario in capacity and interface trade-offs without treating a target cadence as a fact of demand.",
+        "lean_guard": "The architectural option serves the specified repeatable demand class, with real demand data and feasible capacity/mix assumptions.",
+        "lean_counter": "Unique exploratory architecture work has no general fixed takt; forced cadence can merely hide backlog, overtime or supplier stress.",
+        "architecture_to_lean": "EA09 supplies indivisible structural operations, coupling and quality constraints that limit feasible mix sequencing or capacity flexibility. EL007 must preserve them when levelling the predictable portion rather than schedule incompatible increments as interchangeable units.",
+        "architecture_guard": "The capacity plan contains operations whose technical coherence or interface commitments determine feasible sequences.",
+        "architecture_counter": "Structural facts do not create demand forecasts, trained flexibility or labor consent; an independently adequate simple plan needs no new architecture study.",
+        "alternative_cost_reentry": "Use finite-capacity planning and rolling priorities where repeatability is absent; include buffers, schedule revision and workload effects. Reopen on changed demand class, service topology or mix."
+      },
+      {
+        "lean_id": "EL-008",
+        "shared_object": "A consequential architecture expected to withstand specified variation or disruption over a declared recovery horizon.",
+        "lean_to_architecture": "EL008 supplies a real portfolio of capacity, physical stock or time reserves and distinguishes them from information or unqualified alternatives. EA09 can compare architectures using the feasible resilience path rather than assuming a dependency list can serve requests during a failure.",
+        "lean_guard": "Residual variation or disruption is material and the proposed architectural option actually consumes or relies on the named reserve or recovery option.",
+        "lean_counter": "Information is not spare physical capacity; an unqualified alternate is not an available substitute. No universal nonzero buffer is established.",
+        "architecture_to_lean": "EA09 supplies the failure propagation boundary, irreversible loss and substitutability conditions. EL008 uses them to choose what consequence a reserve must absorb and whether an alleged substitute can actually preserve the required function.",
+        "architecture_guard": "The buffer decision protects the same structural dependency or quality scenario.",
+        "architecture_counter": "Architecture cannot determine an optimal reserve without relevant variation/consequence information or authorize its purchase.",
+        "alternative_cost_reentry": "A small contingency or adequate incumbent can suffice; compare carrying, delay, dormant-option and maintenance costs. Reopen on correlated failure, recovery time, rights or dependency changes."
+      },
+      {
+        "lean_id": "EL-009",
+        "shared_object": "A shared service or work path whose loading policy interacts with structural capacity and latency.",
+        "lean_to_architecture": "EL009 supplies queue age, arrival/processing variability and the actual bottleneck/load policy. EA09 can test an architectural latency or isolation scenario at the relevant load rather than infer adequacy from maximum local utilization.",
+        "lean_guard": "The proposed structure serves the same flow boundary and the loading information is relevant to its quality scenario.",
+        "lean_counter": "A utilization percentage alone cannot establish congestion; deterministic balanced service can be fully utilized without a queue.",
+        "architecture_to_lean": "EA09 identifies shared state, fan-out and propagation that define the real constraint and possible migration of it. EL009 can place response capacity or change admission at the actual limiting boundary, rather than optimize a component outside that path.",
+        "architecture_guard": "The loading decision concerns a materially coupled path identified by architectural analysis.",
+        "architecture_counter": "A topology diagram is no queueing measurement or spare capacity, and local reversible choices may not change the relevant constraint.",
+        "alternative_cost_reentry": "Direct queue observation plus an adequate admission policy may suffice. Count reserved capacity and foregone output; reopen on changed traffic, service variability or constraint location."
+      },
+      {
+        "lean_id": "EL-010",
+        "shared_object": "A demand or replenishment interface whose semantics and freshness affect a consequential service or data architecture.",
+        "lean_to_architecture": "EL010 supplies actual signal origin, units, horizon, latency and long-lead complement. EA09 can specify capacity and data-retention/compatibility scenarios with meaningful demand information rather than an ambiguous event count.",
+        "lean_guard": "The architectural option depends on the particular demand signal or designs the interface that conveys it.",
+        "lean_counter": "Observed withdrawals alone do not establish long-lead capability; merely reusing a data tool creates no interface.",
+        "architecture_to_lean": "EA09 supplies the structural data transformations, persistent-state and interface commitments that constrain what the signal still means and what can be recovered. EL010 can then specify origin/units/version and reconciliation conditions needed for the release decision.",
+        "architecture_guard": "The actual replenishment signal passes through that representation or version boundary, and the distinction changes its valid use.",
+        "architecture_counter": "A correct quantity encoding may be adequate when original representation is irrelevant; architecture cannot validate customer demand or eliminate manipulation.",
+        "alternative_cost_reentry": "Direct current confirmation and a simple backlog can remain adequate. Count signal maintenance/reconciliation; reopen on units, transformations, horizon, latency or long-lead changes."
+      },
+      {
+        "lean_id": "EL-021",
+        "shared_object": "A consequential structural choice requiring particular design, operating or recovery competence over its service life.",
+        "lean_to_architecture": "EL021 supplies demonstrated capability and cross-coverage, including the feasible training/maintenance path. EA09 can reject or condition an option whose safe operation depends on unavailable expertise, or retain an adequate familiar option.",
+        "lean_guard": "A specific competence is materially required by the architectural alternative and the capability evidence is current and task-relevant.",
+        "lean_counter": "Training completion or a skill matrix alone does not prove competence, availability, authority or worker wellbeing.",
+        "architecture_to_lean": "EA09 supplies which quality-critical decisions, interfaces and recovery actions workers must understand. EL021 uses that distinction to scope practice and cross-coverage rather than require broad certification unrelated to actual tasks.",
+        "architecture_guard": "The training/cross-coverage decision concerns people who must design, operate or respond within the named architectural boundary.",
+        "architecture_counter": "An architecture document does not train a worker, create coaching time or confer authorization.",
+        "alternative_cost_reentry": "Accessible guidance plus an expert escalation path can suffice for rare low-risk work. Include paid practice, staffing and obsolescence; reopen on changed design, personnel or failure duties."
+      },
+      {
+        "lean_id": "EL-022",
+        "shared_object": "A structural decision that needs front-line evidence or local change action with protected escalation.",
+        "lean_to_architecture": "EL022 supplies a real route for operators to surface quality or recovery problems and receive a decision without retaliation. EA09 can obtain otherwise suppressed evidence or an actual bounded action path; participation itself is not proof of technical truth.",
+        "lean_guard": "Front-line observations or local rights are relevant to the particular architectural question and the response/appeal protection actually exists.",
+        "lean_counter": "Suggestion counts, a meeting invitation or nominal empowerment do not establish response, protection or authority.",
+        "architecture_to_lean": "EA09 supplies the coupling and consequence boundary needed to distinguish local reversible action from changes affecting other parties. EL022 can use that boundary when specifying or exercising an already legitimate delegation and escalation route.",
+        "architecture_guard": "A real rights-and-response design or decision needs the technical impact boundary, with governing authority established independently.",
+        "architecture_counter": "A technical classification cannot grant worker rights, revoke a protection or substitute for representation; escalation is not universally central approval.",
+        "alternative_cost_reentry": "Direct owner contact and a recorded response may suffice. Include protected time and appeals; reopen on changed impact, retaliation evidence, delegation or responder capacity."
+      },
+      {
+        "lean_id": "EL-023",
+        "shared_object": "An architectural change that materially changes job content, employment, workload or supplier burden.",
+        "lean_to_architecture": "EL023 supplies credible negotiated transition constraints and identifies who carries the labor-saving change's cost. EA09 must include them in quality and implementation feasibility rather than treat displaced on-call or migration labor as free.",
+        "lean_guard": "The particular structural option has material workforce/distributional effects and the governing transition constraints or credible commitments are independently established.",
+        "lean_counter": "No universal no-layoff rule, causal trust guarantee or presumed labor harm follows from a generic architecture label; trivial changes may have no such effect.",
+        "architecture_to_lean": "EA09 supplies the actual long-lived skill, operating, migration and failure-response consequences of the design. EL023 uses those consequences to identify affected jobs, transition duration and risk allocation before deciding whether gains are fairly distributed.",
+        "architecture_guard": "Employment or workload transition terms are being assessed for the same structural change.",
+        "architecture_counter": "A predicted reduction in technical work does not establish realized gains, job security, fair pay or consent; institutions and financial capacity remain separate.",
+        "alternative_cost_reentry": "State and monitor a genuinely immaterial labor boundary or compare a less disruptive incumbent. Include redeployment, training and cumulative workload; reopen on staffing, contracts, distribution or design changes."
+      },
+      {
+        "lean_id": "EL-024",
+        "shared_object": "A structural problem whose remedy crosses local resource, policy or interface authority.",
+        "lean_to_architecture": "EL024 supplies accountable system ownership and the actual resource/policy response available for a cross-boundary problem. EA09 can distinguish an actionable architecture option from one that local engineers cannot fund or authorize.",
+        "lean_guard": "The architectural issue exceeds local authority and depends on a specified management-controlled condition or response.",
+        "lean_counter": "Leadership commitment language without resource rights or an actual response cannot establish feasible implementation.",
+        "architecture_to_lean": "EA09 locates the structural coupling and costly commitment causing the cross-boundary condition. EL024 can assign response to an actor who can change that condition rather than blame an operator for a structural constraint.",
+        "architecture_guard": "The management/escalation decision needs the real impact and control boundary of the named issue.",
+        "architecture_counter": "A technical root-cause hypothesis is not proof of managerial causation or responsibility for every failure; a local issue can remain delegated.",
+        "alternative_cost_reentry": "Use a direct named escalation with bounded response; no mandatory architecture board. Count attention and opportunity cost; reopen on authority, resources, recurring evidence or impact changes."
+      },
+      {
+        "lean_id": "EL-025",
+        "shared_object": "Architectural fitness or performance measures used in a structural commitment decision.",
+        "lean_to_architecture": "EL025 supplies stable denominators, outcome countermetrics and a challenge to proxy gaming. EA09 can distinguish a locally improved fitness score from quality deterioration or displaced workload outside the measured boundary.",
+        "lean_guard": "The architecture appraisal actually relies on the contested metric or comparison, and the corrected boundary changes its interpretation.",
+        "lean_counter": "A balanced dashboard does not prove value or causal benefit; irrelevant extra metrics create burden without architectural evidence.",
+        "architecture_to_lean": "EA09 supplies which components, dependencies, horizons and quality trade-offs belong in the measured system. EL025 can adjust the denominator and countermetrics when an apparent component gain shifts work or risk along that known structure.",
+        "architecture_guard": "The measurement regime compares outcomes affected by the specific structural option or propagation path.",
+        "architecture_counter": "A dependency description does not establish causal attribution, measured outcomes or anti-gaming enforcement.",
+        "alternative_cost_reentry": "A few direct qualitative and quantitative checks can suffice; count instrumentation, privacy and upkeep. Reopen on metric definition, incentive, boundary or quality-scenario changes."
+      },
+      {
+        "lean_id": "EL-026",
+        "shared_object": "A critical service or asset whose design determines maintenance, diagnosis and recovery over a relevant horizon.",
+        "lean_to_architecture": "EL026 supplies actual failure, repair, spare and maintenance capability information. EA09 can compare an option that assumes rapid replacement with one whose critical dependency cannot be restored within the required horizon.",
+        "lean_guard": "The architectural option relies on the same asset/service and the reliability or maintainability information is current and scoped to the proposed use.",
+        "lean_counter": "Historical reliability outside the operating envelope or a maintenance checklist alone cannot establish capability; a noncritical replaceable item may run to failure.",
+        "architecture_to_lean": "EA09 supplies failure isolation, persistence and interface consequences that determine criticality and feasible recovery. EL026 can choose maintenance, replacement or spares for the actual consequence rather than apply a uniform maintenance frequency.",
+        "architecture_guard": "The maintenance/recovery policy protects the named structural dependency and its failure effects.",
+        "architecture_counter": "Known criticality does not provide spare parts or measured failure probabilities, and reduced exposure remains possible without full recovery.",
+        "alternative_cost_reentry": "A tested replacement path may suffice. Include maintenance labor, downtime, spares and training; reopen on configuration, operating envelope, replacement rights or correlated failures."
+      },
+      {
+        "lean_id": "EL-027",
+        "shared_object": "A recurrent material supplier-controlled capability or interface influencing architecture and joint development.",
+        "lean_to_architecture": "EL027 supplies actual supplier capability, openness, viability and the feasible allocation of development/transition risk. EA09 can condition a design on a realistic supplier path or choose a less dependent option rather than assume a nominal contract guarantees the missing function.",
+        "lean_guard": "The design depends on a real recurrent supplier capability and the supplier information or agreed constraints affect an available option.",
+        "lean_counter": "Supplier name, partnership rhetoric or price alone establish neither technical capability nor fairness; commodity low-risk purchases may need no development programme.",
+        "architecture_to_lean": "EA09 supplies the precise quality/interface requirement, lock-in consequence and permissible alternatives. EL027 can target a real joint capability gap and account for irreversible supplier investment rather than impose undirected improvement or transfer hidden costs.",
+        "architecture_guard": "Supplier development or risk allocation is being decided for the actual architectural dependency.",
+        "architecture_counter": "Technical need does not create data rights, fair bargaining or supplier consent; a local adequate alternative can remove the relationship-specific need.",
+        "alternative_cost_reentry": "Direct qualification, a simpler specification, diversification or local retention may suffice; include disclosure, negotiation and exit costs. Reopen on capability, rights, interface or viability changes."
+      },
+      {
+        "lean_id": "EL-028",
+        "shared_object": "A consequential architecture whose apparent alternatives depend on opaque or shared lower-tier components, sites or services.",
+        "lean_to_architecture": "EL028 supplies item/site identity, common dependencies, recovery lead time and qualified substitutions. EA09 can detect false architectural redundancy when two named suppliers or services share the same critical sub-tier failure and change the option appraisal.",
+        "lean_guard": "The verified dependency information concerns a critical path of the architectural options and actually changes their feasibility or consequence interpretation.",
+        "lean_counter": "A large stale map cannot establish independence, available substitutes or resilience; two vendor names do not establish two independent failure paths.",
+        "architecture_to_lean": "EA09 supplies what functions are critical, which substitution preserves the quality scenario and where irreversible interface commitments lie. EL028 can map and maintain only decision-relevant deep dependencies and qualify the needed alternate rather than inventory every relationship.",
+        "architecture_guard": "The deep-tier visibility or alternate-preparation decision supports the same structural function and recovery horizon.",
+        "architecture_counter": "Architectural insight does not compel supplier disclosure or make an alternate operational; low-criticality easily replaced inputs may need only a simple record.",
+        "alternative_cost_reentry": "Use a critical-dependency register and actual replacement check when sufficient. Include confidentiality, data upkeep and alternate qualification; reopen on concentration, horizon, component identity or access changes."
+      }
+    ],
+    "author_two_sided_challenge": [
+      "False positive: a named architectural tool shared with a Lean board is rejected unless its actual native information or constraint changes the receiver.",
+      "False negative: independently adequate direct confirmation, an unchanged architecture and a small retained reserve can supply the material input; no new artifact or changed action is necessary.",
+      "Reverse challenge: consequential technical structure informs training or employment appraisal, but cannot provide competence, labor rights, fair distribution or managerial authority. Those are separate premises in the reverse records.",
+      "Exposure challenge: limited independent-instance exposure may be material without full qualification/recovery; architecture/reliability comparisons do not erase that partial effect.",
+      "Staging challenge: low uncertainty, real supplier commitments and an adequate stable architecture can justify a staged path. Iteration and architecture work are not universally demanded.",
+      "Buffer challenge: residual variability and material consequence control reserve use; information and unqualified alternate names are not interchangeable physical buffers, and no universal prohibition on zero buffers is inferred.",
+      "Cost challenge: a positive partial input can coexist with an overall excessive control package. Each cheaper adequate path preserves the function and actual rights; no whole-cost proof is used as an entry gate or falsely claimed as a result."
+    ],
+    "disposition": "All 36 named directions support guarded MATERIAL at the specific inputs and consequences above. No previous row or unknown is resolved by this analysis."
+  }
+}

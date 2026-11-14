@@ -1,0 +1,1122 @@
+{
+  "source_identity": {
+    "source_id": "S-5e835ea7f727bdaa",
+    "scientific_name": "SB-R3-033_EA10_F9_FORWARD.json",
+    "original_bytes": 93582,
+    "original_sha256": "5e835ea7f727bdaa2d8a2949302078a3150087fd6f1ae77e0aeafc0e9e1e42a8"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-033",
+    "title": "EA-10_FORWARD_INTEGRATION_AND_CONFIGURATION_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:40:37.543559+00:00",
+    "inquiry_family": 9,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_ORIGINAL_AGILE_ROW_AND_ACCEPTED_OVERLAY",
+      "COMPLETE_CURRENT_WATERFALL_ROW",
+      "ACTUAL_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_007.json",
+      "bytes": 12364,
+      "sha256": "bb1119a087d6b0691dd0701b81c0638beee7881f7dad2ef323548dddb8314ada"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY9_NATIVE_MEANINGS.json",
+      "bytes": 151028,
+      "sha256": "f4113277f3aa84794b7ce823b2698d69ffcb4395b3793fd8b38a3b786406afa4"
+    },
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY9_SOURCE_INQUIRY.json",
+      "bytes": 4684,
+      "sha256": "9d06a0c2d8ec095f02b6ba760a21a39560a258b8064485cc5644f590d538cb45"
+    },
+    "bounded_interface_domain": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+    "native_common_basis": "Candidate technical readiness, deployment and authorized exposure are distinct. Readiness evidence and actual authority must concern the same candidate when exposure is governed.",
+    "common_cost_and_alternative": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair.",
+    "domain_horizon_authority": "Each member exact technical decision, configuration and actual authority; no universal process order or automatic exposure.",
+    "evidence_ceiling": "Conditional analytical partial-input relation. No empirical effect estimate, complete receiver entailment, legal applicability judgment, novelty or independent acceptance.",
+    "common_subconditions": {
+      "P1": "Actual common object and used receiving concern.",
+      "P2": "Complete native meanings support the specific input.",
+      "P3": "Literal input affects a receiving premise or its interpretation.",
+      "P4": "Missing premises, cost, cheaper alternative, nontrigger and stronger-claim counterexample remain explicit."
+    },
+    "inference": "The explicit contribution is material at its stated guard even when final action is confirmed rather than changed. Corresponding mechanisms may overlap; duplicate names, reused tests and common pipelines do not create additional benefit or independence.",
+    "attempted_contrary_interfaces": [
+      "Identical test behavior treated as unique artifact identity.",
+      "A green pipeline treated as exposure authority.",
+      "An approved model treated as actual deployed state.",
+      "The same test counted as independent evidence twice.",
+      "All evidence discarded after harmless change.",
+      "All evidence carried after a changed critical premise.",
+      "A trace link treated as proof of the linked claim."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P005",
+        "argument": "Explicit candidate readiness and distinct deployment/exposure states supply current release knowledge that prevents a staged artifact being misreported as authorized operation."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P006",
+        "argument": "A reproducible packaged candidate and visible readiness status provide distinct configuration references for technical preparation and later exposure."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P007",
+        "argument": "Keeping deployment distinct from exposure makes it possible to examine the prepared artifact and its environment before the exposure decision."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P008",
+        "argument": "Separated candidate and exposure states permit a verified change to be held while consequential approval or evidence is obtained."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P009",
+        "argument": "A reproducible candidate exposes the proposed interface version and permits compatibility testing before user exposure."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P010",
+        "argument": "A stable candidate and explicit readiness conditions make the proposed test article and unsatisfied evidence needs visible before exposure."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P011",
+        "argument": "A reproducible candidate supplies a stable article for the relevant integration levels and prevents a changing branch from obscuring test attribution."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P017",
+        "argument": "The explicit candidate and exposure state supply configuration-specific endpoints for release evidence and outstanding conditions."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P019",
+        "argument": "Separating technical preparation from exposure prevents an evidence-producing pipeline from silently becoming the risk-accepting authority."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P020",
+        "argument": "A distinct candidate and exposure status let the release be held or bounded without erasing unresolved defects from the prepared artifact."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P030",
+        "argument": "The reproducible packaged candidate supplies an executable reference for checking whether model and release views describe the same proposed realization."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P031",
+        "argument": "The readiness/exposure separation supplies a receiving boundary at which continuous evidence can inform a candidate decision without automatically deploying to users."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P005",
+        "overclaim": "A readiness label without rationale, unresolved limits or environment information is not transferable engineering knowledge.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P006",
+        "overclaim": "Readiness status can be attached to the wrong binary; it does not uniquely bind all build inputs and deployment state.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P007",
+        "overclaim": "Staging a candidate does not prove the production database, secrets or physical installation correspond to the tested environment.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P008",
+        "overclaim": "The ability to hold a release does not justify delaying an urgent remedy without considering the risk of delay.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P009",
+        "overclaim": "A technically deployable package may break an old client or an irreversible data schema.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P010",
+        "overclaim": "Calling a candidate release-ready cannot make an unavailable destructive test or ambiguous criterion feasible.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P011",
+        "overclaim": "A packaged build does not itself exercise an interaction or establish all system-level qualities.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P017",
+        "overclaim": "A checklist of links to older releases can look complete while supporting none of the current candidate changes.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P019",
+        "overclaim": "A release-ready assertion is not a coherent safety argument and may omit a rare hazardous condition.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P020",
+        "overclaim": "Holding the release does not repair a defect, and calling a deviation accepted does not identify its authorized scope.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P030",
+        "overclaim": "A model showing release-ready status can remain stale after a database or environment change.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P031",
+        "overclaim": "A green pipeline can prepare a technically usable candidate while required independent evidence remains absent.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      }
+    ],
+    "exceptions": [],
+    "author_challenge": "Each member has a separately written contribution and stronger-claim witness; reverse meanings were reasoned separately. This code only serializes and checks the literal set.",
+    "common_source_dependence": "Shared source works, configurations, models, observers, tests and pipelines are not independent assurance.",
+    "independent_review_scope": "Later fidelity and genuinely separate adversarial assessment must examine common premise, exact membership, native scope and controls; no author acceptance here.",
+    "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction.",
+    "explicit_member_keys": [
+      "LAW-L2::EA-10->LAW-L3::EW-P005",
+      "LAW-L2::EA-10->LAW-L3::EW-P006",
+      "LAW-L2::EA-10->LAW-L3::EW-P007",
+      "LAW-L2::EA-10->LAW-L3::EW-P008",
+      "LAW-L2::EA-10->LAW-L3::EW-P009",
+      "LAW-L2::EA-10->LAW-L3::EW-P010",
+      "LAW-L2::EA-10->LAW-L3::EW-P011",
+      "LAW-L2::EA-10->LAW-L3::EW-P017",
+      "LAW-L2::EA-10->LAW-L3::EW-P019",
+      "LAW-L2::EA-10->LAW-L3::EW-P020",
+      "LAW-L2::EA-10->LAW-L3::EW-P030",
+      "LAW-L2::EA-10->LAW-L3::EW-P031"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P005",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P005",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/4",
+          "expected_native_id": "EW-P005"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+          "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form."
+        },
+        "shared_question_or_object": "A maintainer or operator must understand a candidate readiness state and exposure limits.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+          "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form.",
+          "literal_bridge": "Explicit candidate readiness and distinct deployment/exposure states supply current release knowledge that prevents a staged artifact being misreported as authorized operation."
+        },
+        "source_contribution": "Explicit candidate readiness and distinct deployment/exposure states supply current release knowledge that prevents a staged artifact being misreported as authorized operation.",
+        "receiving_consequence": "Explicit candidate readiness and distinct deployment/exposure states supply current release knowledge that prevents a staged artifact being misreported as authorized operation.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Explicit candidate readiness and distinct deployment/exposure states supply current release knowledge that prevents a staged artifact being misreported as authorized operation."
+        ],
+        "premises_remaining": [
+          "Actual accessibility, current rationale, ownership and maintained limitations remain necessary for the knowledge claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A readiness label without rationale, unresolved limits or environment information is not transferable engineering knowledge.",
+        "counter_control": "A readiness label without rationale, unresolved limits or environment information is not transferable engineering knowledge.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. A concise record, executable example or generated reference may beat duplicated prose.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A maintainer or operator must understand a candidate readiness state and exposure limits.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+            "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form."
+          },
+          "P3": "Explicit candidate readiness and distinct deployment/exposure states supply current release knowledge that prevents a staged artifact being misreported as authorized operation.",
+          "P4": "Actual accessibility, current rationale, ownership and maintained limitations remain necessary for the knowledge claim. Stronger-claim witness: A readiness label without rationale, unresolved limits or environment information is not transferable engineering knowledge."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P005->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P006",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P006",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/5",
+          "expected_native_id": "EW-P006"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "An item or baseline on which evidence or authority depends",
+          "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item."
+        },
+        "shared_question_or_object": "One release candidate is packaged, tested, staged and considered for exposure.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "An item or baseline on which evidence or authority depends",
+          "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item.",
+          "literal_bridge": "A reproducible packaged candidate and visible readiness status provide distinct configuration references for technical preparation and later exposure."
+        },
+        "source_contribution": "A reproducible packaged candidate and visible readiness status provide distinct configuration references for technical preparation and later exposure.",
+        "receiving_consequence": "A reproducible packaged candidate and visible readiness status provide distinct configuration references for technical preparation and later exposure.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A reproducible packaged candidate and visible readiness status provide distinct configuration references for technical preparation and later exposure."
+        ],
+        "premises_remaining": [
+          "Unique identity, recoverability, build/environment provenance and legitimate baseline authority remain separate from behavioral success.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Readiness status can be attached to the wrong binary; it does not uniquely bind all build inputs and deployment state.",
+        "counter_control": "Readiness status can be attached to the wrong binary; it does not uniquely bind all build inputs and deployment state.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. Ordinary version control plus a build manifest may suffice; a baseline is not a universal freeze.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "One release candidate is packaged, tested, staged and considered for exposure.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "An item or baseline on which evidence or authority depends",
+            "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item."
+          },
+          "P3": "A reproducible packaged candidate and visible readiness status provide distinct configuration references for technical preparation and later exposure.",
+          "P4": "Unique identity, recoverability, build/environment provenance and legitimate baseline authority remain separate from behavioral success. Stronger-claim witness: Readiness status can be attached to the wrong binary; it does not uniquely bind all build inputs and deployment state."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P006->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P007",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P007",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/6",
+          "expected_native_id": "EW-P007"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "The correspondence of designed, built, tested and operated states",
+          "receiving_criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+        },
+        "shared_question_or_object": "A technically prepared candidate is compared with the actual staging or deployment environment.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "The correspondence of designed, built, tested and operated states",
+          "receiving_criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions.",
+          "literal_bridge": "Keeping deployment distinct from exposure makes it possible to examine the prepared artifact and its environment before the exposure decision."
+        },
+        "source_contribution": "Keeping deployment distinct from exposure makes it possible to examine the prepared artifact and its environment before the exposure decision.",
+        "receiving_consequence": "Keeping deployment distinct from exposure makes it possible to examine the prepared artifact and its environment before the exposure decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Keeping deployment distinct from exposure makes it possible to examine the prepared artifact and its environment before the exposure decision."
+        ],
+        "premises_remaining": [
+          "Actual built/deployed observation, environmental correspondence, unknown state and authorized deviations remain explicit.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Staging a candidate does not prove the production database, secrets or physical installation correspond to the tested environment.",
+        "counter_control": "Staging a candidate does not prove the production database, secrets or physical installation correspond to the tested environment.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. A deployment digest can suffice for a narrow identity need; deeper physical reconciliation has a consequence-dependent cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A technically prepared candidate is compared with the actual staging or deployment environment.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "The correspondence of designed, built, tested and operated states",
+            "receiving_criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          },
+          "P3": "Keeping deployment distinct from exposure makes it possible to examine the prepared artifact and its environment before the exposure decision.",
+          "P4": "Actual built/deployed observation, environmental correspondence, unknown state and authorized deviations remain explicit. Stronger-claim witness: Staging a candidate does not prove the production database, secrets or physical installation correspond to the tested environment."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P007->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P008",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P008",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+        },
+        "shared_question_or_object": "A candidate change affects release readiness or an exposure authorization boundary.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state.",
+          "literal_bridge": "Separated candidate and exposure states permit a verified change to be held while consequential approval or evidence is obtained."
+        },
+        "source_contribution": "Separated candidate and exposure states permit a verified change to be held while consequential approval or evidence is obtained.",
+        "receiving_consequence": "Separated candidate and exposure states permit a verified change to be held while consequential approval or evidence is obtained.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Separated candidate and exposure states permit a verified change to be held while consequential approval or evidence is obtained."
+        ],
+        "premises_remaining": [
+          "Actual affected commitments, delegated authority, residual risks and emergency conditions remain to be established.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "The ability to hold a release does not justify delaying an urgent remedy without considering the risk of delay.",
+        "counter_control": "The ability to hold a release does not justify delaying an urgent remedy without considering the risk of delay.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. Preauthorized local change, targeted peer assessment and timely emergency handling can replace a universal board.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A candidate change affects release readiness or an exposure authorization boundary.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+          },
+          "P3": "Separated candidate and exposure states permit a verified change to be held while consequential approval or evidence is obtained.",
+          "P4": "Actual affected commitments, delegated authority, residual risks and emergency conditions remain to be established. Stronger-claim witness: The ability to hold a release does not justify delaying an urgent remedy without considering the risk of delay."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P008->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P009",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P009",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes."
+        },
+        "shared_question_or_object": "A release candidate must coexist with independently released peers.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "A reproducible candidate exposes the proposed interface version and permits compatibility testing before user exposure."
+        },
+        "source_contribution": "A reproducible candidate exposes the proposed interface version and permits compatibility testing before user exposure.",
+        "receiving_consequence": "A reproducible candidate exposes the proposed interface version and permits compatibility testing before user exposure.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A reproducible candidate exposes the proposed interface version and permits compatibility testing before user exposure."
+        ],
+        "premises_remaining": [
+          "Semantic precision, two-sided implementation, representative compatibility evidence and actual ownership remain required for the full contract claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A technically deployable package may break an old client or an irreversible data schema.",
+        "counter_control": "A technically deployable package may break an old client or an irreversible data schema.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. A language type or contract test may suffice; include negotiation and supported-version costs.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A release candidate must coexist with independently released peers.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "A consequential boundary between components or organizations",
+            "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes."
+          },
+          "P3": "A reproducible candidate exposes the proposed interface version and permits compatibility testing before user exposure.",
+          "P4": "Semantic precision, two-sided implementation, representative compatibility evidence and actual ownership remain required for the full contract claim. Stronger-claim witness: A technically deployable package may break an old client or an irreversible data schema."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P009->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P010",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P010",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A requirement proposed as a basis for verification",
+          "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive."
+        },
+        "shared_question_or_object": "Release readiness relies on feasible evaluation of a consequential requirement.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A requirement proposed as a basis for verification",
+          "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+          "literal_bridge": "A stable candidate and explicit readiness conditions make the proposed test article and unsatisfied evidence needs visible before exposure."
+        },
+        "source_contribution": "A stable candidate and explicit readiness conditions make the proposed test article and unsatisfied evidence needs visible before exposure.",
+        "receiving_consequence": "A stable candidate and explicit readiness conditions make the proposed test article and unsatisfied evidence needs visible before exposure.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A stable candidate and explicit readiness conditions make the proposed test article and unsatisfied evidence needs visible before exposure."
+        ],
+        "premises_remaining": [
+          "The requirement, method, article, environment, oracle and feasible resources must match the relied-upon claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Calling a candidate release-ready cannot make an unavailable destructive test or ambiguous criterion feasible.",
+        "counter_control": "Calling a candidate release-ready cannot make an unavailable destructive test or ambiguous criterion feasible.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. An executable example may supply the whole plan; do not lock future discovery to an early document.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Release readiness relies on feasible evaluation of a consequential requirement.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "A requirement proposed as a basis for verification",
+            "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive."
+          },
+          "P3": "A stable candidate and explicit readiness conditions make the proposed test article and unsatisfied evidence needs visible before exposure.",
+          "P4": "The requirement, method, article, environment, oracle and feasible resources must match the relied-upon claim. Stronger-claim witness: Calling a candidate release-ready cannot make an unavailable destructive test or ambiguous criterion feasible."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P010->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P011",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P011",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A realized component and its integrations",
+          "receiving_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests."
+        },
+        "shared_question_or_object": "A candidate readiness claim depends on component and system interaction behavior.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A realized component and its integrations",
+          "receiving_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests.",
+          "literal_bridge": "A reproducible candidate supplies a stable article for the relevant integration levels and prevents a changing branch from obscuring test attribution."
+        },
+        "source_contribution": "A reproducible candidate supplies a stable article for the relevant integration levels and prevents a changing branch from obscuring test attribution.",
+        "receiving_consequence": "A reproducible candidate supplies a stable article for the relevant integration levels and prevents a changing branch from obscuring test attribution.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A reproducible candidate supplies a stable article for the relevant integration levels and prevents a changing branch from obscuring test attribution."
+        ],
+        "premises_remaining": [
+          "Untested interactions, representativeness and required independence remain outside one local result.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A packaged build does not itself exercise an interaction or establish all system-level qualities.",
+        "counter_control": "A packaged build does not itself exercise an interaction or establish all system-level qualities.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. Reuse valid component evidence and add only the justified missing level; extra phases may merely duplicate cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A candidate readiness claim depends on component and system interaction behavior.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "A realized component and its integrations",
+            "receiving_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests."
+          },
+          "P3": "A reproducible candidate supplies a stable article for the relevant integration levels and prevents a changing branch from obscuring test attribution.",
+          "P4": "Untested interactions, representativeness and required independence remain outside one local result. Stronger-claim witness: A packaged build does not itself exercise an interaction or establish all system-level qualities."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P011->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P017",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P017",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost."
+        },
+        "shared_question_or_object": "A release decision asks which obligations and evidence belong to the candidate.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost.",
+          "literal_bridge": "The explicit candidate and exposure state supply configuration-specific endpoints for release evidence and outstanding conditions."
+        },
+        "source_contribution": "The explicit candidate and exposure state supply configuration-specific endpoints for release evidence and outstanding conditions.",
+        "receiving_consequence": "The explicit candidate and exposure state supply configuration-specific endpoints for release evidence and outstanding conditions.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The explicit candidate and exposure state supply configuration-specific endpoints for release evidence and outstanding conditions."
+        ],
+        "premises_remaining": [
+          "Correct semantic links, current versions, actual query use and affordable upkeep remain distinct from link existence.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A checklist of links to older releases can look complete while supporting none of the current candidate changes.",
+        "counter_control": "A checklist of links to older releases can look complete while supporting none of the current candidate changes.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. A focused native query may beat a universal matrix; ideal supplied traces do not establish lifecycle return.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A release decision asks which obligations and evidence belong to the candidate.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost."
+          },
+          "P3": "The explicit candidate and exposure state supply configuration-specific endpoints for release evidence and outstanding conditions.",
+          "P4": "Correct semantic links, current versions, actual query use and affordable upkeep remain distinct from link existence. Stronger-claim witness: A checklist of links to older releases can look complete while supporting none of the current candidate changes."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P017->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P019",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P019",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "An assurance argument for a system in a specified context",
+          "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+        },
+        "shared_question_or_object": "An assurance argument supports a proposed candidate exposure.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "An assurance argument for a system in a specified context",
+          "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change.",
+          "literal_bridge": "Separating technical preparation from exposure prevents an evidence-producing pipeline from silently becoming the risk-accepting authority."
+        },
+        "source_contribution": "Separating technical preparation from exposure prevents an evidence-producing pipeline from silently becoming the risk-accepting authority.",
+        "receiving_consequence": "Separating technical preparation from exposure prevents an evidence-producing pipeline from silently becoming the risk-accepting authority.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Separating technical preparation from exposure prevents an evidence-producing pipeline from silently becoming the risk-accepting authority."
+        ],
+        "premises_remaining": [
+          "Coherent inference, credible current evidence, defeaters, independent challenge and residual-risk authority remain unresolved by one input.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A release-ready assertion is not a coherent safety argument and may omit a rare hazardous condition.",
+        "counter_control": "A release-ready assertion is not a coherent safety argument and may omit a rare hazardous condition.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. A concise argument may suffice; avoid persuasive dossiers and double-counted common evidence.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An assurance argument supports a proposed candidate exposure.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "An assurance argument for a system in a specified context",
+            "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "P3": "Separating technical preparation from exposure prevents an evidence-producing pipeline from silently becoming the risk-accepting authority.",
+          "P4": "Coherent inference, credible current evidence, defeaters, independent challenge and residual-risk authority remain unresolved by one input. Stronger-claim witness: A release-ready assertion is not a coherent safety argument and may omit a rare hazardous condition."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P019->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P020",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P020",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+        },
+        "shared_question_or_object": "A candidate contains known anomalies or accepted deviations at an exposure decision.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations.",
+          "literal_bridge": "A distinct candidate and exposure status let the release be held or bounded without erasing unresolved defects from the prepared artifact."
+        },
+        "source_contribution": "A distinct candidate and exposure status let the release be held or bounded without erasing unresolved defects from the prepared artifact.",
+        "receiving_consequence": "A distinct candidate and exposure status let the release be held or bounded without erasing unresolved defects from the prepared artifact.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A distinct candidate and exposure status let the release be held or bounded without erasing unresolved defects from the prepared artifact."
+        ],
+        "premises_remaining": [
+          "Affected state, meaningful severity, authority, actual correction and verified residual status remain distinct.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Holding the release does not repair a defect, and calling a deviation accepted does not identify its authorized scope.",
+        "counter_control": "Holding the release does not repair a defect, and calling a deviation accepted does not identify its authorized scope.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. A tracked issue and relevant regression check can suffice; administrative closure is not defect closure.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A candidate contains known anomalies or accepted deviations at an exposure decision.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+          },
+          "P3": "A distinct candidate and exposure status let the release be held or bounded without erasing unresolved defects from the prepared artifact.",
+          "P4": "Affected state, meaningful severity, authority, actual correction and verified residual status remain distinct. Stronger-claim witness: Holding the release does not repair a defect, and calling a deviation accepted does not identify its authorized scope."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P020->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P030",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P030",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "An authoritative engineering model or digital environment",
+          "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+        },
+        "shared_question_or_object": "A digital engineering source represents a candidate release and its technical state.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "An authoritative engineering model or digital environment",
+          "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it.",
+          "literal_bridge": "The reproducible packaged candidate supplies an executable reference for checking whether model and release views describe the same proposed realization."
+        },
+        "source_contribution": "The reproducible packaged candidate supplies an executable reference for checking whether model and release views describe the same proposed realization.",
+        "receiving_consequence": "The reproducible packaged candidate supplies an executable reference for checking whether model and release views describe the same proposed realization.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The reproducible packaged candidate supplies an executable reference for checking whether model and release views describe the same proposed realization."
+        ],
+        "premises_remaining": [
+          "Semantic adequacy, scoped authority, access, interoperability, validation and actual-state correspondence remain separate.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A model showing release-ready status can remain stale after a database or environment change.",
+        "counter_control": "A model showing release-ready status can remain stale after a database or environment change.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. Versioned native documents, source and tests may outperform a new platform; include migration, licensing and specialist upkeep.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A digital engineering source represents a candidate release and its technical state.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "An authoritative engineering model or digital environment",
+            "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+          },
+          "P3": "The reproducible packaged candidate supplies an executable reference for checking whether model and release views describe the same proposed realization.",
+          "P4": "Semantic adequacy, scoped authority, access, interoperability, validation and actual-state correspondence remain separate. Stronger-claim witness: A model showing release-ready status can remain stale after a database or environment change."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P030->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-10->LAW-L3::EW-P031",
+        "source_native_id": "EA-10",
+        "receiving_native_id": "EW-P031",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions."
+        },
+        "shared_question_or_object": "A recurring evidence pipeline prepares candidates for a separate exposure decision.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+          "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions.",
+          "literal_bridge": "The readiness/exposure separation supplies a receiving boundary at which continuous evidence can inform a candidate decision without automatically deploying to users."
+        },
+        "source_contribution": "The readiness/exposure separation supplies a receiving boundary at which continuous evidence can inform a candidate decision without automatically deploying to users.",
+        "receiving_consequence": "The readiness/exposure separation supplies a receiving boundary at which continuous evidence can inform a candidate decision without automatically deploying to users.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The readiness/exposure separation supplies a receiving boundary at which continuous evidence can inform a candidate decision without automatically deploying to users."
+        ],
+        "premises_remaining": [
+          "Credible oracles, trustworthy generation, current configuration, actual coverage, independence and authorized consumption remain distinct.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A green pipeline can prepare a technically usable candidate while required independent evidence remains absent.",
+        "counter_control": "A green pipeline can prepare a technically usable candidate while required independent evidence remains absent.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "A single qualified release, held candidate or bounded prototype may be legitimate; include preparation, staging, hold, migration and recovery costs, including the cost of delayed repair. Manual or periodic evidence can be adequate at low cadence; automation adds upkeep and common-mode failure risk.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A recurring evidence pipeline prepares candidates for a separate exposure decision.",
+          "P2": {
+            "source_bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "source_proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+            "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions."
+          },
+          "P3": "The readiness/exposure separation supplies a receiving boundary at which continuous evidence can inform a candidate decision without automatically deploying to users.",
+          "P4": "Credible oracles, trustworthy generation, current configuration, actual coverage, independence and authorized consumption remain distinct. Stronger-claim witness: A green pipeline can prepare a technically usable candidate while required independent evidence remains absent."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P031->LAW-L2::EA-10",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      }
+    ]
+  }
+}

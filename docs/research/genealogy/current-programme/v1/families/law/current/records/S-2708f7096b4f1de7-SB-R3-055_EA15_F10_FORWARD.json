@@ -1,0 +1,1046 @@
+{
+  "source_identity": {
+    "source_id": "S-2708f7096b4f1de7",
+    "scientific_name": "SB-R3-055_EA15_F10_FORWARD.json",
+    "original_bytes": 80767,
+    "original_sha256": "2708f7096b4f1de79506841da8f1c8f53aefcad77997f1fc7e6eddb0694d66af"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-055",
+    "title": "EA-15_FORWARD_FEEDBACK_RISK_AND_COMMITMENT",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T00:56:37.976621+00:00",
+    "inquiry_family": 10,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_009.json",
+      "bytes": 2255,
+      "sha256": "30275ce0d0497e756226547c0fd20c982874b60d4bd54e5f3a1ad3c104ed3ac1"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY10_REMAINING132_NATIVE_MEANINGS.json",
+      "bytes": 125638,
+      "sha256": "12f74b20f49c095ce5835481b375996e084ded0910c6ac801a8ea94c07bc5c57"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY10_REMAINING132_LITERAL_ARGUMENTS.json",
+      "bytes": 51404,
+      "sha256": "e33fcc9f5b481afe2eccc596d417a3f4baca77c022211e6881530d5f46bfafd2"
+    },
+    "bounded_interface_domain": [
+      "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+      "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+      "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+      "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+      "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+    ],
+    "native_common_basis": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+    "common_cost_and_alternative": [
+      "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+      "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+      "No addition is warranted solely because another named method could be introduced.",
+      "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+    ],
+    "evidence_ceiling": "Conditional root analytical arguments from exact accepted native mechanisms. No new primary-body access, empirical effect, universal cadence, independent review, new property identity or scientific qualification claimed.",
+    "common_subconditions": {
+      "P1": "Actual common question, object and receiving use.",
+      "P2": "Exact native meaning and accepted overlay.",
+      "P3": "The separately reasoned partial consequence.",
+      "P4": "Counterexample, absent guard, remaining premises, cost, alternative and reentry."
+    },
+    "inference": "The specified partial input can materially change a decision premise or warrant even when the action is confirmed. No universal cadence, symmetric equivalence, temporal chain or requirement to add a new control follows.",
+    "common_source_dependence": "Shared evidence, method ancestry, prototype or model is not independent support twice.",
+    "exceptions": [],
+    "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P001",
+        "argument": "An authorized, discriminating experiment can supply evidence that confirms or defeats the named assumption while preserving explicit population, stopping and exposure limits."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P002",
+        "argument": "Hypothesis, valid comparison, representative conditions and stopping rules turn the named uncertainty into a discriminating inquiry rather than unstructured activity."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P003",
+        "argument": "Guarded experiments or restricted qualification can test a representative structural hypothesis where intervention is safe and feasible; otherwise the guard directs reliance toward analysis or proof."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P004",
+        "argument": "Prespecified hypothesis, comparator, guardrails and stopping rules make the prototype evidence answer the named risk question at a defensible scope."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P012",
+        "argument": "Valid comparisons, representative conditions and explicit harm controls constrain whether an observed use difference is credible evidence of the intended effect."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P021",
+        "argument": "The declared comparison, uncertainty, exposure and stopping rules supply interpretable evidence and explicit limits for a go, hold, redirect or stop decision."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P022",
+        "argument": "An admissible discriminating experiment identifies what can be learned within a stage and when continuing exposure or investment has no justified information value."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P023",
+        "argument": "Guardrails, comparable configurations and stopping criteria identify where experimentation can overlap work and where uncontrolled changes would invalidate its inference."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P024",
+        "argument": "The feasible comparison, exposure severity and stopping conditions specify which experimental safeguards are necessary and where a cheaper analysis or existing check is adequate."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P025",
+        "argument": "The comparison, observation window and uncertainty limits determine what a controlled result can legitimately contribute to a forecast about the same intervention and population."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P033",
+        "argument": "Experiment-specific harm, reversibility, observation and stopping conditions instantiate the consequences that require containment, escalation or an alternative evidence route."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P001",
+        "overclaim": "A successful experiment on a convenient metric cannot authorize redefining the intended outcome or exposing users beyond legitimate permission.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P002",
+        "overclaim": "Repeated testing with optional stopping and selective reporting can produce a favorable result without credible discrimination.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P003",
+        "overclaim": "A live experiment on an irreversible safety-critical architecture may be inadmissible even if it would be informative.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P004",
+        "overclaim": "A prototype exercise with no decision criterion can continue indefinitely or yield selected anecdotes rather than risk-relevant evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P012",
+        "overclaim": "A statistically favorable short-term outcome can coexist with excluded users, unmeasured harm or invalid transfer to the real operating context.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P021",
+        "overclaim": "A favorable selected result cannot satisfy an unrelated criterion or supply the decision authority that the experiment lacks.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P022",
+        "overclaim": "A cheap trial can still cause irreversible harm, and sequential optional testing can falsely justify successive scale-up.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P023",
+        "overclaim": "Concurrent changes in several subsystems can confound an apparent treatment effect and create exposure outside the approved experiment.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P024",
+        "overclaim": "Reducing ceremony cannot justify removing a material harm guard or a binding participant-protection obligation.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P025",
+        "overclaim": "A short-run treatment effect in selected participants cannot be treated as a universal future adoption or delivery rate.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P033",
+        "overclaim": "A nominally reversible feature flag cannot undo all participant harm or justify a live trial of an uncontainable failure.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-15->LAW-L3::EW-P001",
+      "LAW-L2::EA-15->LAW-L3::EW-P002",
+      "LAW-L2::EA-15->LAW-L3::EW-P003",
+      "LAW-L2::EA-15->LAW-L3::EW-P004",
+      "LAW-L2::EA-15->LAW-L3::EW-P012",
+      "LAW-L2::EA-15->LAW-L3::EW-P021",
+      "LAW-L2::EA-15->LAW-L3::EW-P022",
+      "LAW-L2::EA-15->LAW-L3::EW-P023",
+      "LAW-L2::EA-15->LAW-L3::EW-P024",
+      "LAW-L2::EA-15->LAW-L3::EW-P025",
+      "LAW-L2::EA-15->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P001",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P001",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "shared_question_or_object": "An operative intent contains a testable uncertain product or requirement assumption.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "An authorized, discriminating experiment can supply evidence that confirms or defeats the named assumption while preserving explicit population, stopping and exposure limits.",
+        "receiving_consequence": "An authorized, discriminating experiment can supply evidence that confirms or defeats the named assumption while preserving explicit population, stopping and exposure limits.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "An authorized, discriminating experiment can supply evidence that confirms or defeats the named assumption while preserving explicit population, stopping and exposure limits."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A successful experiment on a convenient metric cannot authorize redefining the intended outcome or exposing users beyond legitimate permission.",
+        "counter_control": "A successful experiment on a convenient metric cannot authorize redefining the intended outcome or exposing users beyond legitimate permission.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P001->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "actual_object": "An operative intent contains a testable uncertain product or requirement assumption.",
+          "literal_bridge": "An authorized, discriminating experiment can supply evidence that confirms or defeats the named assumption while preserving explicit population, stopping and exposure limits."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P002",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P002",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "shared_question_or_object": "A learning obligation can be addressed by a feasible and permitted intervention.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Hypothesis, valid comparison, representative conditions and stopping rules turn the named uncertainty into a discriminating inquiry rather than unstructured activity.",
+        "receiving_consequence": "Hypothesis, valid comparison, representative conditions and stopping rules turn the named uncertainty into a discriminating inquiry rather than unstructured activity.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Hypothesis, valid comparison, representative conditions and stopping rules turn the named uncertainty into a discriminating inquiry rather than unstructured activity."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Repeated testing with optional stopping and selective reporting can produce a favorable result without credible discrimination.",
+        "counter_control": "Repeated testing with optional stopping and selective reporting can produce a favorable result without credible discrimination.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P002->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "actual_object": "A learning obligation can be addressed by a feasible and permitted intervention.",
+          "literal_bridge": "Hypothesis, valid comparison, representative conditions and stopping rules turn the named uncertainty into a discriminating inquiry rather than unstructured activity."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P003",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P003",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "shared_question_or_object": "A consequential architectural assumption is examined before hard commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Guarded experiments or restricted qualification can test a representative structural hypothesis where intervention is safe and feasible; otherwise the guard directs reliance toward analysis or proof.",
+        "receiving_consequence": "Guarded experiments or restricted qualification can test a representative structural hypothesis where intervention is safe and feasible; otherwise the guard directs reliance toward analysis or proof.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Guarded experiments or restricted qualification can test a representative structural hypothesis where intervention is safe and feasible; otherwise the guard directs reliance toward analysis or proof."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A live experiment on an irreversible safety-critical architecture may be inadmissible even if it would be informative.",
+        "counter_control": "A live experiment on an irreversible safety-critical architecture may be inadmissible even if it would be informative.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "actual_object": "A consequential architectural assumption is examined before hard commitment.",
+          "literal_bridge": "Guarded experiments or restricted qualification can test a representative structural hypothesis where intervention is safe and feasible; otherwise the guard directs reliance toward analysis or proof."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P004",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P004",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "shared_question_or_object": "An executable risk investigation uses an experimental intervention.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Prespecified hypothesis, comparator, guardrails and stopping rules make the prototype evidence answer the named risk question at a defensible scope.",
+        "receiving_consequence": "Prespecified hypothesis, comparator, guardrails and stopping rules make the prototype evidence answer the named risk question at a defensible scope.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Prespecified hypothesis, comparator, guardrails and stopping rules make the prototype evidence answer the named risk question at a defensible scope."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A prototype exercise with no decision criterion can continue indefinitely or yield selected anecdotes rather than risk-relevant evidence.",
+        "counter_control": "A prototype exercise with no decision criterion can continue indefinitely or yield selected anecdotes rather than risk-relevant evidence.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P004->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "actual_object": "An executable risk investigation uses an experimental intervention.",
+          "literal_bridge": "Prespecified hypothesis, comparator, guardrails and stopping rules make the prototype evidence answer the named risk question at a defensible scope."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P012",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P012",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "shared_question_or_object": "An intervention is evaluated for intended-use fit in a defined population and context.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Valid comparisons, representative conditions and explicit harm controls constrain whether an observed use difference is credible evidence of the intended effect.",
+        "receiving_consequence": "Valid comparisons, representative conditions and explicit harm controls constrain whether an observed use difference is credible evidence of the intended effect.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Valid comparisons, representative conditions and explicit harm controls constrain whether an observed use difference is credible evidence of the intended effect."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A statistically favorable short-term outcome can coexist with excluded users, unmeasured harm or invalid transfer to the real operating context.",
+        "counter_control": "A statistically favorable short-term outcome can coexist with excluded users, unmeasured harm or invalid transfer to the real operating context.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P012->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "actual_object": "An intervention is evaluated for intended-use fit in a defined population and context.",
+          "literal_bridge": "Valid comparisons, representative conditions and explicit harm controls constrain whether an observed use difference is credible evidence of the intended effect."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P021",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P021",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "shared_question_or_object": "Experimental results or stopping conditions inform a consequential commitment review.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The declared comparison, uncertainty, exposure and stopping rules supply interpretable evidence and explicit limits for a go, hold, redirect or stop decision.",
+        "receiving_consequence": "The declared comparison, uncertainty, exposure and stopping rules supply interpretable evidence and explicit limits for a go, hold, redirect or stop decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The declared comparison, uncertainty, exposure and stopping rules supply interpretable evidence and explicit limits for a go, hold, redirect or stop decision."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A favorable selected result cannot satisfy an unrelated criterion or supply the decision authority that the experiment lacks.",
+        "counter_control": "A favorable selected result cannot satisfy an unrelated criterion or supply the decision authority that the experiment lacks.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "actual_object": "Experimental results or stopping conditions inform a consequential commitment review.",
+          "literal_bridge": "The declared comparison, uncertainty, exposure and stopping rules supply interpretable evidence and explicit limits for a go, hold, redirect or stop decision."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P022",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "shared_question_or_object": "A staged investment purchases information before a larger commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "An admissible discriminating experiment identifies what can be learned within a stage and when continuing exposure or investment has no justified information value.",
+        "receiving_consequence": "An admissible discriminating experiment identifies what can be learned within a stage and when continuing exposure or investment has no justified information value.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "An admissible discriminating experiment identifies what can be learned within a stage and when continuing exposure or investment has no justified information value."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A cheap trial can still cause irreversible harm, and sequential optional testing can falsely justify successive scale-up.",
+        "counter_control": "A cheap trial can still cause irreversible harm, and sequential optional testing can falsely justify successive scale-up.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "actual_object": "A staged investment purchases information before a larger commitment.",
+          "literal_bridge": "An admissible discriminating experiment identifies what can be learned within a stage and when continuing exposure or investment has no justified information value."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P023",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P023",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22",
+          "expected_native_id": "EW-P023"
+        },
+        "shared_question_or_object": "Experimental evidence is produced during iterative, concurrent or recursive lifecycle activity.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Guardrails, comparable configurations and stopping criteria identify where experimentation can overlap work and where uncontrolled changes would invalidate its inference.",
+        "receiving_consequence": "Guardrails, comparable configurations and stopping criteria identify where experimentation can overlap work and where uncontrolled changes would invalidate its inference.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Guardrails, comparable configurations and stopping criteria identify where experimentation can overlap work and where uncontrolled changes would invalidate its inference."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Concurrent changes in several subsystems can confound an apparent treatment effect and create exposure outside the approved experiment.",
+        "counter_control": "Concurrent changes in several subsystems can confound an apparent treatment effect and create exposure outside the approved experiment.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P023->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "actual_object": "Experimental evidence is produced during iterative, concurrent or recursive lifecycle activity.",
+          "literal_bridge": "Guardrails, comparable configurations and stopping criteria identify where experimentation can overlap work and where uncontrolled changes would invalidate its inference."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P024",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P024",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "shared_question_or_object": "The evidence and control package for a learning intervention is tailored to its context.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The feasible comparison, exposure severity and stopping conditions specify which experimental safeguards are necessary and where a cheaper analysis or existing check is adequate.",
+        "receiving_consequence": "The feasible comparison, exposure severity and stopping conditions specify which experimental safeguards are necessary and where a cheaper analysis or existing check is adequate.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The feasible comparison, exposure severity and stopping conditions specify which experimental safeguards are necessary and where a cheaper analysis or existing check is adequate."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Reducing ceremony cannot justify removing a material harm guard or a binding participant-protection obligation.",
+        "counter_control": "Reducing ceremony cannot justify removing a material harm guard or a binding participant-protection obligation.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P024->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "actual_object": "The evidence and control package for a learning intervention is tailored to its context.",
+          "literal_bridge": "The feasible comparison, exposure severity and stopping conditions specify which experimental safeguards are necessary and where a cheaper analysis or existing check is adequate."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P025",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "shared_question_or_object": "A forecast or its assumptions may be updated by experimental evidence.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The comparison, observation window and uncertainty limits determine what a controlled result can legitimately contribute to a forecast about the same intervention and population.",
+        "receiving_consequence": "The comparison, observation window and uncertainty limits determine what a controlled result can legitimately contribute to a forecast about the same intervention and population.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The comparison, observation window and uncertainty limits determine what a controlled result can legitimately contribute to a forecast about the same intervention and population."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A short-run treatment effect in selected participants cannot be treated as a universal future adoption or delivery rate.",
+        "counter_control": "A short-run treatment effect in selected participants cannot be treated as a universal future adoption or delivery rate.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "actual_object": "A forecast or its assumptions may be updated by experimental evidence.",
+          "literal_bridge": "The comparison, observation window and uncertainty limits determine what a controlled result can legitimately contribute to a forecast about the same intervention and population."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L3::EW-P033",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14",
+            "expected_native_id": "AGQ-EA-15"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "shared_question_or_object": "Control strength governs an intervention with actual exposure, recovery and test constraints.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Experiment-specific harm, reversibility, observation and stopping conditions instantiate the consequences that require containment, escalation or an alternative evidence route.",
+        "receiving_consequence": "Experiment-specific harm, reversibility, observation and stopping conditions instantiate the consequences that require containment, escalation or an alternative evidence route.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Experiment-specific harm, reversibility, observation and stopping conditions instantiate the consequences that require containment, escalation or an alternative evidence route."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A nominally reversible feature flag cannot undo all participant harm or justify a live trial of an uncontainable failure.",
+        "counter_control": "A nominally reversible feature flag cannot undo all participant harm or justify a live trial of an uncontainable failure.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+          "source_criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "actual_object": "Control strength governs an intervention with actual exposure, recovery and test constraints.",
+          "literal_bridge": "Experiment-specific harm, reversibility, observation and stopping conditions instantiate the consequences that require containment, escalation or an alternative evidence route."
+        }
+      }
+    ],
+    "independent_review_scope": "Full common premise, literal membership, native scope and controls require later fidelity and separate adversarial assessment."
+  }
+}

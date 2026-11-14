@@ -1,0 +1,2630 @@
+{
+  "source_identity": {
+    "source_id": "S-469f458b4c0c7e53",
+    "scientific_name": "DISTRIBUTED_FUNCTION_INQUIRY.json",
+    "original_bytes": 143751,
+    "original_sha256": "469f458b4c0c7e531f651392be95164b7a4eb47f99a98f23e83bb756bd5adfc0"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-distributed-function-inquiry/1",
+    "authored_source": {
+      "path": "analysis_r22/distributed_function_interfaces.py",
+      "bytes": 38826,
+      "sha256": "ee8aaade4b3c95d9961c329153a55bca9c3532fc147176f5d93c709c03fbf7f7"
+    },
+    "native_adapter": {
+      "path": "PROPERTY_INDEX.json",
+      "bytes": 523772,
+      "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+    },
+    "native_binding_source": {
+      "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+      "bytes": 148701,
+      "sha256": "479955f0262db5ac2a51463ef6aa94eb3be9b884631dd9dab50c332b12416959"
+    },
+    "common": {
+      "R001_forward": "Define the success event for the exact enclosed function in the first member field and the required interval. This qualifies what the native distributed result promises; it does not enlarge the boundary or make every local operation require a mission document.",
+      "R001_reverse": "The specified distributed function and its actual excluded effects supply the concrete success/failure event for the reliability estimand. They do not supply event probabilities, consumer authority or empirical correspondence.",
+      "R002_forward": "The member identifies particular input/history/state/environment alternatives that change this distributed operation. Keep that profile or a small explicit bounding set when interpreting performance, risk or test representativeness. A conditional theorem remains true without measured frequencies.",
+      "R002_reverse": "The explicit member context supplies consequential dimensions and event classifications for the operational profile. It can expose an omitted rare history or a changed population. It does not estimate weights or justify treating repeated correlated runs as independent.",
+      "R003_forward": "Keep the actual complete/partial/unknown/degraded distinctions named in the member when they change interpretation or action for this function. A hidden condition remains unknown, not nominal. A simple binary local result remains adequate where it is the complete question.",
+      "R003_reverse": "The native mechanism supplies the actual entry/result or latent/unknown distinction in the member. This gives substance to a reliability-state representation without requiring more states merely for detail or estimating state-transition probabilities.",
+      "R004_forward": "Preserve the member local result and distinguish its wider or excluded effect. This prevents extending a scoped distributed result to a different consumer and prevents discarding valid partial success because that wider result is absent.",
+      "R004_reverse": "The actual participation, resource, effect or evidence boundary supplies a concrete interface for the local-versus-wider reliability distinction. Neither organizational blame nor normative authorization follows from protocol boundaries.",
+      "R006_forward": "Trace the concrete member failure mode through its actual mechanism to its stated consequence. Use that path to retain a relevant guard/control or accepted consequence in this distributed design; an FMEA form, probability product or exhaustive discovery claim is unnecessary.",
+      "R006_reverse": "The native operation supplies the specific mode, propagation edge or control limit in the third member field. This is substantive failure-path content, with one identity for a repeated common cause, not a claim that the whole failure analysis is complete or effective.",
+      "R029_forward": "The member names a change that can alter a premise and a specific obligation that remains. Reuse unaffected evidence, but inspect the changed function/state/history/resource/observation interface before transferring the affected distributed claim. No blanket full retest or mere timestamp rule follows.",
+      "R029_reverse": "The explicit version, operational-model or boundary distinction supplies a concrete impact relation and a discriminator for reliability-evidence inheritance. Old evidence remains evidence of its old object; a different hash is neither automatic invalidity nor proof of semantic change.",
+      "R031_forward": "Use the actual enclosed function or explicitly wider outcome in the first member field as the consumer event. The stated differing histories/states expose cases that a pooled response metric can hide. A single authoritative local operation can be the whole journey.",
+      "R031_reverse": "The native effect/observation boundary supplies a specific user-outcome distinction, cohort/history stratum or hidden residual. It changes what counts as journey success without supplying a universal satisfaction metric, population weights or fairness authority.",
+      "R039_forward": "Apply the lifecycle question to the named active mechanism, claim or evidence in the fourth member field. Removing it must preserve the actual residual obligation or use an adequate substitute. An old theorem need not become false when its active implementation or consumer is retired.",
+      "R039_reverse": "The native mechanism identifies the retained state, dormant consumer, operation contract or capacity obligation that a proposed retirement must preserve. This can justify removal/consolidation or retention; absence of recent use is not itself a removal proof.",
+      "scope": "Each direction applies its exact source criterion to the individually named member function and partial premise. The entire receiving property need not follow. No arbitrary encoding, invented field dataset or unspecified future collector supplies a relation. The listed finite/native mechanism is the actual analytical subject.",
+      "controls": "D/C01 separates timeout from past execution;C03 changes quorum intersection across configurations;C04 separates convergence from the balance invariant;C06 separates internal replay from external effects;C11 distinguishes a consistent cut from actual simultaneity;C13 exposes journal retention/late-arrival tradeoff. Own NX03-NX08 retain identity, interference, shared load, joint-law and semantic-migration controls. These are already exposed/inspected evidence, not new experiments.",
+      "alternatives_and_cost": "Use the native adequate local return, local transaction, small explicit profile, fixed membership, offline cutover, short fault-path review or retained stable abstraction where sufficient. Account for state/history retention, instrumentation, new coupling, migration and carrying cost. No documentation or model-size benefit is presumed.",
+      "execution": "Authored inference and exact reuse of qualified native records plus inspected cases. No new target action, source-code case execution, statistical sample, model-checking run or independent replication."
+    },
+    "native_members": [
+      {
+        "id": "D01",
+        "enclosed_function_boundary": "The specified safety/progress/observation result under its process, network, storage and recovery model; implementation correspondence remains separate.",
+        "profile_and_states": "Crash-stop versus recovery, delayed/omitted communication, durable versus volatile state and assumed timing change which result is available.",
+        "mode_effect": "A crash-recovery deployment that loses supposedly durable votes can violate a model-based decision claim; the theorem with its original assumptions can remain valid.",
+        "change_residual": "Change a storage/recovery or timing premise and reassess the affected result; retain the original model and claim when retiring a deployment or obsolete application claim.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D01",
+          "canonical_object_sha256": "a538dcfc7e37115a3d8da93bbee38417b90650672455b72a9d64f3f528b01053"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D01",
+          "canonical_value_sha256": "404ad05314f18d29f1de436b7b8c40b5834d85fe639bfae48662541a954d1493"
+        }
+      },
+      {
+        "id": "D02",
+        "enclosed_function_boundary": "The attempted remote effect, its authoritative response and any current remedial business state are distinct predicates.",
+        "profile_and_states": "Lost request versus committed effect with lost reply yield the same timeout; authoritative later evidence can reduce the ambiguity.",
+        "mode_effect": "Retry after an ambiguous commit can duplicate an effect; compensation can repair the present objective without identifying the past execution.",
+        "change_residual": "Changing the response contract, effect boundary or recovery action changes what evidence closes the objective; preserve unresolved history only where an actual consumer needs it.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D02",
+          "canonical_object_sha256": "223ab1585b786d72e989dc2b1a18557ce110a97b9c673e878f7a1e2e964f3868"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D02",
+          "canonical_value_sha256": "c72314b5e86294f09c87014095134b26cb650533eb1e41f55bb40b26f060ccc8"
+        }
+      },
+      {
+        "id": "D03",
+        "enclosed_function_boundary": "The replicated function must survive its admitted fault sets, including actual control, observation and repair paths; replica count alone is not success.",
+        "profile_and_states": "Independent, perfectly shared and mutually exclusive fault laws can have equal marginals and different rescue probabilities, as NX07 shows.",
+        "mode_effect": "One administrative credential event can disable several replicas and their control path; it must retain one repeated-event identity in a fault analysis.",
+        "change_residual": "Changing membership, common software, credentials or recovery topology changes the tolerated exposure; retirement must preserve the surviving function or explicitly accept its loss.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D03",
+          "canonical_object_sha256": "fc837d2a9145cf1d7cfc58579dadd3c8f750b82f89a8fe48599b9248c6c89215"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D03",
+          "canonical_value_sha256": "f235d2bab8a987ab1ea355635341ed993359e3abd68533151d84e54d8520bbc6"
+        }
+      },
+      {
+        "id": "D04",
+        "enclosed_function_boundary": "The consumer-required causal, total, physical, commit or observation-time relation, with only the implication its timestamp protocol establishes.",
+        "profile_and_states": "Concurrent events can receive a total order; logical order, elapsed time and delayed observation are different profile/state dimensions.",
+        "mode_effect": "Treating a chosen order as causation or a logical tick as elapsed time can misclassify failure sequence, latency or intervention timeliness.",
+        "change_residual": "Change clock bounds, sequencing or event interpretation and revisit the affected inference; retain historical timestamp semantics when retiring a clock/probe or format.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D04",
+          "canonical_object_sha256": "a1e6d18954693fca5d4abe49d7cab4bf70ca5d144db7f21d830cf513264a8361"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D04",
+          "canonical_value_sha256": "d5707fc926ea54bab0fe7d5d55506a5cdcc17d38b387965b3e0dfbbe0a24827a"
+        }
+      },
+      {
+        "id": "D05",
+        "enclosed_function_boundary": "Nonoverlapping effective access under the actual bounded-clock cache or resource-enforced generation protocol, at its protected write boundary.",
+        "profile_and_states": "Bounded drift and persistent write-through differ from an arbitrarily paused external writer; installed high-water state differs from mere lease expiry.",
+        "mode_effect": "A resumed writer can be accepted after nominal expiry when the sink lacks the required exclusion; a valid bounded-clock cache wait remains a different adequate case.",
+        "change_residual": "Changing drift/pause limits, write-through persistence or sink rules reopens the guarantee; retiring fencing needs an adequate bounded-time, local or harmless-overlap substitute.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D05",
+          "canonical_object_sha256": "a78c29084eaf44f4aa1c664253c4eed2a0d7ae98c1a88b6aaa9457952e392c3f"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D05",
+          "canonical_value_sha256": "780ed441deca9a863bc3c6f63a950a03b2e158a69261d6e0e52b62e91ff5d4ef"
+        }
+      },
+      {
+        "id": "D06",
+        "enclosed_function_boundary": "The actual read/session result under its allowed freshness and later-overwrite contract; an advisory stale display can be fully adequate.",
+        "profile_and_states": "A prior session write, later legitimate overwrite, stale replica and unavailable up-to-date route have distinct consequences.",
+        "mode_effect": "Sticky routing to an insufficient replica or misreading an allowed overwrite can defeat the requested session property despite a healthy server.",
+        "change_residual": "A changed freshness contract, replica-routing or retention policy changes inherited evidence; a retired fresh-read path can be replaced by an explicitly accepted stale contract.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D06",
+          "canonical_object_sha256": "1f8350de7f15f20b08d71d0474768f938ad89d369e54757c878e193a9140d96d"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D06",
+          "canonical_value_sha256": "dd13ca357b2c64b18c8e047d8443b7715ae50be75531b47e84fd094720058b8a"
+        }
+      },
+      {
+        "id": "D07",
+        "enclosed_function_boundary": "The application invariant under the chosen operation/transaction consistency and isolation boundary, with admitted anomalies explicit.",
+        "profile_and_states": "A completed write followed by a stale read differs from a concurrently reorderable history; single-object and multi-object requests are different units.",
+        "mode_effect": "Freely reordering a completed-write/stale-read history can pass a serial-order check while violating the actual real-time register contract in F/C16.",
+        "change_residual": "Changing isolation implementation or transaction scope changes allowed histories; preserve the invariant via a sufficient weaker or local contract when retiring stronger coordination.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D07",
+          "canonical_object_sha256": "2fc061840dbfe833c49a41b3e8ba653b1afc66cae0ec712290e83d81714e7b6d"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D07",
+          "canonical_value_sha256": "a7e140409b13ec786f99ce35bb457eafe7f995d8e7648d268e8ce31c274f41a6"
+        }
+      },
+      {
+        "id": "D08",
+        "enclosed_function_boundary": "Convergence and preservation of the chosen application invariant are separate outcomes of the admitted merge/update system.",
+        "profile_and_states": "Two locally valid withdrawals can merge to an invalid balance even when replicas converge; a grow-only set can have a compatible objective.",
+        "mode_effect": "Admitting each80-unit withdrawal against100 separately can yield a merged negative balance; convergence alone does not contain that path.",
+        "change_residual": "A changed merge rule, operation set or tombstone horizon reopens the relevant argument; retirement must preserve the invariant through ownership, escrow or another adequate operation contract.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D08",
+          "canonical_object_sha256": "2f7e800239f7aefd7e8eafd48cd4a0912b52f730dc6cbdcb550dc116dd7beb29"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D08",
+          "canonical_value_sha256": "ddfd87f62123346c0e2065efe984486cb5046903c3fd7a7593d67e5ed406be27"
+        }
+      },
+      {
+        "id": "D09",
+        "enclosed_function_boundary": "Repair transfers a justified state from an acceptable source and preserves useful service within actual recovery capacity.",
+        "profile_and_states": "Intact stale, identically corrupted and semantically authoritative states are distinct; partitioned contact differs from available catch-up capacity.",
+        "mode_effect": "Copying an equal-but-wrong or stale state can propagate failure; unbounded catch-up can consume the capacity needed to recover.",
+        "change_residual": "Change source authority, corruption or rejoin rules and revisit repair evidence; a disposable cache may retire the repair mechanism and rebuild from the trusted owner.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D09",
+          "canonical_object_sha256": "0e1c840ad9b55420fe26bbcb8959849eb999e9d9e1cc8cf634e9aeef1299c272"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D09",
+          "canonical_value_sha256": "db2636a5b39b7aeeaa3a4f968f55125f3602a71f8508319aa7a12f3d5b112fce"
+        }
+      },
+      {
+        "id": "D10",
+        "enclosed_function_boundary": "A protocol decision uses its actual configuration, phase-specific quorum families and retained-state selection rule.",
+        "profile_and_states": "Old, transitional and new configurations or weighted representatives can have different valid intersections and available decisions.",
+        "mode_effect": "Two nominal majorities drawn from incompatible configurations can be disjoint, as D/C03 demonstrates; a vote count alone misses that failure path.",
+        "change_residual": "Change membership or phase rules and recheck the required intersections/state transfer; a fixed context can remove redundant per-request machinery without dropping configuration meaning.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D10",
+          "canonical_object_sha256": "73243d17815c023c6f66f3aa9d8f64966ac86909ff3927f69c8d5a7cc91a79da"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D10",
+          "canonical_value_sha256": "e073b3b5a61c46425432fbff77dcc2ca89999060e7562b327f55f2c81091cfda"
+        }
+      },
+      {
+        "id": "D11",
+        "enclosed_function_boundary": "Agreement, application-valid decided value and eventual decision are three distinct results of the chosen consensus model.",
+        "profile_and_states": "A safe nondeciding run differs from disagreement and from agreement on an application-invalid value; timing/randomization/detector assumptions select progress scope.",
+        "mode_effect": "A stalled but safe protocol need not have a safety failure, while agreement on invalid input can still fail the application.",
+        "change_residual": "A changed scheduler, failure allowance or validator changes the relevant evidence; retiring consensus is adequate for a truly single-owner or mergeable objective, not by relabeling agreement.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D11",
+          "canonical_object_sha256": "9986a70a543e8a30d6474864d14b3032bde9b62eba20211339cae7e60ffb99ce"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D11",
+          "canonical_value_sha256": "c03b58c69843db6c12b3d5519666d4683d533b1eb12209bdd223b7f637023e24"
+        }
+      },
+      {
+        "id": "D12",
+        "enclosed_function_boundary": "The membership handoff preserves compatible accepted state and effective authority between actual old and new decision sets.",
+        "profile_and_states": "Reachable new replica, state-ready candidate and authorized participant are distinguishable transition states.",
+        "mode_effect": "Admitting a reachable but incompletely transferred or incompatible participant can lose the protected history; unsafe overlap can admit two authorities.",
+        "change_residual": "Changes to transition/recovery rules require focused transfer/exclusion checks; fixed membership or an offline stop-and-replace can remove an unnecessary live transition.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D12",
+          "canonical_object_sha256": "8a465b80cbec26fd08b67c99b6a3a421ee2fe400991e0fb1e1bbafbdb88b46a8"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D12",
+          "canonical_value_sha256": "2eb409ec56d8ec6408e2b6d6c192e21b734af02feed73274ad96d806a0518b49"
+        }
+      },
+      {
+        "id": "D13",
+        "enclosed_function_boundary": "The protected mutation accepts only effective authorized actors or makes overlap harmless under the actual integrated sink contract.",
+        "profile_and_states": "Lease expiry, higher-token installation and an old actor physically stopping are different events; delayed first arrival differs from duplicate execution.",
+        "mode_effect": "A bare lock grant cannot stop a paused former actor from reaching a sink that still accepts it.",
+        "change_residual": "Change acceptance/epoch installation or harmless-overlap semantics and reassess the claim; retirement of exclusion needs a sufficient replacement at that same effect boundary.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D13",
+          "canonical_object_sha256": "99dd3227c84017eddfecf4a3720c79f8c0af0a2017ce3b41072e1fa331ee00ff"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D13",
+          "canonical_value_sha256": "6c85b99dc1b7b079dc565aa07f5eb85f12f50e68cbc6aff3c21d2f99c7c78926"
+        }
+      },
+      {
+        "id": "D14",
+        "enclosed_function_boundary": "One local writer/transaction encloses the required invariant and meets its actual capacity and downtime constraints.",
+        "profile_and_states": "Normal enclosed completion, local unavailability and remote failover are distinct scenarios; remote failover can reintroduce an authority boundary.",
+        "mode_effect": "Splitting a transaction can admit an invalid intermediate state, while retaining one writer can instead violate an actual availability or capacity requirement.",
+        "change_residual": "Change the invariant or concrete consumer requirement and reevaluate the local comparator; avoid retiring useful distribution or adding it solely from architectural labels.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D14",
+          "canonical_object_sha256": "4b0f06f72cb091f967bd529e64a389fd4643112aa2e4377546c32108f2f8313d"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D14",
+          "canonical_value_sha256": "8dc010e5a50f43917f03cc0b16c4715a70524cdddb015dbf47339f4a84659166"
+        }
+      },
+      {
+        "id": "D15",
+        "enclosed_function_boundary": "Jointly admitted updates preserve the actual invariant under its reachable states and merge/transaction semantics.",
+        "profile_and_states": "Two individually valid but jointly conflicting updates differ from independent-owned or escrow-bounded operations.",
+        "mode_effect": "Uncoordinated admissions can cross a joint resource limit even when each local check passes; that conflict determines the needed closure.",
+        "change_residual": "Changing admitted operations or weakening the invariant changes inherited evidence; retire a global coordinator only if local closure, ownership or other adequate constraints preserve the required result.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D15",
+          "canonical_object_sha256": "a452bb3711fa1b4647da8b0b6576ad300d01fc4786e6511067ea2cff41f7bb99"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D15",
+          "canonical_value_sha256": "2ace40e63cd647c22f09676f4ddd84aac6b59a7f9c93f7a6fce64b94801dcb55"
+        }
+      },
+      {
+        "id": "D16",
+        "enclosed_function_boundary": "The exact confluence, invariant-confluence or strong-eventual-consistency result for its stated updates, output and delivery semantics.",
+        "profile_and_states": "Monotonic compatible updates differ from nonmonotonic absence/closure decisions or reclamation; these are consequential profile strata.",
+        "mode_effect": "Dropping required delivery or collecting dependencies too early can break the selected result; a convergence label does not prove arbitrary composed behavior.",
+        "change_residual": "Changing update/output/reclamation semantics reopens only affected theorem premises; retain a cheap ordered service when retiring it would cost more than its adequate reuse.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D16",
+          "canonical_object_sha256": "c082ad77d25cb93a60f556375a2a4fc565957b54c008b5ba89de78f95a799689"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D16",
+          "canonical_value_sha256": "95b6cbb317cc45836d2ba913dee7c639ddca124d0c9c5d72b63531c1cdd1261d"
+        }
+      },
+      {
+        "id": "D17",
+        "enclosed_function_boundary": "The runtime-enclosed delivery/processing transition and any explicitly excluded external effect have different success boundaries.",
+        "profile_and_states": "Redelivery before or after internal commit, replay and separate external journal recording have distinct result histories.",
+        "mode_effect": "A crash after an external effect but before its record can duplicate that effect while the internal exactly-once state claim remains valid.",
+        "change_residual": "Change transaction participants, seek/replay or external calls and reassess the affected closure; preserve the existing sufficient atomic boundary instead of demanding duplicate independent controls.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D17",
+          "canonical_object_sha256": "1940132ce2b0b8857733b37ae15ae74e9ddc051a585358fc4c2deff6d40ad959"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D17",
+          "canonical_value_sha256": "8ab0bd8457116c0a2a6c068b08779e2e31dff6396ab58c9943557e828484465a"
+        }
+      },
+      {
+        "id": "D18",
+        "enclosed_function_boundary": "The endpoint recognizes the same intended operation with the actual tenant, parameters, lifecycle and durable effect semantics.",
+        "profile_and_states": "Repeated attempt identifiers for one intent differ from two legitimate purchases with equal parameters; fresh retry IDs can lose continuity.",
+        "mode_effect": "Mistaking correlation for durable business identity can duplicate a charge or wrongly suppress a legitimate second purchase.",
+        "change_residual": "Changing identity scope, parameter interpretation or restore/retention changes evidence; an adequate enclosed transaction or harmless repetition can retire a separate deduplication service.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D18",
+          "canonical_object_sha256": "58e03d1acc53619fb4e577520163a0b636d7f7ab6392c4bc32ce75dafefa4211"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D18",
+          "canonical_value_sha256": "02570a2da672a8278ca15a2e9cac65eb947ef67bca79a251ad3ab99367f7bc52"
+        }
+      },
+      {
+        "id": "D19",
+        "enclosed_function_boundary": "A repeated effect preserves the consumer-required outcome over admitted interleavings and restart histories for its actual intent.",
+        "profile_and_states": "A:set1, B:set2, retryA:set1 differs from isolated A followed by A; a late first A differs from an already recorded completed A.",
+        "mode_effect": "Self-idempotence alone can overwrite a later superseding intent; separate effect and result-record persistence can duplicate after a crash.",
+        "change_residual": "Change the operation objective, concurrent updates or journal boundary and reassess erasure safety; retiring a journal requires an actually adequate semantic or atomic substitute.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D19",
+          "canonical_object_sha256": "699d63c6c773e8841290e5462a73aea5dd90d34f38371f53d722089b7a780f37"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D19",
+          "canonical_value_sha256": "02422952cb744fb5309f6b380afef4e9812aeb8fa47bdf9ca8105c6b44ad3129"
+        }
+      },
+      {
+        "id": "D20",
+        "enclosed_function_boundary": "Old work is retained, rejected or reconciled consistently with its admitted retry/replay/restore horizon and completion consequences.",
+        "profile_and_states": "An in-horizon duplicate, expired operation and resurrected old backup message need different accepted dispositions.",
+        "mode_effect": "Discarding distinguishing state while allowing late replay can repeat an effect; rejection prevents that duplicate at a possible completion cost.",
+        "change_residual": "Change retry/restore horizons or acceptance policy and revisit retention; retirement of old metadata must preserve a real horizon or explicit old-work disposition, not assume messages disappeared.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D20",
+          "canonical_object_sha256": "8feee9ed8887e9326ef97f385ddd8a6454617cbb7ec3a87e8ccca3df6da45837"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D20",
+          "canonical_value_sha256": "4176de9ac8317bfb1249d1d566ad8361aedbf1c2723d3895227ed14a609ffe8f"
+        }
+      },
+      {
+        "id": "D21",
+        "enclosed_function_boundary": "The particular response establishes exactly its documented acceptance, internal transition or full consumer effect.",
+        "profile_and_states": "Durable queue acceptance, completed enclosed transaction and absent response are distinct evidence states.",
+        "mode_effect": "Treating queue acceptance as remote recipient action misclassifies success; requiring a second observer after a sufficient enclosed return adds an unsupported duty.",
+        "change_residual": "Changing the response contract, operation identity or participants changes inference; retire redundant confirmation when the ordinary authoritative return already closes the required predicate.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D21",
+          "canonical_object_sha256": "c1311ae89258b09c0912f2ecb5893d723e2503006efd934fb6951110efc104c1"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D21",
+          "canonical_value_sha256": "ec500d469c8ac2cd0e3cac0ed685b890d8acf5aa4efa701199e34d990f35931b"
+        }
+      },
+      {
+        "id": "D22",
+        "enclosed_function_boundary": "Application state and intended message/offset participate in the same genuine atomic handoff; later sink behavior is separately bounded.",
+        "profile_and_states": "Before commit, durably committed handoff, pending relay and external duplicate are distinct consequential states.",
+        "mode_effect": "A nonparticipating external sink can duplicate despite gap-free internal outbox state; a label cannot substitute for actual participation.",
+        "change_residual": "Changing transaction/storage/recovery participants reopens the handoff argument; a direct local transaction can eliminate an unnecessary asynchronous path and its relay duty.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D22",
+          "canonical_object_sha256": "c40ec7d2af97cc2c0081a03046a080e3021c25cf653693132d0962c8be07d4b2"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D22",
+          "canonical_value_sha256": "bb6830b52776a83aa4ac78a3ce8d42dfe3dd53f17f52dcd1be19b83e669f323f"
+        }
+      },
+      {
+        "id": "D23",
+        "enclosed_function_boundary": "The chosen atomic commitment or compensation architecture satisfies the required invariant, visibility and accepted recovery consequence.",
+        "profile_and_states": "Blocked commitment, abort, visible intermediate work and pending/failed compensation are distinct cases.",
+        "mode_effect": "Assuming a compensator is always available or inverses every observation can leave an unacceptable residual; nonblocking claims lose scope when their network/detector premises fail.",
+        "change_residual": "Changing invariant visibility, participants or recovery model changes adequacy; an adequate local transaction can retire a more costly saga even for compensatable actions.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D23",
+          "canonical_object_sha256": "750c446641ff7b38436a9c6f2910bde20fc33a09b1320837fbc7bd7fc94abeed"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D23",
+          "canonical_value_sha256": "43de2be651a28f3d0803fd266f61eb3aa4154b671b7b02ee6fca9c737866e854"
+        }
+      },
+      {
+        "id": "D24",
+        "enclosed_function_boundary": "The compensator restores its declared present objective under its own preconditions, while irreversible observed effects remain distinct.",
+        "profile_and_states": "Pending, successful-but-partial and failed compensation differ; intervening actors can change admissibility.",
+        "mode_effect": "A refund may leave a notification observed, or a compensator can violate an invariant under another admitted interleaving.",
+        "change_residual": "Change compensation semantics or observer/interleaving assumptions and recheck the restorative claim; retirement must retain forward recovery or explicit accountable residual handling.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D24",
+          "canonical_object_sha256": "9d24fa7c7483e00eeffc5c0b54ca57fea41a8dd9e83c44eef958f5fd23a45959"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D24",
+          "canonical_value_sha256": "d5bfcee47f5fc92afe27eebc2b929f6ca3944972196f66e01e24816787040d44"
+        }
+      },
+      {
+        "id": "D25",
+        "enclosed_function_boundary": "Durable orchestration recovers its enclosed progress/history under required storage, determinism and worker semantics.",
+        "profile_and_states": "An internally replayed transition, pending activity and duplicate excluded external effect are different states.",
+        "mode_effect": "A recovered internal state can be correct while an external call is repeated; missing history or changed code can defeat replay.",
+        "change_residual": "Changing worker/history/storage contracts affects inheritance; an explicit small durable state machine can replace a generic workflow layer only while preserving its live histories and actual consumers.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D25",
+          "canonical_object_sha256": "3137825f760a4067a8537e4ce85601d087db1317622e22fc40fc25ae6b5028e9"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D25",
+          "canonical_value_sha256": "d8c10c60464a787c306856ac343c5051cd0245f6d18658665ca5656bba0a9bd6"
+        }
+      },
+      {
+        "id": "D26",
+        "enclosed_function_boundary": "Redispatch keeps overlapping old/new attempts harmless or acceptably consequential at their real effect boundary.",
+        "profile_and_states": "Visibility expiry, cancellation request, stopped actor and accepted old mutation are different states.",
+        "mode_effect": "A resumed old worker can execute after redispatch; merely having a compensator does not make an irreversible duplicate acceptable.",
+        "change_residual": "Changing pause/delay or cancellation participation reopens overlap evidence; an adequate single worker or harmless recomputation can remove an unneeded takeover mechanism.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D26",
+          "canonical_object_sha256": "355ee63c683ac47400f786c6bc94c5d909dd38398afeaa48b72b547a1ab97ea9"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D26",
+          "canonical_value_sha256": "dc7f1c56c621d44483331b782c25d15b4e2eb31142b1cce93b54f01cb695cf60"
+        }
+      },
+      {
+        "id": "D27",
+        "enclosed_function_boundary": "Completion means the specified consumer postcondition is established by its actual sufficient evidence boundary.",
+        "profile_and_states": "Complete enclosed, partial wider and genuinely unknown results are different; knowledge of unrelated state is unnecessary.",
+        "mode_effect": "A green internal marker can coexist with a failed excluded external effect, while an authoritative enclosed return can be sufficient.",
+        "change_residual": "Change the consumer predicate or evidence interpretation and revisit completion; retire redundant evidence collection without erasing residuals consequential to an actual consumer.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D27",
+          "canonical_object_sha256": "b8bdefffe49fbdd8c3bc3f917d7f1c7deb1575cf6d04f244417edc18379deaaa"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D27",
+          "canonical_value_sha256": "752c9320b6f25e729fa093e2c8d525a13d1563ab6e6a8f7989fd329af4a3279b"
+        }
+      },
+      {
+        "id": "D28",
+        "enclosed_function_boundary": "Each actual live history has at least one eligible compatible worker or valid migration path under enforced routing and lifetime.",
+        "profile_and_states": "Pinned old history, new history, unsupported history/build pair and validly migrated state are distinct eligibility cases.",
+        "mode_effect": "Retiring the last eligible worker or parsing migrated values with changed meaning can strand work despite a healthy new build.",
+        "change_residual": "Changing code/schema or worker eligibility requires the matching semantic check, as NX08 shows; intentionally incompatible builds can retire once their live-history obligations have a valid alternative.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D28",
+          "canonical_object_sha256": "e2ad2b77ef19476b2312e335626975218f758be81ad20ddb9ad8fa65cdf25e7e"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D28",
+          "canonical_value_sha256": "d361fa5667de9df251eed5eaf046ba59c91c924e2ca965ce98e9a51d47957fa1"
+        }
+      },
+      {
+        "id": "D29",
+        "enclosed_function_boundary": "Admitted work is retained/served/rejected under finite queue, age and overflow rules appropriate to its useful objective.",
+        "profile_and_states": "A finite drainable burst, sustained excess demand, accepted rejection and quarantined uncompleted task are different states.",
+        "mode_effect": "A bounded queue can remain full or lose work indefinitely; dead-letter retention alone does not finish the original task.",
+        "change_residual": "Change workload, service rate or consequence policy and revisit evidence; retiring a queue needs direct backpressure, rejection or other adequate handling of admitted work.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D29",
+          "canonical_object_sha256": "8496e7de41294950942511dcfe85c0b95b5e2fb412a511b04a786ca8c71add83"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D29",
+          "canonical_value_sha256": "ae9e6003d0f18a89d3870d02b2ecc0c12cde0a66b44d6d2799311f67b5f0c0ca"
+        }
+      },
+      {
+        "id": "D30",
+        "enclosed_function_boundary": "The actual admission/demand topology stops or accepts overload without silently moving required work into hidden queues/retries.",
+        "profile_and_states": "Cooperative producers, stale feedback, fixed external caps and noncooperating upstream demand are different cases.",
+        "mode_effect": "Local throttling can move overload upstream or trigger retry amplification; a locally adequate drop can still incur wasted work.",
+        "change_residual": "Changing call paths or retry producers alters inherited load evidence; retirement of feedback can use a sufficient static cap while preserving declared rejection consequences.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D30",
+          "canonical_object_sha256": "a45aea44a3347854b95766355eaaf3e9f19092dff28c3c377d7fcc461e7c912b"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D30",
+          "canonical_value_sha256": "88c4a0f10d016b6b35905e81bcd07a155ab638b6a7c746b80c5e6205d619a646"
+        }
+      },
+      {
+        "id": "D31",
+        "enclosed_function_boundary": "The declared critical/eligible work receives the protected service while rejected or degraded consequences remain visible.",
+        "profile_and_states": "Different priority cohorts, scarce shared resources and accepted rejection have distinct consumer outcomes.",
+        "mode_effect": "A favorable aggregate can hide starvation of a critical cohort; a scheduler cannot create missing capacity or select social priorities by itself.",
+        "change_residual": "Changing eligible populations, priorities or capacity changes policy meaning; retiring a dynamic shedder may leave a sufficient fixed bound, but remaining cohort consequences must be explicit.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D31",
+          "canonical_object_sha256": "59a0ae4e91a81f894ce777373019bcd340e3da8fbc6e304fdec2492c0f0d0402"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D31",
+          "canonical_value_sha256": "ead9a872616ada939578eefdcde3004a814518a647f8811f849e00706835c0f4"
+        }
+      },
+      {
+        "id": "D32",
+        "enclosed_function_boundary": "Retries remain useful and duplicate-safe within their actual nested call structure, capacity and consequence policy.",
+        "profile_and_states": "Transient failure, lost response, persistent fault and nested local retry limits generate different demand and effect histories.",
+        "mode_effect": "Three retrying layers can multiply50 demands to1350 in D/C05; harmless read effects still consume capacity.",
+        "change_residual": "Change call depth, attempt limits, retry identity or deadlines and reassess; retiring a shared budget is permissible if independently bounded controls retain an adequate joint bound.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D32",
+          "canonical_object_sha256": "b7b60351a9665345df92008e566927e279564046d1b8fea73a3def1bd9a79936"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D32",
+          "canonical_value_sha256": "849fb31cb563f8792f57c3e501373e65ff5007ea78ef5450a5a9d30c6b50e144"
+        }
+      },
+      {
+        "id": "D33",
+        "enclosed_function_boundary": "The service escapes the actual sustained feedback regime while preserving required state and useful work.",
+        "profile_and_states": "Transient overload differs from a post-trigger trap sustained by retries, cache misses, repair or observer burden.",
+        "mode_effect": "Recovery traffic can keep admitted demand above effective service after the original trigger ends, as NX06 illustrates.",
+        "change_residual": "Changing feedback/load/capacity invalidates only the corresponding stability/escape evidence; removing an intervention must leave another effective break or an accepted consequence, not a ritual restart.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D33",
+          "canonical_object_sha256": "c47b867d96802c0968c9dca603930db64813b585ffc51d61155bb6ea79185cc8"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D33",
+          "canonical_value_sha256": "21f3f8cb99a0b2887e33226db4852a5708d854ea758443a25c8ccfdcecd8f2c5"
+        }
+      },
+      {
+        "id": "D34",
+        "enclosed_function_boundary": "The protected service is isolated from the specified actual resource/failure coupling with adequate degraded/recovery behavior.",
+        "profile_and_states": "A genuinely separate pool differs from two processes sharing one sensor/control plane; deliberately excluded dependency failure can be acceptable.",
+        "mode_effect": "Fallback into the same bottleneck can defeat apparent isolation; fixed partitions can instead strand useful spare capacity.",
+        "change_residual": "Changing shared dependencies or fallback routes reopens isolation evidence; retire redundant partitions only when retained admission/resource boundaries preserve the protected function.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D34",
+          "canonical_object_sha256": "24070424e749ade2f38a2be57e4843f2c85016b0432f8b78af05d27ca715394a"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D34",
+          "canonical_value_sha256": "e277fabcc37b3af469583b4cbf647352496cc95f560a2dd7d40f0e28a63646c7"
+        }
+      },
+      {
+        "id": "D35",
+        "enclosed_function_boundary": "The recovery cut contains the causally required local/channel state under the stated communication model.",
+        "profile_and_states": "A causally consistent cut need not have coexisted in actual order; a receive without its included send is a different invalid case.",
+        "mode_effect": "Treating an impossible actual simultaneity as the required criterion can reject a valid cut, while missing in-flight state can impair recovery.",
+        "change_residual": "Changing FIFO/reliability, barriers or topology reopens the snapshot argument; a local snapshot or accepted global pause can replace the distributed mechanism without losing recovery sufficiency.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D35",
+          "canonical_object_sha256": "ba4ae78d34359d2cb61cd7907a1327f5e82483e0f1782932694862cd3bebe9d2"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D35",
+          "canonical_value_sha256": "3cb207d5c5256226f0faa011009f9153b7f375920f72ea990a424119a20f9217"
+        }
+      },
+      {
+        "id": "D36",
+        "enclosed_function_boundary": "Restoration reconstructs enclosed state/log position and distinguishes only actual unresolved external effects.",
+        "profile_and_states": "Correct local replay, lost output record, duplicate external call and unavailable needed input have different consequences.",
+        "mode_effect": "An internal replay theorem does not reconstruct an excluded past effect; software reset does not renew physical age in NX05.",
+        "change_residual": "Change log/code/identity survival or output-commit scope and recheck the affected restoration; disposable state can be rebuilt from an authoritative source instead of retaining an unnecessary restore path.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D36",
+          "canonical_object_sha256": "8351e74a102a6c2e8f7ed4f116154d7f4d8d4c72e65184a224e12ac3148b5d77"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D36",
+          "canonical_value_sha256": "c465688291841a3557dbee8320976e27c638f6c567462bcb92ade2d251e17c7c"
+        }
+      },
+      {
+        "id": "D37",
+        "enclosed_function_boundary": "Old/new mutation handoff preserves the selected compatible state and effective authority contract at the actual sink.",
+        "profile_and_states": "Reachable/elected candidate, complete retained state and effective old-writer exclusion are distinct.",
+        "mode_effect": "Winning an election can coexist with incomplete state or a still-effective old writer; lost volatile majority can prevent progress rather than recover state.",
+        "change_residual": "Change retained history, sink acceptance or exclusion model and revisit failover evidence; confirmed offline replacement can retire automatic takeover if downtime is accepted.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D37",
+          "canonical_object_sha256": "cc94d3b4a1188cbf48c926a009ddb233ae1c0f3e600bdd61ba3bcd80dd932746"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D37",
+          "canonical_value_sha256": "4a2eb114468a154be3be4e8cb1eb2cf0b8ed63162ecedc27d1e9ed11004abcf4"
+        }
+      },
+      {
+        "id": "D38",
+        "enclosed_function_boundary": "The chosen backup scenario restores required state with actual tool, credential, environment, workload and loss/time conditions.",
+        "profile_and_states": "Stored backup, readable artifact, runnable restore tool and usable restored application are different states.",
+        "mode_effect": "A backup can exist while credentials/tools or required dependencies are absent; one successful scenario does not cover every disaster.",
+        "change_residual": "Change formats, tools, access or objectives and target the affected scenario; retire redundant backup obligations only when the surviving restore/rebuild path actually covers the retained need.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D38",
+          "canonical_object_sha256": "4291319a09d74a403b337936b0a5aca555801bd6cba88ef9e1c9afcd37ce0449"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D38",
+          "canonical_value_sha256": "72816e30b94ee071187c8ecc52c64b67000383b9dcdef2d244fbfccd0fb53e0c"
+        }
+      },
+      {
+        "id": "D39",
+        "enclosed_function_boundary": "Every actually permitted coexistence, replay and rollback interaction preserves the required application meaning or is excluded by cutover.",
+        "profile_and_states": "Parse-compatible versus semantically compatible values and allowed versus forbidden build/history pairs are distinct.",
+        "mode_effect": "Copying units without scaling can pass parsing and corrupt meaning in NX08; rolling deployment alone does not make rollback safe for new data.",
+        "change_residual": "Change schema/value meaning or routing and validate the admitted pairs; old versions may retire after their live data/history consumers have a valid path, not after every build becomes universally compatible.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D39",
+          "canonical_object_sha256": "ae0f3f3a041379937d6863c9a127ad8b63a568b95e335bc403c3dc384961e5fb"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D39",
+          "canonical_value_sha256": "dfa0ccee281277aba2755d485514199f775b50789159996cb2d35047a189bba1"
+        }
+      },
+      {
+        "id": "D40",
+        "enclosed_function_boundary": "A configuration operation fulfills its declared staged/population propagation and value-validity completion contract.",
+        "profile_and_states": "Accepted intent, partially reached eligible cohort, mixed values and globally propagated invalid value are different states.",
+        "mode_effect": "Equal version numbers can carry a bad value; local acknowledgment can precede the required population effect.",
+        "change_residual": "Changing rollout populations, schema or completion semantics changes evidence; retire old controls only after residual consumers/rollback and value consequences are handled.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D40",
+          "canonical_object_sha256": "6653e5d146abdc2e5db27bc01e81f07977cb7946e8030971acbba062b241e77a"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D40",
+          "canonical_value_sha256": "c6590c7fdcdb59d9b34c00edb42893abb66701921515ed3d250465fa8358a17b"
+        }
+      },
+      {
+        "id": "D41",
+        "enclosed_function_boundary": "The particular readiness observation justifies its covered capability, path and interval, including an allowed degraded function.",
+        "profile_and_states": "Green aggregate, working local operation, unavailable excluded dependency and stale probe are distinct.",
+        "mode_effect": "A healthy process or common observer can miss the required external effect; requiring every dependency healthy can wrongly disable valid degraded service.",
+        "change_residual": "Change the effect path, credentials or probe semantics and revisit readiness; an adequate direct local check can replace broader monitoring without acquiring unrelated duties.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D41",
+          "canonical_object_sha256": "089dc279402eaca8df2dd949597d0c5c23e31d9cbc70859686a6825fddcb26ca"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D41",
+          "canonical_value_sha256": "80e372a7add3c9db706b1ab174c50fb594d140a5d4d947bd7ef53cd5cf64ad69"
+        }
+      },
+      {
+        "id": "D42",
+        "enclosed_function_boundary": "A bounded event or aggregate inference follows from the actual sampled telemetry and its observation process.",
+        "profile_and_states": "Observed event, missing event, delayed record and representative versus selected sample are different evidential states.",
+        "mode_effect": "No observed failure can reflect missingness rather than true absence; a justified aggregate sample need not identify every individual event.",
+        "change_residual": "Change sampling/loss/delay or population and reassess the affected inference; retain historical definitions when retiring a metric, while a smaller adequate sample can reduce burden.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D42",
+          "canonical_object_sha256": "18a03b09770cd7d7c4315b249002ac6627a42b4e50ea6769ad9ef1e4af885619"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D42",
+          "canonical_value_sha256": "a70ca27aa06fd95eb9ea3aeac75282e3cc2b8611b33fa823b4f14b0e16f9cf27"
+        }
+      },
+      {
+        "id": "D43",
+        "enclosed_function_boundary": "The reconstructed history contains justified causal/order edges and explicit missing or inferred links for its actual diagnostic question.",
+        "profile_and_states": "Protocol parentage, timestamp order, coincident identifiers and unobserved paths are different kinds of information.",
+        "mode_effect": "Joining on a shared ID can create an unsupported causal or authority claim; an incomplete trace can nevertheless reveal a useful local cause.",
+        "change_residual": "Change instrumentation, schema or cross-layer interpretation and revisit edge meaning; a sufficient local operation record can replace unnecessary global tracing while retaining consequential history.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D43",
+          "canonical_object_sha256": "598939ec0f350f11500f306fe5f36b63ac7fa3e4a3436c260ea0e109af0efcda"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D43",
+          "canonical_value_sha256": "e822223046eaf6607c6117b22efbc19788c053862f775ccb4cd3e87508bb30ba"
+        }
+      },
+      {
+        "id": "D44",
+        "enclosed_function_boundary": "The selected experiment discriminates the named behavior through its actual fault, workload, oracle and recovery observations.",
+        "profile_and_states": "Triggered versus untriggered path, buildable versus excluded target, detected versus missed fault and accepted no-change outcome are distinct.",
+        "mode_effect": "A misdirected injection or insensitive oracle can yield a false impression of resilience despite a passing run.",
+        "change_residual": "Change fault/workload/build/oracle population and limit inheritance accordingly; a static or small local discriminator can retire live drills that add no useful evidence.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D44",
+          "canonical_object_sha256": "edfcb02fc569c730453ca571836d8a5dc8803934805a827cc9f363bb674a88f5"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D44",
+          "canonical_value_sha256": "cdcf6f4c098aabff0993e128788cd2655e30fde42c046a39a538ddbf6cbc4db6"
+        }
+      },
+      {
+        "id": "D45",
+        "enclosed_function_boundary": "The feasible local/remote design meets the concrete consumer requirement with its actual coordination, partial-failure and recovery obligations.",
+        "profile_and_states": "Local enclosed success, remote ambiguous effect, independent scaling and common dependency failure differ in consequence.",
+        "mode_effect": "Introducing a remote boundary can create a new partial-failure path; retaining a local design can instead miss a real geography/capacity need.",
+        "change_residual": "Change organizational constraints or consumed benefit and revisit the comparison; removing a boundary must preserve remaining effects and obligations, with transition cost included.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D45",
+          "canonical_object_sha256": "4784005af8907fe1d1950f9cf6074b3aae626dca956293715bf29fba721dff8b"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D45",
+          "canonical_value_sha256": "d0745f6933dfeac9964af9208bd3657ecd3576904fd2f0c36ee070490d07857b"
+        }
+      },
+      {
+        "id": "D46",
+        "enclosed_function_boundary": "Removal or retention preserves actual residual state, effect, replay, old-version and shared-consumer obligations.",
+        "profile_and_states": "No recent foreground use differs from no dormant replay/backup/audit consumer; active control and retained past theorem are distinct.",
+        "mode_effect": "Deleting the last history-compatible worker or shared state can break a latent future use despite quiet recent telemetry.",
+        "change_residual": "A changed consumer/obligation or adequate consolidation can justify retirement; keep stable cheap machinery when removal risk and migration cost exceed its carrying burden.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D46",
+          "canonical_object_sha256": "92320b461a95c4ebddbb6a8ba2aae7afcacd756607a55bc5e7c06147309cb00d"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D46",
+          "canonical_value_sha256": "572468d3131eb14b816a4309adad6c863960a6e6ff52da6b8f261001275c28ab"
+        }
+      },
+      {
+        "id": "D47",
+        "enclosed_function_boundary": "The service split provides actual independent deployment/scaling/containment at real resource and ownership boundaries.",
+        "profile_and_states": "Independent-looking process labels differ from separate capacity/fault paths; service-local success can coexist with failed cross-service invariants.",
+        "mode_effect": "A shared control plane or sensor can defeat nominal isolation; splitting an atomic invariant can add coordination and failure paths.",
+        "change_residual": "Change call chains, control/resource sharing or deployment constraints and reevaluate the benefit; consolidation is valid only after retained consumers and effect boundaries are covered.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D47",
+          "canonical_object_sha256": "728b749f981b1adf69d3bdcff7ab3ad45dc0ad1aefaa98e39eb3196102c72a71"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D47",
+          "canonical_value_sha256": "c343ebcf9963f68f0d118c5de7d85233866ca426a9c5f6f2c8ab43596e104ac2"
+        }
+      },
+      {
+        "id": "D48",
+        "enclosed_function_boundary": "Finite buffering retains a bounded burst until available service drains it within accepted age/loss/completion consequences.",
+        "profile_and_states": "Stored, quarantined, actually processed and forever-growing backlog are distinct results.",
+        "mode_effect": "Sustained arrivals above service accumulate work or loss; increasing queue size does not create downstream capacity.",
+        "change_residual": "Change sustained rate, burst or accepted delay and revisit adequacy; direct backpressure/rejection can replace a queue only with explicit consequences for already admitted work.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D48",
+          "canonical_object_sha256": "c3e899247f04f047af22bcbf006f7a1c90f9ad04884b5dae3875dc20145634a1"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D48",
+          "canonical_value_sha256": "bc63321a9ada145e3f99e7653c61f26e756de69723773c86285392a2c477fba5"
+        }
+      },
+      {
+        "id": "D49",
+        "enclosed_function_boundary": "The exactly-once noun and enclosed state/effect are the actual valid result; arbitrary excluded business effects remain separate.",
+        "profile_and_states": "An enclosed transition, explicit seek/replay, changed worker and external side effect are different scopes.",
+        "mode_effect": "Promoting an internal processing label to universal effect uniqueness overstates success; dismissing all enclosed guarantees loses a real partial result.",
+        "change_residual": "Change replay/version or participants and reassess only the affected boundary; retire duplicate protocols when existing atomic or genuinely harmless-history semantics already suffice.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D49",
+          "canonical_object_sha256": "f722883e9c3d72d25d46999501a16628b9c7a0a3ec1e1ef3ccf5169dbb01e41e"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D49",
+          "canonical_value_sha256": "a96fc9e65c5339b3ee81ba0072838a80085302830dff9df2acf0dca5cd40b78b"
+        }
+      },
+      {
+        "id": "D50",
+        "enclosed_function_boundary": "The integrated lock/mutation protocol excludes stale harmful effects or provides its legitimate weaker efficiency objective.",
+        "profile_and_states": "A held/expired lock, stalled client, high-water installed at sink and bounded-clock cache have distinct semantics.",
+        "mode_effect": "A token without sink enforcement can leave a delayed write effective; approximate efficiency locking need not promise safety it never claimed.",
+        "change_residual": "Change pause/delay/acceptance rules and revisit the guarantee; local mutual exclusion, one writer or adequate bounded waiting can replace an unnecessary distributed lock without universal fencing.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D50",
+          "canonical_object_sha256": "2667d036b2e5bd04c84df73492bfd7ec7d75353dc0d66178b28fad6342940cb6"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D50",
+          "canonical_value_sha256": "cbc3a8e45af4037393781878860f58e9a60cb117f2a4fa54b820ab62ab4e3927"
+        }
+      },
+      {
+        "id": "D51",
+        "enclosed_function_boundary": "The actual reusable artifact supports its stated property at the consumer interface; its name or repeated ritual is not that property.",
+        "profile_and_states": "Validated scoped result, unsupported broad label and adequately reused stable component are different evidential states.",
+        "mode_effect": "A green tool label can hide a mismatched property, as F/C16 criteria show; rebuilding stable internals per call can add cost without changing evidence.",
+        "change_residual": "Change version/assumptions or consumer scope and target requalification; retire unsupported ritual while preserving useful abstraction, old evidence scope and amortized expertise.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D51",
+          "canonical_object_sha256": "32b293a6b660ac7892a701410ecf638e3af6fa23565df3f0f529be95ca0edb04"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D51",
+          "canonical_value_sha256": "2aa939358ab1f3db685289dfc38d413a692242897732252fe071f6fdeac616ad"
+        }
+      },
+      {
+        "id": "D52",
+        "enclosed_function_boundary": "The Byzantine protocol supplies its exact agreement/validity/progress result under identities, authentication, fault budget, timing and recovery premises.",
+        "profile_and_states": "Authenticated honest message, authorized equivocation, within-budget fault set and exceeded common-fault set differ.",
+        "mode_effect": "Two correlated equivocators can exceed a stipulated f1 budget despite valid signatures; agreement can still concern application-invalid content.",
+        "change_residual": "Change identities, protocol state or fault model and revisit the specific result; a trusted authority or crash-fault design can replace BFT only when the actual fault objective permits it.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D52",
+          "canonical_object_sha256": "555fb0bde1ace7c381f8bc009f045e2048efd7582de832d41fba71910ae0c768"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D52",
+          "canonical_value_sha256": "1fe9a001fef0412067d4f3e771dbfb3b431196dd87bc62ce94b92bc14a911132"
+        }
+      },
+      {
+        "id": "D53",
+        "enclosed_function_boundary": "The agent workflow has a bounded execution/identity/durable-state contract distinct from arbitrary task semantic correctness or operating authority.",
+        "profile_and_states": "Retried action, preserved orchestration state, changed model/context, correct tool effect and semantically wrong task result are different states.",
+        "mode_effect": "A durable workflow can correctly repeat an invalid or unauthorized external action; repeated seeds do not establish independent deployment evidence.",
+        "change_residual": "Change model/tools/context/task/fault/oracle and limit evidence inheritance; a deterministic workflow, one call or direct human review can retire an unnecessary agent layer while preserving required outcomes.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D53",
+          "canonical_object_sha256": "b8c19bd450526fffb7e9199a6449925bdccc2a5dd95f31a2273c5dc1c0978b91"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D53",
+          "canonical_value_sha256": "6e0362975f415da544773bb59f674c62340a2d2b89d8cadbf41b49bc922869e5"
+        }
+      },
+      {
+        "id": "D54",
+        "enclosed_function_boundary": "The selected local, weakly coordinated or existing strongly ordered design preserves the actual invariant at acceptable total burden.",
+        "profile_and_states": "Independent updates, conflicting merge, shared ordered service and costly new global protocol differ in both outcomes and costs.",
+        "mode_effect": "Avoiding coordination can lose a needed conflict closure; choosing mathematically weakest semantics can nevertheless increase implementation/lifecycle cost.",
+        "change_residual": "Change invariant, operation set or available shared infrastructure and compare again; retiring coordination must retain adequate semantics, while retaining a cheap stronger service can be the simplest sufficient choice.",
+        "native_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/D54",
+          "canonical_object_sha256": "3084e5a198ab579ecf484946a66330fa4cf057683eca5138058d2ee9bf51d681"
+        },
+        "argument_source": {
+          "path": "analysis_r22/distributed_function_interfaces.py",
+          "literal_dictionary": "FACETS",
+          "literal_key": "D54",
+          "canonical_value_sha256": "0d27e982836bb3938dc7b48e6ebfa6ded71d40fa0bc1d2fa5c7dee58c2d945b0"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "id": "D-FUNCTION-R001-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R001",
+          "canonical_object_sha256": "2b012ec0d3c94749b9c6d9240bd1abf581e1959bd732a14661ac5933ff8ed4d1"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P001",
+          "current_id": "DRF-L2-C001",
+          "disposition": "RETAIN_WITH_SCOPE",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A specified item or service and its declared required function for a consumer.",
+          "proposition": "A reliability assertion becomes interpretable when it identifies success/failure, the relevant mission or demand interval and the conditions over which it is asserted.",
+          "guard_quantifier": "For each asserted reliability estimand, define its event and conditioning domain. This does not require an elaborate mission document for every local operation.",
+          "model_domain": "Definitions can be internally precise before any field measurement. External reliability requires a correspondence between the event and the actual required function.",
+          "mechanism": "The definition distinguishes missed function from merely surviving components and supplies the event that tests or observations can count.",
+          "consumer_decision": "Design acceptance, test scope, service promise or maintenance priority.",
+          "positive_scope": "Binary directly observed functions and richer phased missions are both admissible.",
+          "negative_scope": "A written contract alone neither improves a device nor establishes that all affected consumers accept the threshold.",
+          "counterexample": "A service returns an HTTP response while the requested payment is not committed; its process health is not the user's success event.",
+          "criterion": "Qualitative: can a reader classify concrete success, failure and permitted degraded cases without silently changing the consumer or denominator?",
+          "evidence_refs": [
+            "F006",
+            "F046",
+            "F024"
+          ],
+          "evidence_ceiling": "Primary normative/practitioner definitions and an analytical necessity of specifying an estimand; no causal effect size for documentation.",
+          "remaining_premises": "Authority to choose thresholds, actual observability, disputed consumer consequences and correspondence to deployed behavior.",
+          "cheap_path_alternatives": "For a reversible local operation, name one pass/fail postcondition and check it directly; bound scenarios if probabilities add no decision value.",
+          "cost_retirement": "Maintain only distinctions used by an actual consumer; retire obsolete mission versions while preserving which version supported prior evidence.",
+          "audit_question": "What exact function, consumer, interval and failure event does this claim concern, and could a green local signal coexist with failure of that function?",
+          "cases": [
+            "C04",
+            "C11"
+          ],
+          "change_note": "Preserves native mission semantics while separating model definition, observation and normative acceptance."
+        },
+        "orientation": "FORWARD",
+        "inference": "Define the success event for the exact enclosed function in the first member field and the required interval. This qualifies what the native distributed result promises; it does not enlarge the boundary or make every local operation require a mission document.",
+        "primary_member_facet": "enclosed_function_boundary",
+        "exact_ordered_membership": []
+      },
+      {
+        "id": "D-FUNCTION-R001-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R001",
+          "canonical_object_sha256": "2b012ec0d3c94749b9c6d9240bd1abf581e1959bd732a14661ac5933ff8ed4d1"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P001",
+          "current_id": "DRF-L2-C001",
+          "disposition": "RETAIN_WITH_SCOPE",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A specified item or service and its declared required function for a consumer.",
+          "proposition": "A reliability assertion becomes interpretable when it identifies success/failure, the relevant mission or demand interval and the conditions over which it is asserted.",
+          "guard_quantifier": "For each asserted reliability estimand, define its event and conditioning domain. This does not require an elaborate mission document for every local operation.",
+          "model_domain": "Definitions can be internally precise before any field measurement. External reliability requires a correspondence between the event and the actual required function.",
+          "mechanism": "The definition distinguishes missed function from merely surviving components and supplies the event that tests or observations can count.",
+          "consumer_decision": "Design acceptance, test scope, service promise or maintenance priority.",
+          "positive_scope": "Binary directly observed functions and richer phased missions are both admissible.",
+          "negative_scope": "A written contract alone neither improves a device nor establishes that all affected consumers accept the threshold.",
+          "counterexample": "A service returns an HTTP response while the requested payment is not committed; its process health is not the user's success event.",
+          "criterion": "Qualitative: can a reader classify concrete success, failure and permitted degraded cases without silently changing the consumer or denominator?",
+          "evidence_refs": [
+            "F006",
+            "F046",
+            "F024"
+          ],
+          "evidence_ceiling": "Primary normative/practitioner definitions and an analytical necessity of specifying an estimand; no causal effect size for documentation.",
+          "remaining_premises": "Authority to choose thresholds, actual observability, disputed consumer consequences and correspondence to deployed behavior.",
+          "cheap_path_alternatives": "For a reversible local operation, name one pass/fail postcondition and check it directly; bound scenarios if probabilities add no decision value.",
+          "cost_retirement": "Maintain only distinctions used by an actual consumer; retire obsolete mission versions while preserving which version supported prior evidence.",
+          "audit_question": "What exact function, consumer, interval and failure event does this claim concern, and could a green local signal coexist with failure of that function?",
+          "cases": [
+            "C04",
+            "C11"
+          ],
+          "change_note": "Preserves native mission semantics while separating model definition, observation and normative acceptance."
+        },
+        "orientation": "REVERSE",
+        "inference": "The specified distributed function and its actual excluded effects supply the concrete success/failure event for the reliability estimand. They do not supply event probabilities, consumer authority or empirical correspondence.",
+        "primary_member_facet": "enclosed_function_boundary",
+        "exact_ordered_membership": [
+          "D03>R001",
+          "D05>R001",
+          "D09>R001",
+          "D12>R001",
+          "D13>R001",
+          "D26>R001",
+          "D28>R001",
+          "D34>R001",
+          "D46>R001",
+          "D50>R001",
+          "D51>R001"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R002-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R002",
+          "canonical_object_sha256": "b9ae2cefa4bd7cca5abb8667c29a5e4a81af144caf3b7c4338a86f42ecf570e9"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P002",
+          "current_id": "DRF-L2-C002",
+          "disposition": "RETAIN_WITH_SCOPE",
+          "reason_codes": [
+            "NEW_EVIDENCE",
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "An exposure or operational-profile model for a specified population and configuration.",
+          "proposition": "Reliability estimates and representative tests depend on the input, state, environment and demand distribution to which they refer.",
+          "guard_quantifier": "For a weighted estimand p=sum(w_i p_i), weights must describe the intended population. Representative frequency sampling does not by itself protect rare high-consequence cases.",
+          "model_domain": "The weighted-probability identity is mathematical; profile estimation and transport are empirical.",
+          "mechanism": "Changing weights changes aggregate risk even if every conditional failure probability stays fixed; bounding tests can explore low-frequency mechanisms separately.",
+          "consumer_decision": "Test allocation, release comparison and interpretation of field rates.",
+          "positive_scope": "Frequency-weighted use profiles, explicit mission phases and small bounding scenario sets.",
+          "negative_scope": "No claim that use-proportional testing maximizes all objectives or that yesterday's observed usage defines tomorrow's acceptable use.",
+          "counterexample": "A release improves the dominant journey and fails a small cohort completely while the aggregate target passes.",
+          "criterion": "Check population/configuration identity, profile uncertainty, rare-consequence coverage and which changed weights would invalidate the decision.",
+          "evidence_refs": [
+            "F038",
+            "F024",
+            "F046"
+          ],
+          "evidence_ceiling": "Scoped primary technical/practitioner sources plus exact arithmetic; Musa1993 original body remains unexamined and is not credited as fresh proof.",
+          "remaining_premises": "Representative observation, unobserved states, future drift, desired coverage and the loss function.",
+          "cheap_path_alternatives": "Use a few justified bounding cases when estimating a detailed distribution cannot affect the decision.",
+          "cost_retirement": "Profile collection can be costly and privacy-sensitive; retain only justified granularity and refresh when relevant exposure changes.",
+          "audit_question": "Which inputs, state histories and environments were represented, what is omitted, and does the intended use distribution differ?",
+          "cases": [
+            "C08",
+            "C09"
+          ],
+          "change_note": "Preserves the native profile requirement and rejects automatic optimization/transport claims."
+        },
+        "orientation": "FORWARD",
+        "inference": "The member identifies particular input/history/state/environment alternatives that change this distributed operation. Keep that profile or a small explicit bounding set when interpreting performance, risk or test representativeness. A conditional theorem remains true without measured frequencies.",
+        "primary_member_facet": "profile_and_states",
+        "exact_ordered_membership": [
+          "R002>D04",
+          "R002>D07",
+          "R002>D08",
+          "R002>D13",
+          "R002>D17",
+          "R002>D18",
+          "R002>D19",
+          "R002>D21",
+          "R002>D22",
+          "R002>D26",
+          "R002>D27",
+          "R002>D35",
+          "R002>D46",
+          "R002>D49",
+          "R002>D50"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R002-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R002",
+          "canonical_object_sha256": "b9ae2cefa4bd7cca5abb8667c29a5e4a81af144caf3b7c4338a86f42ecf570e9"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P002",
+          "current_id": "DRF-L2-C002",
+          "disposition": "RETAIN_WITH_SCOPE",
+          "reason_codes": [
+            "NEW_EVIDENCE",
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "An exposure or operational-profile model for a specified population and configuration.",
+          "proposition": "Reliability estimates and representative tests depend on the input, state, environment and demand distribution to which they refer.",
+          "guard_quantifier": "For a weighted estimand p=sum(w_i p_i), weights must describe the intended population. Representative frequency sampling does not by itself protect rare high-consequence cases.",
+          "model_domain": "The weighted-probability identity is mathematical; profile estimation and transport are empirical.",
+          "mechanism": "Changing weights changes aggregate risk even if every conditional failure probability stays fixed; bounding tests can explore low-frequency mechanisms separately.",
+          "consumer_decision": "Test allocation, release comparison and interpretation of field rates.",
+          "positive_scope": "Frequency-weighted use profiles, explicit mission phases and small bounding scenario sets.",
+          "negative_scope": "No claim that use-proportional testing maximizes all objectives or that yesterday's observed usage defines tomorrow's acceptable use.",
+          "counterexample": "A release improves the dominant journey and fails a small cohort completely while the aggregate target passes.",
+          "criterion": "Check population/configuration identity, profile uncertainty, rare-consequence coverage and which changed weights would invalidate the decision.",
+          "evidence_refs": [
+            "F038",
+            "F024",
+            "F046"
+          ],
+          "evidence_ceiling": "Scoped primary technical/practitioner sources plus exact arithmetic; Musa1993 original body remains unexamined and is not credited as fresh proof.",
+          "remaining_premises": "Representative observation, unobserved states, future drift, desired coverage and the loss function.",
+          "cheap_path_alternatives": "Use a few justified bounding cases when estimating a detailed distribution cannot affect the decision.",
+          "cost_retirement": "Profile collection can be costly and privacy-sensitive; retain only justified granularity and refresh when relevant exposure changes.",
+          "audit_question": "Which inputs, state histories and environments were represented, what is omitted, and does the intended use distribution differ?",
+          "cases": [
+            "C08",
+            "C09"
+          ],
+          "change_note": "Preserves the native profile requirement and rejects automatic optimization/transport claims."
+        },
+        "orientation": "REVERSE",
+        "inference": "The explicit member context supplies consequential dimensions and event classifications for the operational profile. It can expose an omitted rare history or a changed population. It does not estimate weights or justify treating repeated correlated runs as independent.",
+        "primary_member_facet": "profile_and_states",
+        "exact_ordered_membership": [
+          "D02>R002",
+          "D03>R002",
+          "D05>R002",
+          "D07>R002",
+          "D08>R002",
+          "D09>R002",
+          "D10>R002",
+          "D11>R002",
+          "D12>R002",
+          "D13>R002",
+          "D14>R002",
+          "D15>R002",
+          "D16>R002",
+          "D17>R002",
+          "D18>R002",
+          "D19>R002",
+          "D20>R002",
+          "D21>R002",
+          "D22>R002",
+          "D23>R002",
+          "D24>R002",
+          "D25>R002",
+          "D26>R002",
+          "D27>R002",
+          "D28>R002",
+          "D34>R002",
+          "D35>R002",
+          "D36>R002",
+          "D37>R002",
+          "D38>R002",
+          "D39>R002",
+          "D40>R002",
+          "D43>R002",
+          "D46>R002",
+          "D47>R002",
+          "D49>R002",
+          "D50>R002",
+          "D51>R002",
+          "D52>R002",
+          "D54>R002"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R003-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R003",
+          "canonical_object_sha256": "942a2565082e8df340cee36922d001eb253e7c1dc1dcf89df519fce4a6abd81e"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P003",
+          "current_id": "DRF-L2-C003",
+          "disposition": "RETAIN_NO_MATERIAL_CHANGE",
+          "reason_codes": [
+            "NEW_EVIDENCE"
+          ],
+          "bearer": "A state representation of a named function.",
+          "proposition": "Distinguishing complete, partial, intermittent, latent and accepted degraded states is useful when those distinctions change a consequence or response.",
+          "guard_quantifier": "Introduce a state only with a discernible meaning and relevant decision. A binary state is adequate when it covers the actual binary function.",
+          "model_domain": "A state label is a model convention; classification accuracy and duration are observational claims.",
+          "mechanism": "Separates undetected loss, degraded service and restoration transitions that a single uptime bit can conceal.",
+          "consumer_decision": "Monitoring, containment, maintenance and return to service.",
+          "positive_scope": "Minimal binary or multistate descriptions matched to function.",
+          "negative_scope": "More states do not imply greater reliability or useful precision.",
+          "counterexample": "Two systems with identical observed availability have different interruption counts and longest outages.",
+          "criterion": "Each retained state has an entry/exit meaning, consequence and observation rule; unknown latent state remains unknown.",
+          "evidence_refs": [
+            "F009",
+            "F046",
+            "F024"
+          ],
+          "evidence_ceiling": "Taxonomy, historical definitions and constructed distinction; no empirical validation of a specific classifier.",
+          "remaining_premises": "Reliable observations, allowable degraded duration and consumer interpretation.",
+          "cheap_path_alternatives": "Keep a direct functional pass/fail check when additional state labels cannot alter an action or interpretation.",
+          "cost_retirement": "Remove unused state categories; account for classification labor and false alarms.",
+          "audit_question": "Which materially different failure/degraded states does the metric merge, and are the distinctions actually observable?",
+          "cases": [
+            "C01",
+            "C11"
+          ],
+          "change_note": "Native minimal-state and cheap-path wording survives independent examination."
+        },
+        "orientation": "FORWARD",
+        "inference": "Keep the actual complete/partial/unknown/degraded distinctions named in the member when they change interpretation or action for this function. A hidden condition remains unknown, not nominal. A simple binary local result remains adequate where it is the complete question.",
+        "primary_member_facet": "profile_and_states",
+        "exact_ordered_membership": [
+          "R003>D03",
+          "R003>D04",
+          "R003>D05",
+          "R003>D10",
+          "R003>D12",
+          "R003>D13",
+          "R003>D18",
+          "R003>D19",
+          "R003>D20",
+          "R003>D22",
+          "R003>D25",
+          "R003>D26",
+          "R003>D28",
+          "R003>D34",
+          "R003>D39",
+          "R003>D45",
+          "R003>D46",
+          "R003>D47",
+          "R003>D50",
+          "R003>D51",
+          "R003>D52",
+          "R003>D54"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R003-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R003",
+          "canonical_object_sha256": "942a2565082e8df340cee36922d001eb253e7c1dc1dcf89df519fce4a6abd81e"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P003",
+          "current_id": "DRF-L2-C003",
+          "disposition": "RETAIN_NO_MATERIAL_CHANGE",
+          "reason_codes": [
+            "NEW_EVIDENCE"
+          ],
+          "bearer": "A state representation of a named function.",
+          "proposition": "Distinguishing complete, partial, intermittent, latent and accepted degraded states is useful when those distinctions change a consequence or response.",
+          "guard_quantifier": "Introduce a state only with a discernible meaning and relevant decision. A binary state is adequate when it covers the actual binary function.",
+          "model_domain": "A state label is a model convention; classification accuracy and duration are observational claims.",
+          "mechanism": "Separates undetected loss, degraded service and restoration transitions that a single uptime bit can conceal.",
+          "consumer_decision": "Monitoring, containment, maintenance and return to service.",
+          "positive_scope": "Minimal binary or multistate descriptions matched to function.",
+          "negative_scope": "More states do not imply greater reliability or useful precision.",
+          "counterexample": "Two systems with identical observed availability have different interruption counts and longest outages.",
+          "criterion": "Each retained state has an entry/exit meaning, consequence and observation rule; unknown latent state remains unknown.",
+          "evidence_refs": [
+            "F009",
+            "F046",
+            "F024"
+          ],
+          "evidence_ceiling": "Taxonomy, historical definitions and constructed distinction; no empirical validation of a specific classifier.",
+          "remaining_premises": "Reliable observations, allowable degraded duration and consumer interpretation.",
+          "cheap_path_alternatives": "Keep a direct functional pass/fail check when additional state labels cannot alter an action or interpretation.",
+          "cost_retirement": "Remove unused state categories; account for classification labor and false alarms.",
+          "audit_question": "Which materially different failure/degraded states does the metric merge, and are the distinctions actually observable?",
+          "cases": [
+            "C01",
+            "C11"
+          ],
+          "change_note": "Native minimal-state and cheap-path wording survives independent examination."
+        },
+        "orientation": "REVERSE",
+        "inference": "The native mechanism supplies the actual entry/result or latent/unknown distinction in the member. This gives substance to a reliability-state representation without requiring more states merely for detail or estimating state-transition probabilities.",
+        "primary_member_facet": "profile_and_states",
+        "exact_ordered_membership": [
+          "D02>R003",
+          "D03>R003",
+          "D05>R003",
+          "D09>R003",
+          "D10>R003",
+          "D12>R003",
+          "D13>R003",
+          "D14>R003",
+          "D18>R003",
+          "D19>R003",
+          "D20>R003",
+          "D22>R003",
+          "D25>R003",
+          "D26>R003",
+          "D28>R003",
+          "D34>R003",
+          "D37>R003",
+          "D38>R003",
+          "D39>R003",
+          "D40>R003",
+          "D43>R003",
+          "D46>R003",
+          "D47>R003",
+          "D50>R003",
+          "D51>R003",
+          "D54>R003"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R004-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R004",
+          "canonical_object_sha256": "5abea5a2ab094bd899e5c279a717d4a9dc62c41444b22e42871052892a082d5c"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P004",
+          "current_id": "DRF-L2-C004",
+          "disposition": "RETAIN_WITH_SCOPE",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "bearer": "A claim boundary and its interfaces, distinct from an organizational blame boundary.",
+          "proposition": "An internal restoration or component reliability claim may be valid at its stated boundary while a wider consumer function remains failed; attribution and end-to-end consequence should therefore be recorded separately.",
+          "guard_quantifier": "For each claim, preserve the actual boundary. Do not require every legitimate local claim to prove every external dependency.",
+          "model_domain": "Local predicates and their conjunction are logical; boundary adequacy and attribution need external evidence.",
+          "mechanism": "Prevents both overclaiming global success and dismissing a real partial improvement.",
+          "consumer_decision": "Assign a repair task, describe residual service loss or decide which integration test is still needed.",
+          "positive_scope": "Layered internal, interface and mission claims.",
+          "negative_scope": "A dependency's failure is not automatically blame, and widening the boundary indefinitely is not an engineering solution.",
+          "counterexample": "Valid restored bytes and application state coexist with unavailable credentials and an external counterparty.",
+          "criterion": "Name the local postcondition, wider receiving criterion and unresolved external premises without collapsing them.",
+          "evidence_refs": [
+            "F043",
+            "F009",
+            "F017"
+          ],
+          "evidence_ceiling": "Primary architecture argument and operator incident narrative; the constructed conjunction is exact within its definition.",
+          "remaining_premises": "Actual interface contracts, external authority and integration observations.",
+          "cheap_path_alternatives": "State a narrow boundary explicitly and avoid unsupported end-to-end language.",
+          "cost_retirement": "Interface inventories should follow claim-relevant dependencies; excessively broad ownership models add coordination without proof.",
+          "audit_question": "What has actually been restored locally, what receiving function remains unsatisfied, and which boundary owns the remaining premise?",
+          "cases": [
+            "C04"
+          ],
+          "change_note": "Refines the native end-to-end emphasis to protect valid bounded local claims."
+        },
+        "orientation": "FORWARD",
+        "inference": "Preserve the member local result and distinguish its wider or excluded effect. This prevents extending a scoped distributed result to a different consumer and prevents discarding valid partial success because that wider result is absent.",
+        "primary_member_facet": "enclosed_function_boundary",
+        "exact_ordered_membership": []
+      },
+      {
+        "id": "D-FUNCTION-R004-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R004",
+          "canonical_object_sha256": "5abea5a2ab094bd899e5c279a717d4a9dc62c41444b22e42871052892a082d5c"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P004",
+          "current_id": "DRF-L2-C004",
+          "disposition": "RETAIN_WITH_SCOPE",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "bearer": "A claim boundary and its interfaces, distinct from an organizational blame boundary.",
+          "proposition": "An internal restoration or component reliability claim may be valid at its stated boundary while a wider consumer function remains failed; attribution and end-to-end consequence should therefore be recorded separately.",
+          "guard_quantifier": "For each claim, preserve the actual boundary. Do not require every legitimate local claim to prove every external dependency.",
+          "model_domain": "Local predicates and their conjunction are logical; boundary adequacy and attribution need external evidence.",
+          "mechanism": "Prevents both overclaiming global success and dismissing a real partial improvement.",
+          "consumer_decision": "Assign a repair task, describe residual service loss or decide which integration test is still needed.",
+          "positive_scope": "Layered internal, interface and mission claims.",
+          "negative_scope": "A dependency's failure is not automatically blame, and widening the boundary indefinitely is not an engineering solution.",
+          "counterexample": "Valid restored bytes and application state coexist with unavailable credentials and an external counterparty.",
+          "criterion": "Name the local postcondition, wider receiving criterion and unresolved external premises without collapsing them.",
+          "evidence_refs": [
+            "F043",
+            "F009",
+            "F017"
+          ],
+          "evidence_ceiling": "Primary architecture argument and operator incident narrative; the constructed conjunction is exact within its definition.",
+          "remaining_premises": "Actual interface contracts, external authority and integration observations.",
+          "cheap_path_alternatives": "State a narrow boundary explicitly and avoid unsupported end-to-end language.",
+          "cost_retirement": "Interface inventories should follow claim-relevant dependencies; excessively broad ownership models add coordination without proof.",
+          "audit_question": "What has actually been restored locally, what receiving function remains unsatisfied, and which boundary owns the remaining premise?",
+          "cases": [
+            "C04"
+          ],
+          "change_note": "Refines the native end-to-end emphasis to protect valid bounded local claims."
+        },
+        "orientation": "REVERSE",
+        "inference": "The actual participation, resource, effect or evidence boundary supplies a concrete interface for the local-versus-wider reliability distinction. Neither organizational blame nor normative authorization follows from protocol boundaries.",
+        "primary_member_facet": "enclosed_function_boundary",
+        "exact_ordered_membership": [
+          "D03>R004",
+          "D05>R004",
+          "D09>R004",
+          "D12>R004",
+          "D13>R004",
+          "D26>R004",
+          "D28>R004",
+          "D34>R004",
+          "D46>R004",
+          "D50>R004",
+          "D51>R004"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R006-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R006",
+          "canonical_object_sha256": "afb0d356cba882acd248e8c2d44e8628af9f0ac44948721c558d3f6fa8ecfc0c"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P006",
+          "current_id": "DRF-L2-C006",
+          "disposition": "RETAIN_WITH_HISTORICAL_REFINEMENT",
+          "reason_codes": [
+            "NEW_EVIDENCE",
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A configuration-bound failure-path analysis and the decisions it informs.",
+          "proposition": "Failure-mode and fault-tree reasoning can expose relevant local, interface and system effects when the modeled modes and propagation logic correspond to the item; a completed representation is not evidence that all paths or controls are valid.",
+          "guard_quantifier": "For each material modeled path, state its assumptions and consequent prevention, detection, containment, recovery or accepted-risk decision. Unmodeled paths remain possible.",
+          "model_domain": "Boolean propagation/cut-set results are conditional on the chosen graph; probabilities additionally require a valid joint distribution.",
+          "mechanism": "Bottom-up effect examination and top-down undesired-event decomposition ask complementary questions; repeated basic events retain one identity.",
+          "consumer_decision": "Prioritize a design check or correction, confirm an existing control, or justify no action.",
+          "positive_scope": "Focused causal review, FMEA/FMECA, static/dynamic fault trees or another suitable representation.",
+          "negative_scope": "Worksheet completion, an ordinal product score or a tiny calculated probability does not establish completeness or effectiveness.",
+          "counterexample": "Duplicating one power-supply event as two independent leaves spuriously squares its failure probability; an omitted common cause is absent from every computed cut set.",
+          "criterion": "Can the analyst trace a plausible path, identify the target event, preserve repeated-event identity and show what decision the result supports?",
+          "evidence_refs": [
+            "F045",
+            "F046",
+            "F048"
+          ],
+          "evidence_ceiling": "Primary review/model exposition and historical standard passages, not independent field proof of universal FMEA effectiveness.",
+          "remaining_premises": "Mode discovery, causality, current configuration, dependency data, severity authority and actual control behavior.",
+          "cheap_path_alternatives": "A short 'what fails, what happens next, what would we do?' review is adequate when it resolves the live decision.",
+          "cost_retirement": "Reuse analysis across maintenance/safety where meanings agree; retire stale detail and avoid duplicated worksheets. Historical1629A already advocated tailoring and no-action rationales.",
+          "audit_question": "Which decisions depend on this analysis, what paths or interactions could be missing, and do shared events remain shared in the calculation?",
+          "cases": [
+            "C02",
+            "C04"
+          ],
+          "change_note": "Rejects a caricature of historical FMECA as inherently ceremonial; its1980foreword explicitly criticized ineffective isolated analysis."
+        },
+        "orientation": "FORWARD",
+        "inference": "Trace the concrete member failure mode through its actual mechanism to its stated consequence. Use that path to retain a relevant guard/control or accepted consequence in this distributed design; an FMEA form, probability product or exhaustive discovery claim is unnecessary.",
+        "primary_member_facet": "mode_effect",
+        "exact_ordered_membership": [
+          "R006>D04",
+          "R006>D16",
+          "R006>D45",
+          "R006>D54"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R006-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R006",
+          "canonical_object_sha256": "afb0d356cba882acd248e8c2d44e8628af9f0ac44948721c558d3f6fa8ecfc0c"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P006",
+          "current_id": "DRF-L2-C006",
+          "disposition": "RETAIN_WITH_HISTORICAL_REFINEMENT",
+          "reason_codes": [
+            "NEW_EVIDENCE",
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A configuration-bound failure-path analysis and the decisions it informs.",
+          "proposition": "Failure-mode and fault-tree reasoning can expose relevant local, interface and system effects when the modeled modes and propagation logic correspond to the item; a completed representation is not evidence that all paths or controls are valid.",
+          "guard_quantifier": "For each material modeled path, state its assumptions and consequent prevention, detection, containment, recovery or accepted-risk decision. Unmodeled paths remain possible.",
+          "model_domain": "Boolean propagation/cut-set results are conditional on the chosen graph; probabilities additionally require a valid joint distribution.",
+          "mechanism": "Bottom-up effect examination and top-down undesired-event decomposition ask complementary questions; repeated basic events retain one identity.",
+          "consumer_decision": "Prioritize a design check or correction, confirm an existing control, or justify no action.",
+          "positive_scope": "Focused causal review, FMEA/FMECA, static/dynamic fault trees or another suitable representation.",
+          "negative_scope": "Worksheet completion, an ordinal product score or a tiny calculated probability does not establish completeness or effectiveness.",
+          "counterexample": "Duplicating one power-supply event as two independent leaves spuriously squares its failure probability; an omitted common cause is absent from every computed cut set.",
+          "criterion": "Can the analyst trace a plausible path, identify the target event, preserve repeated-event identity and show what decision the result supports?",
+          "evidence_refs": [
+            "F045",
+            "F046",
+            "F048"
+          ],
+          "evidence_ceiling": "Primary review/model exposition and historical standard passages, not independent field proof of universal FMEA effectiveness.",
+          "remaining_premises": "Mode discovery, causality, current configuration, dependency data, severity authority and actual control behavior.",
+          "cheap_path_alternatives": "A short 'what fails, what happens next, what would we do?' review is adequate when it resolves the live decision.",
+          "cost_retirement": "Reuse analysis across maintenance/safety where meanings agree; retire stale detail and avoid duplicated worksheets. Historical1629A already advocated tailoring and no-action rationales.",
+          "audit_question": "Which decisions depend on this analysis, what paths or interactions could be missing, and do shared events remain shared in the calculation?",
+          "cases": [
+            "C02",
+            "C04"
+          ],
+          "change_note": "Rejects a caricature of historical FMECA as inherently ceremonial; its1980foreword explicitly criticized ineffective isolated analysis."
+        },
+        "orientation": "REVERSE",
+        "inference": "The native operation supplies the specific mode, propagation edge or control limit in the third member field. This is substantive failure-path content, with one identity for a repeated common cause, not a claim that the whole failure analysis is complete or effective.",
+        "primary_member_facet": "mode_effect",
+        "exact_ordered_membership": [
+          "D02>R006",
+          "D04>R006",
+          "D06>R006",
+          "D07>R006",
+          "D08>R006",
+          "D11>R006",
+          "D16>R006",
+          "D17>R006",
+          "D21>R006",
+          "D27>R006",
+          "D31>R006",
+          "D35>R006",
+          "D38>R006",
+          "D41>R006",
+          "D42>R006",
+          "D51>R006"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R029-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R029",
+          "canonical_object_sha256": "85c4ede98d0cbe44a62c52991fa9b1dd443e0be68839c5219d2cafc915ca6c9e"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P029",
+          "current_id": "DRF-L2-C029",
+          "disposition": "RETAIN_WITH_PROPORTIONATE_INHERITANCE",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "bearer": "A claim-evidence relationship across configuration and environment changes.",
+          "proposition": "Evidence can be inherited across changes only to the extent that the premises supporting the claim remain valid; a change can invalidate some claims without discarding all prior knowledge.",
+          "guard_quantifier": "For each consequential change, identify which failure paths, state, profile, interfaces or observation assumptions it affects. Evidence age alone and hash identity alone do not settle scientific relevance.",
+          "model_domain": "Identity/correspondence is a custody result; behavioral equivalence or bounded impact requires technical reasoning or tests.",
+          "mechanism": "Avoids stale assurance while retaining warranted evidence and targeting new checks.",
+          "consumer_decision": "Reuse, narrow, revalidate or retire a claim after an update.",
+          "positive_scope": "Small local changes with narrow checks and substantial changes with broader evidence.",
+          "negative_scope": "No mandatory live graph/database, full retest after every edit or automatic proof from identical documentation.",
+          "counterexample": "A content update follows a different validation path than a binary release; a prior test with wildcard matching does not exercise the later out-of-bounds input condition.",
+          "criterion": "Explain the claimed inheritance, changed premises, targeted discriminator and residual uncertainty.",
+          "evidence_refs": [
+            "F019",
+            "F017",
+            "F046"
+          ],
+          "evidence_ceiling": "Supplier incident accounts and historical analysis guidance; no inspection of any user's deployment or repository.",
+          "remaining_premises": "Actual deployed configuration, complete enough impact analysis, test representativeness and observation.",
+          "cheap_path_alternatives": "A short explicit impact note and targeted functional check may suffice; a graph is optional.",
+          "cost_retirement": "Evidence maintenance and repeated tests consume attention; retain only relationships with an active consumer while preserving historical provenance.",
+          "audit_question": "Which supporting premise changed, what evidence remains valid, and which specific observation would justify the inherited claim?",
+          "cases": [
+            "C04",
+            "C14"
+          ],
+          "change_note": "Retains native configuration binding while stripping an unnecessary graph/cadence requirement."
+        },
+        "orientation": "FORWARD",
+        "inference": "The member names a change that can alter a premise and a specific obligation that remains. Reuse unaffected evidence, but inspect the changed function/state/history/resource/observation interface before transferring the affected distributed claim. No blanket full retest or mere timestamp rule follows.",
+        "primary_member_facet": "change_residual",
+        "exact_ordered_membership": [
+          "R029>D04",
+          "R029>D16",
+          "R029>D45",
+          "R029>D47",
+          "R029>D48",
+          "R029>D54"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R029-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R029",
+          "canonical_object_sha256": "85c4ede98d0cbe44a62c52991fa9b1dd443e0be68839c5219d2cafc915ca6c9e"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P029",
+          "current_id": "DRF-L2-C029",
+          "disposition": "RETAIN_WITH_PROPORTIONATE_INHERITANCE",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "bearer": "A claim-evidence relationship across configuration and environment changes.",
+          "proposition": "Evidence can be inherited across changes only to the extent that the premises supporting the claim remain valid; a change can invalidate some claims without discarding all prior knowledge.",
+          "guard_quantifier": "For each consequential change, identify which failure paths, state, profile, interfaces or observation assumptions it affects. Evidence age alone and hash identity alone do not settle scientific relevance.",
+          "model_domain": "Identity/correspondence is a custody result; behavioral equivalence or bounded impact requires technical reasoning or tests.",
+          "mechanism": "Avoids stale assurance while retaining warranted evidence and targeting new checks.",
+          "consumer_decision": "Reuse, narrow, revalidate or retire a claim after an update.",
+          "positive_scope": "Small local changes with narrow checks and substantial changes with broader evidence.",
+          "negative_scope": "No mandatory live graph/database, full retest after every edit or automatic proof from identical documentation.",
+          "counterexample": "A content update follows a different validation path than a binary release; a prior test with wildcard matching does not exercise the later out-of-bounds input condition.",
+          "criterion": "Explain the claimed inheritance, changed premises, targeted discriminator and residual uncertainty.",
+          "evidence_refs": [
+            "F019",
+            "F017",
+            "F046"
+          ],
+          "evidence_ceiling": "Supplier incident accounts and historical analysis guidance; no inspection of any user's deployment or repository.",
+          "remaining_premises": "Actual deployed configuration, complete enough impact analysis, test representativeness and observation.",
+          "cheap_path_alternatives": "A short explicit impact note and targeted functional check may suffice; a graph is optional.",
+          "cost_retirement": "Evidence maintenance and repeated tests consume attention; retain only relationships with an active consumer while preserving historical provenance.",
+          "audit_question": "Which supporting premise changed, what evidence remains valid, and which specific observation would justify the inherited claim?",
+          "cases": [
+            "C04",
+            "C14"
+          ],
+          "change_note": "Retains native configuration binding while stripping an unnecessary graph/cadence requirement."
+        },
+        "orientation": "REVERSE",
+        "inference": "The explicit version, operational-model or boundary distinction supplies a concrete impact relation and a discriminator for reliability-evidence inheritance. Old evidence remains evidence of its old object; a different hash is neither automatic invalidity nor proof of semantic change.",
+        "primary_member_facet": "change_residual",
+        "exact_ordered_membership": [
+          "D02>R029",
+          "D04>R029",
+          "D11>R029",
+          "D17>R029",
+          "D21>R029",
+          "D27>R029",
+          "D31>R029",
+          "D42>R029"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R031-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R031",
+          "canonical_object_sha256": "3c19ad90adc7928dad90bcee9607d871fe89f7294a5320bb966228a3689fd86f"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P031",
+          "current_id": "DRF-L2-C031",
+          "disposition": "RETAIN_WITH_COHORT_LIMITS",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A service journey and its consumers, including different consequence groups.",
+          "proposition": "Service reliability should be interpreted at the required user/consumer outcome; request-level averages can conceal failed journeys, tail losses or small cohorts.",
+          "guard_quantifier": "Choose measures that represent the named function and relevant groups. Neither an end-to-end probe nor a weighted average observes every semantic outcome.",
+          "model_domain": "Aggregate and conditional success ratios are arithmetic; group selection, consequence and acceptable loss are normative and empirical.",
+          "mechanism": "Connects internal failures to the consumer and reveals where pooling hides material loss.",
+          "consumer_decision": "Prioritize a repair, narrow a service promise, change a measure or retain a simple probe.",
+          "positive_scope": "Single-step functions and multi-step journeys with explicit blind spots.",
+          "negative_scope": "No universal happiness score, endless cohort subdivision or proof of fairness from a dashboard.",
+          "counterexample": "C09meets99.9%aggregate target while the100-request minority has zero successful requests.",
+          "criterion": "Check whether the metric's population, weighting and window reflect the actual receiving function and important tails/cohorts.",
+          "evidence_refs": [
+            "F024",
+            "F025",
+            "F017"
+          ],
+          "evidence_ceiling": "Primary practitioner guidance, operator narrative and arithmetic; no measured consumer satisfaction or equity effect.",
+          "remaining_premises": "Actual journey observation, group relevance, privacy/measurement constraints, authority and semantics.",
+          "cheap_path_alternatives": "One direct transaction and review of material failures may suffice for a genuinely simple service.",
+          "cost_retirement": "More probes and segmentation cost money and attention; retain distinctions with a named consequence and avoid silent exclusions.",
+          "audit_question": "Who can be failing while this service metric passes, and which actual journey does the measurement observe?",
+          "cases": [
+            "C09",
+            "C11"
+          ],
+          "change_note": "Native consumer focus survives without treating one numerical objective as the consumer's whole interest."
+        },
+        "orientation": "FORWARD",
+        "inference": "Use the actual enclosed function or explicitly wider outcome in the first member field as the consumer event. The stated differing histories/states expose cases that a pooled response metric can hide. A single authoritative local operation can be the whole journey.",
+        "primary_member_facet": "enclosed_function_boundary",
+        "exact_ordered_membership": [
+          "R031>D04",
+          "R031>D05",
+          "R031>D13",
+          "R031>D18",
+          "R031>D19",
+          "R031>D20",
+          "R031>D22",
+          "R031>D26",
+          "R031>D28",
+          "R031>D35",
+          "R031>D46",
+          "R031>D50",
+          "R031>D51",
+          "R031>D53"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R031-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R031",
+          "canonical_object_sha256": "3c19ad90adc7928dad90bcee9607d871fe89f7294a5320bb966228a3689fd86f"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P031",
+          "current_id": "DRF-L2-C031",
+          "disposition": "RETAIN_WITH_COHORT_LIMITS",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A service journey and its consumers, including different consequence groups.",
+          "proposition": "Service reliability should be interpreted at the required user/consumer outcome; request-level averages can conceal failed journeys, tail losses or small cohorts.",
+          "guard_quantifier": "Choose measures that represent the named function and relevant groups. Neither an end-to-end probe nor a weighted average observes every semantic outcome.",
+          "model_domain": "Aggregate and conditional success ratios are arithmetic; group selection, consequence and acceptable loss are normative and empirical.",
+          "mechanism": "Connects internal failures to the consumer and reveals where pooling hides material loss.",
+          "consumer_decision": "Prioritize a repair, narrow a service promise, change a measure or retain a simple probe.",
+          "positive_scope": "Single-step functions and multi-step journeys with explicit blind spots.",
+          "negative_scope": "No universal happiness score, endless cohort subdivision or proof of fairness from a dashboard.",
+          "counterexample": "C09meets99.9%aggregate target while the100-request minority has zero successful requests.",
+          "criterion": "Check whether the metric's population, weighting and window reflect the actual receiving function and important tails/cohorts.",
+          "evidence_refs": [
+            "F024",
+            "F025",
+            "F017"
+          ],
+          "evidence_ceiling": "Primary practitioner guidance, operator narrative and arithmetic; no measured consumer satisfaction or equity effect.",
+          "remaining_premises": "Actual journey observation, group relevance, privacy/measurement constraints, authority and semantics.",
+          "cheap_path_alternatives": "One direct transaction and review of material failures may suffice for a genuinely simple service.",
+          "cost_retirement": "More probes and segmentation cost money and attention; retain distinctions with a named consequence and avoid silent exclusions.",
+          "audit_question": "Who can be failing while this service metric passes, and which actual journey does the measurement observe?",
+          "cases": [
+            "C09",
+            "C11"
+          ],
+          "change_note": "Native consumer focus survives without treating one numerical objective as the consumer's whole interest."
+        },
+        "orientation": "REVERSE",
+        "inference": "The native effect/observation boundary supplies a specific user-outcome distinction, cohort/history stratum or hidden residual. It changes what counts as journey success without supplying a universal satisfaction metric, population weights or fairness authority.",
+        "primary_member_facet": "enclosed_function_boundary",
+        "exact_ordered_membership": [
+          "D01>R031",
+          "D03>R031",
+          "D05>R031",
+          "D09>R031",
+          "D12>R031",
+          "D13>R031",
+          "D18>R031",
+          "D19>R031",
+          "D20>R031",
+          "D26>R031",
+          "D28>R031",
+          "D35>R031",
+          "D39>R031",
+          "D40>R031",
+          "D43>R031",
+          "D44>R031",
+          "D46>R031",
+          "D50>R031",
+          "D51>R031",
+          "D53>R031"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R039-FORWARD",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R039",
+          "canonical_object_sha256": "a71643923bf6d5802aec08b32af3ef13ac6c6a833116d3c6f8956b1af7105604"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P039",
+          "current_id": "DRF-L2-C039",
+          "disposition": "RETAIN_WITH_REMOVAL_GUARD",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A reliability control, metric, support duty or claim over its lifecycle.",
+          "proposition": "A stale or duplicate control/claim can be retired when its protected obligation is absent or adequately covered elsewhere; retirement is itself a decision about retained protection and transition cost.",
+          "guard_quantifier": "No named current consumer is a reason to investigate, not automatic proof that a latent safety/contractual obligation vanished. Establish the applicable boundary before deletion.",
+          "model_domain": "Documentation age and usage are observations; adequacy of remaining protection is a substantive engineering judgment.",
+          "mechanism": "Removes unnecessary burden and misleading assurance while retaining historical comparability where useful.",
+          "consumer_decision": "Remove, replace, simplify, archive or keep with a stated rationale.",
+          "positive_scope": "Obsolete metrics, redundant exercises, unsupported claims and genuinely unused support duties.",
+          "negative_scope": "No arbitrary expiry timer, novelty target or automatic deletion because a control did not recently fire.",
+          "counterexample": "A dormant protective test has no recent incident but still covers a high-consequence demand; a retired metric without archived definitions breaks trend interpretation.",
+          "criterion": "Name what it protects, what remains after removal, transition/rollback needs and which evidence would reverse the decision.",
+          "evidence_refs": [
+            "F046",
+            "F024",
+            "F016"
+          ],
+          "evidence_ceiling": "Tailoring/lifecycle guidance and analytical comparison; no current target control was removed or adopted.",
+          "remaining_premises": "Actual obligations, coverage overlap, consumer needs, history and change effects.",
+          "cheap_path_alternatives": "Archive a stale claim, reduce frequency or keep one direct check rather than replacing it with another programme.",
+          "cost_retirement": "Include migration, archival trace, retraining and possible loss of institutional knowledge as well as saved effort.",
+          "audit_question": "What protection or obligation would disappear if this were removed, and is the remaining arrangement demonstrably adequate for the stated scope?",
+          "cases": [
+            "C12"
+          ],
+          "change_note": "Qualifies native 'delete when no consumer can be named' so absence of a named consumer is not treated as proof of absent obligation."
+        },
+        "orientation": "FORWARD",
+        "inference": "Apply the lifecycle question to the named active mechanism, claim or evidence in the fourth member field. Removing it must preserve the actual residual obligation or use an adequate substitute. An old theorem need not become false when its active implementation or consumer is retired.",
+        "primary_member_facet": "change_residual",
+        "exact_ordered_membership": [
+          "R039>D01",
+          "R039>D02",
+          "R039>D03",
+          "R039>D04",
+          "R039>D05",
+          "R039>D06",
+          "R039>D07",
+          "R039>D08",
+          "R039>D10",
+          "R039>D11",
+          "R039>D15",
+          "R039>D16",
+          "R039>D17",
+          "R039>D18",
+          "R039>D19",
+          "R039>D21",
+          "R039>D22",
+          "R039>D23",
+          "R039>D24",
+          "R039>D26",
+          "R039>D27",
+          "R039>D29",
+          "R039>D30",
+          "R039>D31",
+          "R039>D32",
+          "R039>D33",
+          "R039>D35",
+          "R039>D48",
+          "R039>D49",
+          "R039>D50",
+          "R039>D52",
+          "R039>D53"
+        ]
+      },
+      {
+        "id": "D-FUNCTION-R039-REVERSE",
+        "reliability_binding": {
+          "path": "analysis_r6/DR_NATIVE_BINDINGS.json",
+          "pointer": "/properties/R039",
+          "canonical_object_sha256": "a71643923bf6d5802aec08b32af3ef13ac6c6a833116d3c6f8956b1af7105604"
+        },
+        "reliability_current_claim": {
+          "native_id": "ERM-P039",
+          "current_id": "DRF-L2-C039",
+          "disposition": "RETAIN_WITH_REMOVAL_GUARD",
+          "reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "bearer": "A reliability control, metric, support duty or claim over its lifecycle.",
+          "proposition": "A stale or duplicate control/claim can be retired when its protected obligation is absent or adequately covered elsewhere; retirement is itself a decision about retained protection and transition cost.",
+          "guard_quantifier": "No named current consumer is a reason to investigate, not automatic proof that a latent safety/contractual obligation vanished. Establish the applicable boundary before deletion.",
+          "model_domain": "Documentation age and usage are observations; adequacy of remaining protection is a substantive engineering judgment.",
+          "mechanism": "Removes unnecessary burden and misleading assurance while retaining historical comparability where useful.",
+          "consumer_decision": "Remove, replace, simplify, archive or keep with a stated rationale.",
+          "positive_scope": "Obsolete metrics, redundant exercises, unsupported claims and genuinely unused support duties.",
+          "negative_scope": "No arbitrary expiry timer, novelty target or automatic deletion because a control did not recently fire.",
+          "counterexample": "A dormant protective test has no recent incident but still covers a high-consequence demand; a retired metric without archived definitions breaks trend interpretation.",
+          "criterion": "Name what it protects, what remains after removal, transition/rollback needs and which evidence would reverse the decision.",
+          "evidence_refs": [
+            "F046",
+            "F024",
+            "F016"
+          ],
+          "evidence_ceiling": "Tailoring/lifecycle guidance and analytical comparison; no current target control was removed or adopted.",
+          "remaining_premises": "Actual obligations, coverage overlap, consumer needs, history and change effects.",
+          "cheap_path_alternatives": "Archive a stale claim, reduce frequency or keep one direct check rather than replacing it with another programme.",
+          "cost_retirement": "Include migration, archival trace, retraining and possible loss of institutional knowledge as well as saved effort.",
+          "audit_question": "What protection or obligation would disappear if this were removed, and is the remaining arrangement demonstrably adequate for the stated scope?",
+          "cases": [
+            "C12"
+          ],
+          "change_note": "Qualifies native 'delete when no consumer can be named' so absence of a named consumer is not treated as proof of absent obligation."
+        },
+        "orientation": "REVERSE",
+        "inference": "The native mechanism identifies the retained state, dormant consumer, operation contract or capacity obligation that a proposed retirement must preserve. This can justify removal/consolidation or retention; absence of recent use is not itself a removal proof.",
+        "primary_member_facet": "change_residual",
+        "exact_ordered_membership": [
+          "D01>R039",
+          "D02>R039",
+          "D03>R039",
+          "D04>R039",
+          "D05>R039",
+          "D06>R039",
+          "D07>R039",
+          "D08>R039",
+          "D09>R039",
+          "D10>R039",
+          "D11>R039",
+          "D13>R039",
+          "D15>R039",
+          "D16>R039",
+          "D17>R039",
+          "D18>R039",
+          "D19>R039",
+          "D21>R039",
+          "D22>R039",
+          "D23>R039",
+          "D24>R039",
+          "D26>R039",
+          "D27>R039",
+          "D29>R039",
+          "D30>R039",
+          "D31>R039",
+          "D32>R039",
+          "D33>R039",
+          "D34>R039",
+          "D35>R039",
+          "D41>R039",
+          "D42>R039",
+          "D43>R039",
+          "D48>R039",
+          "D49>R039",
+          "D50>R039",
+          "D52>R039",
+          "D53>R039"
+        ]
+      }
+    ],
+    "retained_prior_directions": [
+      "R001>D01",
+      "R001>D02",
+      "R001>D03",
+      "R001>D04",
+      "R001>D05",
+      "R001>D06",
+      "R001>D07",
+      "R001>D08",
+      "R001>D09",
+      "R001>D10",
+      "R001>D11",
+      "R001>D12",
+      "R001>D13",
+      "R001>D14",
+      "R001>D15",
+      "R001>D16",
+      "R001>D17",
+      "R001>D18",
+      "R001>D19",
+      "R001>D20",
+      "R001>D21",
+      "R001>D22",
+      "R001>D23",
+      "R001>D24",
+      "R001>D25",
+      "R001>D26",
+      "R001>D27",
+      "R001>D28",
+      "R001>D29",
+      "R001>D30",
+      "R001>D31",
+      "R001>D32",
+      "R001>D33",
+      "R001>D34",
+      "R001>D35",
+      "R001>D36",
+      "R001>D37",
+      "R001>D38",
+      "R001>D39",
+      "R001>D40",
+      "R001>D41",
+      "R001>D42",
+      "R001>D43",
+      "R001>D44",
+      "R001>D45",
+      "R001>D46",
+      "R001>D47",
+      "R001>D48",
+      "R001>D49",
+      "R001>D50",
+      "R001>D51",
+      "R001>D52",
+      "R001>D53",
+      "R001>D54",
+      "D01>R001",
+      "D02>R001",
+      "D04>R001",
+      "D06>R001",
+      "D07>R001",
+      "D08>R001",
+      "D10>R001",
+      "D11>R001",
+      "D14>R001",
+      "D15>R001",
+      "D16>R001",
+      "D17>R001",
+      "D18>R001",
+      "D19>R001",
+      "D20>R001",
+      "D21>R001",
+      "D22>R001",
+      "D23>R001",
+      "D24>R001",
+      "D25>R001",
+      "D27>R001",
+      "D29>R001",
+      "D30>R001",
+      "D31>R001",
+      "D32>R001",
+      "D33>R001",
+      "D35>R001",
+      "D36>R001",
+      "D37>R001",
+      "D38>R001",
+      "D39>R001",
+      "D40>R001",
+      "D41>R001",
+      "D42>R001",
+      "D43>R001",
+      "D44>R001",
+      "D45>R001",
+      "D47>R001",
+      "D48>R001",
+      "D49>R001",
+      "D52>R001",
+      "D53>R001",
+      "D54>R001",
+      "R002>D01",
+      "R002>D02",
+      "R002>D03",
+      "R002>D05",
+      "R002>D06",
+      "R002>D09",
+      "R002>D10",
+      "R002>D11",
+      "R002>D12",
+      "R002>D14",
+      "R002>D15",
+      "R002>D16",
+      "R002>D20",
+      "R002>D23",
+      "R002>D24",
+      "R002>D25",
+      "R002>D28",
+      "R002>D29",
+      "R002>D30",
+      "R002>D31",
+      "R002>D32",
+      "R002>D33",
+      "R002>D34",
+      "R002>D36",
+      "R002>D37",
+      "R002>D38",
+      "R002>D39",
+      "R002>D40",
+      "R002>D41",
+      "R002>D42",
+      "R002>D43",
+      "R002>D44",
+      "R002>D45",
+      "R002>D47",
+      "R002>D48",
+      "R002>D51",
+      "R002>D52",
+      "R002>D53",
+      "R002>D54",
+      "D01>R002",
+      "D04>R002",
+      "D06>R002",
+      "D29>R002",
+      "D30>R002",
+      "D31>R002",
+      "D32>R002",
+      "D33>R002",
+      "D41>R002",
+      "D42>R002",
+      "D44>R002",
+      "D45>R002",
+      "D48>R002",
+      "D53>R002",
+      "R003>D01",
+      "R003>D02",
+      "R003>D06",
+      "R003>D07",
+      "R003>D08",
+      "R003>D09",
+      "R003>D11",
+      "R003>D14",
+      "R003>D15",
+      "R003>D16",
+      "R003>D17",
+      "R003>D21",
+      "R003>D23",
+      "R003>D24",
+      "R003>D27",
+      "R003>D29",
+      "R003>D30",
+      "R003>D31",
+      "R003>D32",
+      "R003>D33",
+      "R003>D35",
+      "R003>D36",
+      "R003>D37",
+      "R003>D38",
+      "R003>D40",
+      "R003>D41",
+      "R003>D42",
+      "R003>D43",
+      "R003>D44",
+      "R003>D48",
+      "R003>D49",
+      "R003>D53",
+      "D01>R003",
+      "D04>R003",
+      "D06>R003",
+      "D07>R003",
+      "D08>R003",
+      "D11>R003",
+      "D15>R003",
+      "D16>R003",
+      "D17>R003",
+      "D21>R003",
+      "D23>R003",
+      "D24>R003",
+      "D27>R003",
+      "D29>R003",
+      "D30>R003",
+      "D31>R003",
+      "D32>R003",
+      "D33>R003",
+      "D35>R003",
+      "D36>R003",
+      "D41>R003",
+      "D42>R003",
+      "D44>R003",
+      "D45>R003",
+      "D48>R003",
+      "D49>R003",
+      "D52>R003",
+      "D53>R003",
+      "R004>D01",
+      "R004>D02",
+      "R004>D03",
+      "R004>D04",
+      "R004>D05",
+      "R004>D06",
+      "R004>D07",
+      "R004>D08",
+      "R004>D09",
+      "R004>D10",
+      "R004>D11",
+      "R004>D12",
+      "R004>D13",
+      "R004>D14",
+      "R004>D15",
+      "R004>D16",
+      "R004>D17",
+      "R004>D18",
+      "R004>D19",
+      "R004>D20",
+      "R004>D21",
+      "R004>D22",
+      "R004>D23",
+      "R004>D24",
+      "R004>D25",
+      "R004>D26",
+      "R004>D27",
+      "R004>D28",
+      "R004>D29",
+      "R004>D30",
+      "R004>D31",
+      "R004>D32",
+      "R004>D33",
+      "R004>D34",
+      "R004>D35",
+      "R004>D36",
+      "R004>D37",
+      "R004>D38",
+      "R004>D39",
+      "R004>D40",
+      "R004>D41",
+      "R004>D42",
+      "R004>D43",
+      "R004>D44",
+      "R004>D45",
+      "R004>D46",
+      "R004>D47",
+      "R004>D48",
+      "R004>D49",
+      "R004>D50",
+      "R004>D51",
+      "R004>D52",
+      "R004>D53",
+      "R004>D54",
+      "D01>R004",
+      "D02>R004",
+      "D04>R004",
+      "D06>R004",
+      "D07>R004",
+      "D08>R004",
+      "D10>R004",
+      "D11>R004",
+      "D14>R004",
+      "D15>R004",
+      "D16>R004",
+      "D17>R004",
+      "D18>R004",
+      "D19>R004",
+      "D20>R004",
+      "D21>R004",
+      "D22>R004",
+      "D23>R004",
+      "D24>R004",
+      "D25>R004",
+      "D27>R004",
+      "D29>R004",
+      "D30>R004",
+      "D31>R004",
+      "D32>R004",
+      "D33>R004",
+      "D35>R004",
+      "D36>R004",
+      "D37>R004",
+      "D38>R004",
+      "D39>R004",
+      "D40>R004",
+      "D41>R004",
+      "D42>R004",
+      "D43>R004",
+      "D44>R004",
+      "D45>R004",
+      "D47>R004",
+      "D48>R004",
+      "D49>R004",
+      "D52>R004",
+      "D53>R004",
+      "D54>R004",
+      "R006>D01",
+      "R006>D02",
+      "R006>D03",
+      "R006>D05",
+      "R006>D06",
+      "R006>D07",
+      "R006>D08",
+      "R006>D09",
+      "R006>D10",
+      "R006>D11",
+      "R006>D12",
+      "R006>D13",
+      "R006>D14",
+      "R006>D15",
+      "R006>D17",
+      "R006>D18",
+      "R006>D19",
+      "R006>D20",
+      "R006>D21",
+      "R006>D22",
+      "R006>D23",
+      "R006>D24",
+      "R006>D25",
+      "R006>D26",
+      "R006>D27",
+      "R006>D28",
+      "R006>D29",
+      "R006>D30",
+      "R006>D31",
+      "R006>D32",
+      "R006>D33",
+      "R006>D34",
+      "R006>D35",
+      "R006>D36",
+      "R006>D37",
+      "R006>D38",
+      "R006>D39",
+      "R006>D40",
+      "R006>D41",
+      "R006>D42",
+      "R006>D43",
+      "R006>D44",
+      "R006>D46",
+      "R006>D47",
+      "R006>D48",
+      "R006>D49",
+      "R006>D50",
+      "R006>D51",
+      "R006>D52",
+      "R006>D53",
+      "D01>R006",
+      "D03>R006",
+      "D05>R006",
+      "D09>R006",
+      "D10>R006",
+      "D12>R006",
+      "D13>R006",
+      "D14>R006",
+      "D15>R006",
+      "D18>R006",
+      "D19>R006",
+      "D20>R006",
+      "D22>R006",
+      "D23>R006",
+      "D24>R006",
+      "D25>R006",
+      "D26>R006",
+      "D28>R006",
+      "D29>R006",
+      "D30>R006",
+      "D32>R006",
+      "D33>R006",
+      "D34>R006",
+      "D36>R006",
+      "D37>R006",
+      "D39>R006",
+      "D40>R006",
+      "D43>R006",
+      "D44>R006",
+      "D45>R006",
+      "D46>R006",
+      "D47>R006",
+      "D48>R006",
+      "D49>R006",
+      "D50>R006",
+      "D52>R006",
+      "D53>R006",
+      "D54>R006",
+      "R029>D01",
+      "R029>D02",
+      "R029>D03",
+      "R029>D05",
+      "R029>D06",
+      "R029>D07",
+      "R029>D08",
+      "R029>D09",
+      "R029>D10",
+      "R029>D11",
+      "R029>D12",
+      "R029>D13",
+      "R029>D14",
+      "R029>D15",
+      "R029>D17",
+      "R029>D18",
+      "R029>D19",
+      "R029>D20",
+      "R029>D21",
+      "R029>D22",
+      "R029>D23",
+      "R029>D24",
+      "R029>D25",
+      "R029>D26",
+      "R029>D27",
+      "R029>D28",
+      "R029>D29",
+      "R029>D30",
+      "R029>D31",
+      "R029>D32",
+      "R029>D33",
+      "R029>D34",
+      "R029>D35",
+      "R029>D36",
+      "R029>D37",
+      "R029>D38",
+      "R029>D39",
+      "R029>D40",
+      "R029>D41",
+      "R029>D42",
+      "R029>D43",
+      "R029>D44",
+      "R029>D46",
+      "R029>D49",
+      "R029>D50",
+      "R029>D51",
+      "R029>D52",
+      "R029>D53",
+      "D01>R029",
+      "D03>R029",
+      "D05>R029",
+      "D06>R029",
+      "D07>R029",
+      "D08>R029",
+      "D09>R029",
+      "D10>R029",
+      "D12>R029",
+      "D13>R029",
+      "D14>R029",
+      "D15>R029",
+      "D16>R029",
+      "D18>R029",
+      "D19>R029",
+      "D20>R029",
+      "D22>R029",
+      "D23>R029",
+      "D24>R029",
+      "D25>R029",
+      "D26>R029",
+      "D28>R029",
+      "D29>R029",
+      "D30>R029",
+      "D32>R029",
+      "D33>R029",
+      "D34>R029",
+      "D35>R029",
+      "D36>R029",
+      "D37>R029",
+      "D38>R029",
+      "D39>R029",
+      "D40>R029",
+      "D41>R029",
+      "D43>R029",
+      "D44>R029",
+      "D45>R029",
+      "D46>R029",
+      "D47>R029",
+      "D48>R029",
+      "D49>R029",
+      "D50>R029",
+      "D51>R029",
+      "D52>R029",
+      "D53>R029",
+      "D54>R029",
+      "R031>D01",
+      "R031>D02",
+      "R031>D03",
+      "R031>D06",
+      "R031>D07",
+      "R031>D08",
+      "R031>D09",
+      "R031>D10",
+      "R031>D11",
+      "R031>D12",
+      "R031>D14",
+      "R031>D15",
+      "R031>D16",
+      "R031>D17",
+      "R031>D21",
+      "R031>D23",
+      "R031>D24",
+      "R031>D25",
+      "R031>D27",
+      "R031>D29",
+      "R031>D30",
+      "R031>D31",
+      "R031>D32",
+      "R031>D33",
+      "R031>D34",
+      "R031>D36",
+      "R031>D37",
+      "R031>D38",
+      "R031>D39",
+      "R031>D40",
+      "R031>D41",
+      "R031>D42",
+      "R031>D43",
+      "R031>D44",
+      "R031>D45",
+      "R031>D47",
+      "R031>D48",
+      "R031>D49",
+      "R031>D52",
+      "R031>D54",
+      "D02>R031",
+      "D04>R031",
+      "D06>R031",
+      "D07>R031",
+      "D08>R031",
+      "D10>R031",
+      "D11>R031",
+      "D14>R031",
+      "D15>R031",
+      "D16>R031",
+      "D17>R031",
+      "D21>R031",
+      "D22>R031",
+      "D23>R031",
+      "D24>R031",
+      "D25>R031",
+      "D27>R031",
+      "D29>R031",
+      "D30>R031",
+      "D31>R031",
+      "D32>R031",
+      "D33>R031",
+      "D34>R031",
+      "D36>R031",
+      "D37>R031",
+      "D38>R031",
+      "D41>R031",
+      "D42>R031",
+      "D45>R031",
+      "D47>R031",
+      "D48>R031",
+      "D49>R031",
+      "D52>R031",
+      "D54>R031",
+      "R039>D09",
+      "R039>D12",
+      "R039>D13",
+      "R039>D14",
+      "R039>D20",
+      "R039>D25",
+      "R039>D28",
+      "R039>D34",
+      "R039>D36",
+      "R039>D37",
+      "R039>D38",
+      "R039>D39",
+      "R039>D40",
+      "R039>D41",
+      "R039>D42",
+      "R039>D43",
+      "R039>D44",
+      "R039>D45",
+      "R039>D46",
+      "R039>D47",
+      "R039>D51",
+      "R039>D54",
+      "D12>R039",
+      "D14>R039",
+      "D20>R039",
+      "D25>R039",
+      "D28>R039",
+      "D36>R039",
+      "D37>R039",
+      "D38>R039",
+      "D39>R039",
+      "D40>R039",
+      "D44>R039",
+      "D45>R039",
+      "D46>R039",
+      "D47>R039",
+      "D51>R039",
+      "D54>R039"
+    ],
+    "new_scientific_executions": 0
+  }
+}

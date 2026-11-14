@@ -1,0 +1,312 @@
+# EBPM:EBPM-031 — relationships
+
+[All properties](../by-property.md) · [Relationship guide](../README.md)
+
+[Exact current comparison profile](../property-profiles/properties-004.md#EBPM-EBPM-031).
+
+## Outgoing directions
+
+| Relation | Source → receiver | Meaning |
+|---|---|---|
+| [BWP-R01330](../directions/relations-014.md#BWP-R01330) | EBPM:EBPM-031 → EWM:EWM-005 | COMPLEMENTS |
+| [BWP-R01332](../directions/relations-014.md#BWP-R01332) | EBPM:EBPM-031 → EWM:EWM-019 | COMPLEMENTS |
+| [BWP-R01334](../directions/relations-014.md#BWP-R01334) | EBPM:EBPM-031 → EWM:EWM-025 | COMPLEMENTS |
+| [BWP-R01336](../directions/relations-014.md#BWP-R01336) | EBPM:EBPM-031 → EWM:EWM-026 | COMPLEMENTS |
+| [BWP-R01338](../directions/relations-014.md#BWP-R01338) | EBPM:EBPM-031 → EWM:EWM-027 | COMPLEMENTS |
+| [BWP-R01340](../directions/relations-014.md#BWP-R01340) | EBPM:EBPM-031 → EWM:EWM-029 | COMPLEMENTS |
+| [BWP-R01342](../directions/relations-014.md#BWP-R01342) | EBPM:EBPM-031 → EPM:EPM-049 | COMPLEMENTS |
+| [BWP-R01344](../directions/relations-014.md#BWP-R01344) | EBPM:EBPM-031 → EPM:EPM-063 | COMPLEMENTS |
+| [BWP-R01346](../directions/relations-014.md#BWP-R01346) | EBPM:EBPM-031 → EPM:EPM-065 | COMPLEMENTS |
+| [BWP-R03102](../directions/relations-032.md#BWP-R03102) | EBPM:EBPM-031 → EWM:EWM-019 | COMPLEMENTS |
+| [BWP-R03104](../directions/relations-032.md#BWP-R03104) | EBPM:EBPM-031 → EWM:EWM-025 | COMPLEMENTS |
+| [BWP-R03106](../directions/relations-032.md#BWP-R03106) | EBPM:EBPM-031 → EWM:EWM-030 | COMPLEMENTS |
+| [BWP-R03108](../directions/relations-032.md#BWP-R03108) | EBPM:EBPM-031 → EWM:EWM-057 | COMPLEMENTS |
+| [BWP-R03110](../directions/relations-032.md#BWP-R03110) | EBPM:EBPM-031 → EWM:EWM-062 | COMPLEMENTS |
+| [BWP-R03113](../directions/relations-032.md#BWP-R03113) | EBPM:EBPM-031 → EWM:EWM-074 | ANALOGOUS_NOT_EQUIVALENT |
+| [BWP-R03115](../directions/relations-032.md#BWP-R03115) | EBPM:EBPM-031 → EPM:EPM-053 | COMPLEMENTS |
+| [BWP-R03117](../directions/relations-032.md#BWP-R03117) | EBPM:EBPM-031 → EPM:EPM-063 | COMPLEMENTS |
+| [BWP-R03119](../directions/relations-032.md#BWP-R03119) | EBPM:EBPM-031 → EPM:EPM-064 | COMPLEMENTS |
+| [BWP-R03121](../directions/relations-032.md#BWP-R03121) | EBPM:EBPM-031 → EPM:EPM-065 | COMPLEMENTS |
+| [BWP-R03123](../directions/relations-032.md#BWP-R03123) | EBPM:EBPM-031 → EPM:EPM-068 | ANALOGOUS_NOT_EQUIVALENT |
+| [BWP-R06380](../directions/relations-064.md#BWP-R06380) | EBPM:EBPM-031 → EWM:EWM-004 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06382](../directions/relations-064.md#BWP-R06382) | EBPM:EBPM-031 → EWM:EWM-019 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06384](../directions/relations-064.md#BWP-R06384) | EBPM:EBPM-031 → EWM:EWM-028 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06386](../directions/relations-064.md#BWP-R06386) | EBPM:EBPM-031 → EWM:EWM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06388](../directions/relations-064.md#BWP-R06388) | EBPM:EBPM-031 → EWM:EWM-050 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06390](../directions/relations-064.md#BWP-R06390) | EBPM:EBPM-031 → EWM:EWM-052 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06392](../directions/relations-064.md#BWP-R06392) | EBPM:EBPM-031 → EWM:EWM-057 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06394](../directions/relations-064.md#BWP-R06394) | EBPM:EBPM-031 → EWM:EWM-061 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06396](../directions/relations-064.md#BWP-R06396) | EBPM:EBPM-031 → EWM:EWM-063 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06398](../directions/relations-064.md#BWP-R06398) | EBPM:EBPM-031 → EWM:EWM-071 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06400](../directions/relations-064.md#BWP-R06400) | EBPM:EBPM-031 → EWM:EWM-074 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R2-01868](../directions/relations-107.md#BWP-R2-01868) | EBPM:EBPM-031 → EPM:EPM-009 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01869](../directions/relations-107.md#BWP-R2-01869) | EBPM:EBPM-031 → EPM:EPM-031 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01870](../directions/relations-107.md#BWP-R2-01870) | EBPM:EBPM-031 → EPM:EPM-037 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01871](../directions/relations-107.md#BWP-R2-01871) | EBPM:EBPM-031 → EPM:EPM-038 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01872](../directions/relations-107.md#BWP-R2-01872) | EBPM:EBPM-031 → EPM:EPM-053 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01873](../directions/relations-107.md#BWP-R2-01873) | EBPM:EBPM-031 → EPM:EPM-058 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01874](../directions/relations-107.md#BWP-R2-01874) | EBPM:EBPM-031 → EPM:EPM-059 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01875](../directions/relations-107.md#BWP-R2-01875) | EBPM:EBPM-031 → EPM:EPM-063 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01876](../directions/relations-107.md#BWP-R2-01876) | EBPM:EBPM-031 → EPM:EPM-064 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01877](../directions/relations-107.md#BWP-R2-01877) | EBPM:EBPM-031 → EPM:EPM-065 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01878](../directions/relations-107.md#BWP-R2-01878) | EBPM:EBPM-031 → EPM:EPM-066 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01879](../directions/relations-107.md#BWP-R2-01879) | EBPM:EBPM-031 → EPM:EPM-075 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01880](../directions/relations-107.md#BWP-R2-01880) | EBPM:EBPM-031 → EPM:EPM-076 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01881](../directions/relations-107.md#BWP-R2-01881) | EBPM:EBPM-031 → EPM:EPM-077 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01882](../directions/relations-107.md#BWP-R2-01882) | EBPM:EBPM-031 → EPM:EPM-078 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01883](../directions/relations-107.md#BWP-R2-01883) | EBPM:EBPM-031 → EPM:EPM-080 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01884](../directions/relations-107.md#BWP-R2-01884) | EBPM:EBPM-031 → EPM:EPM-084 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01899](../directions/relations-107.md#BWP-R2-01899) | EBPM:EBPM-031 → EWM:EWM-005 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01900](../directions/relations-107.md#BWP-R2-01900) | EBPM:EBPM-031 → EWM:EWM-019 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01901](../directions/relations-107.md#BWP-R2-01901) | EBPM:EBPM-031 → EWM:EWM-025 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01902](../directions/relations-107.md#BWP-R2-01902) | EBPM:EBPM-031 → EWM:EWM-027 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01903](../directions/relations-107.md#BWP-R2-01903) | EBPM:EBPM-031 → EWM:EWM-028 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01904](../directions/relations-107.md#BWP-R2-01904) | EBPM:EBPM-031 → EWM:EWM-029 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01905](../directions/relations-107.md#BWP-R2-01905) | EBPM:EBPM-031 → EWM:EWM-031 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01906](../directions/relations-107.md#BWP-R2-01906) | EBPM:EBPM-031 → EWM:EWM-033 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01907](../directions/relations-107.md#BWP-R2-01907) | EBPM:EBPM-031 → EWM:EWM-037 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01908](../directions/relations-107.md#BWP-R2-01908) | EBPM:EBPM-031 → EWM:EWM-038 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01909](../directions/relations-107.md#BWP-R2-01909) | EBPM:EBPM-031 → EWM:EWM-048 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01910](../directions/relations-107.md#BWP-R2-01910) | EBPM:EBPM-031 → EWM:EWM-050 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01911](../directions/relations-107.md#BWP-R2-01911) | EBPM:EBPM-031 → EWM:EWM-052 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01912](../directions/relations-107.md#BWP-R2-01912) | EBPM:EBPM-031 → EWM:EWM-053 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01913](../directions/relations-107.md#BWP-R2-01913) | EBPM:EBPM-031 → EWM:EWM-054 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01914](../directions/relations-107.md#BWP-R2-01914) | EBPM:EBPM-031 → EWM:EWM-057 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01915](../directions/relations-107.md#BWP-R2-01915) | EBPM:EBPM-031 → EWM:EWM-062 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R2-01916](../directions/relations-107.md#BWP-R2-01916) | EBPM:EBPM-031 → EWM:EWM-077 | SUPPLIES_EVIDENCE_FOR |
+| [BWP-R4-0217](../directions/relations-157.md#BWP-R4-0217) | EBPM:EBPM-031 → EPM:EPM-068 | SUPPLIES_EVIDENCE_FOR |
+## Incoming directions
+
+| Relation | Source → receiver | Meaning |
+|---|---|---|
+| [BWP-R01331](../directions/relations-014.md#BWP-R01331) | EWM:EWM-005 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01333](../directions/relations-014.md#BWP-R01333) | EWM:EWM-019 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01335](../directions/relations-014.md#BWP-R01335) | EWM:EWM-025 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01337](../directions/relations-014.md#BWP-R01337) | EWM:EWM-026 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01339](../directions/relations-014.md#BWP-R01339) | EWM:EWM-027 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01341](../directions/relations-014.md#BWP-R01341) | EWM:EWM-029 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01343](../directions/relations-014.md#BWP-R01343) | EPM:EPM-049 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01345](../directions/relations-014.md#BWP-R01345) | EPM:EPM-063 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01347](../directions/relations-014.md#BWP-R01347) | EPM:EPM-065 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R01348](../directions/relations-014.md#BWP-R01348) | EPM:EPM-080 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R03103](../directions/relations-032.md#BWP-R03103) | EWM:EWM-019 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03105](../directions/relations-032.md#BWP-R03105) | EWM:EWM-025 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03107](../directions/relations-032.md#BWP-R03107) | EWM:EWM-030 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03109](../directions/relations-032.md#BWP-R03109) | EWM:EWM-057 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03111](../directions/relations-032.md#BWP-R03111) | EWM:EWM-062 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03112](../directions/relations-032.md#BWP-R03112) | EWM:EWM-071 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R03114](../directions/relations-032.md#BWP-R03114) | EWM:EWM-074 → EBPM:EBPM-031 | ANALOGOUS_NOT_EQUIVALENT |
+| [BWP-R03116](../directions/relations-032.md#BWP-R03116) | EPM:EPM-053 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03118](../directions/relations-032.md#BWP-R03118) | EPM:EPM-063 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03120](../directions/relations-032.md#BWP-R03120) | EPM:EPM-064 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03122](../directions/relations-032.md#BWP-R03122) | EPM:EPM-065 → EBPM:EBPM-031 | COMPLEMENTS |
+| [BWP-R03124](../directions/relations-032.md#BWP-R03124) | EPM:EPM-068 → EBPM:EBPM-031 | ANALOGOUS_NOT_EQUIVALENT |
+| [BWP-R03125](../directions/relations-032.md#BWP-R03125) | EPM:EPM-080 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R06381](../directions/relations-064.md#BWP-R06381) | EWM:EWM-004 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06383](../directions/relations-064.md#BWP-R06383) | EWM:EWM-019 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06385](../directions/relations-064.md#BWP-R06385) | EWM:EWM-028 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06387](../directions/relations-064.md#BWP-R06387) | EWM:EWM-031 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06389](../directions/relations-064.md#BWP-R06389) | EWM:EWM-050 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06391](../directions/relations-064.md#BWP-R06391) | EWM:EWM-052 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06393](../directions/relations-064.md#BWP-R06393) | EWM:EWM-057 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06395](../directions/relations-064.md#BWP-R06395) | EWM:EWM-061 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06397](../directions/relations-064.md#BWP-R06397) | EWM:EWM-063 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06399](../directions/relations-064.md#BWP-R06399) | EWM:EWM-071 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R06401](../directions/relations-065.md#BWP-R06401) | EWM:EWM-074 → EBPM:EBPM-031 | SHARES_SOURCE_ANCESTRY |
+| [BWP-R2-01885](../directions/relations-107.md#BWP-R2-01885) | EPM:EPM-009 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01886](../directions/relations-107.md#BWP-R2-01886) | EPM:EPM-031 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01887](../directions/relations-107.md#BWP-R2-01887) | EPM:EPM-038 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01888](../directions/relations-107.md#BWP-R2-01888) | EPM:EPM-053 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01889](../directions/relations-107.md#BWP-R2-01889) | EPM:EPM-058 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01890](../directions/relations-107.md#BWP-R2-01890) | EPM:EPM-063 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01891](../directions/relations-107.md#BWP-R2-01891) | EPM:EPM-064 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01892](../directions/relations-107.md#BWP-R2-01892) | EPM:EPM-065 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01893](../directions/relations-107.md#BWP-R2-01893) | EPM:EPM-066 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01894](../directions/relations-107.md#BWP-R2-01894) | EPM:EPM-075 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01895](../directions/relations-107.md#BWP-R2-01895) | EPM:EPM-076 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01896](../directions/relations-107.md#BWP-R2-01896) | EPM:EPM-077 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01897](../directions/relations-107.md#BWP-R2-01897) | EPM:EPM-078 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01898](../directions/relations-107.md#BWP-R2-01898) | EPM:EPM-084 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01917](../directions/relations-107.md#BWP-R2-01917) | EWM:EWM-005 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01918](../directions/relations-107.md#BWP-R2-01918) | EWM:EWM-019 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01919](../directions/relations-107.md#BWP-R2-01919) | EWM:EWM-025 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01920](../directions/relations-107.md#BWP-R2-01920) | EWM:EWM-027 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01921](../directions/relations-107.md#BWP-R2-01921) | EWM:EWM-028 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01922](../directions/relations-107.md#BWP-R2-01922) | EWM:EWM-029 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01923](../directions/relations-107.md#BWP-R2-01923) | EWM:EWM-031 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01924](../directions/relations-107.md#BWP-R2-01924) | EWM:EWM-033 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01925](../directions/relations-107.md#BWP-R2-01925) | EWM:EWM-037 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01926](../directions/relations-107.md#BWP-R2-01926) | EWM:EWM-038 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01927](../directions/relations-107.md#BWP-R2-01927) | EWM:EWM-048 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01928](../directions/relations-107.md#BWP-R2-01928) | EWM:EWM-050 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01929](../directions/relations-107.md#BWP-R2-01929) | EWM:EWM-052 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01930](../directions/relations-107.md#BWP-R2-01930) | EWM:EWM-053 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01931](../directions/relations-107.md#BWP-R2-01931) | EWM:EWM-054 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01932](../directions/relations-107.md#BWP-R2-01932) | EWM:EWM-057 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01933](../directions/relations-107.md#BWP-R2-01933) | EWM:EWM-062 → EBPM:EBPM-031 | CONSTRAINS |
+| [BWP-R2-01934](../directions/relations-107.md#BWP-R2-01934) | EWM:EWM-077 → EBPM:EBPM-031 | CONSTRAINS |
+## Pair judgments
+
+| Pair | Judgment |
+|---|---|
+| [EBPM:EBPM-031 × EWM:EWM-001](../pairs/pairs-024.md#pair-02310) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-002](../pairs/pairs-024.md#pair-02311) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-003](../pairs/pairs-024.md#pair-02312) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-004](../pairs/pairs-024.md#pair-02313) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-005](../pairs/pairs-024.md#pair-02314) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-006](../pairs/pairs-024.md#pair-02315) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-007](../pairs/pairs-024.md#pair-02316) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-008](../pairs/pairs-024.md#pair-02317) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-009](../pairs/pairs-024.md#pair-02318) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-010](../pairs/pairs-024.md#pair-02319) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-011](../pairs/pairs-024.md#pair-02320) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-012](../pairs/pairs-024.md#pair-02321) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-013](../pairs/pairs-024.md#pair-02322) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-014](../pairs/pairs-024.md#pair-02323) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-015](../pairs/pairs-024.md#pair-02324) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-016](../pairs/pairs-024.md#pair-02325) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-017](../pairs/pairs-024.md#pair-02326) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-018](../pairs/pairs-024.md#pair-02327) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-019](../pairs/pairs-024.md#pair-02328) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-020](../pairs/pairs-024.md#pair-02329) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-021](../pairs/pairs-024.md#pair-02330) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-022](../pairs/pairs-024.md#pair-02331) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-023](../pairs/pairs-024.md#pair-02332) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-024](../pairs/pairs-024.md#pair-02333) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-025](../pairs/pairs-024.md#pair-02334) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-026](../pairs/pairs-024.md#pair-02335) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-027](../pairs/pairs-024.md#pair-02336) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-028](../pairs/pairs-024.md#pair-02337) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-029](../pairs/pairs-024.md#pair-02338) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-030](../pairs/pairs-024.md#pair-02339) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-031](../pairs/pairs-024.md#pair-02340) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-032](../pairs/pairs-024.md#pair-02341) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-033](../pairs/pairs-024.md#pair-02342) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-034](../pairs/pairs-024.md#pair-02343) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-035](../pairs/pairs-024.md#pair-02344) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-036](../pairs/pairs-024.md#pair-02345) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-037](../pairs/pairs-024.md#pair-02346) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-038](../pairs/pairs-024.md#pair-02347) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-039](../pairs/pairs-024.md#pair-02348) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-040](../pairs/pairs-024.md#pair-02349) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-041](../pairs/pairs-024.md#pair-02350) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-042](../pairs/pairs-024.md#pair-02351) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-043](../pairs/pairs-024.md#pair-02352) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-044](../pairs/pairs-024.md#pair-02353) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-045](../pairs/pairs-024.md#pair-02354) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-046](../pairs/pairs-024.md#pair-02355) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-047](../pairs/pairs-024.md#pair-02356) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-048](../pairs/pairs-024.md#pair-02357) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-049](../pairs/pairs-024.md#pair-02358) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-050](../pairs/pairs-024.md#pair-02359) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-051](../pairs/pairs-024.md#pair-02360) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-052](../pairs/pairs-024.md#pair-02361) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-053](../pairs/pairs-024.md#pair-02362) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-054](../pairs/pairs-024.md#pair-02363) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-055](../pairs/pairs-024.md#pair-02364) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-056](../pairs/pairs-024.md#pair-02365) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-057](../pairs/pairs-024.md#pair-02366) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-058](../pairs/pairs-024.md#pair-02367) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-059](../pairs/pairs-024.md#pair-02368) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-060](../pairs/pairs-024.md#pair-02369) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-061](../pairs/pairs-024.md#pair-02370) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-062](../pairs/pairs-024.md#pair-02371) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-063](../pairs/pairs-024.md#pair-02372) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-064](../pairs/pairs-024.md#pair-02373) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-065](../pairs/pairs-024.md#pair-02374) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-066](../pairs/pairs-024.md#pair-02375) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-067](../pairs/pairs-024.md#pair-02376) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-068](../pairs/pairs-024.md#pair-02377) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-069](../pairs/pairs-024.md#pair-02378) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-070](../pairs/pairs-024.md#pair-02379) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-071](../pairs/pairs-024.md#pair-02380) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-072](../pairs/pairs-024.md#pair-02381) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-073](../pairs/pairs-024.md#pair-02382) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-074](../pairs/pairs-024.md#pair-02383) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-075](../pairs/pairs-024.md#pair-02384) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-076](../pairs/pairs-024.md#pair-02385) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EWM:EWM-077](../pairs/pairs-024.md#pair-02386) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-001](../pairs/pairs-082.md#pair-08141) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-002](../pairs/pairs-082.md#pair-08142) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-003](../pairs/pairs-082.md#pair-08143) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-004](../pairs/pairs-082.md#pair-08144) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-005](../pairs/pairs-082.md#pair-08145) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-006](../pairs/pairs-082.md#pair-08146) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-007](../pairs/pairs-082.md#pair-08147) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-008](../pairs/pairs-082.md#pair-08148) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-009](../pairs/pairs-082.md#pair-08149) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-010](../pairs/pairs-082.md#pair-08150) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-011](../pairs/pairs-082.md#pair-08151) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-012](../pairs/pairs-082.md#pair-08152) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-013](../pairs/pairs-082.md#pair-08153) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-014](../pairs/pairs-082.md#pair-08154) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-015](../pairs/pairs-082.md#pair-08155) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-016](../pairs/pairs-082.md#pair-08156) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-017](../pairs/pairs-082.md#pair-08157) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-018](../pairs/pairs-082.md#pair-08158) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-019](../pairs/pairs-082.md#pair-08159) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-020](../pairs/pairs-082.md#pair-08160) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-021](../pairs/pairs-082.md#pair-08161) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-022](../pairs/pairs-082.md#pair-08162) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-023](../pairs/pairs-082.md#pair-08163) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-024](../pairs/pairs-082.md#pair-08164) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-025](../pairs/pairs-082.md#pair-08165) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-026](../pairs/pairs-082.md#pair-08166) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-027](../pairs/pairs-082.md#pair-08167) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-028](../pairs/pairs-082.md#pair-08168) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-029](../pairs/pairs-082.md#pair-08169) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-030](../pairs/pairs-082.md#pair-08170) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-031](../pairs/pairs-082.md#pair-08171) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-032](../pairs/pairs-082.md#pair-08172) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-033](../pairs/pairs-082.md#pair-08173) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-034](../pairs/pairs-082.md#pair-08174) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-035](../pairs/pairs-082.md#pair-08175) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-036](../pairs/pairs-082.md#pair-08176) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-037](../pairs/pairs-082.md#pair-08177) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-038](../pairs/pairs-082.md#pair-08178) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-039](../pairs/pairs-082.md#pair-08179) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-040](../pairs/pairs-082.md#pair-08180) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-041](../pairs/pairs-082.md#pair-08181) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-042](../pairs/pairs-082.md#pair-08182) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-043](../pairs/pairs-082.md#pair-08183) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-044](../pairs/pairs-082.md#pair-08184) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-045](../pairs/pairs-082.md#pair-08185) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-046](../pairs/pairs-082.md#pair-08186) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-047](../pairs/pairs-082.md#pair-08187) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-048](../pairs/pairs-082.md#pair-08188) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-049](../pairs/pairs-082.md#pair-08189) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-050](../pairs/pairs-082.md#pair-08190) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-051](../pairs/pairs-082.md#pair-08191) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-052](../pairs/pairs-082.md#pair-08192) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-053](../pairs/pairs-082.md#pair-08193) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-054](../pairs/pairs-082.md#pair-08194) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-055](../pairs/pairs-082.md#pair-08195) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-056](../pairs/pairs-082.md#pair-08196) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-057](../pairs/pairs-082.md#pair-08197) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-058](../pairs/pairs-082.md#pair-08198) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-059](../pairs/pairs-082.md#pair-08199) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-060](../pairs/pairs-083.md#pair-08200) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-061](../pairs/pairs-083.md#pair-08201) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-062](../pairs/pairs-083.md#pair-08202) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-063](../pairs/pairs-083.md#pair-08203) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-064](../pairs/pairs-083.md#pair-08204) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-065](../pairs/pairs-083.md#pair-08205) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-066](../pairs/pairs-083.md#pair-08206) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-067](../pairs/pairs-083.md#pair-08207) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-068](../pairs/pairs-083.md#pair-08208) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-069](../pairs/pairs-083.md#pair-08209) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-070](../pairs/pairs-083.md#pair-08210) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-071](../pairs/pairs-083.md#pair-08211) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-072](../pairs/pairs-083.md#pair-08212) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-073](../pairs/pairs-083.md#pair-08213) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-074](../pairs/pairs-083.md#pair-08214) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-075](../pairs/pairs-083.md#pair-08215) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-076](../pairs/pairs-083.md#pair-08216) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-077](../pairs/pairs-083.md#pair-08217) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-078](../pairs/pairs-083.md#pair-08218) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-079](../pairs/pairs-083.md#pair-08219) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-080](../pairs/pairs-083.md#pair-08220) | MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-081](../pairs/pairs-083.md#pair-08221) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-082](../pairs/pairs-083.md#pair-08222) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-083](../pairs/pairs-083.md#pair-08223) | NO_MATERIAL_RELATION |
+| [EBPM:EBPM-031 × EPM:EPM-084](../pairs/pairs-083.md#pair-08224) | MATERIAL_RELATION |

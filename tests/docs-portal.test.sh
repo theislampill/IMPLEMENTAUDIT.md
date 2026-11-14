@@ -1125,9 +1125,11 @@ else
   ok "build-docs-portal.py refuses unsafe output directories"
 fi
 
-# Historical scientific source wording is preserved. A legitimate criterion
-# question must not suppress a separate comparative claim on the same line.
+# Historical and current scientific source wording is preserved. Exact benign
+# clauses must not suppress a separate unsupported claim on the same line.
 if "${py_cmd[@]}" <<'PY'
+import json
+import shutil
 import subprocess
 import tempfile
 from pathlib import Path
@@ -1146,9 +1148,16 @@ scientific_examples = [
     "Common control plane defeats independence",
     "One fault, or one fault plus an undetected latent condition, defeats required function.",
     "Size/checking overhead defeats distribution benefits.",
+    "A buffer or control can have protective value even if it consumes resources. This defeats a universal rule, not every concrete waste reduction.",
+    "A low-cost late text repair defeats an unrestricted exponential-cost claim.",
+    "Does rejected or delayed work reappear elsewhere at a rate that defeats the capacity bound?",
+    "A deadline of 12 separates the two timing judgments, and a deadline of 10 defeats the constructed recovery.",
+    "A single competent authorized actor can satisfy several logical conditions in a bounded model, while a binding separation requirement defeats that alternative.",
+    "A visible service boundary can still share a resource pool whose exhaustion defeats the intended isolation.",
+    "In the finite construction, the observed escape through shared capacity and control population defeats an independently stipulated common assumption about the seam.",
 ]
 cases = [
-    (" ".join(scientific_examples), True),
+    (" ".join(scientific_examples[:13]), True),
     ("This product defeats its competitor.", False),
     ("What evidence establishes or defeats the scoped criterion: preserved obligations. "
      "This product defeats its competitor.", False),
@@ -1167,29 +1176,97 @@ for scientific_example in scientific_examples[5:]:
         (scientific_example + " This product defeats its competitor.", False),
         ("This product beats every alternative. " + scientific_example, False),
     ])
-with tempfile.NamedTemporaryFile(
-    mode="w", encoding="utf-8", prefix=".claim-language-", suffix=".html",
-    dir="docs/portal/pages", delete=False
-) as handle:
-    fixture = Path(handle.name)
-try:
-    for text, allowed in cases:
-        fixture.write_text("<p>" + text + "</p>\n", encoding="utf-8")
+cases.extend((example, True) for example in scientific_examples[13:])
+cases.append((" ".join(scientific_examples), True))
+checks = [(text, allowed, "superiority", "html") for text, allowed in cases]
+scientific_separation = (
+    "A signed " + "release package can describe an unqualified binary; a qualified deployable candidate can rationally remain unexposed."
+)
+unsupported_signing = "This is a signed " + "release."
+for kind in ("html", "json"):
+    checks.extend([
+        (scientific_separation, True, "signing claim", kind),
+        (unsupported_signing, False, "signing claim", kind),
+        (unsupported_signing + " " + scientific_separation, False, "signing claim", kind),
+        (scientific_separation + " " + unsupported_signing, False, "signing claim", kind),
+        (scientific_separation.replace("unqualified binary", "qualified binary"), False, "signing claim", kind),
+    ])
+checks.extend([
+    ("This product defeats its competitor. " + scientific_separation, False, "superiority", "html"),
+    (scientific_separation + " This product defeats its competitor.", False, "superiority", "html"),
+])
+
+# Each newly permitted scientific clause must leave other claim classes visible,
+# in either order and in both public HTML and normalized JSON surfaces.
+unsupported_classes = (
+    (unsupported_signing, "signing claim"),
+    ("This capability is " + "PRO" + "VEN.", "verdict-class wording"),
+    ("This package supports auto-" + "install.", "auto-" + "install claim"),
+    ("Attestation " + "generated.", "attestation claim"),
+)
+for scientific_example in [*scientific_examples[13:], scientific_separation]:
+    for unsupported, reason in unsupported_classes:
+        for kind in ("html", "json"):
+            checks.extend([
+                (unsupported + " " + scientific_example, False, reason, kind),
+                (scientific_example + " " + unsupported, False, reason, kind),
+            ])
+
+# Genuine denials retain their own negative context after the scientific
+# capacity question is masked; no global negative-context rule is removed.
+for unsupported, reason in unsupported_classes:
+    denial = "Do not claim " + unsupported
+    for kind in ("html", "json"):
+        checks.extend([
+            (denial + " " + scientific_examples[15], True, reason, kind),
+            (scientific_examples[15] + " " + denial, True, reason, kind),
+        ])
+
+# Exercise the real checker with its actual source-coupled anchors. The whole
+# repository is checked elsewhere in this same suite; these language mutations
+# need not reread the entire scientific corpus for every individual case.
+source_root = Path.cwd()
+failures = []
+with tempfile.TemporaryDirectory(prefix="claim-language-") as directory:
+    fixture_root = Path(directory)
+    for relative in (
+        "scripts/check-public-claim-boundaries.sh",
+        "README.md",
+        "docs/portal/pages/research-lineage-s3e.html",
+        "docs/portal/pages/research-lineage-evolved-css.html",
+        "docs/portal/pages/reference-index.html",
+    ):
+        target = fixture_root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source_root / relative, target)
+    baseline = subprocess.run(
+        ["bash", "scripts/check-public-claim-boundaries.sh"],
+        cwd=fixture_root, capture_output=True, text=True,
+    )
+    assert baseline.returncode == 0, ("unchanged source anchors", baseline.stdout, baseline.stderr)
+    for number, (text, allowed, reason, kind) in enumerate(checks, start=1):
+        relative = ("docs/portal/pages/claim-language-case.html" if kind == "html"
+                    else "docs/research/claim-language-case.json")
+        fixture = fixture_root / relative
+        fixture.parent.mkdir(parents=True, exist_ok=True)
+        fixture.write_text("<p>" + text + "</p>\n" if kind == "html"
+                           else json.dumps({"counterexample": text}) + "\n", encoding="utf-8")
         result = subprocess.run(
             ["bash", "scripts/check-public-claim-boundaries.sh"],
-            capture_output=True, text=True,
+            cwd=fixture_root, capture_output=True, text=True,
         )
-        assert (result.returncode == 0) == allowed, (text, result.stdout, result.stderr)
-        if not allowed:
-            assert str(fixture.resolve().relative_to(Path.cwd())) in result.stderr
-            assert "superiority" in result.stderr
-finally:
-    fixture.unlink()
+        if (result.returncode == 0) != allowed:
+            failures.append((number, text, result.returncode, result.stdout, result.stderr))
+        elif not allowed and (relative not in result.stderr or reason not in result.stderr):
+            failures.append((number, "wrong failure boundary", result.stderr))
+        fixture.unlink()
+assert not failures, failures
+print(f"public claim language controls: {len(checks)} passed")
 PY
 then
-  ok "public claim checker preserves criterion questions and rejects separate superiority claims"
+  ok "public claim checker preserves scientific counterexamples and rejects separate unsupported claims"
 else
-  fail_check "public claim checker confused criterion questions and superiority claims"
+  fail_check "public claim checker confused scientific counterexamples and unsupported claims"
 fi
 
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'

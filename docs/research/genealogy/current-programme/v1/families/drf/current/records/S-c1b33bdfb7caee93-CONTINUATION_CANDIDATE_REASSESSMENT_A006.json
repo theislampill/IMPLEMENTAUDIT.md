@@ -1,0 +1,1849 @@
+{
+  "source_identity": {
+    "source_id": "S-c1b33bdfb7caee93",
+    "scientific_name": "CONTINUATION_CANDIDATE_REASSESSMENT_A006.json",
+    "original_bytes": 150306,
+    "original_sha256": "c1b33bdfb7caee93b36dd8c20f165330e65b682cbf4ed0d583d2e88226ed888e"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "DRF-A006-complete-continuation-candidate-reassessment/1",
+    "count": 23,
+    "coverage": "Every distinct candidate in all18 exact author ancestor increments plus authenticI010; originalC1-C8 and newA002 candidate are separate, not duplicated in this count.",
+    "interpretation": "A002 freshly read these candidate/removal records and reassessed causal scope of the completed37-family inquiry. It does not rerun their controls or assert a uniform historical proof/field-access scope.",
+    "candidates": [
+      {
+        "id": "B09-J01",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b09/COMPOSITIONS_AND_REMOVAL.json",
+          "pointer": "/candidates/0",
+          "canonical_sha256": "4258cfd3ca988d5649eaf372aba2fd1912a3433bde5f8113b8cee8bcbf32c295"
+        },
+        "retained_candidate": {
+          "id": "B09-J01",
+          "kind": "USEFUL_COMPOSITION_NO_NEW_IRREDUCIBLE_PRIMITIVE",
+          "members": [
+            "D39>R053",
+            "D40>R053",
+            "D43>R053",
+            "D44>R053"
+          ],
+          "joint_question": "Does the defined software correction change the finite required-function result for the eligible operations, and is a growth claim being kept within its support?",
+          "witness": "C01/C02/C03 combine a semantic oracle, actual exposure-time configuration, justified operation association and a reached matched trigger. They answer the finite correction question while preserving two unrelated drops and model uncertainty.",
+          "removal": {
+            "D39": "Parse success can replace business meaning and mask the defect.",
+            "D40": "Final state cannot distinguish whether the fix was active on the counted operations.",
+            "D43": "Unlinked summaries can lose the named operation’s configuration/outcome association.",
+            "D44": "A workload that never reaches the defect provides no discriminating correction test."
+          },
+          "substitution": "One controlled local experiment can co-record all required facts. The four roles need not be four services, tools or mandatory artifacts.",
+          "F_test": "No current F constituent is necessary to establish this explicitly enumerated toy result; no F relation or three-lineage claim is added merely to complete a trifecta.",
+          "cost": "Separate trace, rollout, compatibility and injection machinery can duplicate data and staff effort. Prefer a smaller co-recorded finite check when it answers the same consequential question.",
+          "remaining": "External behavior, field causal effect, future failure intensity and stochastic law are not supplied by the composition."
+        },
+        "current_configurations": [
+          "C4",
+          "C5",
+          "C7"
+        ],
+        "A002_reassessment": "The exact correction/growth and physical-observation chains remain different native interfaces. New R028 evidence inputs and preserved R027 physical mappings strengthen scoped interpretation, while direct co-recorded checks, field-like stress or current functional measurement remain substitutes. No field causal effect, common stochastic law or irreducible F parent follows.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The eligible correction/configuration/trace experiment retains its exact required-function question. Co-recorded local evidence remains a direct substitute; a reference architecture supplies no growth or causal-effect law.",
+          "exact_A005_candidate_core_sha256": "4258cfd3ca988d5649eaf372aba2fd1912a3433bde5f8113b8cee8bcbf32c295",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B09-J02",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b09/COMPOSITIONS_AND_REMOVAL.json",
+          "pointer": "/candidates/1",
+          "canonical_sha256": "8d28705ddd13adf58f6e23fef66015fc497565be457eb2fd9cde6bef4d3f5ae8"
+        },
+        "retained_candidate": {
+          "id": "B09-J02",
+          "kind": "CONDITIONAL_INTERFACE_CHAIN_WITH_SUBSTITUTABLE_EVIDENCE",
+          "members": [
+            "D38>R027",
+            "D41>R027",
+            "R027>D29",
+            "R027>D30",
+            "R027>D31",
+            "R027>D32",
+            "R027>D33",
+            "R027>D34",
+            "R027>D38",
+            "R027>D41"
+          ],
+          "joint_question": "Are the physical test observations and mapping adequate for the capacity or capability premise actually consumed by the service decision?",
+          "witness": "P03 distinguishes observation-state restoration and functional observation; P01 shows that identical accelerated times need mode-specific factors before determining the use-capacity vector; P02 preserves physical state across logical restoration.",
+          "removal": "Removing observation identity can change event/censoring status; removing capability correspondence can treat a management echo as success; removing the physical mapping leaves H/J ambiguous. None alone supplies all three.",
+          "substitution": "Direct current functional measurements, field-like stress, adequate margin or directly retained raw data can avoid one or more links entirely. Useful HALT-style discovery can remain valid without life conversion.",
+          "F_test": "Finite arithmetic and explicit model premises do not require introducing a new formal-verification constituent. No claim about joint physical failure probabilities is inferred.",
+          "cost": "Characterization, specimens, probes, restoration checks, modelling and resulting service loss/idle capacity must be assessed together. The example does not monetize or optimize them.",
+          "remaining": "Physical calibration, actual topology and workload, observation validity and transfer remain separate evidence obligations. Six reverse demand-control interfaces remain unresolved."
+        },
+        "current_configurations": [
+          "C4",
+          "C5",
+          "C7"
+        ],
+        "A002_reassessment": "The exact correction/growth and physical-observation chains remain different native interfaces. New R028 evidence inputs and preserved R027 physical mappings strengthen scoped interpretation, while direct co-recorded checks, field-like stress or current functional measurement remain substitutes. No field causal effect, common stochastic law or irreducible F parent follows.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The physical stress/mode-to-capacity correspondence stays necessary for this particular transfer. Reference diversity does not supply the missing physical mapping; direct functional measurements or field-like stress remain substitutes.",
+          "exact_A005_candidate_core_sha256": "8d28705ddd13adf58f6e23fef66015fc497565be457eb2fd9cde6bef4d3f5ae8",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B10-NOV-01",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b10/CONFIGURATION_AND_NOVELTY.json",
+          "pointer": "/novelty_and_removal",
+          "canonical_sha256": "a8d9195eb43e38c21ed7f9ce40788b7d323a480ae96562930435d5936e94a214"
+        },
+        "retained_candidate": {
+          "id": "B10-NOV-01",
+          "candidate": "A supposedly new integrated rollout-readiness certificate from growth, configuration and trace evidence.",
+          "disposition": "NO_NEW_PROPERTY_IDENTITY_SUPPORTED",
+          "useful_result": "Three explicit reverse criterion inputs and a guarded comparison of alternative evidence routes. They are useful analytical contributions without an indispensable new three-lineage property.",
+          "subsumption": "D39 already owns eligible semantic validity, D40 owns completion scope, D43 owns observation-versus-inference discipline, and R053 owns growth/process/causal restrictions. Their conjunction is a useful organization of questions, not a stronger certificate established by the controls.",
+          "parent_removal": [
+            {
+              "parent": "D39",
+              "effect": "The explicit application-value contract is lost if nothing replaces it; parseable 7 can be mistaken for correct 4294967303. A direct equivalent semantic specification can replace this input, so the named parent is not uniquely necessary."
+            },
+            {
+              "parent": "D40",
+              "effect": "The claimed activation window/population can be confused with a later readback, as P2 shows. A sufficient direct relevant-time state record supplies an alternative; no global-barrier necessity."
+            },
+            {
+              "parent": "D43",
+              "effect": "The distinction between observed protocol path and inferred corrective mechanism can be omitted. R053 and a direct local contrast can still reject the particular causal overclaim, so indispensability of both is not proved."
+            },
+            {
+              "parent": "R053",
+              "effect": "The explicit growth-specific exposure/configuration restriction is omitted, but D-native direct checks and general causal discipline may reach the same bounded conclusion. The new input is material when that history is offered as support, not a unique irreducible mechanism."
+            }
+          ],
+          "lineage_removal": [
+            {
+              "lineage": "D",
+              "effect": "R053 retains a generic restriction on curve credit but does not itself identify these concrete version/trace/completion contracts. Equivalent direct definitions may be supplied by another source; no unique D necessity is proved."
+            },
+            {
+              "lineage": "R",
+              "effect": "Valid direct semantic, activation and trace conclusions survive. The growth-specific interpretation can be omitted when no such claim is made."
+            },
+            {
+              "lineage": "F",
+              "effect": "No F parent is used. The constructed arithmetic is not silently promoted into a third-lineage relation or novel trifecta property."
+            }
+          ],
+          "failure_witness": "Even identical count, administrative or trace observations admit distinct receiver facts in P1–P3. Combining observation labels is not a readiness certificate.",
+          "reentry": "A genuinely distinct mechanism or criterion, with exact additional parents and a removal discriminator not subsumed by these native properties, would reopen novelty. No zero-novelty quota is imposed.",
+          "cost": "Adding a named certificate or mandatory instrumentation without an incremental decision benefit can increase coordination, retention and maintenance burden. Hard semantic or authority constraints are not monetized away."
+        },
+        "current_configurations": [
+          "C5",
+          "C7"
+        ],
+        "A002_reassessment": "The semantic, activation and causal-credit questions remain distinct. New native correction/evidence relations do not turn the joined records into a readiness certificate; direct finite tables and relevant-time records still preserve the criterion after parent removal.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The proposed rollout certificate still adds no criterion beyond its semantic, configuration, trace and process restrictions. The new clock arrows do not strengthen it into a general readiness certificate.",
+          "exact_A005_candidate_core_sha256": "a8d9195eb43e38c21ed7f9ce40788b7d323a480ae96562930435d5936e94a214",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B13-NX01",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b13/COMPOSITION_AND_REMOVAL.json",
+          "pointer": "/novelty",
+          "canonical_sha256": "5dc452c56b21af4e8171433ea1db1b18e8411ebb0cd9078d8e03b61d70d7f6a1"
+        },
+        "retained_candidate": {
+          "id": "B13-NX01",
+          "candidate": "Semantics-aware rescue envelope",
+          "parents": [
+            "D39",
+            "R009"
+          ],
+          "strongest_claim_tested": "A new general property is required to join eligible version semantics with rescue-versus-added-loss evaluation.",
+          "disposition": "NO_NEW_PROPERTY_IDENTITY_WARRANTED",
+          "reason": "The rescue event was already function-relative in R009, and D39 already guarded interpretation of eligible interactions. The new equal-hardware/global-demand control exposes a consequential missing join, but the resulting envelope is subsumed by those native meanings and ordinary conditional-event reasoning. It is a new useful member argument and configuration, not evidence of a new universal property.",
+          "genuine_increment": "The explicit conditional demand-at-takeover discriminator and the independent reverse at D39's coexistence decision were unexamined in the predecessor mapping.",
+          "alternative_account": "A direct service specification and exact probability calculation can express the same constraint without naming a novel bundle.",
+          "removal_result": "Each named parent supplies a material partial input, but neither is uniquely necessary given an adequate substitute. F is not a parent.",
+          "no_global_novelty_claim": true,
+          "retained_configuration": {
+            "id": "B13-CFG01",
+            "name": "Versioned primary/backup coexistence for an exact-value service",
+            "parents": [
+              "D39",
+              "R009"
+            ],
+            "function": "Return the declared integer value exactly during the explicitly modeled primary failure/takeover mission.",
+            "joint_witness": "P1_ADVERSE_OLD_BACKUP, P1_ADVERSE_COMPATIBLE_BACKUP, P2_COMPATIBLE_DEPENDENT_ADDITIONAL_SERIAL and P3_FAILOVER_ONLY_GATE jointly distinguish semantic rescue eligibility, the joint demand/fault law and the topology-dependent benefit comparison. Each branch retains the same named function; the small-only branch explicitly changes it.",
+            "dependency_order": "Specify function and eligible interpretations first; define primary and rescue events from those semantics; then evaluate the actual joint law and added loss against the actual reference. This is logical dependence, not a required waterfall process.",
+            "interference": "Repairing a backup reader can remove semantic failure but may carry update/common-cause and rollback costs not quantified here. Removing a serial controller may preserve primary success but alter detection, authority or transfer latency. Restricting values reduces compatibility burden but may defer required consumer capability.",
+            "alternatives": [
+              {
+                "id": "A1",
+                "choice": "New primary alone with explicit cutover",
+                "adequate_when": "A single path and accepted interruption meet the consumer mission.",
+                "loss_or_cost": "No backup rescue; transition downtime may matter. Avoids retained-reader and new switching burdens."
+              },
+              {
+                "id": "A2",
+                "choice": "Retain old backup only for a declared compatible domain",
+                "adequate_when": "Small-only capability or a justified value-activation delay satisfies actual demand.",
+                "loss_or_cost": "Wide-value capability is delayed or excluded explicitly; it is not silently counted as delivered."
+              },
+              {
+                "id": "A3",
+                "choice": "Upgrade the backup to preserve the full domain",
+                "adequate_when": "The actual allowed pairings and rollback/data obligations are valid.",
+                "loss_or_cost": "Migration, testing, update common causes and lifecycle retention remain; valid semantics alone does not select the topology."
+              },
+              {
+                "id": "A4",
+                "choice": "Use a failover-only switch or manual spare",
+                "adequate_when": "The relevant authority, capacity and transfer-time conditions are met.",
+                "loss_or_cost": "Can avoid an added serial failure path but still lose rescue opportunities or exceed a deadline."
+              },
+              {
+                "id": "A5",
+                "choice": "Keep a functioning compatible configuration unchanged",
+                "adequate_when": "Its evidenced mission performance, cost and consumer constraints remain adequate.",
+                "loss_or_cost": "Requires no new mechanism solely to satisfy a crosswalk or novelty target."
+              }
+            ],
+            "parent_removal": [
+              {
+                "remove": "D39",
+                "what_is_lost": "The version/value eligibility constraint needed to distinguish an up old backup from a functionally valid rescue.",
+                "witness": "P1 equal hardware/global marginals but .882 versus .9702 complete success.",
+                "what_survives": "The general rescue event identity remains valid if its functional events are independently specified.",
+                "substitute": "An equivalent direct function/interpretation specification and check."
+              },
+              {
+                "remove": "R009",
+                "what_is_lost": "The joint-law and added-path comparison needed to assess D39's explicit continuity benefit.",
+                "witness": "P2 compatible readers with .9702 versus .8918 under equal component marginals; P3 distinguishes controller topologies.",
+                "what_survives": "The static compatibility argument and eligible-domain restriction remain true.",
+                "substitute": "Direct event reasoning, qualitative failure analysis or another adequate comparative reliability model."
+              },
+              {
+                "remove": "D lineage",
+                "what_is_lost": "In this configuration the D39 contribution; no claim that all D knowledge is indispensable.",
+                "what_survives": "An independently specified required function can supply the same semantics."
+              },
+              {
+                "remove": "R lineage",
+                "what_is_lost": "In this configuration the R009 comparison; no claim that all R knowledge is indispensable.",
+                "what_survives": "A direct probability/event argument can replace it."
+              },
+              {
+                "remove": "F lineage",
+                "what_is_lost": "None in this configuration: no F property is a parent.",
+                "what_survives": "Exact rational arithmetic is a method, not evidence of an unexamined F cross-relation."
+              }
+            ],
+            "cumulative_cost": "Count retained versions and compatibility tests, feature delays, data/history conversion, rollback obligations, backup acquisition/energy, transfer and authority machinery, diagnosis/state synchronization and eventual retirement, plus consumer losses from planned or accidental interruption. Costs shared by the reference and augmented design must not be double-charged. No prices or field optimum are supplied.",
+            "configuration_verdict": "A useful conditional configuration with five explicit alternatives. It does not mandate the bundle or establish a deployed optimum."
+          }
+        },
+        "current_configurations": [
+          "C2",
+          "C5"
+        ],
+        "A002_reassessment": "Version eligibility remains a real input to the rescue event, and the joint law/controller topology remains a separate input to benefit. Newly examined R009/R040/R051 breadth does not remove the direct function specification or event-comparison substitutes. The same hardware marginal still cannot supply semantic rescue.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "B13 uses D39 and R009 at the stated semantic-rescue event. The actual alternate/function correspondence there stays separate from D04. Its exact original novelty core and separately appended original configuration are retained; neither pointer bookkeeping nor the new clock example creates a distinct property.",
+          "exact_A005_candidate_core_sha256": "fdb12a424e5e44ba65dd49ef2b7acd3c4ae9a73070a9354f924a0d7ce2411237",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B17-C01",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b17/COMPOSITION_AND_REMOVAL.json",
+          "pointer": "/configuration",
+          "canonical_sha256": "aab3f1123996fe68877e18daad20e08600a278868718df907d81a3c5cfa1f4a3"
+        },
+        "retained_candidate": {
+          "id": "B17-C01",
+          "name": "Versioned fallback with explicit semantic path eligibility",
+          "parents": [
+            "D39",
+            "R008",
+            "R009",
+            "R010",
+            "R040",
+            "R051"
+          ],
+          "problem": "Choose and justify a versioned fallback/coexistence path without mistaking labels for independence, wire parsing for application success, a drawn guard for containment, or compatible redundancy for net benefit.",
+          "joint_witness": "Use the same original-value function, encoder, primary/alternate and three admitted route types. D39 identifies valid meanings and permitted interactions; R008 distinguishes local from shared upstream causes; R010 assesses actual path cuts and residual function; R040 tests actual alternate rescue and acceptance; R009/R051 compare functional rescue with additional losses at the correct reference. Each contribution is consumed at its named decision. The finite P1/P2 controls and inherited B13 event model are complementary constructions, not one measured deployment.",
+          "compatibility": "Both readers' required function is exact original-value preservation in the finite witness. Eligible subsets, original mission, controller topology and comparison reference are stated separately. No source's guard is silently discharged by another source's label.",
+          "removal_cases": [
+            {
+              "removed": "D39 semantic eligibility",
+              "consequence": "Nominal responsive old versions can be counted as functional rescue even when they return the wrong value.",
+              "substitute": "Direct end-to-end semantic evidence."
+            },
+            {
+              "removed": "R008 shared-stage criterion",
+              "consequence": "Identical cofailure logs can lead to an ineffective downstream-only substitution after upstream loss.",
+              "substitute": "Equivalent explicit source/trace causal analysis."
+            },
+            {
+              "removed": "R010 actual path criterion",
+              "consequence": "Live-only protection or damaged-wire preservation can be overstated as complete permitted-history protection.",
+              "substitute": "Direct route-by-route exclusion proof."
+            },
+            {
+              "removed": "R040 alternate/acceptance evaluation",
+              "consequence": "Different release labels or agreement can be credited as protection without useful rescue and adequate acceptance.",
+              "substitute": "One sound implementation or a direct bounded alternate comparison."
+            },
+            {
+              "removed": "R009/R051 rescue-minus-added-loss evaluation",
+              "consequence": "Compatibility can be mistaken for favorable net coexistence benefit; the reference/controller overlap can be miscounted.",
+              "substitute": "Equivalent direct event-set comparison."
+            }
+          ],
+          "alternatives": [
+            {
+              "choice": "One adequate implementation with direct tests",
+              "benefit": "Avoids alternate/acceptance upkeep for the finite value function.",
+              "limit": "Real capacity, availability and other required functions still need their own evidence."
+            },
+            {
+              "choice": "Repair the actual shared producer or schema",
+              "benefit": "Can remove a cause that downstream diversity cannot address.",
+              "limit": "May require migration and broader rollout; stored history remains."
+            },
+            {
+              "choice": "Explicit cutover or planned stop",
+              "benefit": "Removes coexistence obligations where benefit is not essential.",
+              "limit": "Downtime and remaining historical consumers must be accepted explicitly."
+            },
+            {
+              "choice": "Narrow eligibility restriction",
+              "benefit": "Contains the modeled harmful old-reader interactions while preserving more function than a broad stop.",
+              "limit": "Declined original demands and guard maintenance remain costs."
+            },
+            {
+              "choice": "Retain a compatible dependent fallback",
+              "benefit": "Can give positive rescue under an adequate controller/reference.",
+              "limit": "Requires actual rescue, acceptance, capacity and lifecycle justification."
+            },
+            {
+              "choice": "No change",
+              "benefit": "Preserves a currently adequate simple deployment or already sound direct evidence.",
+              "limit": "Available only when the proposed extra protection or coexistence benefit is not a live unmet requirement."
+            }
+          ],
+          "cost_accounting": "Charge trace/oracle effort, compatibility matrices, retained history, duplicated skills/updates, controller/transfer/state paths, lost requests, capacity and rollback restrictions. Numerical control probabilities are stipulated weights, not economic inputs. Hard constraints are not automatically monetized.",
+          "failure_and_retirement": "Reopen on changed original function, value range, eligible histories, mechanism, path, observer, acceptance logic, controller topology/reference, authority, capacity or cost. Retire a guard or alternate only after its protected path/set is removed or an adequate substitute supplies the needed function.",
+          "novelty": "This is a bounded cross-lineage configuration and new discriminating counterexamples, not a new primitive property or an independent empirical result. The contribution is the explicit joint use and removal analysis at native interfaces. All six parents retain their native meanings; R009/R051 evidence dependence is exposed.",
+          "formal_parent_decision": "No F parent is added merely because finite enumeration or probability algebra was used. Existing F-bearing directions and native claims are unchanged."
+        },
+        "current_configurations": [
+          "C2",
+          "C3",
+          "C5"
+        ],
+        "A002_reassessment": "The completed R008/R040 inquiry now explicitly recognizes protected native state/effect paths. This supports the configuration’s conditional role while preserving its upstream-common-cause, permitted-history, acceptance and added-loss distinctions. One adequate implementation, direct path exclusion or an eligibility restriction remains a substitute; no new necessary parent is added.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "B17 binds D39 and the shared-cause, rescue, containment, diversity and added-loss parents to actual change paths. Correcting their clock application does not change those change-path guards or removal witnesses. The direct event/path comparison remains a subsumer, and shared R009/R051 evidence is not independent corroboration.",
+          "exact_A005_candidate_core_sha256": "aab3f1123996fe68877e18daad20e08600a278868718df907d81a3c5cfa1f4a3",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B19-CANDIDATE-BOUND-LIFE-RESET",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b19/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "5a5accd2eccbe808d434c20726ed7e6e8e21fd47067e1f86af41244a2a5c95c3"
+        },
+        "retained_candidate": {
+          "id": "B19-CANDIDATE-BOUND-LIFE-RESET",
+          "description": "A recovery or maintenance claim states separately the sufficient tolerated failure set, the exact or bounded service-life law, the presently restored function/fault margin, and the joint residual law required by a repeated-cycle policy.",
+          "joint_witness": "A1/A2/A3 share the same two-alive required function at the actual redundancy boundary. P1 supplies the guaranteed-set/life-law discriminator; P2 shows a real changed own-policy sign; P3 supplies distinct restored state and task-law outcomes. This is a connected analytical witness, not a product deployment or generic conjunction of three traditions.",
+          "individual_parent_removals": [
+            {
+              "parent": "D03",
+              "remains": "Life-distribution calculus, task-effect criterion and bounded restoration remain.",
+              "loss_or_substitute": "The explicit distributed fault-domain/function correspondence is lost. R008/R009 or an independently specified reliability structure can substitute for the abstract event-set calculation; D03 is useful but not uniquely indispensable."
+            },
+            {
+              "parent": "R022",
+              "remains": "Survival bounds, hazards and present-state restoration remain.",
+              "loss_or_substitute": "No maintenance benefit follows merely from those facts. An explicitly justified consequence/reset/comparator model must supply the policy role; otherwise retain the no-policy claim."
+            },
+            {
+              "parent": "R043",
+              "remains": "The equations and R022 model guards still distinguish A/B/C and the reset laws.",
+              "loss_or_substitute": "The explicit first-life versus recurrent/bearer intake criterion is no longer separately named. The derivation or an adequate state/process specification can supply it; not unique indispensability."
+            },
+            {
+              "parent": "R016",
+              "remains": "D03's fault set, life laws and conditional cost formula remain.",
+              "loss_or_substitute": "The distinction between a valid bounded functional restore and a wider future claim needs an explicit operation postcondition/oracle substitute. An adequate direct transaction can do this without global closure."
+            }
+          ],
+          "premise_removals": [
+            {
+              "premise": "Complete success predicate",
+              "consequence": "A sufficient guarantee retains a survival lower bound but does not identify exact hazard or own-policy sign; A/B/C are concrete alternatives."
+            },
+            {
+              "premise": "Independent component life law",
+              "consequence": "Original marginal lives alone no longer yield the product event law. Retain original NX09 shared-shock countermodel and C2's joint-law alternatives; do not label perfect co-failure uniquely worst."
+            },
+            {
+              "premise": "Same regenerated joint law after both tasks",
+              "consequence": "Original first-life model can remain valid while repeated-cycle renewal cost is unsupported. A3's mixed task example requires a new model, not a guessed scalar correction."
+            },
+            {
+              "premise": "Current-function oracle",
+              "consequence": "The finite state predicate remains mathematical, but an actual restored function is not established by a procedure label alone. Oracle uncertainty is explicit; no whole-receiver-proof gate follows."
+            },
+            {
+              "premise": "Whole-service consequences/comparator",
+              "consequence": "Survival is still defined; age-policy ranking is not. Neither per-component cost substitution nor a free repair assumption is allowed."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "The complete abstract example remains ordinary reliability reasoning through a specified structure and R008/R009/R016/R022/R043. Its distributed deployment interpretation is lost unless independently supplied."
+            },
+            {
+              "lineage": "R",
+              "consequence": "D03 retains a cardinal guarantee and recovery boundary, but supplies no age-policy optimum merely from replica count. Ordinary probability/consequence theory could substitute if explicitly provided."
+            },
+            {
+              "lineage": "F",
+              "consequence": "All new finite-event, exact rational and elementary calculus arguments remain. No distinctive formal-verification property or executed proof assistant was required; a third-lineage dependency is not fabricated."
+            }
+          ],
+          "novel_property_identity_disposition": "NOT_ESTABLISHED_BY_THIS_CANDIDATE",
+          "reason": "The connected distinction changes six guarded receiving arguments and useful composition claims, but its mathematical parts and scoped interfaces admit named substitutes. It does not establish an irreducible new three-lineage property. This local result is not a global zero-novelty assertion about the unfinished study.",
+          "reentry": "An actual novel irreducible mechanism, a changed native consumer or a concrete implementation eliminating the proposed substitutes would require new examination. New field data could alter a policy without changing the logical distinctions."
+        },
+        "current_configurations": [
+          "C2",
+          "C6"
+        ],
+        "A002_reassessment": "R043’s explicit software breadth reinforces the separation of event bearer, first life and recurrence. It does not replace a complete functional predicate, joint residual law, actual renewal or whole-service consequence model. The preserved 5/11 alternative is not a fresh A002 derivation; direct probability/task criteria still defeat irreducibility.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The bound/life/reset construction holds the required function and physical renewal premise fixed. R009 is an alternative in a removal, not a D04 dependency. A reference-source rescue is neither physical renewal nor a demonstrated life extension; original substitutions and costs remain.",
+          "exact_A005_candidate_core_sha256": "5a5accd2eccbe808d434c20726ed7e6e8e21fd47067e1f86af41244a2a5c95c3",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B21-CANDIDATE-RESTORE-UNDER-COMPETING-WORK",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b21/increment001/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "beaa17d21d5bc6a43adec249952365899810709032145b882e42aa9f321329dc"
+        },
+        "retained_candidate": {
+          "id": "B21-CANDIDATE-RESTORE-UNDER-COMPETING-WORK",
+          "description": "Named reconstruction and protected-service predicates under an explicit work, control-boundary and recovery-state envelope.",
+          "parents": [
+            "D29",
+            "D30",
+            "D31",
+            "D32",
+            "D33",
+            "R017",
+            "R046",
+            "R047"
+          ],
+          "joint_witness": "H02 succeeds while H03 does not despite identical cap labels; C02 and C03 share reconstruction time6 but differ in protected service; R01/R02 suffice while R03 stalls; C00 needs its actual sustaining mechanism.",
+          "individual_parent_removals": [
+            {
+              "parent": "D29",
+              "consequence_or_substitute": "Removing finite retained-work/age semantics can confuse stored or queued work with completion. A direct conservation/retention statement can supply the same requirement."
+            },
+            {
+              "parent": "D30",
+              "consequence_or_substitute": "Removing the placement of work control can treat H02 and H03 as equivalent cap2 policies. Direct full bottleneck accounting can replace the label."
+            },
+            {
+              "parent": "D31",
+              "consequence_or_substitute": "Removing protected/sacrificed-work semantics can accept H07 or C02 as joint success. An explicit consumer predicate can retain the condition without a particular scheduler framework."
+            },
+            {
+              "parent": "D32",
+              "consequence_or_substitute": "Removing physical attempt composition can treat 2x2 like one bounded retry point. Explicit call-path enumeration can supply the work bound; no global budget object is necessary."
+            },
+            {
+              "parent": "D33",
+              "consequence_or_substitute": "Removing the sustaining loop leaves a finite capacity calculation but cannot justify the cold feedback interpretation. The explicit state-dependent recurrence can carry that causal argument directly."
+            },
+            {
+              "parent": "R017",
+              "consequence_or_substitute": "Removing the named reconstitution function/resource/evidence conditions risks reporting procedure or inventory completion. A direct adequate postcondition proof can retain them."
+            },
+            {
+              "parent": "R046",
+              "consequence_or_substitute": "If R017 and the actual postcondition remain, removing this separate proxy-rejection label need not lose the constructed distinction. It remains a useful diagnostic criterion at D33’s recovery-source use, not an irreducible extra subsystem."
+            },
+            {
+              "parent": "R047",
+              "consequence_or_substitute": "If exact fault/state/load scope and the intended inference are explicit, a direct bounded proof can retain them. Removing the label does not make more exercises mandatory or the valid narrow result disappear."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "R017 plus an explicit complete work/state recurrence can retain the conditional result; without that replacement, restoration assurance lacks the specified admission/retry/feedback mechanisms. No unique historical ownership is asserted."
+            },
+            {
+              "lineage": "R",
+              "consequence": "D29-D33 plus an explicit required-state/function, consumer constraint and inference scope can retain this direct result. D33 already requires tested state-preserving escape; additional R labels are not automatically irreducible."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F native is a required parent of this new construction. Exact direct arithmetic and induction are adequate for it. No formal-framework parent is added merely to obtain three lineages."
+            }
+          ],
+          "novel_property_identity_disposition": "NOT_ESTABLISHED",
+          "reason": "Useful native partial inputs and joint counterexamples do not establish an irreducible new property. Existing semantics plus a direct complete predicate/resource argument subsume the bounded construction.",
+          "reentry": [
+            "Changed shared-resource boundary or gate overhead",
+            "Changed retry topology or semantics",
+            "Changed protected service and loss permissions",
+            "New cold/reconstitution coupling",
+            "Changed observed versus claimed recovery profile"
+          ]
+        },
+        "current_configurations": [
+          "C4",
+          "C6"
+        ],
+        "A002_reassessment": "The actual reconstruction/protected-service recurrence supplies the missing computational bearer in this candidate. That concrete construction does not automatically resolve other R017/R046/R047-to-queue interfaces; direct complete work/state/function arguments remain substitutes. New evidence/capacity inputs add no universal recovery architecture.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The competing-work recovery construction retains a required restoration task and explicit resource recurrence. The native support/recovery scope includes software backup/rebuild, but this construction does not establish every pairwise operand. A clock comparison supplies no such recovery result; direct task/resource contracts remain sufficient.",
+          "exact_A005_candidate_core_sha256": "beaa17d21d5bc6a43adec249952365899810709032145b882e42aa9f321329dc",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B27-CANDIDATE-RECOVERY-EXPOSURE-CRITERIA",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b27/increment001/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "60557e4eaef2d544616953bb79df63d07743ab91f14de4d8e13065fe88bbf785"
+        },
+        "retained_candidate": {
+          "id": "B27-CANDIDATE-RECOVERY-EXPOSURE-CRITERIA",
+          "parents": [
+            "D52",
+            "R016",
+            "R022",
+            "R043"
+          ],
+          "description": "A declared recovery postcondition and exposure-window policy/evidence criterion for a particular arbitrary-fault replicated service.",
+          "joint_witness": "CONTROL_RESULTS.json#/joint_witness supplies a consistent declared time-1/time-6 trace, bounded recoveries, current responses and a finite window predicate while wider permission remains absent. It is not a complete implementation proof.",
+          "individual_parent_removals": [
+            {
+              "parent": "D52",
+              "consequence_or_substitute": "Without the selected fault/identity/authentication/state model, the R criteria do not identify a Byzantine certificate or exposure window. The exact protocol source and direct definitions can substitute for the label; no unique ownership is asserted."
+            },
+            {
+              "parent": "R016",
+              "consequence_or_substitute": "The selected source itself explicitly names recovery conditions, so a complete direct postcondition argument can preserve the result without this label. If that substantive distinction is also removed, code completion can be mistaken for a broader protocol restoration or a valid local result can be erased by a wider residual."
+            },
+            {
+              "parent": "R022",
+              "consequence_or_substitute": "A direct protocol intervention/consequence analysis can supply the task-effect and comparator questions. Removing the label alone need not change the result. Removing the substantive analysis can hide persistent exposure, interruption or an adequate no-change policy."
+            },
+            {
+              "parent": "R043",
+              "consequence_or_substitute": "An already explicit deterministic event-window calculation needs no added life model or R043 label. Removing the distinction between first-life and recurrent/event-window quantities permits a mean rate to be misused. The source’s own careful semantics can subsume the contribution."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "The reliability criteria alone do not specify the relevant protocol. A direct explicit native source/fault-event model can replace D lineage labels; without either there is no scoped BFT conclusion."
+            },
+            {
+              "lineage": "R",
+              "consequence": "The source protocol plus direct postcondition, intervention and event-statistic reasoning can retain the constructed result. R criteria give useful explicit partial inputs but are not an irreducible extra subsystem."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F parent is needed for this finite construction. Direct arithmetic, set reasoning and explicit scope are adequate. No formal-method label is appended to manufacture a three-lineage configuration."
+            }
+          ],
+          "novel_property_identity_disposition": "NOT_ESTABLISHED",
+          "novelty_reason": "The recovery mechanism is already in the cited research lineage, and the constructed joint criterion is reducible to the selected protocol plus direct existing criteria. New cross-lineage receiving arguments are author contributions, not a new protocol, first invention or independently established property.",
+          "reentry": [
+            "Different protocol, membership or authentication model",
+            "Changed retained state or acceptance freshness",
+            "Changed fault event/identity/observation scope",
+            "Changed actual recovery/key interval and timing premises",
+            "Changed intervention participation, service constraint or allowed comparator"
+          ]
+        },
+        "current_configurations": [
+          "C2",
+          "C6"
+        ],
+        "A002_reassessment": "The selected arbitrary-fault protocol and explicit exposure-window trace provide a real native bridge. A generic age prediction still does not instantiate every BFT/quorum criterion. Broader R043 event scope leaves the source protocol, deterministic window, postcondition and direct intervention model as sufficient substitutes for the labels.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The recovery/exposure criterion retains explicit tolerated fault and required-function premises. A new clock input supplies no mission probability or universal bypass of arbitrary-fault assumptions. Direct event/repair models still subsume the bounded conjunction.",
+          "exact_A005_candidate_core_sha256": "60557e4eaef2d544616953bb79df63d07743ab91f14de4d8e13065fe88bbf785",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B32-CANDIDATE-SET-RESTORATION-CRITERION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b32/increment001/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/0",
+          "canonical_sha256": "d9685579e673a31c62566347834d01f85de65277dc1bd302d2d290bf1ece705e"
+        },
+        "retained_candidate": {
+          "id": "B32-CANDIDATE-SET-RESTORATION-CRITERION",
+          "parents": [
+            "D16",
+            "R016"
+          ],
+          "description": "A claim-relative recovery criterion for the native state-based2P-set example and its actual admitted merge domain.",
+          "joint_witness": "S-06-03's original state and admitted peer with exact metadata restoration: the initial absent-x view and the post-merge absent-x result both hold. Weak view-only restoration also has a true current-query result, but not that stronger admitted-merge result. The same declared state/operator/consumer witnesses both parent roles; no hypothetical physical or agent interface is inserted.",
+          "individual_parent_removals": [
+            {
+              "parent": "D16",
+              "consequence_or_substitute": "Without the actual set state/merge/delivery premises, R016's criterion cannot determine what metadata or future behavior is required. The explicit primary set definition can substitute for the D label; no unique ownership is claimed."
+            },
+            {
+              "parent": "R016",
+              "consequence_or_substitute": "The source set contract plus an explicit direct postcondition can subsume R016. Removing only the label leaves the result. Removing the substantive distinction permits the true current query to be promoted to a different future semantic claim, or erased by that wider failure."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "A direct explicit source-state model can substitute. Without either the D model or that substitute, a generic recovery criterion supplies no set behavior."
+            },
+            {
+              "lineage": "R",
+              "consequence": "A direct function-relative contract and adequate observation can preserve the result; the R input is useful and reducible, not an irreducible subsystem."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F parent is required. Exact set reasoning suffices at this finite scope; no third-lineage label is appended."
+            }
+          ],
+          "novel_property_identity_disposition": "NOT_ESTABLISHED",
+          "novelty_reason": "Existing native semantics and source definitions subsume the constructed criterion. New directional author arguments are not a new CRDT, new recovery protocol or first invention.",
+          "reentry": [
+            "Changed admitted identifiers/epochs/peers",
+            "Changed state-retention or merge semantics",
+            "Changed requested current/future function",
+            "Changed oracle or acceptable cutover losses"
+          ]
+        },
+        "current_configurations": [
+          "C2",
+          "C3"
+        ],
+        "A002_reassessment": "The actual 2P-set merge domain and actual quorum retained-history episode are preserved as separate bearers. New general evidence or recovery inputs do not create their semantics. Direct set/protocol definitions and postconditions still establish the bounded criteria; no new CRDT, Paxos theorem or F dependency is created.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The set-restoration candidate still distinguishes present query membership from retained state that determines future merges. Clock diversity does not change add/delete semantics or prove restoration of that future behavior. Its direct state/effect contract remains sufficient.",
+          "exact_A005_candidate_core_sha256": "d9685579e673a31c62566347834d01f85de65277dc1bd302d2d290bf1ece705e",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B32-CANDIDATE-QUORUM-HISTORY-RESTORATION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b32/increment001/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/1",
+          "canonical_sha256": "49f36823ebd14ed22dc34b05ae9099d7e9b682813762f0d2645a55b708f9e262"
+        },
+        "retained_candidate": {
+          "id": "B32-CANDIDATE-QUORUM-HISTORY-RESTORATION",
+          "parents": [
+            "D10",
+            "R016"
+          ],
+          "description": "A bounded recovery criterion for the retained accepted-history premise of one native quorum decision episode.",
+          "joint_witness": "Q's no-erasure episodes preserve the earlier chosen x under the stipulated higher ballot and delivered messages. The old/new quorums, retained reports and selected value jointly witness the actual protocol premise and the named restored safety function. A process-up report alone would be a different, weaker postcondition.",
+          "individual_parent_removals": [
+            {
+              "parent": "D10",
+              "consequence_or_substitute": "Without the actual quorum/value-selection/history conditions, R016 cannot infer a protocol safety result. The exact primary protocol definition can substitute for the label."
+            },
+            {
+              "parent": "R016",
+              "consequence_or_substitute": "A direct protocol invariant and observation argument can subsume the recovery criterion. Removing only the label need not alter safety; removing the distinction can substitute process availability for retained-history safety."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "An explicit protocol-source model is an adequate substitute; generic restoration language alone supplies no consensus result."
+            },
+            {
+              "lineage": "R",
+              "consequence": "A direct invariant/postcondition argument can retain the finite result. R gives a useful criterion rather than an independently necessary component."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F parent is needed for this finite construction. It is not a complete formal verification of Paxos."
+            }
+          ],
+          "novel_property_identity_disposition": "NOT_ESTABLISHED",
+          "novelty_reason": "The persistent-history obligation belongs to the existing protocol lineage. The new control illustrates an actual recovery correspondence; it is not a new protocol or independent source replication.",
+          "reentry": [
+            "Changed quorum/phase/configuration model",
+            "Changed retained state or authority",
+            "Changed competing-ballot/delivery assumptions",
+            "Changed required safety/progress function",
+            "Changed allowed exclusion or repair policy"
+          ]
+        },
+        "current_configurations": [
+          "C2",
+          "C3"
+        ],
+        "A002_reassessment": "The actual 2P-set merge domain and actual quorum retained-history episode are preserved as separate bearers. New general evidence or recovery inputs do not create their semantics. Direct set/protocol definitions and postconditions still establish the bounded criteria; no new CRDT, Paxos theorem or F dependency is created.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The quorum-restoration candidate requires accepted retained history and eligible members, not merely returned processes. The corrected time-reference inputs do not prove consensus safety or supply a new necessary parent.",
+          "exact_A005_candidate_core_sha256": "49f36823ebd14ed22dc34b05ae9099d7e9b682813762f0d2645a55b708f9e262",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B34-CANDIDATE-FEEDBACK-PROBE-CRITERION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment001/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/0",
+          "canonical_sha256": "9ca51e23e4379e3adc2ed7e8c1b005bd4c8e188c7d8ba31f9eef7230cc0cc0b8"
+        },
+        "retained_candidate": {
+          "id": "B34-CANDIDATE-FEEDBACK-PROBE-CRITERION",
+          "parents": [
+            "D33",
+            "R033"
+          ],
+          "claim": "At an actual shared work path, choose a useful scoped observation whose cost and triggered response are assessed in the sustaining-work model.",
+          "joint_witness": "At the finite resource-criterion level, P-feedback-b4-p1 has the stipulated visible modeled backlog and a one-unit observation-work pulse; its states3,1,0,0,0,0 stay in the draining regime. The model itself provides exact state values, so a claim restricted to those work-state values and their side effect is coherent with both the D33 transition premise and R033's scoped symptom/side-effect role. This is a logical joint assignment over the declared model, not execution of a field sensor or proof that the one-unit probe has equal diagnostic quality. A full consumer-correctness or real-oracle joint claim remains unestablished.",
+          "contrary_or_boundary_witness": "P-feedback-b4-p3 enters a persistent regime after its pulse ends, whereas P-constant-b4-p3 drains. The mechanism and observation cost therefore matter jointly; neither a blanket ban on added work nor a blanket permission for finite bursts follows.",
+          "individual_parent_removals": [
+            {
+              "parent": "D33",
+              "consequence_or_substitute": "A direct explicit supported feedback law can substitute. Without either, the scoped probe criterion does not determine whether its work has only transient cost or changes the sustaining regime."
+            },
+            {
+              "parent": "R033",
+              "consequence_or_substitute": "A direct observation specification, or C4's existing D41 at its actual meaning, can substitute. Without that substance, the true modeled work state could be promoted to a different consumer function or obtained through an unaccounted harmful probe."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "A directly supported recurrence/resource account can retain the bounded result; an abstract probe criterion alone supplies no sustaining law."
+            },
+            {
+              "lineage": "R",
+              "consequence": "D41 or a direct scoped observation design can retain the criterion. R033 is a useful input, not an independently necessary sensor or formal prerequisite."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F parent is needed for this finite criterion. The arithmetic does not claim full formal verification of a production monitoring system."
+            }
+          ],
+          "novel_property_identity_disposition": "NOT_ESTABLISHED",
+          "novelty_reason": "The native feedback and probe meanings, or their direct equivalents, subsume the result. The new contribution is an exact guarded relation and discriminator, not a new monitoring architecture or first invention.",
+          "reentry": [
+            "Changed actual probe or response work",
+            "Changed sustaining-state law or observation path",
+            "Changed target predicate or acceptable work loss",
+            "New real oracle/access/field evidence"
+          ]
+        },
+        "current_configurations": [
+          "C4",
+          "C8"
+        ],
+        "A002_reassessment": "Action-relative ambiguity and observation load remain jointly instantiated only in the declared resource worlds. New R012/R033/R049 partial inputs do not justify the expanded cause set or a real sensor. Direct recurrence, ordinary reply record and robust action table preserve the same result without a mandatory probe framework.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The feedback/probe claim concerns useful observation on an actual sustaining work path. Only charged work affects that recurrence. Clock-source polling is not inserted into this separate model; bounded direct observation/response remains the substitute.",
+          "exact_A005_candidate_core_sha256": "9ca51e23e4379e3adc2ed7e8c1b005bd4c8e188c7d8ba31f9eef7230cc0cc0b8",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B34-CANDIDATE-ACTION-SUFFICIENT-PROTECTION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment001/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/1",
+          "canonical_sha256": "671c29f1599e64e723849e4d2c3aa671c3f88a58e6d6c32c394faf1570d83b1a"
+        },
+        "retained_candidate": {
+          "id": "B34-CANDIDATE-ACTION-SUFFICIENT-PROTECTION",
+          "parents": [
+            "D34",
+            "R012",
+            "R033",
+            "R049"
+          ],
+          "claim": "Protect a named function with a remedy adequate across the relevant remaining causes, and use an observation whose actual predicate and cost support the resulting bounded assertion.",
+          "joint_witness": "In each of A's two shared-backend worlds, the cap admits two noisy requests and completes both protected ordinary requests on capacity four. The exact model records those ordinary replies, so reusing their completion as the observation adds no probe work. D34's real resource allocation, R012's same-action consequence across the declared two causes, R033's direct functional observation and R049's implication to exactly the two-request interval requirement all hold in the same declared world pair. The witnessed compound is restricted to that finite predicate; real plausible-set adequacy, observation access and authority remain separate.",
+          "contrary_or_boundary_witness": "The private-capacity-one world has the same initial symptom but no protected benefit from the cap. An added priority probe can also complete while displacing ordinary work. These prevent transfer to an expanded cause set or a stronger protected-service requirement without its own correspondence.",
+          "individual_parent_removals": [
+            {
+              "parent": "D34",
+              "consequence_or_substitute": "The direct resource schedule can substitute. Without the resource-path distinction, the common symptom cannot distinguish a useful noisy cap from the ineffective private-bottleneck action."
+            },
+            {
+              "parent": "R012",
+              "consequence_or_substitute": "An explicit robust action table can substitute. Without its substance, one may demand irrelevant exact cause or mistake a two-world remedy for adequacy under the expanded set."
+            },
+            {
+              "parent": "R033",
+              "consequence_or_substitute": "The actual ordinary reply record and its stated oracle can substitute; no second sensor is required. Removing the observation role without replacement leaves actual completion unobserved."
+            },
+            {
+              "parent": "R049",
+              "consequence_or_substitute": "An explicit predicate implication can substitute. Removing that substance can confuse one privileged probe's successful reply with both protected ordinary completions."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "The direct shared/private resource model can replace D34. R criteria alone do not supply resource causality."
+            },
+            {
+              "lineage": "R",
+              "consequence": "A direct action-consequence table, actual reply record and precise contract can realize the same criteria. No irreducible three-lineage property is claimed."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F parent is part of this candidate. Finite arithmetic and explicit semantics suffice at its stated scope; field/model correspondence remains open."
+            }
+          ],
+          "novel_property_identity_disposition": "NOT_ESTABLISHED",
+          "novelty_reason": "The component criteria and direct native alternatives already express the compound. These finite worlds expose a consequence-changing boundary; they do not establish new engineering capability, independent evidence or a universal diagnosis/monitoring method.",
+          "reentry": [
+            "Changed protected demand or service semantics",
+            "Changed coupling or plausible cause set",
+            "Changed action consequences and permissions",
+            "Changed observation priority, cost, oracle or actual path"
+          ]
+        },
+        "current_configurations": [
+          "C4",
+          "C8"
+        ],
+        "A002_reassessment": "Action-relative ambiguity and observation load remain jointly instantiated only in the declared resource worlds. New R012/R033/R049 partial inputs do not justify the expanded cause set or a real sensor. Direct recurrence, ordinary reply record and robust action table preserve the same result without a mandatory probe framework.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The protection criterion retains a remedy adequate across remaining causes and the actual observation predicate. A reference-service rescue does not turn detection into repair or confer authority. The direct cause/action/observation contract still subsumes it.",
+          "exact_A005_candidate_core_sha256": "671c29f1599e64e723849e4d2c3aa671c3f88a58e6d6c32c394faf1570d83b1a",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B34-I002-CANDIDATE-QUEUE-OUTCOME-DECISION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment002/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/0",
+          "canonical_sha256": "947486724d2ed2bf1d8cead1e8dd14543a16eec2d5a84f80ba27fe1ccd030199"
+        },
+        "retained_candidate": {
+          "id": "B34-I002-CANDIDATE-QUEUE-OUTCOME-DECISION",
+          "parents": [
+            "D29",
+            "R012",
+            "R033",
+            "R049"
+          ],
+          "claim": "Choose a supported bounded queue consequence under the relevant ambiguity, and label its observation at the actual custody, original-age or completion predicate.",
+          "joint_witness": "The two Q2 quarantine records form one coherent action rule over the declared two-cause ambiguity set: authority and actual custody success are explicit, quarantine establishes custody/isolation in each world, and original completion is false. At the finite-model level, reading those exact outcome fields is a correct observation of that narrow result, and the wider completion assertion is withheld. This jointly respects D29's consequence semantics, R012's action-relative ambiguity and R033/R049's scoped observation/implication roles. It is not a field sensor or source-wide restoration demonstration. The separate Q direct-operation world supplies an adequate exact completion alternative, not an inconsistent extra outcome pasted into the quarantine worlds.",
+          "contrary_or_boundary_witness": "Processing once completes the transient-pause case but not poison input. A recent-move indicator can pass while original business age exceeds10. An unknown custody or authority premise cannot inherit the constructed quarantine success. These delimit the claim without requiring a unique causal label for every action.",
+          "individual_parent_removals": [
+            {
+              "parent": "D29",
+              "consequence_or_substitute": "A direct explicit queue/outcome/age contract can replace it. Without that substance, custody may be credited as original business completion or a reset timestamp may redefine the work's age."
+            },
+            {
+              "parent": "R012",
+              "consequence_or_substitute": "An explicit action table over the relevant plausible causes can replace it. Without that substance, the owner can force irrelevant exact diagnosis or mistake a common containment outcome for a common completion remedy."
+            },
+            {
+              "parent": "R033",
+              "consequence_or_substitute": "R049 plus a direct correct observation specification may suffice. Without any oracle/path/side-effect substance, a logically precise label still need not correspond to the observed real event."
+            },
+            {
+              "parent": "R049",
+              "consequence_or_substitute": "R033's existing predicate criterion or a direct implication proof can supply the same scope guard. Its removal alone does not destroy the bounded candidate, so independent necessity is not claimed."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "A direct queue consequence and original-age contract can retain the operational meaning. Removing all such substance leaves the receiver without a specified useful-work target."
+            },
+            {
+              "lineage": "R",
+              "consequence": "A direct action table and exact observation/implication contract can implement the bounded decision without the R labels. Removing those substantive checks risks overclaiming or needless diagnosis."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F parent is newly added. A small direct finite construction and explicit contract can be adequate; no irreducible three-lineage requirement is asserted."
+            }
+          ],
+          "joint_cost": "Q1 compares the same message at a fixed observation time; Q2 compares one intervention. Quarantine writes and retains work rather than completing it. Field observation effort, storage and later investigation are unpriced burdens. Reading a model's true outcome is not evidence of a cost-free deployed oracle.",
+          "simpler_or_no_change": "Retain the adequate existing fixed-bound/rejection/custody policy and correct direct outcome record. Add neither monitoring nor diagnostic machinery when the relevant decision is already supported.",
+          "novelty_result": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "novelty_reason": "The joint assignment is useful, but criteria overlap and direct contracts substitute. The candidate does not have an established irreducible consequence beyond its declared parents."
+        },
+        "current_configurations": [
+          "C1",
+          "C3",
+          "C4"
+        ],
+        "A002_reassessment": "Custody/age/completion and retry intent/effect are separately preserved. New evidence and fault-protection relations do not erase the adverse upstream-growth correction or make an acknowledgement a one-effect proof. Direct atomic intent contracts and outcome/age tables still supply adequate substitutes.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The queue outcome claim retains custody, original age and completion as different predicates. Clock architecture does not establish capacity or turn an acknowledgment into a completed consequence. The direct queue/consequence model remains sufficient.",
+          "exact_A005_candidate_core_sha256": "947486724d2ed2bf1d8cead1e8dd14543a16eec2d5a84f80ba27fe1ccd030199",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B34-I002-CANDIDATE-RETRY-EFFECT-DECISION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment002/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/1",
+          "canonical_sha256": "42421675d71a74171a6c77f5b570b4f80c2576a6795c2c156f49df0348ab986d"
+        },
+        "retained_candidate": {
+          "id": "B34-I002-CANDIDATE-RETRY-EFFECT-DECISION",
+          "parents": [
+            "D32",
+            "R012",
+            "R033",
+            "R049"
+          ],
+          "claim": "Evaluate a bounded retry under effect-location ambiguity using the actual intent/effect/response contract and combined work, rather than response success alone.",
+          "joint_witness": "T's atomic retained same-intent operation under request-lost and response-lost worlds uses the same one-retry action. Both yield one delta1 mutation and a received semantic response. The action can therefore be adequate over those two unresolved causes; an exact observation of the stated response/effect contract establishes precisely that goal, and no further effect or field safety claim is asserted. D32 supplies the operation and work conditions, R012 the action-relative ambiguity, and R033/R049 the observation and implication discipline. Atomicity, identity, retained parameters and successful second delivery are explicit joint premises, not independently observed deployment facts.",
+          "contrary_or_boundary_witness": "The unprotected response-lost repeat commits twice; replacing the token or expiring its record loses the one-effect guarantee; persistent unavailability is not rescued. TN shows that finite local bounds can exceed a declared joint leaf budget. Safe reads and the adequate2-by-2 bound remain positive alternatives.",
+          "individual_parent_removals": [
+            {
+              "parent": "D32",
+              "consequence_or_substitute": "A direct operation/intent/attempt contract can replace D32. Without its substance, a correct narrow response does not determine duplicate consequences or combined work."
+            },
+            {
+              "parent": "R012",
+              "consequence_or_substitute": "An explicit case analysis can show the same action works under both effect-location states. The safe atomic operation itself may make further cause discrimination unnecessary."
+            },
+            {
+              "parent": "R033",
+              "consequence_or_substitute": "A complete supported operation response or a direct effect observation can replace a separate probe. A probe stack is not necessary for the finite contract."
+            },
+            {
+              "parent": "R049",
+              "consequence_or_substitute": "R033's current predicate comparison or a direct conjunction check can prevent overclaiming. This overlapping criterion is not an independently necessary component."
+            }
+          ],
+          "lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "A direct atomic intent contract and explicit attempt tree can supply the same mechanism and workload model. Without any such substance, the R criteria do not create safe repetition."
+            },
+            {
+              "lineage": "R",
+              "consequence": "Explicit effect/response requirements and a two-world action table can preserve the bounded result without R labels. Removing all consequence checks permits the successful-response/duplicate-effect error."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No new F parent is needed for this finite consequence example. A stronger real protocol proof could be useful at an actual use, but its necessity or existence is not inferred here."
+            }
+          ],
+          "joint_cost": "T compares one versus two caller attempts and the resulting backend executions/effects, with retained token state as a burden. TN compares the same all-failed attempt-tree semantics and fixed leaf budget, not elapsed time. Do not sum those different scenarios into a deployment cost or infer zero latency from logical idempotency.",
+          "simpler_or_no_change": "A safe read with a small acceptable bound, immediate failure when retry has no value, or an already adequate complete operation contract can dominate an added budget service or monitoring stack.",
+          "novelty_result": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "novelty_reason": "A coherent guarded composition exists, but the named roles overlap and have valid direct substitutes. No irreducible new property, empirical improvement or universal implementation mandate is established."
+        },
+        "current_configurations": [
+          "C1",
+          "C3",
+          "C4"
+        ],
+        "A002_reassessment": "Custody/age/completion and retry intent/effect are separately preserved. New evidence and fault-protection relations do not erase the adverse upstream-growth correction or make an acknowledgement a one-effect proof. Direct atomic intent contracts and outcome/age tables still supply adequate substitutes.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The retry/effect claim retains intent, effect location, response semantics and total work. Neither a physical interval nor an alternate reference establishes a once-only business effect. Direct effect and work contracts preserve the same removal/subsumption result.",
+          "exact_A005_candidate_core_sha256": "42421675d71a74171a6c77f5b570b4f80c2576a6795c2c156f49df0348ab986d",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B34-I003-CANDIDATE-RETIREMENT-CONSUMER-DECISION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment003/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/0",
+          "canonical_sha256": "3d08e0927ce26c82c1c6ab4e91f0c0eb78bd0298eb1b04c57d43cb10e8856c0c"
+        },
+        "retained_candidate": {
+          "id": "B34-I003-CANDIDATE-RETIREMENT-CONSUMER-DECISION",
+          "parents": [
+            "D46",
+            "R012",
+            "R033",
+            "R049"
+          ],
+          "claim": "Choose a permitted retirement or consolidation using the actual retained-consumer requirement, an action adequate across its supported ambiguity and a correctly scoped functional observation, with all modeled burdens compared at a common horizon.",
+          "joint_witness": "H-q1-H10-reduce_one is one coherent assignment: the old history, eligible code/routing and one required query remain; one worker returns7 for the query and the current function stays correct. A-none_or_one-H10-reduce_one evaluates that same action together with the q0 world and remains adequate across both. The requirement-sized direct test accepts exactly the named function under the fixed-state oracle, while R049's stronger two-query assertion is not made. The selected model authority is an explicit premise, with AUTH's separate adverse no-permission assignment. All modeled burden is17 in the q1 world (10carrying+5transition+2validation), compared with22 for keeping two. These jointly instantiated native roles are not separate incompatible examples pasted together; they also do not establish real consumer evidence or permission.",
+          "adverse_joint_limit": "The expanded set containing q2 defeats reduction despite the single-query green result. All-worker shutdown fails for q1. The current-only q0 stop remains valid, and H2 no-change can be cheaper. Thus the joint condition is neither always-retire nor always-preserve, and no hypothesis probabilities or actual savings are inferred.",
+          "individual_removals": [
+            {
+              "parent": "D46",
+              "effect_of_removing_substance": "The explicit retained-consumer and transition boundary would be lost; current green could be mistaken for no remaining need.",
+              "adequate_substitute": "An equivalent consumer/compatibility/cost account, including original C8's R039 overlap, can supply the substance. Removing the D46 label is not fatal."
+            },
+            {
+              "parent": "R012",
+              "effect_of_removing_substance": "The common-action sufficiency question may be lost, encouraging either needless full discrimination or an unjustified shutdown.",
+              "adequate_substitute": "A direct conditional action table over the supported requirements preserves the same result without the named diagnostic property."
+            },
+            {
+              "parent": "R033",
+              "effect_of_removing_substance": "There is no longer an explicit oracle/coverage account for the observed query function and its validation work.",
+              "adequate_substitute": "Existing adequate transaction records, a direct manual check or a valid contract can supply that functional evidence. A monitoring stack is not necessary."
+            },
+            {
+              "parent": "R049",
+              "effect_of_removing_substance": "The green predicate could silently be expanded from one query or drainage to a stronger retained-function guarantee.",
+              "adequate_substitute": "R033's explicit predicate/coverage statement or an ordinary implication proof/counterexample already prevents that expansion."
+            }
+          ],
+          "whole_lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "R012/R033/R049 plus a supplied exact consumer and compatibility contract can still support the decision. The missing old-history/dependency substance must be supplied explicitly; it is not conjured by generic diagnostic vocabulary."
+            },
+            {
+              "lineage": "R",
+              "consequence": "D46 already demands demonstrated consumers, preserved obligations, alternatives and costs. Explicit action and observation reasoning can satisfy those needs without the named R labels, so the new synthesis is substitutable."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F property is a new parent here. Direct finite reasoning suffices at this declared scope. Original C8's F031/F041 uses remain at their actual evidence/consumer role, and no third lineage is added to manufacture irreducibility."
+            }
+          ],
+          "cheaper_direct_and_no_change_alternatives": "Existing consumer records with an ordinary direct query can implement the whole bounded decision. A verified current-only contract can permit retirement without a retained legacy monitor. Keeping two workers is cheaper at H2 in the stated model; keeping one can be adequate at H10 for q1. No generic minimum monitor count, framework, source count or permanent record bundle is required.",
+          "cumulative_burden": "Production carrying, one-time transition and the selected requirement-sized validation are all counted at common H. The displayed single-query test is an alternative policy, not extra uncharged work. Actual validation latency, switching risk, data conversion, backup storage, access, recovery time, external effects and consequences remain explicit unpriced premises; this is not a complete deployment business case.",
+          "source_dependence": "D46 and the R criteria overlap substantively, original C8 already combines observation/cost/retirement, and the new vendor pages belong to one contract family. H/A/V and native C06/C09/C13 are authored constructions, not independent empirical corroboration.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "novelty_reason": "The bounded joint decision is a useful composition of native consumer, ambiguity and observation criteria, but direct equivalents and parent overlap preserve the same result after individual/lineage removals. No irreducible new guarantee, scientific law or demonstrated superiority is established."
+        },
+        "current_configurations": [
+          "C5",
+          "C8"
+        ],
+        "A002_reassessment": "The q1/q2 consumer discriminator and common-horizon carrying/transition/validation costs remain. New retirement/evidence inputs do not identify hidden real consumers. Direct consumer records and the no-change case still refute a universally necessary retirement bundle.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "Retirement depends on real continuing consumers, permissible actions, evidence and common-horizon burdens. Clock reference addition/removal is a separate comparison; it supplies no authority to erase history or backups. The original hidden-consumer alternative remains.",
+          "exact_A005_candidate_core_sha256": "3d08e0927ce26c82c1c6ab4e91f0c0eb78bd0298eb1b04c57d43cb10e8856c0c",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "B34-I004-CANDIDATE-INFORMATION-PRESERVING-RESPONSE-REPLACEMENT",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment004/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidates/0",
+          "canonical_sha256": "f39cf498ce12e2a95481f7f57e70caf61cf4dc56e957a20533e0151dcd525470"
+        },
+        "retained_candidate": {
+          "id": "B34-I004-CANDIDATE-INFORMATION-PRESERVING-RESPONSE-REPLACEMENT",
+          "parents": [
+            "D46",
+            "R013"
+          ],
+          "claim": "Retain a genuinely required signal/consumer while replacing a harmful response with an adequate permitted alternative, using complete declared costs at a common horizon and preserving unknown outside burdens.",
+          "joint_witness": "One new context is CTX-H20-C159-fault_first-perfect_label-effects_permitted. Its automatic and truthful-confirmation policies share the exact10000-opportunity population and159 observed alarms and both restore the same15 stipulated restorable faults. Automatic action makes99 healthy interventions and has modeled loss10640; truthful confirmation makes none and has loss8819. Replacing only the response preserves those modeled information/restoration outcomes. The permitted regime is an explicit premise, not a grant of real authority. D46's consumer-preservation criterion can be instantiated by those declared retained functions; it is not evidence that a real distributed mechanism has no other readers, history or shared users.",
+          "adverse_joint_limit": "Changing confirmation to echo_alarm makes full confirmation loss10799, and40-slot healthy-first truthful confirmation restores0 with loss10200. A low healthy-action cost can favor automatic action instead. No-effect permission excludes both effect-authorizing policies. Hence neither always-confirm nor always-retire follows. The original C8 M3 and I003 H models have different populations/horizons and are not numerically summed into this witness.",
+          "individual_removals": [
+            {
+              "parent": "D46",
+              "effect_of_removing_substance": "A current numerical gain can be mistaken for permission to discard the whole signal or a residual/shared consumer.",
+              "adequate_substitute": "An explicit consumer/lifecycle/transition account, including original C8's R039 overlap, can supply the same substance without the D46 label."
+            },
+            {
+              "parent": "R013",
+              "effect_of_removing_substance": "The comparison may retain a harmful automatic response merely because the detector is informative, or assume confirmation is perfect and free.",
+              "adequate_substitute": "An ordinary consequence table with explicit constraints, capacity and actual costs produces the same bounded result."
+            }
+          ],
+          "whole_lineage_removals": [
+            {
+              "lineage": "D",
+              "consequence": "R013 plus an explicit retained-consumer and transition account can support the same decision. Removing the D label does not remove the necessary lifecycle substance if that direct account remains."
+            },
+            {
+              "lineage": "R",
+              "consequence": "D46's actual consumer/cost requirement can be discharged by the explicit finite policy table and constraints without a named reliability framework. The particular signal/action distinction must still be made."
+            },
+            {
+              "lineage": "F",
+              "consequence": "No F property is a parent of this new candidate. Ordinary finite arithmetic suffices at its declared scope; original C8's F031/F041 evidence roles remain unchanged."
+            }
+          ],
+          "cheaper_direct_and_no_change_alternatives": "A direct correct label plus an authorized person's bounded decision can replace a monitoring platform. Keep a cheap adequate current policy if transition or omitted burdens dominate. Removing monitoring entirely is not justified merely because the numeric model gives record-only no separate information value; a real retained consumer can prohibit that removal.",
+          "cumulative_burden": "The new table includes all declared one-horizon fault, monitoring, inspection and healthy-action terms. The displayed10640−8819=1821 difference is the margin available for any additional net transition/integration burden before that pairwise ranking reverses. Such omitted burdens are unknown, not zero; equality produces a tie. The result is not a full deployment business case. No costs from I003 H or native C09 are added without an explicit shared horizon and units.",
+          "source_dependence": "R013's original C03 population is an attributed seed, not new independent evidence. The new varied records and derived rankings are one construction. D46/R013 overlap original C8 and its R039 retirement substance. F017 is one operator account; F020/F021 are scoped different source types, not independent empirical confirmation of this toy.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "novelty_reason": "The useful bounded joint decision is a composition of native consumer, cost and constraint criteria. Direct equivalents and the individual/lineage removals preserve its consequence; no irreducible new law, protocol guarantee or field superiority is established."
+        },
+        "current_configurations": [
+          "C8"
+        ],
+        "A002_reassessment": "The same10000-opportunity population and159alarms distinguish preserving a required signal from replacing a harmful response. New AI/evidence criteria neither make confirmation perfect/free nor erase capacity and permission. Direct consequence and retained-consumer accounts remain substitutes; unlike model populations are not summed.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact10000-opportunity/159-alarm construction is an ordinary stipulated detector/action model, not an identified AI task. Withdraw the generic AI-input explanation; retain D46/R013 parents, all signal/action/cost countercases, individual/lineage removals and no-new-identity result. Confirmation is not silently perfect, free or authorized.",
+        "A004_dependency_change": "EXPLANATION_CORRECTION_NO_CORE_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The exact ordinary detector/response construction remains unbound to an AI task. A source-based clock architecture creates no missing classifier or retirement consumer. Signal retention, harmful-response replacement, stated costs and imperfect-confirmation limits still determine the same result.",
+          "exact_A005_candidate_core_sha256": "f39cf498ce12e2a95481f7f57e70caf61cf4dc56e957a20533e0151dcd525470",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "drf_continuation_b34/increment004_followup001/new_candidate",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment004_followup001/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "eeb5f5930da9da0959778346631383ca558065132adaa034baa5399429607ee8"
+        },
+        "retained_candidate": {
+          "parents": [
+            "R013",
+            "D08"
+          ],
+          "joint_witness": "The two stipulated differing-view contexts bind the same observation predicate to different action-admissibility consequences under their explicit operation contracts.",
+          "individual_and_lineage_removal": {
+            "R013": "Removing R013's label need not remove the contribution: a direct action-admissibility and consequence table can preserve it. Removing the substantive constraint while leaving an observation-to-union implication admits the delete-sensitive counterexample. Removing D08's operation/merge contract cannot be repaired with R013 arithmetic.",
+            "D08": "Without the operation and semantic objective no criterion identifies a valid merge. An adequate direct operation contract can supply this substance without the D label.",
+            "R_lineage": "The same adequate direct contract can substitute for the R lineage label at this bounded use. Existing D semantics and source proof remain necessary where invoked; no irreducible three-lineage property or F contribution is established.",
+            "D_lineage": "A directly specified semantic merge and consequence argument can preserve the same bounded result without a named distributed-systems framework.",
+            "F_lineage": "No new F parent or effect is claimed."
+          },
+          "cost": "The source establishes a mechanism and semantic distinction, not benefit magnitudes. Comparison must include observation/communication, confirmation if actually needed, conflict handling, retained metadata, delayed completion and maintenance at a common horizon. Existing exact checks may be cheaper than a new detector; added monitoring can be omitted when it changes no justified action. No I004 classifier-cost numbers are transported into cart reconciliation.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED"
+        },
+        "current_configurations": [
+          "C3",
+          "C8"
+        ],
+        "A002_reassessment": "The observed-view action distinction is anchored to the actual add/delete operation contract. New R013/R055 action-support possibilities do not make union valid for every semantics. A direct merge/consequence account retains the criterion and its delete-sensitive counterexample without a new property.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The add/delete/merge contract and R013/D08 criteria remain exact. No R055 AI merge task is supplied; its former possible-action wording supplies no current relation or parent. The delete-sensitive counterexample and direct merge/consequence substitute continue to defeat an irreducible new identity.",
+        "A004_dependency_change": "EXPLANATION_CORRECTION_NO_CORE_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The add/delete merge construction still has its delete-sensitive counterexample and direct merge/consequence substitute. No AI merge task or clock-based conflict policy is invented; current R055 withdrawal and no-new-identity judgment remain.",
+          "exact_A005_candidate_core_sha256": "eeb5f5930da9da0959778346631383ca558065132adaa034baa5399429607ee8",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "CJ-I005-FUNCTION-DURATION-TRANSITION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment005/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "4aa580daf1ea423e768ba30aa5578cfb11082c70d99618387f2bd206e3d1c41b"
+        },
+        "retained_candidate": {
+          "id": "CJ-I005-FUNCTION-DURATION-TRANSITION",
+          "parents": [
+            "D06",
+            "D38",
+            "D44",
+            "R014",
+            "R015"
+          ],
+          "claim": "At an explicitly specified reduced-service transition, jointly check the output contract, affected interval, exit behavior and accepted continuation/interruption consequence. Keep a sufficient direct or stop alternative when it meets the same objective.",
+          "joint_witness": "The one new I005 construction changes output quality, required intervals, direct readiness, transfer gap and permission separately. HOLD_FALLBACK shows expired output; BOUND_THEN_STOP changes adequacy with the contract; SWITCH_AT_3 exposes a gap; a ready direct path preserves exact required function without fallback; a forbidden path preserves the counterfactual functional trace but fails permission. No single response fraction distinguishes all of these.",
+          "single_parent_removal": [
+            {
+              "parent": "D06",
+              "substance_removed": "Freshness/authority at the read boundary.",
+              "consequence": "A responsive stale value could be counted as exact output if that semantic condition is also removed.",
+              "direct_substitute": "A directly specified age/authority response contract preserves the distinction without the D06 label."
+            },
+            {
+              "parent": "D38",
+              "substance_removed": "Correspondence between a claimed exit and the actually exercised transition path.",
+              "consequence": "A green backup/path label can conceal the unserved transfer interval; this candidate supplies no actual backup test.",
+              "direct_substitute": "The direct finite trace and an adequate local transition specification supply the relevant evidence; a broad rehearsal is not irreducible."
+            },
+            {
+              "parent": "D44",
+              "substance_removed": "Explicit hypothesis, allowed outcomes and discriminating oracle.",
+              "consequence": "Response count alone can miss expired output, required interruption or permission; a passing table with a wrong oracle would not establish the claim.",
+              "direct_substitute": "A direct formal/static predicate over the same finite trace preserves the evidence without an experiment framework."
+            },
+            {
+              "parent": "R014",
+              "substance_removed": "The actual accepted reduced function over its duration and exit.",
+              "consequence": "Entry-only approval can silently extend a mode past its freshness limit or lose a required interval.",
+              "direct_substitute": "A direct consumer contract with interval and exit conditions preserves the substance without the R014 label."
+            },
+            {
+              "parent": "R015",
+              "substance_removed": "The explicit difference between optional interruption, required continuity and separately accepted action permission.",
+              "consequence": "Always-stop or always-continue can be treated as universally adequate despite the changed contract, or functional success can be confused with permission.",
+              "direct_substitute": "A directly authored domain transition/permission policy preserves the criterion; the model does not choose real authority."
+            }
+          ],
+          "whole_lineage_removal": [
+            {
+              "lineage": "D",
+              "result": "Direct output semantics, transition traces and an explicit oracle can preserve this finite argument without named distributed-systems parents. Removing those substantive conditions while retaining broad claims exposes the same counterexamples."
+            },
+            {
+              "lineage": "R",
+              "result": "A direct consumer/mission contract covering duration, required intervals and permission can preserve the same result. The reliability labels are not irreducible sources of domain norms."
+            },
+            {
+              "lineage": "F",
+              "result": "No new F parent is used or needed by this candidate; original F science and all F directions remain exact."
+            }
+          ],
+          "cost": "The full modeled six-interval burden vector records fallback/direct replies, unserved demands, quality violations, direct selection and intended transfer. It deliberately does not assign arbitrary utility weights. Existing direct service can avoid a fallback in READY_NOW; an optional-output STOP can be adequate but deliver no service. Actual maintenance, communication, operator work, migration, energy, domain harm, permission and useful-information value remain unknown, not zero. Different policy trace vectors do not establish a universal cheapest design.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "reason": "The joint discriminator is useful but reducible to explicit existing function, transition, contract and oracle principles or their direct equivalents. No irreducible three-lineage property, field effectiveness or new normative rule is shown."
+        },
+        "current_configurations": [
+          "C1",
+          "C3",
+          "C8"
+        ],
+        "A002_reassessment": "Duration, output quality, transition gap, required intervals and permission remain different predicates. Newly examined function/evidence inputs supply parts of the same contract, while direct service, a supported stop or an explicit finite transition predicate remain adequate alternatives.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The reduced-service transition keeps its output contract, duration and exit/continuation criterion. A directly specified interval can suffice without a varied-reference service. D06/R055 remains unknown on its separate actual-task interface; no automatic promotion occurs.",
+          "exact_A005_candidate_core_sha256": "4aa580daf1ea423e768ba30aa5578cfb11082c70d99618387f2bd206e3d1c41b",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "CJ-I006-RECOVERY-GUARD-OBSERVATION",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment006/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "199dd174fded86cde1aab39527eedd10a779f407d1896460a7c2257eb7577bd7"
+        },
+        "retained_candidate": {
+          "id": "CJ-I006-RECOVERY-GUARD-OBSERVATION",
+          "parents": [
+            "D01",
+            "D42",
+            "R018"
+          ],
+          "claim": "For a declared recovery attempt, retain the failure/state model and the observations actually needed to decide whether a guarded primitive can meet its named effect/function contract. Timing and repeat semantics remain distinct; an adequate stop or direct path remains admissible.",
+          "joint_witness": "The same initial NO_REPLY supports effect0/effect1 histories. Future capacity makes one later retry useful, but erased identity yields an acknowledged duplicate. Retained identity permits safe retry despite unresolved initial history; no full root-cause reconstruction is required. This is one finite construction over stipulated states.",
+          "single_parent_removal": [
+            {
+              "parent": "D01",
+              "substance_removed": "Explicit state/failure model and boundary correspondence.",
+              "consequence": "The initial effect histories and retained-identity premise could be silently conflated.",
+              "direct_substitute": "A direct typed transition/effect model preserves the distinction without the D01 label."
+            },
+            {
+              "parent": "D42",
+              "substance_removed": "Observation boundary and action-relevant uncertainty.",
+              "consequence": "NO_REPLY could be promoted to nonexecution or full telemetry demanded even when a safe contract suffices.",
+              "direct_substitute": "A direct indistinguishability/endpoint contract argument supplies the same criterion; R018 also contains relevant state-boundary guards, so this parent is not irreducible."
+            },
+            {
+              "parent": "R018",
+              "substance_removed": "Separate repeat-state/capacity guards and permitted recovery alternatives.",
+              "consequence": "The modeled choice could count any reply as recovery or treat every delay as a rescue.",
+              "direct_substitute": "Direct operation semantics and admission rules preserve the bounded result without the reliability label."
+            }
+          ],
+          "whole_lineage_removal": [
+            {
+              "lineage": "D",
+              "result": "A directly specified recovery model, observation boundary and consumer contract can preserve the finite argument. Removing the substantive constraints while retaining broad claims exposes the same counterexamples."
+            },
+            {
+              "lineage": "R",
+              "result": "Direct retry, state-retention and capacity semantics can preserve the result. The lineage label is not the source of a new irreducible rule."
+            },
+            {
+              "lineage": "F",
+              "result": "No new F parent is used. Existing F science and all10900 F-bearing directions remain exact."
+            }
+          ],
+          "cost": "Every policy has the same two-future-slot horizon, one retry at most, and the same background schedule within its world. Report retry attempts, admitted retry work, newly produced effects, duplicate excess and unconfirmed outcome separately. No priced production, maintenance, storage, diagnostic, organizational, privacy, authority or irreversible-loss cost is supplied. Stopping avoids added work but fails the stricter completion objective; immediate retry is adequate in SPARE_NOW. No common scalar optimum or population frequency is inferred.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "reason": "The useful joint discriminator is reducible to explicit existing mechanism, state/observation and consumer-contract principles or their direct equivalents. It adds no new empirical law, permission rule or irreducible multi-lineage property."
+        },
+        "current_configurations": [
+          "C1",
+          "C3",
+          "C4"
+        ],
+        "A002_reassessment": "Future capacity and safe repeat-state are separately required where used. New evidence criteria do not identify an unknown initial effect, nor require full history when a retained-identity contract suffices. Direct operation and admission semantics remain substitutes; no complete-theorem requirement is introduced.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The guarded recovery primitive still needs its actual failure/state model and required observations. The clock comparison is not its reset or repeat semantics. An adequate stop or direct path remains a valid alternative.",
+          "exact_A005_candidate_core_sha256": "199dd174fded86cde1aab39527eedd10a779f407d1896460a7c2257eb7577bd7",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "CJ-I007-VALIDATED-RESTORATION-TASK",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment007/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "a25ecd8a7c8ebf6a47048e8a9095eaddbd022964c0c84c7ae3cfd98095e73066"
+        },
+        "retained_candidate": {
+          "id": "CJ-I007-VALIDATED-RESTORATION-TASK",
+          "parents": [
+            "D09",
+            "D41",
+            "R019"
+          ],
+          "claim": "For a declared repair use, select justified state and adequate catch-up capacity, retain a capability-relevant validation endpoint, and compare the complete task under actual resource/support conditions at its honest evidence level.",
+          "joint_witness": "The new task schedule holds the required final validation task in the complete cases and varies repair/diagnostic/validation burden and prefix resources. D09 supplies justified-state/catch-up semantics and D41 supplies capability coverage as explicit premises for an application of the schedule; neither replication repair nor a real probe is executed by it. The joint conclusion is a conditional design-level task comparison.",
+          "single_parent_removal": [
+            {
+              "parent": "D09",
+              "substance_removed": "Justified repair state and useful catch-up resource condition.",
+              "consequence": "A fast copied/equal state could be treated as the complete semantic repair or assumed to create capacity.",
+              "direct_substitute": "A direct authoritative-state/repair-capacity contract can supply exactly this operand; the schedule itself does not."
+            },
+            {
+              "parent": "D41",
+              "substance_removed": "The operation/path the final validation must exercise.",
+              "consequence": "A local artifact or green process could be substituted for the named restored function.",
+              "direct_substitute": "A sufficient direct return or function-specific observation can supply the endpoint; no separate probe is mandatory."
+            },
+            {
+              "parent": "R019",
+              "substance_removed": "Complete-task resource/dependency and design-versus-field criterion.",
+              "consequence": "The active repair step could be mistaken for total elapsed restoration or a stipulated schedule for field support capability.",
+              "direct_substitute": "A direct task graph, resource contract and evidence-level statement preserve the conditional result without the R label."
+            }
+          ],
+          "whole_lineage_removal": [
+            {
+              "lineage": "D",
+              "result": "Direct semantic repair-state and function-observation contracts replace both D inputs. Removing their substance while retaining broad restoration claims admits the named counterexamples."
+            },
+            {
+              "lineage": "R",
+              "result": "Direct complete-task/support/resource and evidence-level definitions replace R019. The new arithmetic is not an irreducible cross-lineage law."
+            },
+            {
+              "lineage": "F",
+              "result": "No new F parent is used; all10900F-bearing directions and original F configuration meanings remain exact."
+            }
+          ],
+          "cost": "Within each stipulated context, compare active task work and elapsed interval union. Faster repair with added diagnosis/validation is worse on both here; matched other tasks improves both. Missing access supplies no complete-time ranking. No prices, real skill, spares, maintenance-induced fault process, lifecycle expected value or deployment optimum are calculated. A direct complete local task, accepted delay, replacement/discard or unchanged design remains admissible according to the actual function.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "reason": "This useful conjunction is reducible to explicit existing semantic, observation and complete-task principles or adequate direct substitutes. It creates no new theorem of maintainability, empirical rate, permission or universal architecture preference."
+        },
+        "current_configurations": [
+          "C4",
+          "C6"
+        ],
+        "A002_reassessment": "The complete task graph and actual validation endpoint remain conditional premises, with missing access preventing a total-time ranking. New evidence/support relations do not turn a schedule into executed replica repair or a field probe. Direct state, resource and postcondition contracts still replace the labels.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The repair task still needs justified state, catch-up capacity and capability-relevant validation under actual support conditions. Clock-source rescue does not instantiate that task or prove end-to-end repair.",
+          "exact_A005_candidate_core_sha256": "a25ecd8a7c8ebf6a47048e8a9095eaddbd022964c0c84c7ae3cfd98095e73066",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "CJ-I008-ELIGIBLE-SUPPORT-WINDOW",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment008/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "f45cc688eb0a5aa29fd436dab0c2c39c6890d23d851890c94b6f535f5055d454"
+        },
+        "retained_candidate": {
+          "id": "CJ-I008-ELIGIBLE-SUPPORT-WINDOW",
+          "parents": [
+            "D26",
+            "D41",
+            "R020"
+          ],
+          "claim": "For a named restored execution, retain a compatible eligible continuation and valid old-attempt treatment, specify which capability the outcome evidence establishes, and test whether the required support resources can act in the accepted site/time and joint-demand window.",
+          "joint_witness": "The new MATCHED/SAME_SPECIALTY/SHARED/DELAYED/REVOKED/INCOMPATIBLE contexts discriminate resource compatibility and finite window coverage. D26 supplies compatible-history and effect-overlap requirements and D41 supplies the actual capability-observation interpretation as explicit application premises. The control does not execute a workflow, old worker or probe; a completed job merely stipulates adequate validation. Joint benefit is conditional identification of an eligible bounded support claim, not a measured deployment benefit.",
+          "single_parent_removal": [
+            {
+              "parent": "D26",
+              "substance_removed": "Compatibility of the live history and treatment of unsafe resumed old work.",
+              "consequence": "A nominal worker could be counted although it cannot interpret the task or safely coexist with an old attempt.",
+              "direct_substitute": "An adequate direct history/effect eligibility contract replaces the D26 operand; the finite type flag alone does not establish those semantics."
+            },
+            {
+              "parent": "D41",
+              "substance_removed": "Capability/path/interval meaning of the observation used to assert support readiness.",
+              "consequence": "Inventory or a green unrelated probe could be mistaken for evidence of the named restored function.",
+              "direct_substitute": "A direct sufficient function-specific return or observation can supply the same premise without a separate probe or D label."
+            },
+            {
+              "parent": "R020",
+              "substance_removed": "Actual resource availability, site/time window and shared support demand.",
+              "consequence": "An individually compatible path could be advertised as available despite absent access, authority or concurrent demand exceeding the asserted window.",
+              "direct_substitute": "A direct eligible-resource/time contract can replace the R020 input; larger accepted windows or smaller scope can be cheaper adequate alternatives."
+            }
+          ],
+          "whole_lineage_removal": [
+            {
+              "lineage": "D",
+              "result": "Direct semantic compatibility/old-attempt and capability-observation contracts replace the D inputs. Removing their substance while preserving a broad ready claim admits the specific semantic and observation failures."
+            },
+            {
+              "lineage": "R",
+              "result": "A direct availability/site/time/accepted-scope contract replaces R020. The new finite scheduling comparison is not an irreducible cross-lineage law."
+            },
+            {
+              "lineage": "F",
+              "result": "No new F parent is added; all10900F-bearing directions and original F configuration meanings remain exact."
+            }
+          ],
+          "cost": "Matched resources serve both by1; a single shared resource can suffice if both by2 is accepted. An unrelated extra resource supplies no A/B gain. The model does not price inventory, training, compatibility, authorization, hidden consumers, obsolescence or missed service; no economic optimum or real authority to narrow the mission is claimed. Adequate incumbent support, a direct contract, accepted wait or smaller authorized scope remain admissible.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "reason": "The conclusion reduces to explicit existing semantic, observation and support-resource conditions. It is a useful joint design criterion, with adequate direct substitutes and no new theorem, field performance law or universal architecture prescription."
+        },
+        "current_configurations": [
+          "C3",
+          "C4",
+          "C6"
+        ],
+        "A002_reassessment": "Compatible continuation, old-attempt treatment and site/time/shared-demand window stay separate from a type flag. New R055/evidence inputs do not execute the workflow or establish actual capability. Direct eligibility/support contracts, accepted delay and smaller authorized scope remain adequate alternatives.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The D26/D41/R020 task eligibility, old-attempt, observation and support-window premises remain exact. The finite type/resource construction supplies no AI task, so withdraw generic R055 support language. The direct eligibility/resource contract, accepted wait and narrower permitted scope still establish the same subsumption/removal result.",
+        "A004_dependency_change": "EXPLANATION_CORRECTION_NO_CORE_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The support-window construction keeps eligible continuation, old-attempt handling, capability evidence and joint resource availability separate. It still contains no identified AI task; the existing generic R055 withdrawal and accepted wait/direct contract remain.",
+          "exact_A005_candidate_core_sha256": "f45cc688eb0a5aa29fd436dab0c2c39c6890d23d851890c94b6f535f5055d454",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "CJ-I009-SCOPED_CHANGE_ACCEPTANCE",
+        "origin": {
+          "path": "work_in_progress/drf_continuation_b34/increment009/WHOLE_STUDY_COMPOSITION.json",
+          "pointer": "/new_candidate",
+          "canonical_sha256": "6861c76d938d015cf274b7a46047d4c34a96d16215986e666d305e0bff848dea"
+        },
+        "retained_candidate": {
+          "id": "CJ-I009-SCOPED_CHANGE_ACCEPTANCE",
+          "parents": [
+            "D03",
+            "D41",
+            "R021"
+          ],
+          "claim": "For a declared change and consumer function, identify shared change paths, use observations adequate to the affected function and compare intervention, staging and no-change under explicit partial versus whole objectives. Retain independent causal attribution and cost limits.",
+          "joint_witness": "W1100 contrasts common broad damage, a FUNCTION stop retaining one old channel and process-green promotion. W1110 exposes a heterogeneous second-channel gap; W1001 shows staging can harm a retained partial function. D03 supplies actual shared-path/fault-budget correspondence and D41 supplies the observation-use boundary as application premises. The construction does not implement either protocol. R021 supplies action/context/causal/no-change discrimination.",
+          "single_parent_removal": [
+            {
+              "parent": "D03",
+              "substance_removed": "The actual common change/control path and tolerated joint fault set.",
+              "consequence": "Replica count could be substituted for survival of a shared intervention, missing the common-change counterexample.",
+              "direct_substitute": "An adequate direct dependency/fault-envelope account replaces the D03 operand; no new replication protocol is mandatory."
+            },
+            {
+              "parent": "D41",
+              "substance_removed": "The capability/path/interval meaning of the acceptance observation.",
+              "consequence": "Process-green can authorize promotion while the actual required function fails, or a first-stage check can be generalized to a different second context.",
+              "direct_substitute": "An adequate direct functional return or existing test contract can supply this premise without a new monitor."
+            },
+            {
+              "parent": "R021",
+              "substance_removed": "The intervention as a possible fault source, causal-scope distinction and simplify/no-change comparison.",
+              "consequence": "A finished change or later incident count can be treated as effectiveness, overlooking beneficial no-change, harmful staging or alternative explanations.",
+              "direct_substitute": "A direct task-hazard and action/outcome comparison supplies the same criterion; the lineage name is not essential."
+            }
+          ],
+          "whole_lineage_removal": [
+            {
+              "lineage": "D",
+              "result": "Direct shared-path and function-observation contracts replace D03/D41. Removing their substance admits the specific common-change/proxy counterexamples; removing only labels does not."
+            },
+            {
+              "lineage": "R",
+              "result": "A direct technical task-hazard, accepted-objective and causal-scope comparison replaces R021. This joint criterion is reducible, not an irreducible new law."
+            },
+            {
+              "lineage": "F",
+              "result": "No new F parent or direction. All10900F-bearing rows and original configuration F meanings remain exact."
+            }
+          ],
+          "cost": "No-change has0checks/installs; broad has2installs; staged FUNCTION uses1or2installs/checks; process-green uses2each; optional exact preflight uses2checks and0or2installs. These operation counts omit time, opportunity cost, fatigue, permissions, field loss and actual fixture cost. In W1001 staging worsens partial function; in W0001 all-two preflight forgoes an acceptable one-function gain. Choose the actual contract and adequate incumbent/direct alternative, not a universal policy ranking.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "reason": "The conclusion is a useful joint design/assessment criterion reducible to existing explicit parent meanings and direct substitutes. No new theorem, human effect, field reliability law or universal architecture is established."
+        },
+        "current_configurations": [
+          "C2",
+          "C4",
+          "C6",
+          "C8"
+        ],
+        "A002_reassessment": "The common maintenance-induced fault path and functional stopping criterion remain at the declared Boolean worlds. New event/evidence relations do not infer a queue or empirical joint law. Direct fault envelope, functional contract and task-hazard account preserve the result, including useful partial improvement and no-change cases.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Original construction, source scope, removals and alternatives retained; no control rerun, independent replication or target effect claimed.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The change-acceptance construction keeps shared paths, consumer-relevant evidence and partial versus whole objectives. Targeted clock diversity illustrates the same need for scope but supplies no extra core parent or causal field-effect estimate.",
+          "exact_A005_candidate_core_sha256": "6861c76d938d015cf274b7a46047d4c34a96d16215986e666d305e0bff848dea",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      },
+      {
+        "id": "CJ-I010-EXPOSURE-AND-TASK-OBSERVATION",
+        "origin": {
+          "path": "authentic_i010/COMPOSITION_ASSESSMENT_SOURCE.json",
+          "pointer": "/new_joint_candidate",
+          "canonical_sha256": "84a24acbbbf06f3bd36ec8d0ebc207302b414e192d887f194327c598c1bc7095"
+        },
+        "retained_candidate": {
+          "id": "CJ-I010-EXPOSURE-AND-TASK-OBSERVATION",
+          "parents": [
+            "D21",
+            "D42",
+            "R022"
+          ],
+          "claim": "For a named age-policy task, connect the observation to the relevant exposure and the response to the actual task effect; compare its consequence with an adequate direct or no-change path at the same horizon.",
+          "joint_witness": "T10-A2-D1-B0-L0 has a successful record-reset response with actualuse2/record0 and next-use failure. T1-A2-D1-B0-L0 shows useful task renewal under its stipulated efficacy; T10-A0-D1-B1-L0 shows introduced failure where no change succeeds. D21 interprets the operation boundary, D42 limits observation/inference and R022 supplies the age/task/comparator question. The construction does not implement a distributed system or an observation instrument.",
+          "single_parent_removal": [
+            {
+              "parent": "D21",
+              "substance_removed": "The response contract and exact effect boundary.",
+              "consequence": "An administrative success can be read as physical renewal, or a sufficient primary return can be unnecessarily rejected.",
+              "direct_substitute": "An explicit local operation/postcondition contract can provide the same distinction."
+            },
+            {
+              "parent": "D42",
+              "substance_removed": "The exposure/observation and inference boundary.",
+              "consequence": "Calendar/record age can substitute for actual use, or unweighted worlds can be counted as field probabilities.",
+              "direct_substitute": "A sufficient direct item/use observation and explicit deterministic model can replace distributed telemetry."
+            },
+            {
+              "parent": "R022",
+              "substance_removed": "The particular age-policy task-effect and own-comparator criterion.",
+              "consequence": "The response and telemetry may be correct without identifying why or when intervention is useful.",
+              "direct_substitute": "An explicit item-specific maintenance decision model can supply the same criterion."
+            }
+          ],
+          "whole_lineage_removal": [
+            {
+              "lineage": "D",
+              "result": "Direct operation and observation contracts can replace D21/D42. Removing their substance permits the specified scope errors; labels are not indispensable."
+            },
+            {
+              "lineage": "R",
+              "result": "A directly stated age/exposure/task/consequence comparison can replace R022. No irreducible new law remains."
+            },
+            {
+              "lineage": "F",
+              "result": "No new F parent or F direction. All10900 F-bearing directions and original formal meanings remain exact."
+            }
+          ],
+          "cost": "Inspection costs1/4, record reset1/5, physical replacement1, each unserved offered demand4 and each failure10 in this finite model. These are stipulated illustrative consequences, not a field monetary valuation, safety permission or cross-study common cost. Duration and defects can reverse a nominal task benefit; no-change can be adequate.",
+          "novelty_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+          "reason": "Useful joint criterion reducible to exact existing meanings and direct substitutes. No new empirical law, universal policy, architectural winner or independent theorem is established."
+        },
+        "current_configurations": [
+          "C1",
+          "C3",
+          "C5",
+          "C6",
+          "C7",
+          "C8"
+        ],
+        "A002_reassessment": "Actual use/exposure, task effect and response semantics remain different. The new R027/R043/R028 inquiry sharpens these meanings without turning record reset into renewal or unweighted worlds into failure rates. Direct operation, observation and item-specific decision models still substitute for all named parents.",
+        "current_disposition": "NEW_PROPERTY_NOT_ESTABLISHED",
+        "new_required_parent": false,
+        "limits": "Authentic partial I010 candidate adopted after A001/A002 scrutiny; finite control attributed to predecessor.",
+        "current_reassessment": "The exact retained candidate and its A003 current explanation remain the scientific warrant. No R055 task-interface change affects its actual parents or removal argument; its direct substitutes and stated adverse cases remain.",
+        "A004_dependency_change": "NO_DEPENDENT_CHANGE",
+        "A005_dependency_reassessment": "Complete retained candidate core and A004 current assessment remain exact. The D07 scope input supplies no necessary parent, new criterion or evidence defeating the recorded direct substitute/subsumption. An actual changed parent or distinctness witness would reopen it.",
+        "A006_dependency_reassessment": {
+          "judgment": "RETAINED_NO_NEW_IDENTITY_AT_SCOPE",
+          "reason": "The age-policy task keeps exposure observation separate from response acknowledgment and actual restoration effect. A time-reference description supplies no physical age reset or perfect observation. Direct/no-change alternatives and the same-horizon comparison remain.",
+          "exact_A005_candidate_core_sha256": "84a24acbbbf06f3bd36ec8d0ebc207302b414e192d887f194327c598c1bc7095",
+          "changed_clock_relation_uses": [],
+          "D04_core_parent_or_use": false,
+          "original_core_and_removals": "Exact retained_candidate object preserved, including B13 appended configuration.",
+          "new_required_parent": false,
+          "no_fixed_zero_quota": true
+        }
+      }
+    ],
+    "new_property_identities_established": 0,
+    "zero_quota": false,
+    "A003_dependency_reassessment": {
+      "path": "COMPOSITION_DEPENDENCY_REASSESSMENT_A003.json",
+      "canonical_sha256": "1d844bde5b2cda74a98c804e38abdfca1a16097e7214012d6f0a4e699d770b71"
+    },
+    "A004_dependency_reassessment": {
+      "actual_corrected_explanations": [
+        "B34-I004-CANDIDATE-INFORMATION-PRESERVING-RESPONSE-REPLACEMENT",
+        "drf_continuation_b34/increment004_followup001/new_candidate",
+        "CJ-I008-ELIGIBLE-SUPPORT-WINDOW"
+      ],
+      "retained_candidate_cores": 23,
+      "new_required_parent": false,
+      "new_property_identities_established": 0,
+      "reason": "The actual candidate parents and removal cores do not contain R055; correcting optional/general task language does not create a new property."
+    },
+    "A005_dependency_reassessment": {
+      "candidate_count": 23,
+      "core_changes": 0,
+      "required_new_parents": 0,
+      "changed_direction_occurrences": 0,
+      "new_property_identities_established": 0,
+      "no_quota": true
+    },
+    "A006_dependency_reassessment": "All23 actual retained cores and current masks were examined for dependencies in the bounded component; selected B13/B17/B19 full cores were read. None consumes D04 or one of the three changed clock arrows. Individual consequences below retain genuine alternatives and limits, not an imposed zero result."
+  }
+}

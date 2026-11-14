@@ -1,0 +1,469 @@
+{
+  "source_identity": {
+    "source_id": "S-e9630d806934728b",
+    "scientific_name": "LAW-L2-COMPOSITION.json",
+    "original_bytes": 17824,
+    "original_sha256": "e9630d806934728b7d455db8d7d914592e03fd062b3edf04e96acd456b03bb70"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "AGILE_COMPOSITION/1",
+    "status": "AUTHOR_PROPOSED_REVIEW_PENDING",
+    "original_statement": {
+      "native": {
+        "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+        "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+        "heading": "## Closure of pass-1 unresolved burdens",
+        "line_start": 36,
+        "line_end": 50,
+        "content_sha256": "30f6ed574c41bebe1955e3292afee73543761e1655b3ebc57a837f6b4144e2f5"
+      },
+      "line": 48,
+      "label_verbatim": "PARTIAL_ORDER_FROZEN"
+    },
+    "repair": "Replace the universal reading of the native arrow chain with typed, guarded relations. A named practice may have definitional conditions, mechanisms can reinforce one another, and assurance rules can require evidence before authorized exposure. None establishes one serial lifecycle for all Agile work.",
+    "relations": [
+      {
+        "id": "D01",
+        "parents": [
+          "EA-06",
+          "EA-07"
+        ],
+        "type": "DEFINITIONAL_WITHIN_NAMED_PRACTICE",
+        "guard": "Applying Fowler’s self-testing CI definition to interacting software changes.",
+        "contribution": "A build/test check is part of that CI formulation; failing it defeats the conformance claim.",
+        "not_implied": "TDD, complete defect freedom, or that all integration everywhere requires automation.",
+        "sources": [
+          "H14"
+        ],
+        "cost": "Test design, maintenance and flaky-check repair.",
+        "counter_control": "A manual one-off integration can be valid engineering without being CI."
+      },
+      {
+        "id": "D02",
+        "parents": [
+          "EA-06",
+          "EA-07",
+          "EA-08"
+        ],
+        "type": "MUTUAL_ENABLEMENT",
+        "guard": "Repeated changes to interacting maintained code.",
+        "contribution": "Checks, integration and structural change can reinforce the ability to change safely.",
+        "not_implied": "A global temporal order or a refactoring event before every release.",
+        "sources": [
+          "H06",
+          "H14"
+        ],
+        "cost": "Automation and restructuring investment may exceed short-lived artifact value.",
+        "counter_control": "A developer can refactor and verify an isolated unmerged module before its first integration. This supplies a local changeability control without making a release or CI claim. A simple verified first release also need not follow any refactoring event."
+      },
+      {
+        "id": "D03",
+        "parents": [
+          "EA-02",
+          "EA-10",
+          "EA-11",
+          "EA-24"
+        ],
+        "type": "GUARDED_RELEASE_CONSTRAINT",
+        "guard": "Exposure of a candidate release with applicable assurance/authorization requirements.",
+        "contribution": "Readiness evidence and applicable authorization must address the same configuration before the claimed permitted exposure.",
+        "not_implied": "All feedback must wait for a production release; simulated/prototype evidence can precede it.",
+        "sources": [
+          "H10",
+          "S03",
+          "N12"
+        ],
+        "cost": "Qualification effort, evidence maintenance and release delay.",
+        "counter_control": "An explicitly bounded nonproduction prototype can inform a decision without meeting production release criteria."
+      },
+      {
+        "id": "D04",
+        "parents": [
+          "EA-01",
+          "EA-12",
+          "EA-13",
+          "EA-14",
+          "EA-16"
+        ],
+        "type": "EVIDENCE_AND_AUTHORITY_INTERFACE",
+        "guard": "Product adaptation whose target outcome is uncertain or delayed.",
+        "contribution": "Relevant observations, interpretation and decision rights determine whether feedback can alter an admissible choice.",
+        "not_implied": "All five properties are independent universal prerequisites; a direct immediate outcome may make a surrogate unnecessary.",
+        "sources": [
+          "H02",
+          "H19",
+          "E16",
+          "E05"
+        ],
+        "cost": "Research access, measurement delay, coordination and attention.",
+        "counter_control": "A simple reversible user request can be decided directly without an experimentation platform or long-outcome model."
+      },
+      {
+        "id": "D05",
+        "parents": [
+          "EA-18",
+          "EA-19",
+          "EA-24"
+        ],
+        "type": "AUTHORITY_BOUNDARY",
+        "guard": "Local changes affect shared system or assurance constraints.",
+        "contribution": "Local autonomy is bounded by the actual interface and release authority.",
+        "not_implied": "Central control of every implementation detail or a universal scaling framework.",
+        "sources": [
+          "H10",
+          "E05",
+          "S01",
+          "N12"
+        ],
+        "cost": "Coordination latency versus externalized system risk.",
+        "counter_control": "A fully independent local decision should not incur coordination merely because a large organization exists."
+      },
+      {
+        "id": "D06",
+        "parents": [
+          "EA-04",
+          "EA-05",
+          "EA-25"
+        ],
+        "type": "ECONOMIC_TENSION",
+        "guard": "Batch and concurrency policies influence setup, waiting, learning and workload.",
+        "contribution": "Reducing one local metric can increase total burden or pressure.",
+        "not_implied": "A unique cadence or WIP optimum across workflows.",
+        "sources": [
+          "H13",
+          "H15",
+          "N13"
+        ],
+        "cost": "Include idle capacity, queues, interruptions, fixed costs and worker pressure.",
+        "counter_control": "An exception for urgent independent work can improve outcomes without rejecting WIP control."
+      },
+      {
+        "id": "D07",
+        "parents": [
+          "EA-21",
+          "EA-22",
+          "EA-23"
+        ],
+        "type": "OPERATIONAL_FEEDBACK_WITH_SEPARATE_CONSTRAINTS",
+        "guard": "An online service with permitted failure tolerance and meaningful measurements.",
+        "contribution": "Operational evidence can constrain release pace and trigger corrective work.",
+        "not_implied": "A safety constraint can be discharged by aggregate availability or a conventional error budget.",
+        "sources": [
+          "H17",
+          "S02",
+          "S03"
+        ],
+        "cost": "Observability, response coverage and diverted feature capacity.",
+        "counter_control": "A hard hazard may require separate verification irrespective of service budget."
+      },
+      {
+        "id": "D08",
+        "parents": [
+          "EA-20",
+          "EA-27",
+          "EA-28"
+        ],
+        "type": "ORGANIZATIONAL_OPTION_WITH_STOPPING",
+        "guard": "Durable shared capabilities have ongoing users and costs.",
+        "contribution": "Continued ownership can preserve learning, but periodic value/cost review can justify redesign, handover or retirement.",
+        "not_implied": "Permanent teams or platforms are necessary for all products.",
+        "sources": [
+          "H20",
+          "H21"
+        ],
+        "cost": "Include the platform provider, migration, coordination and maintenance, not just consumer convenience.",
+        "counter_control": "A project with competent handover or a simple library can meet the same continuity need."
+      },
+      {
+        "id": "D09",
+        "parents": [
+          "EA-09",
+          "EA-19",
+          "EA-23",
+          "EA-24"
+        ],
+        "type": "ARCHITECTURE_AND_ASSURANCE_COUPLING",
+        "guard": "Irreversible/coupled decisions influence qualities and conformance.",
+        "contribution": "Architectural scenarios, requirements and verification evidence should use a consistent system boundary and configuration.",
+        "not_implied": "Complete upfront specification of every reversible detail.",
+        "sources": [
+          "H24",
+          "N02",
+          "S03",
+          "N09"
+        ],
+        "cost": "Analysis/evidence cost versus avoided late commitment.",
+        "counter_control": "Use experiment/prototype for uncertain reversible parts while stabilizing a required interface."
+      },
+      {
+        "id": "D10",
+        "parents": [
+          "EA-25",
+          "EA-26",
+          "EA-16"
+        ],
+        "type": "CAPACITY_AND_LEARNING_FEEDBACK",
+        "guard": "Continuing teams need learning and knowledge resilience.",
+        "contribution": "A process improvement requires capacity to execute it and sufficient distributed understanding to retain it.",
+        "not_implied": "Mandatory pairing, guaranteed morale or a universal 40-hour law.",
+        "sources": [
+          "H06",
+          "E11",
+          "N07",
+          "N13"
+        ],
+        "cost": "Learning/collaboration time and possible context switching versus dependency reduction.",
+        "counter_control": "Targeted review and documentation may supply the needed resilience at lower cost."
+      }
+    ],
+    "configurations": [
+      {
+        "id": "K01",
+        "name": "Small reversible software change",
+        "guard": "Low consequence, clear oracle, little coupling, short artifact life.",
+        "use": [
+          "EA-02",
+          "EA-03",
+          "EA-16"
+        ],
+        "conditional": [
+          "EA-06",
+          "EA-07",
+          "EA-24"
+        ],
+        "legitimate_omissions": [
+          "No automatic Sprint, platform, error budget, product mode or formal architecture program."
+        ],
+        "minimum_control": "Confirm behavior, retain normal version identity and make a bounded decision.",
+        "failure": "Treating low consequence as unverified permission where a hidden external dependency exists.",
+        "sources": [
+          "H02",
+          "H10"
+        ],
+        "validation": "Author constructed configuration; target details not assessed."
+      },
+      {
+        "id": "K02",
+        "name": "XP-style evolving product",
+        "guard": "Repeated interacting software changes, available feedback and economical automated checks.",
+        "use": [
+          "EA-01",
+          "EA-02",
+          "EA-06",
+          "EA-07",
+          "EA-08",
+          "EA-12",
+          "EA-25",
+          "EA-26"
+        ],
+        "conditional": [
+          "EA-09",
+          "EA-14",
+          "EA-15"
+        ],
+        "legitimate_omissions": [
+          "Pairing/TDD may be replaced for a generic property configuration, but claiming conformance to a specific XP version requires its own rules."
+        ],
+        "minimum_control": "Maintain integration and verification, observed value questions and actual capacity.",
+        "failure": "Select management cadence while neglecting technical health; or impose all practices without cost evaluation.",
+        "sources": [
+          "H06",
+          "H14",
+          "E10",
+          "E11",
+          "C04"
+        ],
+        "validation": "A coherent configuration, not empirically validated as a whole by this study."
+      },
+      {
+        "id": "K03",
+        "name": "Scrum-managed delivery with engineering controls",
+        "guard": "Complex product work benefits from explicit goals, inspection and adaptation.",
+        "use": [
+          "EA-01",
+          "EA-02",
+          "EA-10",
+          "EA-13",
+          "EA-16",
+          "EA-18"
+        ],
+        "conditional": [
+          "EA-06",
+          "EA-07",
+          "EA-09",
+          "EA-24"
+        ],
+        "legitimate_omissions": [
+          "Generic property use does not require Scrum. Named Scrum conformance requires the current Guide elements."
+        ],
+        "minimum_control": "Use verified increments and supplement the framework with appropriate engineering.",
+        "failure": "Treat Scrum completion as a complete security, safety or value argument.",
+        "sources": [
+          "H10",
+          "C04"
+        ],
+        "validation": "Framework plus contextual controls; not a ranking of methods."
+      },
+      {
+        "id": "K04",
+        "name": "Flow-oriented service work",
+        "guard": "Variable arrivals, blocking and heterogeneous work make one iteration boundary costly.",
+        "use": [
+          "EA-04",
+          "EA-05",
+          "EA-17",
+          "EA-19"
+        ],
+        "conditional": [
+          "EA-21",
+          "EA-22",
+          "EA-24"
+        ],
+        "legitimate_omissions": [
+          "No fixed Sprint or universal WIP=1; exception policies can be explicit."
+        ],
+        "minimum_control": "Define work, start/finish, capacity policy and decision-useful flow measures.",
+        "failure": "Improve item throughput by splitting items while delayed value and quality worsen.",
+        "sources": [
+          "H13",
+          "N14"
+        ],
+        "validation": "Guide-informed configuration; optimal parameters not established."
+      },
+      {
+        "id": "K05",
+        "name": "Assurance-constrained adaptive engineering",
+        "guard": "Applicable hazard, security, configuration or independent verification obligations.",
+        "use": [
+          "EA-03",
+          "EA-09",
+          "EA-10",
+          "EA-19",
+          "EA-23",
+          "EA-24"
+        ],
+        "conditional": [
+          "EA-01",
+          "EA-04",
+          "EA-06",
+          "EA-07",
+          "EA-11"
+        ],
+        "legitimate_omissions": [
+          "Live progressive exposure may be inapplicable; iteration can remain within simulation, design or verified increments."
+        ],
+        "minimum_control": "Identify binding authority; retain matched configuration/evidence and appropriate independence.",
+        "failure": "Release theater: a green pipeline substitutes for unresolved hazard or authorization.",
+        "sources": [
+          "S01",
+          "S02",
+          "S03",
+          "N10",
+          "N11",
+          "N12"
+        ],
+        "validation": "Normative scope and feasibility reports; no certification or universal superiority claim."
+      },
+      {
+        "id": "K06",
+        "name": "Multi-team product/platform system",
+        "guard": "Material shared dependencies and ongoing operational outcomes.",
+        "use": [
+          "EA-12",
+          "EA-18",
+          "EA-19",
+          "EA-20",
+          "EA-21",
+          "EA-25",
+          "EA-28"
+        ],
+        "conditional": [
+          "EA-22",
+          "EA-24",
+          "EA-26",
+          "EA-27"
+        ],
+        "legitimate_omissions": [
+          "A branded scaling framework or dedicated platform team is not automatically necessary."
+        ],
+        "minimum_control": "Bound responsibility, shared interfaces, feedback and total provider/consumer cost.",
+        "failure": "Autonomous local teams optimize output while unowned dependencies and workload accumulate.",
+        "sources": [
+          "E05",
+          "H20",
+          "H21",
+          "H22",
+          "N13"
+        ],
+        "validation": "Conditional composition; organization-wide causality unresolved."
+      }
+    ],
+    "constructed_cost_example": {
+      "id": "W-BATCH",
+      "role": "CONSTRUCTED_ANALYTICAL_COUNTEREXAMPLE",
+      "domain": "Integer batch size q>=1 for a hypothetical repeated qualification process.",
+      "units": "Total normalized cost per item measured in illustrative cost-units.",
+      "assumptions": "Setup cost 100 per batch; added waiting/risk cost q per item; other costs constant; no empirical calibration.",
+      "formula": "C(q)=100/q+q",
+      "values": {
+        "q1": 101,
+        "q10": 20,
+        "q20": 25
+      },
+      "conclusion": "This admitted model defeats a universal claim that q=1 always minimizes total cost. It does not estimate an actual project optimum.",
+      "counter_control": "If setup cost approaches zero and other premises change, q=1 may be optimal."
+    },
+    "cross_lineage_status": "NOT_ASSESSED_HERE: the all-trifecta synthesis needs the other selected native units and independently assessed directional interfaces. Shared vocabulary or citation is not a qualified transfer.",
+    "novelty_investigation": [
+      {
+        "id": "NV01",
+        "candidate": "A portfolio of feedback loops with separate clocks",
+        "parents": [
+          "EA-01",
+          "EA-14",
+          "EA-24"
+        ],
+        "bearer": "A decision system with technical, product and assurance latencies.",
+        "derivation": "Different signals and authority conditions can justify distinct cadences.",
+        "removal_test": "Without delayed outcomes the proxy clause disappears; without assurance the qualification clock disappears; feedback selection already handles remaining cases.",
+        "failure_witness": "One Sprint clock forces either premature value claims or unnecessary delay.",
+        "distinctness": "Subsumed by EA-01 plus guarded relations D03/D04.",
+        "decision": "REFINED_GUARD_NO_NEW_PROPERTY_IDENTITY",
+        "ceiling": "Constructed composition, no empirical combined benefit."
+      },
+      {
+        "id": "NV02",
+        "candidate": "Authority-qualified adaptation",
+        "parents": [
+          "EA-16",
+          "EA-18",
+          "EA-24"
+        ],
+        "bearer": "A team process whose changes may affect external obligations.",
+        "derivation": "Local adaptation must preserve actual external constraints.",
+        "removal_test": "Without an external constraint, ordinary authorized adaptation remains; without local delegation, the authority question still exists.",
+        "failure_witness": "A retrospective votes away required independent verification.",
+        "distinctness": "A joint scope constraint already expressed by EA-16/24, not a three-parent necessary property.",
+        "decision": "JOINT_GUARD_NO_NEW_PROPERTY_IDENTITY",
+        "ceiling": "Authority logic does not establish an adopted control."
+      },
+      {
+        "id": "NV03",
+        "candidate": "Proxy-normalization hazard",
+        "parents": [
+          "EA-14",
+          "EA-17",
+          "EA-19"
+        ],
+        "bearer": "Comparisons across differently decomposed work or outcome horizons.",
+        "derivation": "A nominally equal denominator can hide different granularity or outcome meaning.",
+        "removal_test": "The hazard can arise in one team without EA-19 and without a delayed outcome; measurement validity alone covers it.",
+        "failure_witness": "Effort per requirement improves solely because requirements were split.",
+        "distinctness": "Subsumed by EA-17; N12 supplies a concrete reported limitation, not a new property.",
+        "decision": "NEW_EVIDENCE_AND_EXAMPLE_ONLY",
+        "ceiling": "No estimate of how much the published comparison is biased."
+      }
+    ]
+  }
+}

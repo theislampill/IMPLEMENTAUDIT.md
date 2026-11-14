@@ -1,0 +1,891 @@
+{
+  "source_identity": {
+    "source_id": "S-0db34d4c2c64d30c",
+    "scientific_name": "SB-R3-014_EL009_F7_REVERSE.json",
+    "original_bytes": 67240,
+    "original_sha256": "0db34d4c2c64d30cfa7d723d109befb1f2d87c4806142488d263a4a67cd98372"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-014",
+    "title": "EL-009_REVERSE_SUPPLIER_BUFFER_AND_CONTINUITY_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:12:24.154573+00:00",
+    "inquiry_family": 7,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_005.json",
+      "bytes": 7000,
+      "sha256": "7059b0b8192ede42bdfa0e9318bc2f31067e9c2a2413d47b5f3ca8c0c9a257a7"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal supplier rule, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-004",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        }
+      },
+      {
+        "native_id": "EL-008",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        }
+      },
+      {
+        "native_id": "EL-009",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        }
+      },
+      {
+        "native_id": "EL-010",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        }
+      },
+      {
+        "native_id": "EL-027",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        }
+      },
+      {
+        "native_id": "EL-028",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        }
+      },
+      {
+        "native_id": "EW-P009",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P026",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P028",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        }
+      },
+      {
+        "native_id": "EW-P029",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY7_SOURCE_INQUIRY.json",
+      "bytes": 3318,
+      "sha256": "8ae0f20c1d19caca960236df794b847df83ab4bef3197eeaa0fa699cb7ef2c60"
+    },
+    "native_common_basis": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate.",
+    "common_cost_and_alternative": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Information treated as physical capacity.",
+      "First-tier diversity treated as independent lower-tier supply.",
+      "A complete document treated as operational capability.",
+      "A partial exposure or criterion input rejected for failing the whole receiver.",
+      "Capacity, stock or staff double-counted for routine and contingency use.",
+      "Buyer savings treated as joint fair gain."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-009",
+        "argument": "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-009",
+        "argument": "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-009",
+        "argument": "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-009",
+        "argument": "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-009",
+        "argument": "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-009",
+        "argument": "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-009",
+        "argument": "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-009",
+        "argument": "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-009",
+        "overclaim": "A syntactically precise contract without measured service capability cannot establish spare capacity or throughput.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-009",
+        "overclaim": "A staged plan cannot overcome a persistent arrival rate above service capacity merely by renaming batches.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-009",
+        "overclaim": "A target finish date is not arrival data and does not increase service rate; uncertainty cannot be suppressed to meet the target.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-009",
+        "overclaim": "A supplier governance board does not create service capacity; stable low-variability supply can remain adequately staged without new control.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-009",
+        "overclaim": "A readiness decision cannot make the same responders simultaneously available for full routine work and peak startup recovery.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-009",
+        "overclaim": "A recovery time objective is a requirement, not evidence of actual available capacity or an enforced preemption route.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-009",
+        "overclaim": "A continuing support contract cannot be fulfilled by utilization metrics when the necessary repair capability is absent.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-009",
+        "overclaim": "A high-risk label cannot determine an optimal utilization threshold or eliminate uncertainty in service demand.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared capacity, information, organizations, tools or source works are not independent controls or benefits.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P009->LAW-L1::EL-009",
+      "LAW-L3::EW-P022->LAW-L1::EL-009",
+      "LAW-L3::EW-P025->LAW-L1::EL-009",
+      "LAW-L3::EW-P026->LAW-L1::EL-009",
+      "LAW-L3::EW-P027->LAW-L1::EL-009",
+      "LAW-L3::EW-P028->LAW-L1::EL-009",
+      "LAW-L3::EW-P029->LAW-L1::EL-009",
+      "LAW-L3::EW-P033->LAW-L1::EL-009"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-009",
+        "source_native_id": "EW-P009",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis."
+        },
+        "shared_question_or_object": "A cross-boundary service contract whose timing depends on a shared constrained resource.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis."
+        },
+        "source_contribution": "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis.",
+        "receiving_consequence": "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A syntactically precise contract without measured service capability cannot establish spare capacity or throughput.",
+        "counter_control": "A syntactically precise contract without measured service capability cannot establish spare capacity or throughput.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. Use local types or a focused contract test when the boundary is private and low consequence.",
+        "subcondition_evidence": {
+          "P1": "A cross-boundary service contract whose timing depends on a shared constrained resource.",
+          "P2": {
+            "source_bearer": "A consequential boundary between components or organizations",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis."
+          },
+          "P3": "The shared arrival, timing and service semantics define the relevant load and end-to-end boundary for capacity analysis.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A syntactically precise contract without measured service capability cannot establish spare capacity or throughput."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P009",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-009",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter."
+        },
+        "shared_question_or_object": "A sequence of increments competing for the same finite capacity.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter."
+        },
+        "source_contribution": "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter.",
+        "receiving_consequence": "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A staged plan cannot overcome a persistent arrival rate above service capacity merely by renaming batches.",
+        "counter_control": "A staged plan cannot overcome a persistent arrival rate above service capacity merely by renaming batches.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. Stable well-understood delivery can justify a larger commitment without artificial staging.",
+        "subcondition_evidence": {
+          "P1": "A sequence of increments competing for the same finite capacity.",
+          "P2": {
+            "source_bearer": "A sequence of commitments under uncertainty",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter."
+          },
+          "P3": "The next risk-retiring result, integration boundary and commitment deadline identify which constrained capacity and completion horizon matter.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A staged plan cannot overcome a persistent arrival rate above service capacity merely by renaming batches."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P022",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-009",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined."
+        },
+        "shared_question_or_object": "A schedule or cost forecast for work passing through a shared queue.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined."
+        },
+        "source_contribution": "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined.",
+        "receiving_consequence": "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A target finish date is not arrival data and does not increase service rate; uncertainty cannot be suppressed to meet the target.",
+        "counter_control": "A target finish date is not arrival data and does not increase service rate; uncertainty cannot be suppressed to meet the target.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. A short-horizon forecast from recent throughput can suffice.",
+        "subcondition_evidence": {
+          "P1": "A schedule or cost forecast for work passing through a shared queue.",
+          "P2": {
+            "source_bearer": "A forecast used for resource or commitment decisions",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined."
+          },
+          "P3": "Forecast demand ranges and explicit service commitments define the loading scenarios whose queues and recovery capacity should be examined.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A target finish date is not arrival data and does not increase service rate; uncertainty cannot be suppressed to meet the target."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P025",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-009",
+        "source_native_id": "EW-P026",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination."
+        },
+        "shared_question_or_object": "A supplier coordination decision involving a real cross-boundary bottleneck.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination."
+        },
+        "source_contribution": "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination.",
+        "receiving_consequence": "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A supplier governance board does not create service capacity; stable low-variability supply can remain adequately staged without new control.",
+        "counter_control": "A supplier governance board does not create service capacity; stable low-variability supply can remain adequately staged without new control.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. Direct coordination and a short dependency note can suffice at a simple shared-team boundary.",
+        "subcondition_evidence": {
+          "P1": "A supplier coordination decision involving a real cross-boundary bottleneck.",
+          "P2": {
+            "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination."
+          },
+          "P3": "Supplier lead times, authority and committed delivery classes specify the real system boundary and exceptions for queue-aware coordination.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A supplier governance board does not create service capacity; stable low-variability supply can remain adequately staged without new control."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P026",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-009",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition."
+        },
+        "shared_question_or_object": "An operational transition whose support or remediation work shares finite capacity.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition."
+        },
+        "source_contribution": "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition.",
+        "receiving_consequence": "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A readiness decision cannot make the same responders simultaneously available for full routine work and peak startup recovery.",
+        "counter_control": "A readiness decision cannot make the same responders simultaneously available for full routine work and peak startup recovery.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. Use proportionate existing readiness checks or a representative rehearsal where adequate and allowed.",
+        "subcondition_evidence": {
+          "P1": "An operational transition whose support or remediation work shares finite capacity.",
+          "P2": {
+            "source_bearer": "Transition to operation or restart",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition."
+          },
+          "P3": "The actual startup tasks, support roles and allowed response times identify which capacity and queues matter for the transition.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A readiness decision cannot make the same responders simultaneously available for full routine work and peak startup recovery."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P027",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-009",
+        "source_native_id": "EW-P028",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy."
+        },
+        "shared_question_or_object": "A recovery path whose restoration tasks compete with routine demand.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy."
+        },
+        "source_contribution": "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy.",
+        "receiving_consequence": "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A recovery time objective is a requirement, not evidence of actual available capacity or an enforced preemption route.",
+        "counter_control": "A recovery time objective is a requirement, not evidence of actual available capacity or an enforced preemption route.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. A stateless isolated disposable experiment may need only restart or deletion.",
+        "subcondition_evidence": {
+          "P1": "A recovery path whose restoration tasks compete with routine demand.",
+          "P2": {
+            "source_bearer": "A proposed recovery claim after failure or change",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy."
+          },
+          "P3": "Recovery objectives and tested task/resource dependencies specify the reserve or preemption conditions needed in the loading policy.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A recovery time objective is a requirement, not evidence of actual available capacity or an enforced preemption route."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P028",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-009",
+        "source_native_id": "EW-P029",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate."
+        },
+        "shared_question_or_object": "Support continuity across routine work, failures and changing demand.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate."
+        },
+        "source_contribution": "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate.",
+        "receiving_consequence": "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A continuing support contract cannot be fulfilled by utilization metrics when the necessary repair capability is absent.",
+        "counter_control": "A continuing support contract cannot be fulfilled by utilization metrics when the necessary repair capability is absent.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. A short-lived tool may use an explicit early retirement policy.",
+        "subcondition_evidence": {
+          "P1": "Support continuity across routine work, failures and changing demand.",
+          "P2": {
+            "source_bearer": "A supported system over its operational life",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate."
+          },
+          "P3": "Sustainment service levels, skills and retirement horizons define relevant work classes and demand that the capacity policy must evaluate.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A continuing support contract cannot be fulfilled by utilization metrics when the necessary repair capability is absent."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P029",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-009",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EL-009",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy."
+        },
+        "shared_question_or_object": "Control selection where response delay and scarce skill can alter risk.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A loading policy for a service or production system",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+          "literal_bridge": "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy."
+        },
+        "source_contribution": "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy.",
+        "receiving_consequence": "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy."
+        ],
+        "premises_remaining": [
+          "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A high-risk label cannot determine an optimal utilization threshold or eliminate uncertainty in service demand.",
+        "counter_control": "A high-risk label cannot determine an optimal utilization threshold or eliminate uncertainty in service demand.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Foregone output, scarce skill, reserve protection and shifted workload count. Stable low-variability service can use simple capacity and exception monitoring. Use existing adequate controls and bounded preauthorization where the actual regime permits.",
+        "subcondition_evidence": {
+          "P1": "Control selection where response delay and scarce skill can alter risk.",
+          "P2": {
+            "source_bearer": "A decision about assurance strength under change",
+            "receiving_bearer": "A loading policy for a service or production system",
+            "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+            "receiving_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+            "literal_bridge": "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy."
+          },
+          "P3": "Actual consequence, urgency and permissible expedited authority define priorities and protected response capacity for the loading policy.",
+          "P4": "Loading is evaluated through actual waiting, variability, throughput and response; utilization alone is neither a defect nor a capacity certificate. Actual fulfillment of the complete Lean criterion remains separate. Control: A high-risk label cannot determine an optimal utilization threshold or eliminate uncertainty in service demand."
+        },
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L3::EW-P033",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

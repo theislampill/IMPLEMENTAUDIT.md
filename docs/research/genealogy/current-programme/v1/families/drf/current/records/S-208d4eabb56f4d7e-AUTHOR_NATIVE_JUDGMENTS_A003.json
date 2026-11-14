@@ -1,0 +1,1049 @@
+{
+  "source_identity": {
+    "source_id": "S-208d4eabb56f4d7e",
+    "scientific_name": "AUTHOR_NATIVE_JUDGMENTS_A003.json",
+    "original_bytes": 79035,
+    "original_sha256": "208d4eabb56f4d7e8c35adc03a7daaa2561c4eba13b27fd60c8c519446dc8678"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "DRF-A003-source-native-scientific-judgments/1",
+    "role": "SOLE_BOUNDED_SUCCESSOR_AUTHOR",
+    "status": "AUTHOR_COMPLETE_NATIVE_JUDGMENTS_REVIEW_PENDING",
+    "standard_unchanged": "1.0.0; 4cf99ef9b9f82b3e00ccde6de18e0834bd2f31fb3fa50c6b98e61372097391e6",
+    "reason_scope": "All nine A002 D04-target unknowns and R012>D05. No title-wide promotion, new source quota or whole-matrix restart.",
+    "decisions": [
+      {
+        "direction": "R008>D04",
+        "disposition": "MATERIAL",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "native_producer": "R008 current_claim and FAILURE_PROPAGATION/REDUNDANCY_COMMON_CAUSE profiles: joint-failure mechanism/evidence constraints, including qualitative coupling and justified scenario bounds.",
+        "native_operand": "D04 /PROPERTIES/3 TIMING_MODEL, OBSERVABILITY_PRECONDITIONS and DISTRIBUTED_FAILURE_MODEL_PROFILE/COMMON_MODE_ASSUMPTIONS: the declared physical-clock bound/failure response and shared clock sources, version services or operators used by the same inference.",
+        "joint_guard": "The time inference actually relies on the named clock/version/observation dependency; observations attributed to separate channels may share that dependency. Bound the event, exposure and protocol. Correlation does not itself identify its cause.",
+        "contribution": "Qualify the independent warrant attributed to agreeing time observations. An identified shared source is an evidence dependency and changes whether corroboration supports the selected bound or uncertainty interpretation.",
+        "consequence": "Remove unjustified double-counting/product shortcuts; retain a stated conservative uncertainty or obtain an adequate differently supported observation, or use an already adequate local/causal interpretation. No universal redundancy or new monitor is required.",
+        "premises_discharged": "A concrete receiving dependency and relevance of its possible joint error are identified; agreement alone is shown insufficient for independent physical-time warrant.",
+        "premises_open": "The numerical bound, joint law, actual source failure rate, current observation quality, deployment correspondence and useful response remain conditional.",
+        "failure_witness": "Let the two reported clocks share C1(t)=C2(t)=t+J(t). At t=1 and t=2 let J be 0 and -2. Both channels agree, yet reports 1 then 0 reverse physical order and the second violates an assumed absolute error bound less than 2. This constructed witness refutes agreement=>independent bound support; it is no execution or field estimate.",
+        "positive_countercontrol": "Partial dependence need not mean perfect coincidence: retain the inherited stipulated 0.90 to 0.91 rescue case and its distinct 0.99 independence model. Shared-mechanism caution is not a claim that every clock always fails jointly.",
+        "nontrigger": "A fixed happens-before theorem uses its declared logical event relation and no physical-clock reliability or corroboration premise. Its proof remains valid under its formal assumptions; an adequate local log need not be replaced.",
+        "reverse": "D04>R008 stays independently MATERIAL because the joint model must distinguish functional events, causal/physical/observation time and repeated versus distinct evidence. No forward-to-reverse symmetry inference.",
+        "authority_and_evidence_ceiling": "Source-grounded conditional analytical relation only. No causal-order proof, actual independent clock, numeric error estimate, restored function or authority to act is established.",
+        "id": "A003-J01",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/142",
+          "canonical_record_sha256": "05868d9668ae475ff407662aabdbb6a8d541a8ebbd40d21cf917cf80a70fb5bf",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/7/current_claim",
+            "canonical_object_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/7/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "canonical_object_sha256": "877d9ed824ba17e1ba22ee760c8aac7925c996661b4e7610fc5e725230452dd5"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/7/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "80facebc3252b716f15c3ff457d05d62fd67210162dd697384e3d4e90d427370"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/7/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "canonical_object_sha256": "46afd428d4ddf1969c5840410bfd03b040be4bf04514605ea5257986d055bbd7"
+          }
+        ],
+        "reverse_direction": "D04>R008",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "argument_ref": {
+            "canonical_record_sha256": "3210c23f48ceb1e941905d6ed602c868f24b134119e712c5e3c0c3809eeb38d2",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/directions/107"
+          },
+          "assignment_kind": "EXPLICIT_AUTHORED_FACTORED_NATIVE_DIRECTION",
+          "d_native_facet_ref": {
+            "path": "CURRENT_NATIVE_CAPSULES_A002.json",
+            "pointer": "/properties/D04"
+          },
+          "direction": "D04>R008",
+          "disposition": "MATERIAL",
+          "exact_native_profile_refs": [
+            "/properties/7/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "/properties/7/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "/properties/7/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE"
+          ],
+          "family_ref": {
+            "id": "R008",
+            "orientation": "incoming",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/families/2"
+          },
+          "pair": "D04|R008",
+          "reverse": "R008>D04",
+          "source": "D04",
+          "target": "R008",
+          "whole_receiver_proved": false,
+          "work_status": "SEMANTICALLY_EXAMINED"
+        },
+        "reverse_original_effective_canonical_sha256": "b650e679da5d48e25aca5ebaeb7981080c8f72a23f3b26bb15f196527c1d3a36",
+        "whole_receiver_proved": false,
+        "reentry": "Changed native meaning, bound-evidence dependency, observation population or time decision reopens the guarded relation."
+      },
+      {
+        "direction": "R009>D04",
+        "disposition": "EXAMINED_UNRESOLVED",
+        "native_producer": "R009 current_claim and REDUNDANCY_COMMON_CAUSE/RECOVERY_RESTORATION profiles evaluate a concrete alternate path, rescue event, activation, state and capacity, including added losses.",
+        "native_operand": "D04 already names physical-clock bounds, clock-service costs, recovery/reconfiguration of clock/version evidence, and causal/local/physical-time alternatives. These are read in full, not reduced to an order theorem.",
+        "joint_guard": "A redundancy input would require a specified primary and alternate that supply the same required time function, a permitted transfer/acceptance path and a named rescue or loss consequence. The source does not require a measured probability or deployed implementation when an adequate conditional architecture is specified.",
+        "contribution": "Candidate relevance is concrete: an alternate clock path could protect the bound-bearing time service. The current selected record does not bind that alternate/activation interface.",
+        "consequence": "Retain the investigated unknown at the present source scope. Do not add redundant clocks to D04 merely to create a receiving role, and do not declare redundancy irrelevant to physical time.",
+        "missing_correspondence": "Which actual primary/alternate clock-service architecture and activation/state/acceptance path are being compared? D04 names shared sources and alternative time meanings, but does not select a redundant clock service or its rescue event. S036 explicitly defers clock implementation details. Its replicated commit state is not automatically a redundant clock channel.",
+        "premises_discharged": "Full D04 physical-clock and recovery meaning is identified; the prospective reliability function is intelligible. The old claim that R009 must supply causal-order semantics is withdrawn.",
+        "premises_open": "A native or explicitly authored architecture-to-time-function correspondence remains missing. Joint probabilities, transfer coverage and cost would remain application parameters after that interface was bound.",
+        "failure_witness": "Two clocks with one faulty source can agree without either rescuing the required bound. Conversely, installing a voter introduces a new failure path. Neither fact identifies the concrete alternate selected by D04.",
+        "positive_countercontrol": "If an actual alternate supplies the same valid interval on some primary-failure demands and its activation preserves the required state, the R009 conditional rescue input can be material even under dependence and before a field rate is measured. This is the explicit reopening discriminator, not an asserted current design.",
+        "nontrigger": "An adequate local sequence or a single supported clock service with admitted outage needs no added alternate. Choosing among causal metadata, a sequencer and physical intervals does not itself mean those mechanisms are redundant channels for one function.",
+        "reverse": "D04>R009 remains independently MATERIAL: a redundancy architecture already supplied by R009 must define correct failure, activation and observation events and cannot replace physical transfer latency or current-state validity with logical order.",
+        "authority_and_evidence_ceiling": "An examined interface gap, not a bounded negative, a claim of universal harm, a demand for complete target proof or new field evidence.",
+        "reentry": "Bind an existing or separately authored time-service primary/alternate, rescue event and activation/state/acceptance rule; then assess the partial R009 contribution at those premises.",
+        "id": "A003-J02",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/195",
+          "canonical_record_sha256": "95e8ad5308001fa91479805958d8a350db6f903d6966c2b5d11cc33c774a273e",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/8/current_claim",
+            "canonical_object_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/8/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "canonical_object_sha256": "1bea089f16a0557c9261a48e2ab7d93e3815feee1ae0e9a7b81b7a84df8337cd"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/8/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "39e7d1f13b0058c1aa108aff13b2dfdba25def81d544f30632939d9fe39ddd5d"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/8/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "canonical_object_sha256": "8092d5185cdfbee62a9e7e884120e16df428656247fbb9ee6f0bad44fc98fb46"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/8/current_profiles/RECOVERY_RESTORATION_PROFILE",
+            "canonical_object_sha256": "0be291f1fed26e76abfbd1600ce202471fc5b68173e92ff6ed2cdaa7f47d7127"
+          }
+        ],
+        "reverse_direction": "D04>R009",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "argument_ref": {
+            "canonical_record_sha256": "51826b6622e46f96ed9a802e1e9be4c0656c0bdf34fbe9cd056fd6d6c6c07c56",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/directions/165"
+          },
+          "assignment_kind": "EXPLICIT_AUTHORED_FACTORED_NATIVE_DIRECTION",
+          "d_native_facet_ref": {
+            "path": "CURRENT_NATIVE_CAPSULES_A002.json",
+            "pointer": "/properties/D04"
+          },
+          "direction": "D04>R009",
+          "disposition": "MATERIAL",
+          "exact_native_profile_refs": [
+            "/properties/8/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "/properties/8/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "/properties/8/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "/properties/8/current_profiles/RECOVERY_RESTORATION_PROFILE"
+          ],
+          "family_ref": {
+            "id": "R009",
+            "orientation": "incoming",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/families/3"
+          },
+          "pair": "D04|R009",
+          "reverse": "R009>D04",
+          "source": "D04",
+          "target": "R009",
+          "whole_receiver_proved": false,
+          "work_status": "SEMANTICALLY_EXAMINED"
+        },
+        "reverse_original_effective_canonical_sha256": "abf35038e59b958b9b7a02295de2cefbd0fac5e0dcb6136145d6f78110ce6a89",
+        "whole_receiver_proved": false
+      },
+      {
+        "direction": "R010>D04",
+        "disposition": "MATERIAL",
+        "native_producer": "R010 current_claim and FAILURE_PROPAGATION/RECOVERY_RESTORATION profiles constrain which effects a declared stop, degradation or boundary actually blocks, while preserving possible partial protection without repair.",
+        "native_operand": "D04 TIMING_MODEL requires an explicit physical-clock bound and failure response. The protected receiver is the time-dependent inference or effect; recovery must not reinterpret old clock/version evidence as current.",
+        "joint_guard": "The selected D04 response claims to restrict propagation of invalid clock or version evidence into the same bound-dependent decision. Identify the actual evidence-to-use path, protected scope and residual paths. An operational claim still requires the barrier/action to be instantiated; the conditional analytical relation does not assert that it has been.",
+        "contribution": "Containment distinguishes invalidating the relevant time-evidence/use path from merely stopping an upstream component or raising an alert. It qualifies the already required failure response, not the definition of causal precedence.",
+        "consequence": "A response may withhold the unsupported physical-time interpretation or restrict only the effects that need it, preserving an adequate local/causal function when that is the actual requirement. The receiver cannot credit a nominal boundary that leaves a cached or shared clock-evidence path open.",
+        "premises_discharged": "There is an existing failure-response consumer and an identified propagation object: invalid time evidence accepted by a bound-dependent decision. R010 supplies a substantive restriction on what that response may claim to protect.",
+        "premises_open": "Actual path coverage, sound triggering, cached copies, control-plane bypasses, implementation, action authority, permitted degradation, capacity and recovery remain open. No numerical clock bound or whole-service safety proof follows.",
+        "failure_witness": "Stopping a faulty clock feed does not contain its effect if downstream decisions still accept cached timestamps as current. A drawn isolation region or a green status flag cannot close that path. False isolation can also remove an otherwise useful service.",
+        "positive_countercontrol": "Under an explicit gate that rejects every use of the invalidated time evidence within the protected decision scope, that particular unsupported inference is prevented while the clock may remain faulty and the cause unknown. This is a conditional logical consequence, not an executed deployment test.",
+        "nontrigger": "A fixed causal-order proof does not acquire a physical containment obligation merely because a clock exists elsewhere. A direct manual refusal of an unsupported time claim, a suitable local order, or an already sufficient gate can be adequate; no new containment architecture is mandated.",
+        "reverse": "D04>R010 remains independently MATERIAL: deciding whether a fault escaped containment requires the actual event/dependency and observation order, with physical delay distinguished from an imposed log sequence. The forward protection constraint does not generate this reverse.",
+        "authority_and_evidence_ceiling": "Conditional scope/effect relation. It neither restores the clock, diagnoses its cause, authorizes shutdown, nor proves every D04 consumer invariant.",
+        "reentry": "A changed response, protected decision, clock/version carrier or bypass path reopens the containment argument.",
+        "id": "A003-J03",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/235",
+          "canonical_record_sha256": "561718648124a3430235627e3cb72a223cd818f149e05cd93ded5e6e916d5fe2",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/9/current_claim",
+            "canonical_object_sha256": "a954864da9d8eef4ba557f86103fabbe9b2c90e44d2a3d0c76325a79fea45da0"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/9/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "1fb87774a3ca80f3bef3108388fc1cb2d4e72b5f4b22d5e3ff25bc500d871d48"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/9/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "canonical_object_sha256": "bbdbfb67da42cf12c71b3eb4d5ca8ce602a9a522d7b296a5cda20bca493c401e"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/9/current_profiles/RECOVERY_RESTORATION_PROFILE",
+            "canonical_object_sha256": "d2b53589c74e8068bdd5f49553ce181a8a76a0cbf690d04bbab9c7d476193f34"
+          }
+        ],
+        "reverse_direction": "D04>R010",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "argument_ref": {
+            "canonical_record_sha256": "4d4b73c34b42b8658de9bb789f526dfc6336af1689fd456281afbd18dfc475a9",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/directions/222"
+          },
+          "assignment_kind": "EXPLICIT_AUTHORED_FACTORED_NATIVE_DIRECTION",
+          "d_native_facet_ref": {
+            "path": "CURRENT_NATIVE_CAPSULES_A002.json",
+            "pointer": "/properties/D04"
+          },
+          "direction": "D04>R010",
+          "disposition": "MATERIAL",
+          "exact_native_profile_refs": [
+            "/properties/9/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "/properties/9/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "/properties/9/current_profiles/RECOVERY_RESTORATION_PROFILE"
+          ],
+          "family_ref": {
+            "id": "R010",
+            "orientation": "incoming",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/families/4"
+          },
+          "pair": "D04|R010",
+          "reverse": "R010>D04",
+          "source": "D04",
+          "target": "R010",
+          "whole_receiver_proved": false,
+          "work_status": "SEMANTICALLY_EXAMINED"
+        },
+        "reverse_original_effective_canonical_sha256": "e776be68b6297a3db13eccefc1eccee238b6a01978d6f2ca9ccbba7887aaebda",
+        "whole_receiver_proved": false
+      },
+      {
+        "direction": "R011>D04",
+        "disposition": "MATERIAL",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "native_producer": "R011 current_claim and DIAGNOSTIC_COVERAGE_PROFILE: named target population, observation opportunity, detection latency, misses and false alarms distinct from restoration.",
+        "native_operand": "D04 existing physical-clock bound, uncertainty observability and stated failure-response premise.",
+        "joint_guard": "The observed event concerns the same clock bound, dependency, interval/version and decision that support the time inference. Detector labels, missed classes and latency are correctly scoped; stale or unrelated observations cannot be substituted.",
+        "contribution": "A relevant observed violation can withdraw a premise of the selected time inference or inform its stated response. A clean detector result is limited by target coverage, false-miss behavior and decision-relevant latency.",
+        "consequence": "Distinguish usable bound evidence, a violation requiring the specified response, and an unresolved observation. Useful detection survives failed diagnosis or repair; absence of alarm does not become a proof of the bound.",
+        "premises_discharged": "The receiver supplies a named fault and an inference depending on it. R011 supplies the missing interpretation of observing that fault.",
+        "premises_open": "No bound is derived. Actual ground truth, coverage, latency, signal reliability, permitted response and recovery require their own evidence.",
+        "failure_witness": "A comparator reads two clocks driven by the same faulty source. Their difference remains zero during the shared jump, so no alarm is compatible with a violated absolute bound. A delayed alarm after the protected decision does not retroactively supply timely detection.",
+        "positive_countercontrol": "A timely relevant manual or instrumented check can invalidate the specific bound premise even if the clock remains broken and the unique cause is unresolved. Preserve separate detection and restoration counts from R case C03.",
+        "nontrigger": "A logical-order theorem with no physical-time observation premise is unchanged. A monitor of host reachability or an unrelated clock version does not establish the bound used by this inference. False alarms may justify investigation only at their stated scope.",
+        "reverse": "Inherited D04>R011 remains MATERIAL under DR-D04: logical timestamp order does not establish actual elapsed exposure or detection latency. The reverse has its own receiving quantity and is preserved.",
+        "authority_and_evidence_ceiling": "Conditional information relation, no claim of complete coverage, unique diagnosis, repair, universal independent instrumentation or authorized intervention.",
+        "id": "A003-J04",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/284",
+          "canonical_record_sha256": "82c906cd48c8e88358751d2b9f89912dd2f06467cf94c37c6a4d246031867534",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/10/current_claim",
+            "canonical_object_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/10/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "canonical_object_sha256": "6097db5776e36b3d3969158641159792cb76738b177cad9402baa026bfc4cfdf"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/10/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "c0aea8466ae5198e7243dd16d1cbb9593cab5d6abc3e5aaeb73427ae9b094ea8"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/10/current_profiles/DIAGNOSTIC_COVERAGE_PROFILE",
+            "canonical_object_sha256": "240138b0076497939f595a873b29730fc46a1d067c8ad12e82864a59ddb3e735"
+          }
+        ],
+        "reverse_direction": "D04>R011",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "assignment_kind": "SCOPED_RULE",
+          "direction": "D04>R011",
+          "disposition": "MATERIAL",
+          "member_to_premise": {
+            "additional_member_reason": "Detection latency and the fault/event denominator can depend on actual elapsed exposure; logical timestamp order alone does not supply that latency.",
+            "exact_premise_scope": "Use the target premises/boundary and literal current claim at its exact alias under this source-specific contribution and shared guard. The authored selection identifies a partial input to that use; no keyword classification or whole-target implication rule is applied.",
+            "receiving_native_use": "Interpret detection coverage for the named fault population and observation process.",
+            "source_native_use": "Use the correct order or time relation for a state or history inference."
+          },
+          "pair": "D04|R011",
+          "reverse": "R011>D04",
+          "rule": "DR-D04",
+          "source": "D04",
+          "source_binding_ref": {
+            "carrier": "analysis_r6/DR_NATIVE_BINDINGS.json",
+            "property": "D04"
+          },
+          "target": "R011",
+          "target_binding_ref": {
+            "carrier": "analysis_r6/DR_NATIVE_BINDINGS.json",
+            "property": "R011"
+          }
+        },
+        "reverse_original_effective_canonical_sha256": "e1b821c9df236f0f6b0bf0280a7a3970bec65d6b7f816088b3cb570314c1b282",
+        "whole_receiver_proved": false,
+        "reentry": "Changed native meaning, bound-evidence dependency, observation population or time decision reopens the guarded relation."
+      },
+      {
+        "direction": "R012>D04",
+        "disposition": "MATERIAL",
+        "native_producer": "R012 current_claim and DIAGNOSTIC_COVERAGE/RECOVERY_RESTORATION profiles assess an ambiguity set at the resolution needed by an intended response; an adequate common response need not wait for a unique physical cause.",
+        "native_operand": "D04 exposes uncertainty relevant to a selected time decision, names clock error, delay, stale replicas and omitted dependencies, and requires a failure response for its physical-clock safety premise.",
+        "joint_guard": "The remaining hypotheses concern that same time evidence and decision. Compare the proposed response across all still-plausible hypotheses, including limitations of the observations. A cause label or successful restart is not sufficient.",
+        "contribution": "The ambiguity/action criterion determines whether the declared response needs more discrimination or can safely stop using the unsupported physical-time conclusion while leaving causes unresolved. It qualifies response admissibility, not numerical clock calibration or causal-order semantics.",
+        "consequence": "A supported common response may proceed at its declared scope without invented root-cause certainty. If plausible clock-source, stale-version or observation-delay cases require incompatible responses, more discriminating evidence remains necessary.",
+        "premises_discharged": "The receiver already has uncertainty and a failure-response decision. R012 identifies which unresolved cause distinctions can change that decision and which can remain open.",
+        "premises_open": "Plausible-set adequacy, truth of observations, actual response effect, authority and cost remain. Withholding an unsupported time claim is not proof that a wider service remains available or is restored.",
+        "failure_witness": "A reset followed by agreeing timestamps can leave a shared erroneous source or stale version untouched. Declaring a particular clock repaired from that observation confuses a local apparent outcome with diagnosis and restored bound evidence.",
+        "positive_countercontrol": "When every admitted hypothesis defeats the same physical-time premise, withholding only that unsupported inference is justified without selecting a unique cause. An existing local or causal interpretation may continue only when it actually answers the consumer; it cannot substitute for a required physical deadline.",
+        "nontrigger": "A theorem over an explicitly stipulated logical order and no clock-failure response remains a valid narrow theorem. Generic uncertainty, a hypothetical future diagnostic assistant, or a restart unrelated to the time premise supplies no relation.",
+        "reverse": "Inherited D04>R012 remains independently MATERIAL under DR-D04: correct causal/order/physical/observation semantics eliminate some candidate histories without identifying every physical cause.",
+        "authority_and_evidence_ceiling": "Conditional action-admissibility input. No new numeric bound, unique diagnosis, universal safe remedy, restoration or action permission is asserted.",
+        "reentry": "A different plausible cause set, observation scope, required time meaning or response consequence reopens the conditional argument.",
+        "id": "A003-J05",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/341",
+          "canonical_record_sha256": "de3b55c987f8dc34e4987b2cba3c675c0b304f05a314561307d9a6e490f461d6",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_claim",
+            "canonical_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "67164034b0b6d4b5fae474e3ebdbaf2a4f1e7afbbd5506a9043af3b3cd9c207d"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_profiles/DIAGNOSTIC_COVERAGE_PROFILE",
+            "canonical_object_sha256": "cc723ece492ec9f17bde32101723234b8fc36f28fbd8e74ec00189642b4868ef"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_profiles/RECOVERY_RESTORATION_PROFILE",
+            "canonical_object_sha256": "0a8ab4bbf9c443e4c40fe67680dbbca8dfe57dfa230f2743c0e82c7d24dc31a7"
+          }
+        ],
+        "reverse_direction": "D04>R012",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "assignment_kind": "SCOPED_RULE",
+          "direction": "D04>R012",
+          "disposition": "MATERIAL",
+          "member_to_premise": {
+            "additional_member_reason": "Causal/order evidence can eliminate some candidate histories but is not every physical cause. Its exact clock/order semantics change which diagnostic alternatives remain.",
+            "exact_premise_scope": "Use the target premises/boundary and literal current claim at its exact alias under this source-specific contribution and shared guard. The authored selection identifies a partial input to that use; no keyword classification or whole-target implication rule is applied.",
+            "receiving_native_use": "Use symptoms to narrow causes without treating ambiguous observations as unique diagnosis.",
+            "source_native_use": "Use the correct order or time relation for a state or history inference."
+          },
+          "pair": "D04|R012",
+          "reverse": "R012>D04",
+          "rule": "DR-D04",
+          "source": "D04",
+          "source_binding_ref": {
+            "carrier": "analysis_r6/DR_NATIVE_BINDINGS.json",
+            "property": "D04"
+          },
+          "target": "R012",
+          "target_binding_ref": {
+            "carrier": "analysis_r6/DR_NATIVE_BINDINGS.json",
+            "property": "R012"
+          }
+        },
+        "reverse_original_effective_canonical_sha256": "0c4943e5c7f2016ff9a5ab21aa9e5ac65a027b12d795d1ebbb0e84271921a244",
+        "whole_receiver_proved": false
+      },
+      {
+        "direction": "R012>D05",
+        "disposition": "MATERIAL",
+        "native_producer": "R012 supplies the same action-sufficient ambiguity discipline, independently applied to the D05 receiver.",
+        "native_operand": "D05 names clock drift/jumps, VM/GC pauses, stale/new effect overlap, a clock-monitoring failure policy and alternatives including bounded-clock waiting, expiry/holder approval, resource enforcement and local serialization.",
+        "joint_guard": "The ambiguity concerns the clock/pause/resource premises of the actual selected authority or cache protocol. Test the proposed failure response over the remaining hypotheses and at the actual protected effect boundary. Do not silently swap the Gray–Cheriton cache model for an unbounded paused external writer.",
+        "contribution": "Diagnosis at the resolution required by the response can reject an unsafe interpretation of apparent lease expiry or identify a common supported conservative response. It need not derive a new drift number or settle the entire authority protocol.",
+        "consequence": "Known supported clock bounds may be used in a response conservative over the admissible hypotheses when the other protocol premises hold. If a plausible hypothesis removes every supported bound, ordinary local-time expiry cannot be treated as safe new authority. The response must use its actual supported alternative or leave the stronger safety claim unresolved.",
+        "premises_discharged": "A native ambiguity/action consumer exists: the declared clock-monitoring failure policy and protection against stale/new overlap. The A002 numerical-clock exclusion required more than partial materiality.",
+        "premises_open": "Actual drift/uncertainty values, persistent server state, write-through/expiry/holder-approval conditions for the cache model, sink ordering for a token alternative, consequences of paused external writers, authority and useful progress remain separate.",
+        "failure_witness": "An observed expired local timer is compatible with an unsound bound or an unbounded paused old writer. Choosing to grant new authority on a forced single-cause account can permit overlapping effects. Stopping new grants alone does not prove that an already active old writer is harmless.",
+        "positive_countercontrol": "If the remaining hypotheses share the same supported bounded-clock cache premises, the native conservative waiting/approval response can be assessed without unique clock-fault diagnosis. Where they do not, a properly bound resource-acceptance alternative may protect the effect; its adequacy must be shown rather than inferred from a token label.",
+        "nontrigger": "A policy timeout with no safety claim does not require a clock-safety proof. A valid bounded-clock cache design is not forced to add generation fencing, and a suitable local serialized operation may need neither.",
+        "reverse": "Inherited D05>R012 remains independently MATERIAL under DR-D05: the actual clock/lease/resource protocol defines which histories and effective-access conditions a diagnostic response must discriminate. No symmetric inference is used.",
+        "authority_and_evidence_ceiling": "Conditional source-native scope and admissible-choice relation. No universal fencing mandate, numeric bound derivation, complete effect-safety proof, deployment measurement or permission to resume follows.",
+        "reentry": "A changed clock/pause/resource model, observation, selected response or protected effect changes the relevant ambiguity set and requires reassessment.",
+        "id": "A003-J06",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/342",
+          "canonical_record_sha256": "f153162668de45167bf284602ed05faa3e2d7add3d34f65049dad086a3c4de60",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/4",
+            "canonical_object_sha256": "771da3ac5423aa79235777559642cb183b2474a41853bf8db3fa892da84e1551"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/4",
+            "canonical_object_sha256": "b994147c1a240eb101faf10bed00ebd13058e942cfbac745e83b84a5b7ae6784"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_claim",
+            "canonical_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "67164034b0b6d4b5fae474e3ebdbaf2a4f1e7afbbd5506a9043af3b3cd9c207d"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_profiles/DIAGNOSTIC_COVERAGE_PROFILE",
+            "canonical_object_sha256": "cc723ece492ec9f17bde32101723234b8fc36f28fbd8e74ec00189642b4868ef"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/11/current_profiles/RECOVERY_RESTORATION_PROFILE",
+            "canonical_object_sha256": "0a8ab4bbf9c443e4c40fe67680dbbca8dfe57dfa230f2743c0e82c7d24dc31a7"
+          }
+        ],
+        "reverse_direction": "D05>R012",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "assignment_kind": "SCOPED_RULE",
+          "direction": "D05>R012",
+          "disposition": "MATERIAL",
+          "member_to_premise": {
+            "additional_member_reason": null,
+            "exact_premise_scope": "Use the target premises/boundary and literal current claim at its exact alias under this source-specific contribution and shared guard. The authored selection identifies a partial input to that use; no keyword classification or whole-target implication rule is applied.",
+            "receiving_native_use": "Use symptoms to narrow causes without treating ambiguous observations as unique diagnosis.",
+            "source_native_use": "Establish nonoverlapping effective access under the particular clock/lease or generation protocol."
+          },
+          "pair": "D05|R012",
+          "reverse": "R012>D05",
+          "rule": "DR-D05",
+          "source": "D05",
+          "source_binding_ref": {
+            "carrier": "analysis_r6/DR_NATIVE_BINDINGS.json",
+            "property": "D05"
+          },
+          "target": "R012",
+          "target_binding_ref": {
+            "carrier": "analysis_r6/DR_NATIVE_BINDINGS.json",
+            "property": "R012"
+          }
+        },
+        "reverse_original_effective_canonical_sha256": "2f3be5b17d4e0f6807d63b9365ce1aa06d78c48d8cc5dcaac157f8722b33cecb",
+        "whole_receiver_proved": false
+      },
+      {
+        "direction": "R040>D04",
+        "disposition": "EXAMINED_UNRESOLVED",
+        "native_producer": "R040 current_claim and REDUNDANCY_COMMON_CAUSE_PROFILE require diverse implementations/channels with a same-function rescue and adjudication/fallback mechanism, testing shared specifications, inputs and control.",
+        "native_operand": "D04 supplies real shared clock/version/operator dependencies and a physical-time inference. It also permits several different order mechanisms; those are not automatically diverse redundant implementations of one function.",
+        "joint_guard": "A particular diverse alternate and its acceptance/transfer rule must supply the same required clock/time function. A qualitative architecture can be sufficient; measured independence, universal efficacy or a deployed system is not required to state the conditional relation.",
+        "contribution": "D04 common-clock dependence makes diversity a plausible design inquiry, but the selected sources do not bind a diverse implementation/acceptance consumer.",
+        "consequence": "Retain an examined interface gap with the old causal-order-only explanation removed. Neither promote diversity from the word clock nor infer it from multiple time meanings.",
+        "missing_correspondence": "Which diverse clock/time implementation, representative demand and adjudication or fallback rule are actually used in the D04 comparison? The pinned S036 account expressly defers clock implementation details. Shared source dependence establishes an R008 operand; it does not by itself establish an R040 diverse alternate.",
+        "premises_discharged": "Actual clock dependence and its potential failure consequence are acknowledged, rather than excluded by a causal-order theorem screen.",
+        "premises_open": "A same-function diverse alternate and its decision rule remain unbound; shared specification/input/oracle errors, rescue behavior and maintenance would still qualify a bound candidate.",
+        "failure_witness": "Two differently coded clients can read the same erroneous source and share the same faulty acceptance rule. Different code or team labels do not supply independent bound evidence or a rescue mechanism.",
+        "positive_countercontrol": "A specified alternate with a distinct failure manifestation and an adequate acceptance rule could supply a real partial time-service protection input even with correlated failures. That named correspondence is a re-entry condition, not current established evidence.",
+        "nontrigger": "One adequate clock service or an appropriate local sequence may dominate diverse complexity. The source does not mandate multiple implementations.",
+        "reverse": "D04>R040 remains independently MATERIAL: the diverse architecture supplied by R040 must use correct event/time and observation meaning in its required function and adjudication. D04 can constrain an R040 bearer even though D04 does not itself instantiate one.",
+        "authority_and_evidence_ceiling": "Investigated missing interface. The 27-version Knight–Leveson study remains one application at its recorded scope; it does not establish a universal diversity benefit or harm.",
+        "reentry": "Bind the actual diverse time-function implementations, common inputs, acceptance rule and prospective rescue/added-loss consequence.",
+        "id": "A003-J07",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/1143",
+          "canonical_record_sha256": "0ee71e9c03e2a4afd7d187f52f88ab8e9b1b980ae84b76ec2c710bec450d5218",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/39/current_claim",
+            "canonical_object_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/39/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "67a51b198af950372cdd211dd08851c93a4c840f18b3e9e82e53e00f059e5050"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/39/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "canonical_object_sha256": "85ae07240c8e556d673ecfec3b1501a000f45ccbecd27c0a58ddd47823d815f2"
+          }
+        ],
+        "reverse_direction": "D04>R040",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "argument_ref": {
+            "canonical_record_sha256": "638e7f164d153623b78b7f5620152913e64b32dbff03ab4915a4b0719a06e8b1",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/directions/1111"
+          },
+          "assignment_kind": "EXPLICIT_AUTHORED_FACTORED_NATIVE_DIRECTION",
+          "d_native_facet_ref": {
+            "path": "CURRENT_NATIVE_CAPSULES_A002.json",
+            "pointer": "/properties/D04"
+          },
+          "direction": "D04>R040",
+          "disposition": "MATERIAL",
+          "exact_native_profile_refs": [
+            "/properties/39/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "/properties/39/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE"
+          ],
+          "family_ref": {
+            "id": "R040",
+            "orientation": "incoming",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/families/21"
+          },
+          "pair": "D04|R040",
+          "reverse": "R040>D04",
+          "source": "D04",
+          "target": "R040",
+          "whole_receiver_proved": false,
+          "work_status": "SEMANTICALLY_EXAMINED"
+        },
+        "reverse_original_effective_canonical_sha256": "cd7dfab7e6772da35bc8afef0fa4589e1e9b0708726c2c6ac55427f962495ee7",
+        "whole_receiver_proved": false
+      },
+      {
+        "direction": "R044>D04",
+        "disposition": "EXAMINED_UNRESOLVED",
+        "native_producer": "R044 current_claim and RELIABILITY_EVIDENCE_PROFILE qualify a handbook-derived prediction by data era, technology, environment, model and comparison purpose.",
+        "native_operand": "Full D04 clock/error/observation scope, including an uncertainty bound, is retained. A physical clock premise is not itself a handbook reliability prediction.",
+        "joint_guard": "A specified handbook quantity must actually enter the selected time-service or bound-evidence comparison. A bounded comparison can suffice; absolute field prediction is not demanded.",
+        "contribution": "No such handbook prediction and receiving comparison are identified in the selected D04 use.",
+        "consequence": "Preserve the examined unknown for its own model-to-receiver gap, independent of the corrected common-clock argument.",
+        "missing_correspondence": "No particular handbook-derived quantity, technology/exposure mapping or comparison is bound to the D04 clock/time inference. The existence of hardware, a clock bound or a citation does not supply that prediction.",
+        "premises_discharged": "D04 physical-clock scope is acknowledged. R044 is not excluded because it cannot prove causality or an entire protocol.",
+        "premises_open": "A named prediction, matching technology/environment and actual receiving comparison are missing; model arithmetic, calibration and uncertainty remain separate once bound.",
+        "failure_witness": "A correct component-rate handbook calculation does not establish an absolute clock error bound or freshness interval merely because the component is used in a clock service.",
+        "positive_countercontrol": "A clearly labelled handbook-based comparison between actual time-service components can be useful at its limited population and sensitivity scope without proving absolute field accuracy; no such comparison is asserted here.",
+        "nontrigger": "A valid analytical interval contract or a direct time check without a handbook quantity does not acquire handbook validation obligations.",
+        "reverse": "D04>R044 remains independently MATERIAL: a handbook transfer already supplied by R044 must use the actual event/time/exposure and observation meaning; correct arithmetic does not make an omitted temporal premise true.",
+        "authority_and_evidence_ceiling": "Examined unknown, not rejection of every handbook or a demand to reanalyse all historical datasets.",
+        "reentry": "Identify the handbook quantity and its actual time-service design or uncertainty-evidence comparison.",
+        "id": "A003-J08",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/1466",
+          "canonical_record_sha256": "12ff13eac7cb6f9cdbfcdc0ddbfc5bfcb66fefab4dc7d0fc3f11c904fcea1d8b",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/43/current_claim",
+            "canonical_object_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/43/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "canonical_object_sha256": "8ae03f77cb72240c25bd18efb2d3274a63021d8bea15f3acb0dd4345b5bbc541"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/43/current_profiles/RELIABILITY_EVIDENCE_PROFILE",
+            "canonical_object_sha256": "98b37136c141f5043c903cb8a6b4068eaa37e0ccce840be1ac17a5771ac7682b"
+          }
+        ],
+        "reverse_direction": "D04>R044",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "argument_ref": {
+            "canonical_record_sha256": "5397646587800b5b66ebc37eb4e6c2421263fd53514114fd532eccd56c0cf380",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/directions/1417"
+          },
+          "assignment_kind": "EXPLICIT_AUTHORED_FACTORED_NATIVE_DIRECTION",
+          "d_native_facet_ref": {
+            "path": "CURRENT_NATIVE_CAPSULES_A002.json",
+            "pointer": "/properties/D04"
+          },
+          "direction": "D04>R044",
+          "disposition": "MATERIAL",
+          "exact_native_profile_refs": [
+            "/properties/43/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "/properties/43/current_profiles/RELIABILITY_EVIDENCE_PROFILE"
+          ],
+          "family_ref": {
+            "id": "R044",
+            "orientation": "incoming",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/families/25"
+          },
+          "pair": "D04|R044",
+          "reverse": "R044>D04",
+          "source": "D04",
+          "target": "R044",
+          "whole_receiver_proved": false,
+          "work_status": "SEMANTICALLY_EXAMINED"
+        },
+        "reverse_original_effective_canonical_sha256": "0879f11497690faddc1c8fe13c39e8f46d347f939be5bae3609bef973c9dd91a",
+        "whole_receiver_proved": false
+      },
+      {
+        "direction": "R051>D04",
+        "disposition": "EXAMINED_UNRESOLVED",
+        "native_producer": "R051 current_claim and REDUNDANCY_COMMON_CAUSE_PROFILE assess an architecture change adding replicas, voters, transfer or synchronization; ideal OR monotonicity and changed-system added harms are distinct.",
+        "native_operand": "D04 explicitly compares clock-service, coordination, metadata and delayed-exposure costs and retains simpler order choices. This does not identify a particular added-copy clock architecture.",
+        "joint_guard": "The evaluated architecture must have a bound added path/control and the same required time function, so rescue and new loss can be compared. No field estimate or proof of the whole time protocol is required for a valid conditional model.",
+        "contribution": "The complete-cost concern is relevant, but an actual added-redundancy comparison and rescue/loss operand are not supplied in the current D04 source scope.",
+        "consequence": "Preserve the investigated unknown with a clock-architecture-specific reason. Do not call redundancy necessarily helpful or harmful, and do not invent added controllers as D04 requirements.",
+        "missing_correspondence": "Which addition to a named time-service architecture, which rescue set and which voter/transfer/synchronization path are being assessed? General clock-service cost and shared-dependency warnings do not bind that architecture change; S036 defers the clock implementation details.",
+        "premises_discharged": "Physical-time service and complete cost are recognized. The old assertion that R051 needs causal-order semantics is withdrawn.",
+        "premises_open": "A specific architecture addition and common-function rescue/added-harm comparison are missing. Joint law, load, transition validity and lifecycle costs would remain conditional application premises.",
+        "failure_witness": "For a fixed ideal OR, dependence alone cannot make the increment negative. The inherited 0.91 times 0.95 = 0.8645 example introduces a new serial controller; it is a different architecture, not a proof that any additional clock worsens D04.",
+        "positive_countercontrol": "A specified additional time channel can rescue a positive set of demands under dependence; a specified unreliable adjudicator can erase that gain. The two possibilities motivate a bound architecture comparison and do not decide one that is absent.",
+        "nontrigger": "An unchanged adequate single time service, local sequence or accepted interruption does not require an added-redundancy evaluation.",
+        "reverse": "D04>R051 remains independently MATERIAL: the architecture change supplied by R051 needs correct success/failure/activation and observation-time semantics to define its rescue and added-loss events.",
+        "authority_and_evidence_ceiling": "Examined interface gap. Exact stipulated C02 arithmetic is inherited model evidence, not a new operational estimate or a general anti-redundancy rule.",
+        "reentry": "Bind a time-service architecture addition and its rescue, control, state/transfer and cost consequences.",
+        "id": "A003-J09",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/1849",
+          "canonical_record_sha256": "cb840f4fd4f0d6b4d96b7e0fa53d8997b16d74444926dc21330460b95234a6da",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/50/current_claim",
+            "canonical_object_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/50/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "9b367247aaa78165ab2f4421446b44ca535a696f81ad1e4708966f202de232ad"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/50/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "canonical_object_sha256": "637b2ab220897696332682b471d91dddb6eec04b55c6e0750cb84152b8d7c9f8"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/50/current_profiles/RELIABILITY_EVIDENCE_PROFILE",
+            "canonical_object_sha256": "e6671be9bfd2860711feb6e3478fb30d40b94ba177e6feda863dd55b1179163e"
+          }
+        ],
+        "reverse_direction": "D04>R051",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "argument_ref": {
+            "canonical_record_sha256": "db85befd91858f80a02290b88b4681cdce9df48cdc82eea3739c48076c60baf8",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/directions/1822"
+          },
+          "assignment_kind": "EXPLICIT_AUTHORED_FACTORED_NATIVE_DIRECTION",
+          "d_native_facet_ref": {
+            "path": "CURRENT_NATIVE_CAPSULES_A002.json",
+            "pointer": "/properties/D04"
+          },
+          "direction": "D04>R051",
+          "disposition": "MATERIAL",
+          "exact_native_profile_refs": [
+            "/properties/50/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "/properties/50/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+            "/properties/50/current_profiles/RELIABILITY_EVIDENCE_PROFILE"
+          ],
+          "family_ref": {
+            "id": "R051",
+            "orientation": "incoming",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/families/32"
+          },
+          "pair": "D04|R051",
+          "reverse": "R051>D04",
+          "source": "D04",
+          "target": "R051",
+          "whole_receiver_proved": false,
+          "work_status": "SEMANTICALLY_EXAMINED"
+        },
+        "reverse_original_effective_canonical_sha256": "d8875a76ca896cc2f272d6fe8673a84408ba279d10a196eadbcc0fdbbcd6a475",
+        "whole_receiver_proved": false
+      },
+      {
+        "direction": "R055>D04",
+        "disposition": "EXAMINED_UNRESOLVED",
+        "native_producer": "R055 current_claim requires a specified AI/model-assisted diagnostic or remediation task with actual input, error population, comparator and permitted consequences.",
+        "native_operand": "D04 names designers, auditors and debuggers and exposes clock uncertainty. Those human roles and a clock dependency are not a specified model task.",
+        "joint_guard": "The named model task must provide an actual signal or action to the same time-inference/failure-response decision. Useful partial information can suffice; general competence, autonomous authority and complete recovery are not demanded.",
+        "contribution": "The selected D04 inquiry does not bind a model-assisted task or corresponding input/action and comparator.",
+        "consequence": "Keep the examined task-correspondence gap independently of the R008/R011 corrections. No generic copilot is introduced to fill it.",
+        "missing_correspondence": "Which model/agent task, observation/action, fault population and comparator supply the D04 clock/time decision? A debugger role, generic computer or automated clock monitor does not establish an AI task.",
+        "premises_discharged": "D04 observation and failure-response meaning is restored; the unknown no longer rests on an artificially narrow causal-order title.",
+        "premises_open": "The task itself and its input/action correspondence are missing; labels, shift, error costs, semantic postcondition and actual authority would remain once a task is bound.",
+        "failure_witness": "A plausible model-generated explanation of a clock alarm can share incorrect source evidence or propose a syntactically valid but unsafe restart. Fluency or a benchmark score does not supply a bound for the actual time inference.",
+        "positive_countercontrol": "A named, adequately assessed assistant may flag the relevant clock-bound problem or suggest a bounded check even if unique diagnosis and repair remain unresolved. That actual task correspondence can reopen the direction without establishing general agent reliability.",
+        "nontrigger": "A direct clock check, deterministic rule or manual review may suffice. Automation is not automatically AI, and the native CrowdStrike distinction remains.",
+        "reverse": "D04>R055 remains independently MATERIAL: the model task supplied by R055 must interpret event/context/observation time correctly; execution or timestamp ordering alone does not prove its semantic task result.",
+        "authority_and_evidence_ceiling": "Examined missing task interface. Native workshop/review/abstract and benchmark ceilings remain; no prospective remediation effectiveness or human-performance transfer is claimed.",
+        "reentry": "Bind a specific model task and its actual time-evidence input or response output, error population, comparator and authority boundary.",
+        "id": "A003-J10",
+        "state": "AUTHOR_SCIENTIFIC_JUDGMENT_REVIEW_PENDING",
+        "reason_codes": [
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "parent_argument": {
+          "path": "A002/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+          "pointer": "/directions/2161",
+          "canonical_record_sha256": "006a45376c9953d2dd4d6428d974bc7d1b153c7a227dab3409f887653a1e6373",
+          "disposition": "EXAMINED_UNRESOLVED"
+        },
+        "native_refs": [
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/PROPERTIES/3",
+            "canonical_object_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a"
+          },
+          {
+            "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+            "pointer": "/QUALIFICATIONS/3",
+            "canonical_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/54/current_claim",
+            "canonical_object_sha256": "7fa4765f23e3ebf1e3271b33685cc39376053ee7bec2fd4f5077f7e3694e4a5d"
+          }
+        ],
+        "applicable_profile_refs": [
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/54/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "canonical_object_sha256": "49840c761b5030508a01d01ac81c6980d1bd3f2e67df06633ccb3ac61bd6d56a"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/54/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "canonical_object_sha256": "4c11f7a059ab15f9c24f8308b355d5e2957d10415c87e39bb3e61e762eabf7bc"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/54/current_profiles/DIAGNOSTIC_COVERAGE_PROFILE",
+            "canonical_object_sha256": "a6e9854506dfb68b18f9ec43b393e5884214a45c17373cdd47d9bac45e3ff54c"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/54/current_profiles/RECOVERY_RESTORATION_PROFILE",
+            "canonical_object_sha256": "4aa3e30ab95e99f4d1db249b8c311def1ff10bef7b6f1465ad666de8b2d95b45"
+          },
+          {
+            "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+            "pointer": "/properties/54/current_profiles/RELIABILITY_EVIDENCE_PROFILE",
+            "canonical_object_sha256": "a924d5fd60f8f0ca6e758115b8ad389224f83fcfb6c01dee9f8a99549ad8456f"
+          }
+        ],
+        "reverse_direction": "D04>R055",
+        "reverse_disposition": "MATERIAL",
+        "reverse_original_effective_record": {
+          "argument_ref": {
+            "canonical_record_sha256": "833ae739a292b627266aac263a0b7b3bb85f13d5f6aa3dbf1b71cbf174bdc7e6",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/directions/2117"
+          },
+          "assignment_kind": "EXPLICIT_AUTHORED_FACTORED_NATIVE_DIRECTION",
+          "d_native_facet_ref": {
+            "path": "CURRENT_NATIVE_CAPSULES_A002.json",
+            "pointer": "/properties/D04"
+          },
+          "direction": "D04>R055",
+          "disposition": "MATERIAL",
+          "exact_native_profile_refs": [
+            "/properties/54/current_profiles/MISSION_RELIABILITY_PROFILE",
+            "/properties/54/current_profiles/FAILURE_PROPAGATION_PROFILE",
+            "/properties/54/current_profiles/DIAGNOSTIC_COVERAGE_PROFILE",
+            "/properties/54/current_profiles/RECOVERY_RESTORATION_PROFILE",
+            "/properties/54/current_profiles/RELIABILITY_EVIDENCE_PROFILE"
+          ],
+          "family_ref": {
+            "id": "R055",
+            "orientation": "incoming",
+            "path": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+            "pointer": "/families/36"
+          },
+          "pair": "D04|R055",
+          "reverse": "R055>D04",
+          "source": "D04",
+          "target": "R055",
+          "whole_receiver_proved": false,
+          "work_status": "SEMANTICALLY_EXAMINED"
+        },
+        "reverse_original_effective_canonical_sha256": "60400622e0dc4cd1a6c7196fc12042c05d5c8b97d1c281e6f2df903728d61e2f",
+        "whole_receiver_proved": false
+      }
+    ],
+    "family_source_replacements": {
+      "R008": {
+        "outgoing_addition": "D04 specifically consumes the native common-source/joint-error constraint at its already declared physical-clock bound and uncertainty interpretation. Agreement among shared-source clocks is not independent warrant. This does not derive causal precedence or require a redundancy architecture.",
+        "missing": "No selected outgoing direction in this family remains unresolved. Materiality is conditional; actual joint laws, independence, bound validity and operating effects remain unproved unless separately evidenced."
+      },
+      "R009": {
+        "outgoing_addition": "D04 is separately examined with its full physical-time scope. It remains unresolved because a specific redundant time-service primary/alternate, rescue and activation/state interface is not bound, not because R009 fails to supply causal-order semantics.",
+        "missing": "The only selected outgoing unknown is D04. See specific_unknowns/D04: the missing object is a concrete alternate/rescue/activation correspondence. A conditional model can bind it without a deployment trial or a numerical effect estimate."
+      },
+      "R010": {
+        "outgoing_addition": "D04 has an existing physical-clock failure-response consumer. The R010 input constrains whether the stated response actually cuts invalid time-evidence propagation at the protected decision, including cached and shared bypass paths. It can preserve scoped protection without diagnosis or restoration.",
+        "missing": "No selected outgoing direction in this family remains unresolved. Implementation, residual propagation and acceptable degradation remain guard premises; the conditional relation is not proof of actual containment."
+      },
+      "R011": {
+        "outgoing_addition": "D04 explicitly consumes observation of the bound on which its physical-time inference depends. Detection population, latency, missed faults, false alarms and shared-sensor dependence qualify that existing input without deriving the bound or proving restoration.",
+        "missing": "No selected outgoing direction in this family remains unresolved. Useful detection is conditional on the same fault, time/version and decision; a clean or delayed signal does not establish complete coverage."
+      },
+      "R012": {
+        "outgoing_addition": "D04 and D05 already name clock uncertainty and failure-response decisions. Action-sufficient ambiguity analysis can constrain their admissible response without supplying new numeric bounds or unique cause. Preserve D05 cache, paused-writer and resource-acceptance distinctions, and never infer a universal fencing requirement.",
+        "missing": "No selected outgoing direction in this family remains unresolved. Actual plausible-set adequacy, safe common response, protocol premises and authority remain open guard/application questions."
+      },
+      "R040": {
+        "outgoing_addition": "D04 has physical-clock and shared-source premises, but no specified diverse time-function implementation and adjudication/fallback consumer in the selected source scope. This separate missing interface is not a causal-order-only exception and is not supplied by R008 common-cause relevance.",
+        "missing": "The only selected outgoing unknown is D04. See specific_unknowns/D04: identify a same-function diverse alternate and its acceptance/transfer role. Distinct code, different order meanings or a clock label alone do not provide it."
+      },
+      "R051": {
+        "outgoing_addition": "D04 already recognizes clock-service and coordination costs. The unresolved part is a particular added-copy architecture, rescue event and added controller/transition consequence, not absence of physical time. Fixed ideal OR remains nondecreasing; changed-architecture losses require an actual addition.",
+        "missing": "The only selected outgoing unknown is D04. See specific_unknowns/D04 for the missing architecture-addition comparison. A conditional architecture suffices; a new field study or full protocol proof is not demanded."
+      },
+      "R044": {
+        "outgoing_addition": "D04 was re-examined under its complete clock and observation meaning. Its unresolved handbook-to-receiver correspondence is retained in specific_unknowns/D04; a clock bound is not itself a handbook reliability prediction."
+      },
+      "R055": {
+        "outgoing_addition": "D04 was re-examined under its complete clock and observation meaning. Its unresolved model-task/input-action correspondence is retained in specific_unknowns/D04; a debugger role or automated monitor is not a named AI task."
+      }
+    },
+    "h02_synthesis_consequence": "The A003 correction restores D04's full physical-clock, common-source and observation meaning. R008 and R011 provide joint-error/corroboration and fault-detection inputs; R010 and R012 constrain its existing failure response. None supplies causal precedence, derives a new numeric clock bound or establishes a deployed service. The R009/R040/R051 clock-architecture questions remain examined unknown because the selected source scope does not bind the required alternate/rescue/adjudication or added-controller comparison; R044 and R055 retain different handbook and model-task gaps. C2's original parent and lineage removals remain unchanged because neither its original parents/relations nor its supplementary uses consume D04. H13's probability/logical-composition distinction is independently preserved, and no new general redundancy property is admitted.",
+    "source_replacement_map": [
+      {
+        "historical": "A002/author_conditional_interfaces_a002.py",
+        "replacement": "author_native_scope_a003.py plus project_whole_a003.py",
+        "reason": "Remove narrowed D04 and numerical-clock exception; ten explicit source-native judgments replace the affected branch."
+      },
+      {
+        "historical": "A002/author_native_scope_refinements_a002.py",
+        "replacement": "author_native_scope_a003.py plus project_whole_a003.py",
+        "reason": "Separate R008 common-cause input from R040 actual diverse-architecture gap."
+      },
+      {
+        "historical": "A002/author_history_a002.py",
+        "replacement": "author_native_scope_a003.py h02_synthesis_consequence",
+        "reason": "Correct the whole explanation without altering the historical genealogy."
+      },
+      {
+        "historical": "A002/author_report_a002.py line237",
+        "replacement": "author_report_a003.py RT03 and RT07",
+        "reason": "Use an actual unknown example and preserve R027>D04 as unchanged MATERIAL."
+      }
+    ],
+    "authority": "Scientific author proposal only. Frozen ancestry is not rewritten; independent fidelity and a distinct adversary remain root-routed.",
+    "new_property_identities": 0,
+    "new_empirical_runs": 0,
+    "historical_producer_reruns": 0
+  }
+}

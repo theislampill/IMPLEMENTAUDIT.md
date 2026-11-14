@@ -1,5 +1,9 @@
 # Requirements Engineering — public documentary boundary
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/SPR-L3.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+## Earlier documentary record
+
 [Four-unit guide](README.md) · [Maintained family record](../spr.md) · [Source metadata](SOURCE_MAP.json)
 
 ## Scientific identity and receiving

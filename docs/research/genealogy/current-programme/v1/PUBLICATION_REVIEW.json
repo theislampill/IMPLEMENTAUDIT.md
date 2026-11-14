@@ -1,0 +1,1354 @@
+{
+  "schema": "evolved-public-scientific-publication-review/1",
+  "edition": "2026-11-13",
+  "record_role": "RECEIVED_COMPONENT_REVIEW_DISPOSITIONS",
+  "purpose": "Record the actual received independent fidelity and public-source-safety decisions for the 32 substantive derived scientific accounts and the shared documentation component. This record is a source-bound summary, not a substitute for the research accounts.",
+  "publication_authority": "The owner authorized all 32 scientifically faithful, public-safe derived accounts on 2026-11-13, subject to source-specific independent review; bounded normal main integration and ordinary existing Pages deployment were also authorized.",
+  "scientific_status": {
+    "qualified_constituents": 24,
+    "qualified_syntheses": 8,
+    "qualified_units": 32,
+    "basis": "Existing accepted scientific qualifications preserved; this documentary publication does not repeat or requalify the science.",
+    "identity_map": {
+      "path": "docs/research/genealogy/current-programme/v1/PUBLIC_SCIENCE.json",
+      "bytes": 160439,
+      "sha256": "ac757e79ab9b74ac30b974b635e3410ffc78386aa2eda0b4a020147bbada8e9c"
+    },
+    "original_evidence_limits": "The historical SPR-L1 original-proof exception and every unit-specific source/review limitation remain explicit in the identity map and research."
+  },
+  "public_documentary_status": {
+    "unit_count": 32,
+    "accepted_accounts": 32,
+    "independent_review_groups": 3,
+    "separate_shared_component_review": true,
+    "reviewed_material": "Substantive scientific accounts, structured properties and predicates, guarded relationship and interaction bodies, examples, alternatives, negatives, unresolved and novelty dispositions, maintained Pages and source notes at the declared per-group scope.",
+    "formatting_derivatives": "Component review accepted original derived content; exact formatting-only successors are identified separately below and received at final integration scope."
+  },
+  "scope_separation": {
+    "scientific_qualification": "Existing qualification and original review scope; separate from the later documentary reviews.",
+    "central_registry_application": "STAGED_ONLY; zero authoritative central writes are claimed. Current master state and effective writer exclusion were not established.",
+    "whole_composition_and_delivery": "Exact integrated Git-tree review, original repository regression, normal branch/main publication, Actions and served Pages are separately evidenced delivery stages. Component acceptance alone does not attest those stages.",
+    "visual_validation": "Actual desktop/mobile inspection is a separate result; source or link checks do not establish visual acceptance.",
+    "native_implementation": "No native runtime, installation, release, new issue or final RLGWO acceptance is granted by scientific publication."
+  },
+  "public_source_safety": {
+    "content_basis": "Original derived scientific explanations and normalized scientific data, checked against the accepted frozen sources and their final review dispositions.",
+    "transformations": "Private access locators, credentials, source-worker attribution identifiers, unrelated operational records and restricted raw inputs are excluded or represented by public-safe descriptions. Source notes distinguish transformations and scientific limitations. Legitimate public bibliography identifiers are retained.",
+    "rights_scope": "References identify third-party research; this publication does not claim redistribution rights to the cited works or publish the private research archives verbatim.",
+    "substantive_withholding": "No generic private-custody restriction is applied to the accepted derived findings. The final public reviewers identified no remaining material publication-safety finding within their declared scope. Unavailable historical evidence is disclosed as unavailable, rather than reconstructed.",
+    "review_limits": "Source-specific fidelity and publication safety at the documented examination scope; no assertion of exhaustive legal adjudication or cognitive rereading of every structured row."
+  },
+  "preliminary_engineering_responsibilities": {
+    "slots": 32,
+    "registry": "../../../implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json",
+    "ownership": "../../../implementaudit/evolved-programme-v1/OWNERSHIP_RECONCILIATION_20261113.json",
+    "status": "PRELIMINARY_ONLY",
+    "retained_limit": "Existing native issue owners retain their boundaries; four SPR owner assignments remain unproved. Existing adequate coverage, partial applicability, nontriggers, negatives and no-change alternatives remain legitimate outcomes."
+  },
+  "review_groups": [
+    {
+      "review_group": "LAW-DRF",
+      "disposition": "PASS_AT_DECLARED_PUBLIC_DOCUMENTARY_SCOPE",
+      "units": [
+        "LAW-L1",
+        "LAW-L2",
+        "LAW-L3",
+        "LAW-S",
+        "DRF-L1",
+        "DRF-L2",
+        "DRF-L3",
+        "DRF-S"
+      ],
+      "accepted_candidate_manifest": {
+        "bytes": 76236,
+        "sha256": "72724a46439953df6c88b5a64c6c8d8e77c456435cb7fe6e717dde0fe5a6fb3d"
+      },
+      "accepted_file_count": 295,
+      "accepted_total_bytes": 131168934,
+      "final_independent_report": {
+        "bytes": 32206,
+        "sha256": "7a8be61b20b07dc968e62835cf78a5b8a2ed55bcccf7662c7619f4bdfccce86f"
+      },
+      "final_independent_receipt": {
+        "bytes": 10669,
+        "sha256": "de86fe32d4315a728f3beea68b42b4f3f4796de8d40c5012b85b0e857061d5c1"
+      },
+      "review_manifest": {
+        "bytes": 8838,
+        "sha256": "32b567bb9c8bc2cc2d55c1d3e51f0bbab7afc000a4b208c59c3ca31c70f7b69a"
+      },
+      "independence": "Fresh independent public documentary review; source scientific qualifications and original reviews were disclosed as evidence. No authoring-context reuse.",
+      "scope_and_limits": "Complete eight account/Page semantic examination plus declared mechanical source-population comparisons. This does not claim independent re-adjudication of every scientific row.",
+      "documentary_corrections": [],
+      "adverse_history": "No material public documentary finding was established in the final reviewed candidate."
+    },
+    {
+      "review_group": "CSS-SSS-BWP-R2",
+      "disposition": "PASS_AT_DECLARED_PUBLIC_DOCUMENTARY_SCOPE",
+      "units": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S",
+        "SSS-L1",
+        "SSS-L2",
+        "SSS-L3",
+        "SSS-S",
+        "BWP-L1",
+        "BWP-L2",
+        "BWP-L3",
+        "BWP-S"
+      ],
+      "accepted_candidate_manifest": {
+        "bytes": 568343,
+        "sha256": "d311eb8bd64306e1be6f654779549e4e0d79a24d6b0c237ca6452fcb34f42408"
+      },
+      "accepted_file_count": 2462,
+      "accepted_total_bytes": 375481766,
+      "final_independent_report": {
+        "bytes": 18304,
+        "sha256": "295d1b33de5b8eb64edcf5b6f5d4baa690ef624f28e2fe5f76cf3b818e587107"
+      },
+      "final_independent_receipt": {
+        "bytes": 7483,
+        "sha256": "be97f767e2d4a8f814ae76e49846e63231c3542213ab71d10ef08c55da97bdee"
+      },
+      "review_manifest": {
+        "bytes": 10201,
+        "sha256": "75f8d4df1add30a9d1999e6763a4ec6a849c5a3bcf49162c2c2bbc830cb132de"
+      },
+      "independence": "Fresh independent R1 reviewer, returning for the exact affected R2 successor. Prior R1 exposure is explicit; R2 is not represented as a new blind review.",
+      "scope_and_limits": "All twelve accounts at combined R1 and affected R2 scope; complete mechanical field/type/order and readable-output comparisons of restored bodies, with disclosed semantic witnesses. No universal cognitive reading or scientific requalification of every row is claimed.",
+      "documentary_corrections": [
+        "Corrected CSS alternative and citation annex identities.",
+        "Restored the accepted BWP direction, pair, negative-result and supporting bodies with individually navigable human-readable forms.",
+        "Restored ten legitimate scientific bibliography locator occurrences across four original public URLs; genuine private attribution contexts remain excluded.",
+        "Removed unsupported complete-map promises from preliminary receiving guides."
+      ],
+      "adverse_history": "Earlier adverse findings and superseded candidates are preserved in exact scientific/documentary custody; acceptance applies only to the selected corrected content."
+    },
+    {
+      "review_group": "AMA-SSD-SPR-R3",
+      "disposition": "PASS_AT_DECLARED_PUBLIC_DOCUMENTARY_SCOPE",
+      "units": [
+        "AMA-L1",
+        "AMA-L2",
+        "AMA-L3",
+        "AMA-S",
+        "SSD-L1",
+        "SSD-L2",
+        "SSD-L3",
+        "SSD-S",
+        "SPR-L1",
+        "SPR-L2",
+        "SPR-L3",
+        "SPR-S"
+      ],
+      "accepted_candidate_manifest": {
+        "bytes": 28379,
+        "sha256": "98aff207abdb86318d10074d08552fdd8c49696d7fcdb63fd6569c8918b85c66"
+      },
+      "accepted_file_count": 100,
+      "accepted_total_bytes": 166323432,
+      "final_independent_report": {
+        "bytes": 12268,
+        "sha256": "8fd1e44d08dbc8397c9c20d4e264a7450f5ffacc2bf6eb1f326286a8b6d082d6"
+      },
+      "final_independent_receipt": {
+        "bytes": 6578,
+        "sha256": "3017e7b8532845da36b055fc4fc270e11cfd320f7fa751e3bbb81e0bd62d2841"
+      },
+      "review_manifest": {
+        "bytes": 3228,
+        "sha256": "3e86f23a14f32c0bea79caf0f83a83a70a425bd4ed6629d1768343617a3db2e8"
+      },
+      "independence": "Fresh independent R1 reviewer, returning for bounded R2 and R3 corrections. The final decision explicitly combines the actual R1, R2 and affected R3 scopes.",
+      "scope_and_limits": "All twelve accounts at the declared combined scope; R3 changes only two AMA review-stage documentary files while the other 98 public files remain byte-identical to R2. Source scientific qualifications were not reopened.",
+      "documentary_corrections": [
+        "Excluded unrelated AMA execution records while retaining scientific claims and limitations.",
+        "Labeled inherited author-stage workflow fields so historical pending judgments cannot be mistaken for current final qualification.",
+        "Restored available SPR-L1 historical ledger-recorded review closure without presenting it as recovered missing original final proof.",
+        "Restored source-specific AMA-S review-stage limitations and accurately described the bounded derived summaries."
+      ],
+      "adverse_history": "Earlier adverse findings and superseded candidates are preserved in exact scientific/documentary custody; acceptance applies only to the selected corrected content."
+    },
+    {
+      "review_group": "SHARED-R2",
+      "disposition": "PASS_AT_DECLARED_PUBLIC_DOCUMENTARY_SCOPE",
+      "units": [],
+      "accepted_candidate_manifest": {
+        "bytes": 10588,
+        "sha256": "c0c99709206f59301b8b971eb9982bf924907d8a9c27f250dcbfb5b4f836ba3f"
+      },
+      "accepted_file_count": 11,
+      "accepted_total_bytes": 473371,
+      "final_independent_report": {
+        "bytes": 16091,
+        "sha256": "7a2475873dfdbe55e1aecce18e23e4de05ab8f3adb5c9891027f1145bfb4c3bd"
+      },
+      "final_independent_receipt": {
+        "bytes": 12101,
+        "sha256": "afc6fe42542f13cd82040689d13e0c21a3d963211440fede2fe2fa5f88f12f55"
+      },
+      "review_manifest": {
+        "bytes": 89898,
+        "sha256": "465b6ea4e93a8ae12937d0ebf2c62007cbbe19bf6e72109b68005efebcc5c39f"
+      },
+      "independence": "Independent shared-component reviewer, returning for the exact affected R2 successor; separate from the root author and the three family reviewers.",
+      "scope_and_limits": "Exact eleven-file navigation, identity, historical-boundary and claim-control component. This component review did not review this later public summary or the final combined Git tree.",
+      "documentary_corrections": [
+        "Restored all source-specific scientific limitations and explicit source-owner or unavailable-evidence dispositions for all 32 units.",
+        "Corrected the claim-boundary control while preserving exact scientific clauses and discriminating unsupported-claim negative controls.",
+        "Placed the earlier AMA overview statement inside an explicit historical cutoff and stated current r18 qualification separately."
+      ],
+      "adverse_history": "Earlier adverse findings and superseded candidates are preserved in exact scientific/documentary custody; acceptance applies only to the selected corrected content."
+    }
+  ],
+  "units": [
+    {
+      "unit_id": "LAW-L1",
+      "family": "LAW",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/0",
+      "accepted_scientific_subject": {
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L1.md",
+        "bytes": 15345,
+        "sha256": "167d5cc3d74492f44accc3128cdaebdf4aed1cfeb217895f75b94cb9f64689f4"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-lean.html",
+        "bytes": 800118,
+        "sha256": "4274fee559ec6ca268d4505c183ccc5a0a0d609dfb339762836f88a066cb76ee"
+      },
+      "portal_route": "research-engineering-lineage/lean/",
+      "family_current_index": "families/law/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/0/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "LAW-L1",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L1.md",
+        "bytes": 15346,
+        "sha256": "f5aa332bbc6c176bf4adbb0beed85a1db91443ac3c1757bc07f3a1276ccd0055"
+      },
+      "formatting_scope": "The derived public Markdown removes one surplus terminal blank line. Scientific content is unchanged. This exact formatting derivative is part of the separate final integration review."
+    },
+    {
+      "unit_id": "LAW-L2",
+      "family": "LAW",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/1",
+      "accepted_scientific_subject": {
+        "bytes": 10189,
+        "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L2.md",
+        "bytes": 14898,
+        "sha256": "1f144f75b51afb807e6d299ac02b9f720fd54c8d0bf2af49deb6590dd1711a8f"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-agile.html",
+        "bytes": 522612,
+        "sha256": "4525187b86d755a6ed861565896dd2eb03d7a1e752ec3f557ad5ebca95130638"
+      },
+      "portal_route": "research-engineering-lineage/agile/",
+      "family_current_index": "families/law/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/1/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "LAW-L2",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L2.md",
+        "bytes": 14899,
+        "sha256": "724aa225beaaa04f2572426dff8106e9d96816bc3fed4edf82ac8b829af0aaf8"
+      },
+      "formatting_scope": "The derived public Markdown removes one surplus terminal blank line. Scientific content is unchanged. This exact formatting derivative is part of the separate final integration review."
+    },
+    {
+      "unit_id": "LAW-L3",
+      "family": "LAW",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/2",
+      "accepted_scientific_subject": {
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L3.md",
+        "bytes": 15950,
+        "sha256": "89ffcfa8e48f4db3efa6c7d9659bcf899ee574bb1e4202601ff5c3d409ec2484"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-waterfall.html",
+        "bytes": 799070,
+        "sha256": "6b3ebaf4852977aa37101abdf5327e055c3a8b9eac0df30148316c2a5ac4999b"
+      },
+      "portal_route": "research-engineering-lineage/waterfall/",
+      "family_current_index": "families/law/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/2/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "LAW-L3",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L3.md",
+        "bytes": 15951,
+        "sha256": "cd0c7609eb81cfe4a742e564e015236e0f2b23ad19fa2c2054e828429db25561"
+      },
+      "formatting_scope": "The derived public Markdown removes one surplus terminal blank line. Scientific content is unchanged. This exact formatting derivative is part of the separate final integration review."
+    },
+    {
+      "unit_id": "LAW-S",
+      "family": "LAW",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/3",
+      "accepted_scientific_subject": {
+        "bytes": 27137,
+        "sha256": "7f62a136751c84fbbd0326eafdc59a26bc57db1c6da31ab4d09ca8a08b88b803"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-S.md",
+        "bytes": 38809,
+        "sha256": "5516c86396322842be01fd9613c971fb944b72ca0b4e0df80e1674b0af6f019a"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-law.html",
+        "bytes": 24995,
+        "sha256": "50b8b8d9806d120a2a1dc971546b4e89d7f7cc52777260ef3b7b6a4c82b8c38b"
+      },
+      "portal_route": "research-engineering-lineage/evolved-law/",
+      "family_current_index": "families/law/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/3/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "LAW-S",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "CSS-L1",
+      "family": "CSS",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/4",
+      "accepted_scientific_subject": {
+        "bytes": 24939,
+        "sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/current/CSS-L1.md",
+        "bytes": 14658,
+        "sha256": "52c49015e8762c45245136179cddc455cf63e66a8ef0b53c3abd8cc63151919a"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-cognitive-systems-engineering.html",
+        "bytes": 363719,
+        "sha256": "51e5cf91dd146808535fce48b5e25c6c87e1c283d46a855debe46d91dcc33f4f"
+      },
+      "portal_route": "research-engineering-lineage/cognitive-systems-engineering/",
+      "family_current_index": "families/css/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/4/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "CSS-L1",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "CSS-L2",
+      "family": "CSS",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/5",
+      "accepted_scientific_subject": {
+        "bytes": 21382,
+        "sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/current/CSS-L2.md",
+        "bytes": 15855,
+        "sha256": "0d96f721f5cfee11b0f808127aed583b0bef724d2f20fc9377506cc7e37d50f3"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-statistical-engineering.html",
+        "bytes": 345196,
+        "sha256": "de68a614769656a84a313a7672f1f33faaa0c415122621e8afdaad7658243a75"
+      },
+      "portal_route": "research-engineering-lineage/statistical-engineering/",
+      "family_current_index": "families/css/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/5/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "CSS-L2",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "CSS-L3",
+      "family": "CSS",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/6",
+      "accepted_scientific_subject": {
+        "bytes": 49646,
+        "sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/current/CSS-L3.md",
+        "bytes": 16987,
+        "sha256": "83220ecd8ff57881d5c6e559ffd64f7cec988a3504ec8c18ef99ded269ae54bf"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-systems-safety.html",
+        "bytes": 404498,
+        "sha256": "93ab62dbd627de0bb98f9a71d6884cfd048ef268c8a084ec2eb75a63792fd93b"
+      },
+      "portal_route": "research-engineering-lineage/systems-safety/",
+      "family_current_index": "families/css/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/6/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "CSS-L3",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "CSS-S",
+      "family": "CSS",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/7",
+      "accepted_scientific_subject": {
+        "bytes": 534025,
+        "sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/current/CSS-S.md",
+        "bytes": 65571,
+        "sha256": "8d4ee525014603716607e8b81f068cc3bb17ee2a76ca88d13bd89807825b62fa"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-css.html",
+        "bytes": 24534,
+        "sha256": "f565c928c132f53d4ef912eb00eeef79798d70912bb94764a652b444c2c7f858"
+      },
+      "portal_route": "research-engineering-lineage/evolved-css/",
+      "family_current_index": "families/css/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/7/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "CSS-S",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SSD-L1",
+      "family": "SSD",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/8",
+      "accepted_scientific_subject": {
+        "bytes": 63889,
+        "sha256": "c84586d47b329c9f6982da8331b2a4b45b77bb1be74acbbc47d28387209acc3b"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/current/SSD-L1.md",
+        "bytes": 13456,
+        "sha256": "627e0fbd55cf07908fa0b5b351b4e1ce819504807055ddd20c3c865417ef0253"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-systems-engineering.html",
+        "bytes": 1374972,
+        "sha256": "eef8dd5022d2541d1880d01766d52d360c5c7885083330a8158a571600c39d47"
+      },
+      "portal_route": "research-engineering-lineage/systems-engineering/",
+      "family_current_index": "families/ssd/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/8/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSD-L1",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_page": {
+        "path": "docs/portal/pages/research-lineage-systems-engineering.html",
+        "bytes": 1374878,
+        "sha256": "d445138e09c0f52a46578be938cf4ee032b46f08025423dcb42a20288c3d72f0"
+      },
+      "historical_introduction_restoration": "The exact previously public Systems Engineering introductory paragraph is restored, including lifecycle coherence and the explicit no-fixed-lifecycle guard. Every other current and historical Page byte is preserved; this correction is separately identified for final integration review."
+    },
+    {
+      "unit_id": "SSD-L2",
+      "family": "SSD",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/9",
+      "accepted_scientific_subject": {
+        "bytes": 26279,
+        "sha256": "c94ef360fb6c3115df8ef58256694433149f1744775d430406f1fedddebd7632"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/current/SSD-L2.md",
+        "bytes": 12298,
+        "sha256": "5dea52215d919b26a9572b912ddfba8c11171b93944a5a0a397d12f0118504c6"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-systems-security-engineering.html",
+        "bytes": 428581,
+        "sha256": "f1d7b7f11b2c3360bb4a028136b42cd599c26ad75b4ec42f7fd857312ddcff9c"
+      },
+      "portal_route": "research-engineering-lineage/systems-security-engineering/",
+      "family_current_index": "families/ssd/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/9/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSD-L2",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SSD-L3",
+      "family": "SSD",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/10",
+      "accepted_scientific_subject": {
+        "bytes": 24184,
+        "sha256": "cbecc352d720c34f7502c5219496f07777a7b79c25b9d4834ef1368a4e737e0f"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/current/SSD-L3.md",
+        "bytes": 13989,
+        "sha256": "2f72e9ba1ff41c382ba6e1a336a1b3298cc5a425274562f53616c1bc14089c0b"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-decision-operations-engineering.html",
+        "bytes": 626565,
+        "sha256": "66c02e32c1739230a1771843df133491d56a6bec4b064740c7d665c0a6ce19ab"
+      },
+      "portal_route": "research-engineering-lineage/decision-operations-engineering/",
+      "family_current_index": "families/ssd/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/10/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSD-L3",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SSD-S",
+      "family": "SSD",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/11",
+      "accepted_scientific_subject": {
+        "bytes": 26174,
+        "sha256": "aa53149fd110cce51bad79eb01e373146efae3b0ebd6d142efe7cc1316402c3c"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/current/SSD-S.md",
+        "bytes": 20739,
+        "sha256": "e8230ab44bbba794044761a5bdb4a0312fc7b2982dcd95109d48479672421854"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-ssd.html",
+        "bytes": 22394,
+        "sha256": "41556d0d97673243f70a2b52584126bbe10f373d562d808842c6e2e42b3590a6"
+      },
+      "portal_route": "research-engineering-lineage/evolved-ssd/",
+      "family_current_index": "families/ssd/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/11/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSD-S",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "DRF-L1",
+      "family": "DRF",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/12",
+      "accepted_scientific_subject": {
+        "bytes": 73989,
+        "sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L1.md",
+        "bytes": 16830,
+        "sha256": "fbd554ae0b0d8cb4c07eb2e7be540189afbb222e650258874faf7ef6d1ff0955"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-distributed-systems-engineering.html",
+        "bytes": 2635047,
+        "sha256": "5afe2dd47664db54b82714f962660d875f9ed0c73706e1ee85dd390c9406548b"
+      },
+      "portal_route": "research-engineering-lineage/distributed-systems-engineering/",
+      "family_current_index": "families/drf/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/12/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "DRF-L1",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L1.md",
+        "bytes": 16831,
+        "sha256": "12c0385f7fa5ee137294649cb1a2ea8e7ce492814f0ef31e7fa355d69f270f1d"
+      },
+      "formatting_scope": "The derived public Markdown removes one surplus terminal blank line. Scientific content is unchanged. This exact formatting derivative is part of the separate final integration review."
+    },
+    {
+      "unit_id": "DRF-L2",
+      "family": "DRF",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/13",
+      "accepted_scientific_subject": {
+        "bytes": 53469,
+        "sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L2.md",
+        "bytes": 17393,
+        "sha256": "d409f345fddedda60e7b55529521c577726db3df8539518f33437a0b819fbaab"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-reliability-maintainability-engineering.html",
+        "bytes": 3930992,
+        "sha256": "a4ccdcf7ae5d317e9a227b041fe625f96890cb2c7e17ef8d1df1a55497f6571d"
+      },
+      "portal_route": "research-engineering-lineage/reliability-maintainability-engineering/",
+      "family_current_index": "families/drf/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/13/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "DRF-L2",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L2.md",
+        "bytes": 17394,
+        "sha256": "2360c4f771cc199083eaa9195b3db725326f227320f097a3225d6a4a631451af"
+      },
+      "formatting_scope": "The derived public Markdown removes one surplus terminal blank line. Scientific content is unchanged. This exact formatting derivative is part of the separate final integration review."
+    },
+    {
+      "unit_id": "DRF-L3",
+      "family": "DRF",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/14",
+      "accepted_scientific_subject": {
+        "bytes": 38434,
+        "sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L3.md",
+        "bytes": 19028,
+        "sha256": "ce1faeca7a3e2eaef71c5063bc518a7d4e1f10a420f9b3ff648098bcfd281776"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-formal-methods-verification-engineering.html",
+        "bytes": 1428276,
+        "sha256": "940a3e14cf0db25fda92107dcae8d4ca112e2e7e75d80f75a6ca34928d37b64a"
+      },
+      "portal_route": "research-engineering-lineage/formal-methods-verification-engineering/",
+      "family_current_index": "families/drf/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/14/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "DRF-L3",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L3.md",
+        "bytes": 19029,
+        "sha256": "176f91f69a0a529b655aaf727074ee2e76363e6d567a39bf5664b80a0efa7304"
+      },
+      "formatting_scope": "The derived public Markdown removes one surplus terminal blank line. Scientific content is unchanged. This exact formatting derivative is part of the separate final integration review."
+    },
+    {
+      "unit_id": "DRF-S",
+      "family": "DRF",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "LAW-DRF",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/15",
+      "accepted_scientific_subject": {
+        "bytes": 12026,
+        "sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-S.md",
+        "bytes": 40734,
+        "sha256": "e958bf07c849adbf3f490b1e7fe9000db82fddd42fb3c508461beda6ce93c1d5"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-drf.html",
+        "bytes": 27955,
+        "sha256": "ecae64c89f7c512a6edf206867dcc93f53d4687d5939412f160a5184c496af17"
+      },
+      "portal_route": "research-engineering-lineage/evolved-drf/",
+      "family_current_index": "families/drf/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/15/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "DRF-S",
+      "native_implementation_acceptance": false,
+      "original_component_reviewed_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-S.md",
+        "bytes": 40735,
+        "sha256": "35f49c7399695caaf2281a0bf80ebdd00391f20b370e165497b8c7924a9e956a"
+      },
+      "formatting_scope": "The derived public Markdown removes one surplus terminal blank line. Scientific content is unchanged. This exact formatting derivative is part of the separate final integration review."
+    },
+    {
+      "unit_id": "SSS-L1",
+      "family": "SSS",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/16",
+      "accepted_scientific_subject": {
+        "bytes": 14990,
+        "sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/current/SSS-L1.md",
+        "bytes": 12792,
+        "sha256": "4c06404a2d75fca6150f3474aaf2fa258a4db69311cd8c41f9a46577b06387d7"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-software-architecture.html",
+        "bytes": 1225769,
+        "sha256": "0ca06ef7e428d548bb853a3ba32e20e85502d0f8ad5513dd85035e60029e7cf0"
+      },
+      "portal_route": "research-engineering-lineage/software-architecture/",
+      "family_current_index": "families/sss/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/16/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSS-L1",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SSS-L2",
+      "family": "SSS",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/17",
+      "accepted_scientific_subject": {
+        "bytes": 71477,
+        "sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/current/SSS-L2.md",
+        "bytes": 13871,
+        "sha256": "0db456f680d0ee2bc7e8d2f29efa82f35f6392b27a159d8229d68b024ca37b9e"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-software-maintenance-and-evolution.html",
+        "bytes": 3857379,
+        "sha256": "bdda9893f2dc9196589ac0c6e44719a253bbeae90e655054c10fecf5b4811d50"
+      },
+      "portal_route": "research-engineering-lineage/software-maintenance-and-evolution/",
+      "family_current_index": "families/sss/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/17/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSS-L2",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SSS-L3",
+      "family": "SSS",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/18",
+      "accepted_scientific_subject": {
+        "bytes": 54007,
+        "sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/current/SSS-L3.md",
+        "bytes": 12235,
+        "sha256": "1d3d148d70013219991811cb15a0fcd0b0e2e37554dc8e189086278f93776d04"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-software-product-line-engineering.html",
+        "bytes": 1252313,
+        "sha256": "0d47ca5217846f425a83d92f46ea96791c00ea1a9dfbe8cab28fda250070f31c"
+      },
+      "portal_route": "research-engineering-lineage/software-product-line-engineering/",
+      "family_current_index": "families/sss/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/18/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSS-L3",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SSS-S",
+      "family": "SSS",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/19",
+      "accepted_scientific_subject": {
+        "bytes": 539336,
+        "sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/current/SSS-S.md",
+        "bytes": 23186,
+        "sha256": "8813e820f83739f704893d3f29a384b93d523f76de2d683de6d8f1cb47f19948"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-sss.html",
+        "bytes": 21616,
+        "sha256": "ab46bb29b901a72557df032a182d7b48e334edbeb581a521c68b5e3dc15283e8"
+      },
+      "portal_route": "research-engineering-lineage/evolved-sss/",
+      "family_current_index": "families/sss/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/19/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SSS-S",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "BWP-L1",
+      "family": "BWP",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/20",
+      "accepted_scientific_subject": {
+        "bytes": 19496,
+        "sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/BWP-L1.md",
+        "bytes": 14026,
+        "sha256": "cf43827e0edd4ce9c75a74efea8e557c143b0e6d08dbf2137160c7bab9cd5889"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-bwp-business-process-management.html",
+        "bytes": 1298071,
+        "sha256": "c803738a2f9ee19d8cef4190be611f8ce71a8767a06958949a5d498b75a231a4"
+      },
+      "portal_route": "research-engineering-lineage/evolved-bwp-business-process-management/",
+      "family_current_index": "families/bwp/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/20/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "BWP-L1",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "BWP-L2",
+      "family": "BWP",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/21",
+      "accepted_scientific_subject": {
+        "bytes": 32198,
+        "sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/BWP-L2.md",
+        "bytes": 14095,
+        "sha256": "7fec4052a653225294d328c76987bcc42e2023172e57638f4098affddb292dff"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-bwp-workflow-management.html",
+        "bytes": 1329258,
+        "sha256": "fb885ff92a87731bf35cad4e7cf970aebb1a8d09452a25a699d2339748a307b0"
+      },
+      "portal_route": "research-engineering-lineage/evolved-bwp-workflow-management/",
+      "family_current_index": "families/bwp/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/21/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "BWP-L2",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "BWP-L3",
+      "family": "BWP",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/22",
+      "accepted_scientific_subject": {
+        "bytes": 24924,
+        "sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/BWP-L3.md",
+        "bytes": 13707,
+        "sha256": "9da13ad59fe69a370e2bdcfad35c0051764c80042974838a3e937aa6dc8a1ba3"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-bwp-process-mining.html",
+        "bytes": 1244822,
+        "sha256": "432eb601edd857ce0e9706329e8eac745593ac37ef006fb3eb2556db2b264365"
+      },
+      "portal_route": "research-engineering-lineage/evolved-bwp-process-mining/",
+      "family_current_index": "families/bwp/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/22/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "BWP-L3",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "BWP-S",
+      "family": "BWP",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "CSS-SSS-BWP-R2",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/23",
+      "accepted_scientific_subject": {
+        "bytes": 46181,
+        "sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/BWP-S.md",
+        "bytes": 19374,
+        "sha256": "3b95df804aed65d09ca999fe59bdd63bc2d55c8dddfed9cd56fb989fd90ffd8f"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-bwp.html",
+        "bytes": 26933,
+        "sha256": "96e2095a55c522fe9766dd91a2d8f07c25e12f65dfe56e363530207f232a4a75"
+      },
+      "portal_route": "research-engineering-lineage/evolved-bwp/",
+      "family_current_index": "families/bwp/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/23/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "BWP-S",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "AMA-L1",
+      "family": "AMA",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/24",
+      "accepted_scientific_subject": {
+        "bytes": 17566,
+        "sha256": "594dfaa5c71a8e907b437a22d2e3bfb717dc078565048c040538df6cda3a7bb6"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/current/AMA-L1.md",
+        "bytes": 10793,
+        "sha256": "ec74d6ab925722c3179bee2600d08aa2a29b6fde4711750487d120cfbb02155b"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-autonomous-agents.html",
+        "bytes": 757293,
+        "sha256": "bc6c7bb3020a542bbd5854e93b1cf3b2b68477cadff626706f7a1f750b107321"
+      },
+      "portal_route": "research-engineering-lineage/autonomous-agents/",
+      "family_current_index": "families/ama/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/24/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "AMA-L1",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "AMA-L2",
+      "family": "AMA",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/25",
+      "accepted_scientific_subject": {
+        "bytes": 42408,
+        "sha256": "791620825f2a382e291f05befea096a5eda481f0b9d7b99dc5f7363f7784c0ed"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/current/AMA-L2.md",
+        "bytes": 11230,
+        "sha256": "873a6bc47cb6f3a0bc0867e09beb59c31bff2dbe6b0f18c9971507c0f6aa532f"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-multi-agent-systems.html",
+        "bytes": 554253,
+        "sha256": "d7be62e9afd3e1260f9c935b607f205d25b2a4e4548a7737805e4df448ca072c"
+      },
+      "portal_route": "research-engineering-lineage/multi-agent-systems/",
+      "family_current_index": "families/ama/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/25/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "AMA-L2",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "AMA-L3",
+      "family": "AMA",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/26",
+      "accepted_scientific_subject": {
+        "bytes": 13824,
+        "sha256": "d60a32e34fc19d30f4b41272a1883a514daebec22196f448b3528b87b80f25fa"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/current/AMA-L3.md",
+        "bytes": 12344,
+        "sha256": "a3d2fed1d15f1ec22bb3faa4126a273e0c160b9fe5ad6a29982a1c702fc59ace"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-agent-oriented-software-engineering.html",
+        "bytes": 1492476,
+        "sha256": "9bcd9ffe2a02e91365892e8882194c48e34d7372c90f73f0197baea5763a7859"
+      },
+      "portal_route": "research-engineering-lineage/agent-oriented-software-engineering/",
+      "family_current_index": "families/ama/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/26/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "AMA-L3",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "AMA-S",
+      "family": "AMA",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/27",
+      "accepted_scientific_subject": {
+        "bytes": 82725,
+        "sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/current/AMA-S.md",
+        "bytes": 16255,
+        "sha256": "0bcafec06bb3cfb92b2b84de395d82309b028d5bb09668f32dbe7b532f9fc2a0"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-ama.html",
+        "bytes": 22188,
+        "sha256": "3ec5e424898fe186c333b7568f943488cf668e4c687976f4f17aeea597b26e46"
+      },
+      "portal_route": "research-engineering-lineage/evolved-ama/",
+      "family_current_index": "families/ama/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/27/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "AMA-S",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SPR-L1",
+      "family": "SPR",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/28",
+      "accepted_scientific_subject": null,
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/current/SPR-L1.md",
+        "bytes": 16428,
+        "sha256": "bdb4797faf7b24719ca4ec047adb34893afef424cf9ad334cb0be94ac1202c83"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-system-identification.html",
+        "bytes": 10508,
+        "sha256": "d4be7a11fc45dfc1b75101e2e3439ba692b15bad53ee011ed40d67a031d82b23"
+      },
+      "portal_route": "research-engineering-lineage/system-identification/",
+      "family_current_index": "families/spr/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/28/retained_scientific_limits",
+      "historical_evidence_exception": "The final original SPR-L1 r4 subject, certificate and both original final reviews were not recovered. Available earlier historical ledger closure is explicitly distinguished from those absent proofs; accepted successor research does not reconstruct the missing originals.",
+      "rough_responsibility_slot": "SPR-L1",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SPR-L2",
+      "family": "SPR",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/29",
+      "accepted_scientific_subject": {
+        "bytes": 51611,
+        "sha256": "423762e1d9e9e9fa2466a787672d166c49e5ad3a1da310e8a52936c8bb63f35e"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/current/SPR-L2.md",
+        "bytes": 16081,
+        "sha256": "433ad48ae049fb59a6987174fb7b091c74dbb6364392fbf6d37ec91b0dc4075c"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-programming-language-theory.html",
+        "bytes": 10332,
+        "sha256": "59ee74f13b102b8d945384f5921cdeb054a630a1bc5b57862340768478afc21e"
+      },
+      "portal_route": "research-engineering-lineage/programming-language-theory/",
+      "family_current_index": "families/spr/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/29/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SPR-L2",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SPR-L3",
+      "family": "SPR",
+      "kind": "lineage",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/30",
+      "accepted_scientific_subject": {
+        "bytes": 51421,
+        "sha256": "fc48f0f8c45eedbb477ddd1f82d5e3b4f02849b08a0789cc40a89969e91f9417"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/current/SPR-L3.md",
+        "bytes": 17685,
+        "sha256": "c27ef22c4f8e2b731b71801106acf620363848797f086a7a7749c047c92b021a"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-requirements-engineering.html",
+        "bytes": 10430,
+        "sha256": "625532be575209c95d500222635f6d82135443c00bb23e9383fba3d8752c964c"
+      },
+      "portal_route": "research-engineering-lineage/requirements-engineering/",
+      "family_current_index": "families/spr/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/30/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SPR-L3",
+      "native_implementation_acceptance": false
+    },
+    {
+      "unit_id": "SPR-S",
+      "family": "SPR",
+      "kind": "synthesis",
+      "disclosure_disposition": "ACCEPTED_PUBLIC_SAFE_DERIVED_SCIENTIFIC_ACCOUNT",
+      "independent_fidelity_and_public_source_safety": "PASS_AT_DECLARED_REVIEW_SCOPE",
+      "review_group": "AMA-SSD-SPR-R3",
+      "scientific_identity_pointer": "PUBLIC_SCIENCE.json#/units/31",
+      "accepted_scientific_subject": {
+        "bytes": 16022,
+        "sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183"
+      },
+      "substantive_account": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/current/SPR-S.md",
+        "bytes": 20378,
+        "sha256": "d1bf9691296b1e0736067664b997d50bddd1f430811b5325086b10e8db13b366"
+      },
+      "maintained_page": {
+        "path": "docs/portal/pages/research-lineage-evolved-spr.html",
+        "bytes": 15091,
+        "sha256": "9780e079ec283bb97a20e56dee83c867ff872b77bec7befc0d70e62dfdfcdfe8"
+      },
+      "portal_route": "research-engineering-lineage/evolved-spr/",
+      "family_current_index": "families/spr/current/README.md",
+      "scientific_limitations_pointer": "PUBLIC_SCIENCE.json#/units/31/retained_scientific_limits",
+      "historical_evidence_exception": null,
+      "rough_responsibility_slot": "SPR-S",
+      "native_implementation_acceptance": false
+    }
+  ],
+  "review_record_integrity": "Hashes identify exact sealed component evidence without exposing private access paths or operational transcripts. This summary itself and its integration are subject to the separate exact final composition review; it does not self-certify that review.",
+  "publication_formatting_normalization": {
+    "scope": "Bounded integration-only formatting of 13 derived Markdown files after the actual main-range whitespace preflight. No historical original body, structured scientific value, Page content, link target, predicate or scientific judgment is changed.",
+    "removed_trailing_single_spaces": 110,
+    "removed_terminal_blank_lines": 9,
+    "files": [
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/relationships/source-identities.md",
+        "original_public_bytes": 45710,
+        "original_public_sha256": "a2bd198868bc922b53adb895bc3003509a9de268200001bce52e87c2a824f106",
+        "formatted_public_bytes": 45709,
+        "formatted_public_sha256": "989fdf55d2d194371dc52b492d3477b936a6e5c5f9b8e9df5796f05e9b112a0b",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L1.md",
+        "original_public_bytes": 16831,
+        "original_public_sha256": "12c0385f7fa5ee137294649cb1a2ea8e7ce492814f0ef31e7fa355d69f270f1d",
+        "formatted_public_bytes": 16830,
+        "formatted_public_sha256": "fbd554ae0b0d8cb4c07eb2e7be540189afbb222e650258874faf7ef6d1ff0955",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L2.md",
+        "original_public_bytes": 17394,
+        "original_public_sha256": "2360c4f771cc199083eaa9195b3db725326f227320f097a3225d6a4a631451af",
+        "formatted_public_bytes": 17393,
+        "formatted_public_sha256": "d409f345fddedda60e7b55529521c577726db3df8539518f33437a0b819fbaab",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-L3.md",
+        "original_public_bytes": 19029,
+        "original_public_sha256": "176f91f69a0a529b655aaf727074ee2e76363e6d567a39bf5664b80a0efa7304",
+        "formatted_public_bytes": 19028,
+        "formatted_public_sha256": "ce1faeca7a3e2eaef71c5063bc518a7d4e1f10a420f9b3ff648098bcfd281776",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-S.md",
+        "original_public_bytes": 40735,
+        "original_public_sha256": "35f49c7399695caaf2281a0bf80ebdd00391f20b370e165497b8c7924a9e956a",
+        "formatted_public_bytes": 40734,
+        "formatted_public_sha256": "e958bf07c849adbf3f490b1e7fe9000db82fddd42fb3c508461beda6ce93c1d5",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-0be00f7164600b45-DRF-L3-CASES.md",
+        "original_public_bytes": 41766,
+        "original_public_sha256": "4984de903747d7c20002435a39093507e08a3d8bc97c826d147bb0b0d91e6020",
+        "formatted_public_bytes": 41727,
+        "formatted_public_sha256": "c63d99a78cb767d7971f7844e33c24f244281f0f7e17b11a59692d313899d04b",
+        "trailing_single_spaces_removed": 39,
+        "terminal_blank_lines_removed": 0,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L1.md",
+        "original_public_bytes": 15346,
+        "original_public_sha256": "f5aa332bbc6c176bf4adbb0beed85a1db91443ac3c1757bc07f3a1276ccd0055",
+        "formatted_public_bytes": 15345,
+        "formatted_public_sha256": "167d5cc3d74492f44accc3128cdaebdf4aed1cfeb217895f75b94cb9f64689f4",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L2.md",
+        "original_public_bytes": 14899,
+        "original_public_sha256": "724aa225beaaa04f2572426dff8106e9d96816bc3fed4edf82ac8b829af0aaf8",
+        "formatted_public_bytes": 14898,
+        "formatted_public_sha256": "1f144f75b51afb807e6d299ac02b9f720fd54c8d0bf2af49deb6590dd1711a8f",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/current/LAW-L3.md",
+        "original_public_bytes": 15951,
+        "original_public_sha256": "cd0c7609eb81cfe4a742e564e015236e0f2b23ad19fa2c2054e828429db25561",
+        "formatted_public_bytes": 15950,
+        "formatted_public_sha256": "89ffcfa8e48f4db3efa6c7d9659bcf899ee574bb1e4202601ff5c3d409ec2484",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/current/SPR-L1-CURRENT-PROPERTIES.md",
+        "original_public_bytes": 2149931,
+        "original_public_sha256": "7558a8002e615f8cf4521c451527feeca50a6b2c28e1e46ab79f4c0471743f37",
+        "formatted_public_bytes": 2149919,
+        "formatted_public_sha256": "7203d5bd9407558777fc53dff41463c70e144947fbbe83a95fe76503c831c8d0",
+        "trailing_single_spaces_removed": 12,
+        "terminal_blank_lines_removed": 0,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/current/SPR-L1-HISTORICAL-PROPERTIES.md",
+        "original_public_bytes": 2145225,
+        "original_public_sha256": "fa8ff08baaf84cf340a0aa537ae26a0906acaf282ff453fcdb4bd1c769c7ba07",
+        "formatted_public_bytes": 2145213,
+        "formatted_public_sha256": "46cce4376b47e5fe4732575f4e111c98c9408c283f45229379652ed4d152f441",
+        "trailing_single_spaces_removed": 12,
+        "terminal_blank_lines_removed": 0,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/current/REVIEW_STAGES.md",
+        "original_public_bytes": 1900,
+        "original_public_sha256": "91c70ac5322b6f64bcce5d11966a16459322d858e251c34608a83613469fcdc2",
+        "formatted_public_bytes": 1899,
+        "formatted_public_sha256": "9bbb1f59c7e9f3c8b98beeef505c65a36fd312d4a41535a8c7a523838805d6dd",
+        "trailing_single_spaces_removed": 0,
+        "terminal_blank_lines_removed": 1,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      },
+      {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/current/SSD-L3-PROPERTIES.md",
+        "original_public_bytes": 443444,
+        "original_public_sha256": "41ede25f1d2dd6f944604ef9476fef9dacffe93de2b6022ae342673f71f4fe11",
+        "formatted_public_bytes": 443397,
+        "formatted_public_sha256": "d9101b319bc40fc117b53e81829c5f9e60baed4fee80def29302d8265bc4a5c1",
+        "trailing_single_spaces_removed": 47,
+        "terminal_blank_lines_removed": 0,
+        "scientific_values_changed": false,
+        "source_note": "Formatting of an original derived public Markdown rendering; accepted structured research and archival source bytes are unchanged."
+      }
+    ],
+    "review_boundary": "The component decisions bind the original public bytes; these separately identified formatting derivatives and this updated summary require exact final integration review. No earlier acceptance is silently transferred to changed bytes."
+  },
+  "historical_introduction_restoration": {
+    "unit_id": "SSD-L1",
+    "page": "docs/portal/pages/research-lineage-systems-engineering.html",
+    "original_main_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+    "preserved_documentary_commit": "dcf11fde0cbfd788bf05595f0698b3b76097bcbe",
+    "original_paragraph_sha256": "527ee2b9e4ffc4558f9e2a605821a235defcae25f7a486619130c6e1d5e1c5af",
+    "superseded_public_page": {
+      "bytes": 1374878,
+      "sha256": "d445138e09c0f52a46578be938cf4ee032b46f08025423dcb42a20288c3d72f0"
+    },
+    "restored_public_page": {
+      "bytes": 1374972,
+      "sha256": "eef8dd5022d2541d1880d01766d52d360c5c7885083330a8158a571600c39d47"
+    },
+    "reason": "The public normalization replaced the original introduction and lost the established lifecycle-coherence distinction. The unchanged reader-comprehension contract detected the omission. Restoring the exact accepted introduction preserves the historical source and its applicability guard.",
+    "original_reader_fixture_changed": false,
+    "scientific_subject_or_structured_data_changed": false,
+    "other_page_bytes_changed": false,
+    "review_boundary": "Affected final integration review of the exact restored source and updated hash mapping; no silent transfer of earlier Page-byte acceptance."
+  }
+}

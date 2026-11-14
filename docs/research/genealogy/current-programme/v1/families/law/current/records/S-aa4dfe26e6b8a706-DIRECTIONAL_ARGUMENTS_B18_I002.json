@@ -1,0 +1,1813 @@
+{
+  "source_identity": {
+    "source_id": "S-aa4dfe26e6b8a706",
+    "scientific_name": "DIRECTIONAL_ARGUMENTS_B18_I002.json",
+    "original_bytes": 99216,
+    "original_sha256": "aa4dfe26e6b8a706502da0f663fe57462b03df3979e7400bcc17dd97a84d03a9"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b18-factored-directional-arguments/1",
+    "identity": "B18-I002-ACTUAL-CHANGE-COST-COMPONENTS",
+    "directions": [
+      {
+        "judgment_id": "B18-I002-P01-F",
+        "pair_id": "B18-I002-P01",
+        "direction_key": "LAW-L1::EL-005->LAW-L3::EW-P038",
+        "source_native_id": "EL-005",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The actual batch-dependent setup and propagation components of change cost.",
+        "argument": "EL-005 supplies mechanisms by which cost can change without any change of calendar phase: repeated setup, coherent validation and the affected population of a batch. This gives EW-P038 a concrete alternative to lateness as a universal proxy. An isolated reduction in exposure can be useful even when recovery is absent; it is not complete reversibility or proof of lower total cost.",
+        "shared_pair_contract": {
+          "shared_object": "A coherent change batch whose setup, validation, affected population and failure exposure are the costs being compared.",
+          "guard": "The actual batch boundary changes setup frequency, feedback delay or an enforceably bounded independent affected population; a smaller label alone does not change cost.",
+          "nontrigger": "Already tiny changes or high fixed validation cost can favor an unchanged economic batch and earlier feedback within it.",
+          "alternative": "Compare coherent batch sizes at the same outcome and horizon, retaining a simple adequate existing batch rather than universal minimum size.",
+          "contrary_control": "Many small changes can still accumulate into one system release; fewer exposed independent instances can reduce one propagation term while recovery and overall safety remain unknown.",
+          "cost": "Include repeated setup and validation, coordination, delay and actual affected scope; do not infer exponential growth from a phase label or count a shared setup twice.",
+          "removal": "Removing the real batch boundary loses a specific setup/exposure comparison; removing a daily-release rule need not lose economic batching."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-005",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "MECHANISM",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 0,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P01-R",
+        "pair_id": "B18-I002-P01",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-005",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-005",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The economic justification for choosing or changing a batch size.",
+        "argument": "EW-P038 prevents EL-005's smaller-batch choice from being justified by an assumed exponential phase penalty. The actual setup, propagation, commitment and failure costs decide the comparison, so a larger coherent batch may remain adequate. Rejecting the curve does not establish that delay is harmless or that late changes are always cheap.",
+        "shared_pair_contract": {
+          "shared_object": "A coherent change batch whose setup, validation, affected population and failure exposure are the costs being compared.",
+          "guard": "The actual batch boundary changes setup frequency, feedback delay or an enforceably bounded independent affected population; a smaller label alone does not change cost.",
+          "nontrigger": "Already tiny changes or high fixed validation cost can favor an unchanged economic batch and earlier feedback within it.",
+          "alternative": "Compare coherent batch sizes at the same outcome and horizon, retaining a simple adequate existing batch rather than universal minimum size.",
+          "contrary_control": "Many small changes can still accumulate into one system release; fewer exposed independent instances can reduce one propagation term while recovery and overall safety remain unknown.",
+          "cost": "Include repeated setup and validation, coordination, delay and actual affected scope; do not infer exponential growth from a phase label or count a shared setup twice.",
+          "removal": "Removing the real batch boundary loses a specific setup/exposure comparison; removing a daily-release rule need not lose economic batching."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "MECHANISM",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-005",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 0,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P02-F",
+        "pair_id": "B18-I002-P02",
+        "direction_key": "LAW-L1::EL-006->LAW-L3::EW-P038",
+        "source_native_id": "EL-006",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "A specific change-cost component that can be altered independently of phase.",
+        "argument": "EL-006 explains how repeatable preparation, interface simplification or safe automation can alter actual transition cost. It therefore changes the cost premises in EW-P038 without invoking a universal lifecycle multiplier. This applies to the real transition; it does not establish that an arbitrary pipeline reduces total burden or that faster release makes the exposed behavior safe.",
+        "shared_pair_contract": {
+          "shared_object": "The actual transition or release whose preparation, validation, recovery and transferred work form part of change cost.",
+          "guard": "A measured or otherwise credibly identified setup/integration/release step materially contributes to this transition's cost; safe scope and transferred work are accounted for.",
+          "nontrigger": "Rare immaterial setup may need a documented path rather than an optimization program.",
+          "alternative": "Keep the existing adequate transition or remove a specific unnecessary step; automate only a stable repeatable function whose full costs justify it.",
+          "contrary_control": "A faster local release can simply move preparation or recovery work to another team; a late isolated edit can remain cheap after setup is reduced.",
+          "cost": "Include total preparation, switching, qualification and recovery rather than only visible button-to-release time.",
+          "removal": "Without the actual transition-cost mechanism the comparison may attribute avoidable setup to phase lateness; removing a workshop format does not remove cost accounting."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-006",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "MATURE_OR_EVOLVED_FORM",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 1,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P02-R",
+        "pair_id": "B18-I002-P02",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-006",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-006",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "receiver_premise": "Which transition costs and consequences the setup-reduction decision must compare.",
+        "argument": "EW-P038 separates edit effort from propagation, commitments and recovery, extending the comparison beyond local setup time. EL-006 must preserve those real consequences when evaluating a cheaper transition; an old phase curve cannot justify permanent heavy setup or prove an automation benefit. Existing adequate methods and required qualification remain live.",
+        "shared_pair_contract": {
+          "shared_object": "The actual transition or release whose preparation, validation, recovery and transferred work form part of change cost.",
+          "guard": "A measured or otherwise credibly identified setup/integration/release step materially contributes to this transition's cost; safe scope and transferred work are accounted for.",
+          "nontrigger": "Rare immaterial setup may need a documented path rather than an optimization program.",
+          "alternative": "Keep the existing adequate transition or remove a specific unnecessary step; automate only a stable repeatable function whose full costs justify it.",
+          "contrary_control": "A faster local release can simply move preparation or recovery work to another team; a late isolated edit can remain cheap after setup is reduced.",
+          "cost": "Include total preparation, switching, qualification and recovery rather than only visible button-to-release time.",
+          "removal": "Without the actual transition-cost mechanism the comparison may attribute avoidable setup to phase lateness; removing a workshop format does not remove cost accounting."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-006",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "MATURE_OR_EVOLVED_FORM",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 1,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P03-F",
+        "pair_id": "B18-I002-P03",
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P038",
+        "source_native_id": "EL-011",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "A real causal path by which delay can increase harm rather than repair effort.",
+        "argument": "EL-011 supplies the named abnormality, signal and opportunity for response that make a delay consequence concrete. It can explain a propagation term in EW-P038 even when repair effort is unchanged. The signal is not presumed accurate or effective merely because it is early, and a development repair-effort study cannot measure every such harm.",
+        "shared_pair_contract": {
+          "shared_object": "The specified abnormality whose detection/transmission/response delay permits additional propagation or harm.",
+          "guard": "The signal concerns that actual abnormality and can arrive early enough for an available response to affect its propagation; detection accuracy and response are distinct.",
+          "nontrigger": "Rare low-consequence events may use a manual owned report instead of continuous instrumentation.",
+          "alternative": "Use the smallest reliable signal and response path for the named condition, retaining a cheap manual path where adequate.",
+          "contrary_control": "An earlier alert with no receiver response need not reduce harm; late detection may increase affected output without changing the engineering effort needed to repair the cause.",
+          "cost": "Separate detector/attention/false-alarm cost, development repair effort and actual propagation or failure loss; do not equate all of them with time since project start.",
+          "removal": "Removing a useful signal can permit a specific propagation interval to continue; removing an andon light while preserving a reliable human signal need not lose detection."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-011",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "EMPIRICAL_OR_DOMAIN_EVIDENCE"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 2,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P03-R",
+        "pair_id": "B18-I002-P03",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-011",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-011",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The economic and evidential justification for earlier abnormality detection.",
+        "argument": "EW-P038 prevents EL-011's instrumentation from being justified by a universal exponential cost curve, while preserving the actual propagation loss that timely detection could affect. It requires matching the cost measure to the claim and keeping false alarms and response capacity in view. Rejecting a repair-effort law does not show that delayed detection of a harmful operational abnormality is safe.",
+        "shared_pair_contract": {
+          "shared_object": "The specified abnormality whose detection/transmission/response delay permits additional propagation or harm.",
+          "guard": "The signal concerns that actual abnormality and can arrive early enough for an available response to affect its propagation; detection accuracy and response are distinct.",
+          "nontrigger": "Rare low-consequence events may use a manual owned report instead of continuous instrumentation.",
+          "alternative": "Use the smallest reliable signal and response path for the named condition, retaining a cheap manual path where adequate.",
+          "contrary_control": "An earlier alert with no receiver response need not reduce harm; late detection may increase affected output without changing the engineering effort needed to repair the cause.",
+          "cost": "Separate detector/attention/false-alarm cost, development repair effort and actual propagation or failure loss; do not equate all of them with time since project start.",
+          "removal": "Removing a useful signal can permit a specific propagation interval to continue; removing an andon light while preserving a reliable human signal need not lose detection."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "EMPIRICAL_OR_DOMAIN_EVIDENCE"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-011",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 2,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P04-F",
+        "pair_id": "B18-I002-P04",
+        "direction_key": "LAW-L1::EL-012->LAW-L3::EW-P038",
+        "source_native_id": "EL-012",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The propagation/interruption/recovery tradeoff associated with a real containment mechanism.",
+        "argument": "EL-012 can change an actual propagation term through bounded containment, while adding interruption and recovery costs. These mechanisms explain why total consequences depend on more than calendar lateness. The partial contribution does not require durable prevention or full recovery to be already established, and containment itself supplies neither a diagnosis nor new stop/restart authority.",
+        "shared_pair_contract": {
+          "shared_object": "A real abnormality and the bounded hold, isolation or degradation decision that can limit its propagation.",
+          "guard": "The available containment actually bounds the affected objects or propagation path, and its stop/restart rights and interruption consequences are identified.",
+          "nontrigger": "Low-consequence reversible anomalies can use owned follow-up rather than stopping the entire system.",
+          "alternative": "Select the smallest adequate containment or continue under a justified follow-up path; do not infer a universal stop rule from late-change rhetoric.",
+          "contrary_control": "A stop can cause larger system harm or leave the cause unresolved; a valid isolation can reduce one affected population while complete recovery is still unknown.",
+          "cost": "Compare propagation harm with interruption, safe-state transition, investigation and recovery costs without assuming every cost is captured by defect-repair effort.",
+          "removal": "Without actual isolation a named fault may reach more objects; eliminating a physical stop cord alone does not remove an adequate bounded containment route."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-012",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 3,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P04-R",
+        "pair_id": "B18-I002-P04",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-012",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-012",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The cost and consequence comparison used to choose bounded containment.",
+        "argument": "EW-P038 requires EL-012 to compare the actual propagation, interruption and recovery consequences, rather than infer that a later anomaly automatically requires a broader stop. It also prevents a narrow development repair-effort finding from erasing operational harm. A small follow-up path can be adequate, but only at the actual consequence and authority boundary.",
+        "shared_pair_contract": {
+          "shared_object": "A real abnormality and the bounded hold, isolation or degradation decision that can limit its propagation.",
+          "guard": "The available containment actually bounds the affected objects or propagation path, and its stop/restart rights and interruption consequences are identified.",
+          "nontrigger": "Low-consequence reversible anomalies can use owned follow-up rather than stopping the entire system.",
+          "alternative": "Select the smallest adequate containment or continue under a justified follow-up path; do not infer a universal stop rule from late-change rhetoric.",
+          "contrary_control": "A stop can cause larger system harm or leave the cause unresolved; a valid isolation can reduce one affected population while complete recovery is still unknown.",
+          "cost": "Compare propagation harm with interruption, safe-state transition, investigation and recovery costs without assuming every cost is captured by defect-repair effort.",
+          "removal": "Without actual isolation a named fault may reach more objects; eliminating a physical stop cord alone does not remove an adequate bounded containment route."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-012",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 3,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P05-F",
+        "pair_id": "B18-I002-P05",
+        "direction_key": "LAW-L1::EL-013->LAW-L3::EW-P038",
+        "source_native_id": "EL-013",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The specific downstream-work and containment mechanism behind a conditional early-check benefit.",
+        "argument": "EL-013 grounds the early-prevention concern behind EW-P038 in a named defect, useful source check and avoidable propagation. That can support an early check without a universal exponential law. It does not show that all late repairs are costly, that source checks see system failures, or that adding inspection always has positive net value.",
+        "shared_pair_contract": {
+          "shared_object": "A defect whose source check can prevent avoidable downstream propagation or loss of diagnostic context.",
+          "guard": "The check has useful sensitivity for the named failure before it propagates, and the downstream work or harm it could avoid is actual rather than inferred from phase labels.",
+          "nontrigger": "Very low-risk reversible output can use sampled or downstream validation with usable traceability.",
+          "alternative": "Place a proportionate trustworthy check where it has decision value; preserve necessary system-level assurance and an adequate cheap downstream path.",
+          "contrary_control": "Local checks can miss an emergent system failure; early inspection can cost more than the loss it avoids, while a known propagated defect can still be very costly.",
+          "cost": "Include source-check and containment costs, false confidence, avoided downstream work and remaining system assurance on the same scope.",
+          "removal": "Removing a useful source check loses an actual opportunity to limit escape; removing an inspection stamp alone does not remove source quality."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-013",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "ORIGINAL_FORM",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 4,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P05-R",
+        "pair_id": "B18-I002-P05",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-013",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-013",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The justification and scope of quality-at-source controls.",
+        "argument": "EW-P038 removes the generic phase multiplier as sufficient warrant for EL-013's checks. The comparison must use actual sensitivity, propagation and validation costs, retaining independent system assurance where local checks cannot see the failure. Rejecting the universal curve therefore permits proportional downstream alternatives without denying genuine benefits of early trustworthy containment.",
+        "shared_pair_contract": {
+          "shared_object": "A defect whose source check can prevent avoidable downstream propagation or loss of diagnostic context.",
+          "guard": "The check has useful sensitivity for the named failure before it propagates, and the downstream work or harm it could avoid is actual rather than inferred from phase labels.",
+          "nontrigger": "Very low-risk reversible output can use sampled or downstream validation with usable traceability.",
+          "alternative": "Place a proportionate trustworthy check where it has decision value; preserve necessary system-level assurance and an adequate cheap downstream path.",
+          "contrary_control": "Local checks can miss an emergent system failure; early inspection can cost more than the loss it avoids, while a known propagated defect can still be very costly.",
+          "cost": "Include source-check and containment costs, false confidence, avoided downstream work and remaining system assurance on the same scope.",
+          "removal": "Removing a useful source check loses an actual opportunity to limit escape; removing an inspection stamp alone does not remove source quality."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "ORIGINAL_FORM",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-013",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 4,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P06-F",
+        "pair_id": "B18-I002-P06",
+        "direction_key": "LAW-L1::EL-026->LAW-L3::EW-P038",
+        "source_native_id": "EL-026",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The actual failure/recovery component outside development repair effort.",
+        "argument": "EL-026 supplies a criticality- and consequence-specific maintenance and recovery question. It identifies costs and capabilities that EW-P038's repair-effort evidence cannot automatically measure, while permitting cheap replacement where adequate. The relation is the named failure and restoration path, not a generic assertion that maintenance is beneficial or that reliability requires every delivery control.",
+        "shared_pair_contract": {
+          "shared_object": "A specified asset or service failure and its actual maintenance, downtime, replacement and recovery path.",
+          "guard": "This failure's consequences and feasible repair/replacement/recovery are the costs being evaluated; software edit effort is not assumed to capture service downtime or physical restoration.",
+          "nontrigger": "A noncritical cheap rapidly replaceable item can use run-to-failure with spares and a tested replacement path.",
+          "alternative": "Compare actual maintenance and recovery policies, including a valid existing replacement approach, rather than imposing a calendar-driven universal prevention program.",
+          "contrary_control": "A small repair edit can accompany substantial downtime; expensive preventive work can be worse than replacement for a noncritical item.",
+          "cost": "Include maintenance labor, spares, planned/unplanned downtime and actual restoration; preserve correlated-failure uncertainty and avoid treating recovery as known from a plan.",
+          "removal": "Without a feasible recovery path the failure-loss premise remains open; a separate demonstrated reduction in exposed independent instances can still be retained."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-026",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "EMPIRICAL_OR_DOMAIN_EVIDENCE"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 5,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P06-R",
+        "pair_id": "B18-I002-P06",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-026",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-026",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "receiver_premise": "The measured basis for maintenance/recovery policy and the interpretation of late repair.",
+        "argument": "EW-P038 requires EL-026 to distinguish actual restoration and failure loss from the effort to change the defective component. It prevents both universal early-maintenance justification and the inference that absent global repair-effort escalation makes delayed operational repair harmless. Existing cheap run-to-failure remains possible at its noncritical, replaceable boundary.",
+        "shared_pair_contract": {
+          "shared_object": "A specified asset or service failure and its actual maintenance, downtime, replacement and recovery path.",
+          "guard": "This failure's consequences and feasible repair/replacement/recovery are the costs being evaluated; software edit effort is not assumed to capture service downtime or physical restoration.",
+          "nontrigger": "A noncritical cheap rapidly replaceable item can use run-to-failure with spares and a tested replacement path.",
+          "alternative": "Compare actual maintenance and recovery policies, including a valid existing replacement approach, rather than imposing a calendar-driven universal prevention program.",
+          "contrary_control": "A small repair edit can accompany substantial downtime; expensive preventive work can be worse than replacement for a noncritical item.",
+          "cost": "Include maintenance labor, spares, planned/unplanned downtime and actual restoration; preserve correlated-failure uncertainty and avoid treating recovery as known from a plan.",
+          "removal": "Without a feasible recovery path the failure-loss premise remains open; a separate demonstrated reduction in exposed independent instances can still be retained."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "EMPIRICAL_OR_DOMAIN_EVIDENCE"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-026",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 5,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P07-F",
+        "pair_id": "B18-I002-P07",
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P038",
+        "source_native_id": "EL-029",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The actual commitment boundary and feasible alternatives governing reversal cost.",
+        "argument": "EL-029 explains a specific reason later change can become expensive: committing to an option can eliminate alternatives and create real reversal work. That contribution supports EW-P038's commitment-sensitive alternative without treating phase as the cause. Preserving options is conditional on learning value, affordability and deadlines, not a universal instruction to defer.",
+        "shared_pair_contract": {
+          "shared_object": "An uncertain coupled design option whose irreversible convergence creates actual reversal or commitment-unwind cost.",
+          "guard": "The option choice has real costly-reversal commitments and discriminating learning remains feasible within the actual deadline and capacity.",
+          "nontrigger": "Familiar reversible low-coupling work can select one option and retain a fallback note.",
+          "alternative": "Compare affordable option preservation with prompt commitment using expected learning, reversal cost, delay and delivery constraints.",
+          "contrary_control": "An early irreversible fabrication commitment can be costly to unwind; a later reversible design choice can remain cheap, and unbounded option proliferation can itself be wasteful.",
+          "cost": "Include parallel exploration, delayed benefit and the particular sunk or externally binding commitments; age alone is not an option-value measure.",
+          "removal": "Without the real commitment/option distinction the decision may confuse elapsed phase with lock-in; removing an option matrix does not necessarily remove feasible alternatives."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-029",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "MATURE_OR_EVOLVED_FORM"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 6,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P07-R",
+        "pair_id": "B18-I002-P07",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-029",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-029",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The evidence and cost basis for delaying irreversible convergence.",
+        "argument": "EW-P038 prevents an assumed exponential late-change curve from forcing EL-029's premature convergence or from justifying indefinite option preservation. Actual edit, propagation, commitment and failure costs must be distinguished. A measured expensive commitment can still warrant early learning; a cheap reversible decision can retain the single-option alternative.",
+        "shared_pair_contract": {
+          "shared_object": "An uncertain coupled design option whose irreversible convergence creates actual reversal or commitment-unwind cost.",
+          "guard": "The option choice has real costly-reversal commitments and discriminating learning remains feasible within the actual deadline and capacity.",
+          "nontrigger": "Familiar reversible low-coupling work can select one option and retain a fallback note.",
+          "alternative": "Compare affordable option preservation with prompt commitment using expected learning, reversal cost, delay and delivery constraints.",
+          "contrary_control": "An early irreversible fabrication commitment can be costly to unwind; a later reversible design choice can remain cheap, and unbounded option proliferation can itself be wasteful.",
+          "cost": "Include parallel exploration, delayed benefit and the particular sunk or externally binding commitments; age alone is not an option-value measure.",
+          "removal": "Without the real commitment/option distinction the decision may confuse elapsed phase with lock-in; removing an option matrix does not necessarily remove feasible alternatives."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-029",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "MATURE_OR_EVOLVED_FORM"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 6,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P08-F",
+        "pair_id": "B18-I002-P08",
+        "direction_key": "LAW-L1::EL-031->LAW-L3::EW-P038",
+        "source_native_id": "EL-031",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "A specific software-native mechanism that changes one actual cost or exposure component.",
+        "argument": "EL-031 supplies actual mechanisms for transition effort, integration feedback, bounded propagation and recovery. Any established one can inform EW-P038's multidimensional cost comparison without requiring the whole sustainable-delivery configuration. The argument does not infer lineage from similar vocabulary, treat a pipeline as valid by label, or turn smaller exposure into complete safety.",
+        "shared_pair_contract": {
+          "shared_object": "A real software change and the particular delivery, exposed-population, observation or recovery mechanism affecting its consequences.",
+          "guard": "The actual service/configuration and affected population are identified, and any claimed automation, isolation or recovery capability is established only at the scope of the contribution being used.",
+          "nontrigger": "Infrequent low-risk software may use a reproducible build, basic checks and a documented release/recovery path without the full delivery bundle.",
+          "alternative": "Select the few controls that address the actual bottleneck or loss, preserving a demonstrated narrow exposure reduction even if other fuller-configuration premises remain unknown.",
+          "contrary_control": "A low-effort late code edit can expose irreversible data; an enforced small independent exposure can reduce affected instances without establishing rollback, total benefit or humane operations.",
+          "cost": "Keep automation/verification/on-call burden, propagation, commitments and recovery distinct; deployment frequency is not value and observational guidance is not a causal bundle estimate.",
+          "removal": "Removing a real isolated-exposure boundary can increase the affected population; absence of another delivery control must not erase that established partial effect."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-031",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "EMPIRICAL_OR_DOMAIN_EVIDENCE"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 7,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P08-R",
+        "pair_id": "B18-I002-P08",
+        "direction_key": "LAW-L3::EW-P038->LAW-L1::EL-031",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EL-031",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The cost and risk justification for a particular software delivery control.",
+        "argument": "EW-P038 prevents both a universal exponential phase curve and a universal cheap-late-software claim from selecting EL-031's controls. Actual propagation, commitments and operational loss may dominate edit effort. The selected partial-effect qualifier remains intact: unknown recovery does not negate a separately demonstrated bounded-population effect, and the full bundle does not guarantee overall benefit.",
+        "shared_pair_contract": {
+          "shared_object": "A real software change and the particular delivery, exposed-population, observation or recovery mechanism affecting its consequences.",
+          "guard": "The actual service/configuration and affected population are identified, and any claimed automation, isolation or recovery capability is established only at the scope of the contribution being used.",
+          "nontrigger": "Infrequent low-risk software may use a reproducible build, basic checks and a documented release/recovery path without the full delivery bundle.",
+          "alternative": "Select the few controls that address the actual bottleneck or loss, preserving a demonstrated narrow exposure reduction even if other fuller-configuration premises remain unknown.",
+          "contrary_control": "A low-effort late code edit can expose irreversible data; an enforced small independent exposure can reduce affected instances without establishing rollback, total benefit or humane operations.",
+          "cost": "Keep automation/verification/on-call burden, propagation, commitments and recovery distinct; deployment frequency is not value and observational guidance is not a causal bundle estimate.",
+          "removal": "Removing a real isolated-exposure boundary can increase the affected population; absence of another delivery control must not erase that established partial effect."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "EMPIRICAL_OR_DOMAIN_EVIDENCE"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EL-031",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "KNOWN_FAILURE_MODES",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 7,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P09-F",
+        "pair_id": "B18-I002-P09",
+        "direction_key": "LAW-L2::EA-02->LAW-L3::EW-P038",
+        "source_native_id": "EA-02",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "receiver_premise": "Actual behavior evidence about a propagation or feasibility assumption in the cost comparison.",
+        "argument": "EA-02 can expose an integration failure or establish a bounded behavior before dependent commitments accumulate. The named evidence can change EW-P038's propagation or commitment assessment; the source does not supply a universal cost multiplier or prove every failure loss. A failed or unchanged test result can remain informative without flipping the final decision.",
+        "shared_pair_contract": {
+          "shared_object": "A real integrated behavior or interface whose evidence changes the assessment of propagation or commitment risk.",
+          "guard": "The identified configuration, representative environment, oracle and evidence scope address the behavior implicated in this change-cost decision.",
+          "nontrigger": "A suitable proof, model, simulation or small prototype can be cheaper than a production-like integrated demonstration.",
+          "alternative": "Obtain the smallest representative evidence that discriminates the real interface/feasibility question before the relevant commitment, without prescribing a phase.",
+          "contrary_control": "A mocked demo can conceal propagation; a valid integrated result can support one runtime premise while user value, operational harm and exposure permission remain open.",
+          "cost": "Compare evidence acquisition and rework avoidance at the actual commitment; neither demo completion nor calendar position determines the loss avoided.",
+          "removal": "Without representative integrated evidence a specific propagation/feasibility premise can remain unknown; removing the demonstration ceremony need not remove that evidence."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-02",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 8,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P09-R",
+        "pair_id": "B18-I002-P09",
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-02",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EA-02",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The economic and evidential scope used to select integrated behavior evidence.",
+        "argument": "EW-P038 ties EA-02's timing and scope to the actual consequences and commitments, instead of assuming that every later discovery is exponentially costly. It permits an adequate cheap model or bounded test while preserving early evidence where propagation or irreversible exposure is substantial. Working behavior still does not prove value, complete safety or permission.",
+        "shared_pair_contract": {
+          "shared_object": "A real integrated behavior or interface whose evidence changes the assessment of propagation or commitment risk.",
+          "guard": "The identified configuration, representative environment, oracle and evidence scope address the behavior implicated in this change-cost decision.",
+          "nontrigger": "A suitable proof, model, simulation or small prototype can be cheaper than a production-like integrated demonstration.",
+          "alternative": "Obtain the smallest representative evidence that discriminates the real interface/feasibility question before the relevant commitment, without prescribing a phase.",
+          "contrary_control": "A mocked demo can conceal propagation; a valid integrated result can support one runtime premise while user value, operational harm and exposure permission remain open.",
+          "cost": "Compare evidence acquisition and rework avoidance at the actual commitment; neither demo completion nor calendar position determines the loss avoided.",
+          "removal": "Without representative integrated evidence a specific propagation/feasibility premise can remain unknown; removing the demonstration ceremony need not remove that evidence."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-02",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 8,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P10-F",
+        "pair_id": "B18-I002-P10",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P038",
+        "source_native_id": "EA-06",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The repeatable verification and actual propagation components affected by detecting a regression.",
+        "argument": "EA-06 supplies a concrete relevant-change check that can alter when a specific defect is found and whether dependent work consumes it. This grounds an early-detection benefit in an actual mechanism for EW-P038, without assuming repair effort grows exponentially. Oracle quality, missed modes and check-maintenance costs remain independent requirements for the claimed contribution.",
+        "shared_pair_contract": {
+          "shared_object": "A specific recurring behavior change and the regression check that can reveal a defect before further dependent use.",
+          "guard": "A credible repeatable check covers the relevant changed behavior; avoided propagation and repeated verification economics are distinguished from the effort to repair a discovered defect.",
+          "nontrigger": "Throwaway or unautomatable work can use targeted manual, sampled or simulated checks; TDD order is not required.",
+          "alternative": "Retain the smallest reliable repeatable or manual verification appropriate to the actual regression exposure and cost.",
+          "contrary_control": "A green suite can miss a hazardous interaction; discovering a defect earlier may reduce propagation while leaving the repair's coding effort unchanged.",
+          "cost": "Include check development, maintenance, runtime and false confidence alongside repeated verification and actual avoided downstream loss.",
+          "removal": "Removing the relevant regression check loses one early signal; removing a named test-first ceremony need not lose repeatable evidence."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-06",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "ORIGINAL_FORM",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 9,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P10-R",
+        "pair_id": "B18-I002-P10",
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-06",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EA-06",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The justification for regression timing, scope and automation cost.",
+        "argument": "EW-P038 requires EA-06's verification economics to use actual repetition, propagation and consequence rather than a universal late-defect curve. It neither establishes universal TDD superiority nor suggests delaying high-consequence checks is safe. A cheap manual check can remain adequate for a one-off case, while reusable credible checks can preserve a partial regression warrant short of complete assurance.",
+        "shared_pair_contract": {
+          "shared_object": "A specific recurring behavior change and the regression check that can reveal a defect before further dependent use.",
+          "guard": "A credible repeatable check covers the relevant changed behavior; avoided propagation and repeated verification economics are distinguished from the effort to repair a discovered defect.",
+          "nontrigger": "Throwaway or unautomatable work can use targeted manual, sampled or simulated checks; TDD order is not required.",
+          "alternative": "Retain the smallest reliable repeatable or manual verification appropriate to the actual regression exposure and cost.",
+          "contrary_control": "A green suite can miss a hazardous interaction; discovering a defect earlier may reduce propagation while leaving the repair's coding effort unchanged.",
+          "cost": "Include check development, maintenance, runtime and false confidence alongside repeated verification and actual avoided downstream loss.",
+          "removal": "Removing the relevant regression check loses one early signal; removing a named test-first ceremony need not lose repeatable evidence."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "ORIGINAL_FORM",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-06",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 9,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P11-F",
+        "pair_id": "B18-I002-P11",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P038",
+        "source_native_id": "EA-07",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The accumulated interaction and dependent-work mechanisms behind a particular late-integration cost.",
+        "argument": "EA-07 identifies how real integration can expose incompatible changes before additional dependencies accumulate. That supplies an actual propagation/rework mechanism for EW-P038 and can alter the cost of a later repair without a universal phase law. It depends on credible combined-state evidence and repair, not merge frequency by itself.",
+        "shared_pair_contract": {
+          "shared_object": "Interacting changes whose actual combined-state verification can reveal incompatible assumptions before more dependent work accumulates.",
+          "guard": "Changes actually integrate into an identified authoritative mainline with credible verification and repair; branch badges or a CI server do not establish that state.",
+          "nontrigger": "An isolated artifact or coherent single release can be adequately verified without continuous integration or a clock-driven cadence.",
+          "alternative": "Use a reproducible combined build and cadence appropriate to actual interaction risk, preserving a cheap adequate final-verification path where there are no ongoing dependencies.",
+          "contrary_control": "Frequent untested merging can propagate instability faster; late integration cost may arise from accumulated interacting work rather than calendar age itself.",
+          "cost": "Include merging, verification and repair work, lost isolation and actual dependent rework; count repeated pipeline burden and do not claim a causal productivity effect size.",
+          "removal": "Removing actual combined-state verification can leave a specific interaction unknown; removing a badge alone does not remove integration."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-07",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 10,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P11-R",
+        "pair_id": "B18-I002-P11",
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-07",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EA-07",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "receiver_premise": "The scope and cadence justification for integrating and verifying changes.",
+        "argument": "EW-P038 directs EA-07's cadence to actual interaction and commitment risk, preventing a generic exponential curve from imposing continuous integration on an isolated one-off artifact. It also prevents absent global repair-effort escalation being read as permission to ignore accumulated interface incompatibility. Real mainline health remains separate from complete release qualification and exposure authority.",
+        "shared_pair_contract": {
+          "shared_object": "Interacting changes whose actual combined-state verification can reveal incompatible assumptions before more dependent work accumulates.",
+          "guard": "Changes actually integrate into an identified authoritative mainline with credible verification and repair; branch badges or a CI server do not establish that state.",
+          "nontrigger": "An isolated artifact or coherent single release can be adequately verified without continuous integration or a clock-driven cadence.",
+          "alternative": "Use a reproducible combined build and cadence appropriate to actual interaction risk, preserving a cheap adequate final-verification path where there are no ongoing dependencies.",
+          "contrary_control": "Frequent untested merging can propagate instability faster; late integration cost may arise from accumulated interacting work rather than calendar age itself.",
+          "cost": "Include merging, verification and repair work, lost isolation and actual dependent rework; count repeated pipeline burden and do not claim a causal productivity effect size.",
+          "removal": "Removing actual combined-state verification can leave a specific interaction unknown; removing a badge alone does not remove integration."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-07",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 10,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P12-F",
+        "pair_id": "B18-I002-P12",
+        "direction_key": "LAW-L2::EA-19->LAW-L3::EW-P038",
+        "source_native_id": "EA-19",
+        "receiver_native_id": "EW-P038",
+        "orientation": "forward",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The actual coupling and shared authority boundary explaining propagation or unwind cost.",
+        "argument": "EA-19 makes EW-P038's propagation and commitment components concrete by identifying real dependencies and interface rights. A small edit can impose large consumer work at that boundary, while independent work need not incur it. The mapping is actual cross-system coupling, not calendar lateness, a hypothetical supplier or a universal need for coordinated delivery.",
+        "shared_pair_contract": {
+          "shared_object": "The actual system/interface dependency through which a proposed change propagates or creates a shared commitment.",
+          "guard": "The affected consumers, interface/version and smallest authoritative boundary are identified; no supplier, external tool or shared resource is invented merely to connect the records.",
+          "nontrigger": "Truly independent teams need no universal coordination framework; a small interface contract and occasional integration can be adequate.",
+          "alternative": "Remove avoidable dependencies where feasible or govern the remaining actual interfaces with the smallest sufficient contract and authoritative decision.",
+          "contrary_control": "A one-line late interface change can require many consumer changes; an isolated late edit can remain cheap, and a populated dependency board alone changes neither case.",
+          "cost": "Count actual consumer propagation, integration, coordination and commitment unwind across the system boundary, preserving shared costs and affected-party consequences.",
+          "removal": "Without the real dependency relation the cost assessment can omit affected consumers; removing universal synchronization need not remove necessary interface governance."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-19",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "MATURE_OR_EVOLVED_FORM"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 11,
+          "orientation": "forward"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      },
+      {
+        "judgment_id": "B18-I002-P12-R",
+        "pair_id": "B18-I002-P12",
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-19",
+        "source_native_id": "EW-P038",
+        "receiver_native_id": "EA-19",
+        "orientation": "reverse",
+        "entry_status": "UNEXAMINED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INTERPRETATION_QUALIFIER",
+          "SCOPE_CONSTRAINT"
+        ],
+        "receiver_premise": "The reason and proportional scope for cross-system change coordination.",
+        "argument": "EW-P038 prevents EA-19's coordination burden from being justified by phase age alone and directs attention to actual affected interfaces, commitments and recovery. It retains meaningful shared authority and consumer evidence even when coding effort is small. Rejecting universal escalation does not eliminate unavoidable dependencies or make local optimization an adequate system decision.",
+        "shared_pair_contract": {
+          "shared_object": "The actual system/interface dependency through which a proposed change propagates or creates a shared commitment.",
+          "guard": "The affected consumers, interface/version and smallest authoritative boundary are identified; no supplier, external tool or shared resource is invented merely to connect the records.",
+          "nontrigger": "Truly independent teams need no universal coordination framework; a small interface contract and occasional integration can be adequate.",
+          "alternative": "Remove avoidable dependencies where feasible or govern the remaining actual interfaces with the smallest sufficient contract and authoritative decision.",
+          "contrary_control": "A one-line late interface change can require many consumer changes; an isolated late edit can remain cheap, and a populated dependency board alone changes neither case.",
+          "cost": "Count actual consumer propagation, integration, coordination and commitment unwind across the system boundary, preserving shared costs and affected-party consequences.",
+          "removal": "Without the real dependency relation the cost assessment can omit affected consumers; removing universal synchronization need not remove necessary interface governance."
+        },
+        "source_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EW-P038",
+          "fields": [
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "REQUALIFICATION",
+            "KNOWN_FAILURE_MODES"
+          ]
+        },
+        "receiver_native_premises": {
+          "file": {
+            "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+            "bytes": 101693,
+            "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+          },
+          "record_pointer": "/records/EA-19",
+          "fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "MATURE_OR_EVOLVED_FORM"
+          ]
+        },
+        "common_profile_ref": {
+          "path": "research/increment_002/LITERAL_SOURCE_B18_I002.json",
+          "pointer": "/common_profiles/P038"
+        },
+        "literal": {
+          "file": {
+            "path": "authoring/change_cost_i002.yaml",
+            "bytes": 35759,
+            "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+          },
+          "pair_index": 11,
+          "orientation": "reverse"
+        },
+        "constructed_control_ids": [
+          "C09",
+          "C15",
+          "C19"
+        ],
+        "reentry": "Reopen for changed native/source meaning, a contrary case at the exact guard, a demonstrated cheaper adequate alternative, or application beyond the stated cost measure, identity, consequence or authority scope.",
+        "application_guard_status": "NOT_EVALUATED_ON_ANY_REAL_ENGINEERING_TARGET",
+        "author_status": "NEW_GUARDED_AUTHOR_PROPOSAL_NOT_INDEPENDENT_ACCEPTANCE"
+      }
+    ],
+    "common_profiles": {
+      "P038": {
+        "native_ids": [
+          "EW-P038",
+          "EW-P033"
+        ],
+        "interpretation": "Reject the universal exponential cost law inferred from calendar phase. Distinguish edit/development repair effort, propagation across affected objects, unwinding actual commitments, and failure/recovery loss. Use consequence, coupling, observability, test scarcity, urgency and feasible recovery at the actual change, preserving applicable binding minima. No universal numeric score or threshold replaces the rejected curve.",
+        "authority_limit": "Economic comparison grants no change, exposure, stop or restart authority. A small code edit can have irreversible effects; available rollback does not undo disclosed information or every transaction. Conversely a useful bounded reduction in one affected population does not require every recovery or assurance condition to hold.",
+        "evidence_ceiling": "Selected S048 concerns development-phase TSP time/defect logs and repair effort, not all post-delivery harm or economic cost. Its preprint and journal are one study. S047 is an inherited domain account with highly variable multipliers; it does not establish a universal software curve. S008 supplies a risk-driven analytical alternative, not a general causal guarantee. This author freshly read these source metadata, not their primary bodies. Finite invented examples below discriminate meanings; they are not estimates or real guard validations."
+      },
+      "controls": {
+        "C09": "Exact I018 partial-premise and unknown-guard contrast, not rerun.",
+        "C15": "Exact I018 same-horizon shared/duplicate/no-change cost contrast, not rerun.",
+        "C19": "New specified finite cost-component and partial-effect contrasts; execution is separately recorded."
+      }
+    },
+    "native_factors": {
+      "path": "research/increment_002/NATIVE_FACTORS_B18_I002.json",
+      "bytes": 101693,
+      "sha256": "abccd2d5c99fb6b7c2b54b99e4abdd38516ee9e14103a394e80fdea2c8e27aff"
+    },
+    "literal": {
+      "path": "authoring/change_cost_i002.yaml",
+      "bytes": 35759,
+      "sha256": "5e80172592f29089db210345bb7e5355a4973941cd006caf2c8032ef709db82a"
+    },
+    "scope_rule": "Twelve named native interfaces are examined. Other remaining EW-P038 pairs remain unexamined; they are not screened negative by title or generic cost. Each direction is separately authored. A useful contribution to one cost or risk premise does not require proof of whole-system safety, reversibility or benefit. The reported MATERIAL dispositions are conditional analytical relations, not observed target effects or a target-positive count.",
+    "qualification_effect": 0
+  }
+}

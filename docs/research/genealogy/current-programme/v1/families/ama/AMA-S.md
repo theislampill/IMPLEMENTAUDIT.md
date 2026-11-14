@@ -1,5 +1,9 @@
 # AMA-S — whole synthesis and its public disclosure boundary
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/AMA-S.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+## Earlier documentary record
+
 [Family](README.md) · [Autonomous Agents](AMA-L1.md) · [Multi-Agent Systems](AMA-L2.md) · [Canonical AOSE](AMA-L3.md) · [Genealogy](GENEALOGY.md) · [Four responsibilities](RLGWO_OUTLINES.md)
 
 ## Current qualification and exact public scope

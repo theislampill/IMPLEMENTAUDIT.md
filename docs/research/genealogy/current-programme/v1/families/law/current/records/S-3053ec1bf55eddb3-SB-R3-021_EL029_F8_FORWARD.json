@@ -1,0 +1,861 @@
+{
+  "source_identity": {
+    "source_id": "S-3053ec1bf55eddb3",
+    "scientific_name": "SB-R3-021_EL029_F8_FORWARD.json",
+    "original_bytes": 68423,
+    "original_sha256": "3053ec1bf55eddb3ba9efa9c336e870196124d927028362a6ee39727210adf64"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-021",
+    "title": "EL-029_FORWARD_OPTIONS_KNOWLEDGE_AND_COMMITMENT_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:19:00.323449+00:00",
+    "inquiry_family": 8,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_006.json",
+      "bytes": 5734,
+      "sha256": "52f8b4f2d55daa5731ba8c9bbfd496fbc506e076bd1f0a1d281ad1b7c3637fbe"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal option method, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-029",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        }
+      },
+      {
+        "native_id": "EL-030",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        }
+      },
+      {
+        "native_id": "EL-032",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        }
+      },
+      {
+        "native_id": "EW-P002",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        }
+      },
+      {
+        "native_id": "EW-P003",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        }
+      },
+      {
+        "native_id": "EW-P004",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        }
+      },
+      {
+        "native_id": "EW-P021",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P024",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY8_SOURCE_INQUIRY.json",
+      "bytes": 1839,
+      "sha256": "93d9dfa37e8a10c9bd1225ffd7aa7fa08d9962301458a21c5a48996fbf265b11"
+    },
+    "native_common_basis": "Decision-relevant feasible alternatives are retained only while learning and avoided reversal justify their cost and respect the real convergence deadline.",
+    "common_cost_and_alternative": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "An option list treated as joint feasibility.",
+      "A confirming experiment rejected because the action remains unchanged.",
+      "A prototype treated as complete product qualification.",
+      "A partial input rejected for failing the whole receiver.",
+      "Sunk expenditure treated as future benefit.",
+      "Private cost preference treated as authority to waive a binding obligation."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P002",
+        "argument": "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P003",
+        "argument": "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P004",
+        "argument": "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P021",
+        "argument": "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P022",
+        "argument": "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P024",
+        "argument": "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P025",
+        "argument": "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P033",
+        "argument": "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P002",
+        "overclaim": "Listing alternatives without a discriminating question, owner or decision date does not make uncertainty manageable; already established requirements are not all tentative.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P003",
+        "overclaim": "Individually feasible subsystem options can have an empty joint intersection; a large option list is not evidence of a feasible architecture.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P004",
+        "overclaim": "Testing an irrelevant feature or unrepresentative context does not justify eliminating the risky alternative; more prototypes can merely duplicate expense.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P021",
+        "overclaim": "A claimed last-responsible moment can be fabricated; delay may expire a supplier offer or miss a nonnegotiable safety deadline.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P022",
+        "overclaim": "A nominal software increment can still require full irreversible tooling or data migration; dividing the schedule does not create an option.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P024",
+        "overclaim": "Keeping several options is not permission to omit binding evidence, and cheap reversible work need not receive a set-based process.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P025",
+        "overclaim": "Speculative avoided regret is not a measured saving; counting the same option benefit twice can make an uneconomic exploration appear worthwhile.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P033",
+        "overclaim": "A design can be cheap to edit yet create irreversible disclosure or physical harm; option count is not a risk score.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared models, constraints, prototypes, organizations or source works are not independent controls or benefits.",
+    "direction": "forward",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L1::EL-029->LAW-L3::EW-P002",
+      "LAW-L1::EL-029->LAW-L3::EW-P003",
+      "LAW-L1::EL-029->LAW-L3::EW-P004",
+      "LAW-L1::EL-029->LAW-L3::EW-P021",
+      "LAW-L1::EL-029->LAW-L3::EW-P022",
+      "LAW-L1::EL-029->LAW-L3::EW-P024",
+      "LAW-L1::EL-029->LAW-L3::EW-P025",
+      "LAW-L1::EL-029->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P002",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P002",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "literal_bridge": "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement."
+        },
+        "shared_question_or_object": "An uncertain coupled design choice before its next costly commitment.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "literal_bridge": "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement."
+        },
+        "source_contribution": "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement.",
+        "receiving_consequence": "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement."
+        ],
+        "premises_remaining": [
+          "Actual epistemic status, learning owner, evidence relevance and decision deadline remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Listing alternatives without a discriminating question, owner or decision date does not make uncertainty manageable; already established requirements are not all tentative.",
+        "counter_control": "Listing alternatives without a discriminating question, owner or decision date does not make uncertainty manageable; already established requirements are not all tentative.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. Established routine behavior may need only normal change handling.",
+        "subcondition_evidence": {
+          "P1": "An uncertain coupled design choice before its next costly commitment.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "A consequential assumption in a development commitment",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+            "literal_bridge": "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement."
+          },
+          "P3": "An explicit set of still-feasible options and discriminating elimination criteria make the unresolved choice and planned learning concrete rather than silently treating one design as a settled requirement.",
+          "P4": "Actual epistemic status, learning owner, evidence relevance and decision deadline remain necessary. Control: Listing alternatives without a discriminating question, owner or decision date does not make uncertainty manageable; already established requirements are not all tentative."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P002->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P003",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P003",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "literal_bridge": "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden."
+        },
+        "shared_question_or_object": "An architectural commitment whose coupled constraints admit several candidate designs.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "literal_bridge": "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden."
+        },
+        "source_contribution": "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden.",
+        "receiving_consequence": "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden."
+        ],
+        "premises_remaining": [
+          "Representative constraints, question-valid models, actual feasibility and commitment authority remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Individually feasible subsystem options can have an empty joint intersection; a large option list is not evidence of a feasible architecture.",
+        "counter_control": "Individually feasible subsystem options can have an empty joint intersection; a large option list is not evidence of a feasible architecture.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. A local reversible refactor can use existing architectural knowledge.",
+        "subcondition_evidence": {
+          "P1": "An architectural commitment whose coupled constraints admit several candidate designs.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+            "literal_bridge": "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden."
+          },
+          "P3": "Maintaining options until their relevant constraints are tested can expose an infeasible early point choice before tooling, interfaces or supplier commitments harden.",
+          "P4": "Representative constraints, question-valid models, actual feasibility and commitment authority remain necessary. Control: Individually feasible subsystem options can have an empty joint intersection; a large option list is not evidence of a feasible architecture."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P004",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P004",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "literal_bridge": "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning."
+        },
+        "shared_question_or_object": "A risky design choice for which an executable test can distinguish retained alternatives.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "literal_bridge": "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning."
+        },
+        "source_contribution": "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning.",
+        "receiving_consequence": "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning."
+        ],
+        "premises_remaining": [
+          "An actual discriminating question, representative conditions and honest evidence ceiling remain necessary; an informative confirmation can preserve the action while changing its warrant.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Testing an irrelevant feature or unrepresentative context does not justify eliminating the risky alternative; more prototypes can merely duplicate expense.",
+        "counter_control": "Testing an irrelevant feature or unrepresentative context does not justify eliminating the risky alternative; more prototypes can merely duplicate expense.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. Existing adequate evidence or focused analysis may replace a new prototype.",
+        "subcondition_evidence": {
+          "P1": "A risky design choice for which an executable test can distinguish retained alternatives.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+            "literal_bridge": "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning."
+          },
+          "P3": "The candidate set and explicit elimination question identify what a prototype must discriminate and prevent a polished demonstration from standing in for risk-relevant learning.",
+          "P4": "An actual discriminating question, representative conditions and honest evidence ceiling remain necessary; an informative confirmation can preserve the action while changing its warrant. Control: Testing an irrelevant feature or unrepresentative context does not justify eliminating the risky alternative; more prototypes can merely duplicate expense."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P004->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P021",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P021",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "literal_bridge": "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished."
+        },
+        "shared_question_or_object": "An empowered decision to commit to one design while other options remain feasible.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "literal_bridge": "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished."
+        },
+        "source_contribution": "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished.",
+        "receiving_consequence": "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished."
+        ],
+        "premises_remaining": [
+          "Actual current evidence, empowered authority, real alternatives and transparent decision criteria remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A claimed last-responsible moment can be fabricated; delay may expire a supplier offer or miss a nonnegotiable safety deadline.",
+        "counter_control": "A claimed last-responsible moment can be fabricated; delay may expire a supplier offer or miss a nonnegotiable safety deadline.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. An asynchronous documented decision may suffice where permitted.",
+        "subcondition_evidence": {
+          "P1": "An empowered decision to commit to one design while other options remain feasible.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "A decision that commits substantial resources or exposure",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+            "literal_bridge": "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished."
+          },
+          "P3": "The actual option set, elimination evidence and convergence costs inform go, hold, redirect or stop and expose a review that occurs after alternatives have already vanished.",
+          "P4": "Actual current evidence, empowered authority, real alternatives and transparent decision criteria remain necessary. Control: A claimed last-responsible moment can be fabricated; delay may expire a supplier offer or miss a nonnegotiable safety deadline."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P022",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open."
+        },
+        "shared_question_or_object": "A proposed sequence of commitments that preserves a specific design option.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open."
+        },
+        "source_contribution": "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open.",
+        "receiving_consequence": "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open."
+        ],
+        "premises_remaining": [
+          "Genuine separability, coherent integration, evidence timing and feasible retained options remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A nominal software increment can still require full irreversible tooling or data migration; dividing the schedule does not create an option.",
+        "counter_control": "A nominal software increment can still require full irreversible tooling or data migration; dividing the schedule does not create an option.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. Stable understood delivery can justify a larger commitment without artificial increments.",
+        "subcondition_evidence": {
+          "P1": "A proposed sequence of commitments that preserves a specific design option.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "A sequence of commitments under uncertainty",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+            "literal_bridge": "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open."
+          },
+          "P3": "Feasible alternative designs and their learning dependencies reveal whether an increment genuinely leaves a costly downstream choice open.",
+          "P4": "Genuine separability, coherent integration, evidence timing and feasible retained options remain necessary. Control: A nominal software increment can still require full irreversible tooling or data migration; dividing the schedule does not create an option."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P024",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P024",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "literal_bridge": "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence."
+        },
+        "shared_question_or_object": "Selecting the depth of controls for an uncertain design option decision.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "literal_bridge": "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence."
+        },
+        "source_contribution": "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence.",
+        "receiving_consequence": "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence."
+        ],
+        "premises_remaining": [
+          "Applicable obligations, real tailoring authority and the adequacy of the whole control package remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Keeping several options is not permission to omit binding evidence, and cheap reversible work need not receive a set-based process.",
+        "counter_control": "Keeping several options is not permission to omit binding evidence, and cheap reversible work need not receive a set-based process.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. Existing adequate controls and no added process are legitimate.",
+        "subcondition_evidence": {
+          "P1": "Selecting the depth of controls for an uncertain design option decision.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "Selection of assurance activities for a context",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+            "literal_bridge": "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence."
+          },
+          "P3": "The actual uncertainty, coupling, reversal cost and parallel-learning burden supply context for choosing proportionate evidence and review around convergence.",
+          "P4": "Applicable obligations, real tailoring authority and the adequacy of the whole control package remain necessary. Control: Keeping several options is not permission to omit binding evidence, and cheap reversible work need not receive a set-based process."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P024->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P025",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design."
+        },
+        "shared_question_or_object": "A forecast and investment estimate that include the cost of preserving design alternatives.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design."
+        },
+        "source_contribution": "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design.",
+        "receiving_consequence": "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design."
+        ],
+        "premises_remaining": [
+          "Comparable evidence, transparent ranges and assumptions, actual updates and distinction between target and forecast remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Speculative avoided regret is not a measured saving; counting the same option benefit twice can make an uneconomic exploration appear worthwhile.",
+        "counter_control": "Speculative avoided regret is not a measured saving; counting the same option benefit twice can make an uneconomic exploration appear worthwhile.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. A short-horizon forecast can be adequate for bounded work.",
+        "subcondition_evidence": {
+          "P1": "A forecast and investment estimate that include the cost of preserving design alternatives.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "A forecast used for resource or commitment decisions",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+            "literal_bridge": "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design."
+          },
+          "P3": "Parallel effort, convergence deadlines, option value and potential reversal cost identify scenario assumptions omitted by a single-point forecast of the preferred design.",
+          "P4": "Comparable evidence, transparent ranges and assumptions, actual updates and distinction between target and forecast remain necessary. Control: Speculative avoided regret is not a measured saving; counting the same option benefit twice can make an uneconomic exploration appear worthwhile."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-029->LAW-L3::EW-P033",
+        "source_native_id": "EL-029",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path."
+        },
+        "shared_question_or_object": "Choosing control strength before an irreversible design convergence.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path."
+        },
+        "source_contribution": "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path.",
+        "receiving_consequence": "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path."
+        ],
+        "premises_remaining": [
+          "Consequence, actual recovery, coupling, urgency and applicable minima remain separate dimensions.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A design can be cheap to edit yet create irreversible disclosure or physical harm; option count is not a risk score.",
+        "counter_control": "A design can be cheap to edit yet create irreversible disclosure or physical harm; option count is not a risk score.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Parallel exploration, prototypes, scarce skill, delay and loss of an expiring option count. A familiar reversible decision can choose one design with a fallback note. Use an existing adequate preauthorized path where its actual guard holds.",
+        "subcondition_evidence": {
+          "P1": "Choosing control strength before an irreversible design convergence.",
+          "P2": {
+            "source_bearer": "A design decision with uncertain coupled constraints and costly reversal",
+            "receiving_bearer": "A decision about assurance strength under change",
+            "source_native_proposition": "Preserve only decision-relevant alternatives until evidence changes expected regret; record eliminated options and convergence rationale.",
+            "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+            "literal_bridge": "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path."
+          },
+          "P3": "Identified coupling and option loss supply commitment dimensions for the assurance decision, while cheap reversible choices retain a lightweight path.",
+          "P4": "Consequence, actual recovery, coupling, urgency and applicable minima remain separate dimensions. Control: A design can be cheap to edit yet create irreversible disclosure or physical harm; option count is not a risk score."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L1::EL-029",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

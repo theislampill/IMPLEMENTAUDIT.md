@@ -1,5 +1,9 @@
 # AMA-L1 — Autonomous Agents
 
+> **Current scientific edition — 13 November 2026.** Read the [substantive current research](current/AMA-L1.md) for the public scientific account, corrected predicates, guards, contrary findings and evidence limits. The record below is the earlier documentary cutoff. Its generic PENDING/private/no-public-body statements are dated history and do not describe the current edition. Historical scientific bodies and their original source identities remain unchanged.
+
+## Earlier documentary record
+
 [Family](README.md) · [Genealogy](GENEALOGY.md) · [Synthesis](AMA-S.md) · [Owner mapping](OWNER_COMPOSITION.md) · [Rough outlines](RLGWO_OUTLINES.md) · [Completeness](COMPLETENESS.md)
 
 ## Two scientific layers

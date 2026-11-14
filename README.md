@@ -1523,6 +1523,11 @@ Evolved-DRF, Evolved-SSS, Evolved-BWP, Evolved-AMA and Evolved-SPR. The
 records 24 constituent lineages and eight separate fourth-stage syntheses, with
 scientific qualification, central receiving, documentation and native implementation
 kept distinct. Original family explanations retain their historical scope.
+The [current public scientific corpus](docs/research/genealogy/current-programme/v1/CURRENT_RESEARCH.md)
+provides substantial individual accounts of all 24 constituent studies and eight
+qualified syntheses, with their predicates, guarded interactions, alternatives,
+negative and unresolved findings, exact scientific identities and evidence limits.
+The individual Pages explanations link to these deeper research accounts.
 The [repository genealogy corpus](docs/research/genealogy/README.md) is retained
 in the v0.4.0.0 source tree as exact research memory, remains excluded from both
 runtime package projections, and does not activate the deferred v0.4.1

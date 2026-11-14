@@ -1,5 +1,8 @@
 # BWP-L3 — Process Mining
 
+> **Current scientific reading route — 13 November 2026:** the substantial [BWP-L3 account](current/BWP-L3.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 ## Public scope and current qualification
 
 This is a source-grounded reader of the **already-public historical** Process Mining study. It preserves all 84 original property identities and every historical property field. Its findings are attributed to that historical source, including assertions later revised by the separately qualified current study. It does not present the old population as new research.

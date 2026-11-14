@@ -1,0 +1,1914 @@
+{
+  "source_identity": {
+    "source_id": "S-d3e6c3d20019de42",
+    "scientific_name": "DIRECTION_ARGUMENTS_B33_I009.json",
+    "original_bytes": 99913,
+    "original_sha256": "d3e6c3d20019de42471d05243bc089dd6b1608fdcd2084298140a89cd926177d"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b33-current-factored-directed-arguments/1",
+    "identity": "B33_INCREMENT_009",
+    "literal_source": {
+      "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+      "bytes": 34867,
+      "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+    },
+    "common_contract": {
+      "population": "Only the eight independent directions below. The five complete capsules and eight queried rows locate this inquiry; neither location nor shared terminology admits a direction.",
+      "actual_use": "An actual combined configuration/result is consumed for a specific governing-intent, uncertain-premise, executable-learning or intended-use question, or a real condition from that question selects or interprets integration. No hypothetical user, downstream tool vendor or merely possible automation supplies the bridge.",
+      "partial_input": "A result or criterion can be material before the receiver is wholly established. Failure of a necessary same-scoped condition can refute that premise while other requirements remain unknown. Passing the condition does not settle those unknowns, authorize a requirement change, retire every risk or validate the whole operational purpose.",
+      "evidence_kind": "Nine exact old C27 case objects are reused as bounded technical evidence, with five dependent observations from eight component calls. There is no new control, specimen or observed stakeholder/commitment effect. Actual-use bridges remain explicit native/analytical premises.",
+      "reverse": "Each reverse is independently argued from a different source function. Two-way membership does not imply equal effects, compulsory joint adoption or a universal method bundle.",
+      "history": "All prior examined assignments, 476 examined unknowns, scoped corrections, missing original arrays, failures and UNKNOWN terminals remain exact. H14 date prose is clarified under a new identity without modifying its inherited record or I007/I008."
+    },
+    "directions": [
+      {
+        "id": "B33-I009-D01",
+        "source": "LAW-L2::EA-07",
+        "receiver": "LAW-L3::EW-P001",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "REQUALIFICATION.qualitative_criterion",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "A current combined implementation and an actual operative requirement or assumption whose implementation/verification state is used by dependent decision makers.",
+        "guard": "The integrated evidence is actually used to establish or challenge the state, interpretation or feasibility of a relevant operative obligation, with configuration and criterion correspondence. One such obligation can be informative before the entire requirements state is known or sound.",
+        "source_contribution": "Real combination exposes whether independently plausible changes jointly meet the operative condition. The result can distinguish implemented from verified, reveal an obsolete interpretation, or provide a concrete anomaly for the actual owner to resolve.",
+        "receiving_consequence": "The authoritative state can retain a known failed verification, correct a mistaken implementation claim or undergo an authorized reconsideration of its premise. A failure does not by itself say whether implementation or the requirement should change, and a green result cannot promote proposed intent to approved intent.",
+        "remaining_premises": "Actual ownership and authority, the correct operative version and stakeholder meaning, configuration correspondence, unresolved obligations and a legitimate change path. These are not produced by the integration record alone.",
+        "positive_witness": "C27's mixed pair has actual output 300 against the independently declared 3 while local component contracts pass. If that condition is an operative combined-system obligation, the known mismatch changes its verification status even while other obligations remain unknown. The coherent pair's 3 is bounded supporting evidence, not requirements authority.",
+        "nontrigger_or_counterexample": "A branch badge or prior baseline pass used without correspondence to the actual combined target cannot establish its operative state. If nobody consumes this result for an intent-state decision, general proximity to requirements does not create this directional use.",
+        "cheap_alternative_and_removal": "A short owned executable example, current direct assembly result or adequate complete analysis may already supply the relevant status. Removing that sole correspondence loses the input; removing CI repetition while preserving adequate current evidence need not. Requirements may legitimately remain unchanged after correcting the implementation.",
+        "reentry": "Revisit on a changed combined configuration, operative condition, authority, interpretation or correspondence, including discovery that the approved requirement itself was mistaken.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair"
+          },
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Old observed technical distinctions only. No actual requirement owner, approval, status update or requirement-change effect was executed.",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P001",
+        "reverse_direction_key": "LAW-L3::EW-P001->LAW-L2::EA-07",
+        "entry_row": [
+          "LAW-L2::EA-07->LAW-L3::EW-P001",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P001",
+            "capsule": {
+              "path": "reading/i009/native/EW-P001.json",
+              "bytes": 7195,
+              "sha256": "b2a72c1492189821ddb809582e543a0709ff468094c2d51427bddfd3f797b7fc"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P001::MECHANISM",
+            "LAW-L3::EW-P001::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P001::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P001::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P001::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P001::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old observed technical distinctions only. No actual requirement owner, approval, status update or requirement-change effect was executed.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/1/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "49267700a23a42377ac81a2d0cec092da4af2f6db6804f59f7bccf61611b1844",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old observed technical distinctions only. No actual requirement owner, approval, status update or requirement-change effect was executed.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/2/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/4",
+            "canonical_value_sha256": "d1441763c01e989cc2b0e5cd4bfac6be8a5958652432214386e6783d004268cf",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old observed technical distinctions only. No actual requirement owner, approval, status update or requirement-change effect was executed.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/4/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I009-D02",
+        "source": "LAW-L3::EW-P001",
+        "receiver": "LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "CEREMONY_VS_PROPERTY",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "CEREMONY_VS_PROPERTY",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "The actual requirement version or owned example used to choose and judge a combined integration check.",
+        "guard": "A current operative criterion, version or unresolved status from the intent state is actually consumed in selecting the integrated subject or interpreting health. A single relevant criterion can supply this input without waiting for a complete specification or a requirements-complete gate.",
+        "source_contribution": "Identified authority, state and revision distinguish the intended behavior from whichever output the implementation happens to produce. Explicit supersession and uncertainty prevent an obsolete or proposed obligation from silently becoming the current pass/fail basis.",
+        "receiving_consequence": "The integration practice can reject an echo oracle, scope a result to the actual obligation and reopen the affected check when its governing premise changes. Mainline authority identifies code; it does not determine stakeholder intent by itself.",
+        "remaining_premises": "The governing criterion must still be correct enough for its stated purpose, interpreted faithfully and mapped to the real combined system. An authoritative but wrong requirement can yield a truthful technical pass and a wrong product.",
+        "positive_witness": "C27's mixed output passes a circular criterion copied from 300 but fails the independently stated 3. Supplying the actual independently grounded criterion changes interpretation without another component call. In the evidence view with the criterion removed, the output is unscored; the full record still retains the criterion elsewhere.",
+        "nontrigger_or_counterexample": "An unused document or a signed obsolete requirement does not improve the integration criterion merely through formal approval. This relation does not require complete up-front requirements, and it does not turn all requirement changes into mandatory complete integration campaigns.",
+        "cheap_alternative_and_removal": "A short current owned example and version history can suffice. Where complete pure-source analysis answers that exact condition, repeated execution is optional. Removing the only criterion makes health uninterpretable; removing a giant specification while preserving its relevant authoritative meaning does not.",
+        "reentry": "Revisit when intended behavior, version, uncertainty, ownership, interface interpretation or the combined implementation invalidates the previous criterion mapping.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle"
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "The criterion is independently declared inside the authored toy, not authorized by a real stakeholder. No organizational authority or causal requirement-management benefit is measured.",
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L3::EW-P001",
+        "entry_row": [
+          "LAW-L3::EW-P001->LAW-L2::EA-07",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P001",
+            "capsule": {
+              "path": "reading/i009/native/EW-P001.json",
+              "bytes": 7195,
+              "sha256": "b2a72c1492189821ddb809582e543a0709ff468094c2d51427bddfd3f797b7fc"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P001::MECHANISM",
+            "LAW-L3::EW-P001::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P001::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P001::CEREMONY_VS_PROPERTY",
+            "LAW-L3::EW-P001::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P001::REQUALIFICATION.qualitative_criterion"
+          ],
+          "receiver": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::CEREMONY_VS_PROPERTY",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/8",
+            "canonical_value_sha256": "d38038612f0b2477728c0d74c70422512e472421be183a5693a243acb3e27fca",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The criterion is independently declared inside the authored toy, not authorized by a real stakeholder. No organizational authority or causal requirement-management benefit is measured.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/8/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/7",
+            "canonical_value_sha256": "e33ec0b0cf977061572be0fc35bd3c315844b0d036b97ae5e6fe9dbc8e2e087c",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The criterion is independently declared inside the authored toy, not authorized by a real stakeholder. No organizational authority or causal requirement-management benefit is measured.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/7/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "be40a6960bd007e91e14276629c46767a09d65a519513e0c89f126ef8687f820",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The criterion is independently declared inside the authored toy, not authorized by a real stakeholder. No organizational authority or causal requirement-management benefit is measured.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/6/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I009-D03",
+        "source": "LAW-L2::EA-07",
+        "receiver": "LAW-L3::EW-P002",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "shared_object": "An actual uncertain premise about interacting changes whose status informs an identified development commitment or learning decision.",
+        "guard": "A relevant integrated observation or justified analysis is actually consumed to assess a named interaction assumption or choose its next learning action. It need not settle every other assumption or complete the uncertainty-management arrangement.",
+        "source_contribution": "Real combined behavior can replace an unsupported compatibility assumption with bounded contrary or supporting evidence. Independent local success is insufficient where the premise concerns composition; an observed necessary mismatch is distinguishable from an unexamined condition.",
+        "receiving_consequence": "The specific assumption can be challenged, narrowed or supported and its outstanding learning obligation adjusted. A known failure can defeat an impending commitment's necessary premise even while other requirements remain unknown; a single pass cannot promote all assumptions to fact.",
+        "remaining_premises": "The actual decision owner and deadline, relevance and representativeness of the condition, a warranted criterion, uncertainty outside the condition and a real disposition or next learning action.",
+        "positive_witness": "At C27's isolated-only prefix both local contracts pass but no combined observation has yet occurred. The later actual mixed result fails the independent preservation condition. If the current commitment depends on that condition, the failure is informative without waiting for an exhaustive requirements set. This is reuse of a recorded information distinction, not an observed commitment change.",
+        "nontrigger_or_counterexample": "An assumption register that records green integration but changes no actual epistemic or decision use can remain theatre. Routine demonstrated behavior can have no material unresolved premise; it need not acquire a new uncertainty register merely because CI exists.",
+        "cheap_alternative_and_removal": "An exact current result, complete adequate analysis or a short already-maintained assumption note can supply the input. Removing the sole relevant evidence leaves that premise uncertain, not automatically false. Removing a repeated run with sufficient current evidence intact preserves the input.",
+        "reentry": "Revisit on changed interaction assumptions, criteria, operating conditions, evidence validity or the commitment that consumes the result; retain unresolved unrelated assumptions explicitly.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Old technical observations distinguish local from combined evidence. There is no observed owner, uncertainty-register change, actual decision deadline, risk retirement or economic effect.",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P002",
+        "reverse_direction_key": "LAW-L3::EW-P002->LAW-L2::EA-07",
+        "entry_row": [
+          "LAW-L2::EA-07->LAW-L3::EW-P002",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P002",
+            "capsule": {
+              "path": "reading/i009/native/EW-P002.json",
+              "bytes": 6720,
+              "sha256": "f5c06a59ad7849d9ae4f356a78a019bf4a49e47f9dbd6c19c3c2a1e5bfb145b8"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::TRIGGER_OR_CONTEXT",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P002::MECHANISM",
+            "LAW-L3::EW-P002::TRIGGER_OR_CONTEXT",
+            "LAW-L3::EW-P002::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P002::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P002::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P002::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "dbf830da434c85de107d093033fcad210330c01f02ba653d3e4e9c1cbec28ad8",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old technical observations distinguish local from combined evidence. There is no observed owner, uncertainty-register change, actual decision deadline, risk retirement or economic effect.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/0/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old technical observations distinguish local from combined evidence. There is no observed owner, uncertainty-register change, actual decision deadline, risk retirement or economic effect.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/1/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "147e9d66d1e556b8e6e2da61ce0f725299955bc720aa6c4f737956f357253783",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old technical observations distinguish local from combined evidence. There is no observed owner, uncertainty-register change, actual decision deadline, risk retirement or economic effect.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/5/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I009-D04",
+        "source": "LAW-L3::EW-P002",
+        "receiver": "LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "CEREMONY_VS_PROPERTY",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "A real unresolved interaction premise, its needed evidence and decision horizon used to select or interpret an integration activity.",
+        "guard": "A specific assumption, uncertainty status or learning deadline is actually used to choose the relevant integration boundary, condition, timing or interpretation. A useful single premise suffices; the whole uncertainty ledger need not first be complete or effective.",
+        "source_contribution": "Explicit epistemic status identifies what is genuinely known, what the current oracle assumes and which combined evidence could change a pending decision. It can prevent a locally green or unscored result from silently settling a broader compatibility question.",
+        "receiving_consequence": "Integration can address the actual uncertainty before its commitment horizon, report the limit of a pass and choose an adequate economical method. No uncertainty label by itself demands increased frequency or a new executable test when current evidence or complete analysis already resolves the relevant premise.",
+        "remaining_premises": "An economical feasible learning route, truthful criteria, actual combined correspondence, a real owner or consumer where required and willingness to act on contrary evidence. Merely listing unknowns supplies no execution or learning outcome.",
+        "positive_witness": "C27's criterion-removed view has output but no pass/fail basis in that view, whereas its echo criterion falsely labels the incompatible output as successful. Explicitly identifying the missing or circular premise changes what may be inferred. The complete pure-source analysis shows a valid alternative to scheduling another call where its full premises hold.",
+        "nontrigger_or_counterexample": "An unconsumed risk spreadsheet, an uncertainty unrelated to any integration decision, or endlessly reopening already demonstrated behavior provides no current directional use. Declaring everything tentative can itself block useful commitment.",
+        "cheap_alternative_and_removal": "A short assumption list or one owned question can replace a standing meeting or large register. Existing warranted evidence can close the question without a new integration run. Removing all awareness of the relevant unknown can hide a false pass; removing administrative machinery while preserving that awareness need not.",
+        "reentry": "Revisit when the unknown, decision horizon, evidence route or actual interaction changes, or the current question is retired because it can no longer change a decision.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet"
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "These are old evidence-view and analytic distinctions. C27 does not instantiate a live uncertainty-management process, schedule or decision owner, and no improved cadence or learning rate is measured.",
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L3::EW-P002",
+        "entry_row": [
+          "LAW-L3::EW-P002->LAW-L2::EA-07",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P002",
+            "capsule": {
+              "path": "reading/i009/native/EW-P002.json",
+              "bytes": 6720,
+              "sha256": "f5c06a59ad7849d9ae4f356a78a019bf4a49e47f9dbd6c19c3c2a1e5bfb145b8"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P002::MECHANISM",
+            "LAW-L3::EW-P002::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P002::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P002::CEREMONY_VS_PROPERTY",
+            "LAW-L3::EW-P002::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P002::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ],
+          "receiver": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::TRIGGER_OR_CONTEXT",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/7",
+            "canonical_value_sha256": "e33ec0b0cf977061572be0fc35bd3c315844b0d036b97ae5e6fe9dbc8e2e087c",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "These are old evidence-view and analytic distinctions. C27 does not instantiate a live uncertainty-management process, schedule or decision owner, and no improved cadence or learning rate is measured.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/7/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/8",
+            "canonical_value_sha256": "d38038612f0b2477728c0d74c70422512e472421be183a5693a243acb3e27fca",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "These are old evidence-view and analytic distinctions. C27 does not instantiate a live uncertainty-management process, schedule or decision owner, and no improved cadence or learning rate is measured.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/8/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "be40a6960bd007e91e14276629c46767a09d65a519513e0c89f126ef8687f820",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "These are old evidence-view and analytic distinctions. C27 does not instantiate a live uncertainty-management process, schedule or decision owner, and no improved cadence or learning rate is measured.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/6/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I009-D05",
+        "source": "LAW-L2::EA-07",
+        "receiver": "LAW-L3::EW-P004",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "REINFORCEMENT_AT_GUARD"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "PROBLEM_IT_ADDRESSED",
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "shared_object": "A real combined thin increment or integrated experiment used to investigate a specified material risk before an actual commitment.",
+        "guard": "The integration output is actually consumed in a representative-enough executable investigation of an interaction risk with an identified decision it can change. The experiment's whole decision outcome need not already be established for the technical input to be useful.",
+        "source_contribution": "A genuinely integrated subject and credible combined result can supply the executable discriminator that component demonstrations omit. It can expose incompatibility while the next design or commitment remains revisable.",
+        "receiving_consequence": "The experiment gains a scoped answer about the targeted interaction and can limit an unwarranted demonstration claim. Whether that answer actually retires risk or changes commitment depends on representativeness and the real decision use; execution alone does not satisfy those conditions.",
+        "remaining_premises": "A specified material risk and decision, adequate fidelity for that risk, credible outcome criterion, protected ability to change the next commitment and explicit separation between prototype and qualified production evidence.",
+        "positive_witness": "C27 demonstrates why two locally passing components are not the same discriminator as the real mixed composition: the latter returns 300 rather than required 3, while a coherent combination returns 3. Used for an actual compatibility-risk question, this is relevant technical input; the toy does not record a real project choosing a new commitment.",
+        "nontrigger_or_counterexample": "A polished green demonstration with no risk question, insufficient environment or no decision it can affect is not risk retirement. A label such as prototype or MVP does not turn arbitrary integration into representative learning.",
+        "cheap_alternative_and_removal": "A small direct coherent assembly or ordinary automated test may suffice; complete analysis or existing justified evidence may obviate a new prototype. Removing the only relevant combined discriminator loses the learning input, but removing CI branding or a separate prototype phase does not necessarily lose it.",
+        "reentry": "Revisit when the risk, representation, criterion, integration boundary or next commitment changes, including the decision to harden a prototype for actual production.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "One old finite composition supplies a technical interaction discriminator. There is no field prototype, actual irreversible commitment, measured risk reduction or causal schedule benefit.",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P004",
+        "reverse_direction_key": "LAW-L3::EW-P004->LAW-L2::EA-07",
+        "entry_row": [
+          "LAW-L2::EA-07->LAW-L3::EW-P004",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P004",
+            "capsule": {
+              "path": "reading/i009/native/EW-P004.json",
+              "bytes": 7025,
+              "sha256": "67d169853e5e382590622fb0ca79fa36a2452ca77039f59025c3ec2f43241601"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3"
+            },
+            "selected_ref": null,
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::TRIGGER_OR_CONTEXT",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P004::PROBLEM_IT_ADDRESSED",
+            "LAW-L3::EW-P004::MECHANISM",
+            "LAW-L3::EW-P004::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P004::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P004::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P004::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "dbf830da434c85de107d093033fcad210330c01f02ba653d3e4e9c1cbec28ad8",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "One old finite composition supplies a technical interaction discriminator. There is no field prototype, actual irreversible commitment, measured risk reduction or causal schedule benefit.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/0/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "One old finite composition supplies a technical interaction discriminator. There is no field prototype, actual irreversible commitment, measured risk reduction or causal schedule benefit.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/1/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "49267700a23a42377ac81a2d0cec092da4af2f6db6804f59f7bccf61611b1844",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "One old finite composition supplies a technical interaction discriminator. There is no field prototype, actual irreversible commitment, measured risk reduction or causal schedule benefit.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/2/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I009-D06",
+        "source": "LAW-L3::EW-P004",
+        "receiver": "LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "An actual experimental risk question, representative boundary or observed limitation used to select and interpret a combined integration activity.",
+        "guard": "The experiment's actual question, required fidelity or finding informs which interacting changes must be combined, what condition to check or what claim is permitted. One relevant question or finding is enough; a completed risk-retirement programme is not an entry condition.",
+        "source_contribution": "Risk-targeted experiment design supplies a reason for the particular integration cut and criterion instead of a schedule-only green badge. It can reveal that an easy nominal case omits the interaction or operational condition the current decision depends on.",
+        "receiving_consequence": "Integration can include the critical boundary, preserve prototype limits and avoid turning a convenient demo into a broad mainline-health claim. It may rationally retain the coherent baseline or use adequate analysis rather than promote a risky change just because a prototype exists.",
+        "remaining_premises": "Real combination and truthful evidence, representative fidelity for the question, a governing criterion and the proper distinction between learning from a prototype and the health of the delivered mainline.",
+        "positive_witness": "C27's real mixed composition exposes the missed unit contract, while its baseline composition remains a valid pass. A real investigation aimed at this compatibility risk would select the joined boundary and preservation criterion; the result does not require that the updated branch be promoted. Complete pure-source algebra can answer the same transparent technical question without an extra invocation.",
+        "nontrigger_or_counterexample": "A prototype unrelated to the integrated subject or a ceremonial pilot whose fidelity omits the material risk supplies no such integration constraint. There is no general requirement to create a second full system before integrating routine changes.",
+        "cheap_alternative_and_removal": "A small spike, existing equivalent evidence, transparent adequate analysis or justified no-change baseline may suffice. Removing the risk label while retaining the real question and its criterion preserves the function; removing all representation of the critical interaction can leave a misleading green health claim.",
+        "reentry": "Revisit when an experiment's fidelity, risk question, finding, promotion criterion or actual combined target changes. Do not treat prototype productionization as automatically warranted.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_baseline_pair"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "The question-to-boundary implication is native/analytical reasoning over old technical evidence. No real experimental governance, promotion or risk-retirement decision is observed.",
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L3::EW-P004",
+        "entry_row": [
+          "LAW-L3::EW-P004->LAW-L2::EA-07",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P004",
+            "capsule": {
+              "path": "reading/i009/native/EW-P004.json",
+              "bytes": 7025,
+              "sha256": "67d169853e5e382590622fb0ca79fa36a2452ca77039f59025c3ec2f43241601"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3"
+            },
+            "selected_ref": null,
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P004::MECHANISM",
+            "LAW-L3::EW-P004::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P004::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P004::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P004::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P004::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ],
+          "receiver": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::TRIGGER_OR_CONTEXT",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The question-to-boundary implication is native/analytical reasoning over old technical evidence. No real experimental governance, promotion or risk-retirement decision is observed.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/1/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_baseline_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/3",
+            "canonical_value_sha256": "62e9821c37912d41c57fccab49f648ad88ecc8e531a194ce4f2f4df9321617f4",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The question-to-boundary implication is native/analytical reasoning over old technical evidence. No real experimental governance, promotion or risk-retirement decision is observed.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/3/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "be40a6960bd007e91e14276629c46767a09d65a519513e0c89f126ef8687f820",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The question-to-boundary implication is native/analytical reasoning over old technical evidence. No real experimental governance, promotion or risk-retirement decision is observed.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/6/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I009-D07",
+        "source": "LAW-L2::EA-07",
+        "receiver": "LAW-L3::EW-P012",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03",
+          "B33-I009-F04"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "A real combined system or increment used in an actual intended-use evaluation, or a combined condition genuinely necessary to that use.",
+        "guard": "The integrated object or result is actually consumed for a specified stakeholder task, mission, workflow or operating-condition question with an explicit correspondence. A relevant object or necessary-condition result can be useful before all users, contexts and validation claims are settled.",
+        "source_contribution": "Real integration supplies the combined subject that representative use can evaluate and exposes interactions that can defeat an actual necessary use condition. It prevents isolated component passes from standing in for an unobserved joined system.",
+        "receiving_consequence": "Use evaluation can address the current combined behavior, and a known necessary mismatch can challenge a bounded fitness premise. A combined technical pass remains insufficient when the specification, users, environment or actual outcome is wrong or unrepresented.",
+        "remaining_premises": "Actual intended use and stakeholders, representative conditions and outcome meaning, correspondence to the relevant configuration, conflicting needs and an ability to reconsider requirements or design. An authoritative integrated state alone establishes none of these.",
+        "positive_witness": "If preservation of the represented length is an actual necessary use condition, C27's mixed output 300 for required 3 is contrary input at that condition. Its coherent pass is only a bounded technical input. P012's native verified-but-inaudible-alarm witness explains why satisfying a specified condition can still miss the operator's actual environment; that is a native reasoned witness, not a newly observed field case.",
+        "nontrigger_or_counterexample": "A nominal green build with no intended-use correspondence cannot validate a user workflow. A scripted demonstration or signature from proxy users can remain unrepresentative even when every specified integration check passes.",
+        "cheap_alternative_and_removal": "Current suitable evidence, a small representative user trial, operational simulation, telemetry or a reversible deployment may supply the needed input at its real scope. Adequate current integration need not be rerun merely to host validation. Removing the only combined subject/correspondence loses that input; removing CI cadence while preserving a representative assembled system need not.",
+        "reentry": "Revisit on changed integrated behavior, stakeholders, mission, workflow, environment, outcome criterion or representative configuration. Retain still-valid evidence with its exact scope.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Old technical input only; the actual use bridge is a condition, not a fact manufactured by the toy. No users, alarm, environment, operational trial, validation effect or authority was instantiated.",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P012",
+        "reverse_direction_key": "LAW-L3::EW-P012->LAW-L2::EA-07",
+        "entry_row": [
+          "LAW-L2::EA-07->LAW-L3::EW-P012",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P012",
+            "capsule": {
+              "path": "reading/i009/native/EW-P012.json",
+              "bytes": 6848,
+              "sha256": "f3907f0246b18e59fe082cd39722f96dd1306d090a50afc76e875c2eb84d8ad0"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11"
+            },
+            "selected_ref": null,
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P012::MECHANISM",
+            "LAW-L3::EW-P012::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P012::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P012::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P012::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P012::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          },
+          {
+            "factor_id": "B33-I009-F04",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "44ba86548452968748e5e0c7dfa0e6031a847bc0776cc2f673b357de6ade624c"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old technical input only; the actual use bridge is a condition, not a fact manufactured by the toy. No users, alarm, environment, operational trial, validation effect or authority was instantiated.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/1/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "49267700a23a42377ac81a2d0cec092da4af2f6db6804f59f7bccf61611b1844",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old technical input only; the actual use bridge is a condition, not a fact manufactured by the toy. No users, alarm, environment, operational trial, validation effect or authority was instantiated.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/2/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "147e9d66d1e556b8e6e2da61ce0f725299955bc720aa6c4f737956f357253783",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old technical input only; the actual use bridge is a condition, not a fact manufactured by the toy. No users, alarm, environment, operational trial, validation effect or authority was instantiated.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/5/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I009-D08",
+        "source": "LAW-L3::EW-P012",
+        "receiver": "LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I009-F01",
+          "B33-I009-F02",
+          "B33-I009-F03",
+          "B33-I009-F04"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.failure_witness",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "MATURE_OR_EVOLVED_FORM",
+          "IMPORTANT_CRITICISMS",
+          "CEREMONY_VS_PROPERTY",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "An actual stakeholder task, operating condition or use finding consumed to choose or interpret a relevant combined integration criterion.",
+        "guard": "A real use-context condition or finding changes the relevant integration boundary, criterion or interpretation of mainline health. A partial but relevant finding can matter before the whole validation exercise is complete; no invented user study or arbitrary preference creates the link.",
+        "source_contribution": "Use evidence can expose a technically well-implemented but wrong or incomplete criterion, omitted environmental interaction or misleading nominal demonstration. It supplies a reason to test the combined behavior that matters to the actual use rather than echo the current implementation.",
+        "receiving_consequence": "Integration can report a narrower truthful health claim, add or revise the affected representative check, or direct an anomaly to the actual requirement owner. It does not silently convert every user preference into an approved mainline obligation or mandate another run when existing evidence is already adequate.",
+        "remaining_premises": "Representative and credible use evidence, relevance of the finding to this combination, valid adjudication of conflicting needs, correct criterion translation and an actually healthy integrated state. Integration repair and requirement authorization remain separate actions.",
+        "positive_witness": "P012's native alarm witness supplies the real distinction: conformance to a specified alarm can coexist with inaudibility in its intended environment, so an actual finding about that environment changes what integration health must mean for that use. C27's echo-oracle view illustrates only the narrower technical problem of blessing an output with its own criterion; it is not evidence that an actual user finding occurred.",
+        "nontrigger_or_counterexample": "An unrepresentative proxy preference, generic customer-satisfaction claim or use result unrelated to the interacting system supplies no current integration constraint. A technical mismatch alone does not invent a real user, mission or operational requirement.",
+        "cheap_alternative_and_removal": "A direct representative conversation/trial, current operational evidence or adequate analysis of an already established use condition can suffice. Complete source algebra answers only its technical condition and cannot substitute for an unknown human need. Removing a UAT ceremony while preserving the real use input can be adequate; removing all use correspondence cannot be repaired by more green technical checks.",
+        "reentry": "Revisit when the actual use, environment, finding, criterion interpretation or authority to revise it changes; distinguish a newly warranted integration check from a redundant repetition.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "The actual use-to-integration bridge is native/analytical. C27 has no user, operator, alarm or real environment; its old echo and algebra views support only the stated technical contrasts, not field validation.",
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L3::EW-P012",
+        "entry_row": [
+          "LAW-L3::EW-P012->LAW-L2::EA-07",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P012",
+            "capsule": {
+              "path": "reading/i009/native/EW-P012.json",
+              "bytes": 6848,
+              "sha256": "f3907f0246b18e59fe082cd39722f96dd1306d090a50afc76e875c2eb84d8ad0"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11"
+            },
+            "selected_ref": null,
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i009/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P012::MECHANISM",
+            "LAW-L3::EW-P012::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P012::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P012::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P012::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P012::REQUALIFICATION.failure_witness",
+            "LAW-L3::EW-P012::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ],
+          "receiver": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::TRIGGER_OR_CONTEXT",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::CEREMONY_VS_PROPERTY",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I009-F01",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "15080173f7a145cb19d60e0f34ba93c3a3190e2a7004ab3b70ad687284ac89b6"
+          },
+          {
+            "factor_id": "B33-I009-F02",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f10089b812b012a96fbba1ef77a0d46f7092d8ae39215939f43431fd8aaeea5d"
+          },
+          {
+            "factor_id": "B33-I009-F03",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "b48759c66d3fe13d58a489d9a519731c777aae9d2f41d8bd8b58b45805700a1b"
+          },
+          {
+            "factor_id": "B33-I009-F04",
+            "source": {
+              "path": "authoring/B33_I009_LITERAL_ARGUMENTS.json",
+              "bytes": 34867,
+              "sha256": "b04c56292bc145a08e4e1b04899c01e80e9349cdc42e5214d422b02cc7907ef3"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "44ba86548452968748e5e0c7dfa0e6031a847bc0776cc2f673b357de6ade624c"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/8",
+            "canonical_value_sha256": "d38038612f0b2477728c0d74c70422512e472421be183a5693a243acb3e27fca",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The actual use-to-integration bridge is native/analytical. C27 has no user, operator, alarm or real environment; its old echo and algebra views support only the stated technical contrasts, not field validation.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/8/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The actual use-to-integration bridge is native/analytical. C27 has no user, operator, alarm or real environment; its old echo and algebra views support only the stated technical contrasts, not field validation.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/1/value",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "be40a6960bd007e91e14276629c46767a09d65a519513e0c89f126ef8687f820",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The actual use-to-integration bridge is native/analytical. C27 has no user, operator, alarm or real environment; its old echo and algebra views support only the stated technical contrasts, not field validation.",
+            "evidence_origin": "OLD_RECORDED_COMPANION_CASE",
+            "reuse_capsule": {
+              "path": "reading/i009/RECORDED_EVIDENCE_REUSE_B33_I009.json",
+              "bytes": 25290,
+              "sha256": "d2dbb13fa10d0602dc7dd79475ef612685aee58501a796947e1e5005324ad886"
+            },
+            "reuse_pointer": "/records/6/value",
+            "additional_execution_for_binding": false
+          }
+        ]
+      }
+    ],
+    "scientific_verdicts_computed": false
+  }
+}

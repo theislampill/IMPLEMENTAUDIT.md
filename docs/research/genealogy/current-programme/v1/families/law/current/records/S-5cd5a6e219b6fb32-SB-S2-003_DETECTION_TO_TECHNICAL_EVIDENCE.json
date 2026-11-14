@@ -1,0 +1,918 @@
+{
+  "source_identity": {
+    "source_id": "S-5cd5a6e219b6fb32",
+    "scientific_name": "SB-S2-003_DETECTION_TO_TECHNICAL_EVIDENCE.json",
+    "original_bytes": 66704,
+    "original_sha256": "5cd5a6e219b6fb322bbb495f79e34faf164670d17c1921aeed705a92b8098a99"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-S2-003",
+    "title": "SPECIFIED_DETECTION_AS_BOUNDED_TECHNICAL_EVIDENCE_INPUT",
+    "author_context": "[custody locator omitted; scientific source identity retained]",
+    "authored_at_utc": "2026-11-11T12:39:56.512139+00:00",
+    "inquiry_family": 6,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "MECHANISM",
+      "TRIGGER_OR_CONTEXT",
+      "NON_TRIGGER_OR_CHEAP_PATH",
+      "DEPENDENCIES_OR_PRECONDITIONS",
+      "KNOWN_FAILURE_MODES",
+      "IMPORTANT_CRITICISMS",
+      "MATURE_OR_EVOLVED_FORM",
+      "REQUALIFICATION"
+    ],
+    "full_native_reading_receipt": "research/FAMILY6_NATIVE_PREMISES_SUCCESSOR2.json",
+    "bounded_interface_domain": "A specified detector/abnormal condition and a named technical evidence method, content, scope or contextual claim in one of the ten explicit receiving records. The detector definition, result or coverage limitation must concern that exact decision object; arbitrary encoded data and co-use are excluded.",
+    "domain_horizon_authority": "The identified requirement, integration, intended use, envelope, trace query, hazard, argument, anomaly, transition or recurring evidence decision and its relevant version/change interval. Receipt, acknowledgment, response, technical truth and empowered disposition remain separate.",
+    "evidence_ceiling": "Analytical directional inference from complete native meanings and honestly reused primary scopes. No causal field benefit, observed detector reliability, universal instrument/board/test layer, historical transmission or complete assurance follows.",
+    "source_refs": [
+      {
+        "id": "NLS-012",
+        "passages": [
+          "NLP-033",
+          "NLP-034",
+          "NLP-035"
+        ],
+        "role": "Inherited selected practitioner guidance separates monitoring, alerting, investigation and mitigation; no detector-performance theorem."
+      },
+      {
+        "id": "NLS-005",
+        "passages": [
+          "NLP-014",
+          "NLP-015",
+          "NLP-016"
+        ],
+        "role": "Inherited selected historical guidance distinguishes scoped evidence, argument and contextual claim; partial chapter limits retained."
+      },
+      {
+        "id": "NLS-016",
+        "passages": [
+          "NLP-050",
+          "NLP-084",
+          "NLP-085"
+        ],
+        "role": "Inherited selected normative context/criteria/provenance guidance, not a universal lifecycle or complete security result."
+      }
+    ],
+    "common_cost_and_alternative": "Use the existing sufficient detector, manual report, focused query or evidence path where adequate. Count collection/validation, instrumentation upkeep, false-alarm attention, responder capacity, delay, access/privacy and duplicate bookkeeping. Shared data does not create independent benefits, and a useful pair does not establish a feasible whole package.",
+    "exceptions": [
+      {
+        "native_id": "EW-P014",
+        "treatment": "Forward direct judgment plus independently authored reverse; the narrow rule does not dispose the distinct empowered-acceptance/regime/challenge/risk question."
+      },
+      {
+        "native_id": "EW-P015",
+        "treatment": "Forward direct judgment plus independently authored reverse; the narrow rule does not dispose the distinct empowered-acceptance/regime/challenge/risk question."
+      },
+      {
+        "native_id": "EW-P016",
+        "treatment": "Forward direct judgment plus independently authored reverse; the narrow rule does not dispose the distinct empowered-acceptance/regime/challenge/risk question."
+      },
+      {
+        "native_id": "EW-P032",
+        "treatment": "Forward direct judgment plus independently authored reverse; the narrow rule does not dispose the distinct empowered-acceptance/regime/challenge/risk question."
+      }
+    ],
+    "attempted_contrary_interfaces": [
+      "AC045-01 false-positive automatic invalidation",
+      "AC045-02 no-implementation false negative",
+      "AC045-05 fixed-envelope noninvalidation",
+      "AC045-06 receipt/authority conflation",
+      "AC045-07 copied-channel independence",
+      "AC045-10 co-use and unnecessary control",
+      "AC045-11 structurally valid wrong negative"
+    ],
+    "positive_controls": [
+      "AC045-02 scoped evaluability before implementation",
+      "AC045-03 identified interaction-scope gap",
+      "AC045-04 actual-use signal mismatch",
+      "AC045-08 corrected scoped attribution",
+      "AC045-09 known missing acknowledgment premise"
+    ],
+    "negative_controls": [
+      "AC045-01",
+      "AC045-05",
+      "AC045-06",
+      "AC045-07",
+      "AC045-10",
+      "AC045-11"
+    ],
+    "author_challenge": "research/CONSTRUCTED_DETECTION_ASSURANCE_BOUNDARIES_SUCCESSOR2.json#AC-045",
+    "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity.",
+    "independent_review_scope": "The two later sequential reviewers must challenge the common inference and each of ten exact native member bridges, including authority exceptions, evidence-confidence limits and independent reverse judgments. This author validation is not review acceptance.",
+    "common_source_dependence": "A shared detector, pipeline, report or inherited source can fail together. Ten receiving interfaces are not ten independent observations, controls or benefits.",
+    "direction": "LAW-L1::EL-011->LAW-L3 explicit ten members",
+    "relation_types": [
+      "INPUT_TO_DECISION",
+      "INTERPRETATION_QUALIFIER"
+    ],
+    "native_common_basis": "EL-011 defines a specified abnormal condition, detection/communication scope, uncertainty and accountable signal path. Each named receiver has an explicit native evidence-method, content, scope or contextual-evaluation need. The per-member bridge below identifies that need without assuming a whole receiving predicate or a response is established.",
+    "common_subconditions": {
+      "P1": "The detector/condition and the exact receiving object, version and technical question are identified.",
+      "P2": "A complete native receiver field establishes the specific evidence-method/content/scope need, and the source supplies the stated detector definition, result or limitation.",
+      "P3": "That information has the declared bounded consequence for the receiving analysis at its confidence; it is not automatic truth, universal invalidation or compelled action.",
+      "P4": "Remaining premises, outside-domain counterexample, adequate alternative, cost and re-entry are explicit. Authority exceptions and all reverses receive separate judgments."
+    },
+    "inference": "When P1–P4 hold, include the stated detection information or coverage limitation in the receiving technical analysis. It can support, qualify or expose a missing premise while the broader claim stays unresolved or the selected action remains unchanged. A mere alert bit, name or stored artifact does not satisfy these conditions.",
+    "explicit_member_keys": [
+      "LAW-L1::EL-011->LAW-L3::EW-P010",
+      "LAW-L1::EL-011->LAW-L3::EW-P011",
+      "LAW-L1::EL-011->LAW-L3::EW-P012",
+      "LAW-L1::EL-011->LAW-L3::EW-P013",
+      "LAW-L1::EL-011->LAW-L3::EW-P017",
+      "LAW-L1::EL-011->LAW-L3::EW-P018",
+      "LAW-L1::EL-011->LAW-L3::EW-P019",
+      "LAW-L1::EL-011->LAW-L3::EW-P020",
+      "LAW-L1::EL-011->LAW-L3::EW-P027",
+      "LAW-L1::EL-011->LAW-L3::EW-P031"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P010",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P010",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P010": {
+            "bearer": "A requirement proposed as a basis for verification",
+            "proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+            "criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P010"
+          }
+        },
+        "shared_question_or_object": "A specified abnormal condition and the verification method for a consequential requirement",
+        "guard": "The detector's defined condition, measurement and confidence are being considered as part of the feasible evidence method for that same requirement.",
+        "member_to_common_premise": "The native receiver requires an interpretable evaluation method and acceptance condition; detector definition and performance limits directly bear on that evaluability, before deployment if necessary.",
+        "source_contribution": "A concrete measurable abnormality, detection method and its known coverage or ambiguity.",
+        "receiving_consequence": "The verification plan can use this scoped method or identify a missing discrimination; the detector does not authorize replacing the requirement with its own threshold.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A concrete measurable abnormality, detection method and its known coverage or ambiguity."
+        ],
+        "premises_remaining": [
+          "Need validity, representative test conditions, full coverage and actual method performance remain open.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "A permanently green indicator supplies no discriminating test merely because its output is machine readable.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "A permanently green indicator supplies no discriminating test merely because its output is machine readable.",
+        "specific_cost_and_limit": "An existing executable assertion or owned manual observation may be the complete adequate plan; no master-plan document is required.",
+        "subcondition_evidence": {
+          "P1": "A specified abnormal condition and the verification method for a consequential requirement — The detector's defined condition, measurement and confidence are being considered as part of the feasible evidence method for that same requirement.",
+          "P2": "The native receiver requires an interpretable evaluation method and acceptance condition; detector definition and performance limits directly bear on that evaluability, before deployment if necessary. Source: A concrete measurable abnormality, detection method and its known coverage or ambiguity.",
+          "P3": "The verification plan can use this scoped method or identify a missing discrimination; the detector does not authorize replacing the requirement with its own threshold.",
+          "P4": "Need validity, representative test conditions, full coverage and actual method performance remain open. Counter-control: A permanently green indicator supplies no discriminating test merely because its output is machine readable. Alternative: An existing executable assertion or owned manual observation may be the complete adequate plan; no master-plan document is required."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P010->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P011",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P011",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P011": {
+            "bearer": "A realized component and its integrations",
+            "proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+            "criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P011"
+          }
+        },
+        "shared_question_or_object": "An abnormal interaction in the actual integration under evaluation",
+        "guard": "A signal or detector-scope finding bears on behavior at the integration level where the receiving claim can fail.",
+        "member_to_common_premise": "The native receiver demands evidence at relevant levels and explicitly rejects component-pass substitution for interaction evidence.",
+        "source_contribution": "A located abnormality or a demonstrated coverage limit tied to the relevant component/interface configuration.",
+        "receiving_consequence": "The integration evidence can include a relevant failure or coverage gap without treating the local detector as evidence for every system-level behavior.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A located abnormality or a demonstrated coverage limit tied to the relevant component/interface configuration."
+        ],
+        "premises_remaining": [
+          "Version correspondence, representative load and unobserved interaction failures remain separate.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "All local checks can pass while a protocol deadlock occurs only when components interact.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "All local checks can pass while a protocol deadlock occurs only when components interact.",
+        "specific_cost_and_limit": "Reuse unaffected component evidence and add the smallest adequate interaction check; more nominal test levels need not add information.",
+        "subcondition_evidence": {
+          "P1": "An abnormal interaction in the actual integration under evaluation — A signal or detector-scope finding bears on behavior at the integration level where the receiving claim can fail.",
+          "P2": "The native receiver demands evidence at relevant levels and explicitly rejects component-pass substitution for interaction evidence. Source: A located abnormality or a demonstrated coverage limit tied to the relevant component/interface configuration.",
+          "P3": "The integration evidence can include a relevant failure or coverage gap without treating the local detector as evidence for every system-level behavior.",
+          "P4": "Version correspondence, representative load and unobserved interaction failures remain separate. Counter-control: All local checks can pass while a protocol deadlock occurs only when components interact. Alternative: Reuse unaffected component evidence and add the smallest adequate interaction check; more nominal test levels need not add information."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P011->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P012",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P012",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P012": {
+            "bearer": "A system or concept in its intended use and operating context",
+            "proposition": "Repeated context-validity evidence, with final claims tied to an identified configuration and intended-use envelope.",
+            "criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P012"
+          }
+        },
+        "shared_question_or_object": "An abnormality and signal path in the intended operating context",
+        "guard": "Detection or signal-path evidence concerns the same users, environment and use condition on which the validation claim relies.",
+        "member_to_common_premise": "The native receiver distinguishes specification conformance from fitness in actual use and explicitly identifies an inaudible verified alarm as a failure witness.",
+        "source_contribution": "An observed usability/context discrepancy or a bounded detection-path result with its operator and environment stated.",
+        "receiving_consequence": "The intended-use claim gains relevant evidence or a missing-context question; a verified electrical signal can remain insufficient for the operator's actual use.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An observed usability/context discrepancy or a bounded detection-path result with its operator and environment stated."
+        ],
+        "premises_remaining": [
+          "Representative users, competing needs and response feasibility are not established by a detector result.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "The buzzer meets its electrical specification but is inaudible to the intended operator in the noisy room.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "The buzzer meets its electrical specification but is inaudible to the intended operator in the noisy room.",
+        "specific_cost_and_limit": "A representative user trial or operational simulation can be sufficient without a universal final acceptance event.",
+        "subcondition_evidence": {
+          "P1": "An abnormality and signal path in the intended operating context — Detection or signal-path evidence concerns the same users, environment and use condition on which the validation claim relies.",
+          "P2": "The native receiver distinguishes specification conformance from fitness in actual use and explicitly identifies an inaudible verified alarm as a failure witness. Source: An observed usability/context discrepancy or a bounded detection-path result with its operator and environment stated.",
+          "P3": "The intended-use claim gains relevant evidence or a missing-context question; a verified electrical signal can remain insufficient for the operator's actual use.",
+          "P4": "Representative users, competing needs and response feasibility are not established by a detector result. Counter-control: The buzzer meets its electrical specification but is inaudible to the intended operator in the noisy room. Alternative: A representative user trial or operational simulation can be sufficient without a universal final acceptance event."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P012->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P013",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P013",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P013": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "proposition": "Configuration-linked evidence for a defined design envelope, with explicit assumptions, margins and change-trigger rules.",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P013"
+          }
+        },
+        "shared_question_or_object": "A monitored condition and the claimed qualification envelope",
+        "guard": "A detector's condition or result bears on the same qualified design/configuration and the relevant environmental/load boundary.",
+        "member_to_common_premise": "The native receiver restricts evidence to a defined envelope and calls for change-sensitive re-evaluation; an observation of scope excursion therefore has a specific receiving role.",
+        "source_contribution": "An identified envelope excursion or an anomaly within the stated envelope, with measurement and version limitations.",
+        "receiving_consequence": "The application of qualification evidence can be bounded or reopened without discarding still-valid evidence for an unchanged narrower envelope.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An identified envelope excursion or an anomaly within the stated envelope, with measurement and version limitations."
+        ],
+        "premises_remaining": [
+          "The detector does not demonstrate all margins, establish representativeness or settle requalification scope by itself.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "A failure outside the qualified envelope does not falsify the narrower qualified claim; extending use without justification is a separate error.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "A failure outside the qualified envelope does not falsify the narrower qualified claim; extending use without justification is a separate error.",
+        "specific_cost_and_limit": "Reuse unchanged in-envelope evidence and investigate the affected margin or changed condition selectively.",
+        "subcondition_evidence": {
+          "P1": "A monitored condition and the claimed qualification envelope — A detector's condition or result bears on the same qualified design/configuration and the relevant environmental/load boundary.",
+          "P2": "The native receiver restricts evidence to a defined envelope and calls for change-sensitive re-evaluation; an observation of scope excursion therefore has a specific receiving role. Source: An identified envelope excursion or an anomaly within the stated envelope, with measurement and version limitations.",
+          "P3": "The application of qualification evidence can be bounded or reopened without discarding still-valid evidence for an unchanged narrower envelope.",
+          "P4": "The detector does not demonstrate all margins, establish representativeness or settle requalification scope by itself. Counter-control: A failure outside the qualified envelope does not falsify the narrower qualified claim; extending use without justification is a separate error. Alternative: Reuse unchanged in-envelope evidence and investigate the affected margin or changed condition selectively."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P013->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P017",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P017",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P017": {
+            "bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+            "criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P017"
+          }
+        },
+        "shared_question_or_object": "An abnormal trace relation or the relation connecting a signal to its claim",
+        "guard": "A specified detection condition actually checks a maintained relation's freshness, version attribution or decision relevance.",
+        "member_to_common_premise": "The native receiver requires accurate relevant links for a real query and explicitly warns about wrong-version and irrelevant relations.",
+        "source_contribution": "A located stale, missing-at-the-declared-query or wrongly attributed relation, with the detection semantics stated.",
+        "receiving_consequence": "The affected trace query or its quality claim receives a concrete defect/uncertainty input; a link-count total cannot erase it.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A located stale, missing-at-the-declared-query or wrongly attributed relation, with the detection semantics stated."
+        ],
+        "premises_remaining": [
+          "Actual edge semantics, the legitimate query and underlying evidence validity remain separate.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "A signal for buildA linked to buildB can make a complete-looking matrix misleading.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "A signal for buildA linked to buildB can make a complete-looking matrix misleading.",
+        "specific_cost_and_limit": "A focused native link or query may correct the relevant relation without an exhaustive manual matrix.",
+        "subcondition_evidence": {
+          "P1": "An abnormal trace relation or the relation connecting a signal to its claim — A specified detection condition actually checks a maintained relation's freshness, version attribution or decision relevance.",
+          "P2": "The native receiver requires accurate relevant links for a real query and explicitly warns about wrong-version and irrelevant relations. Source: A located stale, missing-at-the-declared-query or wrongly attributed relation, with the detection semantics stated.",
+          "P3": "The affected trace query or its quality claim receives a concrete defect/uncertainty input; a link-count total cannot erase it.",
+          "P4": "Actual edge semantics, the legitimate query and underlying evidence validity remain separate. Counter-control: A signal for buildA linked to buildB can make a complete-looking matrix misleading. Alternative: A focused native link or query may correct the relevant relation without an exhaustive manual matrix."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P017->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P018",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P018",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P018": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "proposition": "Living hazard/control claims tied to actual configurations, operations, evidence and residual-risk authority.",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P018"
+          }
+        },
+        "shared_question_or_object": "A detected condition relevant to a named hazard/control scenario",
+        "guard": "A signal or detection limit bears on a credible hazard, implemented control or changed operational condition in the actual risk analysis.",
+        "member_to_common_premise": "The native receiver connects hazards, context, controls and evidence across changes; it cannot infer active protection from a hazard log alone.",
+        "source_contribution": "Specific evidence of an adverse condition, control failure or unobserved hazard mode at the stated confidence.",
+        "receiving_consequence": "Hazard/control reasoning can revise the relevant assessment or identify missing evidence; the signal is not containment, elimination or acceptance of risk.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Specific evidence of an adverse condition, control failure or unobserved hazard mode at the stated confidence."
+        ],
+        "premises_remaining": [
+          "Credible causal scenario, implemented response, wider hazards and residual-risk authority remain separate.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "An alarm accurately announces a hazardous pressure while no valve or person can act; detection is not risk reduction by itself.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "An alarm accurately announces a hazardous pressure while no valve or person can act; detection is not risk reduction by itself.",
+        "specific_cost_and_limit": "Use proportionate monitoring or a bounded no-impact screening where the actual regime permits; no formal system-safety apparatus for unrelated low-consequence work.",
+        "subcondition_evidence": {
+          "P1": "A detected condition relevant to a named hazard/control scenario — A signal or detection limit bears on a credible hazard, implemented control or changed operational condition in the actual risk analysis.",
+          "P2": "The native receiver connects hazards, context, controls and evidence across changes; it cannot infer active protection from a hazard log alone. Source: Specific evidence of an adverse condition, control failure or unobserved hazard mode at the stated confidence.",
+          "P3": "Hazard/control reasoning can revise the relevant assessment or identify missing evidence; the signal is not containment, elimination or acceptance of risk.",
+          "P4": "Credible causal scenario, implemented response, wider hazards and residual-risk authority remain separate. Counter-control: An alarm accurately announces a hazardous pressure while no valve or person can act; detection is not risk reduction by itself. Alternative: Use proportionate monitoring or a bounded no-impact screening where the actual regime permits; no formal system-safety apparatus for unrelated low-consequence work."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P018->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P019",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P019",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P019": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P019"
+          }
+        },
+        "shared_question_or_object": "A detection result or coverage premise in a live assurance argument",
+        "guard": "The source condition, result or limitation bears on an explicit claim, assumption or defeater of the same configuration/context argument.",
+        "member_to_common_premise": "The native receiver requires challengeable connections between current evidence and claims, not an evidence warehouse or a persuasive document alone.",
+        "source_contribution": "A bounded evidential statement or defeater candidate whose scope and uncertainty can be represented explicitly.",
+        "receiving_consequence": "The argument can qualify its warrant, identify a gap or retain a supported claim; one alert cannot decide the whole case or its operational authority.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A bounded evidential statement or defeater candidate whose scope and uncertainty can be represented explicitly."
+        ],
+        "premises_remaining": [
+          "Validity of other premises, the inference connecting evidence to claim and the accountable residual-risk decision remain open.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "Ten nodes copy one sensor bit; graphical multiplicity does not create ten independent confirmations.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "Ten nodes copy one sensor bit; graphical multiplicity does not create ten independent confirmations.",
+        "specific_cost_and_limit": "A concise evidence-linked argument or existing adequate summary may suffice; no universal graphical notation or large case report is required.",
+        "subcondition_evidence": {
+          "P1": "A detection result or coverage premise in a live assurance argument — The source condition, result or limitation bears on an explicit claim, assumption or defeater of the same configuration/context argument.",
+          "P2": "The native receiver requires challengeable connections between current evidence and claims, not an evidence warehouse or a persuasive document alone. Source: A bounded evidential statement or defeater candidate whose scope and uncertainty can be represented explicitly.",
+          "P3": "The argument can qualify its warrant, identify a gap or retain a supported claim; one alert cannot decide the whole case or its operational authority.",
+          "P4": "Validity of other premises, the inference connecting evidence to claim and the accountable residual-risk decision remain open. Counter-control: Ten nodes copy one sensor bit; graphical multiplicity does not create ten independent confirmations. Alternative: A concise evidence-linked argument or existing adequate summary may suffice; no universal graphical notation or large case report is required."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P019->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P020",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P020",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P020": {
+            "bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+            "criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P020"
+          }
+        },
+        "shared_question_or_object": "An identified abnormal event and its continuing anomaly disposition",
+        "guard": "Detection yields information about a material anomaly or the occurrence, severity or persistence of an already tracked event.",
+        "member_to_common_premise": "The native receiver requires identified state, impact, responsible disposition and configuration relation; the source condition can supply the intake evidence without completing that lifecycle.",
+        "source_contribution": "A located event/condition with time, confidence and responsible signal route.",
+        "receiving_consequence": "The anomaly record can distinguish what was detected from what was acknowledged, investigated or corrected; closure by receipt alone remains unsupported.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A located event/condition with time, confidence and responsible signal route."
+        ],
+        "premises_remaining": [
+          "Event identity across reports, cause, authorized disposition and correction evidence remain separate.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "The event is logged and assigned, but no responder acknowledges it and no correction is demonstrated.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "The event is logged and assigned, but no responder acknowledges it and no correction is demonstrated.",
+        "specific_cost_and_limit": "A concise owned issue with the relevant configuration and disposition can suffice; duplicate alarm and ticket bookkeeping adds cost without new evidence.",
+        "subcondition_evidence": {
+          "P1": "An identified abnormal event and its continuing anomaly disposition — Detection yields information about a material anomaly or the occurrence, severity or persistence of an already tracked event.",
+          "P2": "The native receiver requires identified state, impact, responsible disposition and configuration relation; the source condition can supply the intake evidence without completing that lifecycle. Source: A located event/condition with time, confidence and responsible signal route.",
+          "P3": "The anomaly record can distinguish what was detected from what was acknowledged, investigated or corrected; closure by receipt alone remains unsupported.",
+          "P4": "Event identity across reports, cause, authorized disposition and correction evidence remain separate. Counter-control: The event is logged and assigned, but no responder acknowledges it and no correction is demonstrated. Alternative: A concise owned issue with the relevant configuration and disposition can suffice; duplicate alarm and ticket bookkeeping adds cost without new evidence."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P020->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P027",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P027",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P027": {
+            "bearer": "Transition to operation or restart",
+            "proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P027"
+          }
+        },
+        "shared_question_or_object": "The actual detection/response chain required for an operational transition",
+        "guard": "A detector or signal-path test concerns the deployed configuration, people, procedures or support required for the contemplated cutover or restart.",
+        "member_to_common_premise": "The native receiver distinguishes product tests from evidence about the actual enabling system; missing real response is a readiness premise, not merely a missing slide.",
+        "source_contribution": "An observed condition or failed transmission/acknowledgment link in the relevant rehearsal or operative environment.",
+        "receiving_consequence": "Readiness evidence gains a specific failure/gap or supported limited capability; the detector test is not a complete cutover authorization or recovery demonstration.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An observed condition or failed transmission/acknowledgment link in the relevant rehearsal or operative environment."
+        ],
+        "premises_remaining": [
+          "Other enabling resources, real contingency capability and the appropriate transition authority remain open.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "A development dashboard is green while the deployed night-shift responder cannot receive the alert.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "A development dashboard is green while the deployed night-shift responder cannot receive the alert.",
+        "specific_cost_and_limit": "Familiar reversible deployment may use existing automated checks and on-call confirmation rather than a meeting; test only consequential changed premises.",
+        "subcondition_evidence": {
+          "P1": "The actual detection/response chain required for an operational transition — A detector or signal-path test concerns the deployed configuration, people, procedures or support required for the contemplated cutover or restart.",
+          "P2": "The native receiver distinguishes product tests from evidence about the actual enabling system; missing real response is a readiness premise, not merely a missing slide. Source: An observed condition or failed transmission/acknowledgment link in the relevant rehearsal or operative environment.",
+          "P3": "Readiness evidence gains a specific failure/gap or supported limited capability; the detector test is not a complete cutover authorization or recovery demonstration.",
+          "P4": "Other enabling resources, real contingency capability and the appropriate transition authority remain open. Counter-control: A development dashboard is green while the deployed night-shift responder cannot receive the alert. Alternative: Familiar reversible deployment may use existing automated checks and on-call confirmation rather than a meeting; test only consequential changed premises."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P027->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      },
+      {
+        "direction_key": "LAW-L1::EL-011->LAW-L3::EW-P031",
+        "source_native_id": "EL-011",
+        "receiving_native_id": "EW-P031",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/10",
+          "expected_native_id": "EL-011"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "native_meanings_and_bearers": {
+          "EL-011": {
+            "bearer": "A detector and signal path for a specified abnormal condition",
+            "proposition": "Detect and signal specified decision-relevant abnormalities, separating detection, transmission, acknowledgement and response.",
+            "criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-011"
+          },
+          "EW-P031": {
+            "bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+            "criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P031"
+          }
+        },
+        "shared_question_or_object": "A recurring pipeline or monitoring output used as assurance evidence",
+        "guard": "The specified detector/result is generated or consumed by the relevant integration/assurance pipeline and its meaning or coverage affects reliance on that output.",
+        "member_to_common_premise": "The native receiver requires configuration-linked, interpretable and trustworthy recurring outputs consumed by appropriate decisions.",
+        "source_contribution": "A meaningful abnormality definition, detector-quality limitation or current scoped result rather than an unexplained green/red count.",
+        "receiving_consequence": "Pipeline evidence can be interpreted at its actual coverage and confidence, with known gaps retained; continuous generation does not create complete or independent assurance.",
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A meaningful abnormality definition, detector-quality limitation or current scoped result rather than an unexplained green/red count."
+        ],
+        "premises_remaining": [
+          "Pipeline integrity, test validity, unautomated claims and technical/operational authority remain separate.",
+          "The source signal retains its actual confidence and validity; a declared source property or qualified native label is not an observed result."
+        ],
+        "counterexample": "A compromised or constant-green check is reproduced perfectly on every run and never tests the claimed failure.",
+        "nontrigger": "No actual stated common object/condition or receiving evidence need; co-use is insufficient. A discriminating confirmation may remain material without changing the chosen action.",
+        "counter_control": "A compromised or constant-green check is reproduced perfectly on every run and never tests the claimed failure.",
+        "specific_cost_and_limit": "Manual evidence may suffice at low cadence; automate only useful recurring checks and preserve adequate current evidence without forcing a platform.",
+        "subcondition_evidence": {
+          "P1": "A recurring pipeline or monitoring output used as assurance evidence — The specified detector/result is generated or consumed by the relevant integration/assurance pipeline and its meaning or coverage affects reliance on that output.",
+          "P2": "The native receiver requires configuration-linked, interpretable and trustworthy recurring outputs consumed by appropriate decisions. Source: A meaningful abnormality definition, detector-quality limitation or current scoped result rather than an unexplained green/red count.",
+          "P3": "Pipeline evidence can be interpreted at its actual coverage and confidence, with known gaps retained; continuous generation does not create complete or independent assurance.",
+          "P4": "Pipeline integrity, test validity, unautomated claims and technical/operational authority remain separate. Counter-control: A compromised or constant-green check is reproduced perfectly on every run and never tests the claimed failure. Alternative: Manual evidence may suffice at low cadence; automate only useful recurring checks and preserve adequate current evidence without forcing a platform."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P031->LAW-L1::EL-011",
+        "reentry": "Reopen when the named condition, scope, object/version, source confidence, receiving criterion, actual authority, control failure or cheaper adequate path changes. A defect in a common premise requires review of every exact rule member and downstream composition; do not extend to other Lean properties or infer a reverse by similarity."
+      }
+    ]
+  }
+}

@@ -1,0 +1,1736 @@
+{
+  "family": "LAW",
+  "source_count": 247,
+  "sources": [
+    {
+      "source_id": "S-18c9c4122cf1a453",
+      "scientific_name": "SB-R3-087_EL001_F13_FORWARD.json",
+      "original_bytes": 133816,
+      "original_sha256": "18c9c4122cf1a453e1997ab77758f8affac64117f0a198070e7006d6167ef836",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-18c9c4122cf1a453-SB-R3-087_EL001_F13_FORWARD.json"
+    },
+    {
+      "source_id": "S-77193f4a58a745d5",
+      "scientific_name": "SB-R3-088_EL001_F13_REVERSE.json",
+      "original_bytes": 133353,
+      "original_sha256": "77193f4a58a745d5d1444d7c1db65b10369d4c61d3cfcb30a2a36eab3f4240a1",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-77193f4a58a745d5-SB-R3-088_EL001_F13_REVERSE.json"
+    },
+    {
+      "source_id": "S-affef716ed4c9e2b",
+      "scientific_name": "a005-WHOLE_DIRECTION_INCIDENCE.json",
+      "original_bytes": 6773087,
+      "original_sha256": "affef716ed4c9e2b6b896770f5377146c6f3388d56f4c253aafd29ea157ee9ad",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-affef716ed4c9e2b-a005-WHOLE_DIRECTION_INCIDENCE.json"
+    },
+    {
+      "source_id": "S-b3664cfc394e091d",
+      "scientific_name": "A003_SCIENTIFIC_RESPONSE.json",
+      "original_bytes": 89057,
+      "original_sha256": "b3664cfc394e091d5650eb932d8b79f51077f861976bdc316b615a365d3aaad3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-b3664cfc394e091d-A003_SCIENTIFIC_RESPONSE.json"
+    },
+    {
+      "source_id": "S-a2d30eee78433f6e",
+      "scientific_name": "a004-CAUSAL_SCOPE_REASSESSMENT.json",
+      "original_bytes": 1047492,
+      "original_sha256": "a2d30eee78433f6e65f327f799b47e301eb197cf4a4200dbe71735ee13323be9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a2d30eee78433f6e-a004-CAUSAL_SCOPE_REASSESSMENT.json"
+    },
+    {
+      "source_id": "S-fd1aff9ed6215bf6",
+      "scientific_name": "WHOLE_SEMANTIC_DECISIONS.json",
+      "original_bytes": 27244,
+      "original_sha256": "fd1aff9ed6215bf66b71a1a7e45d278c3a5231f52c7ddcb54729597f9b73394a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-fd1aff9ed6215bf6-WHOLE_SEMANTIC_DECISIONS.json"
+    },
+    {
+      "source_id": "S-ca16cc18e41bc7b8",
+      "scientific_name": "a005-UNRESOLVED_MEMBER_BINDINGS.json",
+      "original_bytes": 3946782,
+      "original_sha256": "ca16cc18e41bc7b8216e84ffb28616f2dbfb00c34ee6695b6e9b6013c9cd1589",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-ca16cc18e41bc7b8-a005-UNRESOLVED_MEMBER_BINDINGS.json"
+    },
+    {
+      "source_id": "S-fc00f69e56f60dd9",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I006.json",
+      "original_bytes": 216987,
+      "original_sha256": "fc00f69e56f60dd96b6ad9e60e93e31da4a7728f5bff72290d60a508dd885e3d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-fc00f69e56f60dd9-DIRECTION_ARGUMENTS_B33_I006.json"
+    },
+    {
+      "source_id": "S-fd43d227b9a332ab",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I012.json",
+      "original_bytes": 216554,
+      "original_sha256": "fd43d227b9a332ab7535a10566b0b629075585a18497c76d0213df057a046157",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-fd43d227b9a332ab-DIRECTION_ARGUMENTS_B33_I012.json"
+    },
+    {
+      "source_id": "S-4bc9af4c50fa2081",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I018.json",
+      "original_bytes": 372185,
+      "original_sha256": "4bc9af4c50fa2081e7ad495d18968e75646386c85d9ced1489e17441387ff84e",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4bc9af4c50fa2081-DIRECTION_ARGUMENTS_B33_I018.json"
+    },
+    {
+      "source_id": "S-4e87f093e5ee1eba",
+      "scientific_name": "a002-EA09_OWNER_INCIDENCE.json",
+      "original_bytes": 22182,
+      "original_sha256": "4e87f093e5ee1ebad5c52d8781195a62e564ad66c79960b9e19f7cad0239a714",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4e87f093e5ee1eba-a002-EA09_OWNER_INCIDENCE.json"
+    },
+    {
+      "source_id": "S-1527a1b3c68279c5",
+      "scientific_name": "a002-EA09_LEAN_ARGUMENTS.json",
+      "original_bytes": 33673,
+      "original_sha256": "1527a1b3c68279c5793398afd730bb0c6c1cf72571430081ce2abd985e3c21a9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-1527a1b3c68279c5-a002-EA09_LEAN_ARGUMENTS.json"
+    },
+    {
+      "source_id": "S-f0bb9a2f2968efb3",
+      "scientific_name": "DIRECT_JUDGMENTS.json",
+      "original_bytes": 6752694,
+      "original_sha256": "f0bb9a2f2968efb363ed709a27abd044cb215e4de5909c931ce965266de07604",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f0bb9a2f2968efb3-DIRECT_JUDGMENTS.json"
+    },
+    {
+      "source_id": "S-9ad2fd06dd5ee67e",
+      "scientific_name": "a005-A005_SCIENTIFIC_RESPONSE.json",
+      "original_bytes": 517261,
+      "original_sha256": "9ad2fd06dd5ee67e3e3237832a745d1ee1215e88b9e39862c807d7a4e32ae1c2",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-9ad2fd06dd5ee67e-a005-A005_SCIENTIFIC_RESPONSE.json"
+    },
+    {
+      "source_id": "S-3afb243ea9f06761",
+      "scientific_name": "SB-R3-095_EL002_F14_FORWARD.json",
+      "original_bytes": 236584,
+      "original_sha256": "3afb243ea9f067610732cf8d5f6e37c047a08c3de0fecc4b7cec01d67795a412",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3afb243ea9f06761-SB-R3-095_EL002_F14_FORWARD.json"
+    },
+    {
+      "source_id": "S-dc0954725b2add35",
+      "scientific_name": "SB-R3-096_EL002_F14_REVERSE.json",
+      "original_bytes": 235129,
+      "original_sha256": "dc0954725b2add35b85420457bd4b6bb6b9e0d50d0f696a4fd8b112bc845cfe1",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-dc0954725b2add35-SB-R3-096_EL002_F14_REVERSE.json"
+    },
+    {
+      "source_id": "S-953c5b77365ecee0",
+      "scientific_name": "SB-R3-097_EL003_F14_FORWARD.json",
+      "original_bytes": 228649,
+      "original_sha256": "953c5b77365ecee083f006b97dab13fedf640017b684b55aca5b3d18b77cee7a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-953c5b77365ecee0-SB-R3-097_EL003_F14_FORWARD.json"
+    },
+    {
+      "source_id": "S-a2583fbeb6511315",
+      "scientific_name": "SB-R3-098_EL003_F14_REVERSE.json",
+      "original_bytes": 228072,
+      "original_sha256": "a2583fbeb65113154e159e0f617528d211a571c5857c2ae68b89e0e5954390b2",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a2583fbeb6511315-SB-R3-098_EL003_F14_REVERSE.json"
+    },
+    {
+      "source_id": "S-8c3f97e02580eb3c",
+      "scientific_name": "DIRECTION_ARGUMENTS_B21_I001.json",
+      "original_bytes": 84629,
+      "original_sha256": "8c3f97e02580eb3cea2158a3ba04e4a36ce41e6ef096537275c3f85ebdc1ea68",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-8c3f97e02580eb3c-DIRECTION_ARGUMENTS_B21_I001.json"
+    },
+    {
+      "source_id": "S-0fdfbeec081b868b",
+      "scientific_name": "DIRECTION_ARGUMENTS_B26_I001.json",
+      "original_bytes": 103655,
+      "original_sha256": "0fdfbeec081b868b74544b0fcb16c03c00900617624039f80fb8e3a59fdb71ad",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0fdfbeec081b868b-DIRECTION_ARGUMENTS_B26_I001.json"
+    },
+    {
+      "source_id": "S-f27759f4ab68155e",
+      "scientific_name": "A004_SCIENTIFIC_RESPONSE.json",
+      "original_bytes": 331943,
+      "original_sha256": "f27759f4ab68155e34895bc0459d0490d12f694aff6666a850c05250d5c7d190",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f27759f4ab68155e-A004_SCIENTIFIC_RESPONSE.json"
+    },
+    {
+      "source_id": "S-00d28b6f64d38b59",
+      "scientific_name": "SB-R3-099_EL005_F14_FORWARD.json",
+      "original_bytes": 233154,
+      "original_sha256": "00d28b6f64d38b597dc8d5ac8e6ea72c5d4bde94d7b4bad49066e57a357d3f57",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-00d28b6f64d38b59-SB-R3-099_EL005_F14_FORWARD.json"
+    },
+    {
+      "source_id": "S-4e5ecf990d3fbfc6",
+      "scientific_name": "SB-R3-100_EL005_F14_REVERSE.json",
+      "original_bytes": 229368,
+      "original_sha256": "4e5ecf990d3fbfc6444b6a6e2dee15ffbd2bf5d5cac2692185905ed1979d65e9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4e5ecf990d3fbfc6-SB-R3-100_EL005_F14_REVERSE.json"
+    },
+    {
+      "source_id": "S-d87cb74c47de9298",
+      "scientific_name": "SB-R3-101_EL006_F14_FORWARD.json",
+      "original_bytes": 235837,
+      "original_sha256": "d87cb74c47de9298e34db404cca449ecb877b003b1ffc39eb79333a95777e682",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d87cb74c47de9298-SB-R3-101_EL006_F14_FORWARD.json"
+    },
+    {
+      "source_id": "S-6c160bf15d8ef138",
+      "scientific_name": "SB-R3-102_EL006_F14_REVERSE.json",
+      "original_bytes": 231499,
+      "original_sha256": "6c160bf15d8ef138c9db8a361ef4e40bf457477b9eba2ca1e00b31b004045852",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-6c160bf15d8ef138-SB-R3-102_EL006_F14_REVERSE.json"
+    },
+    {
+      "source_id": "S-22783147f188b6c6",
+      "scientific_name": "SB-R3-103_EL007_F14_FORWARD.json",
+      "original_bytes": 245141,
+      "original_sha256": "22783147f188b6c61fb00d3d5a277f42ae6e98723f6451ab0424c8ec149aa965",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-22783147f188b6c6-SB-R3-103_EL007_F14_FORWARD.json"
+    },
+    {
+      "source_id": "S-fb908b5d8ff929ca",
+      "scientific_name": "SB-R3-104_EL007_F14_REVERSE.json",
+      "original_bytes": 242299,
+      "original_sha256": "fb908b5d8ff929ca8a3ae542aa5656a3cb8d54a8352e456034d518a25237de76",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-fb908b5d8ff929ca-SB-R3-104_EL007_F14_REVERSE.json"
+    },
+    {
+      "source_id": "S-22810816c84061f1",
+      "scientific_name": "DIRECTION_ARGUMENTS_B21_I002.json",
+      "original_bytes": 210572,
+      "original_sha256": "22810816c84061f101af390d049aacfb213b198dff16b8bf5e88e77fdd84c407",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-22810816c84061f1-DIRECTION_ARGUMENTS_B21_I002.json"
+    },
+    {
+      "source_id": "S-a771388f5ea99c93",
+      "scientific_name": "a007-A007_SCIENTIFIC_RESPONSE.json",
+      "original_bytes": 1121235,
+      "original_sha256": "a771388f5ea99c9342a2257175afb455c480b443a92da8a669c2eb767bac6ef3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a771388f5ea99c93-a007-A007_SCIENTIFIC_RESPONSE.json"
+    },
+    {
+      "source_id": "S-bd54f901903eb314",
+      "scientific_name": "WHOLE_SEMANTIC_REFINEMENT_002.json",
+      "original_bytes": 4047,
+      "original_sha256": "bd54f901903eb314138de48ad8faf85caa0e03115feb3794e6c9ff95cd3ead35",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-bd54f901903eb314-WHOLE_SEMANTIC_REFINEMENT_002.json"
+    },
+    {
+      "source_id": "S-4a0e139b8d5301d4",
+      "scientific_name": "a006-A006_SCIENTIFIC_RESPONSE.json",
+      "original_bytes": 297390,
+      "original_sha256": "4a0e139b8d5301d4791ff5a98dbb8956e3ecdb2b8b8fe1377ce7752921682b00",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4a0e139b8d5301d4-a006-A006_SCIENTIFIC_RESPONSE.json"
+    },
+    {
+      "source_id": "S-97bc06dbda24d279",
+      "scientific_name": "SB-R3-089_EL017_F13_FORWARD.json",
+      "original_bytes": 154139,
+      "original_sha256": "97bc06dbda24d279754dcdfd080c8a8109b26a86a86df5a3485ea3470a9ed13e",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-97bc06dbda24d279-SB-R3-089_EL017_F13_FORWARD.json"
+    },
+    {
+      "source_id": "S-2a683e3e8f8448bd",
+      "scientific_name": "SB-R3-090_EL017_F13_REVERSE.json",
+      "original_bytes": 153786,
+      "original_sha256": "2a683e3e8f8448bdfbbf99ee7e23d06cebc55558a2136f65b7ad095c37c9d8c9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2a683e3e8f8448bd-SB-R3-090_EL017_F13_REVERSE.json"
+    },
+    {
+      "source_id": "S-07e67d191fdc7848",
+      "scientific_name": "SB-R3-091_EL020_F13_FORWARD.json",
+      "original_bytes": 155923,
+      "original_sha256": "07e67d191fdc784884923fe3b860a09e82c3780457c91f5ebafafab3d3481874",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-07e67d191fdc7848-SB-R3-091_EL020_F13_FORWARD.json"
+    },
+    {
+      "source_id": "S-57d4733d2f26056f",
+      "scientific_name": "SB-R3-092_EL020_F13_REVERSE.json",
+      "original_bytes": 155453,
+      "original_sha256": "57d4733d2f26056f7b32ea438292429ce39ec7ca5f393a1d984cad769e4245fc",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-57d4733d2f26056f-SB-R3-092_EL020_F13_REVERSE.json"
+    },
+    {
+      "source_id": "S-1a97c9cc7f0e1b0a",
+      "scientific_name": "A008_SCIENTIFIC_RESPONSE.json",
+      "original_bytes": 579374,
+      "original_sha256": "1a97c9cc7f0e1b0a8de932b50030daa9a0b6711db690ba70b99ea2cf45285bdd",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-1a97c9cc7f0e1b0a-A008_SCIENTIFIC_RESPONSE.json"
+    },
+    {
+      "source_id": "S-e6a1509102e3f605",
+      "scientific_name": "SB-R3-093_EL025_F13_FORWARD.json",
+      "original_bytes": 132373,
+      "original_sha256": "e6a1509102e3f605777fab69e7568ef0a8b3cc2ac5028a04067e352774ec4251",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e6a1509102e3f605-SB-R3-093_EL025_F13_FORWARD.json"
+    },
+    {
+      "source_id": "S-04f8fca414a11835",
+      "scientific_name": "SB-R3-094_EL025_F13_REVERSE.json",
+      "original_bytes": 131883,
+      "original_sha256": "04f8fca414a1183599d7c0b0e6a50986baf1fac55109ae8e730ca4fbc0d203e8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-04f8fca414a11835-SB-R3-094_EL025_F13_REVERSE.json"
+    },
+    {
+      "source_id": "S-9cd0fd57b3e51e91",
+      "scientific_name": "WHOLE_DIRECTIONAL_AMENDMENT_003.json",
+      "original_bytes": 3651,
+      "original_sha256": "9cd0fd57b3e51e91ff7eadf2f965b0a545e1642f6d6c1b272fcfb5ac7c7b670a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-9cd0fd57b3e51e91-WHOLE_DIRECTIONAL_AMENDMENT_003.json"
+    },
+    {
+      "source_id": "S-59737200599a994b",
+      "scientific_name": "a005-CAUSAL_SCOPE_REASSESSMENT.json",
+      "original_bytes": 714802,
+      "original_sha256": "59737200599a994b009c142dac1d20e1b7d0f5d8bb88743016b1cf4ec681383b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-59737200599a994b-a005-CAUSAL_SCOPE_REASSESSMENT.json"
+    },
+    {
+      "source_id": "S-314059e6fca66ff5",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I001.json",
+      "original_bytes": 701413,
+      "original_sha256": "314059e6fca66ff5da7ebf4d3371af4e4ce93b69d11ad39814316093187dc7db",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-314059e6fca66ff5-DIRECTIONAL_ARGUMENTS_B10_I001.json"
+    },
+    {
+      "source_id": "S-3d61a6a36417e602",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I002.json",
+      "original_bytes": 691856,
+      "original_sha256": "3d61a6a36417e602a4fbb6e5274555c819bdb9011b758c2996275d027f2003aa",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3d61a6a36417e602-DIRECTIONAL_ARGUMENTS_B10_I002.json"
+    },
+    {
+      "source_id": "S-b30196251595fd37",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I003.json",
+      "original_bytes": 700518,
+      "original_sha256": "b30196251595fd37c2974183780ad94d0ccaa61cf6b4b7fce137f04d200f1519",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-b30196251595fd37-DIRECTIONAL_ARGUMENTS_B10_I003.json"
+    },
+    {
+      "source_id": "S-df7641d86a3eb9ab",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I004.json",
+      "original_bytes": 694199,
+      "original_sha256": "df7641d86a3eb9ab3b3b5458d8a5c0dcac8dd199873844fce89dd5f81bba887d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-df7641d86a3eb9ab-DIRECTIONAL_ARGUMENTS_B10_I004.json"
+    },
+    {
+      "source_id": "S-36159ffdd095c4c1",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I005.json",
+      "original_bytes": 700090,
+      "original_sha256": "36159ffdd095c4c151b75ad1f8a7a8a84f3f215c66b30a3e237808f83c609183",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-36159ffdd095c4c1-DIRECTIONAL_ARGUMENTS_B10_I005.json"
+    },
+    {
+      "source_id": "S-cae6f2f2ea7a60f6",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I006.json",
+      "original_bytes": 698516,
+      "original_sha256": "cae6f2f2ea7a60f64e43303e8f367b6551a8f2755792492bc5be64313c6b714a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-cae6f2f2ea7a60f6-DIRECTIONAL_ARGUMENTS_B10_I006.json"
+    },
+    {
+      "source_id": "S-c7face9e2fd5ca89",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I007.json",
+      "original_bytes": 697158,
+      "original_sha256": "c7face9e2fd5ca89d3f019ed22e2d13c61d45e88a02d7543ec4e63c45dccfb05",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-c7face9e2fd5ca89-DIRECTIONAL_ARGUMENTS_B10_I007.json"
+    },
+    {
+      "source_id": "S-8755ab032c28b871",
+      "scientific_name": "NEGATIVE_RULE_ARGUMENTS.json",
+      "original_bytes": 13165,
+      "original_sha256": "8755ab032c28b871dcbca56491fdef69f2dfc78aa2a6c3b535afc334211d2425",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-8755ab032c28b871-NEGATIVE_RULE_ARGUMENTS.json"
+    },
+    {
+      "source_id": "S-270edbd9b466b924",
+      "scientific_name": "SB-S2-001_LEGIBILITY_TO_INFORMATION.json",
+      "original_bytes": 41270,
+      "original_sha256": "270edbd9b466b9241ebb64fdaf0587a9c5f149feb2a8414a67ca2e65624909b5",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-270edbd9b466b924-SB-S2-001_LEGIBILITY_TO_INFORMATION.json"
+    },
+    {
+      "source_id": "S-29ca3946702cdd14",
+      "scientific_name": "SB-S2-002_INFORMATION_TO_LEGIBILITY.json",
+      "original_bytes": 40491,
+      "original_sha256": "29ca3946702cdd14367f139b763a06533450fe8728e72e432bbb03ae11b678f5",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-29ca3946702cdd14-SB-S2-002_INFORMATION_TO_LEGIBILITY.json"
+    },
+    {
+      "source_id": "S-a8fb43e41bc08f2f",
+      "scientific_name": "SB-R3-009_EL004_F7_FORWARD.json",
+      "original_bytes": 70440,
+      "original_sha256": "a8fb43e41bc08f2f472b558680a7a2e179fd34eed07389bd5f9cfe8a8aa6dcb4",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a8fb43e41bc08f2f-SB-R3-009_EL004_F7_FORWARD.json"
+    },
+    {
+      "source_id": "S-3bc7d5a4614078a8",
+      "scientific_name": "SB-R3-010_EL004_F7_REVERSE.json",
+      "original_bytes": 69455,
+      "original_sha256": "3bc7d5a4614078a85c827f06fe9a2a06fa5c104ec6d87f7c83afc63b23de1bad",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3bc7d5a4614078a8-SB-R3-010_EL004_F7_REVERSE.json"
+    },
+    {
+      "source_id": "S-aa4dfe26e6b8a706",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B18_I002.json",
+      "original_bytes": 99216,
+      "original_sha256": "aa4dfe26e6b8a706502da0f663fe57462b03df3979e7400bcc17dd97a84d03a9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-aa4dfe26e6b8a706-DIRECTIONAL_ARGUMENTS_B18_I002.json"
+    },
+    {
+      "source_id": "S-aba53e345548164f",
+      "scientific_name": "SB-R3-011_EL008_F7_FORWARD.json",
+      "original_bytes": 68547,
+      "original_sha256": "aba53e345548164f2f6059a5960ed851d45a5163c4d9cb16e8fc4b08bd9a127c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-aba53e345548164f-SB-R3-011_EL008_F7_FORWARD.json"
+    },
+    {
+      "source_id": "S-27071e09e5f92f9b",
+      "scientific_name": "SB-R3-012_EL008_F7_REVERSE.json",
+      "original_bytes": 69346,
+      "original_sha256": "27071e09e5f92f9beb3cb1715c24f0fb5dbda16360ac94fd893e134ad9eeb58f",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-27071e09e5f92f9b-SB-R3-012_EL008_F7_REVERSE.json"
+    },
+    {
+      "source_id": "S-3b08098381076acb",
+      "scientific_name": "SB-R3-013_EL009_F7_FORWARD.json",
+      "original_bytes": 66901,
+      "original_sha256": "3b08098381076acbac3127dd53de26de07a4ab0589e142b367acc9ef6126fec1",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3b08098381076acb-SB-R3-013_EL009_F7_FORWARD.json"
+    },
+    {
+      "source_id": "S-0db34d4c2c64d30c",
+      "scientific_name": "SB-R3-014_EL009_F7_REVERSE.json",
+      "original_bytes": 67240,
+      "original_sha256": "0db34d4c2c64d30cfa7d723d109befb1f2d87c4806142488d263a4a67cd98372",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0db34d4c2c64d30c-SB-R3-014_EL009_F7_REVERSE.json"
+    },
+    {
+      "source_id": "S-2665c501c17d7225",
+      "scientific_name": "SB-R3-015_EL010_F7_FORWARD.json",
+      "original_bytes": 65903,
+      "original_sha256": "2665c501c17d7225ea2917e01a02f37125f9760c2123fca8e62d5cc76c9e65ce",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2665c501c17d7225-SB-R3-015_EL010_F7_FORWARD.json"
+    },
+    {
+      "source_id": "S-c860527c4131f314",
+      "scientific_name": "SB-R3-016_EL010_F7_REVERSE.json",
+      "original_bytes": 67278,
+      "original_sha256": "c860527c4131f31443cd4b266b4748464739ab06ab3d6c6d8a37b2329e6a8ae3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-c860527c4131f314-SB-R3-016_EL010_F7_REVERSE.json"
+    },
+    {
+      "source_id": "S-5531d3a7f2461f5e",
+      "scientific_name": "CAUSAL_SCOPE_REASSESSMENT.json",
+      "original_bytes": 697815,
+      "original_sha256": "5531d3a7f2461f5e5a2d9bd5ac5e3d5d5c4b57662995294994e7801dd38d69de",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5531d3a7f2461f5e-CAUSAL_SCOPE_REASSESSMENT.json"
+    },
+    {
+      "source_id": "S-5cd5a6e219b6fb32",
+      "scientific_name": "SB-S2-003_DETECTION_TO_TECHNICAL_EVIDENCE.json",
+      "original_bytes": 66704,
+      "original_sha256": "5cd5a6e219b6fb322bbb495f79e34faf164670d17c1921aeed705a92b8098a99",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5cd5a6e219b6fb32-SB-S2-003_DETECTION_TO_TECHNICAL_EVIDENCE.json"
+    },
+    {
+      "source_id": "S-f717931dc14302de",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I018.json",
+      "original_bytes": 606494,
+      "original_sha256": "f717931dc14302def6e56d1c72e0a7e30c1763ad1aa1ba5f0659edc03440caf8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f717931dc14302de-DIRECTIONAL_ARGUMENTS_B10_I018.json"
+    },
+    {
+      "source_id": "S-d35b667583265aed",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B18_I001.json",
+      "original_bytes": 588216,
+      "original_sha256": "d35b667583265aedeca5b9b9c9fb7496afa425b370135c2c6b46471fb3a9fbc6",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d35b667583265aed-DIRECTIONAL_ARGUMENTS_B18_I001.json"
+    },
+    {
+      "source_id": "S-8c5af97dfc21e0d2",
+      "scientific_name": "SB-R3-001_EL018_FORWARD.json",
+      "original_bytes": 104149,
+      "original_sha256": "8c5af97dfc21e0d212082c7b59fde75cb85dd4823099fd271d9a127120520b98",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-8c5af97dfc21e0d2-SB-R3-001_EL018_FORWARD.json"
+    },
+    {
+      "source_id": "S-02851a554501eb97",
+      "scientific_name": "SB-R3-002_EL018_REVERSE.json",
+      "original_bytes": 109460,
+      "original_sha256": "02851a554501eb978d6accad0e1882535b12424172dc4435e463dae0510f4d73",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-02851a554501eb97-SB-R3-002_EL018_REVERSE.json"
+    },
+    {
+      "source_id": "S-73e7c7179cf0df5d",
+      "scientific_name": "SB-R3-003_EL019_FORWARD.json",
+      "original_bytes": 102826,
+      "original_sha256": "73e7c7179cf0df5d1b2e29281c641dd43517df1a9dea9e625cc4646efa2dff45",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-73e7c7179cf0df5d-SB-R3-003_EL019_FORWARD.json"
+    },
+    {
+      "source_id": "S-7a825cf56ebef93f",
+      "scientific_name": "SB-R3-004_EL019_REVERSE.json",
+      "original_bytes": 109550,
+      "original_sha256": "7a825cf56ebef93fc512a7a79f189b34b089d8a619bcd1c089923413ae5a2592",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-7a825cf56ebef93f-SB-R3-004_EL019_REVERSE.json"
+    },
+    {
+      "source_id": "S-3485c7b44c32761b",
+      "scientific_name": "SB-R3-005_EL024_FORWARD.json",
+      "original_bytes": 104810,
+      "original_sha256": "3485c7b44c32761bf8fd3c01c7dd1954efcb9ae0004672e71996d904f18c3a16",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3485c7b44c32761b-SB-R3-005_EL024_FORWARD.json"
+    },
+    {
+      "source_id": "S-c66925ca1fe8dc09",
+      "scientific_name": "SB-R3-006_EL024_REVERSE.json",
+      "original_bytes": 111230,
+      "original_sha256": "c66925ca1fe8dc096d25c95b5a6013ff1b47b85697f708f328d618d34a9670f3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-c66925ca1fe8dc09-SB-R3-006_EL024_REVERSE.json"
+    },
+    {
+      "source_id": "S-dda127bc1d79d21c",
+      "scientific_name": "SB-R3-007_EL026_FORWARD.json",
+      "original_bytes": 120411,
+      "original_sha256": "dda127bc1d79d21cacea4fd0377e23f44f3ca05099834cca687851eae4cab66b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-dda127bc1d79d21c-SB-R3-007_EL026_FORWARD.json"
+    },
+    {
+      "source_id": "S-df5aed5488bd3882",
+      "scientific_name": "SB-R3-008_EL026_REVERSE.json",
+      "original_bytes": 126823,
+      "original_sha256": "df5aed5488bd38829b2afefb52e11e1790e1923213d5d7577a7c1a938b0f8cd7",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-df5aed5488bd3882-SB-R3-008_EL026_REVERSE.json"
+    },
+    {
+      "source_id": "S-0a99e992a8db4c39",
+      "scientific_name": "SB-R3-017_EL027_F7_FORWARD.json",
+      "original_bytes": 67827,
+      "original_sha256": "0a99e992a8db4c392ee44828e149e3433cb0568979a09ae7f17c0eddae0da033",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0a99e992a8db4c39-SB-R3-017_EL027_F7_FORWARD.json"
+    },
+    {
+      "source_id": "S-75d20c1dd152108d",
+      "scientific_name": "SB-R3-018_EL027_F7_REVERSE.json",
+      "original_bytes": 67698,
+      "original_sha256": "75d20c1dd152108d3077c883793935eadd786e69f9bfbd231107dbca498d7d65",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-75d20c1dd152108d-SB-R3-018_EL027_F7_REVERSE.json"
+    },
+    {
+      "source_id": "S-fb778177a8cd8e54",
+      "scientific_name": "SB-R3-019_EL028_F7_FORWARD.json",
+      "original_bytes": 67228,
+      "original_sha256": "fb778177a8cd8e5477dbcafef08860e01e79a4a58392f43751b64e61b7930739",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-fb778177a8cd8e54-SB-R3-019_EL028_F7_FORWARD.json"
+    },
+    {
+      "source_id": "S-5531e7ccc619fb2f",
+      "scientific_name": "SB-R3-020_EL028_F7_REVERSE.json",
+      "original_bytes": 67919,
+      "original_sha256": "5531e7ccc619fb2f475af456830f7ac71362dc29bb22773b64f17c8c352385cb",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5531e7ccc619fb2f-SB-R3-020_EL028_F7_REVERSE.json"
+    },
+    {
+      "source_id": "S-3053ec1bf55eddb3",
+      "scientific_name": "SB-R3-021_EL029_F8_FORWARD.json",
+      "original_bytes": 68423,
+      "original_sha256": "3053ec1bf55eddb3ba9efa9c336e870196124d927028362a6ee39727210adf64",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3053ec1bf55eddb3-SB-R3-021_EL029_F8_FORWARD.json"
+    },
+    {
+      "source_id": "S-5f20cb7d5114697b",
+      "scientific_name": "SB-R3-022_EL029_F8_REVERSE.json",
+      "original_bytes": 68605,
+      "original_sha256": "5f20cb7d5114697bb30976830904485296bdce738be74cf7f772c2d18972d9f5",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5f20cb7d5114697b-SB-R3-022_EL029_F8_REVERSE.json"
+    },
+    {
+      "source_id": "S-b04dda35b6997f22",
+      "scientific_name": "SB-R3-023_EL030_F8_FORWARD.json",
+      "original_bytes": 67121,
+      "original_sha256": "b04dda35b6997f22b03dee5c9b02312306e2b988ef7b4d14d4fcc52f04b85e7b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-b04dda35b6997f22-SB-R3-023_EL030_F8_FORWARD.json"
+    },
+    {
+      "source_id": "S-2a69875341f4f774",
+      "scientific_name": "SB-R3-024_EL030_F8_REVERSE.json",
+      "original_bytes": 68495,
+      "original_sha256": "2a69875341f4f774119d42ceb4f44aff2780c396452539b326c47503c3049f1e",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2a69875341f4f774-SB-R3-024_EL030_F8_REVERSE.json"
+    },
+    {
+      "source_id": "S-596301564bc1a496",
+      "scientific_name": "SB-R3-025_EL032_F8_FORWARD.json",
+      "original_bytes": 66641,
+      "original_sha256": "596301564bc1a496b9b8a8b47ffe2ce04ce19a917dce8b626dc043e2626b60aa",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-596301564bc1a496-SB-R3-025_EL032_F8_FORWARD.json"
+    },
+    {
+      "source_id": "S-5c2afbdb3afaf471",
+      "scientific_name": "SB-R3-026_EL032_F8_REVERSE.json",
+      "original_bytes": 68407,
+      "original_sha256": "5c2afbdb3afaf4716d0dd8fa44e9597b916d14996fc99696f569aec85daa319c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5c2afbdb3afaf471-SB-R3-026_EL032_F8_REVERSE.json"
+    },
+    {
+      "source_id": "S-119dee96ae574a77",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I008.json",
+      "original_bytes": 686239,
+      "original_sha256": "119dee96ae574a778c64e67b86ecc2a1cbbd1dd72da5008b275e4bdb96e30c94",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-119dee96ae574a77-DIRECTIONAL_ARGUMENTS_B10_I008.json"
+    },
+    {
+      "source_id": "S-515fe2a875aa16a7",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I009.json",
+      "original_bytes": 679806,
+      "original_sha256": "515fe2a875aa16a78ca1c86fce6a9a9933dd9a983b211a3d9986d129a5c2197f",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-515fe2a875aa16a7-DIRECTIONAL_ARGUMENTS_B10_I009.json"
+    },
+    {
+      "source_id": "S-23cf3221f4be59fd",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I010.json",
+      "original_bytes": 669117,
+      "original_sha256": "23cf3221f4be59fd960bbcc40ad073cde04c71d39d06d3cab0fd5d66386834ea",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-23cf3221f4be59fd-DIRECTIONAL_ARGUMENTS_B10_I010.json"
+    },
+    {
+      "source_id": "S-5ecc0770a91d1a80",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I011.json",
+      "original_bytes": 684304,
+      "original_sha256": "5ecc0770a91d1a801141dd7aaf20559b9392905edd68a5d0b2783543b018924f",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5ecc0770a91d1a80-DIRECTIONAL_ARGUMENTS_B10_I011.json"
+    },
+    {
+      "source_id": "S-d0ac267ecb723929",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I012.json",
+      "original_bytes": 675701,
+      "original_sha256": "d0ac267ecb7239294063061d6532742108446901f11482dc971d46a9f8545cb2",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d0ac267ecb723929-DIRECTIONAL_ARGUMENTS_B10_I012.json"
+    },
+    {
+      "source_id": "S-12b97a48cd2ce5aa",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I013.json",
+      "original_bytes": 694785,
+      "original_sha256": "12b97a48cd2ce5aaadc0daaddd208eb0931748e389542f4ef5573cc63173db27",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-12b97a48cd2ce5aa-DIRECTIONAL_ARGUMENTS_B10_I013.json"
+    },
+    {
+      "source_id": "S-a300281562df7f25",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I014.json",
+      "original_bytes": 692550,
+      "original_sha256": "a300281562df7f254b0a9e84892074578185d5c59bf5cb643c518a541f3ce5b9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a300281562df7f25-DIRECTIONAL_ARGUMENTS_B10_I014.json"
+    },
+    {
+      "source_id": "S-bbc773c848370980",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I015.json",
+      "original_bytes": 696042,
+      "original_sha256": "bbc773c84837098002a230de174bbab5f58245c9dd8f4def5b7644e494560bcf",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-bbc773c848370980-DIRECTIONAL_ARGUMENTS_B10_I015.json"
+    },
+    {
+      "source_id": "S-1e6e3c933e3eb04e",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I016.json",
+      "original_bytes": 685627,
+      "original_sha256": "1e6e3c933e3eb04e57a3d46b8ec546da5f018e2ef5991b24af72397638c0cba1",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-1e6e3c933e3eb04e-DIRECTIONAL_ARGUMENTS_B10_I016.json"
+    },
+    {
+      "source_id": "S-e024ac4f0e1c27b1",
+      "scientific_name": "DIRECTIONAL_ARGUMENTS_B10_I017.json",
+      "original_bytes": 336344,
+      "original_sha256": "e024ac4f0e1c27b17d42e04820eaf92392e96c3758e39290772dd22462f17e48",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e024ac4f0e1c27b1-DIRECTIONAL_ARGUMENTS_B10_I017.json"
+    },
+    {
+      "source_id": "S-4adb8a9e311b10cd",
+      "scientific_name": "SB-R3-043_EA01_F10_FORWARD.json",
+      "original_bytes": 79121,
+      "original_sha256": "4adb8a9e311b10cdd53f80a8470d6fc7b9e251b3a9827fab3c029491295b7fb8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4adb8a9e311b10cd-SB-R3-043_EA01_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-5870cfa67be902b5",
+      "scientific_name": "SB-R3-044_EA01_F10_REVERSE.json",
+      "original_bytes": 78583,
+      "original_sha256": "5870cfa67be902b5596ebdad22eb02e63ec12c858c3d1319680e78ec60b53bcd",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5870cfa67be902b5-SB-R3-044_EA01_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-93a3bab6fb7c8520",
+      "scientific_name": "SB-R3-027_EA02_F9_FORWARD.json",
+      "original_bytes": 96074,
+      "original_sha256": "93a3bab6fb7c8520d9b5d9f8d182aa598f651b9cfee207b2ec5f61f3dad06a53",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-93a3bab6fb7c8520-SB-R3-027_EA02_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-7d601b9eb7cda422",
+      "scientific_name": "SB-R3-028_EA02_F9_REVERSE.json",
+      "original_bytes": 99210,
+      "original_sha256": "7d601b9eb7cda4227abf977d0c2559d68a51c2dac4f34d6296ec74947a072d26",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-7d601b9eb7cda422-SB-R3-028_EA02_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-888a8ac9bf6aa770",
+      "scientific_name": "SB-R3-045_EA03_F10_FORWARD.json",
+      "original_bytes": 77621,
+      "original_sha256": "888a8ac9bf6aa770b26ea77d04473758c295da4af3d120c9dba0a7dd100c03ea",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-888a8ac9bf6aa770-SB-R3-045_EA03_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-4829ce9afd615b89",
+      "scientific_name": "SB-R3-046_EA03_F10_REVERSE.json",
+      "original_bytes": 77381,
+      "original_sha256": "4829ce9afd615b890b92e92c302b94d9fbf3d46e2270198dc58d266f05484ee9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4829ce9afd615b89-SB-R3-046_EA03_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-69c2458957caf64f",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I001.json",
+      "original_bytes": 59635,
+      "original_sha256": "69c2458957caf64f0171456ff458948d0a238b775b517c400ec71ae6035ee312",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-69c2458957caf64f-DIRECTION_ARGUMENTS_B33_I001.json"
+    },
+    {
+      "source_id": "S-de1a1147f90b6996",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I002.json",
+      "original_bytes": 59346,
+      "original_sha256": "de1a1147f90b6996ff15ac7d3caf8e8a6f0f6f74d897c8593e816a9ac8b250a9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-de1a1147f90b6996-DIRECTION_ARGUMENTS_B33_I002.json"
+    },
+    {
+      "source_id": "S-f8a66cd58855bdc2",
+      "scientific_name": "SB-R3-029_EA06_F9_FORWARD.json",
+      "original_bytes": 35887,
+      "original_sha256": "f8a66cd58855bdc2af54d5e410ad082697553a1925932766cc4850cea1d0c96b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f8a66cd58855bdc2-SB-R3-029_EA06_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-d04488c6ca35026f",
+      "scientific_name": "SB-R3-030_EA06_F9_REVERSE.json",
+      "original_bytes": 37936,
+      "original_sha256": "d04488c6ca35026f4773d3828622a096beb3f6d53f1aed8ed1a02533971a8672",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d04488c6ca35026f-SB-R3-030_EA06_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-e61454163714d215",
+      "scientific_name": "DIRECTION_ARGUMENTS_B26_I002.json",
+      "original_bytes": 46974,
+      "original_sha256": "e61454163714d215e791476b53a05faa0efffdef232b4d639c4d60ef14c6e662",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e61454163714d215-DIRECTION_ARGUMENTS_B26_I002.json"
+    },
+    {
+      "source_id": "S-e91c0f894f3450d9",
+      "scientific_name": "DIRECTION_ARGUMENTS_B30_I001_V2.json",
+      "original_bytes": 50234,
+      "original_sha256": "e91c0f894f3450d9714e67c04c2a5b48c5c3cebe347a37563f3c31a9cb15cd36",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e91c0f894f3450d9-DIRECTION_ARGUMENTS_B30_I001_V2.json"
+    },
+    {
+      "source_id": "S-0a72284d5cd0b2f3",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I003.json",
+      "original_bytes": 94592,
+      "original_sha256": "0a72284d5cd0b2f34e24cfef3ba5a2c5d28427f7ab433b1b1f6ab5f00eb56e85",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0a72284d5cd0b2f3-DIRECTION_ARGUMENTS_B33_I003.json"
+    },
+    {
+      "source_id": "S-9374d7845903df74",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I005.json",
+      "original_bytes": 39874,
+      "original_sha256": "9374d7845903df745c4032fa85b2ca714dad965087cfb395085b73fa0409bab7",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-9374d7845903df74-DIRECTION_ARGUMENTS_B33_I005.json"
+    },
+    {
+      "source_id": "S-0e15cb79ae4385df",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I004.json",
+      "original_bytes": 80799,
+      "original_sha256": "0e15cb79ae4385df57a4a30a311e24820bd54164ab0cabb4b9ef4c77703c48f2",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0e15cb79ae4385df-DIRECTION_ARGUMENTS_B33_I004.json"
+    },
+    {
+      "source_id": "S-d3e6c3d20019de42",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I009.json",
+      "original_bytes": 99913,
+      "original_sha256": "d3e6c3d20019de42471d05243bc089dd6b1608fdcd2084298140a89cd926177d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d3e6c3d20019de42-DIRECTION_ARGUMENTS_B33_I009.json"
+    },
+    {
+      "source_id": "S-b68f6cc82abbcf6a",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I007.json",
+      "original_bytes": 69413,
+      "original_sha256": "b68f6cc82abbcf6ab39e9a699cb1d147d8f8877a8a4b7db94502f0d8c8dd2d66",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-b68f6cc82abbcf6a-DIRECTION_ARGUMENTS_B33_I007.json"
+    },
+    {
+      "source_id": "S-68bda0cf8c9c8a53",
+      "scientific_name": "SB-R3-031_EA07_F9_FORWARD.json",
+      "original_bytes": 79941,
+      "original_sha256": "68bda0cf8c9c8a536a20dec8bbdbe48a1c6689e75d96e01110b04fdf4896d342",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-68bda0cf8c9c8a53-SB-R3-031_EA07_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-d8dd69ffb3b807ca",
+      "scientific_name": "SB-R3-032_EA07_F9_REVERSE.json",
+      "original_bytes": 83960,
+      "original_sha256": "d8dd69ffb3b807ca06ce830682fa3e927e33933b0f3f5e797bb0dee8c207d15a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d8dd69ffb3b807ca-SB-R3-032_EA07_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-0d5ac31a6c78df27",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I008.json",
+      "original_bytes": 119557,
+      "original_sha256": "0d5ac31a6c78df27cb22d1c6bf67ad2aa0bd7e983550bd0f8f3d45b4ec3bc7d0",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0d5ac31a6c78df27-DIRECTION_ARGUMENTS_B33_I008.json"
+    },
+    {
+      "source_id": "S-ccbd282e3853d205",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I010.json",
+      "original_bytes": 109250,
+      "original_sha256": "ccbd282e3853d20574e9e0725153165ab489eec208849d68db6442000a08f1b7",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-ccbd282e3853d205-DIRECTION_ARGUMENTS_B33_I010.json"
+    },
+    {
+      "source_id": "S-319cec0e533a42ca",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I011.json",
+      "original_bytes": 145974,
+      "original_sha256": "319cec0e533a42ca07a3db0261e478fe60e756c9c2b3b19288b190689684e0df",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-319cec0e533a42ca-DIRECTION_ARGUMENTS_B33_I011.json"
+    },
+    {
+      "source_id": "S-977c409d95daefb7",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I016.json",
+      "original_bytes": 188350,
+      "original_sha256": "977c409d95daefb7c941d36671323f11d0559f255b61d3dc0ead98e8537881d4",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-977c409d95daefb7-DIRECTION_ARGUMENTS_B33_I016.json"
+    },
+    {
+      "source_id": "S-484097907d4903a4",
+      "scientific_name": "SB-R3-059_EA08_F11_FORWARD.json",
+      "original_bytes": 75966,
+      "original_sha256": "484097907d4903a4bc42e38ed78c7e2419b1f7254d666aebf3f89d7c94044611",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-484097907d4903a4-SB-R3-059_EA08_F11_FORWARD.json"
+    },
+    {
+      "source_id": "S-d5c7e308a8ef7704",
+      "scientific_name": "SB-R3-060_EA08_F11_REVERSE.json",
+      "original_bytes": 73667,
+      "original_sha256": "d5c7e308a8ef7704e7548afc1ada68301c93744603d1e68829ce5bbbbd310197",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d5c7e308a8ef7704-SB-R3-060_EA08_F11_REVERSE.json"
+    },
+    {
+      "source_id": "S-afcc12201bf4edea",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I013.json",
+      "original_bytes": 50481,
+      "original_sha256": "afcc12201bf4edead05d8c0bc51cb8d60acd55306bfdf818d8a8c6996f930e49",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-afcc12201bf4edea-DIRECTION_ARGUMENTS_B33_I013.json"
+    },
+    {
+      "source_id": "S-607e0407a98e703a",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I014.json",
+      "original_bytes": 81204,
+      "original_sha256": "607e0407a98e703a62d5331137a147938db2226d84c666b5c326008d821313b9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-607e0407a98e703a-DIRECTION_ARGUMENTS_B33_I014.json"
+    },
+    {
+      "source_id": "S-d28656b145cb062d",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I015.json",
+      "original_bytes": 71106,
+      "original_sha256": "d28656b145cb062da267fa8b2f313dc0af60d6915b85a0e5e4f4341b5801aaa8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d28656b145cb062d-DIRECTION_ARGUMENTS_B33_I015.json"
+    },
+    {
+      "source_id": "S-5fa53b69b30e9dc9",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I017.json",
+      "original_bytes": 309927,
+      "original_sha256": "5fa53b69b30e9dc98cf55b8f2f9fce2077284169b36432168ec30aaca0c0c165",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5fa53b69b30e9dc9-DIRECTION_ARGUMENTS_B33_I017.json"
+    },
+    {
+      "source_id": "S-514d9a5c09157ddf",
+      "scientific_name": "SB-R3-047_EA09_F10_FORWARD.json",
+      "original_bytes": 79939,
+      "original_sha256": "514d9a5c09157ddf2d7146109fcd696b56c89ceec5979ee274620fdcd616f4a9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-514d9a5c09157ddf-SB-R3-047_EA09_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-698f871b4650e144",
+      "scientific_name": "SB-R3-048_EA09_F10_REVERSE.json",
+      "original_bytes": 79587,
+      "original_sha256": "698f871b4650e144360bea0669811b9e539066dd2773b61dff44a25f8d2f1e3b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-698f871b4650e144-SB-R3-048_EA09_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-b0025bd864898bb8",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I021.json",
+      "original_bytes": 100626,
+      "original_sha256": "b0025bd864898bb82f1763651c0a2111571f6f5809fa305305173f5842a3c476",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-b0025bd864898bb8-DIRECTION_ARGUMENTS_B33_I021.json"
+    },
+    {
+      "source_id": "S-803ba3a60075d2ea",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I019.json",
+      "original_bytes": 118058,
+      "original_sha256": "803ba3a60075d2ea7a41277ce8d34a46b78f9d99f861695ee3089675b817716c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-803ba3a60075d2ea-DIRECTION_ARGUMENTS_B33_I019.json"
+    },
+    {
+      "source_id": "S-2510ae2fbf6538f9",
+      "scientific_name": "SB-R3-061_EA09_F11_FORWARD.json",
+      "original_bytes": 58389,
+      "original_sha256": "2510ae2fbf6538f99e4238713955bc0bfe7258262dc56a37a650bfd955457354",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2510ae2fbf6538f9-SB-R3-061_EA09_F11_FORWARD.json"
+    },
+    {
+      "source_id": "S-d66b709c915e9622",
+      "scientific_name": "SB-R3-062_EA09_F11_REVERSE.json",
+      "original_bytes": 58081,
+      "original_sha256": "d66b709c915e9622841894f62d8dbeb3eef03ae01ab8becadc1d5e86c2cfccc7",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d66b709c915e9622-SB-R3-062_EA09_F11_REVERSE.json"
+    },
+    {
+      "source_id": "S-c26206b1a3029fbc",
+      "scientific_name": "DIRECTION_ARGUMENTS_B33_I020.json",
+      "original_bytes": 143811,
+      "original_sha256": "c26206b1a3029fbcd090b5be1383164ec46596147ab57689a834615690f5eb81",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-c26206b1a3029fbc-DIRECTION_ARGUMENTS_B33_I020.json"
+    },
+    {
+      "source_id": "S-c71a87da36ce0692",
+      "scientific_name": "a002-I022_ADOPTION.json",
+      "original_bytes": 75790,
+      "original_sha256": "c71a87da36ce0692ed0bc8bb982090efeba07b23c810d8f9debcb80f26bd57f7",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-c71a87da36ce0692-a002-I022_ADOPTION.json"
+    },
+    {
+      "source_id": "S-91351028cf461550",
+      "scientific_name": "SB-R3-063_EA10_F11_FORWARD.json",
+      "original_bytes": 65348,
+      "original_sha256": "91351028cf461550744fb6dd8d7ac174244cf2094fb020ff173d3a4be720439d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-91351028cf461550-SB-R3-063_EA10_F11_FORWARD.json"
+    },
+    {
+      "source_id": "S-3a8f368d79415b45",
+      "scientific_name": "SB-R3-064_EA10_F11_REVERSE.json",
+      "original_bytes": 64506,
+      "original_sha256": "3a8f368d79415b455febdc9e960eaa1f27398d0e2d150e7f13a0d0ca195cc17d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3a8f368d79415b45-SB-R3-064_EA10_F11_REVERSE.json"
+    },
+    {
+      "source_id": "S-5e835ea7f727bdaa",
+      "scientific_name": "SB-R3-033_EA10_F9_FORWARD.json",
+      "original_bytes": 93582,
+      "original_sha256": "5e835ea7f727bdaa2d8a2949302078a3150087fd6f1ae77e0aeafc0e9e1e42a8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5e835ea7f727bdaa-SB-R3-033_EA10_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-45e3f98a6d2c8901",
+      "scientific_name": "SB-R3-034_EA10_F9_REVERSE.json",
+      "original_bytes": 98432,
+      "original_sha256": "45e3f98a6d2c890163f7852354a7ed9d567564ff737553695f60b2d7e237c2e2",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-45e3f98a6d2c8901-SB-R3-034_EA10_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-dc78970ab5776792",
+      "scientific_name": "SB-R3-065_EA11_F11_FORWARD.json",
+      "original_bytes": 73997,
+      "original_sha256": "dc78970ab5776792f40c3910c3d0d68950f50db2af0992760d50de48ed588256",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-dc78970ab5776792-SB-R3-065_EA11_F11_FORWARD.json"
+    },
+    {
+      "source_id": "S-73288663ac431701",
+      "scientific_name": "SB-R3-066_EA11_F11_REVERSE.json",
+      "original_bytes": 71973,
+      "original_sha256": "73288663ac4317011cf2a9beee397e64a316b0d07489ea3cf111e6a041acdc46",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-73288663ac431701-SB-R3-066_EA11_F11_REVERSE.json"
+    },
+    {
+      "source_id": "S-5163ccda195fc000",
+      "scientific_name": "SB-R3-049_EA12_F10_FORWARD.json",
+      "original_bytes": 79904,
+      "original_sha256": "5163ccda195fc00080ddd7c87dab5df2c905e6b1f6d2a18356267825f3bf01d5",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5163ccda195fc000-SB-R3-049_EA12_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-9ce898d106385eca",
+      "scientific_name": "SB-R3-050_EA12_F10_REVERSE.json",
+      "original_bytes": 78986,
+      "original_sha256": "9ce898d106385ecac835a0d909847c9bd2bf46140c3ae20174ba0c29bf5f82bd",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-9ce898d106385eca-SB-R3-050_EA12_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-956b4fb80a06d131",
+      "scientific_name": "SB-R3-051_EA13_F10_FORWARD.json",
+      "original_bytes": 79344,
+      "original_sha256": "956b4fb80a06d131c102b5aa86c04daf23d4e6f0f00cee9f49d78b909ad814fa",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-956b4fb80a06d131-SB-R3-051_EA13_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-910a25496e5a1279",
+      "scientific_name": "SB-R3-052_EA13_F10_REVERSE.json",
+      "original_bytes": 78555,
+      "original_sha256": "910a25496e5a127915f79138fea454ec71f5b7c2eaf455f4da35032da0309bab",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-910a25496e5a1279-SB-R3-052_EA13_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-e0a238b2a85bfc69",
+      "scientific_name": "SB-R3-053_EA14_F10_FORWARD.json",
+      "original_bytes": 79550,
+      "original_sha256": "e0a238b2a85bfc69fa35c0c584d790406206b5275f9edaa7aaecf6c5bf2ec764",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e0a238b2a85bfc69-SB-R3-053_EA14_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-2a49dd7baf4dfcda",
+      "scientific_name": "SB-R3-054_EA14_F10_REVERSE.json",
+      "original_bytes": 79235,
+      "original_sha256": "2a49dd7baf4dfcda6f6780b4b38023a066700c2b0125f95c5be165f337a22c36",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2a49dd7baf4dfcda-SB-R3-054_EA14_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-2708f7096b4f1de7",
+      "scientific_name": "SB-R3-055_EA15_F10_FORWARD.json",
+      "original_bytes": 80767,
+      "original_sha256": "2708f7096b4f1de79506841da8f1c8f53aefcad77997f1fc7e6eddb0694d66af",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2708f7096b4f1de7-SB-R3-055_EA15_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-a5fe7195e929bdad",
+      "scientific_name": "SB-R3-056_EA15_F10_REVERSE.json",
+      "original_bytes": 79996,
+      "original_sha256": "a5fe7195e929bdadfb293fa24db5c0a0a8f47856c585b0deb32b9bc8a3167d8e",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a5fe7195e929bdad-SB-R3-056_EA15_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-6c9824fd46c94ec0",
+      "scientific_name": "SB-R3-073_EA16_F12_FORWARD.json",
+      "original_bytes": 67484,
+      "original_sha256": "6c9824fd46c94ec0e3644c5b6fc8347f457603d21a8f901cb67599e51cdac4c6",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-6c9824fd46c94ec0-SB-R3-073_EA16_F12_FORWARD.json"
+    },
+    {
+      "source_id": "S-4b139f638fdbc053",
+      "scientific_name": "SB-R3-074_EA16_F12_REVERSE.json",
+      "original_bytes": 66414,
+      "original_sha256": "4b139f638fdbc05364d03ace9303ff404b26430ec06afc4461fdbed4a6622d9a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4b139f638fdbc053-SB-R3-074_EA16_F12_REVERSE.json"
+    },
+    {
+      "source_id": "S-7df7647a1a7f007e",
+      "scientific_name": "SB-R3-075_EA18_F12_FORWARD.json",
+      "original_bytes": 66656,
+      "original_sha256": "7df7647a1a7f007e3475fe19cb33f88c18e20787b31682c2b3c975ffeb48e001",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-7df7647a1a7f007e-SB-R3-075_EA18_F12_FORWARD.json"
+    },
+    {
+      "source_id": "S-5dd9cbd2e8b59c55",
+      "scientific_name": "SB-R3-076_EA18_F12_REVERSE.json",
+      "original_bytes": 65016,
+      "original_sha256": "5dd9cbd2e8b59c552dd370c90bfa89663644feab595b196b60568e6cfc9c76db",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-5dd9cbd2e8b59c55-SB-R3-076_EA18_F12_REVERSE.json"
+    },
+    {
+      "source_id": "S-4ea14bf96de2116b",
+      "scientific_name": "SB-R3-035_EA19_F9_FORWARD.json",
+      "original_bytes": 92810,
+      "original_sha256": "4ea14bf96de2116b6bcce3e6de33fe293525251709993139dffe8396e936b315",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4ea14bf96de2116b-SB-R3-035_EA19_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-a4f5d25394bd158c",
+      "scientific_name": "SB-R3-036_EA19_F9_REVERSE.json",
+      "original_bytes": 96820,
+      "original_sha256": "a4f5d25394bd158c7079ea8acaf7de8f07248c693ae05bdd3435a1b99dddf388",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a4f5d25394bd158c-SB-R3-036_EA19_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-1266ee90d4661c84",
+      "scientific_name": "SB-R3-077_EA19_F12_FORWARD.json",
+      "original_bytes": 44132,
+      "original_sha256": "1266ee90d4661c84a9ed957fe353cb4181ac7921f79ca0a5117f2283181f81e7",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-1266ee90d4661c84-SB-R3-077_EA19_F12_FORWARD.json"
+    },
+    {
+      "source_id": "S-2672c4c1a42a0da3",
+      "scientific_name": "SB-R3-078_EA19_F12_REVERSE.json",
+      "original_bytes": 43856,
+      "original_sha256": "2672c4c1a42a0da314980aae9b0b9dedfcbc4273d2c27ee9b4c8d0f8700a4681",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2672c4c1a42a0da3-SB-R3-078_EA19_F12_REVERSE.json"
+    },
+    {
+      "source_id": "S-d92938cc62ce5bc5",
+      "scientific_name": "SB-R3-079_EA20_F12_FORWARD.json",
+      "original_bytes": 65659,
+      "original_sha256": "d92938cc62ce5bc53fc9fab3335ef64da5d6f1e252b9eca15a29108cbe59d3f5",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d92938cc62ce5bc5-SB-R3-079_EA20_F12_FORWARD.json"
+    },
+    {
+      "source_id": "S-178393359d050318",
+      "scientific_name": "SB-R3-080_EA20_F12_REVERSE.json",
+      "original_bytes": 65479,
+      "original_sha256": "178393359d05031819263ff4ff78a524363456589606fb25d2edacc4e274daf0",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-178393359d050318-SB-R3-080_EA20_F12_REVERSE.json"
+    },
+    {
+      "source_id": "S-3e47b49770c343b2",
+      "scientific_name": "SB-R3-067_EA21_F11_FORWARD.json",
+      "original_bytes": 65682,
+      "original_sha256": "3e47b49770c343b2497415fd15e8e35eb24f5443803a49cb3bb590d90c5bbbd6",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3e47b49770c343b2-SB-R3-067_EA21_F11_FORWARD.json"
+    },
+    {
+      "source_id": "S-422aeb8bec89ac02",
+      "scientific_name": "SB-R3-068_EA21_F11_REVERSE.json",
+      "original_bytes": 64261,
+      "original_sha256": "422aeb8bec89ac0284c680f1af440c662b4fa315173bfa5718412dd9e534dcb3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-422aeb8bec89ac02-SB-R3-068_EA21_F11_REVERSE.json"
+    },
+    {
+      "source_id": "S-a8e0090dcca1651c",
+      "scientific_name": "SB-R3-037_EA21_F9_FORWARD.json",
+      "original_bytes": 91346,
+      "original_sha256": "a8e0090dcca1651c9db124e1d22733d9723e029c3b31f658f560c623becd6626",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a8e0090dcca1651c-SB-R3-037_EA21_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-e7692d907d21a1f0",
+      "scientific_name": "SB-R3-038_EA21_F9_REVERSE.json",
+      "original_bytes": 97676,
+      "original_sha256": "e7692d907d21a1f0d2b5769bd74d2a672c07228a3372cab26178b2c32589fae8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e7692d907d21a1f0-SB-R3-038_EA21_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-3a63a395a105fbc8",
+      "scientific_name": "SB-R3-069_EA22_F11_FORWARD.json",
+      "original_bytes": 74420,
+      "original_sha256": "3a63a395a105fbc8da66a01574d93037fe519024c58d537478c25cce216eb0bb",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3a63a395a105fbc8-SB-R3-069_EA22_F11_FORWARD.json"
+    },
+    {
+      "source_id": "S-82fa21aa7fe2c4fe",
+      "scientific_name": "SB-R3-070_EA22_F11_REVERSE.json",
+      "original_bytes": 72532,
+      "original_sha256": "82fa21aa7fe2c4fe3458874cb0f671cab1cc25e1ac9e84c0ada6ddc1aee17af8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-82fa21aa7fe2c4fe-SB-R3-070_EA22_F11_REVERSE.json"
+    },
+    {
+      "source_id": "S-e4428bc25799fd7d",
+      "scientific_name": "SB-R3-071_EA23_F11_FORWARD.json",
+      "original_bytes": 66154,
+      "original_sha256": "e4428bc25799fd7ddf7b9ff60f84b450d3dfba6969ee6d5d4c9c334b5648324a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e4428bc25799fd7d-SB-R3-071_EA23_F11_FORWARD.json"
+    },
+    {
+      "source_id": "S-9efbdd5c50d3aa4e",
+      "scientific_name": "SB-R3-072_EA23_F11_REVERSE.json",
+      "original_bytes": 65260,
+      "original_sha256": "9efbdd5c50d3aa4ee73b040159a517d1f50e39e6dc7222646f9829ac18d8ad84",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-9efbdd5c50d3aa4e-SB-R3-072_EA23_F11_REVERSE.json"
+    },
+    {
+      "source_id": "S-ec692f7d851bf8e4",
+      "scientific_name": "SB-R3-039_EA23_F9_FORWARD.json",
+      "original_bytes": 92821,
+      "original_sha256": "ec692f7d851bf8e4c32315c2b39803c5967040f4645fcef2c858d74928578867",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-ec692f7d851bf8e4-SB-R3-039_EA23_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-9d3bd92cc6b227a9",
+      "scientific_name": "SB-R3-040_EA23_F9_REVERSE.json",
+      "original_bytes": 98931,
+      "original_sha256": "9d3bd92cc6b227a9b1b6f3278bb15c725b80189dcffd5a4da12ecc00cd575541",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-9d3bd92cc6b227a9-SB-R3-040_EA23_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-a19551b8b9ca7793",
+      "scientific_name": "SB-R3-041_EA24_F9_FORWARD.json",
+      "original_bytes": 93600,
+      "original_sha256": "a19551b8b9ca7793bb6dc08f07b0bf493b024ccd3bee0778c99604dc35f6ca58",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a19551b8b9ca7793-SB-R3-041_EA24_F9_FORWARD.json"
+    },
+    {
+      "source_id": "S-e149759618cc6fd1",
+      "scientific_name": "SB-R3-042_EA24_F9_REVERSE.json",
+      "original_bytes": 98612,
+      "original_sha256": "e149759618cc6fd1f0403090a5379172b07ef16c401b8c0358fc869f88b6ced1",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e149759618cc6fd1-SB-R3-042_EA24_F9_REVERSE.json"
+    },
+    {
+      "source_id": "S-95257d0976c98b14",
+      "scientific_name": "SB-R3-081_EA24_F12_FORWARD.json",
+      "original_bytes": 44610,
+      "original_sha256": "95257d0976c98b146af94f49d5b6d50f9ba07ae8855392cd302f1983a446f61c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-95257d0976c98b14-SB-R3-081_EA24_F12_FORWARD.json"
+    },
+    {
+      "source_id": "S-1888fdfae9906f11",
+      "scientific_name": "SB-R3-082_EA24_F12_REVERSE.json",
+      "original_bytes": 43933,
+      "original_sha256": "1888fdfae9906f11d5bb192d2c757a9bc7f2ee318447e14a0cd347aeae59ba55",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-1888fdfae9906f11-SB-R3-082_EA24_F12_REVERSE.json"
+    },
+    {
+      "source_id": "S-6da6804641657427",
+      "scientific_name": "SB-R3-083_EA26_F12_FORWARD.json",
+      "original_bytes": 66296,
+      "original_sha256": "6da6804641657427c06cbf18a2d6498878f4a333ab9b69c18463d29d31ffcb59",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-6da6804641657427-SB-R3-083_EA26_F12_FORWARD.json"
+    },
+    {
+      "source_id": "S-f9df9233e437565e",
+      "scientific_name": "SB-R3-084_EA26_F12_REVERSE.json",
+      "original_bytes": 66156,
+      "original_sha256": "f9df9233e437565e1dff1de9d2fc238f63ea6d23a06f2b21d07602b673863a91",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f9df9233e437565e-SB-R3-084_EA26_F12_REVERSE.json"
+    },
+    {
+      "source_id": "S-1739cab3c61e5523",
+      "scientific_name": "SB-R3-085_EA27_F12_FORWARD.json",
+      "original_bytes": 67084,
+      "original_sha256": "1739cab3c61e55239fd293f7a34db5ab9660c50199ec824e83c8d62a2e264e01",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-1739cab3c61e5523-SB-R3-085_EA27_F12_FORWARD.json"
+    },
+    {
+      "source_id": "S-7989b77841d28a14",
+      "scientific_name": "SB-R3-086_EA27_F12_REVERSE.json",
+      "original_bytes": 65968,
+      "original_sha256": "7989b77841d28a14888537187db6121f3c059f07629acef4cc1dd1309058c10b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-7989b77841d28a14-SB-R3-086_EA27_F12_REVERSE.json"
+    },
+    {
+      "source_id": "S-d24b91c106e8710b",
+      "scientific_name": "SB-R3-057_EA28_F10_FORWARD.json",
+      "original_bytes": 81007,
+      "original_sha256": "d24b91c106e8710b99ea24b471aa7323146f371fe66f1523c6199a15d5083727",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d24b91c106e8710b-SB-R3-057_EA28_F10_FORWARD.json"
+    },
+    {
+      "source_id": "S-7cd7de581313ea7c",
+      "scientific_name": "SB-R3-058_EA28_F10_REVERSE.json",
+      "original_bytes": 80106,
+      "original_sha256": "7cd7de581313ea7cab99a16f1c18143374e5bda787a2312237aa57c5de34c2b0",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-7cd7de581313ea7c-SB-R3-058_EA28_F10_REVERSE.json"
+    },
+    {
+      "source_id": "S-bdb884f7734490a9",
+      "scientific_name": "WHOLE_FUNCTIONAL_FACTORS.json",
+      "original_bytes": 21083,
+      "original_sha256": "bdb884f7734490a96bedbc75bbcf04fabc2d8a98f73631f75a84280136826395",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-bdb884f7734490a9-WHOLE_FUNCTIONAL_FACTORS.json"
+    },
+    {
+      "source_id": "S-7cb2b1399660ddc2",
+      "scientific_name": "WHOLE_REFINED_NATIVE_ROLES.json",
+      "original_bytes": 34930,
+      "original_sha256": "7cb2b1399660ddc28b53959f303807d92a6bc8b3429ff6fa3c9029bfed6e8560",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-7cb2b1399660ddc2-WHOLE_REFINED_NATIVE_ROLES.json"
+    },
+    {
+      "source_id": "S-f2a1937b5ae5bbe9",
+      "scientific_name": "WHOLE_SEMANTIC_DECISIONS.json",
+      "original_bytes": 41575,
+      "original_sha256": "f2a1937b5ae5bbe9f49461a20b9eac69799df7d968bb601db665f33cc7c92254",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f2a1937b5ae5bbe9-WHOLE_SEMANTIC_DECISIONS.json"
+    },
+    {
+      "source_id": "S-f9eb831f449d4ba1",
+      "scientific_name": "WHOLE_COMPOSITION_NOVELTY.json",
+      "original_bytes": 252486,
+      "original_sha256": "f9eb831f449d4ba122649aaa8f1fabb34ccd975b3605412c1dcf104c246eb7e6",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f9eb831f449d4ba1-WHOLE_COMPOSITION_NOVELTY.json"
+    },
+    {
+      "source_id": "S-0c1613e63570795d",
+      "scientific_name": "WHOLE_PAIR_ACCOUNTING.json",
+      "original_bytes": 1045643,
+      "original_sha256": "0c1613e63570795d7a168e4a46c4a4f650e939ce53025421b2f990b19de701cb",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0c1613e63570795d-WHOLE_PAIR_ACCOUNTING.json"
+    },
+    {
+      "source_id": "S-4268117a7b45e9d3",
+      "scientific_name": "NATIVE_OWNER_EVIDENCE.json",
+      "original_bytes": 473218,
+      "original_sha256": "4268117a7b45e9d3eeb02a17fc9e213192e713cc044e03a9199c36369965a8e3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-4268117a7b45e9d3-NATIVE_OWNER_EVIDENCE.json"
+    },
+    {
+      "source_id": "S-1c60daa3ca3c069f",
+      "scientific_name": "OWNER_SCIENTIFIC_SCOPES.json",
+      "original_bytes": 32297,
+      "original_sha256": "1c60daa3ca3c069fd5fb4ba0a885e11db555ec415afebc7b01639b27a5713db6",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-1c60daa3ca3c069f-OWNER_SCIENTIFIC_SCOPES.json"
+    },
+    {
+      "source_id": "S-76875f8d3425caf7",
+      "scientific_name": "AUTHOR_REPORT.md",
+      "original_bytes": 73701,
+      "original_sha256": "76875f8d3425caf733794103b4cc278bbf530527a6eb700205f36bff900985c0",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-76875f8d3425caf7-AUTHOR_REPORT.md"
+    },
+    {
+      "source_id": "S-9fc1809882513618",
+      "scientific_name": "WHOLE_CONFIGURATIONS.md",
+      "original_bytes": 86866,
+      "original_sha256": "9fc1809882513618490c30e54acf73cb4a0e1cd3190f43704ac99793a87914a2",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-9fc1809882513618-WHOLE_CONFIGURATIONS.md"
+    },
+    {
+      "source_id": "S-0ce90b04058a946c",
+      "scientific_name": "SOURCE_SYNTHESIS_AND_LIMITS.md",
+      "original_bytes": 25903,
+      "original_sha256": "0ce90b04058a946c1d7cae217025bfa77d2ef692974ca4196e0dcb704452043f",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0ce90b04058a946c-SOURCE_SYNTHESIS_AND_LIMITS.md"
+    },
+    {
+      "source_id": "S-bfa1db636d0ed980",
+      "scientific_name": "HISTORICAL_COMPARISON_AND_CHANGE_MAP.json",
+      "original_bytes": 18464,
+      "original_sha256": "bfa1db636d0ed9809e9876dcec0d5cdf6b4c4a7753d298f493c06dc9d9434c10",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-bfa1db636d0ed980-HISTORICAL_COMPARISON_AND_CHANGE_MAP.json"
+    },
+    {
+      "source_id": "S-785ece8aee402aea",
+      "scientific_name": "LAW-L1-COMPOSITION.json",
+      "original_bytes": 17394,
+      "original_sha256": "785ece8aee402aea9a3a5273a0ecbc009a2c489e60e1cf978e73ad7f8e3d85e1",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-785ece8aee402aea-LAW-L1-COMPOSITION.json"
+    },
+    {
+      "source_id": "S-f7d8088094b8f0cc",
+      "scientific_name": "LAW-L1-GENEALOGY.json",
+      "original_bytes": 16214,
+      "original_sha256": "f7d8088094b8f0cc5df848bd6e747ba1d8dc407e321d6ddb51703184ce4db948",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-f7d8088094b8f0cc-LAW-L1-GENEALOGY.json"
+    },
+    {
+      "source_id": "S-b4d057a38f166a8a",
+      "scientific_name": "LAW-L1-CLAIMS.json",
+      "original_bytes": 42558,
+      "original_sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-b4d057a38f166a8a-LAW-L1-CLAIMS.json"
+    },
+    {
+      "source_id": "S-bd85575fc81831be",
+      "scientific_name": "LAW-L1-SOURCES.json",
+      "original_bytes": 185583,
+      "original_sha256": "bd85575fc81831bee00fab67f641a4b9ba9c92f5ae2173236da7efa509568ebf",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-bd85575fc81831be-LAW-L1-SOURCES.json"
+    },
+    {
+      "source_id": "S-7580b900dfa6bca3",
+      "scientific_name": "LAW-L1-CRITICISM.json",
+      "original_bytes": 23672,
+      "original_sha256": "7580b900dfa6bca3ae5a4338ff3d0529803732c904033a5b7e88a1227f4e9f7b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-7580b900dfa6bca3-LAW-L1-CRITICISM.json"
+    },
+    {
+      "source_id": "S-a0aa3e92254fc648",
+      "scientific_name": "LAW-L1-OPEN_BURDENS.json",
+      "original_bytes": 23852,
+      "original_sha256": "a0aa3e92254fc648b59ebf89996072986137b800dfdc136594c88deed0060d1c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-a0aa3e92254fc648-LAW-L1-OPEN_BURDENS.json"
+    },
+    {
+      "source_id": "S-65315ac8ce6c7c9e",
+      "scientific_name": "LAW-L1-CASE_RESULTS.json",
+      "original_bytes": 14765,
+      "original_sha256": "65315ac8ce6c7c9efda2df4f225358fa934dc9dcb5cef48f2b28ed47531a4080",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-65315ac8ce6c7c9e-LAW-L1-CASE_RESULTS.json"
+    },
+    {
+      "source_id": "S-2e4d0946a26b8b15",
+      "scientific_name": "LAW-L1-RESEARCH_REPORT.md",
+      "original_bytes": 26470,
+      "original_sha256": "2e4d0946a26b8b15a0db1499f45d6a1d377939f3390982914458a5f821fd2f5c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-2e4d0946a26b8b15-LAW-L1-RESEARCH_REPORT.md"
+    },
+    {
+      "source_id": "S-e9630d806934728b",
+      "scientific_name": "LAW-L2-COMPOSITION.json",
+      "original_bytes": 17824,
+      "original_sha256": "e9630d806934728b7d455db8d7d914592e03fd062b3edf04e96acd456b03bb70",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e9630d806934728b-LAW-L2-COMPOSITION.json"
+    },
+    {
+      "source_id": "S-8069b27a7834e032",
+      "scientific_name": "LAW-L2-GENEALOGY.json",
+      "original_bytes": 27618,
+      "original_sha256": "8069b27a7834e032520dfcf624726cd9e4002b76bf06f3b6ae154a8b8511f06f",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-8069b27a7834e032-LAW-L2-GENEALOGY.json"
+    },
+    {
+      "source_id": "S-28e59cbf7ccd733e",
+      "scientific_name": "LAW-L2-SOURCE_REGISTER.json",
+      "original_bytes": 87140,
+      "original_sha256": "28e59cbf7ccd733e6e6aafb465737248a632cbe7acefc9f717a6cffc2aa37a58",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-28e59cbf7ccd733e-LAW-L2-SOURCE_REGISTER.json"
+    },
+    {
+      "source_id": "S-875e658a1ec5b9e3",
+      "scientific_name": "LAW-L2-CRITICISM.json",
+      "original_bytes": 22782,
+      "original_sha256": "875e658a1ec5b9e34b86c0652cac43996b4f923ce62a09237d8782cb07457576",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-875e658a1ec5b9e3-LAW-L2-CRITICISM.json"
+    },
+    {
+      "source_id": "S-e6124c41f07e3b51",
+      "scientific_name": "LAW-L2-REQUALIFICATION_REPORT.md",
+      "original_bytes": 17676,
+      "original_sha256": "e6124c41f07e3b51dfc47dae9ed488f48d279fc0cd1ff78f43e503cb7d37ac3b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-e6124c41f07e3b51-LAW-L2-REQUALIFICATION_REPORT.md"
+    },
+    {
+      "source_id": "S-0c7ee3e2ab441aee",
+      "scientific_name": "LAW-L3-COMPOSITION_AND_CASES.json",
+      "original_bytes": 30029,
+      "original_sha256": "0c7ee3e2ab441aee7ec305bfbec8940072824f6f9e339e17280c367358803a05",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-0c7ee3e2ab441aee-LAW-L3-COMPOSITION_AND_CASES.json"
+    },
+    {
+      "source_id": "S-d2f41d026e6516f3",
+      "scientific_name": "LAW-L3-GENEALOGY.json",
+      "original_bytes": 13872,
+      "original_sha256": "d2f41d026e6516f34602612684951fa6957cedc3dcde3f9f04bc3efc42a9b9f4",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-d2f41d026e6516f3-LAW-L3-GENEALOGY.json"
+    },
+    {
+      "source_id": "S-6068d3346f9a141d",
+      "scientific_name": "LAW-L3-SOURCES_AND_ACCESS.json",
+      "original_bytes": 128065,
+      "original_sha256": "6068d3346f9a141de7422fb39549d8902ea1616e8f9e6f749303502e8c135804",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-6068d3346f9a141d-LAW-L3-SOURCES_AND_ACCESS.json"
+    },
+    {
+      "source_id": "S-fc4009b833cf66ea",
+      "scientific_name": "LAW-L3-REPORT.md",
+      "original_bytes": 28675,
+      "original_sha256": "fc4009b833cf66ea67c23ef3a8510b785880afea11009a4a9dd084510c2f573d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-fc4009b833cf66ea-LAW-L3-REPORT.md"
+    },
+    {
+      "source_id": "S-3c2da243a1d52f94",
+      "scientific_name": "LAW-L2-ACCEPTED_SCIENTIFIC_SUBJECT.json",
+      "original_bytes": 10189,
+      "original_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/law/current/records/S-3c2da243a1d52f94-LAW-L2-ACCEPTED_SCIENTIFIC_SUBJECT.json"
+    },
+    {
+      "source_id": "S-4b7b8ba7e4110996",
+      "scientific_name": "QUALIFICATION_RECEIPT.json",
+      "original_bytes": 123056,
+      "original_sha256": "4b7b8ba7e41109967b4e48c170adf6070398c7b64980948cae1bef63cdd291bc",
+      "public_path": null
+    },
+    {
+      "source_id": "S-9a34845a353c2508",
+      "scientific_name": "REPORT_RECEIPT.json",
+      "original_bytes": 14717,
+      "original_sha256": "9a34845a353c250876c353ad1c39ad6e204c966995a41f3a972820f0e828e411",
+      "public_path": null
+    },
+    {
+      "source_id": "S-73f39a747a60f0aa",
+      "scientific_name": "QUALIFICATION.json",
+      "original_bytes": 5449,
+      "original_sha256": "73f39a747a60f0aaad3cd6bc06914468b231aab5ac1604ff0031e88da628f6f4",
+      "public_path": null
+    },
+    {
+      "source_id": "S-1dd01936e4f3b7de",
+      "scientific_name": "FIDELITY_COMPLETENESS_REVIEW_RECEIPT.json",
+      "original_bytes": 12168,
+      "original_sha256": "1dd01936e4f3b7de1d8fa541d83d9c9c14f3b5994074808549e26b48b0eb86b3",
+      "public_path": null
+    },
+    {
+      "source_id": "S-46deb266826d948c",
+      "scientific_name": "ADVERSARIAL_REVIEW_RECEIPT.json",
+      "original_bytes": 15045,
+      "original_sha256": "46deb266826d948cea5779ecb305497d588a5674797593775522546166263da4",
+      "public_path": null
+    },
+    {
+      "source_id": "S-22735dc5a5d26565",
+      "scientific_name": "INPUT_LOCK.json",
+      "original_bytes": 5082,
+      "original_sha256": "22735dc5a5d26565461bf7f186dc6f69b8ee90639facf85af044f0ad97ade6a0",
+      "public_path": null
+    },
+    {
+      "source_id": "S-bc51f6db1b4c31da",
+      "scientific_name": "ANCESTRY.json",
+      "original_bytes": 35688,
+      "original_sha256": "bc51f6db1b4c31da3aa20f7242a4ac56f474edee369373d84d3f16520ed5b38c",
+      "public_path": null
+    },
+    {
+      "source_id": "S-3e322d49c45d58af",
+      "scientific_name": "FIELD_CHANGES.json",
+      "original_bytes": 81614,
+      "original_sha256": "3e322d49c45d58af3e8d9db89407b6e0a90552d60153b35365851d6d4e86fa3e",
+      "public_path": null
+    },
+    {
+      "source_id": "S-546ba48b067add1b",
+      "scientific_name": "PROMPT_AND_DOCUMENTATION_COMPARISON.md",
+      "original_bytes": 12707,
+      "original_sha256": "546ba48b067add1b4b86c0ca2e1f48d9780326b7709600e4a1a221a0258bf3d5",
+      "public_path": null
+    },
+    {
+      "source_id": "S-da705adc89781cd7",
+      "scientific_name": "LEAN_REQUALIFIED_LEDGER.json",
+      "original_bytes": 593126,
+      "original_sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+      "public_path": null
+    },
+    {
+      "source_id": "S-405d5d31e7ca00c2",
+      "scientific_name": "COVERAGE.json",
+      "original_bytes": 18024,
+      "original_sha256": "405d5d31e7ca00c2910843684c3f1e043b1b3f94d9672a22755feb357e5a4d33",
+      "public_path": null
+    },
+    {
+      "source_id": "S-79a75ba0766a278a",
+      "scientific_name": "QUALIFICATION.json",
+      "original_bytes": 7896,
+      "original_sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0",
+      "public_path": null
+    },
+    {
+      "source_id": "S-adb0c36bac9781db",
+      "scientific_name": "FIDELITY_COMPLETENESS_REVIEW_RECEIPT.json",
+      "original_bytes": 9600,
+      "original_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22",
+      "public_path": null
+    },
+    {
+      "source_id": "S-7b470304f30b9006",
+      "scientific_name": "ADVERSARIAL_REVIEW_RECEIPT.json",
+      "original_bytes": 13240,
+      "original_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056",
+      "public_path": null
+    },
+    {
+      "source_id": "S-f81cbf36dc18d3f4",
+      "scientific_name": "NATIVE_ADAPTER.json",
+      "original_bytes": 93565,
+      "original_sha256": "f81cbf36dc18d3f43d6051944cbb04354bbf7ca32ff727ac1b17e5a9a6153197",
+      "public_path": null
+    },
+    {
+      "source_id": "S-1a9af166dced3a3f",
+      "scientific_name": "RECEIVING_RECORD.json",
+      "original_bytes": 1777,
+      "original_sha256": "1a9af166dced3a3f9a054827a457315aa6589b9dfdf820e0e005400b0dc91300",
+      "public_path": null
+    },
+    {
+      "source_id": "S-a87fbcb3df867c98",
+      "scientific_name": "CHANGE_MAP.json",
+      "original_bytes": 24448,
+      "original_sha256": "a87fbcb3df867c984c4aa286d22479a9a46af05d78fa46c8f242082f685fa635",
+      "public_path": null
+    },
+    {
+      "source_id": "S-10f5cf2700e0fd75",
+      "scientific_name": "READ_LOG.json",
+      "original_bytes": 4748,
+      "original_sha256": "10f5cf2700e0fd754555dac8a053423c5bf0da2edbe50acb17117caec01ca082",
+      "public_path": null
+    },
+    {
+      "source_id": "S-779b79445ee9c20f",
+      "scientific_name": "CLAIMS.json",
+      "original_bytes": 86762,
+      "original_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+      "public_path": null
+    },
+    {
+      "source_id": "S-8b8c70a08af53c60",
+      "scientific_name": "COVERAGE.json",
+      "original_bytes": 12458,
+      "original_sha256": "8b8c70a08af53c60f82cd90963d83e849bfa7a84397b756b9c3f3a5873f70c0a",
+      "public_path": null
+    },
+    {
+      "source_id": "S-12221beed2736ed9",
+      "scientific_name": "QUALIFICATION.json",
+      "original_bytes": 5024,
+      "original_sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993",
+      "public_path": null
+    },
+    {
+      "source_id": "S-ddb660d05bd1939c",
+      "scientific_name": "FIDELITY_COMPLETENESS_REVIEW_RECEIPT.json",
+      "original_bytes": 7529,
+      "original_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4",
+      "public_path": null
+    },
+    {
+      "source_id": "S-f3b25fb674cc10d2",
+      "scientific_name": "ADVERSARIAL_REVIEW_RECEIPT.json",
+      "original_bytes": 15912,
+      "original_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e",
+      "public_path": null
+    },
+    {
+      "source_id": "S-1bf494b26d8853c1",
+      "scientific_name": "EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+      "original_bytes": 444967,
+      "original_sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+      "public_path": null
+    },
+    {
+      "source_id": "S-8c92523b6d1f046e",
+      "scientific_name": "ORIGINAL_AND_NEW_OBLIGATIONS.md",
+      "original_bytes": 7152,
+      "original_sha256": "8c92523b6d1f046e511cba0b92056a6b3bb19fccff3490c9a90c54dbaedd9098",
+      "public_path": null
+    },
+    {
+      "source_id": "S-39e0e27d25c89463",
+      "scientific_name": "CHANGE_REGISTER.json",
+      "original_bytes": 17754,
+      "original_sha256": "39e0e27d25c89463e3a33dd81aa3b42c256888e12782ab7d2136fd64af87f4e6",
+      "public_path": null
+    },
+    {
+      "source_id": "S-ed435138a14cf9b2",
+      "scientific_name": "OLD_TO_NEW_MAPPING.json",
+      "original_bytes": 33226,
+      "original_sha256": "ed435138a14cf9b2a01a03dfb024ae29a8195e3050749076966361955acd5b77",
+      "public_path": null
+    },
+    {
+      "source_id": "S-fc9e8b3824fb2d8f",
+      "scientific_name": "COVERAGE.json",
+      "original_bytes": 15298,
+      "original_sha256": "fc9e8b3824fb2d8f4a143af8c2006a0395d35de651832925eaf2afe594d1c215",
+      "public_path": null
+    },
+    {
+      "source_id": "S-a5fadd9ef8922715",
+      "scientific_name": "WHOLE_REVIEW_REPORT.md",
+      "original_bytes": 81277,
+      "original_sha256": "a5fadd9ef89227155b51db7e6aede134f566aed924f3545f4812c64afb9fa35a",
+      "public_path": null
+    },
+    {
+      "source_id": "S-b2b378e066222842",
+      "scientific_name": "WHOLE_ADVERSARIAL_REPORT.md",
+      "original_bytes": 91486,
+      "original_sha256": "b2b378e0662228422cad122bd1245cb7b43b00507e1c3ac541ac8d0a232eaec5",
+      "public_path": null
+    },
+    {
+      "source_id": "S-c7316a4ffd296a02",
+      "scientific_name": "FINAL_VERDICT.json",
+      "original_bytes": 5350,
+      "original_sha256": "c7316a4ffd296a021d27ff4589d662e99e2b5c399faa5e528f4370ded57adb53",
+      "public_path": null
+    },
+    {
+      "source_id": "S-c4c314b522fb8b3b",
+      "scientific_name": "FINAL_VERDICT.json",
+      "original_bytes": 5532,
+      "original_sha256": "c4c314b522fb8b3b9baa96ac5c142a7069259a896a5059b1d542ba793f5a4314",
+      "public_path": null
+    },
+    {
+      "source_id": "S-15a6904e1a182deb",
+      "scientific_name": "REVIEW_EXECUTION_AND_SOURCE_LIMITS.json",
+      "original_bytes": 2411,
+      "original_sha256": "15a6904e1a182debb8110f9ebc128efa4ff88ba9f30f61d8f69a9280f5ac3e87",
+      "public_path": null
+    },
+    {
+      "source_id": "S-c7040bc0393501e9",
+      "scientific_name": "REVIEW_EXECUTION_AND_SOURCE_LIMITS.json",
+      "original_bytes": 9169,
+      "original_sha256": "c7040bc0393501e9d7de2205b671666fccdb283ada0c0fd3c5433f4491a7a297",
+      "public_path": null
+    },
+    {
+      "source_id": "S-636786da89d70488",
+      "scientific_name": "COMPLETENESS.md",
+      "original_bytes": 3645,
+      "original_sha256": "636786da89d704885c906a28f060dcb58019d910c3514b9e353e7904a595c287",
+      "public_path": null
+    },
+    {
+      "source_id": "S-e477c2d583d23afd",
+      "scientific_name": "CLAIM_REFERENCE.md",
+      "original_bytes": 85577,
+      "original_sha256": "e477c2d583d23afd0b8a4ed9cd70542a7cb227c0184bf59686fe81df375d7283",
+      "public_path": null
+    },
+    {
+      "source_id": "S-0be71e69b76928a3",
+      "scientific_name": "SOURCE_REFERENCE.md",
+      "original_bytes": 35214,
+      "original_sha256": "0be71e69b76928a3e08bcf5f75412c662409f6c85c4293086c9299714ec780ea",
+      "public_path": null
+    },
+    {
+      "source_id": "S-43a28a522c0247e8",
+      "scientific_name": "READINESS.json",
+      "original_bytes": 8914,
+      "original_sha256": "43a28a522c0247e85034e2bb651b61783d648a44a0b95e7b6d785d7ddc4453b3",
+      "public_path": null
+    },
+    {
+      "source_id": "S-452974dcd8875683",
+      "scientific_name": "READINESS.json",
+      "original_bytes": 13213,
+      "original_sha256": "452974dcd887568345633de783c93b69ecbde857eec2105bec3f16a74909031f",
+      "public_path": null
+    },
+    {
+      "source_id": "S-7c5cfbe120b38457",
+      "scientific_name": "AGILE_REQUALIFICATION_COMMISSION_v1.md",
+      "original_bytes": 17943,
+      "original_sha256": "7c5cfbe120b384575f36d91f549746bcd207ac46916c2d1997a13c3632b1eae2",
+      "public_path": null
+    },
+    {
+      "source_id": "S-fb832ed13336e7b7",
+      "scientific_name": "PUBLIC_EXPLANATION.md",
+      "original_bytes": 11782,
+      "original_sha256": "fb832ed13336e7b7fa60a67d00caf2525322d1fc7d96fdd610e2726a9d8d8725",
+      "public_path": null
+    },
+    {
+      "source_id": "S-3dbf5a1474255a4e",
+      "scientific_name": "EVOLVED_WATERFALL_PROPERTY_LEDGER_R3.yaml",
+      "original_bytes": 228662,
+      "original_sha256": "3dbf5a1474255a4ec75674aa8d718ac05317d75a864c37250efc2989a2ea7b1d",
+      "public_path": null
+    },
+    {
+      "source_id": "S-5cb0c1552f3de3d2",
+      "scientific_name": "SYNTHESIS_INTAKE.json",
+      "original_bytes": 53979,
+      "original_sha256": "5cb0c1552f3de3d201ceeedefd8c93c86568c18187c9350396b97d0442439bc3",
+      "public_path": null
+    },
+    {
+      "source_id": "S-ab09a41c2aef3c65",
+      "scientific_name": "PUBLIC_EXPLANATION.md",
+      "original_bytes": 10049,
+      "original_sha256": "ab09a41c2aef3c65a29f94e8c56b2719c6decad59fc551643e94f6c29e6e0f5c",
+      "public_path": null
+    },
+    {
+      "source_id": "S-ee8f09940e6b1759",
+      "scientific_name": "DOCUMENTATION_INTAKE.json",
+      "original_bytes": 3872,
+      "original_sha256": "ee8f09940e6b1759c94cbe3eb91f31eaa41e3c8927f8e9418744ba3437daa0fe",
+      "public_path": null
+    },
+    {
+      "source_id": "S-c7e69411d6a509ba",
+      "scientific_name": "WATERFALL_REQUALIFICATION_COMMISSION_v1.md",
+      "original_bytes": 16459,
+      "original_sha256": "c7e69411d6a509bac9f1e49a3dbef4f5aaca188b90e8c47898964a39f1a666e1",
+      "public_path": null
+    }
+  ],
+  "scope": "Stable scientific source identities, original source hashes and complete selected public records. Runtime/access locations are not public source identities."
+}

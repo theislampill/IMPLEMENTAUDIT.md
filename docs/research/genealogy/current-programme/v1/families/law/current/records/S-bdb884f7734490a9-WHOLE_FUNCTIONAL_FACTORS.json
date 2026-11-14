@@ -1,0 +1,231 @@
+{
+  "source_identity": {
+    "source_id": "S-bdb884f7734490a9",
+    "scientific_name": "WHOLE_FUNCTIONAL_FACTORS.json",
+    "original_bytes": 21083,
+    "original_sha256": "bdb884f7734490a96bedbc75bbcf04fabc2d8a98f73631f75a84280136826395"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-a002-native-functional-factors/1",
+    "status": "AUTHOR_SCIENTIFIC_ARGUMENTS_FOR_EXPLICIT_INCIDENCE_REVIEW",
+    "purpose": "Factor repeated native mechanisms without manufacturing a material verdict from shared words. The role names below are authored navigation terms for the exact meaning in the native fields. They are not new selected properties, executable universal predicates, standards or acceptance thresholds.",
+    "common_guard": "The same identified item, work path, evidence claim or decision must connect the source's named output to the receiver's named use. Establish source validity and the receiving use independently. A source may supply a partial premise or a confirmed adequate existing path. A label, a merely possible software application, an unbound organization, arbitrary transitivity or a source sufficient for a different claim does not establish this connection.",
+    "common_inference": "At that guard, removing the specified contribution changes the warranted input, constraint, scope or interpretation of the receiving decision; the remaining premises do not automatically become satisfied. An adequate independent substitute may preserve the receiver, so the source tradition is not necessary in full. Direction and reverse are classified from different source outputs and receiving uses. Each explicitly listed incidence binds complete native mechanism, trigger, cheap path, dependencies, failure/criticism and selected bearer/criterion fields.",
+    "cost_and_authority": "For every role compare an existing adequate input, direct manual/analytic check, simpler record, appropriate staged path or justified no change. Consider acquisition, maintenance, operation, delay and transferred burden without requiring a complete cost estimate before admitting a useful partial input. Facts about technical success cannot create rights. Binding obligations remain independent premises. If the function is already adequate, a new implementation is unnecessary.",
+    "evidence_ceiling": "Conditional analytical consequences from qualified native meanings and explicit countercontexts. No new experiment, causal field estimate, legal applicability determination, operational authorization, historical transmission or empirical superiority is asserted. Inherited evidence labels retain their original scope. These factors do not resolve the previously examined unknowns by analogy.",
+    "factors": {
+      "outcome": {
+        "claim": "A legitimate beneficiary, outcome horizon or nontradeable constraint supplies a criterion for a decision whose native purpose depends on value or stakeholder consequences.",
+        "counter": "A throughput gain or sponsor preference does not establish benefit to every affected party; unrelated outcome slogans supply no criterion.",
+        "reentry": "Changed beneficiary, outcome, horizon or binding constraint."
+      },
+      "operating_context": {
+        "claim": "Evidence about relevant users, missions or operating conditions changes the representativeness or intended-use scope of a receiver's evaluation.",
+        "counter": "Convenience samples, proxy users and different environments do not transfer automatically; context evidence is not operational permission.",
+        "reentry": "Changed population, environment, use or selection process."
+      },
+      "identity": {
+        "claim": "Current item/configuration identity supplies correspondence needed to apply a result, requirement, decision or action to the actual subject.",
+        "counter": "A correct hash or name does not prove the subject is good, the physical state matches it or the decision is authorized; identity for an unrelated object has no receiving use.",
+        "reentry": "Changed version, environment, mapping, actual state or retention need."
+      },
+      "information_state": {
+        "claim": "Fresh, intelligible state with a real receiving actor supplies a decision-relevant status, limit or uncertainty distinction.",
+        "counter": "A display can be stale or decorative; being visible is neither acknowledgement nor response, and does not turn conjecture into a fact.",
+        "reentry": "Changed state semantics, audience, freshness or actual response use."
+      },
+      "requirements": {
+        "claim": "An authoritative but revisable need or constraint identifies which obligation a receiving design, test, interface or commitment must address.",
+        "counter": "Approval does not make a requirement correct or complete; speculative detail and constraints irrelevant to the current question need not block inquiry.",
+        "reentry": "Revised intent, discovered uncertainty, authority or intended use."
+      },
+      "technical_evidence": {
+        "claim": "A current scoped analysis, test, integration result or demonstrated technical capability supplies or contradicts the particular technical premise that the receiver uses.",
+        "counter": "A local pass, mocked dependency or different configuration cannot establish unseen integrated behavior, value, hazard control or release authority. The receiver need not be proved in full for this input to matter.",
+        "reentry": "Changed claim, failure mode, configuration, environment or representation."
+      },
+      "quality_criterion": {
+        "claim": "A defined failure, acceptance behavior or quality condition supplies an oracle or scope constraint for a receiver's check, implementation or decision.",
+        "counter": "An incorrect or narrow criterion can miss the true use; passing it does not confer authority or exhaust all requirements.",
+        "reentry": "New failure mode, use, hazard, obligation or criterion correction."
+      },
+      "anomaly": {
+        "claim": "An identified abnormality, deviation or contradictory observation supplies a trigger or defeater to the receiver's actual ongoing claim or correction decision.",
+        "counter": "Noise, an unrelated incident and record closure are not evidence that the current object is defective or repaired; detection is distinct from containment and diagnosis.",
+        "reentry": "Signal validation, severity, affected identity, recurrence or closure evidence changes."
+      },
+      "causal_learning": {
+        "claim": "Evidence distinguishing candidate causes or countermeasure consequences informs a receiver's choice of corrective action or interpretation of an apparent improvement.",
+        "counter": "A plausible story, ceremony or simultaneous change is not causal identification; a supported no-change conclusion can be useful.",
+        "reentry": "Competing cause, new observation, changed intervention or recurrence."
+      },
+      "measurement": {
+        "claim": "Explicit units, denominator, scope, validity and uncertainty qualify an observed quantity or proxy that the receiver actually uses.",
+        "counter": "Metric balance does not guarantee causal validity, surrogacy or benefit; a physical count can remain valid for its narrow purpose.",
+        "reentry": "Changed definition, incentive, sample, population, horizon or proxy relationship."
+      },
+      "uncertainty": {
+        "claim": "A consequential unknown, assumption or discriminating result changes what the receiver may commit, investigate, reuse or leave unresolved.",
+        "counter": "Uncertainty in unrelated future work does not block a sufficient present choice; a register with no decision consumer adds no inferential input.",
+        "reentry": "New evidence, decision deadline, cost of learning or changed premise."
+      },
+      "options": {
+        "claim": "A genuinely feasible alternative or option-expiry condition changes the receiver's set of available commitments or recovery/transition choices.",
+        "counter": "A named alternate without capability, access or timely qualification is not an option; keeping every idea open can be more costly than committing.",
+        "reentry": "Feasibility, rights, integration, deadline, switching cost or option expiry."
+      },
+      "commitment": {
+        "claim": "Actual irreversibility, coupling, exposure or external commitment cost constrains the scope and timing of a receiver's batch, plan, control or transition.",
+        "counter": "Calendar lateness, a phase label or easy code rollback alone does not determine total commitment or harm; stable staged work remains legitimate.",
+        "reentry": "Changed persistence, physical effect, contract, coupling or recovery."
+      },
+      "change_impact": {
+        "claim": "A specific dependency or evidence-impact result identifies what a receiver must revise, retain, notify or re-evaluate after the actual change.",
+        "counter": "Not every change invalidates every result, and unchanged premises may justify reuse; stale links can miss affected claims.",
+        "reentry": "New change, dependency, evidence premise or actual-state divergence."
+      },
+      "recovery": {
+        "claim": "A demonstrated or explicitly bounded containment/restore path supplies a feasibility premise for a receiver relying on response within a particular horizon.",
+        "counter": "A backup label, untested rollback or shared failed dependency does not establish restoration; restored code cannot undo every disclosure, injury or lost state.",
+        "reentry": "State, configuration, access, response time or common-cause change."
+      },
+      "exposure": {
+        "claim": "An enforced bound on the actual affected population or propagation path changes the receiver's consequence appraisal at that endpoint.",
+        "counter": "One isolated exposed instance can be fewer than one hundred even without recovery; this does not prove lower duration, total loss, safety, value or permission. A nominal cohort with shared propagation is not isolated.",
+        "reentry": "Changed propagation, population, horizon, harm mode or enforcement."
+      },
+      "flow_boundary": {
+        "claim": "A defined end-to-end work path, stable item and observed queues/handoffs supply the system boundary for a receiver's timing, flow or coordination decision.",
+        "counter": "A local cycle time can improve by moving waiting outside the boundary; maps and linear metaphors do not establish actual causes or value.",
+        "reentry": "Changed start/end, work class, hidden queue, routing or handoff."
+      },
+      "admission": {
+        "claim": "An actual release/WIP rule and its exceptions constrain concurrent commitments or explain the admitted population used by the receiver.",
+        "counter": "A board alone imposes no bound; WIP=1 can starve independent work, and bounded admission does not prove lower total waiting.",
+        "reentry": "Capacity, demand, work class, priority, exceptions or pre-entry backlog."
+      },
+      "batch": {
+        "claim": "The coherent unit and fixed-cost boundary of a batch supply a trade-off for a receiver deciding integration, evidence cadence, exposure or commitment slices.",
+        "counter": "Smaller is not monotonically cheaper; fragmented slices may be neither valuable nor independently qualifiable.",
+        "reentry": "Setup/validation cost, coherence, modularity, exposure or demand change."
+      },
+      "setup": {
+        "claim": "The total safe preparation/changeover/validation path changes a receiver's feasible cadence or transition cost.",
+        "counter": "A local time saving that transfers work or removes a necessary safety function is not total safe improvement; rare immaterial setup may need no optimization.",
+        "reentry": "Transition frequency, preparation, interface, validation or recovery changes."
+      },
+      "demand": {
+        "claim": "A semantically valid actual demand/replenishment signal or forecast complement informs a receiver's native demand, release or capacity decision.",
+        "counter": "Any information event is not a demand event; a successful unrelated integrated test cannot validate its real-world origin or long-lead capacity.",
+        "reentry": "Origin, event unit, freshness, demand manipulation, horizon or actual consumer changes."
+      },
+      "capacity": {
+        "claim": "A real, suitable and timely resource/reserve supplies a constraint or capability in a receiver that explicitly depends on that resource.",
+        "counter": "Information, a spare of the wrong type, a map or an unqualified alternate cannot substitute for physical capacity; full utilization is not universally harmful.",
+        "reentry": "Arrival/variation, service capability, reserve availability, deadline or loading policy."
+      },
+      "workload": {
+        "claim": "Protected sustainable workload, recovery time and total staffing burden constrain a receiver's feasible repeated work, response or control package.",
+        "counter": "A named cadence or headcount does not establish humane workload; temporary emergencies and continuing overload are different.",
+        "reentry": "Demand, hidden overtime, staffing, on-call duties, recovery or transferred burden."
+      },
+      "competence": {
+        "claim": "Demonstrated task-relevant competence and cross-coverage supply an execution, review or response premise explicitly needed by the receiver.",
+        "counter": "A certificate, training attendance or nominal second person does not establish competence, availability, independence or authority.",
+        "reentry": "Task, technology, people, practice recency or absence/turnover change."
+      },
+      "voice": {
+        "claim": "A genuine protected reporting/appeal route or bounded participation right enables the receiver's specified observation, challenge or legitimate local change path.",
+        "counter": "Suggestions, acknowledgements and consultation do not prove action rights, protected dissent, truthful evidence or response capacity.",
+        "reentry": "Retaliation, response, representation, delegation or workload changes."
+      },
+      "labor_terms": {
+        "claim": "Material employment, workload-transition and gain/risk-allocation terms qualify a receiver whose native appraisal includes the affected workforce or supplier distribution.",
+        "counter": "Technical success, productivity and a respect slogan do not establish fair distribution or credible protection; no universal no-layoff design is inferred.",
+        "reentry": "Affected jobs, contractors, transition, commitments, bargaining or financial capacity."
+      },
+      "authority_change": {
+        "claim": "A real delegated change or tailoring right, with scope and escalation, supplies permission for the receiver's particular proposed alteration.",
+        "counter": "Evidence, skill, a local preference or a research argument cannot invent delegated rights; deployment authorization can differ from permission to inquire.",
+        "reentry": "Delegation, scope, impact, urgency route or applicable obligation changes."
+      },
+      "authority_operation": {
+        "claim": "A real operational stop, release, restart or residual-risk decision constrains the receiver's actual use or exposure boundary.",
+        "counter": "Testing, contractual acceptance and certification are not automatically the operational decision; urgency does not create new authority.",
+        "reentry": "Operating scope, delegation, current evidence, residual risk or conditions."
+      },
+      "authority_acceptance": {
+        "claim": "An empowered recipient's acceptance criteria and disposition supply the receiver's actual delivery/transfer condition.",
+        "counter": "A test engineer's pass does not itself accept a contract; acceptance can be conditional and cannot make a system fit by declaration.",
+        "reentry": "Recipient, delivered configuration, criteria, exceptions or responsibility transfer."
+      },
+      "authority_external": {
+        "claim": "An independently established applicable external regime, edition and decision route constrain a receiver that actually claims certification or regulated credit.",
+        "counter": "A source title or historical regime does not establish current applicability; ordinary software does not require invented certification and private economics cannot waive a real duty.",
+        "reentry": "Jurisdiction, contract, issuer, edition, object or change/reapproval route."
+      },
+      "independent_challenge": {
+        "claim": "Competent challenge with relevant access and separation can supply a defeater, correction or independent-evidence condition for the receiver's named claim.",
+        "counter": "A different heading, model name or reviewer without data does not establish independence; extra review can add latency and false findings.",
+        "reentry": "Reviewer involvement, competence, access, incentives, authority or claim changes."
+      },
+      "trace": {
+        "claim": "Maintained meaningful links supply a specific receiver query about impact, obligation, implementation or evidence in the needed direction.",
+        "counter": "Link counts, stale matrices and correct links to the wrong version do not answer the query; direct native links can suffice.",
+        "reentry": "Query, endpoint, semantics, version, link decay or maintenance cost."
+      },
+      "knowledge": {
+        "claim": "Current retrievable rationale, assumptions or task knowledge supply a receiver's future decision, execution or maintenance input.",
+        "counter": "A repository's existence does not make it current, understandable or used; prose duplicated from authoritative code can increase divergence.",
+        "reentry": "User, decision, version, turnover, rationale or retention horizon."
+      },
+      "supplier": {
+        "claim": "Actual supplier capability, lead time, interface obligation, rights or risk allocation constrains a receiver that depends on that external contribution.",
+        "counter": "A vendor name or written technical function does not establish availability, fair terms or access for the required horizon; local/commodity alternatives can be adequate.",
+        "reentry": "Capability, contract, rights, version, lead time, viability or exit."
+      },
+      "critical_dependency": {
+        "claim": "Verified critical lower-tier or shared dependency information changes the receiver's independence, resilience, scope or alternate appraisal.",
+        "counter": "A map does not create resilience, and two nominal alternatives can share the same failure cause; exhaustive mapping is not universally valuable.",
+        "reentry": "Concentration, identity, recovery horizon, substitute qualification or map freshness."
+      },
+      "support": {
+        "claim": "Through-life maintenance, funding, skills, rights and retirement conditions constrain a receiver that relies on continuing service or delayed outcomes.",
+        "counter": "Durable ownership is not an immortal-team entitlement; a competent explicit handover or short retirement path can supply continuity.",
+        "reentry": "Service horizon, owner, funding, obsolescence, rights, replacement or retirement."
+      },
+      "automation": {
+        "claim": "A suitable trustworthy repeatable automated function with explicit limits supplies a receiver's recurring execution or evidence path.",
+        "counter": "Automating a wrong test, opaque model or unstable judgment repeats its defect and may correlate failures; a cheap manual path can be superior.",
+        "reentry": "Task stability, coverage, security, environment, maintenance or human fallback."
+      },
+      "control_economics": {
+        "claim": "Actual acquisition, upkeep, use, waiting and transferred burden changes selection or retention of a receiver's optional control or intervention while preserving required functions.",
+        "counter": "An individually useful control can be jointly excessive; a claimed cheaper substitute must retain its function and binding obligations. No universal ROI or numeric threshold follows.",
+        "reentry": "Cost, frequency, shared resources, duplication, failure consequence or obligation."
+      },
+      "coordination": {
+        "claim": "Actual cross-boundary ownership, negotiated interfaces or conflict resolution supplies the receiver's joint-action or dependency condition.",
+        "counter": "A universal meeting or release train can add ceremony without resolving a dependency; truly independent work need not synchronize.",
+        "reentry": "Boundary, dependency, participating discipline, rights, conflict or integration evidence."
+      },
+      "retirement": {
+        "claim": "An evidence-bearing continuation, expiry, handover or retirement condition changes a receiver's ongoing commitment or support obligation.",
+        "counter": "Flat short-term proxies do not justify abandoning delayed value, a safety duty or mandatory contract; stopping creates its own transition residues.",
+        "reentry": "Value premise, cost, delayed evidence, obligation, transition or beneficiary changes."
+      }
+    },
+    "unresolved_interface_rule": {
+      "status": "EXAMINED_UNRESOLVED_ONLY_AFTER_EXPLICIT_MEMBER_EXAMINATION",
+      "question": "Does a native source output, criterion or constraint actually inform the receiver at the examined shared interface, independently in this direction?",
+      "interpretations": [
+        "A specific native/actual coupling would allow a useful partial input, constraint or interpretation.",
+        "The source can be adequate for its own bearer while the receiver proceeds on a different object, datum, authority or process; generic coexistence does not establish the coupling."
+      ],
+      "what_is_not_the_reason": "The source is not required to imply the full receiving property, yield a field benefit, be implemented, use the same vocabulary or have a positive native status. Lack of an exact coupling is not coded as a universal negative.",
+      "discriminator": "Identify the source datum/criterion/action and the actual receiving premise or decision that uses it, with native bearer, identity, scope and direction correspondence; alternatively supply a nontrivial source-grounded analytical case establishing that specific bridge. A generic software application, invented supplier or stipulation of the desired receiving consequence is insufficient.",
+      "work_done": "Compare the exact owners' mechanism, trigger, dependencies, adverse scopes, selected bearer and criterion; examine information, constraint, decision-input, evidence-use and interpretation paths; challenge both full-implication rejection and arbitrary metacontrol transitivity. The owner-incidence record names the remaining discriminator."
+    }
+  }
+}

@@ -1,5 +1,8 @@
 # SSS-L1 — Software Architecture
 
+> **Current scientific reading route — 13 November 2026:** the substantial [SSS-L1 account](current/SSS-L1.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 This account explains the **historical public** 68-property study at immutable custody commit `cacfe97da7656b472bf4f11e50c9d106a6c3f92a`. The separately accepted current r1 subject has its own exact identity and interpretation. Historical 68-row coverage is not a claim to publish that protected successor explanation. [Family](README.md) · [Genealogy](GENEALOGY.md) · [All 68 historical properties](SSS-L1-HISTORICAL-PROPERTIES.md) · [Current metadata](../../PROGRAMME.json).
 
 ## What the lineage studies

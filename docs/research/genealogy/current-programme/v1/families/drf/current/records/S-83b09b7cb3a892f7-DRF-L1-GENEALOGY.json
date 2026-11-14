@@ -1,0 +1,528 @@
+{
+  "source_identity": {
+    "source_id": "S-83b09b7cb3a892f7",
+    "scientific_name": "DRF-L1-GENEALOGY.json",
+    "original_bytes": 22199,
+    "original_sha256": "83b09b7cb3a892f742f4462352240eabd56e5c1f85fbad1e9b611dbf91d43a24"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-l1-typed-genealogy/1",
+    "authority": "Author synthesis of actual recorded primary-source readings. Dates identify works or explicitly attributed accounts; no exclusive invention claim. A recipient's testimony can establish its stated use without establishing the full content or priority of an uninspected predecessor.",
+    "source_resolution": "Every source_id resolves to SOURCE_TABLE.json and SOURCE_REFERENCE.md. Actual versions, URLs, observation pointers and read scopes are authoritative there. Exact recipient passages below identify the evidence for each edge. No sibling Evolved study is used.",
+    "timeline": [
+      {
+        "date": "1969",
+        "sources": [
+          "S101"
+        ],
+        "development": "Host/IMP communication conventions and acknowledged delivery context; not a claimed direct origin of all end-to-end reasoning."
+      },
+      {
+        "date": "1973–1978",
+        "sources": [
+          "S001",
+          "S002",
+          "S003"
+        ],
+        "development": "Actor, synchronous-process and event-order formalisms supply different abstractions. Logical and physical clock reasoning coexist in the 1978 ordering paper."
+      },
+      {
+        "date": "1977–1981",
+        "sources": [
+          "S017",
+          "S015",
+          "S018"
+        ],
+        "development": "Database logging, atomic commitment and replicated voting develop with explicit underlying recovery and failure assumptions."
+      },
+      {
+        "date": "1982–1988",
+        "sources": [
+          "S005",
+          "S006",
+          "S007",
+          "S004",
+          "S010"
+        ],
+        "development": "Arbitrary-fault agreement, asynchronous impossibility, partial synchrony, global-state snapshots and view-based replication address different contracts."
+      },
+      {
+        "date": "1984–1989",
+        "sources": [
+          "S043",
+          "S044",
+          "S016",
+          "S019",
+          "S035"
+        ],
+        "development": "Endpoint responsibility, RPC semantics, epidemic repair, semantic compensation and bounded-clock cache leases expose distinct completion and recovery boundaries."
+      },
+      {
+        "date": "1990–1996",
+        "sources": [
+          "S021",
+          "S013",
+          "S029",
+          "S022",
+          "S008"
+        ],
+        "development": "Object-history correctness, causal/atomic multicast, sessions, isolation criticism and failure detectors refine guarantees and their costs."
+      },
+      {
+        "date": "1998–2002",
+        "sources": [
+          "S011",
+          "S096",
+          "S025"
+        ],
+        "development": "Paxos exposition, practical Byzantine state-machine replication and formal CAP analysis preserve different assumptions; none is a single replacement for the others."
+      },
+      {
+        "date": "2006–2014",
+        "sources": [
+          "S094",
+          "S037",
+          "S030",
+          "N003",
+          "S031",
+          "S036",
+          "S039",
+          "S038",
+          "S012",
+          "S033"
+        ],
+        "development": "Coordination services, weakly consistent storage, CRDTs, causal systems, bounded-clock transactions and coordination-avoidance taxonomies combine older mechanisms under new workloads."
+      },
+      {
+        "date": "2015–2021",
+        "sources": [
+          "S047",
+          "S048",
+          "N002",
+          "S049",
+          "S050",
+          "S052",
+          "N006"
+        ],
+        "development": "Streaming, checkpointing, phase-specific quorum reasoning, transactional messaging and workflow semantics articulate increasingly explicit interfaces; formal and practitioner work interact."
+      },
+      {
+        "date": "2022–2026",
+        "sources": [
+          "S063",
+          "S083",
+          "S088",
+          "S089",
+          "S092",
+          "S097",
+          "S098",
+          "N008"
+        ],
+        "development": "Incident analysis, selective tracing, storage fault tools, integrity detection, agent translation and edge orchestration extend empirical questions. Publication date, accessed version and evaluation population remain separate."
+      }
+    ],
+    "edges": [
+      {
+        "id": "G01",
+        "source": {
+          "id": "S101",
+          "date": "1969"
+        },
+        "recipient": {
+          "id": "S043",
+          "date": "1981/1984"
+        },
+        "type": "ANALOGY_NOT_ESTABLISHED_TRANSMISSION",
+        "passage": "S101 complete RFC body; S043 pp8–9 history and references, with RFNM discussion referring to BBN1822 December1981.",
+        "claim": "Both discuss communication responsibilities, but the inspected end-to-end history does not establish transmission from RFC1.",
+        "limit": "Functional similarity and an early date are not direct descent. Other named antecedents in S043 remain attributed to that recipient account.",
+        "decision": "REJECT_DIRECT_EDGE"
+      },
+      {
+        "id": "G02",
+        "source": {
+          "id": "S001",
+          "date": "1973"
+        },
+        "recipient": {
+          "id": "S002",
+          "date": "1978"
+        },
+        "type": "UNRESOLVED_DIRECT_TRANSMISSION",
+        "passage": "S002 conclusions/acknowledgments and §7.7–7.9; its Atkinson/Hewitt1976 reference is not the S0011973 paper.",
+        "claim": "The two formalisms share a communication subject but differ in rendezvous, buffering and response assumptions.",
+        "limit": "A related author reference does not identify direct use of this exact earlier paper. Dijkstra/IFIP WG2.3 inspiration is explicitly acknowledged by S002.",
+        "decision": "NO_DIRECT_EDGE_ADMITTED"
+      },
+      {
+        "id": "G03",
+        "source": {
+          "id": "S003",
+          "date": "1978"
+        },
+        "recipient": {
+          "id": "S011",
+          "date": "1998, corrected2000 author version"
+        },
+        "type": "DOCUMENTED_TRANSMISSION",
+        "passage": "S011 §4.1 Implementing a state machine; S003 Ordering Events Totally pp560–562.",
+        "claim": "The recipient explicitly attributes the state-machine idea used in its exposition to Lamport1978.",
+        "limit": "This is an acknowledged input, not exclusive priority or proof that every replicated-state-machine design descends through this path.",
+        "decision": "ADMITTED_AT_PASSAGE_SCOPE"
+      },
+      {
+        "id": "G04",
+        "source": {
+          "id": "S010",
+          "date": "1988"
+        },
+        "recipient": {
+          "id": "S011",
+          "date": "1998/2000"
+        },
+        "type": "ACKNOWLEDGED_CONVERGENCE",
+        "passage": "S011 §4.2 editorial note; S010 view/history and view-change sections.",
+        "claim": "The recipient acknowledges apparently equivalent view-management ideas in VR.",
+        "limit": "Acknowledged similarity does not establish that Paxos was copied from VR or that their complete protocols and failure models are identical.",
+        "decision": "ADMITTED_COMPARISON_NOT_SINGLE_DESCENT"
+      },
+      {
+        "id": "G05",
+        "source": {
+          "id": "S011",
+          "date": "1998/2000"
+        },
+        "recipient": {
+          "id": "S012",
+          "date": "2014 extended report"
+        },
+        "type": "REACTION_AND_REDECOMPOSITION",
+        "passage": "S012 abstract/introduction and design discussion; inspected membership, client and evaluation sections.",
+        "claim": "Raft explicitly motivates a different decomposition and understandability approach in relation to Paxos.",
+        "limit": "The source's student experiment and algorithm exposition are different evidence classes. Similarity to VR is also acknowledged; no exclusive ancestry.",
+        "decision": "ADMITTED_AT_PASSAGE_SCOPE"
+      },
+      {
+        "id": "G06",
+        "source": {
+          "id": "S011",
+          "date": "1998/2000"
+        },
+        "recipient": {
+          "id": "N002",
+          "date": "OPODIS2016, published2017"
+        },
+        "type": "DOCUMENTED_FORMAL_REFINEMENT",
+        "passage": "N002 §5 weakens Paxos proof assumptions; §7 reconfiguration discussion; S011 ballot safety fragments.",
+        "claim": "Flexible Paxos identifies cross-phase intersection as the relevant requirement, permitting different quorum choices.",
+        "limit": "The inspected recipient does not establish a general dynamic-membership implementation; a proposal to use Vertical Paxos principles is not an inspection of S014.",
+        "decision": "ADMITTED_AT_MODEL_SCOPE"
+      },
+      {
+        "id": "G07",
+        "source": {
+          "id": "S032",
+          "date": "1988",
+          "access": "RECEIVED_METADATA_ONLY"
+        },
+        "recipient": {
+          "id": "S013",
+          "date": "1991 technical report"
+        },
+        "type": "DOCUMENTED_RECIPIENT_ATTRIBUTION",
+        "passage": "S013 PDFp7 and pp12–13 explicitly attribute vector-time foundations to Fidge and Mattern and causal-delivery development to Schiper.",
+        "claim": "Recipient testimony establishes an attributed input to its causal multicast construction.",
+        "limit": "S032's body and the other original predecessor bodies were not inspected here. This edge does not prove exclusive invention, full theorem content or priority.",
+        "decision": "ADMITTED_AS_RECIPIENT_TESTIMONY"
+      },
+      {
+        "id": "G08",
+        "source": {
+          "id": "S017",
+          "date": "1977 notes/1978 chapter"
+        },
+        "recipient": {
+          "id": "S018",
+          "date": "1981"
+        },
+        "type": "DOCUMENTED_USE_AND_REACTION",
+        "passage": "S018 introduction and termination discussion pp140–142; S017 §§5.8.3.2–5.8.3.3.",
+        "claim": "The recipient cites database transaction work and modifies an SDD-1 backup-selection mechanism while studying nonblocking commitment.",
+        "limit": "The SDD-1 body was not separately inspected. Nonblocking claims retain S018's communication/failure premises and are not a universal replacement verdict.",
+        "decision": "ADMITTED_AT_PASSAGE_SCOPE"
+      },
+      {
+        "id": "G09",
+        "source": {
+          "id": "S019",
+          "date": "1987"
+        },
+        "recipient": {
+          "id": "S055",
+          "date": "CIDR2026"
+        },
+        "type": "DOCUMENTED_ADAPTATION",
+        "passage": "S055 §4.3 cites Garcia-Molina/Salem; §§7.1–7.4 implementation and §9.1 limits; S019 §§1,5–7,9.",
+        "claim": "The data-oriented workflow discussion explicitly uses saga/compensation ideas in a different transactional system context.",
+        "limit": "Concurrent backout is not an implemented general guarantee in the inspected prototype. Its related R3 references are not independent studies.",
+        "decision": "ADMITTED_WITH_IMPLEMENTATION_LIMIT"
+      },
+      {
+        "id": "G10",
+        "source": {
+          "id": "S019",
+          "date": "1987"
+        },
+        "recipient": {
+          "id": "S097",
+          "date": "2025"
+        },
+        "type": "DOCUMENTED_DOMAIN_TRANSLATION",
+        "passage": "S097 §§2.1,3 and acknowledgment; S019 semantic compensation and application-design discussion.",
+        "claim": "SagaLLM explicitly adapts saga concepts to agent planning and attributes inspiration.",
+        "limit": "This documents transmission of a design idea, not transfer of a database proof, independence of validators or guaranteed external compensation.",
+        "decision": "ADMITTED_TRANSLATION_ONLY"
+      },
+      {
+        "id": "G11",
+        "source": {
+          "id": "S035",
+          "date": "1989"
+        },
+        "recipient": {
+          "id": "S094",
+          "date": "2006"
+        },
+        "type": "DOCUMENTED_REFINEMENT_AND_PRACTITIONER_TRANSLATION",
+        "passage": "S094 §5 related work and §§2.8–2.9; S035 §§2,3.1,5–7.",
+        "claim": "The recipient relates its session/cache-token design to lease overhead and explicitly acknowledges other cache predecessors.",
+        "limit": "Chubby also credits AFS and Echo; it is not simply a relabeled copy of one lease algorithm. Its 2006 deployment account is not a current implementation audit.",
+        "decision": "ADMITTED_PLURAL_ANCESTRY"
+      },
+      {
+        "id": "G12",
+        "source": {
+          "id": "S036",
+          "date": "2012"
+        },
+        "recipient": {
+          "id": "S033",
+          "date": "2014 report"
+        },
+        "type": "DOCUMENTED_COMPARISON_AND_HYBRIDIZATION",
+        "passage": "S033 §1 and Theorems1–4; S036 §3 and §4.1.2.",
+        "claim": "HLC situates logical/physical clock combination relative to TrueTime and vector/logical clocks.",
+        "limit": "HLC timestamps and Spanner's uncertainty/commit-wait protocol are different mechanisms. The recipient's rhetoric does not erase earlier physical-clock theory.",
+        "decision": "ADMITTED_WITH_MODEL_DISTINCTION"
+      },
+      {
+        "id": "G13",
+        "source": {
+          "id": "S037",
+          "date": "2007"
+        },
+        "recipient": {
+          "id": "S030",
+          "date": "January2011 report"
+        },
+        "type": "REACTION_AND_EXAMPLE_REFINEMENT",
+        "passage": "S030 inspected portfolio/related-work passages on shopping-cart anomaly; S037 §4.4.",
+        "claim": "CRDT discussion uses reconciliation anomalies such as shopping-cart resurrection to motivate more explicit replicated-data semantics.",
+        "limit": "A useful corrected example does not make every Dynamo application wrong or every application invariant convergent.",
+        "decision": "ADMITTED_AT_EXAMPLE_SCOPE"
+      },
+      {
+        "id": "G14",
+        "source": {
+          "id": "S030",
+          "date": "January2011 report"
+        },
+        "recipient": {
+          "id": "N003",
+          "date": "SSS2011 preprint"
+        },
+        "type": "SHARED_RESEARCH_FAMILY",
+        "passage": "N003 §6 and its explicit RR7506 portfolio/RR7686 proof references.",
+        "claim": "The short paper and longer reports belong to the same author-team CRDT development and provide complementary exposition.",
+        "limit": "They are distinct bibliographic works/versions but not independent replications; the referenced proof supplement was not inspected.",
+        "decision": "DEPENDENCE_RECORDED"
+      },
+      {
+        "id": "G15",
+        "source": {
+          "id": "S025",
+          "date": "2002"
+        },
+        "recipient": {
+          "id": "N004",
+          "date": "2012 manuscript"
+        },
+        "type": "AUTHOR_RETROSPECTIVE_AND_PRACTITIONER_TRANSLATION",
+        "passage": "N004 §§1–4.2; S025 definitions and impossibility/alternative sections.",
+        "claim": "Gilbert and Lynch revisit their formalization and its practical interpretation.",
+        "limit": "N004 is not Brewer's S026, and does not upgrade that body's reading status. Repeated exposition by the same authors is not independent proof replication.",
+        "decision": "ADMITTED_DISTINCT_WORK_DEPENDENT_FAMILY"
+      },
+      {
+        "id": "G16",
+        "source": {
+          "id": "S022",
+          "date": "1995"
+        },
+        "recipient": {
+          "id": "S039",
+          "date": "PVLDB issue2013/conference2014"
+        },
+        "type": "DOCUMENTED_TAXONOMIC_SYNTHESIS",
+        "passage": "S039 §5 taxonomy explicitly builds on Adya and partly ANSI SQL/Berenson; S022 §§1–2.2 and §5.",
+        "claim": "HAT organizes availability and isolation questions using prior transactional anomaly definitions.",
+        "limit": "Only the inspected Berenson branch is directly available here; the uninspected Adya body is recipient-attributed. This is not a universal equivalence of isolation names.",
+        "decision": "ADMITTED_AT_DEFINITION_SCOPE"
+      },
+      {
+        "id": "G17",
+        "source": {
+          "id": "S039",
+          "date": "2013/2014"
+        },
+        "recipient": {
+          "id": "S038",
+          "date": "PVLDB2014/conference2015"
+        },
+        "type": "DOCUMENTED_SHARED_RESEARCH_AND_EXTENSION",
+        "passage": "S038 §7 names HAT/RAMP and distinguishes CALM, CRDT and commutativity; §§3–4 define invariant confluence.",
+        "claim": "The recipient develops invariant-centered coordination reasoning alongside its author team's prior availability work.",
+        "limit": "Shared authors and conceptual development are not independent replication. The original author later inspected arXiv1402.2237v4 Appendix B lines482–514 and model/theorem/discussion excerpts184–231, as preserved in the inherited observation and reading event. Other appendices, whole-paper reading, complete published/extended-version correspondence, mechanization and deployment validation are not established. r2 reconciles this existing scoped reading; it performs no new primary reading.",
+        "decision": "ADMITTED_WITH_PROOF_CEILING"
+      },
+      {
+        "id": "G18",
+        "source": {
+          "id": "S004",
+          "date": "1985"
+        },
+        "recipient": {
+          "id": "S048",
+          "date": "arXivv1,2015"
+        },
+        "type": "DOCUMENTED_ALGORITHMIC_ADAPTATION",
+        "passage": "S048 §2 explicitly extends Chandy–Lamport; §§4.2–4.3 state channel and cycle handling; S004 §§2–4.",
+        "claim": "Barrier snapshotting adapts consistent-state capture to distributed dataflow and its graph structure.",
+        "limit": "The adaptation's channel/blocking and recovery premises remain necessary; its benchmark does not establish every checkpoint backend's performance.",
+        "decision": "ADMITTED_AT_MECHANISM_SCOPE"
+      },
+      {
+        "id": "G19",
+        "source": {
+          "id": "S046",
+          "date": "2013",
+          "access": "RECEIVED_METADATA_ONLY"
+        },
+        "recipient": {
+          "id": "S047",
+          "date": "2015"
+        },
+        "type": "DOCUMENTED_RECIPIENT_ADAPTATION",
+        "passage": "S047 p1792 footnote identifies FlumeJava/MillWheel technology; §2 describes SDK evolution from FlumeJava.",
+        "claim": "The recipient supplies direct testimony about implementation and conceptual inputs to the Dataflow model.",
+        "limit": "This does not substitute for reading MillWheel or FlumeJava themselves, and does not establish that every stream processor has this ancestry.",
+        "decision": "ADMITTED_AS_RECIPIENT_TESTIMONY"
+      },
+      {
+        "id": "G20",
+        "source": {
+          "id": "S043",
+          "date": "1981/1984"
+        },
+        "recipient": {
+          "id": "S091",
+          "date": "2017"
+        },
+        "type": "DOCUMENTED_ARGUMENT_TRANSLATION",
+        "passage": "S091 §2.2 invokes end-to-end reasoning for integrity and §5 compares fault-study approaches; S043 pp5–9.",
+        "claim": "The recipient uses endpoint integrity reasoning to motivate storage-fault scrutiny beyond replication count.",
+        "limit": "Its selected fault experiment is evidence for its systems and faults, not independent validation of every end-to-end argument or common-mode scenario.",
+        "decision": "ADMITTED_AT_ARGUMENT_SCOPE"
+      },
+      {
+        "id": "G21",
+        "source": {
+          "id": "S052",
+          "date": "2021 formal account"
+        },
+        "recipient": {
+          "name": "Durable Functions backend design collaboration",
+          "date": "described in2021 source",
+          "access": "RECIPIENT_AUTHOR_ACCOUNT"
+        },
+        "type": "RECIPROCAL_FORMAL_PRACTITIONER_TRANSLATION",
+        "passage": "S052 introduction documents work with the DF team and influence on two backend designs; §§5–6 supply formal scope.",
+        "claim": "The source describes formalization informed by a practical system and subsequent design feedback.",
+        "limit": "The backend implementations were not independently audited. A collaboration report is not an operational outcome study.",
+        "decision": "ADMITTED_AS_ATTRIBUTED_RECIPROCAL_ACCOUNT"
+      },
+      {
+        "id": "G22",
+        "source": {
+          "name": "Hellerstein CALM conjecture and Bloom; Ameloot formalization",
+          "date": "2010 and subsequent work as attributed by2020 review",
+          "access": "RECIPIENT_REVIEW_ACCOUNT_ONLY"
+        },
+        "recipient": {
+          "id": "N006",
+          "date": "2020"
+        },
+        "type": "ATTRIBUTED_FORMAL_PRACTITIONER_CO_DEVELOPMENT",
+        "passage": "N006 pp72–80 historical account, Theorem1 and proof sketch, relational-transducer and Bloom discussion.",
+        "claim": "The review identifies a conjecture, language-system development and later formal results as related contributions.",
+        "limit": "Original proof bodies and a complete priority history were not inspected. Confluence is not linearizability and the review does not refute CAP under unchanged definitions.",
+        "decision": "ADMITTED_AS_ATTRIBUTED_ACCOUNT"
+      },
+      {
+        "id": "G23",
+        "source": {
+          "id": "S006",
+          "date": "1985"
+        },
+        "recipient": {
+          "id": "S007",
+          "date": "preliminary1984/journal1988"
+        },
+        "type": "REACTION_WITH_CHRONOLOGY_QUALIFICATION",
+        "passage": "S006 §5 and references; S007 introduction/model and its preliminary-version statement.",
+        "claim": "Impossibility and partial-synchrony work delimit different timing/termination questions and explicitly discuss alternatives.",
+        "limit": "Publication order alone is misleading because of preliminary versions and overlapping work. No simple 1985-to-1988 one-way invention chain or theorem equivalence is asserted.",
+        "decision": "ADMITTED_PROBLEM_RELATION_NOT_PRIORITY_CHAIN"
+      },
+      {
+        "id": "G24",
+        "source": {
+          "id": "S005",
+          "date": "1982"
+        },
+        "recipient": {
+          "id": "S096",
+          "date": "1999"
+        },
+        "type": "SHARED_PROBLEM_ANCESTRY_WITH_MODEL_CHANGE",
+        "passage": "S005 oral/signed-message models; S096 §§2–4 and §7.",
+        "claim": "Both address arbitrary faulty participants, while the inspected PBFT service uses its own authenticated protocol, state-machine, timing and independence premises.",
+        "limit": "Shared subject and references do not imply identical thresholds in every model or proof transfer to a deployment.",
+        "decision": "ADMITTED_TYPED_SHARED_ANCESTRY"
+      }
+    ],
+    "unexamined_candidates": [
+      {
+        "candidate": "Detailed source-to-source priority of original CALM formal proofs, FLP preliminary manuscripts and every failure-detector extension",
+        "state": "NOT_EXAMINED",
+        "effect": "No priority or complete-proof claim depends on these bodies; inspection would be required before making that distinct historical claim."
+      },
+      {
+        "candidate": "Every modern workflow's direct descent from Sagas, Actors or CSP",
+        "state": "NOT_ADMITTED_GENERIC_CHAIN",
+        "effect": "Only the exact recipient acknowledgments recorded above are asserted. Similar mechanics are not filled in as missing historical edges."
+      }
+    ]
+  }
+}

@@ -1,0 +1,318 @@
+{
+  "source_identity": {
+    "source_id": "S-785ece8aee402aea",
+    "scientific_name": "LAW-L1-COMPOSITION.json",
+    "original_bytes": 17394,
+    "original_sha256": "785ece8aee402aea9a3a5273a0ecbc009a2c489e60e1cf978e73ad7f8e3d85e1"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "AUTHOR_ANALYSIS_REVIEW_PENDING",
+    "configurations": [
+      {
+        "configuration_id": "K01",
+        "purpose": "Choose a release rule with viable capacity and buffers",
+        "contribution_properties": [
+          "EL-004",
+          "EL-010"
+        ],
+        "receiving_properties": [
+          "EL-008",
+          "EL-009"
+        ],
+        "joint_guard": "Work-item boundary and service class are defined; arrival/service and blocking behavior are sufficiently understood.",
+        "forward_consequence": "An explicit release bound constrains in-process commitments and changes where demand waits; buffer/capacity analysis must include the pre-entry queue.",
+        "independently_assessed_reverse": "Capacity and consequence analysis can change the admissible WIP bound or exception policy. It does not prove demand value or worker wellbeing.",
+        "premises_not_discharged": "Forecast error, downstream capacity, service commitments, hidden queues, execution authority and outcome effects.",
+        "total_cost_and_tension": "Low WIP can starve resources or delay classes; spare capacity costs money. A shared resource must reserve enough response capacity for quality/maintenance.",
+        "nontrigger_or_cheaper_configuration": "Naturally bounded one-at-a-time work may already supply an adequate limit.",
+        "legitimate_omissions": "No board, named Kanban method or fixed takt is necessary when the operative bound is otherwise clear.",
+        "evidence_sources": [
+          "S006",
+          "S032",
+          "S056",
+          "R011"
+        ],
+        "case_ids": [
+          "C01",
+          "C02",
+          "C11"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit."
+      },
+      {
+        "configuration_id": "K02",
+        "purpose": "Contain abnormalities with actual authority and response capacity",
+        "contribution_properties": [
+          "EL-011",
+          "EL-013"
+        ],
+        "receiving_properties": [
+          "EL-012",
+          "EL-024",
+          "EL-026"
+        ],
+        "joint_guard": "A condition, propagation risk, consequence and bounded responder authority are specified.",
+        "forward_consequence": "Detection can trigger safe containment or help; a detected event is not a contained defect. Restoration may use a separately qualified alternative before permanent diagnosis completes.",
+        "independently_assessed_reverse": "Response overload, false stops or restart failures provide evidence to revise detectors and thresholds. They do not show the original condition was safe.",
+        "premises_not_discharged": "Detector coverage, safe-state behavior, worker protection, response capacity and affected-system assurance.",
+        "total_cost_and_tension": "Stopped output and investigation load may be justified or excessive. False positives and false negatives have different consequences.",
+        "nontrigger_or_cheaper_configuration": "A reliable local interlock may need no escalation ceremony; a trivial visible error may be corrected directly.",
+        "legitimate_omissions": "Not all ten conceptual activities must occur serially or after every alarm. Unaffected work may continue.",
+        "evidence_sources": [
+          "S001",
+          "S005",
+          "S006",
+          "S031",
+          "S046",
+          "S067"
+        ],
+        "case_ids": [
+          "C04",
+          "C06",
+          "C12"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit."
+      },
+      {
+        "configuration_id": "K03",
+        "purpose": "Use a baseline to learn while preserving legitimate challenge",
+        "contribution_properties": [
+          "EL-017",
+          "EL-018"
+        ],
+        "receiving_properties": [
+          "EL-019",
+          "EL-020",
+          "EL-021",
+          "EL-022"
+        ],
+        "joint_guard": "Repeatability, training or consequence makes a baseline useful; workers can report exceptions and access proper change authority.",
+        "forward_consequence": "A scoped baseline permits comparison and exposes variation; safe voice supplies evidence that a managerial procedure may be incomplete.",
+        "independently_assessed_reverse": "A supported countermeasure or exception can revise the baseline; a worker report can trigger inquiry without by itself proving the proposed solution.",
+        "premises_not_discharged": "Adequate causal comparison, evidence of actual protection/response, and consequences beyond the local task.",
+        "total_cost_and_tension": "Training, version maintenance and repeated reviews can accumulate; rigid adherence can suppress expertise.",
+        "nontrigger_or_cheaper_configuration": "A stable low-risk task may need only a shared instruction and a change trigger, with no periodic expiry form.",
+        "legitimate_omissions": "No fixed A3, Five Whys depth, calendar expiry or centralized approval for every reversible adjustment.",
+        "evidence_sources": [
+          "S008",
+          "S009",
+          "S026",
+          "S031",
+          "S047",
+          "S048"
+        ],
+        "case_ids": [
+          "C06",
+          "C07",
+          "C11",
+          "C12"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit."
+      },
+      {
+        "configuration_id": "K04",
+        "purpose": "Coordinate suppliers without hiding transferred risk",
+        "contribution_properties": [
+          "EL-027",
+          "EL-010"
+        ],
+        "receiving_properties": [
+          "EL-028",
+          "EL-008",
+          "EL-023"
+        ],
+        "joint_guard": "A dependency is consequential enough that capability or recovery coordination can change outcomes.",
+        "forward_consequence": "Supplier knowledge may reveal feasible replenishment or alternatives; deep-tier information changes which risks and costs the portfolio must consider.",
+        "independently_assessed_reverse": "Criticality and recovery limits can determine where development, disclosure or alternate qualification is worth funding. A map does not produce spare capacity.",
+        "premises_not_discharged": "Supplier consent, confidentiality, current data, common-cause failure, fair distribution and actual ability to recover.",
+        "total_cost_and_tension": "Coordination/lock-in versus resilience; removing buyer stock can increase supplier or customer burden.",
+        "nontrigger_or_cheaper_configuration": "A readily substitutable commodity may need a simpler sourcing check instead of continuous deep-tier mapping.",
+        "legitimate_omissions": "No universal single source, synchronization, multi-sourcing or database coverage of every trivial item.",
+        "evidence_sources": [
+          "S038",
+          "S069",
+          "S035",
+          "R002",
+          "R009",
+          "S039",
+          "S040"
+        ],
+        "case_ids": [
+          "C05",
+          "C09"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit."
+      },
+      {
+        "configuration_id": "K05",
+        "purpose": "Preserve design options until coupled constraints justify commitment",
+        "contribution_properties": [
+          "EL-029"
+        ],
+        "receiving_properties": [
+          "EL-030",
+          "EL-005",
+          "EL-004"
+        ],
+        "joint_guard": "Uncertainty, coupling and reversal cost make multiple alternatives decision-relevant; budgets and delivery obligations are explicit.",
+        "forward_consequence": "Retaining feasible options changes integration choices and can avoid premature commitment; dormant options are not identical to actively started production work.",
+        "independently_assessed_reverse": "Cross-functional constraints eliminate options and define evidence needed before convergence. WIP/cost limits bound active experiments without necessarily deleting all dormant alternatives.",
+        "premises_not_discharged": "Real feasibility, test fidelity, option carrying cost, dependencies and deadline value.",
+        "total_cost_and_tension": "Parallel investigation consumes scarce skills and can delay feedback; convergence can destroy valuable alternatives.",
+        "nontrigger_or_cheaper_configuration": "A known low-cost reversible choice may be made directly.",
+        "legitimate_omissions": "No requirement for parallel prototypes or every discipline in every meeting.",
+        "evidence_sources": [
+          "S050",
+          "S051",
+          "S052"
+        ],
+        "case_ids": [
+          "C03",
+          "C08",
+          "C12"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit."
+      },
+      {
+        "configuration_id": "K06",
+        "purpose": "Pair software flow with proportionate qualification and recovery",
+        "contribution_properties": [
+          "EL-004",
+          "EL-005"
+        ],
+        "receiving_properties": [
+          "EL-031",
+          "EL-026",
+          "EL-025"
+        ],
+        "joint_guard": "A defined software service, change class and failure consequence support meaningful release and outcome measurements. For the specific affected-instance comparison, deployment scope is enforced, instances are independent, the same local fault is held constant and there is no cross-instance propagation.",
+        "forward_consequence": "Under the stated isolation and scope guard, deploying the same faulty change to fewer instances reduces the number directly exposed, even without qualification or recovery. Qualification and recovery can address other failure modes and duration; this partial reduction alone does not establish useful, reliable, acceptably controlled or authorized delivery.",
+        "independently_assessed_reverse": "Observed failed-deployment/recovery behavior can alter batch size, release policy and test investment. It does not establish user value or direct TPS lineage.",
+        "premises_not_discharged": "Architecture and isolation, test adequacy, unobserved failures, cross-instance propagation, user outcomes, failure duration, lifecycle cost, on-call workload, authority and current metric definitions.",
+        "total_cost_and_tension": "Pipeline/observability maintenance and response load can exceed a tiny change's risk.",
+        "nontrigger_or_cheaper_configuration": "A small reversible static correction can use direct inspection and a known revert path.",
+        "legitimate_omissions": "No mandatory deployment platform, physical board or full incident process for every edit.",
+        "evidence_sources": [
+          "S053",
+          "S056",
+          "S058",
+          "S059"
+        ],
+        "case_ids": [
+          "C01",
+          "C04",
+          "C11",
+          "C13",
+          "C14"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit.",
+        "exposure_measure": "For RV01/C13, the count of independent instances receiving the same faulty change. C14 separately models failure duration and a stated instance-time limit; neither measure is an automatic total-risk or beneficiary-value measure.",
+        "revision_basis": "LF-004 and reviewer RV01: distinguish one partial benefit from adequacy of the whole proposed configuration. The reverse consequence, cheap path and retirement conditions are retained."
+      },
+      {
+        "configuration_id": "K07",
+        "purpose": "Keep system value distinct from local process performance",
+        "contribution_properties": [
+          "EL-002",
+          "EL-025"
+        ],
+        "receiving_properties": [
+          "EL-001",
+          "EL-032"
+        ],
+        "joint_guard": "The beneficiary boundary, time horizon and nontradable constraints are defined.",
+        "forward_consequence": "Flow and cost measurements can inform value/continuation decisions only through an explicit outcome link that includes shifted burden.",
+        "independently_assessed_reverse": "An outcome constraint can veto a local efficiency gain or require a different measurement. A desired outcome does not prove the process change caused it.",
+        "premises_not_discharged": "Selection effects, co-interventions, attribution, worker health and transition costs.",
+        "total_cost_and_tension": "Measurement and portfolio reviews have opportunity costs; proxy targets can redirect effort.",
+        "nontrigger_or_cheaper_configuration": "For trivial work a one-sentence purpose and direct acceptance may be sufficient.",
+        "legitimate_omissions": "No universal dashboard, score or quantified multi-stakeholder utility function.",
+        "evidence_sources": [
+          "S011",
+          "S060",
+          "S061",
+          "S062",
+          "R005",
+          "R006",
+          "R013"
+        ],
+        "case_ids": [
+          "C01",
+          "C05",
+          "C10",
+          "C11"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit."
+      },
+      {
+        "configuration_id": "K08",
+        "purpose": "Choose the least burdensome adequate configuration",
+        "contribution_properties": [
+          "EL-019",
+          "EL-020"
+        ],
+        "receiving_properties": [
+          "EL-037",
+          "EL-038",
+          "EL-040"
+        ],
+        "joint_guard": "The task is bounded and existing controls already address the material failure at its consequence.",
+        "forward_consequence": "A valid no-change or small correction can be selected; adopting more named controls is not intrinsically a stronger result.",
+        "independently_assessed_reverse": "A recurrence, changed consequence or failed cheap control may justify extra inquiry or assurance, assessed separately.",
+        "premises_not_discharged": "The cheaper control must actually cover the identified failure; low cost alone is not adequacy.",
+        "total_cost_and_tension": "Individually useful controls may duplicate the same benefit while their costs add.",
+        "nontrigger_or_cheaper_configuration": "Retain an adequate shared instruction or local check without building a complete lifecycle.",
+        "legitimate_omissions": "No ceremony requirement and no universal exemption from controls for work merely called small.",
+        "evidence_sources": [
+          "S011",
+          "S047",
+          "S048"
+        ],
+        "case_ids": [
+          "C07",
+          "C11",
+          "C12"
+        ],
+        "change_or_retirement": "Revisit when the named guard, boundary, failure consequence or control economics changes; remove duplicative controls only after their remaining function is accounted for.",
+        "scope": "Within-Lean analytical configuration, not universal lifecycle or proof of whole-system benefit."
+      }
+    ],
+    "induced_candidates": [
+      {
+        "candidate_id": "IC01",
+        "parents": [
+          "EL-029",
+          "EL-030"
+        ],
+        "case": "C08",
+        "derivation": "Joint feasible design set is the intersection of the relevant discipline constraints.",
+        "parent_removal": "Removing either constraint set admits an option rejected by the omitted discipline in the constructed witness.",
+        "distinctness": "Already contained in option preservation and cross-functional integration; a useful derivation and relation, not a new scientific property.",
+        "disposition": "NOT_ADMITTED_AS_NEW_PROPERTY"
+      },
+      {
+        "candidate_id": "IC02",
+        "parents": [
+          "EL-019",
+          "EL-020",
+          "EL-025"
+        ],
+        "case": "C12",
+        "derivation": "Joint control economics must account for overlapping benefits and additive burdens.",
+        "parent_removal": "Without cost accounting the dominated combination is missed; without checking benefit overlap the pair can be wrongly rejected. No unique three-parent necessity is established.",
+        "distinctness": "Subsumed by existing improvement economics and whole-system evaluation; useful joint-risk check.",
+        "disposition": "NOT_ADMITTED_AS_NEW_PROPERTY"
+      }
+    ],
+    "admitted_new_property_identities": 0,
+    "scope": "Two consequential candidates tested against inherited scope and removal controls; no claim of exhaustive discovery."
+  }
+}

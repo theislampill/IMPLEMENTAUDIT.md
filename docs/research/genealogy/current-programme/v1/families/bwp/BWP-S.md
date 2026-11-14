@@ -1,5 +1,8 @@
 # BWP-S — separate fourth-stage composition account
 
+> **Current scientific reading route — 13 November 2026:** the substantial [BWP-S account](current/BWP-S.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 ## Current scientific identity and public scope
 
 The exact accepted current subject is `BWP-S-2026-11-12-r7_recovered_s003`, SHA-256 `4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7`. Its existing qualification and both final review receipt identities are recorded in [PROGRAMME.json](../../PROGRAMME.json). The recovered private complete account includes the current scientific predicates, actual directions, higher-order findings, cases, negatives, alternatives, novelty decisions and limitations. Its detailed current interpretation remains protected pending **BWP-DISCLOSURE-S**. Local qualification does not establish central master application or native implementation acceptance.

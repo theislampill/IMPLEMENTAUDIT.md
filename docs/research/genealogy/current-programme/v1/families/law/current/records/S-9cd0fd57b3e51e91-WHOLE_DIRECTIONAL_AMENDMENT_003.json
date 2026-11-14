@@ -1,0 +1,42 @@
+{
+  "source_identity": {
+    "source_id": "S-9cd0fd57b3e51e91",
+    "scientific_name": "WHOLE_DIRECTIONAL_AMENDMENT_003.json",
+    "original_bytes": 3651,
+    "original_sha256": "9cd0fd57b3e51e91ff7eadf2f965b0a545e1642f6d6c1b272fcfb5ac7c7b670a"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "AUTHOR_FALSE_NEGATIVE_CORRECTION_BEFORE_FINAL_SUBJECT",
+    "supersedes_at_two_rows_only": "The initial whole-directional draft preserved in LAW_A002_SCIENCE_CHECKPOINT_002.zip, SHA256 484690d78e1e2613527a2f43c4c5c1d90e9212e73412d4406d025ad83eaa8727",
+    "prior_projection_sha256": "6200a2ada285d6f2f8a8ca5a16426c4c67b33a3ed14b8a12e8e3be9d1f842567",
+    "finding": "Composition examination exposed a real omitted receiving premise. EA11's enforced exposure boundary depends on actual propagation/interface meaning. The prior orientation map omitted critical_dependency among its receiving uses, so two conditional native interfaces were incorrectly left unresolved. This is not lack of a live target execution. The two source mechanisms can qualify the exposure/independence premise at a conditional same-system guard without proving that the boundary is enforced or that exposure is safe.",
+    "directions": [
+      {
+        "source": "EL-028",
+        "receiver": "EA-11",
+        "factor": "critical_dependency",
+        "argument": "Critical lower-tier and common-cause dependency information can identify a propagation or shared-failure path across the proposed exposure boundary. The particular information changes whether a nominal one-instance or independent-cohort claim is warranted, even though a map does not itself isolate instances or supply recovery. This is a useful input to the exposure premise, not a requirement to prove whole release safety.",
+        "guard": "The mapped dependency actually participates in the proposed exposed system and matters for the specific failure/propagation claim; establish the mapping's identity and relevant scope. Actual enforcement, harmful effects, recovery, outcome value and authority remain separate.",
+        "counter": "A generic supplier map unrelated to that propagation path contributes nothing. Two independently named cohorts may still share the failed dependency; conversely an actually isolated population can remain bounded even when recovery is unavailable."
+      },
+      {
+        "source": "EW-P009",
+        "receiver": "EA-11",
+        "factor": "critical_dependency",
+        "argument": "The negotiated actual interface semantics and integration responsibility can reveal whether a change or failure propagates from the exposed cohort into another system. That qualifies the claimed exposure boundary and can require a different partition or limit. The useful contribution is the interface/propagation premise, not the assertion that agreement or a passed local test enforces isolation.",
+        "guard": "The identified interface and versions cross the proposed exposure boundary and the semantics concern the actual failure mode. A real integration observation or adequate analysis must justify the relevant correspondence; unrelated interfaces do not activate the relation.",
+        "counter": "A signed interface contract may disagree with actual integration, and two correct local endpoints may still produce cross-boundary effects. A genuinely isolated interface can support the narrow population bound without proving restoration, acceptable loss, value or permission."
+      }
+    ],
+    "history": "The prior two unresolved author judgments remain visible in the durable draft. Their independent reverse directions and every other direction stay exact. No original476unknown is changed. No experiment or old generator is rerun; this is a new native-mechanism correction.",
+    "prospective_counts": {
+      "MATERIAL": 5078,
+      "EXAMINED_UNRESOLVED": 2330,
+      "UNEXAMINED": 0,
+      "new_frontier_material": 1846,
+      "new_frontier_examined_unresolved": 1854
+    },
+    "no_quota": "The change follows two identified conditional interfaces. It is not a material-yield target and does not upgrade other uncertain correspondences by analogy."
+  }
+}

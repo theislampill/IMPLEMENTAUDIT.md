@@ -1,0 +1,1151 @@
+{
+  "source_identity": {
+    "source_id": "S-c71a87da36ce0692",
+    "scientific_name": "a002-I022_ADOPTION.json",
+    "original_bytes": 75790,
+    "original_sha256": "c71a87da36ce0692ed0bc8bb982090efeba07b23c810d8f9debcb80f26bd57f7"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-a002-i022-adoption/1",
+    "identity": "LAW_A002_I022_ADOPTION",
+    "status": "AUTHOR_ADOPTED_NOT_INDEPENDENTLY_ACCEPTED",
+    "adopted_at_utc": "2026-11-13T07:08:41.080804+00:00",
+    "source_subject_sha256": "e5b248f1b808b87d50a8c36575dc25e3eb438d7872167df808872741dc1097d8",
+    "literal_source": {
+      "archive_member": "LATER_EFFECTS/authoring/B33_I022_LITERAL_ARGUMENTS.json",
+      "bytes": 50986,
+      "sha256": "d58dce2fb0a16b843a88f94062845d2b9a71664249a4074213d261222e4ba426"
+    },
+    "A001_assessment": {
+      "archive_member": "A001/saved_law_page.json",
+      "bytes": 53793,
+      "sha256": "464b8c2faaa97c6f73e60c81ca34c5767f99cff0811c858264703eb479b32307",
+      "all_85_blocks_read": true
+    },
+    "adopting_author": "[custody locator omitted; scientific source identity retained]",
+    "directions": [
+      {
+        "id": "A002-ADOPT-B33-I022-D01",
+        "original_argument_id": "B33-I022-D01",
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P026",
+        "original_argument": {
+          "id": "B33-I022-D01",
+          "source": "LAW-L2::EA-09",
+          "receiver": "LAW-L3::EW-P026",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC01"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "noninjective_payload"
+            },
+            {
+              "control": "C29",
+              "case": "criterion_scope_changes_appraisal"
+            },
+            {
+              "control": "C29",
+              "case": "external_origin_alternative"
+            }
+          ],
+          "shared_object": "The actual supplier-controlled representation, interface or component on which a consequential architecture depends.",
+          "guard": "A real supplier, separately controlled interface or long-lead dependency is part of the architecture, and its delivered capability, original-data access, timing or change responsibility affects an architectural commitment.",
+          "source_contribution": "Architecture identifies which quality consequence or recovery function the supplier must actually support, including whether a canonical representation suffices or an additional original-data path is needed.",
+          "receiving_consequence": "P026 can coordinate the concrete interface, evidence, rights, owner and lead-time obligations before a hard commitment, rather than treating generic supplier participation or a nominal file format as adequate.",
+          "remaining_premises": "The supplier's competence, enforceable commitments, commercial/legal rights, current interface identity, realistic timing and continued service remain separate. Architectural analysis alone cannot obtain any of them.",
+          "positive_witness": "C29 records distinct originals with identical canonical payloads, and recovery through a separately supplied origin lookup. In AC01, an actual supplier owns that extra input, so the architecture result identifies a real coordination obligation.",
+          "nontrigger_or_counterexample": "A fully local dependency or a quantity-only consumer may not need supplier-held originals at all. An imagined vendor or hypothetical procurement process cannot activate this direction.",
+          "cheap_alternative_and_removal": "Keep originals locally, choose an adequate current component, or use a direct compatibility and responsibility note where sufficient. Removing the actual representation/recovery requirement can leave the coordinator negotiating the wrong deliverable; restore the meaning without a full procurement suite.",
+          "reentry": "A changed consumer, external retention policy, supplier right, service lifetime or expensive interface commitment changes which obligation must be coordinated.",
+          "cost": "Include negotiation, compatibility checking, assurance, access maintenance, lock-in, transition and eventual exit. C29's byte counts do not estimate supplier cost or risk allocation.",
+          "finite_control_scope": "C29 establishes only technical information loss and an extra-input alternative. AC01 explicitly supplies the possible real supplier boundary; no actual contract, rights grant or lead-time result is observed."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "e1526477-9466-4caa-9d9b-abe71409ff19",
+            "kind": "markdown",
+            "markdown": "## D01 Architecture informs actual supplier coordination",
+            "hash": "c8f9d7863c9d45f9a4003aa3770125ca8d74a074d3b6b4315f459a756c889358",
+            "metadata": {}
+          },
+          {
+            "id": "ce22eaaa-3090-4bb8-bdf0-73d446348e2b",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D01, LAW-L2::EA-09 → LAW-L3::EW-P026. **Author disposition:** support MATERIAL with INPUT_TO_DECISION and SCOPE_CONSTRAINT at the original actual-use guard.",
+            "hash": "9c756ee61e2c423ea4dc69b0547a7e5982335bcccce088f4c1249f516a8c3bdb",
+            "metadata": {}
+          },
+          {
+            "id": "f638e38a-7679-4b0e-a28d-63aff8d2a7bb",
+            "kind": "markdown",
+            "markdown": "The native supplier mechanism identifies external dependencies, owners, lead times, data rights, interface obligations and evidence before incompatible commitments harden. EA-09 can identify which architectural quality or recovery function that supplier must support. In AC01, a canonical quantity representation is sufficient for one consumer, while another actual consumer requires the original record. The architectural distinction therefore changes the coordinator’s concrete deliverable, retained-data responsibility or interface requirement; it is not merely shared use of the word dependency.",
+            "hash": "4ee273cacc19da8feb5a0ece4defe27bc029436b62c3c711d7797ffc9ee3217b",
+            "metadata": {}
+          },
+          {
+            "id": "fdd86b90-610e-46f3-b373-ba48a95b8a5b",
+            "kind": "markdown",
+            "markdown": "The guard requires a real supplier-controlled capability, interface or long-lead input whose semantics, timing or responsibility affects the architectural commitment. C29’s noninjective-payload, criterion-scope and external-origin cases support the technical distinction only. Supplier competence, rights, delivery and continued availability remain separate premises.",
+            "hash": "7226c4b9921d3f5df49007086d2d2ee73123873ebc0a77a7c5ffe50d73c2be04",
+            "metadata": {}
+          },
+          {
+            "id": "42f8b71c-ea01-470a-a26a-dfbf9d35b8a8",
+            "kind": "markdown",
+            "markdown": "A local retained-original design or quantity-only consumer can remove this particular supplier obligation. A direct compatibility and responsibility check may be sufficient. Removing the needed semantic requirement while retaining the supplier name can cause the wrong deliverable to be coordinated; restoring the requirement need not create a procurement suite. Negotiation, lock-in, access maintenance and exit burdens are unmeasured. Reopen on changed consumer, interface, retention horizon, ownership or access conditions.",
+            "hash": "6315738bb9f2757e222f1929af450f7cd7c2b22ee32340cba086ab0ab8cf42da",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D02",
+        "original_argument_id": "B33-I022-D02",
+        "direction_key": "LAW-L3::EW-P026->LAW-L2::EA-09",
+        "original_argument": {
+          "id": "B33-I022-D02",
+          "source": "LAW-L3::EW-P026",
+          "receiver": "LAW-L2::EA-09",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INPUT_TO_DECISION",
+            "SCOPE_CONSTRAINT"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC01"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "external_origin_alternative"
+            },
+            {
+              "control": "C29",
+              "case": "adequate_current_evidence"
+            },
+            {
+              "control": "C29",
+              "case": "both_consumers_preserved"
+            }
+          ],
+          "shared_object": "The supplier commitments, interface capabilities and access assumptions actually consumed in an architectural alternative.",
+          "guard": "The architecture relies on a real supplier-controlled capability, delivery time, interface, data right or change responsibility, and current coordination information distinguishes available, conditional or unavailable support.",
+          "source_contribution": "P026 supplies the actual boundary conditions: what is delivered, retained, accessible and changeable, by whom and on what timescale. A missing right or incompatible commitment may rule out the relied-on supplier branch without deciding every other quality attribute.",
+          "receiving_consequence": "EA09 can compare genuinely available architectures, retain local data, change an interface, defer the hard commitment or choose another supplier path instead of assuming that a technically possible dependency is available.",
+          "remaining_premises": "The information must be accurate, current and relevant, and technical quality, organizational feasibility, binding approvals and total cost still require their own evidence. Supplier agreement is not a complete architecture evaluation.",
+          "positive_witness": "C29's external-origin queries succeed only because the additional original input is actually supplied. AC01 separates that technical path from the coordinator's real assurance of access; a local retained-origin path remains a different viable design.",
+          "nontrigger_or_counterexample": "No external dependency means no current supplier constraint. A promised format that does not preserve required semantics or rights is insufficient, while an adequate existing commitment may already satisfy the input with no new process.",
+          "cheap_alternative_and_removal": "A direct current contract/interface check or local retained representation can suffice. Remove the specific supplier assumption and the architectural choice may rely on an unavailable input; a valid local alternative can restore the function.",
+          "reentry": "Changed delivery lead time, retention duty, ownership, supplier viability, interface version or negotiated rights requires revisiting the affected design assumption.",
+          "cost": "Dependency coordination can reduce uncertainty but adds acquisition, monitoring, adaptation and exit burdens. No measured return or universal preference for internal versus external control is claimed.",
+          "finite_control_scope": "C29 supplies a recorded contrast between self-contained and extra-input representations. The organizational commitments in AC01 are reasoned premises, not executed procurement or proof of authority."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "be8c31aa-ff6b-43c7-9b80-f362a277f2b4",
+            "kind": "markdown",
+            "markdown": "## D02 Supplier conditions constrain architecture",
+            "hash": "d281ab6f555cd346db85a2dfb29074447c4c8be00404c2bc9c94c8a98c200cb0",
+            "metadata": {}
+          },
+          {
+            "id": "58473548-ce00-4b1f-8e28-7820ad3fb0b2",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D02, LAW-L3::EW-P026 → LAW-L2::EA-09. **Author disposition:** support MATERIAL with INPUT_TO_DECISION and SCOPE_CONSTRAINT at the original guard.",
+            "hash": "0785ce794debedf3aa3916fd3cc7eb5d468179de10a95b23a22be6128d17f695",
+            "metadata": {}
+          },
+          {
+            "id": "8b4af25b-990b-432a-a26c-94ddb4777b52",
+            "kind": "markdown",
+            "markdown": "This reverse has a different input from D01. The supplier side supplies actual availability, interface capability, lead time, data rights or change responsibility. Architecture then compares options that are genuinely available, preserves local data, changes an interface, defers a hard commitment or chooses another path. A technically possible external-origin lookup is not an available architecture merely because its function can be written down.",
+            "hash": "90d7db6c28a7b1ef4d10f06efdfbd73b3aada2a4a9cbe5575236f9404a95b1a2",
+            "metadata": {}
+          },
+          {
+            "id": "de22a870-7e1f-4f9d-8155-5901c87f5898",
+            "kind": "markdown",
+            "markdown": "AC01 distinguishes technical recoverability with an extra origin record from actual assurance that the organization can obtain that record for the required horizon. C29’s external-origin alternative, adequate-current-evidence and preserved-consumer cases establish bounded possibilities, not contractual commitments. The supplier information must be accurate, current and applicable; complete quality, organizational feasibility and total cost remain unproved.",
+            "hash": "367fbaa5e10502bc07c51d91622c32a2e57ea16262c2859a6e4740d1c000c2ce",
+            "metadata": {}
+          },
+          {
+            "id": "1bb553a9-b425-47ad-8f61-0a2c16344474",
+            "kind": "markdown",
+            "markdown": "No actual external dependency means no current supplier constraint. An already adequate commitment can satisfy the input without new machinery. A locally retained representation or a direct current contract/interface check may replace the dependency. Removing the actual supplier assumption reveals whether the design relies on an unavailable input. Reopen when lead time, rights, interface version, retention duty or supplier viability changes. No universal preference for local versus external control or field return estimate follows.",
+            "hash": "cb98060a515010e62c03c73ed128cc6bbae2e937b9cf7f8e7723764331bf64f3",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D03",
+        "original_argument_id": "B33-I022-D03",
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P034",
+        "original_argument": {
+          "id": "B33-I022-D03",
+          "source": "LAW-L2::EA-09",
+          "receiver": "LAW-L3::EW-P034",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INVALIDATION"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC02"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "criterion_scope_changes_appraisal"
+            },
+            {
+              "control": "C29",
+              "case": "noninjective_payload"
+            }
+          ],
+          "shared_object": "The universal claim that a consequential architecture must be settled within a fixed once-through phase order.",
+          "guard": "Architectural quality or reversibility evidence warrants revisiting a previously closed design choice, and the claim under examination forbids such return solely because the phase sequence is fixed.",
+          "source_contribution": "EA09 makes the current quality consequence and justified revision visible. A design that preserves one consumer's quantity can still fail another necessary original-recovery criterion, so a prior phase label cannot establish continued adequacy.",
+          "receiving_consequence": "The unqualified one-pass necessity is contradicted at that scope. P034 retains its rejected status; the consequence is permission to choose a warranted process arrangement only within actual governing rights, not proof that every staged approach fails.",
+          "remaining_premises": "The new information must actually bear on the architecture, and reopening must be proportionate to consequence, available alternatives and commitment costs. Stable knowledge or unavoidable physical sequencing can justify staged work.",
+          "positive_witness": "C29 shows that appraisal changes when original recovery is a required consumer. AC02 places that warranted architectural reassessment after a previously settled choice; prohibiting return merely by phase would block the criterion's satisfaction.",
+          "nontrigger_or_counterexample": "An already adequate stable architecture with no relevant new information need not be reopened. Boehm's conditional staged option is retained; a low interface/performance-risk situation with dominant budget/schedule-control risk is not refuted by the universal countercase.",
+          "cheap_alternative_and_removal": "A short direct source analysis or scoped design review may resolve the new issue. Remove the universal return prohibition while retaining real causal dependencies and change authorization; no total lifecycle redesign is required.",
+          "reentry": "A changed quality need, coupling, retention horizon or decisive contrary result can reopen the specific architectural question.",
+          "cost": "Reassessment costs time and may disturb commitments; refusing a warranted reassessment can also preserve avoidable failure. Neither universal iteration nor universal freeze is shown cheapest.",
+          "finite_control_scope": "C29 has fixed queries and no actual phase chronology. AC02 supplies the explicit possible later-decision context; no observed project rework rate or causal timing result."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "fbc9f985-af7d-4c92-bb29-9ca369bf5ca3",
+            "kind": "markdown",
+            "markdown": "## D03 Architecture defeats a universal one pass prescription",
+            "hash": "26caf1a74710f10e2df153d3188bcbd8f0ebfb3a81398be1898f3d3cefd12a07",
+            "metadata": {}
+          },
+          {
+            "id": "01a1dfcf-1257-439f-b77b-82fda16409bf",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D03, LAW-L2::EA-09 → LAW-L3::EW-P034. **Author disposition:** support MATERIAL as INVALIDATION of the unqualified universal form.",
+            "hash": "1a1b0c2d7815f61a742f3bf9e553310875cc9cf9d6f05b8985cf75d2a254602e",
+            "metadata": {}
+          },
+          {
+            "id": "209cbfad-9815-420e-bd3b-fbced3a90198",
+            "kind": "markdown",
+            "markdown": "The receiving proposition is that architectural development must proceed once through fixed phases, with return excluded by the phase order. EA-09 supplies a countercase when relevant current quality or reversibility evidence warrants revisiting a prior choice. A previously complete design phase cannot establish that a current representation satisfies a newly relevant original-recovery criterion. Under AC02, refusing the warranted return solely because of phase order preserves a known mismatch between the required architectural function and the design.",
+            "hash": "2c4a2b5a331098f1df0c8c9d06b0feae7e4ad4b27510b33a3e43da46032ad8f5",
+            "metadata": {}
+          },
+          {
+            "id": "96a1a19d-3257-4fca-b63a-da1248bd8199",
+            "kind": "markdown",
+            "markdown": "The invalidation is limited to universal one-pass necessity. P034’s accepted native rejection remains unchanged. A stable sufficient architecture with no relevant new evidence need not be reopened; an independently warranted physical order, safety restriction or contractual commitment is not defeated by this argument. The native conditional staged option remains admissible.",
+            "hash": "4d205e00af55b5e71c201912d785ea69a5fe047ed9ce464e3e4b9e9c4a0f532f",
+            "metadata": {}
+          },
+          {
+            "id": "6f45f7d9-c6e1-4b60-b76d-8186cc507521",
+            "kind": "markdown",
+            "markdown": "A short source analysis, existing evidence or scoped design review can be adequate. Removing the universal return prohibition need not remove causal dependencies or actual change authorization. C29’s scope change and payload collision support the technical countercase, while its timing in a lifecycle is an explicit AC02 premise. There is no executed project chronology or measured rework-rate claim. Reopening can itself cost time and disturb commitments; neither universal iteration nor universal freeze is established as cheapest.",
+            "hash": "d7964ba63eaa568e3f7ddad8833fc73ef2aeb2e87b113b490ec13df95ec36dcd",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D04",
+        "original_argument_id": "B33-I022-D04",
+        "direction_key": "LAW-L3::EW-P034->LAW-L2::EA-09",
+        "original_argument": {
+          "id": "B33-I022-D04",
+          "source": "LAW-L3::EW-P034",
+          "receiver": "LAW-L2::EA-09",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "CONFLICT_AT_SHARED_GUARD"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC02"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "noninjective_payload"
+            },
+            {
+              "control": "C29",
+              "case": "complete_source_analysis_alternative"
+            }
+          ],
+          "shared_object": "An actual return prohibition that prevents a warranted change to a consequential architectural decision.",
+          "guard": "An enforced one-pass phase rule blocks a specific justified architectural reassessment or correction despite relevant current evidence, and the block has no independently adequate physical, safety, contractual or authority rationale.",
+          "source_contribution": "The operative fixed sequence prevents using the new consequence or alternative at the decision point; this is the independent reverse effect of the rule, not another statement that architecture criticizes it.",
+          "receiving_consequence": "EA09 cannot perform the warranted proportional correction through that path while the prohibition remains. The conflict is with the actual blocked work, not with every sequence or review.",
+          "remaining_premises": "There must be a real enforcement effect and a warranted architectural action. The current evidence need not prove the whole eventual design, but a merely speculative concern or unnecessary rewrite does not establish this conflict.",
+          "positive_witness": "C29's finite collision can be established by complete source analysis without another execution. In AC02, an actual no-return rule prevents acting on that relevant correction to the design basis.",
+          "nontrigger_or_counterexample": "A staged process that admits the necessary return, or a stable sufficient design, has no such conflict. An essential physical order or valid safety hold is not defeated merely by calling it a phase rule.",
+          "cheap_alternative_and_removal": "Use an authorized scoped reopening or direct analytical correction and preserve unaffected commitments. Removing the unjustified return prohibition restores the architecture path; removing all controls is unnecessary.",
+          "reentry": "New enforcement, waiver authority, independent commitment justification or adequate alternative determines whether the obstruction persists.",
+          "cost": "The conflict identifies an actual blocked function, not a measured amount of delay or rework. Reopening also consumes coordination and validation effort.",
+          "finite_control_scope": "The old source-analysis case is technical recorded evidence. The enforcement and blocked action are explicit reasoned AC02 premises; no project workflow was executed."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "7a627d0b-07b3-4d57-b87d-b89b5712bd66",
+            "kind": "markdown",
+            "markdown": "## D04 An enforced one pass rule can obstruct architecture",
+            "hash": "d8e067aa73d5812c9968523c820e0a35591af52165f870de62ff3892370f399a",
+            "metadata": {}
+          },
+          {
+            "id": "7cb7cd24-59ae-42f4-b9a2-15a89d7fd524",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D04, LAW-L3::EW-P034 → LAW-L2::EA-09. **Author disposition:** support MATERIAL as CONFLICT_AT_SHARED_GUARD.",
+            "hash": "2106486ddd8708ecfd363d78f122934b6ec41e053b53f6c1466faccf9f4ddc1f",
+            "metadata": {}
+          },
+          {
+            "id": "e4313545-d550-4482-a5e3-bf9bd1d48dfe",
+            "kind": "markdown",
+            "markdown": "This reverse requires an actual enforcement effect. A fixed-sequence rule must block a specific warranted architectural reassessment or correction, despite relevant current evidence, without an independently adequate physical, safety, contractual or authority reason for that block. Under those conditions, the rule prevents EA-09 from acting on the quality distinction or adequate alternative. That is a causal obstruction of the architecture task, not another formulation of D03’s logical criticism of universality.",
+            "hash": "38d8ba71bf649c4c6d515729cb56c78e19495b57a328583562c8c572ee0975a1",
+            "metadata": {}
+          },
+          {
+            "id": "97f116a2-fe6e-408a-9845-fa37880da8cf",
+            "kind": "markdown",
+            "markdown": "The relevant evidence need not prove the whole eventual architecture, but it must warrant the particular action. A speculative concern, unnecessary rewrite or staged process that permits the needed return does not satisfy the guard. A valid safety hold remains a contrary instance.",
+            "hash": "108585247692ee420fd7c591c4ba9db04a97298f0edacca7a46f1fa7d4cd4c4a",
+            "metadata": {}
+          },
+          {
+            "id": "6c4c19ac-cced-468e-b997-fe0d771206a1",
+            "kind": "markdown",
+            "markdown": "C29’s recorded collision and complete-source-analysis alternative can establish the bounded technical issue without another experiment. AC02 supplies the real-rule and blocked-action premises. An authorized scoped reopening or direct analytical correction can preserve unaffected commitments. Removing all governance would be a different and unwarranted intervention. Reopen when enforcement, waiver authority, independent commitment justification or a sufficient alternative changes. No organizational delay or rework magnitude was measured.",
+            "hash": "516a1752853331a706932f447ef4be17b3ff01031ae8cce2ad01d280e64597ae",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D05",
+        "original_argument_id": "B33-I022-D05",
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P035",
+        "original_argument": {
+          "id": "B33-I022-D05",
+          "source": "LAW-L2::EA-09",
+          "receiver": "LAW-L3::EW-P035",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INVALIDATION"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC02"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "both_consumers_preserved"
+            },
+            {
+              "control": "C29",
+              "case": "criterion_scope_changes_appraisal"
+            }
+          ],
+          "shared_object": "The unqualified demand for complete requirements before any architectural development or evidence-producing inquiry.",
+          "guard": "A bounded architectural inquiry can resolve a consequential current uncertainty while some other requirements remain unresolved, and P035's universal completeness rule would forbid that inquiry merely because the entire requirement set is not complete.",
+          "source_contribution": "EA09 distinguishes the specific quality scenarios and stable constraints needed for the present choice from unspecified future needs. A focused representation argument or isolated probe can already constrain architecture without pretending all requirements are known.",
+          "receiving_consequence": "The universal completeness precondition is invalidated in that context. P035 remains rejected as an unqualified rule, while actual fixed obligations and enough intent for safe meaningful exploration remain necessary.",
+          "remaining_premises": "The inquiry must be bounded, interpretable and appropriate to the consequence, with known constraints respected. Its answer may leave substantial quality, need, operational and authority questions open.",
+          "positive_witness": "C29 compares exact quantity and original-recovery consumers. AC02 stipulates that this bounded architectural question is meaningful now while unrelated future requirements are still open; a universal ban on inquiry withholds useful evidence without establishing completeness.",
+          "nontrigger_or_counterexample": "A stable binding interface or safety constraint may properly be specified before implementation. Vague coding without a meaningful question, safe scope or known constraints is not licensed by incompleteness.",
+          "cheap_alternative_and_removal": "Use a short source argument, existing evidence or a small reversible experiment; capture stable constraints and unresolved questions explicitly. Removing the all-requirements prerequisite preserves those actual inputs instead of requiring an exhaustive speculative specification.",
+          "reentry": "A requirement becomes consequential for the pending commitment, the inquiry crosses a safety or authority boundary, or the supposedly unrelated unknown changes the architecture question.",
+          "cost": "Both speculative specification and underinformed commitment can be costly. Proportional inquiry is an option, not a measured universal cost advantage.",
+          "finite_control_scope": "C29's criteria were fixed in its construction; it did not discover requirements over time. The incomplete-other-requirements setting and ordering contrast are expressly reasoned AC02, not observed learning."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "191d555a-de6f-4cbf-b622-3a1a05e52c62",
+            "kind": "markdown",
+            "markdown": "## D05 Architecture defeats universal completeness before inquiry",
+            "hash": "5f8fddc86a0240f6d082e2b3af9bfd5a62ef86032390290035ff3718cfdb82ea",
+            "metadata": {}
+          },
+          {
+            "id": "c910c895-e89a-4c42-9da8-d1b67bfb4954",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D05, LAW-L2::EA-09 → LAW-L3::EW-P035. **Author disposition:** support MATERIAL as INVALIDATION of the unqualified completeness demand.",
+            "hash": "90cd0e260a43f52e5dd3b9d2e16af3ae7ae35bfce3f2141628142aa43bfab0b3",
+            "metadata": {}
+          },
+          {
+            "id": "179dccec-5d13-4e91-b6f5-5a6715028694",
+            "kind": "markdown",
+            "markdown": "A bounded architectural question can be meaningful while unrelated future needs remain unresolved. EA-09 distinguishes the quality scenarios and stable constraints needed for the present choice from an exhaustive declaration of every requirement. When current source analysis, existing evidence or a safely isolated probe can resolve the consequential question, requiring every requirement to be complete before any inquiry withholds useful evidence without creating completeness.",
+            "hash": "720609daf4cb61e07e8154f9359a870af005096d8c99b7c9af8ca64073eab2d0",
+            "metadata": {}
+          },
+          {
+            "id": "5b0c1c0e-c83c-4b51-9e7b-ca92938eea5e",
+            "kind": "markdown",
+            "markdown": "AC02 makes the unresolved-other-requirements premise explicit. C29’s fixed quantity and original-recovery criteria illustrate an interpretable bounded question; they did not discover requirements over time. The argument is therefore a reasoned countercase to a universal ordering rule, not an observed learning result.",
+            "hash": "baf05ee36003ee03a1d4fcde221e3b7c7ff4790d978b63f372aa1f65c891e1e1",
+            "metadata": {}
+          },
+          {
+            "id": "6c3a1eb5-72dd-4808-9676-46767ca1f254",
+            "kind": "markdown",
+            "markdown": "P035 remains rejected only as an unqualified general precondition. Stable binding interfaces, safety constraints and enough intent to make exploration safe remain necessary where applicable. Vague coding without an answerable question or safe boundary does not satisfy the guard. A short source argument, existing result or small reversible inquiry may be adequate. Removing the all-requirements prerequisite preserves those real constraints and explicitly unresolved needs. Reopen when an allegedly unrelated unknown becomes consequential or the inquiry crosses an authority or safety boundary. Neither speculative completeness nor underinformed commitment is shown universally economical.",
+            "hash": "142b546eab905a820439424a86e0b64fd7bd019c394fd7c331bfefdc7b733a99",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D06",
+        "original_argument_id": "B33-I022-D06",
+        "direction_key": "LAW-L3::EW-P035->LAW-L2::EA-09",
+        "original_argument": {
+          "id": "B33-I022-D06",
+          "source": "LAW-L3::EW-P035",
+          "receiver": "LAW-L2::EA-09",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "CONFLICT_AT_SHARED_GUARD"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC02"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "complete_source_analysis_alternative"
+            },
+            {
+              "control": "C29",
+              "case": "no_change_boundary"
+            }
+          ],
+          "shared_object": "An actual completeness gate that withholds a warranted bounded architectural inquiry.",
+          "guard": "A real rule requires a declared complete requirement set before the specific source analysis, prototype or architectural evidence activity may occur, although the activity is warranted, safe within its scope and feasible under current known constraints.",
+          "source_contribution": "The completeness demand blocks or distorts the present evidence path, potentially requiring fictitious certainty about other needs before the architect can resolve the current structural question.",
+          "receiving_consequence": "EA09 loses the timely proportional inquiry through that path. The reverse relation concerns the actual obstruction; it does not follow merely from having a substantial requirements document.",
+          "remaining_premises": "The rule must really cover and impede the proposed activity. If it governs only deployment while allowing the inquiry, this argument does not show a conflict. Legitimate constraint discovery and binding approval remain separate duties.",
+          "positive_witness": "C29 has a complete finite source argument for its representation collision and an adequate unchanged path. In AC02, the actual all-requirements gate nevertheless withholds considering or using those bounded architectural options before every future need is declared complete.",
+          "nontrigger_or_counterexample": "A rule allowing the analysis or isolated probe has no current conflict. Enough stable specification before a costly irreversible commitment may be justified even though a universal completeness rule is rejected.",
+          "cheap_alternative_and_removal": "Separate permission for a bounded inquiry from permission for the final irreversible action; retain known constraints and open unknowns. An authorized direct analysis or incumbent path may be enough without a new platform or large prototype.",
+          "reentry": "The gate's actual scope, a newly binding constraint, available authorization or a different inquiry path can remove or create the obstruction.",
+          "cost": "No queue duration, discovery rate or project cost is observed. The remedy should avoid both wasted specification and careless commitment.",
+          "finite_control_scope": "C29 supplies the existing bounded technical alternatives only. The actual completeness gate and hypothetical withheld inquiry are typed AC02 premises, not a recorded organizational event."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "be6160e0-d298-4c73-88ac-eb04fea290d1",
+            "kind": "markdown",
+            "markdown": "## D06 An actual completeness gate can withhold warranted inquiry",
+            "hash": "4f3aadfbc4fae62957056f93c17b2270e9dc99d1c7587f3b6b2dc9099850e1de",
+            "metadata": {}
+          },
+          {
+            "id": "d6e219ab-bac7-4605-9289-c31b94d3cf36",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D06, LAW-L3::EW-P035 → LAW-L2::EA-09. **Author disposition:** support MATERIAL as CONFLICT_AT_SHARED_GUARD.",
+            "hash": "7b2f0c2f80dfe21d5bf063354e0079e54b2a0c66893e9a56069c91e41315e0fd",
+            "metadata": {}
+          },
+          {
+            "id": "7cb94ed5-dbda-47f9-b2d1-3e140fe3adce",
+            "kind": "markdown",
+            "markdown": "The reverse concerns what an operative completeness demand does to the architecture task. It must really cover and impede the specific source analysis, prototype or evidence activity, although that activity is warranted, feasible and safe within known constraints. The rule then blocks or distorts the present evidence path, potentially demanding fictitious certainty about other needs before the current structural question can be resolved.",
+            "hash": "8ee4594f2a19f64e8738e1dec843e3836b8a3c931a6d8c42c502d3c6a2df1c25",
+            "metadata": {}
+          },
+          {
+            "id": "1e1d30b9-186f-4ae1-af67-04355140147b",
+            "kind": "markdown",
+            "markdown": "A substantial requirements document alone creates no conflict. A rule controlling deployment while permitting analysis or isolated investigation is a counterexample. Enough specification before an irreversible commitment can also be justified. The distinction between permission to inquire and permission for the final action is essential.",
+            "hash": "3b9cbd4c334c2559febe4c8c1f427812a4ccbce8464024c0984db9048342bcea",
+            "metadata": {}
+          },
+          {
+            "id": "2fd99050-c25e-4d42-9e85-b949e8c7f414",
+            "kind": "markdown",
+            "markdown": "C29’s complete-source-analysis and adequate no-change paths show bounded technical alternatives; AC02 supplies the actual gate and withheld inquiry. An authorized direct analysis or incumbent path can preserve the function without a new platform. Removing the universal prerequisite must retain binding approval, relevant constraint discovery and the unresolved questions. Gate scope, a newly binding constraint, available authorization or a different adequate inquiry path can change the conclusion. No queue duration, discovery rate or project-cost effect was observed.",
+            "hash": "2619c6a516c738a90c362a42b52995cb78157217bbc1fcc3f0271f111fda4e11",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D07",
+        "original_argument_id": "B33-I022-D07",
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P036",
+        "original_argument": {
+          "id": "B33-I022-D07",
+          "source": "LAW-L2::EA-09",
+          "receiver": "LAW-L3::EW-P036",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INVALIDATION"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC03"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "predecessor_evidence_wrong_subject"
+            },
+            {
+              "control": "C29",
+              "case": "criterion_scope_changes_appraisal"
+            },
+            {
+              "control": "C29",
+              "case": "noninjective_payload"
+            }
+          ],
+          "shared_object": "The claim that document completion or a fixed meeting establishes readiness for an architectural commitment.",
+          "guard": "Readiness for a consequential architectural choice is inferred from the ceremony or completed package while a necessary current quality question is unresolved, contradicted or not covered by the cited evidence.",
+          "source_contribution": "EA09 identifies the actual structural consequence, current subject and relevant quality criterion. Those can remain unsatisfied despite a passing narrower query or predecessor result cited in a completed package.",
+          "receiving_consequence": "The form-as-readiness inference is invalidated. P036 retains CEREMONY_NOT_GENERAL_PROPERTY; evidence, meaningful challenge and real authority must do the work instead of document or meeting status.",
+          "remaining_premises": "The architectural criterion must be relevant and the evidence correspondence accurate. A technical finding alone does not prove the whole risk picture or authorize a decision.",
+          "positive_witness": "C29 records quantity success while canonical payloads cannot recover originals, and distinguishes predecessor evidence from the changed subject. AC03 stipulates a completed package that substitutes one of those narrower successes for the real commitment question.",
+          "nontrigger_or_counterexample": "A document or meeting carrying current discriminating evidence and legitimate authority may be useful or required. Its existence is not refuted; only the claim that the form alone establishes readiness is contradicted.",
+          "cheap_alternative_and_removal": "A concise current argument, asynchronous challenge and the actual authorized decision may suffice. Remove the ceremony-as-proof inference while preserving mandated deliverables and substantive decision duties.",
+          "reentry": "Changed scope, unresolved defeaters, evidence identity, commitment consequence or actual review authority requires reconsidering readiness.",
+          "cost": "Review preparation, duplication, waiting and stale evidence are burdens, but synchronous challenge can also have value. No measured meeting-cost saving or blanket abolition follows.",
+          "finite_control_scope": "C29 demonstrates scope and subject mismatch. AC03 supplies a possible completed-package/meeting context; no signature, review or governance outcome was executed."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "cc5d34ec-f56f-4ec4-a5c6-9dc76cb8276d",
+            "kind": "markdown",
+            "markdown": "## D07 Architectural evidence defeats ceremony as readiness proof",
+            "hash": "d01ffd522c4820b7d3594d05c745d884aaeaa12465dbdc4a26453325919e5d95",
+            "metadata": {}
+          },
+          {
+            "id": "73e674c7-c7fe-4cad-8feb-c69c96198eef",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D07, LAW-L2::EA-09 → LAW-L3::EW-P036. **Author disposition:** support MATERIAL as INVALIDATION of the form-as-readiness inference.",
+            "hash": "6676f5a72bf39c1cd4ecc6240d698f1345190e1fae4b07e472b87bedb5105d30",
+            "metadata": {}
+          },
+          {
+            "id": "390b4617-159d-4868-a7f8-49049ef86694",
+            "kind": "markdown",
+            "markdown": "The guard is a consequential architectural commitment whose readiness is inferred from document completion or meeting status while a necessary current quality question is unresolved, contradicted or outside the cited evidence. EA-09 identifies the actual structural consequence, subject and criterion. C29 demonstrates that quantity success does not establish original-record recovery and that a predecessor configuration’s passing evidence cannot be silently assigned to a changed configuration. A completed package does not repair either mismatch.",
+            "hash": "baa1d6e4c436b5c688191b20fd41e7cc3e2054cebda80382a28f6ec5688eb8b8",
+            "metadata": {}
+          },
+          {
+            "id": "ca656093-c414-4486-a85b-6aa41804a12f",
+            "kind": "markdown",
+            "markdown": "The receiving native P036 remains CEREMONY_NOT_GENERAL_PROPERTY. The inference being rejected is that the form alone establishes readiness. A document or synchronous review carrying current discriminating evidence, meaningful challenge and legitimate authority may be useful or required. Its existence is not contradicted.",
+            "hash": "49d457de7ed36dd614048d99582b4d5b5cd1a786e65a0be0db0d8695cde9fa09",
+            "metadata": {}
+          },
+          {
+            "id": "8fb3af72-1c9c-4e48-b91a-9a1d4a040f9b",
+            "kind": "markdown",
+            "markdown": "AC03 supplies the possible completed-package context; C29 supplies the technical scope and subject distinctions. A concise current argument, asynchronous challenge and the actual authorized decision can be sufficient when the applicable duties allow them. Removing ceremony-as-proof must preserve mandated deliverables and substantive decision functions. Reopen on changed scope, evidence identity, unresolved defeater, consequence or review authority. Review preparation and waiting have costs, but this record proves no meeting-cost saving or justification for blanket abolition.",
+            "hash": "1134e203a74701010770532eea48ea5f175dd27b7c840d72cd88254fe3353f3a",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D08",
+        "original_argument_id": "B33-I022-D08",
+        "direction_key": "LAW-L3::EW-P036->LAW-L2::EA-09",
+        "original_argument": {
+          "id": "B33-I022-D08",
+          "source": "LAW-L3::EW-P036",
+          "receiver": "LAW-L2::EA-09",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "CONFLICT_AT_SHARED_GUARD"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC03"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "criterion_scope_changes_appraisal"
+            },
+            {
+              "control": "C29",
+              "case": "predecessor_evidence_wrong_subject"
+            }
+          ],
+          "shared_object": "The operative substitution of document or meeting status for the architecture's substantive readiness question.",
+          "guard": "An actual commitment process treats the fixed ceremony or document completion as sufficient and thereby suppresses a relevant unresolved architectural issue, blocks its examination or drives an unsupported commitment.",
+          "source_contribution": "The process uses an administratively satisfied proxy where current design evidence and authority are needed, preventing the consequential quality distinction from changing the decision.",
+          "receiving_consequence": "EA09's proportional architecture reasoning is defeated at that shared decision until the missing question can influence the commitment. The conflict is narrower than opposition to review or documentation.",
+          "remaining_premises": "The proxy must really substitute for the criterion and affect the decision. A completed meeting with an open issue, meaningful stop authority and continuing evidence evaluation need not obstruct architecture.",
+          "positive_witness": "In AC03, an approved package cites C29-like predecessor or quantity-only success and closes the architectural question even though current original recovery remains unresolved or failed. The old technical distinction supplies the missing question, not the meeting event.",
+          "nontrigger_or_counterexample": "A synchronous review can provide valuable cross-disciplinary challenge; a mandated deliverable may remain necessary. When current evidence and actual authority govern, the ceremony itself supplies no conflict.",
+          "cheap_alternative_and_removal": "Allow the current issue and explicit evidence limits to govern an authorized decision through a proportionate review. Removing a proxy's sufficiency claim restores that possibility without deleting necessary documentation.",
+          "reentry": "Whether the issue can stop or change the decision, and whether cited evidence is current and relevant, determines the actual conflict.",
+          "cost": "The problem can be false assurance as well as latency. No real decision failure, organizational savings or operational consequence is measured.",
+          "finite_control_scope": "Two old C29 views support only the evidence distinction; the proxy's operative effect is a declared AC03 context, not a control result."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "09d035fa-43c0-495f-b765-15747863f7b6",
+            "kind": "markdown",
+            "markdown": "## D08 Operative ceremony substitution can defeat architectural reasoning",
+            "hash": "81d87888ab58977bc6194803c56afd18664314e776be0cbe6a6a2031549c053e",
+            "metadata": {}
+          },
+          {
+            "id": "713748e7-ff7e-4025-9e4e-665db52a9e04",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D08, LAW-L3::EW-P036 → LAW-L2::EA-09. **Author disposition:** support MATERIAL as CONFLICT_AT_SHARED_GUARD.",
+            "hash": "48a57ff874b9c7d11223fe99e8e62b53cb38d6c7e4c8ec280022290bd07cc47a",
+            "metadata": {}
+          },
+          {
+            "id": "aee205c8-a030-4308-b294-38cf592ceeb8",
+            "kind": "markdown",
+            "markdown": "The reverse requires the completed package or fixed meeting to substitute for the architectural criterion and affect the real commitment. It may suppress an unresolved issue, block its examination or drive an unsupported decision. Under AC03, citing quantity-only or predecessor evidence closes a current original-recovery question that the evidence does not answer. The proxy prevents the relevant quality distinction from changing the decision.",
+            "hash": "3758edd20378b3d2c2349b1b78fead65dd9e682384cbde1fa222800ab4051907",
+            "metadata": {}
+          },
+          {
+            "id": "5121b525-97c3-42ff-acf3-4099fa94c253",
+            "kind": "markdown",
+            "markdown": "This is narrower than opposition to review or documentation. A completed meeting with an open issue, real stop authority and continuing evaluation need not obstruct architecture. A mandated deliverable can remain necessary. Technical failure does not itself create or revoke decision authority.",
+            "hash": "591a97bad4160740c56d2f22cc0eb25ff9de764b7912a63e127f59e612895e88",
+            "metadata": {}
+          },
+          {
+            "id": "5aaa5a9c-f479-4658-bbce-da1a1672b255",
+            "kind": "markdown",
+            "markdown": "The appropriate removal is of the proxy’s supposed sufficiency, allowing the current issue and explicit limits to govern a proportionate authorized decision. It is not removal of all documentation or cross-disciplinary challenge. The recorded C29 views support the missing evidence distinction only; the administrative substitution and its effect are reasoned AC03 premises. Reopen according to whether the issue can actually stop or change the decision and whether the evidence is current. No real board, signature, deployment or organizational failure was executed.",
+            "hash": "8ab143bfe63df753a4c51c8349c4bdddf5023a643e2d35c11d0c7f436a3c08ec",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D09",
+        "original_argument_id": "B33-I022-D09",
+        "direction_key": "LAW-L2::EA-09->LAW-L3::EW-P037",
+        "original_argument": {
+          "id": "B33-I022-D09",
+          "source": "LAW-L2::EA-09",
+          "receiver": "LAW-L3::EW-P037",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "INVALIDATION"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC04"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "complete_source_analysis_alternative"
+            },
+            {
+              "control": "C29",
+              "case": "no_change_boundary"
+            },
+            {
+              "control": "C29",
+              "case": "adequate_current_evidence"
+            }
+          ],
+          "shared_object": "The universal demand for exhaustive manual links and centralized approval regardless of architecture consequence.",
+          "guard": "An actual architecture question and legitimate control need are adequately served by maintained direct relationships, relevant current evidence and an appropriate authorization path, while the universal rule still demands exhaustive manual traces and central approval as independently necessary.",
+          "source_contribution": "EA09 supplies the actual impact boundary, reversibility and quality question against which additional forms can be judged. A bounded sufficient argument or adequate current design does not require every possible relationship or one universal approval location.",
+          "receiving_consequence": "The independent universal necessity of the manual/central forms is invalidated. P037 retains CEREMONY_NOT_GENERAL_PROPERTY; selective traceability and appropriate authorization remain protected functions.",
+          "remaining_premises": "The chosen links and evidence must actually answer the relevant question, and the alternative authority must really be valid. High consequence, hidden dependencies or binding schemes can justify denser evidence or central approval.",
+          "positive_witness": "C29 contains a complete finite source argument, an adequate current representation and a valid no-change boundary for its declared consumers. AC04 separately stipulates maintained relationships and valid local rights, forming a conditional countercase to universal exhaustive/central necessity.",
+          "nontrigger_or_counterexample": "A passing computation does not establish delegated rights or satisfy a particular certification trace schema. A targeted manual matrix or required central authorization may be proportionate and remains admissible.",
+          "cheap_alternative_and_removal": "Keep the specific current references, source argument, version identity and valid authorization. Remove unnecessary universal manual/central formality while retaining the protected impact and control functions.",
+          "reentry": "A wider impact boundary, new binding trace requirement, lost delegated right or changed irreversibility may warrant additional controls.",
+          "cost": "Maintenance, approval latency, administration and missed-impact risk all matter. C29 proves no empirical trace-upkeep burden or universal preference for automation.",
+          "finite_control_scope": "C29 supplies technical adequate paths. AC04 supplies the explicitly reasoned authorization and relationship conditions; no actual trace graph, delegation or board is observed."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "39505481-7d8b-4242-82cf-17cb45e0718f",
+            "kind": "markdown",
+            "markdown": "## D09 Proportionate architecture defeats universal manual and central formality",
+            "hash": "cbf58b83e97776c38ba49f52110afa8dab9333ec54fe1c02bf79bab9239ca9a3",
+            "metadata": {}
+          },
+          {
+            "id": "506ac83a-349a-4139-9420-dc007677e9fd",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D09, LAW-L2::EA-09 → LAW-L3::EW-P037. **Author disposition:** support MATERIAL as INVALIDATION of independent universal necessity of the exhaustive manual and central forms.",
+            "hash": "68eefdcfffc3005eb5955e6f5103cf37f13c2bda8d8c00d76235aecc8055d942",
+            "metadata": {}
+          },
+          {
+            "id": "df57b4d7-78d3-441e-be3b-a6cc5470fa0e",
+            "kind": "markdown",
+            "markdown": "The countercase requires an architectural question and legitimate control need already adequately served by maintained direct relationships, relevant current evidence and an actually valid authorization path. EA-09 supplies the real impact boundary, reversibility and quality question. Under AC04, those functions can be satisfied without every possible manual relationship or one universal approval location. This defeats the unqualified artifact prescription while preserving selective traceability and appropriate authority.",
+            "hash": "3789e59a5e0ea620d77102b0ff0eb58620eb7d7b306d98421b3ca07673ae63a8",
+            "metadata": {}
+          },
+          {
+            "id": "d63ce0f6-2ef0-4872-a27a-9d9a39e06fc8",
+            "kind": "markdown",
+            "markdown": "The adequate alternative is a substantive premise. Hidden dependencies, high consequence, a binding dense-trace scheme or a required central decision can justify richer control. A passing computation does not establish delegated rights, and a targeted manual matrix can be proportionate. P037’s native CEREMONY_NOT_GENERAL_PROPERTY status remains unchanged.",
+            "hash": "388fd191653cfc8e8c12debd6af0a36208827364856c0557292a9a3c95050a63",
+            "metadata": {}
+          },
+          {
+            "id": "ede7fc7b-1fe5-41b3-84d8-6bf8202b2bbc",
+            "kind": "markdown",
+            "markdown": "C29 supplies a complete bounded source argument, adequate current representation and no-change path. AC04 separately supplies maintained relationships and valid local rights. Retain the particular references, version identity, argument and authorization while removing only unnecessary universal formality. Reopen on a broader impact boundary, new binding trace requirement, lost delegated right or altered irreversibility. Maintenance, delay, administration and missed-impact risk matter; no empirical upkeep burden or universal automation advantage is estimated.",
+            "hash": "cd086ec48116d99aadbf434c2361a595f5e4472101b914853ff42c82d21dc303",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      },
+      {
+        "id": "A002-ADOPT-B33-I022-D10",
+        "original_argument_id": "B33-I022-D10",
+        "direction_key": "LAW-L3::EW-P037->LAW-L2::EA-09",
+        "original_argument": {
+          "id": "B33-I022-D10",
+          "source": "LAW-L3::EW-P037",
+          "receiver": "LAW-L2::EA-09",
+          "disposition": "MATERIAL",
+          "relation_types": [
+            "CONFLICT_AT_SHARED_GUARD"
+          ],
+          "source_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "CEREMONY_VS_PROPERTY",
+            "REQUALIFICATION.claim_bearer",
+            "REQUALIFICATION.qualitative_criterion",
+            "REQUALIFICATION.cheaper_or_boundary_alternative",
+            "REQUALIFICATION.total_cost_and_tradeoff",
+            "CURRENT_STATUS",
+            "ORIGINAL_FORM",
+            "REQUALIFICATION.quantifier"
+          ],
+          "receiver_fields": [
+            "MECHANISM",
+            "TRIGGER_OR_CONTEXT",
+            "NON_TRIGGER_OR_CHEAP_PATH",
+            "DEPENDENCIES_OR_PRECONDITIONS",
+            "KNOWN_FAILURE_MODES",
+            "IMPORTANT_CRITICISMS",
+            "MATURE_OR_EVOLVED_FORM",
+            "selected.proposition",
+            "selected.bearer",
+            "selected.simpler_path_and_cost"
+          ],
+          "argument_factors": [
+            "B33-I022-F01",
+            "B33-I022-F02",
+            "B33-I022-F03"
+          ],
+          "analytical_case_ids": [
+            "B33-I022-AC04"
+          ],
+          "controls": [
+            {
+              "control": "C29",
+              "case": "adequate_current_evidence"
+            },
+            {
+              "control": "C29",
+              "case": "current_quantity_equal_origin_different"
+            }
+          ],
+          "shared_object": "An enforced exhaustive-manual/central-control demand that obstructs an adequately supported architectural task.",
+          "guard": "The actual universal form demands additional manual links or central approval that blocks or diverts a specific warranted architectural inquiry or decision, although a maintained, relevant and legitimately authorized adequate path exists.",
+          "source_contribution": "The uniform form ignores the actual consequence and question, imposing a non-discriminating control on work whose relevant input and authority are already adequately supplied.",
+          "receiving_consequence": "EA09's proportional effort or timely decision is constrained by that actual obstruction. The relation does not arise simply because architecture and traceability coexist.",
+          "remaining_premises": "The obstruction and adequate alternative must be established in context. Existing narrow success does not show that every original-data, safety, legal or external interface obligation is satisfied.",
+          "positive_witness": "C29 distinguishes quantity-only from original-recovery needs and records an adequate current representation for both. AC04 places an actually unnecessary uniform form in front of the warranted bounded decision; the policy effect is reasoned, not measured.",
+          "nontrigger_or_counterexample": "When missing relationships, cross-boundary authority or binding rules require the extra control, this conflict is not established. A central board or manual matrix that supplies a needed function can be justified.",
+          "cheap_alternative_and_removal": "Use the maintained relevant references and the valid existing approval route, with risk-triggered escalation when needed. Remove only the unwarranted uniform restriction; retain real authority, scope and evidence obligations.",
+          "reentry": "Actual control requirements, impact scope, rights or evidence sufficiency change whether the alleged extra demand is unnecessary.",
+          "cost": "A burdensome form may delay useful work, but the magnitude and net benefit are unmeasured. Removing necessary coordination can transfer cost and risk elsewhere.",
+          "finite_control_scope": "Two old technical views establish differing consumer scopes and an adequate bounded path. C29 contains no approval queue, manual trace work or real organizational delay."
+        },
+        "A001_assessment_blocks": [
+          {
+            "id": "594f4bca-9088-44b6-8524-4b76586bc67f",
+            "kind": "markdown",
+            "markdown": "## D10 Enforced unnecessary formality can obstruct a warranted architectural task",
+            "hash": "5d2896934d06f6fc976544cb6cf7692b3c1ebc439701dfba0a0ce41dd96e35fa",
+            "metadata": {}
+          },
+          {
+            "id": "4a25a0bd-a444-4419-8264-c608d6157b88",
+            "kind": "markdown",
+            "markdown": "**Saved direction:** B33-I022-D10, LAW-L3::EW-P037 → LAW-L2::EA-09. **Author disposition:** support MATERIAL as CONFLICT_AT_SHARED_GUARD.",
+            "hash": "9fe526ddffc7a16b8856f700b22c9a58b4179d5c3a18a0e01d3002958caecfbc",
+            "metadata": {}
+          },
+          {
+            "id": "ff83e094-0c30-47c0-bdf6-7e27b069d18d",
+            "kind": "markdown",
+            "markdown": "This reverse requires an actual obstruction or diversion of a specific warranted inquiry or decision. An exhaustive-manual or central-approval demand must impose non-discriminating additional control although a maintained, relevant and legitimately authorized adequate path exists. Its causal effect on proportional effort or the timely decision is distinct from D09’s counterexample to universal necessity.",
+            "hash": "739608160f3dbee1a143c930f0b20bd5880dbbb11afd30d97d6bc4a7eefcff4b",
+            "metadata": {}
+          },
+          {
+            "id": "29900bd9-39cc-426a-a010-1ca3410d8a48",
+            "kind": "markdown",
+            "markdown": "Coexistence of architecture and traceability does not establish conflict. Missing relationships, cross-boundary authority, binding rules or high consequences can make the extra control necessary. Existing narrow technical success does not satisfy every original-data, safety, external-interface or governing obligation.",
+            "hash": "47d4123debb579f449ecf35a8241faf66e7ce8c257d5c330b62d707366d8b758",
+            "metadata": {}
+          },
+          {
+            "id": "0e54d6d1-363e-4c91-9ade-d9300cd64bf3",
+            "kind": "markdown",
+            "markdown": "C29 distinguishes quantity-only and original-recovery needs and records an adequate representation for both declared consumers. AC04 stipulates the unnecessary operative restriction; no approval queue or manual trace labor was observed. Use maintained relevant references and a valid existing route, with escalation when needed. Remove only the unwarranted uniform restriction while retaining genuine authority, scope and evidence duties. Changes in impact, rights, applicable control requirements or evidence sufficiency can remove or create the conflict. The amount of delay and net benefit remain unmeasured.",
+            "hash": "2baaf4159ad072b9a70ba590e14c1a14a883cfab13c52943cd2658d78b772735",
+            "metadata": {}
+          }
+        ],
+        "A002_disposition": "ADOPT_WARRANTED_GUARDED_MATERIAL",
+        "change_scope": "Previously unexamined row only; native statuses and all prior judgments exact"
+      }
+    ],
+    "evidence_ceiling": "Adopts A001 completed source-grounded guarded scientific judgments. No new experiment or independent review. C29 remains one old finite construction; contextual supplier and rule-enforcement premises remain explicitly reasoned, not observed."
+  }
+}

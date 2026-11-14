@@ -1,5 +1,8 @@
 # SSS-S — family composition and accepted-synthesis boundary
 
+> **Current scientific reading route — 13 November 2026:** the substantial [SSS-S account](current/SSS-S.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 SSS-S is a separate fourth-stage synthesis of the three constituent lineages. It reuses their 235 identities; it is not a fourth lineage or a second 235-property population. The accepted current subject is `r16_s004`, with exact subject, qualification and dual-review bindings in the [programme metadata](../../PROGRAMME.json). The detailed current derived account is prepared privately and awaits source-specific disclosure. This public document explains the already-public composition and target examples at their actual scopes. [Family](README.md) · [Genealogy](GENEALOGY.md) · [Completeness](COMPLETENESS.md).
 
 ## Three kinds of judgment in one change

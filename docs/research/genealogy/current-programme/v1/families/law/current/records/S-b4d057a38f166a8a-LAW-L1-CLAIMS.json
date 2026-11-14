@@ -1,0 +1,710 @@
+{
+  "source_identity": {
+    "source_id": "S-b4d057a38f166a8a",
+    "scientific_name": "LAW-L1-CLAIMS.json",
+    "original_bytes": 42558,
+    "original_sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "lean-claims-adapter/1",
+    "status": "AUTHOR_CANDIDATE_REVIEW_PENDING",
+    "mapping_contract": {
+      "native_fields_preserved": "All 40 complete native property records in LEAN_REQUALIFIED_LEDGER.json; exact field changes listed separately",
+      "proposition": "MATURE_OR_EVOLVED_FORM interpreted with TRIGGER_OR_CONTEXT, DEPENDENCIES_OR_PRECONDITIONS and REQUALIFICATION ceiling",
+      "problem": "PROBLEM_IT_ADDRESSED and FAILURE_MODE_IT_TRIES_TO_PREVENT",
+      "mechanism": "MECHANISM",
+      "authority": "IMPROVEMENT_AUTHORITY plus the selected scoped authority model",
+      "cost": "REQUALIFICATION.incremental_control_cost",
+      "criticism": "IMPORTANT_CRITICISMS and KNOWN_FAILURE_MODES, linked criticism ledger",
+      "cheap_path": "NON_TRIGGER_OR_CHEAP_PATH",
+      "residual": "OPEN_QUESTIONS and current evidence warrant",
+      "loss_warning": "No historical executable predicate, numeric confidence or independent-study count inferred from qualitative native fields"
+    },
+    "claims": [
+      {
+        "property_id": "EL-001",
+        "bearer": "A decision about an output or intervention and its affected beneficiaries",
+        "scientific_origin": "Normative/analytical outcome framing informed by Lean value doctrine",
+        "current_evidence_warrant": "S010/S011 and R008 establish doctrine; heterogeneous domain findings do not prove that a value-statement format causes benefit. S060 is narrowed by R005.",
+        "incremental_control_cost": "Time to identify affected parties and observe outcomes; expensive measurement can exceed trivial work's value.",
+        "qualitative_evaluation_criterion": "State whose outcome is sought and which constraints cannot be traded away; leave effects unknown when only throughput is measured.",
+        "case_ids": [
+          "C05",
+          "C11"
+        ],
+        "additional_current_sources": [
+          "R008",
+          "R005",
+          "R006"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-002",
+        "bearer": "A bounded work path from demand to beneficiary outcome",
+        "scientific_origin": "Historical flow concepts plus analytical end-to-end extension",
+        "current_evidence_warrant": "S003/S005 describe replenishment and flow; a map is a representation, not proof of lower total delay. Current software telemetry is a domain analogy.",
+        "incremental_control_cost": "Observation and maintaining boundary definitions; possible surveillance and stale models.",
+        "qualitative_evaluation_criterion": "Include waiting before entry, rework and downstream delay when comparing local cycle times.",
+        "case_ids": [
+          "C01"
+        ],
+        "additional_current_sources": [
+          "R008"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-003",
+        "bearer": "A work-state representation and an intended human responder",
+        "scientific_origin": "Historical visual control with contemporary representation analogy",
+        "current_evidence_warrant": "S005 supports andon history. S066's small review cannot prove all labeling, boards or telemetry effective.",
+        "incremental_control_cost": "Updating displays and responder attention, privacy and access burden.",
+        "qualitative_evaluation_criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+        "case_ids": [
+          "C06",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-004",
+        "bearer": "A release/admission rule over a defined class of work items",
+        "scientific_origin": "Historical kanban; Hopp/Spearman tactical pull interpretation; software translation",
+        "current_evidence_warrant": "S006 includes stock, planning and conditional kanban quantities. S032 defines explicit WIP control; S056's correlations do not identify an optimal software limit.",
+        "incremental_control_cost": "Admission delay, starvation risk and exception handling.",
+        "qualitative_evaluation_criterion": "A limit genuinely bounds the declared in-process population; total waiting and service risk remain separate outcomes.",
+        "case_ids": [
+          "C01",
+          "C02",
+          "C13",
+          "C14"
+        ],
+        "additional_current_sources": [
+          "R007"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING",
+        "precondition_scope": "Release/WIP control governs active commitments. A reduction in one admitted or deployed population need not improve total waiting, value or safety; a coherent broader configuration is not necessary for every narrowly defined partial effect."
+      },
+      {
+        "property_id": "EL-005",
+        "bearer": "A batch and its setup, processing, validation and feedback economics",
+        "scientific_origin": "Manufacturing mechanism with explicit analytical transfer",
+        "current_evidence_warrant": "S006/S032 support setup-capacity trade-offs; numerical examples test economics, not universal human-work performance. S057 is not freshly read.",
+        "incremental_control_cost": "Repeated setup and validation versus delay, inventory and failure exposure.",
+        "qualitative_evaluation_criterion": "Compare total cost and feedback time at a coherent work unit; a smaller batch need not be cheaper.",
+        "case_ids": [
+          "C03",
+          "C13",
+          "C14"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING",
+        "precondition_scope": "Validation and recovery support qualified or reversible delivery claims. They are not necessary for every partial reduction in the affected population when an enforced smaller deployment is isolated; batch cost, lost benefit and overall risk remain separate."
+      },
+      {
+        "property_id": "EL-006",
+        "bearer": "A transition between work types or released versions",
+        "scientific_origin": "Historical setup reduction; analogy to software-native automation",
+        "current_evidence_warrant": "Toyota chronology and S032 support setup logic. Modern pipelines are not proved to descend directly from die-change methods.",
+        "incremental_control_cost": "Automation, preparation, maintenance and recovery effort.",
+        "qualitative_evaluation_criterion": "Reduce total safe transition cost; include work shifted to preparation or other teams.",
+        "case_ids": [
+          "C03",
+          "C05"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-007",
+        "bearer": "A capacity plan for a measurable demand class",
+        "scientific_origin": "TPS pacing and later contingent HMLV adaptation",
+        "current_evidence_warrant": "Corrected S063 supplies a particular procedure; S064 reports theoretical gaps. No fixed takt is inferred for novel discovery tasks.",
+        "incremental_control_cost": "Forecasting, schedule changes and buffers against remaining variation.",
+        "qualitative_evaluation_criterion": "Apply a stable cadence only to the predictable component and review its workload consequences.",
+        "case_ids": [
+          "C02"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-008",
+        "bearer": "A system's portfolio of physical buffers and resilience-enabling options",
+        "scientific_origin": "Operations-science model plus analytical and supply-chain interpretation",
+        "current_evidence_warrant": "S032 distinguishes inventory, capacity and time. Information and alternate designs may improve decisions or future capacity; they are not interchangeable physical stock. R002/R009 are corporate description/proposal.",
+        "incremental_control_cost": "Carrying cost, spare capacity, time delay, information upkeep and dormant alternatives.",
+        "qualitative_evaluation_criterion": "Name the variability and consequence absorbed by each reserve; reject any claimed substitution that lacks a feasible material/recovery path.",
+        "case_ids": [
+          "C02",
+          "C05"
+        ],
+        "additional_current_sources": [
+          "R002",
+          "R009"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-009",
+        "bearer": "A loading policy for a service or production system",
+        "scientific_origin": "Queueing/flow reasoning, not a universal anti-utilization rule",
+        "current_evidence_warrant": "S032's conditional arguments support capacity/WIP attention. Deterministic balanced service can be fully utilized without queuing; stochastic overload cannot be cured by a board.",
+        "incremental_control_cost": "Reserve capacity and foregone short-run output.",
+        "qualitative_evaluation_criterion": "Evaluate throughput, waiting, variability and recovery jointly; do not infer harm from a utilization number alone.",
+        "case_ids": [
+          "C01",
+          "C02"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-010",
+        "bearer": "A demand or replenishment signal consumed by a release decision",
+        "scientific_origin": "Historical kanban plus analytical information contract",
+        "current_evidence_warrant": "S006 combines short-term withdrawal with advance production planning. Current electronic signal forms are implementation alternatives.",
+        "incremental_control_cost": "Reconciliation, signal maintenance and forecast-error monitoring.",
+        "qualitative_evaluation_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+        "case_ids": [
+          "C01",
+          "C05"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-011",
+        "bearer": "A detector and signal path for a specified abnormal condition",
+        "scientific_origin": "Documented jidoka/andon history; analytical modern detection analogy",
+        "current_evidence_warrant": "S001/S005/S067 establish doctrine and history; S031/R001 show that involvement does not prevent ergonomic failures. Detector performance requires its own evidence.",
+        "incremental_control_cost": "False alarms, missed defects, attention and instrumentation.",
+        "qualitative_evaluation_criterion": "Separate detection, transmission, acknowledgement and response; demonstrate each required link at its scope.",
+        "case_ids": [
+          "C04",
+          "C06"
+        ],
+        "additional_current_sources": [
+          "R001"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-012",
+        "bearer": "A containment/stop decision and its authorized responders",
+        "scientific_origin": "Historical worker/line response with bounded analytical extension",
+        "current_evidence_warrant": "S006 documents worker stop participation. The current severity/authority design is proposed; feature flags and circuit breakers are analogues unless influence is documented.",
+        "incremental_control_cost": "Lost output, safe-state transitions, investigation and recovery capacity.",
+        "qualitative_evaluation_criterion": "Consequence, propagation and authority determine the smallest safe containment; stopping is neither diagnosis nor durable prevention.",
+        "case_ids": [
+          "C04",
+          "C06"
+        ],
+        "additional_current_sources": [
+          "R001"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-013",
+        "bearer": "Output creation and the checks or containment before release",
+        "scientific_origin": "Historical quality-at-source with software-domain convergence",
+        "current_evidence_warrant": "S001/S005/S010 support source quality logic. Local checks cannot establish unseen interface or system-level properties.",
+        "incremental_control_cost": "Inspection, validation delays and missed-mode risk.",
+        "qualitative_evaluation_criterion": "Test the relevant failure before propagation when feasible, preserving additional system assurance where local scope is insufficient.",
+        "case_ids": [
+          "C04",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-014",
+        "bearer": "A stable error opportunity and a constraint against it",
+        "scientific_origin": "Mistake-proofing mechanism; analogy to modern types/interlocks",
+        "current_evidence_warrant": "Historical examples support defect prevention. Type systems and safe defaults are not established here as descendants of Toyota jigs.",
+        "incremental_control_cost": "Constraint design, bypass/recovery provisions and maintenance.",
+        "qualitative_evaluation_criterion": "The constraint addresses an identified error class without creating worse new failures; an unmodelled hazard remains open.",
+        "case_ids": [
+          "C04",
+          "C07"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-015",
+        "bearer": "An automation/human exception arrangement",
+        "scientific_origin": "Jidoka history plus explicit modern automation analogy",
+        "current_evidence_warrant": "S001/S067 support automatic abnormality stoppage. Human-on-the-loop effectiveness is not established by those historical examples.",
+        "incremental_control_cost": "Human training and readiness, handoff load, automation maintenance.",
+        "qualitative_evaluation_criterion": "Bound the routine task and abnormal handoff; show competent response is available, rather than assuming human presence guarantees recovery.",
+        "case_ids": [
+          "C04",
+          "C06"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-016",
+        "bearer": "A measurement and variation analysis for a defined process",
+        "scientific_origin": "Documented statistical-quality import and separate statistical reasoning",
+        "current_evidence_warrant": "S010/S011 support institutional adoption; they do not prove that any chosen chart is valid or that stable output meets user needs.",
+        "incremental_control_cost": "Sampling, measurement assurance and analytical expertise.",
+        "qualitative_evaluation_criterion": "Specify data and assumptions; separate stability, capability and acceptability. No theorem is asserted from a chart label.",
+        "case_ids": [
+          "C10"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-017",
+        "bearer": "A scoped current method and its legitimate revision",
+        "scientific_origin": "Historical standard work with authored lifecycle safeguards",
+        "current_evidence_warrant": "S004/S008/S009 support training/baseline history. Explicit expiry and retirement are analytical safeguards, not universal historical TPS requirements; S026/S031 expose coercion risks.",
+        "incremental_control_cost": "Document maintenance, training and delayed change decisions.",
+        "qualitative_evaluation_criterion": "Preserve enough baseline to compare performance while allowing justified exceptions and proportionate changes.",
+        "case_ids": [
+          "C07",
+          "C11"
+        ],
+        "additional_current_sources": [
+          "R001"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-018",
+        "bearer": "An inquiry into actual work using observation and other evidence",
+        "scientific_origin": "Genchi/genbutsu-related practice with analytical triangulation",
+        "current_evidence_warrant": "S068's locator failed. S031/R001 and S026 independently show why worker testimony and records can challenge managerial descriptions.",
+        "incremental_control_cost": "Observation, consent/privacy, trace collection and interpretation time.",
+        "qualitative_evaluation_criterion": "Use observations for what they reveal, distinguish inference, and add evidence for latent or distributed causes.",
+        "case_ids": [
+          "C09",
+          "C10"
+        ],
+        "additional_current_sources": [
+          "R001"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-019",
+        "bearer": "A proposed countermeasure to a defined problem",
+        "scientific_origin": "Quality/problem-solving traditions plus analytical causal discrimination",
+        "current_evidence_warrant": "S046/S047/S048 support concern about ritual and weak inquiry; S047 does not show that reported PDSA fidelity causes success. A3/Five Whys names confer no evidential force.",
+        "incremental_control_cost": "Investigation, safe testing, alternatives and follow-up.",
+        "qualitative_evaluation_criterion": "A prediction is compared with observed results and competing explanations at proportionate scope; a valid result may be no change.",
+        "case_ids": [
+          "C04",
+          "C10",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-020",
+        "bearer": "An adopted improvement and its ongoing benefit/burden",
+        "scientific_origin": "Analytical lifecycle extension informed by sustainment research",
+        "current_evidence_warrant": "S043/S044 are bounded event evidence; fixed universal expiry periods are not established. Retirement may depend on changed conditions instead of a calendar.",
+        "incremental_control_cost": "Monitoring and maintaining controls can consume the benefit they protect.",
+        "qualitative_evaluation_criterion": "Use a trigger or review proportionate to change/risk; retain, revise or retire from evidence without a mandatory paperwork cycle.",
+        "case_ids": [
+          "C07",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-021",
+        "bearer": "Worker capabilities and cross-coverage for material tasks",
+        "scientific_origin": "TWI/TPS training history and socio-technical candidate",
+        "current_evidence_warrant": "S008/S009 establish selective training influence with conflicting exact dates. S031 and R003 do not establish that training alone improves wellbeing.",
+        "incremental_control_cost": "Protected training, coaching, staffing and skill preservation.",
+        "qualitative_evaluation_criterion": "Check demonstrated competence and workload effects; training completion does not establish authority or spare response capacity.",
+        "case_ids": [
+          "C06"
+        ],
+        "additional_current_sources": [
+          "R001",
+          "R003"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-022",
+        "bearer": "A worker's ability to report, receive response and exercise bounded rights",
+        "scientific_origin": "Normative socio-technical safeguard, historically and empirically informed",
+        "current_evidence_warrant": "S026/S031/S070 distinguish experience from doctrine. R004's strain/safety associations are mixed and cannot justify overload or negate adverse longitudinal findings.",
+        "incremental_control_cost": "Response staffing, protected time, appeals and bargaining/representation arrangements.",
+        "qualitative_evaluation_criterion": "Distinguish voice, acknowledgement, action rights and retaliation protection; recorded suggestions alone establish none of the latter.",
+        "case_ids": [
+          "C06"
+        ],
+        "additional_current_sources": [
+          "R001",
+          "R003",
+          "R004"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-023",
+        "bearer": "The employment and distributional terms surrounding improvement",
+        "scientific_origin": "Contextual institutional history plus normative fair-transition proposal",
+        "current_evidence_warrant": "S013/S014 describe conflict and agreement; S026/S031 show divergent outcomes. No universally necessary no-layoff policy or measured causal guarantee is inferred.",
+        "incremental_control_cost": "Employment guarantees, redeployment, negotiation and sharing gains.",
+        "qualitative_evaluation_criterion": "Identify who gains, loses or carries risk and whether commitments are credible; do not turn doctrine into an observed worker outcome.",
+        "case_ids": [
+          "C05",
+          "C06"
+        ],
+        "additional_current_sources": [
+          "R001"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-024",
+        "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+        "scientific_origin": "Historical response roles with analytical responsibility allocation",
+        "current_evidence_warrant": "S005 documents supervisory practice; S046 shows that local investigators may lack system authority. Associations in S027/S030 do not prove every governance design effective.",
+        "incremental_control_cost": "Management attention, escalation capacity and opportunity costs.",
+        "qualitative_evaluation_criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+        "case_ids": [
+          "C06",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-025",
+        "bearer": "A measurement regime used to make system decisions",
+        "scientific_origin": "Analytical proxy governance; historical and modern metric critique",
+        "current_evidence_warrant": "S011 records removal of suggestion-count targets. Current S058 is guidance and S059 a framework; neither metric conformity nor balanced dashboards prove beneficiary value.",
+        "incremental_control_cost": "Data maintenance, countermetrics, privacy and gaming audits.",
+        "qualitative_evaluation_criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+        "case_ids": [
+          "C01",
+          "C05",
+          "C10"
+        ],
+        "additional_current_sources": [
+          "R006"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-026",
+        "bearer": "A physical asset or software service's maintenance/recovery policy",
+        "scientific_origin": "TPS equipment reliability plus modern reliability convergence",
+        "current_evidence_warrant": "S005 supports equipment reliability context; S041/S042 provide observational manufacturing associations. Error budgets are contemporary analogues, not proven direct TPS descendants.",
+        "incremental_control_cost": "Maintenance labor, spares, downtime and recovery exercises.",
+        "qualitative_evaluation_criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+        "case_ids": [
+          "C04",
+          "C11",
+          "C13",
+          "C14"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING",
+        "precondition_scope": "Maintenance and recovery address their named reliability/restore functions. Lack of recovery does not negate a separately demonstrated reduction in the number of independent instances exposed to a fault."
+      },
+      {
+        "property_id": "EL-027",
+        "bearer": "A buyer–supplier or dependency capability relationship",
+        "scientific_origin": "Historical supplier institutions plus normative allocation safeguards",
+        "current_evidence_warrant": "S069/S038 describe capability and knowledge mechanisms. Neither establishes fair distribution; fairness is an explicit selected criterion, not a reported universal fact.",
+        "incremental_control_cost": "Joint training, disclosure, negotiation and dependence/lock-in.",
+        "qualitative_evaluation_criterion": "Joint gain must account for supplier viability and shifted costs, rather than only buyer inventory or price.",
+        "case_ids": [
+          "C05"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-028",
+        "bearer": "Critical multilevel dependencies and feasible recovery options",
+        "scientific_origin": "Corporate disruption history and author design proposals",
+        "current_evidence_warrant": "R002 reports item information; R009 proposes virtual dualization. The inherited HIGH_POST_DISRUPTION_DOMAIN label is not evidence of a causal efficacy estimate.",
+        "incremental_control_cost": "Mapping, confidentiality, data freshness and qualifying alternatives.",
+        "qualitative_evaluation_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+        "case_ids": [
+          "C05",
+          "C09"
+        ],
+        "additional_current_sources": [
+          "R002",
+          "R009"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-029",
+        "bearer": "A design decision with uncertain coupled constraints and costly reversal",
+        "scientific_origin": "Product-development case interpretation and option-value analysis",
+        "current_evidence_warrant": "S050/S052 support set-based concepts; S049 full monograph is not freshly read. Comparative causal superiority remains open.",
+        "incremental_control_cost": "Parallel analysis, prototype cost, coordination and delayed commitment.",
+        "qualitative_evaluation_criterion": "Retain alternatives only while expected learning/avoided reversal justifies cost; eliminate from evidence and respect delivery deadlines.",
+        "case_ids": [
+          "C08"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-030",
+        "bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+        "scientific_origin": "Automotive development interpretation; contemporary implementations are analogies",
+        "current_evidence_warrant": "S049's comparative details remain inherited; S050/S052 support integration concepts. Digital-thread or model-based descent is not established.",
+        "incremental_control_cost": "Interface maintenance, coordination and meeting opportunity costs.",
+        "qualitative_evaluation_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+        "case_ids": [
+          "C08",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-031",
+        "bearer": "A software service's flow, qualification and recovery configuration",
+        "scientific_origin": "Practitioner Lean/Kanban translation and convergence with software engineering",
+        "current_evidence_warrant": "S053 documents translation; S056 offers WIP correlations; S058 current guidance and S059 framework are not independent causal tests of the full bundle. S057 full text is not freshly read.",
+        "incremental_control_cost": "Automation, test/monitor maintenance, on-call load and rollback capability.",
+        "qualitative_evaluation_criterion": "Select controls for service risk and actual change bottlenecks; a board or deployment count is insufficient, and a tiny safe change may use fewer controls.",
+        "case_ids": [
+          "C01",
+          "C04",
+          "C11",
+          "C13",
+          "C14"
+        ],
+        "additional_current_sources": [
+          "R007"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING",
+        "precondition_scope": "The listed preconditions concern the fuller selected sustainable-delivery configuration. They are not jointly necessary for every partial release-scope effect, and their presence is not sufficient for overall benefit."
+      },
+      {
+        "property_id": "EL-032",
+        "bearer": "A portfolio admission, continuation or retirement decision",
+        "scientific_origin": "Analytical extension from value and commitment limits",
+        "current_evidence_warrant": "R008/S053 provide conceptual ancestry; the specific stop/retire rule is a normative proposal, not an established Lean efficacy result.",
+        "incremental_control_cost": "Evaluation, transition, lost options and switching costs.",
+        "qualitative_evaluation_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+        "case_ids": [
+          "C08",
+          "C11"
+        ],
+        "additional_current_sources": [
+          "R008"
+        ],
+        "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-033",
+        "bearer": "The universal rule to eliminate every item labelled waste",
+        "scientific_origin": "Rejected universal; replaced by explicit conditional mechanisms",
+        "current_evidence_warrant": "A buffer or control can have protective value even if it consumes resources. This defeats a universal rule, not every concrete waste reduction.",
+        "incremental_control_cost": "Overcorrection can remove useful reserves or turn analysis into new ceremony.",
+        "qualitative_evaluation_criterion": "Ask what protective or learning function is lost before removal; no claim that all waste terminology is useless.",
+        "case_ids": [
+          "C02",
+          "C05",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-034",
+        "bearer": "The universal instruction to minimize or eliminate all inventory",
+        "scientific_origin": "Rejected universal with surviving conditional inventory reduction",
+        "current_evidence_warrant": "S006/S067 explicitly accommodate stock and S032 models buffering. Physical shortages provide a counterexample; this does not establish stockpiling as optimal.",
+        "incremental_control_cost": "Carrying cost and obsolescence remain real alternatives to shortage risk.",
+        "qualitative_evaluation_criterion": "Reject only unqualified minimization; a stable fast-replenished item may legitimately need little stock.",
+        "case_ids": [
+          "C02",
+          "C05"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-035",
+        "bearer": "The universal objective of maximum utilization and zero slack",
+        "scientific_origin": "Rejected universal with deterministic boundary control",
+        "current_evidence_warrant": "Variable arrivals and repair needs undermine universal full loading. C02 also preserves a fully utilized deterministic case without queueing.",
+        "incremental_control_cost": "Spare capacity costs money and may be unnecessary in a stable bounded task.",
+        "qualitative_evaluation_criterion": "Determine variability and service consequences; neither maximum nor deliberately low utilization is universally correct.",
+        "case_ids": [
+          "C02"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-036",
+        "bearer": "The universal instruction to use the smallest possible batch",
+        "scientific_origin": "Rejected universal with small-batch positive control",
+        "current_evidence_warrant": "Setup costs can outweigh reduced delay; lowering setup can reverse the preferred batch. This is an economic counterexample, not a field effect estimate.",
+        "incremental_control_cost": "Setup, validation and coherence costs versus feedback delay.",
+        "qualitative_evaluation_criterion": "Compare feasible batches and costs; retain single-piece flow when the relevant setup and risks permit it.",
+        "case_ids": [
+          "C03"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-037",
+        "bearer": "Method-name or artifact-format conformity as a universal quality condition",
+        "scientific_origin": "Ceremony rejected; implementation choices remain available",
+        "current_evidence_warrant": "A board, A3 sheet or named method is neither necessary nor sufficient for the underlying mechanism. Native use may still be convenient.",
+        "incremental_control_cost": "Artifact production, training and compliance burden.",
+        "qualitative_evaluation_criterion": "Accept a simpler mechanism that achieves the required local decision; do not reject tools merely because they are branded.",
+        "case_ids": [
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-038",
+        "bearer": "Activity volume as proof of improvement",
+        "scientific_origin": "Rejected evidentiary implication",
+        "current_evidence_warrant": "S011 documents count-target withdrawal; S047 shows reported method deficiencies without an efficacy comparison. More completed events cannot by itself prove better outcomes.",
+        "incremental_control_cost": "Gaming, time spent producing counts and suppression of inconvenient evidence.",
+        "qualitative_evaluation_criterion": "Require outcome/learning evidence for the claim made; counts can still describe workload without proving improvement.",
+        "case_ids": [
+          "C10",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-039",
+        "bearer": "Universal synchronization, concentration or single sourcing",
+        "scientific_origin": "Rejected universal with contingent supplier arrangements preserved",
+        "current_evidence_warrant": "Disruption descriptions and R009 proposals motivate scrutiny; they do not prove that diversification always improves resilience or that integration is inherently harmful.",
+        "incremental_control_cost": "Duplicated qualification, lost scale and common-cause alternatives.",
+        "qualitative_evaluation_criterion": "Compare concentration, alternatives and recovery by criticality; a qualified single source with adequate protection may be justified.",
+        "case_ids": [
+          "C05"
+        ],
+        "additional_current_sources": [
+          "R009"
+        ],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      },
+      {
+        "property_id": "EL-040",
+        "bearer": "Immutable procedure compliance as universal correctness",
+        "scientific_origin": "Rejected universal; stable safety constraints remain legitimate",
+        "current_evidence_warrant": "S026/S031 challenge coercive practice; legitimate exceptions and changed conditions defeat immutability. Stable constraints may remain unchanged when still valid.",
+        "incremental_control_cost": "Revision and coordination burdens can exceed a tiny reversible task.",
+        "qualitative_evaluation_criterion": "Permit justified deviation/change at proper authority while preserving still-valid constraints; compliance alone is not an outcome.",
+        "case_ids": [
+          "C07",
+          "C11"
+        ],
+        "additional_current_sources": [],
+        "author_disposition": "PRESERVE_BOUNDED_NEGATIVE_REVIEW_PENDING",
+        "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+        "qualification_state": "REVIEW_PENDING"
+      }
+    ]
+  }
+}

@@ -213,6 +213,37 @@ proof_exempt_prefixes = (
 )
 
 
+scientific_example_patterns = tuple(
+    re.compile(re.escape(clause), re.IGNORECASE)
+    for clause in (
+        "a buffer or control can have protective value even if it consumes resources. "
+        "this defeats a universal rule, not every concrete waste reduction.",
+        "a low-cost late text repair defeats an unrestricted exponential-cost claim.",
+        "does rejected or delayed work reappear elsewhere at a rate that defeats the capacity bound?",
+        "a deadline of 12 separates the two timing judgments, and a deadline of 10 defeats the constructed recovery.",
+        "a single competent authorized actor can satisfy several logical conditions in a bounded model, "
+        "while a binding separation requirement defeats that alternative.",
+        "a visible service boundary can still share a resource pool whose exhaustion defeats the intended isolation.",
+        "in the finite construction, the observed escape through shared capacity and control population "
+        "defeats an independently stipulated common assumption about the seam.",
+        "a signed release package can describe an unqualified binary; "
+        "a qualified deployable candidate can rationally remain unexposed.",
+    )
+)
+
+
+def mask_scientific_examples(line):
+    # A permitted example must not provide a negative-context escape for a
+    # separate signing, proof, installation or other claim on the same line.
+    # Preserve all remaining text and inspect it with the original rules.
+    lowered_line = line.lower()
+    if "defeats" not in lowered_line and "signed release" not in lowered_line:
+        return line
+    for pattern in scientific_example_patterns:
+        line = pattern.sub("scientific criterion statement", line)
+    return line
+
+
 def check_proof_wording(path, text):
     posix = path.as_posix()
     if any(posix.startswith(prefix) for prefix in proof_exempt_prefixes):
@@ -220,9 +251,12 @@ def check_proof_wording(path, text):
     for line_no, line in enumerate(text.splitlines(), start=1):
         if not proof_verdict_re.search(line):
             continue
-        if proof_qualifier_re.search(line):
+        claim_line = mask_scientific_examples(line)
+        if not proof_verdict_re.search(claim_line):
             continue
-        if any(context in line.lower() for context in negative_context):
+        if proof_qualifier_re.search(claim_line):
+            continue
+        if any(context in claim_line.lower() for context in negative_context):
             continue
         failures.append(
             f"{posix}:{line_no}: verdict-class wording requires a same-line "
@@ -293,16 +327,19 @@ for path in Path(".").rglob("*"):
     except UnicodeDecodeError:
         continue
     lowered = text.lower()
+    # Reuse each exact residual line across claim classes. Large normalized
+    # research files do not need the same example matching repeated per rule.
+    claim_lines = [mask_scientific_examples(line) for line in lowered.splitlines()]
 
     if len(path.parts) >= 3 and path.parts[0] == "docs" and path.parts[1] == "portal":
         for phrase, reason in portal_public_phrases:
-            for line_no, line in enumerate(lowered.splitlines(), start=1):
+            for line_no, line in enumerate(claim_lines, start=1):
                 # A historical criterion can be defeated without comparing
                 # products. Preserve the source wording and inspect every other
                 # claim, including another comparison on this same line.
                 claim_line = line
                 if phrase == "defeats":
-                    # Exact historical failure/criterion statements are not
+                    # Exact scientific failure/criterion statements are not
                     # product comparisons. Mask only these clauses so a separate
                     # superiority claim on the same line remains detectable.
                     for scientific_clause in (
@@ -332,8 +369,8 @@ for path in Path(".").rglob("*"):
                 failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 
     for phrase, reason in unsupported_claims:
-        for line_no, line in enumerate(lowered.splitlines(), start=1):
-            if phrase in line and not any(context in line for context in negative_context):
+        for line_no, claim_line in enumerate(claim_lines, start=1):
+            if phrase in claim_line and not any(context in claim_line for context in negative_context):
                 failures.append(f"{path}:{line_no}: {reason}: {phrase}")
 
     check_proof_wording(path, text)

@@ -1,0 +1,1122 @@
+{
+  "source_identity": {
+    "source_id": "S-9d3bd92cc6b227a9",
+    "scientific_name": "SB-R3-040_EA23_F9_REVERSE.json",
+    "original_bytes": 98931,
+    "original_sha256": "9d3bd92cc6b227a9b1b6f3278bb15c725b80189dcffd5a4da12ecc00cd575541"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-040",
+    "title": "EA-23_REVERSE_INTEGRATION_AND_CONFIGURATION_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:40:37.543559+00:00",
+    "inquiry_family": 9,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_ORIGINAL_AGILE_ROW_AND_ACCEPTED_OVERLAY",
+      "COMPLETE_CURRENT_WATERFALL_ROW",
+      "ACTUAL_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_007.json",
+      "bytes": 12364,
+      "sha256": "bb1119a087d6b0691dd0701b81c0638beee7881f7dad2ef323548dddb8314ada"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY9_NATIVE_MEANINGS.json",
+      "bytes": 151028,
+      "sha256": "f4113277f3aa84794b7ce823b2698d69ffcb4395b3793fd8b38a3b786406afa4"
+    },
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY9_SOURCE_INQUIRY.json",
+      "bytes": 4684,
+      "sha256": "9d06a0c2d8ec095f02b6ba760a21a39560a258b8064485cc5644f590d538cb45"
+    },
+    "bounded_interface_domain": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+    "native_common_basis": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+    "common_cost_and_alternative": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task.",
+    "domain_horizon_authority": "Each member exact technical decision, configuration and actual authority; no universal process order or automatic exposure.",
+    "evidence_ceiling": "Conditional analytical partial-input relation. No empirical effect estimate, complete receiver entailment, legal applicability judgment, novelty or independent acceptance.",
+    "common_subconditions": {
+      "P1": "Actual common object and used receiving concern.",
+      "P2": "Complete native meanings support the specific input.",
+      "P3": "Literal input affects a receiving premise or its interpretation.",
+      "P4": "Missing premises, cost, cheaper alternative, nontrigger and stronger-claim counterexample remain explicit."
+    },
+    "inference": "The explicit contribution is material at its stated guard even when final action is confirmed rather than changed. Corresponding mechanisms may overlap; duplicate names, reused tests and common pipelines do not create additional benefit or independence.",
+    "attempted_contrary_interfaces": [
+      "Identical test behavior treated as unique artifact identity.",
+      "A green pipeline treated as exposure authority.",
+      "An approved model treated as actual deployed state.",
+      "The same test counted as independent evidence twice.",
+      "All evidence discarded after harmless change.",
+      "All evidence carried after a changed critical premise.",
+      "A trace link treated as proof of the linked claim."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P005->LAW-L2::EA-23",
+        "argument": "Maintained rationale, constraints and limitations let later work apply the appropriate control to the actual configuration."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P006->LAW-L2::EA-23",
+        "argument": "Recoverable item and environment identities delimit the state to which each lifecycle control and independent conclusion applies."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-23",
+        "argument": "Actual-state reconciliation reveals configuration or environmental differences that defeat the relied-upon control evidence."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-23",
+        "argument": "Affected-claim analysis and proportionate authority routing determine which control evidence must be refreshed and which may be reused."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-23",
+        "argument": "Owned versioned semantics make those risk-relevant expectations testable on both sides of the boundary."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L2::EA-23",
+        "argument": "Planned evaluability specifies the method, environment and independence needed to assess the particular control claim."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L2::EA-23",
+        "argument": "Evidence at the actual failure level tests whether the proposed lifecycle control survives the relevant interaction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L2::EA-23",
+        "argument": "Accurate links reveal affected controls and evidence when a requirement, implementation or environment changes."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-23",
+        "argument": "A challengeable argument exposes unsupported control claims, assumptions and counterevidence that the lifecycle work must address."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-23",
+        "argument": "Anomaly identity, affected configurations and authorized residual disposition prevent known control failures from being silently dropped."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-23",
+        "argument": "Scoped authority, semantic consistency and reality reconciliation qualify which model-based control claims are defensible."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-23",
+        "argument": "Fresh identified results and explicit limits make control evidence available during continued change and operational response."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P005->LAW-L2::EA-23",
+        "overclaim": "A current document cannot establish that the control works or that an independent check is unnecessary.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P006->LAW-L2::EA-23",
+        "overclaim": "Unique identifiers do not establish threat-model adequacy or the effectiveness of any control.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-23",
+        "overclaim": "Matching the tested state cannot establish absence of hazards that none of the controls addressed.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-23",
+        "overclaim": "A change approval cannot turn weak or irrelevant controls into adequate protection.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-23",
+        "overclaim": "A precise contract cannot establish secure implementation or protect an unexamined external dependency.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L2::EA-23",
+        "overclaim": "Testing against a narrow specification can leave an unmodeled hazard untouched even when the plan is complete.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L2::EA-23",
+        "overclaim": "A representative integration test cannot establish all emergent hazards or eliminate warranted independent challenge.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L2::EA-23",
+        "overclaim": "A trace graph cannot validate a threat model or make the linked evidence independently credible.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-23",
+        "overclaim": "An elegant argument cannot supply missing control effectiveness or dictate a high-assurance regime for every low-risk task.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-23",
+        "overclaim": "Ticket closure cannot establish that the repaired control works or that the remaining risk is acceptable to the proper authority.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-23",
+        "overclaim": "An authoritative model does not establish measured security benefit or replace examination of the implemented system.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-23",
+        "overclaim": "Continuous production of evidence does not make it complete, independent or sufficient for every high-consequence claim.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      }
+    ],
+    "exceptions": [],
+    "author_challenge": "Each member has a separately written contribution and stronger-claim witness; reverse meanings were reasoned separately. This code only serializes and checks the literal set.",
+    "common_source_dependence": "Shared source works, configurations, models, observers, tests and pipelines are not independent assurance.",
+    "independent_review_scope": "Later fidelity and genuinely separate adversarial assessment must examine common premise, exact membership, native scope and controls; no author acceptance here.",
+    "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P005->LAW-L2::EA-23",
+      "LAW-L3::EW-P006->LAW-L2::EA-23",
+      "LAW-L3::EW-P007->LAW-L2::EA-23",
+      "LAW-L3::EW-P008->LAW-L2::EA-23",
+      "LAW-L3::EW-P009->LAW-L2::EA-23",
+      "LAW-L3::EW-P010->LAW-L2::EA-23",
+      "LAW-L3::EW-P011->LAW-L2::EA-23",
+      "LAW-L3::EW-P017->LAW-L2::EA-23",
+      "LAW-L3::EW-P019->LAW-L2::EA-23",
+      "LAW-L3::EW-P020->LAW-L2::EA-23",
+      "LAW-L3::EW-P030->LAW-L2::EA-23",
+      "LAW-L3::EW-P031->LAW-L2::EA-23"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P005->LAW-L2::EA-23",
+        "source_native_id": "EW-P005",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/4",
+          "expected_native_id": "EW-P005"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Engineering knowledge needed beyond its immediate author",
+          "source_proposition": "Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified by future decisions.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "Future engineers need the current security, quality or reliability rationale.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Engineering knowledge needed beyond its immediate author",
+          "source_proposition": "Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified by future decisions.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Maintained rationale, constraints and limitations let later work apply the appropriate control to the actual configuration."
+        },
+        "source_contribution": "Maintained rationale, constraints and limitations let later work apply the appropriate control to the actual configuration.",
+        "receiving_consequence": "Maintained rationale, constraints and limitations let later work apply the appropriate control to the actual configuration.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Maintained rationale, constraints and limitations let later work apply the appropriate control to the actual configuration."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A current document cannot establish that the control works or that an independent check is unnecessary.",
+        "counter_control": "A current document cannot establish that the control works or that an independent check is unnecessary.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. A concise record, executable example or generated reference may beat duplicated prose.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Future engineers need the current security, quality or reliability rationale.",
+          "P2": {
+            "source_bearer": "Engineering knowledge needed beyond its immediate author",
+            "source_proposition": "Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified by future decisions.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Maintained rationale, constraints and limitations let later work apply the appropriate control to the actual configuration.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A current document cannot establish that the control works or that an independent check is unnecessary."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P005",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P006->LAW-L2::EA-23",
+        "source_native_id": "EW-P006",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/5",
+          "expected_native_id": "EW-P006"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An item or baseline on which evidence or authority depends",
+          "source_proposition": "Authoritative identity across intent, source/model, build, test evidence and release, with proportionate promotion controls.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "Quality or security evidence is attributed to a maintained product version.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "An item or baseline on which evidence or authority depends",
+          "source_proposition": "Authoritative identity across intent, source/model, build, test evidence and release, with proportionate promotion controls.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Recoverable item and environment identities delimit the state to which each lifecycle control and independent conclusion applies."
+        },
+        "source_contribution": "Recoverable item and environment identities delimit the state to which each lifecycle control and independent conclusion applies.",
+        "receiving_consequence": "Recoverable item and environment identities delimit the state to which each lifecycle control and independent conclusion applies.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Recoverable item and environment identities delimit the state to which each lifecycle control and independent conclusion applies."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Unique identifiers do not establish threat-model adequacy or the effectiveness of any control.",
+        "counter_control": "Unique identifiers do not establish threat-model adequacy or the effectiveness of any control.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. Ordinary version control plus a build manifest may suffice; a baseline is not a universal freeze.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Quality or security evidence is attributed to a maintained product version.",
+          "P2": {
+            "source_bearer": "An item or baseline on which evidence or authority depends",
+            "source_proposition": "Authoritative identity across intent, source/model, build, test evidence and release, with proportionate promotion controls.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Recoverable item and environment identities delimit the state to which each lifecycle control and independent conclusion applies.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Unique identifiers do not establish threat-model adequacy or the effectiveness of any control."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P006",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-23",
+        "source_native_id": "EW-P007",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/6",
+          "expected_native_id": "EW-P007"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "The correspondence of designed, built, tested and operated states",
+          "source_proposition": "Evidence-backed correspondence among authoritative models/data and actual built, tested and operating configurations, with explicit residual unknowns.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A lifecycle control is claimed effective in the actually deployed system.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "The correspondence of designed, built, tested and operated states",
+          "source_proposition": "Evidence-backed correspondence among authoritative models/data and actual built, tested and operating configurations, with explicit residual unknowns.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Actual-state reconciliation reveals configuration or environmental differences that defeat the relied-upon control evidence."
+        },
+        "source_contribution": "Actual-state reconciliation reveals configuration or environmental differences that defeat the relied-upon control evidence.",
+        "receiving_consequence": "Actual-state reconciliation reveals configuration or environmental differences that defeat the relied-upon control evidence.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual-state reconciliation reveals configuration or environmental differences that defeat the relied-upon control evidence."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Matching the tested state cannot establish absence of hazards that none of the controls addressed.",
+        "counter_control": "Matching the tested state cannot establish absence of hazards that none of the controls addressed.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. A deployment digest can suffice for a narrow identity need; deeper physical reconciliation has a consequence-dependent cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A lifecycle control is claimed effective in the actually deployed system.",
+          "P2": {
+            "source_bearer": "The correspondence of designed, built, tested and operated states",
+            "source_proposition": "Evidence-backed correspondence among authoritative models/data and actual built, tested and operating configurations, with explicit residual unknowns.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Actual-state reconciliation reveals configuration or environmental differences that defeat the relied-upon control evidence.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Matching the tested state cannot establish absence of hazards that none of the controls addressed."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P007",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-23",
+        "source_native_id": "EW-P008",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "source_proposition": "Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance of residual risk.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A change can invalidate a quality, security or reliability premise.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "source_proposition": "Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance of residual risk.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Affected-claim analysis and proportionate authority routing determine which control evidence must be refreshed and which may be reused."
+        },
+        "source_contribution": "Affected-claim analysis and proportionate authority routing determine which control evidence must be refreshed and which may be reused.",
+        "receiving_consequence": "Affected-claim analysis and proportionate authority routing determine which control evidence must be refreshed and which may be reused.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Affected-claim analysis and proportionate authority routing determine which control evidence must be refreshed and which may be reused."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A change approval cannot turn weak or irrelevant controls into adequate protection.",
+        "counter_control": "A change approval cannot turn weak or irrelevant controls into adequate protection.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. Preauthorized local change, targeted peer assessment and timely emergency handling can replace a universal board.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A change can invalidate a quality, security or reliability premise.",
+          "P2": {
+            "source_bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "source_proposition": "Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance of residual risk.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Affected-claim analysis and proportionate authority routing determine which control evidence must be refreshed and which may be reused.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A change approval cannot turn weak or irrelevant controls into adequate protection."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P008",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-23",
+        "source_native_id": "EW-P009",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A consequential interface carries security, reliability or quality assumptions.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Owned versioned semantics make those risk-relevant expectations testable on both sides of the boundary."
+        },
+        "source_contribution": "Owned versioned semantics make those risk-relevant expectations testable on both sides of the boundary.",
+        "receiving_consequence": "Owned versioned semantics make those risk-relevant expectations testable on both sides of the boundary.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Owned versioned semantics make those risk-relevant expectations testable on both sides of the boundary."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A precise contract cannot establish secure implementation or protect an unexamined external dependency.",
+        "counter_control": "A precise contract cannot establish secure implementation or protect an unexamined external dependency.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. A language type or contract test may suffice; include negotiation and supported-version costs.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A consequential interface carries security, reliability or quality assumptions.",
+          "P2": {
+            "source_bearer": "A consequential boundary between components or organizations",
+            "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Owned versioned semantics make those risk-relevant expectations testable on both sides of the boundary.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A precise contract cannot establish secure implementation or protect an unexamined external dependency."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P009",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L2::EA-23",
+        "source_native_id": "EW-P010",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A requirement proposed as a basis for verification",
+          "source_proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A consequential quality requirement must be evaluated before reliance.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A requirement proposed as a basis for verification",
+          "source_proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Planned evaluability specifies the method, environment and independence needed to assess the particular control claim."
+        },
+        "source_contribution": "Planned evaluability specifies the method, environment and independence needed to assess the particular control claim.",
+        "receiving_consequence": "Planned evaluability specifies the method, environment and independence needed to assess the particular control claim.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Planned evaluability specifies the method, environment and independence needed to assess the particular control claim."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Testing against a narrow specification can leave an unmodeled hazard untouched even when the plan is complete.",
+        "counter_control": "Testing against a narrow specification can leave an unmodeled hazard untouched even when the plan is complete.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. An executable example may supply the whole plan; do not lock future discovery to an early document.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A consequential quality requirement must be evaluated before reliance.",
+          "P2": {
+            "source_bearer": "A requirement proposed as a basis for verification",
+            "source_proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Planned evaluability specifies the method, environment and independence needed to assess the particular control claim.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Testing against a narrow specification can leave an unmodeled hazard untouched even when the plan is complete."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P010",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L2::EA-23",
+        "source_native_id": "EW-P011",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A realized component and its integrations",
+          "source_proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A quality or reliability failure can emerge through component interaction.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A realized component and its integrations",
+          "source_proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Evidence at the actual failure level tests whether the proposed lifecycle control survives the relevant interaction."
+        },
+        "source_contribution": "Evidence at the actual failure level tests whether the proposed lifecycle control survives the relevant interaction.",
+        "receiving_consequence": "Evidence at the actual failure level tests whether the proposed lifecycle control survives the relevant interaction.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Evidence at the actual failure level tests whether the proposed lifecycle control survives the relevant interaction."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A representative integration test cannot establish all emergent hazards or eliminate warranted independent challenge.",
+        "counter_control": "A representative integration test cannot establish all emergent hazards or eliminate warranted independent challenge.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. Reuse valid component evidence and add only the justified missing level; extra phases may merely duplicate cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A quality or reliability failure can emerge through component interaction.",
+          "P2": {
+            "source_bearer": "A realized component and its integrations",
+            "source_proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Evidence at the actual failure level tests whether the proposed lifecycle control survives the relevant interaction.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A representative integration test cannot establish all emergent hazards or eliminate warranted independent challenge."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P011",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L2::EA-23",
+        "source_native_id": "EW-P017",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "source_proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A change query must locate a risk control and the evidence supporting it.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "source_proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Accurate links reveal affected controls and evidence when a requirement, implementation or environment changes."
+        },
+        "source_contribution": "Accurate links reveal affected controls and evidence when a requirement, implementation or environment changes.",
+        "receiving_consequence": "Accurate links reveal affected controls and evidence when a requirement, implementation or environment changes.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Accurate links reveal affected controls and evidence when a requirement, implementation or environment changes."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A trace graph cannot validate a threat model or make the linked evidence independently credible.",
+        "counter_control": "A trace graph cannot validate a threat model or make the linked evidence independently credible.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. A focused native query may beat a universal matrix; ideal supplied traces do not establish lifecycle return.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A change query must locate a risk control and the evidence supporting it.",
+          "P2": {
+            "source_bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "source_proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Accurate links reveal affected controls and evidence when a requirement, implementation or environment changes.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A trace graph cannot validate a threat model or make the linked evidence independently credible."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P017",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-23",
+        "source_native_id": "EW-P019",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An assurance argument for a system in a specified context",
+          "source_proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A system assurance argument draws on controls across the lifecycle.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "An assurance argument for a system in a specified context",
+          "source_proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "A challengeable argument exposes unsupported control claims, assumptions and counterevidence that the lifecycle work must address."
+        },
+        "source_contribution": "A challengeable argument exposes unsupported control claims, assumptions and counterevidence that the lifecycle work must address.",
+        "receiving_consequence": "A challengeable argument exposes unsupported control claims, assumptions and counterevidence that the lifecycle work must address.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A challengeable argument exposes unsupported control claims, assumptions and counterevidence that the lifecycle work must address."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "An elegant argument cannot supply missing control effectiveness or dictate a high-assurance regime for every low-risk task.",
+        "counter_control": "An elegant argument cannot supply missing control effectiveness or dictate a high-assurance regime for every low-risk task.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. A concise argument may suffice; avoid persuasive dossiers and double-counted common evidence.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A system assurance argument draws on controls across the lifecycle.",
+          "P2": {
+            "source_bearer": "An assurance argument for a system in a specified context",
+            "source_proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "A challengeable argument exposes unsupported control claims, assumptions and counterevidence that the lifecycle work must address.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: An elegant argument cannot supply missing control effectiveness or dictate a high-assurance regime for every low-risk task."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P019",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-23",
+        "source_native_id": "EW-P020",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A control failure or accepted quality deviation persists across releases.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Anomaly identity, affected configurations and authorized residual disposition prevent known control failures from being silently dropped."
+        },
+        "source_contribution": "Anomaly identity, affected configurations and authorized residual disposition prevent known control failures from being silently dropped.",
+        "receiving_consequence": "Anomaly identity, affected configurations and authorized residual disposition prevent known control failures from being silently dropped.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Anomaly identity, affected configurations and authorized residual disposition prevent known control failures from being silently dropped."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Ticket closure cannot establish that the repaired control works or that the remaining risk is acceptable to the proper authority.",
+        "counter_control": "Ticket closure cannot establish that the repaired control works or that the remaining risk is acceptable to the proper authority.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. A tracked issue and relevant regression check can suffice; administrative closure is not defect closure.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A control failure or accepted quality deviation persists across releases.",
+          "P2": {
+            "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Anomaly identity, affected configurations and authorized residual disposition prevent known control failures from being silently dropped.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Ticket closure cannot establish that the repaired control works or that the remaining risk is acceptable to the proper authority."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P020",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-23",
+        "source_native_id": "EW-P030",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An authoritative engineering model or digital environment",
+          "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A governed model or engineering source supports a security or reliability decision.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "An authoritative engineering model or digital environment",
+          "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Scoped authority, semantic consistency and reality reconciliation qualify which model-based control claims are defensible."
+        },
+        "source_contribution": "Scoped authority, semantic consistency and reality reconciliation qualify which model-based control claims are defensible.",
+        "receiving_consequence": "Scoped authority, semantic consistency and reality reconciliation qualify which model-based control claims are defensible.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Scoped authority, semantic consistency and reality reconciliation qualify which model-based control claims are defensible."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "An authoritative model does not establish measured security benefit or replace examination of the implemented system.",
+        "counter_control": "An authoritative model does not establish measured security benefit or replace examination of the implemented system.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. Versioned native documents, source and tests may outperform a new platform; include migration, licensing and specialist upkeep.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A governed model or engineering source supports a security or reliability decision.",
+          "P2": {
+            "source_bearer": "An authoritative engineering model or digital environment",
+            "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Scoped authority, semantic consistency and reality reconciliation qualify which model-based control claims are defensible.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: An authoritative model does not establish measured security benefit or replace examination of the implemented system."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P030",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-23",
+        "source_native_id": "EW-P031",
+        "receiving_native_id": "EA-23",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/22",
+          "expected_native_id": "EA-23",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/22",
+            "expected_native_id": "AGQ-EA-23"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+        },
+        "shared_question_or_object": "A recurring pipeline produces evidence for lifecycle quality and assurance concerns.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+          "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+          "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy.",
+          "literal_bridge": "Fresh identified results and explicit limits make control evidence available during continued change and operational response."
+        },
+        "source_contribution": "Fresh identified results and explicit limits make control evidence available during continued change and operational response.",
+        "receiving_consequence": "Fresh identified results and explicit limits make control evidence available during continued change and operational response.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Fresh identified results and explicit limits make control evidence available during continued change and operational response."
+        ],
+        "premises_remaining": [
+          "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Continuous production of evidence does not make it complete, independent or sufficient for every high-consequence claim.",
+        "counter_control": "Continuous production of evidence does not make it complete, independent or sufficient for every high-consequence claim.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use the relevant existing control and preserve applicable obligations; include control upkeep and independent assessment costs without imposing every practice on every task. Manual or periodic evidence can be adequate at low cadence; automation adds upkeep and common-mode failure risk.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A recurring pipeline produces evidence for lifecycle quality and assurance concerns.",
+          "P2": {
+            "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+            "receiving_bearer": "A lifecycle with consequential design, implementation, dependency or operational risks.",
+            "receiving_criterion": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy."
+          },
+          "P3": "Fresh identified results and explicit limits make control evidence available during continued change and operational response.",
+          "P4": "Consequential quality, security and reliability concerns receive relevant lifecycle controls while preserving warranted independent examination. Recommendation convergence is not measured causal efficacy. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Continuous production of evidence does not make it complete, independent or sufficient for every high-consequence claim."
+        },
+        "reverse_direction_key": "LAW-L2::EA-23->LAW-L3::EW-P031",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      }
+    ]
+  }
+}

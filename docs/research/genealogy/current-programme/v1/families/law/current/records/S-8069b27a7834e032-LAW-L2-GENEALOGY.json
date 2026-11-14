@@ -1,0 +1,601 @@
+{
+  "source_identity": {
+    "source_id": "S-8069b27a7834e032",
+    "scientific_name": "LAW-L2-GENEALOGY.json",
+    "original_bytes": 27618,
+    "original_sha256": "8069b27a7834e032520dfcf624726cd9e4002b76bf06f3b6ae154a8b8511f06f"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "AGILE_GENEALOGY/1",
+    "status": "AUTHOR_PROPOSED_REVIEW_PENDING",
+    "interpretation": "Documented influence, declared origin, analytical compatibility and unresolved transmission are separate. Native diagrams/tables are preserved; these edges constrain how they may be read.",
+    "unresolved_historical_scope": [
+      "Specific Shewhart/Deming→individual Agile-school transmission is not newly established here.",
+      "Gilb 1988 full book andTakeuchi/Nonaka 1986 full case evidence remain access-limited; later authors’ explicit acknowledgments support only the named influence edges.",
+      "1999 FDDchapter direct retrieval failed;2002 publisher contents do not establish all details of the 1997 origin story.",
+      "The Allspaw/Hammond 2009 talk grouped in native H16 was not newly inspected.",
+      "Native 1990 sRAD/prototyping branches remain contextual antecedents, not a newly proven single genealogical chain."
+    ],
+    "edges": [
+      {
+        "edge_id": "G01",
+        "from": "Basili/Turner iterative enhancement 1975",
+        "to": "Pre 2001 iterative software-development repertoire",
+        "relation": "SHARED_ANTECEDENT",
+        "scope": "Working-subset/feedback mechanism is documented before the Manifesto.",
+        "sources": [
+          "N01",
+          "H01"
+        ],
+        "evidence_ceiling": "Chronological and mechanistic antecedence; no claim that every Manifesto participant read this paper.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G02",
+        "from": "Takeuchi/Nonaka product-development account 1986",
+        "to": "Schwaber Scrum paper 1996",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "The Scrum paper explicitly names the product-development account.",
+        "sources": [
+          "H05"
+        ],
+        "evidence_ceiling": "Acknowledgment supports influence, not universal transfer of hardware-case findings.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G03",
+        "from": "Coplien Borland case and object-oriented iterative work",
+        "to": "Schwaber Scrum paper 1996",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Opening paper discussion cites software antecedents alongside the rugby analogy.",
+        "sources": [
+          "H05"
+        ],
+        "evidence_ceiling": "Does not establish that Scrum invented iterative development.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G04",
+        "from": "Scrum and Ward Cunningham planning",
+        "to": "Beck XP 1999",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Named in Roots of XP as planning influences.",
+        "sources": [
+          "H06"
+        ],
+        "evidence_ceiling": "A mechanism-specific attribution, not an assertion that all XP is descended from Scrum.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G05",
+        "from": "Gilb evolutionary delivery and Boehm spiral",
+        "to": "Beck XP 1999",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Beck expressly acknowledges these roots.",
+        "sources": [
+          "H06"
+        ],
+        "evidence_ceiling": "The full Gilb book was not freshly inspected; no inferred detailed borrowing beyond the acknowledgment.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G06",
+        "from": "XP",
+        "to": "Manifesto coalition 2001",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Method communities represented in the drafting coalition.",
+        "sources": [
+          "H09"
+        ],
+        "evidence_ceiling": "Coalition participation; these schools did not originate as descendants of the 2001 declaration.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G07",
+        "from": "Scrum",
+        "to": "Manifesto coalition 2001",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Method communities represented in the drafting coalition.",
+        "sources": [
+          "H09"
+        ],
+        "evidence_ceiling": "Coalition participation; these schools did not originate as descendants of the 2001 declaration.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G08",
+        "from": "DSDM",
+        "to": "Manifesto coalition 2001",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Method communities represented in the drafting coalition.",
+        "sources": [
+          "H09"
+        ],
+        "evidence_ceiling": "Coalition participation; these schools did not originate as descendants of the 2001 declaration.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G09",
+        "from": "Crystal",
+        "to": "Manifesto coalition 2001",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Method communities represented in the drafting coalition.",
+        "sources": [
+          "H09"
+        ],
+        "evidence_ceiling": "Coalition participation; these schools did not originate as descendants of the 2001 declaration.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G10",
+        "from": "FDD",
+        "to": "Manifesto coalition 2001",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Method communities represented in the drafting coalition.",
+        "sources": [
+          "H09"
+        ],
+        "evidence_ceiling": "Coalition participation; these schools did not originate as descendants of the 2001 declaration.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G11",
+        "from": "ASD",
+        "to": "Manifesto coalition 2001",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "Method communities represented in the drafting coalition.",
+        "sources": [
+          "H09"
+        ],
+        "evidence_ceiling": "Coalition participation; these schools did not originate as descendants of the 2001 declaration.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G12",
+        "from": "Lean production/thinking",
+        "to": "Poppendieck Lean Software Development 2003",
+        "relation": "HYBRIDIZATION",
+        "scope": "Publisher description expressly states software adaptation of Lean principles into Agile practice.",
+        "sources": [
+          "H12"
+        ],
+        "evidence_ceiling": "Declared method synthesis; not a proof of universal manufacturing-to-software equivalence.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G13",
+        "from": "Toyota/flow/quality traditions",
+        "to": "Knowledge-work Kanban",
+        "relation": "SHARED_ANCESTRY",
+        "scope": "Current guide gives this origin account and identifies Corbis 2006 as a knowledge-work site.",
+        "sources": [
+          "H13"
+        ],
+        "evidence_ceiling": "Retrospective guide account. Precise universal first-invention claim is not made.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G14",
+        "from": "Knowledge-work Kanban",
+        "to": "Fixed-iteration Agile implementations",
+        "relation": "CONTEXTUAL_ALTERNATIVE_AND_HYBRIDIZATION",
+        "scope": "Flow and just-in-time improvement can supply controls without a fixed Sprint.",
+        "sources": [
+          "H13"
+        ],
+        "evidence_ceiling": "Analytical compatibility/replacement, not documented proof that all Kanban was a reaction against Agile.",
+        "status": "ANALYTICAL_COMPARISON",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G15",
+        "from": "Manifesto delivery principle and earlier build/deployment practice",
+        "to": "Humble/Farley Continuous Delivery 2010",
+        "relation": "DOCUMENTED_INFLUENCE_AND_HYBRIDIZATION",
+        "scope": "The author names the source of the title and describes earlier deployment-pipeline work.",
+        "sources": [
+          "N16"
+        ],
+        "evidence_ceiling": "History of a named synthesis, not invention of every included technique.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G16",
+        "from": "Development-focused Agile practice",
+        "to": "Debois infrastructure/operations advocacy 2008",
+        "relation": "DOCUMENTED_REACTION",
+        "scope": "The contemporary post explicitly calls for expansion beyond development.",
+        "sources": [
+          "H16"
+        ],
+        "evidence_ceiling": "One contributor’s documented response; not the whole DevOps genealogy or evidence of organizational efficacy.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G17",
+        "from": "Software engineering applied to operations atGoogle",
+        "to": "SRE participant origin account 2003",
+        "relation": "DOCUMENTED_ORIGIN_ACCOUNT",
+        "scope": "Sloss describes the production-team assignment and engineering approach.",
+        "sources": [
+          "N17"
+        ],
+        "evidence_ceiling": "2016 book publication is distinct from the 2003 origin. An independent institution is not proof of intellectual isolation.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G18",
+        "from": "SRE service objectives/error budgets",
+        "to": "Adaptive delivery release decisions",
+        "relation": "CONVERGENCE_AND_HYBRIDIZATION",
+        "scope": "Operational reliability constraints can inform release pace.",
+        "sources": [
+          "H17",
+          "N16"
+        ],
+        "evidence_ceiling": "An analytical interface, not a claim that SRE descends from Manifesto Agile.",
+        "status": "ANALYTICAL_COMPARISON",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G19",
+        "from": "DevOps",
+        "to": "CNCF platform formulation",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "The white paper explicitly acknowledges DevOps inspiration.",
+        "sources": [
+          "H21"
+        ],
+        "evidence_ceiling": "Applies to the received formulation, not all platform history.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G20",
+        "from": "Team Topologies and platform approaches",
+        "to": "Agile team autonomy at scale",
+        "relation": "CONVERGENCE_AND_HYBRIDIZATION",
+        "scope": "Team boundaries, specialist capabilities and platforms offer ways to bound local responsibility.",
+        "sources": [
+          "H22",
+          "H21"
+        ],
+        "evidence_ceiling": "Analytical relation. No independently verified universal organization design.",
+        "status": "ANALYTICAL_COMPARISON",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G21",
+        "from": "Continuous discovery practice",
+        "to": "Delivery-focused product work",
+        "relation": "CONTEXTUAL_RESPONSE",
+        "scope": "Direct user/problem investigation addresses a decision gap not settled by feature completion.",
+        "sources": [
+          "H19",
+          "H10"
+        ],
+        "evidence_ceiling": "The inspected formulation supports the mechanism; complete historical transmission and exclusive Agile descent remain unresolved.",
+        "status": "ANALYTICAL_COMPARISON",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G22",
+        "from": "Product-mode organizational proposal",
+        "to": "Project-to-operation discontinuity",
+        "relation": "DOCUMENTED_RESPONSE",
+        "scope": "The author explicitly contrasts funding/team continuity with project organization.",
+        "sources": [
+          "H20"
+        ],
+        "evidence_ceiling": "Proposal and stated motivation; not a measured universal advantage.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G23",
+        "from": "Architecture trade-off analysis",
+        "to": "Adaptive technical decisions",
+        "relation": "CONVERGENCE_AND_HYBRIDIZATION",
+        "scope": "Risk/quality-attribute analysis and iteration are compatible.",
+        "sources": [
+          "H24",
+          "H05",
+          "N02"
+        ],
+        "evidence_ceiling": "Do not narrate deliberate architecture as absent from all early Agile schools.",
+        "status": "ANALYTICAL_COMPARISON",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G24",
+        "from": "Boehm spiral",
+        "to": "ATAM1998",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "scope": "The ATAM report explicitly describes a spiral-related iterative approach.",
+        "sources": [
+          "H24"
+        ],
+        "evidence_ceiling": "Method relation, not empirical effectiveness inheritance.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G25",
+        "from": "Safety/security assurance",
+        "to": "Adaptive development in governed contexts",
+        "relation": "CONVERGENCE_AND_HYBRIDIZATION",
+        "scope": "Lifecycle-neutral authoritative controls constrain release and evidence even when development iterates.",
+        "sources": [
+          "S01",
+          "S02",
+          "S03",
+          "N10",
+          "N12"
+        ],
+        "evidence_ceiling": "Normative applicability and assurance effectiveness require their own evidence.",
+        "status": "ANALYTICAL_COMPARISON",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G26",
+        "from": "Generic claims of agility",
+        "to": "Agile software genealogy",
+        "relation": "ONLY_ANALOGOUS",
+        "scope": "Shared language by itself supplies no transmission document.",
+        "sources": [
+          "H07",
+          "H09"
+        ],
+        "evidence_ceiling": "Bounded methodological negative; a newly located transmission record can change an individual relation.",
+        "status": "ANALYTICAL_NEGATIVE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      },
+      {
+        "edge_id": "G27",
+        "from": "CDM 2026 proposal",
+        "to": "Existing adaptive/feedback mechanisms",
+        "relation": "PROPOSED_RECOMBINATION",
+        "scope": "The authors present an integrated configuration and explicit unvalidated propositions.",
+        "sources": [
+          "N14"
+        ],
+        "evidence_ceiling": "A recent name does not establish a new empirically qualified descendant or resolved criticism.",
+        "status": "SOURCE_GROUNDED_AT_STATED_SCOPE",
+        "native_ancestry": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "heading": "## EVOLVED_AGILE_GENEALOGY",
+          "line_start": 164,
+          "line_end": 211,
+          "content_sha256": "a08f5693e0ca50293b62a942cca17412437d98548101e2bea0ce5f6ad3966c2e"
+        },
+        "reentry": "A dated transmission document, contrary origin account or version correction that changes this particular relation."
+      }
+    ]
+  }
+}

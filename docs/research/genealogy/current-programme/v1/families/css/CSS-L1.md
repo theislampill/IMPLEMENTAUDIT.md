@@ -1,5 +1,8 @@
 # CSS-L1 — Cognitive Systems Engineering
 
+> **Current scientific reading route — 13 November 2026:** the substantial [CSS-L1 account](current/CSS-L1.md) and [full scientific readers](current/README.md) now provide the normalized current interpretation. Disclosure and withholding statements in the retained record below describe its earlier cutoff; immutable programme and increment records remain historical.
+
+
 [Family](README.md) · [Genealogy](GENEALOGY.md) · [Synthesis](CSS-S.md) · [Rough work outlines](RLGWO_OUTLINES.md) · [Completeness](COMPLETENESS.md)
 
 ## Two evidence layers

@@ -1,0 +1,328 @@
+{
+  "schema": "historical-author-and-final-scientific-review-stages/1",
+  "interpretation": "Exact old author-workflow assertions are preserved once as historical statements. Separate later subject, qualification and final-review identities establish the accepted scientific stage at its declared scope. This record is documentary normalization, not a new scientific qualification or acceptance of every property.",
+  "historical_author_workflow": {
+    "AMA-L1-AUTHOR-REPAIR": {
+      "unit": "AMA-L1",
+      "stage": "HISTORICAL_AUTHOR_STAGE_BEFORE_LATER_FINAL_SCIENTIFIC_REVIEWS",
+      "original_field": "state",
+      "recorded_assertion": "AUTHOR_REPAIR_CANDIDATE_REVIEW_PENDING",
+      "meaning": "A statement recorded at the earlier author stage. It does not describe the later accepted scientific review state.",
+      "later_binding": "#/later_accepted_scientific_bindings/AMA-L1"
+    },
+    "AMA-L2-AUTHOR-FROZEN": {
+      "unit": "AMA-L2",
+      "stage": "HISTORICAL_AUTHOR_STAGE_BEFORE_LATER_FINAL_SCIENTIFIC_REVIEWS",
+      "original_field": "requalification_state",
+      "recorded_assertion": "AUTHOR_FROZEN_CANDIDATE_PENDING_TWO_INDEPENDENT_REVIEWS",
+      "meaning": "A statement recorded at the earlier author stage. It does not describe the later accepted scientific review state.",
+      "later_binding": "#/later_accepted_scientific_bindings/AMA-L2"
+    },
+    "AMA-L2-INDEPENDENT-REVIEW": {
+      "unit": "AMA-L2",
+      "stage": "HISTORICAL_AUTHOR_STAGE_BEFORE_LATER_FINAL_SCIENTIFIC_REVIEWS",
+      "original_field": "independent_review_state",
+      "recorded_assertion": "PENDING",
+      "meaning": "A statement recorded at the earlier author stage. It does not describe the later accepted scientific review state.",
+      "later_binding": "#/later_accepted_scientific_bindings/AMA-L2"
+    },
+    "AMA-L3-REVIEW-BURDEN": {
+      "unit": "AMA-L3",
+      "stage": "HISTORICAL_AUTHOR_STAGE_BEFORE_LATER_FINAL_SCIENTIFIC_REVIEWS",
+      "original_field": "review_burden",
+      "recorded_assertion": "Independent fidelity and adversarial review of the same frozen scientific subject remain unperformed.",
+      "meaning": "A statement recorded at the earlier author stage. It does not describe the later accepted scientific review state.",
+      "later_binding": "#/later_accepted_scientific_bindings/AMA-L3"
+    },
+    "AMA-L2-COMPOSITION-REVIEW": {
+      "unit": "AMA-L2",
+      "stage": "HISTORICAL_AUTHOR_STAGE_BEFORE_LATER_FINAL_SCIENTIFIC_REVIEWS",
+      "original_field": "independent_review",
+      "recorded_assertion": "PENDING",
+      "meaning": "A statement recorded at the earlier author stage. It does not describe the later accepted scientific review state.",
+      "later_binding": "#/later_accepted_scientific_bindings/AMA-L2"
+    }
+  },
+  "later_accepted_scientific_bindings": {
+    "AMA-L1": {
+      "scientific_state": "EXISTING_QUALIFICATION_RETAINED",
+      "identities": [
+        {
+          "role": "subject",
+          "bytes": 17566,
+          "sha256": "594dfaa5c71a8e907b437a22d2e3bfb717dc078565048c040538df6cda3a7bb6"
+        },
+        {
+          "role": "qualification",
+          "bytes": 9110,
+          "sha256": "07cefbbbfc374a419865dcb2066981105b204ffe1fe72162015552da2d57c2f6"
+        },
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "bytes": 10789,
+          "sha256": "0c9af893175a4ebc94c84c098d6f329fb35984e3afe3a65b9211ecd98fbcd77d"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "bytes": 32630,
+          "sha256": "863105cce10513536a735d7c589b6d178dd98de1966da28540bf79d8258a6e71"
+        }
+      ],
+      "final_review_dispositions": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        }
+      ],
+      "evidence_limits": [
+        "Original historical executed commission binding remains unestablished; no original-commission failure inferred.",
+        "Three inherited derived candidates are conditionally analyzed; no new empirical mechanism or universal architectural necessity follows.",
+        "All source appraisals read is not all external full texts read. Author and reviewer source work retain separate actual access scopes.",
+        "Adversary fresh scope:12 selected primary-passage source IDs,2 bibliography/abstract only,3 failed-only,39 unattempted; original S040 proof not freshly inspected in full text.",
+        "First reviewer source counts are not adversarial primary reading. No full proof census, empirical benchmark/dataset replication, physical timing experiment, target test or latest-version literature census.",
+        "Formal validity is distinct from practical implementation/environment correspondence; unknown or contested judgments remain so.",
+        "Constructed controls and cost/dependence examples establish stipulated models only. No deployment efficacy, compliance or safety certification.",
+        "Exact final science and all negative/prior history are immutable; no target absorption, Git action or publication."
+      ],
+      "public_source_notes": "SOURCES.md#ama-l1"
+    },
+    "AMA-L2": {
+      "scientific_state": "EXISTING_QUALIFICATION_RETAINED",
+      "identities": [
+        {
+          "role": "subject",
+          "bytes": 42408,
+          "sha256": "791620825f2a382e291f05befea096a5eda481f0b9d7b99dc5f7363f7784c0ed"
+        },
+        {
+          "role": "qualification",
+          "bytes": 16868,
+          "sha256": "a187680730038ceff5218f3f1f6b7a86f87a591762c1ee8030355ff0466496f5"
+        },
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "bytes": 19883,
+          "sha256": "c28b0984c23f6d4dc7aad8a3f814da01775325431e2b2d939d1eab1aba52f85f"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "bytes": 13493,
+          "sha256": "bf128cde04f483535ad6cb19c01cc9e9b2b851b753d311875fb16b268a17aabe"
+        }
+      ],
+      "final_review_dispositions": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        }
+      ],
+      "evidence_limits": [
+        "Original executed historical commission remains unestablished; no retrospective instruction violation inferred.",
+        "All76nativeproperties56source records61relations6configurations retained; analytical compositions071–074 are inherited, not newly validated whole-system properties.",
+        "Adversary inspected16of56nativeprimaryworks plusone supplement andone newpreprint at declared scopes; fourtargetdocuments fulltext, otherpassages selected. Forty nativeprimarybodies not independently read by adversary. Authorship/fidelity scopes remain separately attributed.",
+        "No complete literaturecensus, completeexternalproofcertification, empiricalreplication, runtimeequivalence, physicalactuatorcompliance or whole-compositioneffectiveness.",
+        "AMA-L2-FID-O01 remains nonblocking:three compressed genealogy locators imprecise; both reviewers independently support underlyingrelationships and record proper passages. Carry correction directions in receiving/publicationprojection without mutating frozenstudy.",
+        "No targetabsorption, operationaladoption, remoteGitaction or livepublication; incumbent mustreceivebeforemastercountchange.",
+        "Fresh primary-work scopes remain separately attributed: author26/56,fidelity9/56,adversary16/56, with full versus selected-page access preserved. Central retrieved no excluded raw caches.",
+        "FIPA full reading concerns exact9pageSC00029H inside a longer compilation, not the whole compilation. New preprint is version-bound selected passages; its venue line is not independent publication acceptance.",
+        "Fidelity did not independently hash recoveredS038body against the author body. Adversary metadata correspondence and central inventory verification do not create independent cache custody.",
+        "A bounded exact-title search did not locate the detached milestone delivery receipt. The actual received ZIP, identity, detached manifest and complete reconstruction are verified; no missing receipt is invented.",
+        "The native qualification calls54changedranges hunks; the exact unified diff contains36hunk headers. Both original values are preserved and this descriptor discrepancy adds no scientific gate."
+      ],
+      "public_source_notes": "SOURCES.md#ama-l2"
+    },
+    "AMA-L3": {
+      "scientific_state": "EXISTING_QUALIFICATION_RETAINED",
+      "identities": [
+        {
+          "role": "subject",
+          "bytes": 13824,
+          "sha256": "d60a32e34fc19d30f4b41272a1883a514daebec22196f448b3528b87b80f25fa"
+        },
+        {
+          "role": "qualification",
+          "bytes": 11375,
+          "sha256": "62016d4cd961d62f16bcc84dfd371ef914d572a3ff93a231c3ea5cf740a88e8a"
+        },
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "bytes": 60486,
+          "sha256": "865897c66ed66bf1e7e45bc635e136d1816f14778fa9783046a5a37fae99a9d5"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "bytes": 56272,
+          "sha256": "517cda00c3f14ed676e2253a6ecac7f8c54728be89e2280ab84cfff59e271559"
+        }
+      ],
+      "final_review_dispositions": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        }
+      ],
+      "evidence_limits": [
+        "No broad comparative net-benefit acceptance: C119 and C120 remain separately unresolved.",
+        "Exact historical executed prompt is not recovered/bound; no missed historical obligation is invented.",
+        "Primary access remains selected-passage/metadata/abstract or separately attributed helper/inherited scope. No universal full-primary reading or exhaustive literature census.",
+        "No theorem replay, source-software/raw-data reproduction, industrial/clinical validation or operational-effectiveness claim.",
+        "Clouseau completion possibility is not all-run eventual successful discharge; nonblocking planning is not fairness, deadline or current authority.",
+        "Finite cases use explicit role-specific premises and finite total graphs; not a universal truth algebra or crash-safe transaction certificate.",
+        "CommA2015 allocation ambiguity remains a source-level non-verdict; stronger future causal use needs additional evidence.",
+        "Exact reconstruction/hashes do not establish cognition or science; actual completed reading and independent whole-subject reasoning are separately recorded."
+      ],
+      "public_source_notes": "SOURCES.md#ama-l3"
+    },
+    "AMA-S": {
+      "scientific_state": "EXISTING_QUALIFICATION_RETAINED",
+      "identities": [
+        {
+          "role": "subject",
+          "bytes": 82725,
+          "sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e"
+        },
+        {
+          "role": "qualification",
+          "bytes": 24346,
+          "sha256": "365aaf9f5859e5e0203cb2a48c9f8da245ca0ec11b7b7bea961bb14bcfba4782"
+        },
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "bytes": 5640,
+          "sha256": "e117607cafb1e65a41b3f28eae6c35db97de6a83dd5f9b9e8693ea51d943345a"
+        },
+        {
+          "role": "ADVERSARIAL_VALIDITY",
+          "bytes": 6090,
+          "sha256": "15227ba5f07cb35b8f8a7515d41418aa56a466c8b527a29a79b9cc1b4cf74681"
+        }
+      ],
+      "final_review_dispositions": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        },
+        {
+          "role": "ADVERSARIAL_VALIDITY",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        }
+      ],
+      "evidence_limits": [
+        "The corrected synthesis is qualified only at its declared analytical and evidential scope. The original executed research instructions remain unauthenticated; no retrospective qualification of their execution follows.",
+        "The fidelity and adversarial reviewers inspected the selected whole-population cores and consequential native interfaces and explicitly reused identified unchanged examination. This is not a claim of fresh reading of every generated relation, historical record or the complete literature.",
+        "Finite analytical constructions and rederivations from saved data are not field experiments, JaKtA or language-model execution, empirical replication, a general fairness or deadline theorem, or proof of whole-method superiority.",
+        "The C130 returns require actual, correctly interpreted episode evidence; proposition-appropriate observational sufficiency; exact contextual matching; independently justified, legitimate retention or selection purposes; and a real future consumer. They provide neither action permission nor a requirement for persistent memory.",
+        "The fixed finite-case checker and its four-field join are not a general validator of observation horizons or obligations. The exact traces and independent r18 guards bound the case; generalizing that checker would need new evidence.",
+        "Source occurrences and related editions are not independent studies. Selective primary-source access, unavailable normative or runtime evidence and the original evidence ceilings remain. The timing of the Ciatto publisher manifestation does not create another independent study.",
+        "Whole-AOSE or method superiority, general self-revision assurance, deployment effectiveness and transfer to other targets remain unestablished at their recorded scopes.",
+        "The 21 novelty rejections and parent or lineage removals are analytical judgments, not executed reduced implementations or a universal prohibition on future novelty. Adequate conventional, direct-observation, external-record and no-memory alternatives remain legitimate.",
+        "The original r17 GAP_REVISE and the earlier partial null verdict remain attached to their own subjects. The r18 qualification neither retroactively accepts r17 nor transfers r17 fidelity acceptance.",
+        "Corrections to reviewer checks do not change the scientific source bytes.",
+        "The qualification confers no constituent requalification, new scientific standard, qualification of how the current research instructions were executed, publication authority, target implementation, GitHub mutation or central shared selection."
+      ],
+      "public_source_notes": "SOURCES.md#ama-s",
+      "evidence_limits_projection": {
+        "representation": "Derived public summary of the scientific limitations; not a verbatim reproduction of every qualification entry or a complete original review body.",
+        "source_qualification": {
+          "bytes": 24346,
+          "sha256": "365aaf9f5859e5e0203cb2a48c9f8da245ca0ec11b7b7bea961bb14bcfba4782",
+          "collection_pointer": "/limitations",
+          "original_entry_count": 12
+        },
+        "summary_count": 11,
+        "source_map": [
+          {
+            "public_index": 0,
+            "title": "Qualified scope and original-instruction boundary",
+            "qualification_pointer": "/limitations/0",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 1,
+            "title": "Reading and attributed reuse",
+            "qualification_pointer": "/limitations/1",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 2,
+            "title": "Analytical and empirical evidence",
+            "qualification_pointer": "/limitations/2",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 3,
+            "title": "C130 return prerequisites",
+            "qualification_pointer": "/limitations/3",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 4,
+            "title": "Finite-case checker scope",
+            "qualification_pointer": "/limitations/4",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 5,
+            "title": "Sources, access and editions",
+            "qualification_pointer": "/limitations/5",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 6,
+            "title": "Unestablished effectiveness and transfer",
+            "qualification_pointer": "/limitations/6",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 7,
+            "title": "Novelty, removal reasoning and alternatives",
+            "qualification_pointer": "/limitations/7",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 8,
+            "title": "Distinct r17, partial and r18 outcomes",
+            "qualification_pointer": "/limitations/8",
+            "treatment": "Derived scientific summary."
+          },
+          {
+            "public_index": 9,
+            "title": "Original scientific source identity",
+            "qualification_pointer": "/limitations/9",
+            "treatment": "Scientific source-preservation clause only; unrelated execution history omitted."
+          },
+          {
+            "public_index": 10,
+            "title": "No additional authority",
+            "qualification_pointer": "/limitations/10",
+            "treatment": "Derived scientific summary."
+          }
+        ],
+        "excluded_source_entries": [
+          {
+            "qualification_pointer": "/limitations/11",
+            "reason": "Operational process/continuity/writer-control history is outside this scientific summary and remains in the original qualification."
+          }
+        ],
+        "scope_note": "The scientific exposure, analytical-evidence, guard, source-access, alternative, novelty, historical-outcome and no-authority limits are summarized here. The source also contains operational history that is not reproduced.",
+        "public_context": [
+          "AMA-S.md",
+          "AMA-S-DISCUSSION.md",
+          "SOURCES.md#ama-s"
+        ]
+      }
+    }
+  }
+}

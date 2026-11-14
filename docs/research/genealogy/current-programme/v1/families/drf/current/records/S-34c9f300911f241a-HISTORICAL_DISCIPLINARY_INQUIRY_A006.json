@@ -1,0 +1,332 @@
+{
+  "source_identity": {
+    "source_id": "S-34c9f300911f241a",
+    "scientific_name": "HISTORICAL_DISCIPLINARY_INQUIRY_A006.json",
+    "original_bytes": 47310,
+    "original_sha256": "34c9f300911f241ad22e7fabe244d6d8cebf37d57a01f695b29894ffdd5a301b"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "DRF-A006-historical-disciplinary-inquiry/1",
+    "status": "AUTHOR_COMPARATIVE_INQUIRY_COMPLETE_REVIEW_PENDING",
+    "cutoff": "Qualified constituent research 10–11 November 2026; A002 compares exact received carriers on 13 November 2026. No new literature census.",
+    "interpretation": "The history explains the scientific distinctions; it does not replace native bodies, invent a unified DRF school, or change any constituent qualification.",
+    "saturation": "All fifteen commissioned intersections were examined using the complete qualified D/R/F genealogies, current D/R fields and identified source/criticism/case carriers. Remaining uninspected primary proofs and historical priority questions are retained where they do not alter the bounded relation stated. A stronger ancestry, field-effect or target-adoption claim would reopen those questions.",
+    "families": [
+      {
+        "id": "H01",
+        "title": "Failure, timing and mission",
+        "commission_native_scope": "D01–D03; R001–R005,R008",
+        "qualified_evidence": [
+          "D genealogy G23,G24",
+          "R genealogy G-LIFE,G-REPAIR,GE03,GE12",
+          "R cases C01,C02",
+          "SYN-S04"
+        ],
+        "development_and_relation_type": "Distributed reasoning developed separate ways to describe admitted process/channel behavior, timing and progress: the qualified FLP/partial-synchrony account preserves the 1984 preliminary/1988 journal chronology rather than inventing a simple later rescue of a settled earlier result. Reliability's life and repairable-system traditions describe probability, exposure, restoration and mission consequence. Their shared word 'failure' does not demonstrate historical descent. The dependability taxonomy explicitly receives earlier fault/error/failure terminology; the source account distinguishes that documented uptake from a new measurement result.",
+        "rival_meanings": "A crash-stop or Byzantine assumption defines an admitted behavior class; a hazard defines a conditional event rate over an explicit event-time model. Availability is a time fraction, mission reliability concerns a specified function over a horizon, and repair delay includes more than active repair. None supplies the other's units automatically.",
+        "criticism_response_residual": "The criticism of one-number reliability survives as a scope correction: C01 has the same 99% time availability with very different interruption patterns. The response is to state the function, time basis and consequence, not to ban a mean when that mean answers the actual question. Detector errors in SYN-S04 concern completeness/accuracy histories; treating them as an observed alarm-error distribution would change the claim.",
+        "present_bounded_understanding": "A distribution premise can be a useful input to a quantitative mission comparison without proving a distributed protocol. Conversely, a protocol's admitted fault and progress model fixes part of the event being counted. A valid model theorem remains valid before any target is selected.",
+        "synthesis_consequence": "C2 must retain both the protocol guard and the joint probability model. R043 includes component, repairable-system and software event-time contexts: A002 corrects the initial physical-wear-only reading while retaining the distinction between first-failure hazard and recurrent events. The resulting conditional relations require no invented deployment rate.",
+        "remaining_frontier": "Historical priority and uninspected detector proofs remain at their inherited ceilings. Application would require a justified event population, timing regime and fault-model correspondence; absent application data is not a reason to erase a supported native conditional relation.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H02",
+        "title": "Redundancy, membership, authority and common cause",
+        "commission_native_scope": "D03,D10–D13,D34,D37,D52; R007–R010,R034,R040,R051",
+        "qualified_evidence": [
+          "D genealogy G03–G06,G24",
+          "R genealogy GE06,GE07,GE19,GE20",
+          "R case C02",
+          "C2/NX07,NX09"
+        ],
+        "development_and_relation_type": "The qualified record distinguishes Lamport's documented state-machine/Paxos connection, acknowledged VR/Paxos convergence, Raft's explicit reaction to Paxos organization and Flexible Paxos's changed intersection requirement. These are not one interchangeable protocol. Reliability's unreliable-component constructions and later software-diversity criticism form another strand. The common rescue identity is shared mathematics, not evidence that one school borrowed from the other.",
+        "rival_meanings": "Quorum intersection constrains simultaneous decisions; a voter or controller's reliability concerns its own functioning. Reachable paths, independent implementations, independent random variables and independent investigations are four different claims. Membership authorization is not obtained by adding healthy replicas.",
+        "criticism_response_residual": "Knight–Leveson supplies a criticism of assumed software-failure independence from one application with 27 versions, not 27 independent experiments and not a proof that diversity never helps. C02 preserves a positive dependent benefit from .90 to .91 and the controller burden reducing that example to .8645. C2's attainable .85–1 mission interval under fixed marginals shows that perfect cofailure is not universally the worst dependence pattern.",
+        "present_bounded_understanding": "Use the actual protected state/effect and shared exposures to define a partial redundancy input; then keep consistency, authentication, recovery eligibility and probability assumptions separate. A smaller fixed configuration, a direct owner or accepted outage can be adequate.",
+        "synthesis_consequence": "The five prior clock/response corrections remain valid: joint error and corroboration, observation, containment and action-sufficient response qualify the existing physical-time branch without deriving a numeric bound or causal precedence. Fresh reading of the already admitted S036 section3 also binds the alternate-reference, targeted technological-diversity and declared addition/removal interfaces for R009,R040,R051. Their partial protection/comparison inputs are now material with accepted-rescue, same-function and actual-increment guards. No positive probability, independence or actual net benefit is inferred. R044 retains a missing handbook-model operand and R055 a missing AI-task operand. C2 has no D04 parent/relation use, so all its original removals and withheld R055/D12 application remain. No historical descent edge or new general redundancy property is established.",
+        "remaining_frontier": "Changing membership, common shocks, voter faults and intervention-induced faults require their own model. The preserved NX09 perfect-renewal calculation is not evidence for those extensions. Currentness of an actual deployment and full proofs of all protocols were not newly examined.",
+        "evidence_role": "COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS_WITH_FRESH_EXISTING_S036_SECTION3_ACCESS; historical influence claims unchanged",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF",
+        "A006_historical_parent": {
+          "path": "A005/HISTORICAL_DISCIPLINARY_INQUIRY_A005.json",
+          "pointer": "/families/1",
+          "canonical_record_sha256": "9e1bfadaf4578760328929d7ba1b4f9755452b32802d72a7aee7620cf39e11ad"
+        }
+      },
+      {
+        "id": "H03",
+        "title": "Effects, compensation and recovery",
+        "commission_native_scope": "D02,D17–D28,D35–D38; R016–R018,R029,R031,R033,R037,R046,R047,R049",
+        "qualified_evidence": [
+          "D genealogy G08–G10,G18–G21",
+          "R genealogy GE04,GE05,GE11,GE13,GE14",
+          "R cases C04,C12,C14",
+          "C1,C3"
+        ],
+        "development_and_relation_type": "Database recovery and commit, recovery blocks, sagas, stream snapshots and durable workflows address different boundaries. The qualified Randell account documents its Horning predecessor and a response to Davies's recovery-semantic criticism without pretending those predecessor bodies were freshly read. The SagaLLM and 2026 data-workflow references are explicit domain translations. ROC to modern SRE remains convergence/analogy in the received evidence, not demonstrated institutional descent.",
+        "rival_meanings": "Internal state restoration, undoing an external effect, compensating a business consequence and restoring a required function differ. Acceptance-test success need not establish the full intended result: C14's sorted-plus-sum test accepts a non-permutation. The present objective can be satisfied even when the original execution history remains unknown.",
+        "criticism_response_residual": "C04 keeps internal restored data true while credentials and a counterparty prevent the consumer's function. C12 separates detection, containment, root-cause knowledge and restoration. These criticisms narrow unjustified equivalences; they do not impose complete causal diagnosis before every safe repair. The lost-return example preserves normal direct completion as the cheaper sufficient case.",
+        "present_bounded_understanding": "Use fixed intent, actual effect identity, admitted retry/interleaving histories and the consumer's present postcondition. Compensation needs its own semantics and authority. A local acceptance check can be useful without being a complete specification or a whole population experiment.",
+        "synthesis_consequence": "C1 and C3 receive predictive/corrective-maintenance, evidence and cost inputs at the named effect boundary. Reverse predictions that do not specify actual lease, merge, commit or reclamation criteria stay examined unresolved. R017/R046/R047 physical support descriptions do not automatically become the live queue discipline of D29–D32 or D48.",
+        "remaining_frontier": "A real external party may have irreversible effects or unavailable observations. Actual queued restore work and capacity, business compensation rights and compatibility across versions remain separate re-entry questions. Neither a generated proof nor a recovery label settles them.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF",
+        "A004_current_consequence": "A004 binds the existing SagaLLM generated compensation to its particular context/policy/external-result boundary. R055→D36 is supported there, while no replica repair, snapshot algorithm or membership assistant is invented. The separate D36→R055 restoration criterion remains native. This narrows present analytical transfer, not the historical genealogy.",
+        "A005_current_consequence": "A005 makes the actual T1/S097 isolation-claim evaluation explicit beside the retained compensation/restore boundary. A serial internal history is not the policy-dependent required external function; truthful refusal can satisfy a different stated task. No new historical transmission is claimed."
+      },
+      {
+        "id": "H04",
+        "title": "Recovery load, backpressure and capacity",
+        "commission_native_scope": "D29–D34; R002,R014,R018,R020,R031,R032,R036",
+        "qualified_evidence": [
+          "D qualified current D29–D34",
+          "R genealogy GE11,GE13,GE16",
+          "R case C10",
+          "C4/NX06",
+          "I002 adverse upstream queue"
+        ],
+        "development_and_relation_type": "The distributed stream/feedback account and repair-support account both examine whether a recovery path can actually operate, but an inventory of physical spares is not a demonstrated ancestry or queue model for stream admission. Gray's operating evidence criticized hardware-only outage explanations at its selected historical scope; ROC and service practice add recovery-oriented perspectives without proving that all mechanisms share a single school.",
+        "rival_meanings": "Capacity may mean a service rate, available personnel/spares, storage, an admitted in-flight window or reserved recovery resources. A timer can elapse without continuously occupying a server. A backpressure boundary can relocate pending work upstream instead of bounding total system work.",
+        "criticism_response_residual": "C10's fluid retry example and NX06 show that apparently beneficial observers or retries can exceed shared capacity. NX06 also retains the boundary where a one-time burst is later drained; instantaneous strict headroom is not a universal requirement for all time-varying systems. I002's pending count grows from one to six in six intervals because upstream storage has no imposed bound; the scoped local control is not rebranded as a globally bounded system.",
+        "present_bounded_understanding": "For constant fluid inputs and positive backlog, a specified positive net service margin yields a drain time. For real stochastic queues or deadlines, that calculation leaves distributions, scheduling and transient behavior open. Static admission or explicit rejection may be adequate and cheaper than another feedback controller.",
+        "synthesis_consequence": "C4 integrates observation, logging, tests, restoration and retry work only when they consume the same named resource. K07 excludes automatic conversion of timers/storage into service demand. D29–D34>R027 remain unresolved because workload is not itself a physical acceleration law.",
+        "remaining_frontier": "A target study would bind arrivals, work per attempt, concurrency, admission and recovery resource consumers. Existing unresolved physical/support interfaces require that bridge, not a universal exhaustive plant model. No production queue, tail distribution or throughput optimum was measured here.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H05",
+        "title": "Detection, diagnosis, experiments and evidence",
+        "commission_native_scope": "D41–D44; R011–R013,R024–R028,R033–R037,R048–R050",
+        "qualified_evidence": [
+          "R genealogy GE09,GE10,GE15,GE17–GE19",
+          "R cases C03,C06,C08,C12,C13",
+          "SYN-S04,SYN-S05",
+          "C7,C8"
+        ],
+        "development_and_relation_type": "FMECA and fault-tree traditions organize failure modes and dependencies; the exact 1949 FMECA attribution stays unresolved. The 1980 FMECA text already criticizes late/duplicative analysis and allows justified no action. Statistical demonstrations, reliability-growth criticism, failure detectors and chaos work therefore enter as plural approaches, not stages culminating in one mandatory experimental system.",
+        "rival_meanings": "An alarm, correct diagnosis, successful isolation, restoration, a causal treatment effect and a complete argument have distinct denominators. Abstract failure-detector completeness is not empirical diagnostic sensitivity. A mean growth curve is not a stochastic-process law, and fewer reported defects need not mean lower risk.",
+        "criticism_response_residual": "C03 exposes false alarms and action losses; C08 changes exposure enough to reverse the apparent count improvement; C13 constructs the same mean curve without NHPP variance. NRC's critique of unsupported growth forecasting is retained. The chaos review's 96 heterogeneous source items are neither 96 controlled trials nor independent replications of its dependent dataset.",
+        "present_bounded_understanding": "A single concrete counterexample can falsify a universal assertion; a valid finite exhaustive domain can establish its bounded predicate. Passing sampled executions does not establish all traces. A proportionate diagnostic observation may support a local action without full causal identification.",
+        "synthesis_consequence": "C7 keeps event ascertainment and the unknown detection probability separate from the observed zero-count bound. C8 includes consequence, prevalence, authority and observation burden. R024/R025/R028/R048/R050 contribute actual native event/criterion or scope inputs even when no deployment-specific estimate exists.",
+        "remaining_frontier": "Uninspected source proofs and incident details remain inherited limits. Causal effect needs an intervention/comparator design appropriate to the claim. No new field sample, detector implementation or chaos injection was performed; the new controls are analytical counterarguments over named native interfaces.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H06",
+        "title": "Evolution, maintenance and simpler alternatives",
+        "commission_native_scope": "D14–D16,D28,D39–D41,D45–D54; R019–R023,R029,R030,R038–R055",
+        "qualified_evidence": [
+          "D genealogy G16,G17,G21,G22",
+          "R genealogy GE08,GE09,GE15–GE19",
+          "R cases C05,C07,C09,C11",
+          "C5,C6,C8"
+        ],
+        "development_and_relation_type": "Coordination avoidance, workflow compatibility, maintenance task selection, PHM and service objectives developed around different costs. HAT's taxonomy and invariant-confluence's shared-author extension are documented; CALM's original proofs remain review-attributed. NASA's RCM uptake names Nowlan–Heap but does not create a fresh reading of the 1978 body or universalize an aircraft percentage. AI assistance is a later domain translation, not a replacement source of physical validity.",
+        "rival_meanings": "Age can mean calendar exposure, operating time, software state or a timer. A task can mean physical intervention, model correction, protocol transition or an agent's action. A service-level objective may permit a specified degraded result without granting permission to sacrifice an unrepresented consumer.",
+        "criticism_response_residual": "C05 permits different age-policy conclusions under exponential and Weibull lifetimes with explicit perfect renewal and costs. C07 shows mode-dependent acceleration invalidating a single stress factor. C09 preserves a failing minority beneath a good aggregate; C11 contrasts acceptable stale archival data with an unacceptable stale balance. These are bounded discriminators, not universal policy prescriptions.",
+        "present_bounded_understanding": "A maintenance choice must connect a justified defect/degradation signal to an actual action and consequence. No change, run to failure, a smaller accepted function, a direct migration, a simpler fixed protocol or retirement of a redundant control can be rational under their own premises.",
+        "synthesis_consequence": "C5–C8 incorporate new evidence, currentness and cost constraints without adding every new relation as a necessary parent. R043's software breadth is retained; R027 still needs physical stress/mode correspondence; R055 must identify an actual AI task, data and action. Missing agent interfaces are not filled by calling every program an agent.",
+        "remaining_frontier": "2025–2026 reports are version-specific qualitative or selected operational evidence. Their dates do not establish superiority. Physical support, task exposure, distribution shift, actual consumer authority and harmful-intervention rates remain application questions, not assumed zeros.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF",
+        "A004_current_consequence": "A004 distinguishes a real agent planning/validation task from a proposed operator role. Missing membership, retirement-assistance and version-routing interfaces remain examined-U; generic AI supplements are withdrawn from C2/C6/C8 where their actual tasks are absent. No additional model, field result or universal automation policy is claimed."
+      },
+      {
+        "id": "H07",
+        "title": "Model, safety, progress and semantics",
+        "commission_native_scope": "D01–D16,D52; F001–F009,F012–F014,F029,F030",
+        "qualified_evidence": [
+          "D genealogy G02–G07,G23,G24",
+          "F genealogy G02–G07,G17,G18",
+          "SYN-S01,SYN-S02,SYN-S03,SYN-S04"
+        ],
+        "development_and_relation_type": "Assertional reasoning, denotational semantics, process calculi, temporal methods and early model checking remain plural traditions. The qualified record preserves two early model-checking lines, CSP's stated influences and an unresolved Actors-to-CSP connection. A Turing-to-Floyd chronology does not become a proven descent arrow. Abadi–Lamport's later account explicitly reacts to an earlier composition formulation; the limited author-account access does not amount to rechecking either theorem.",
+        "rival_meanings": "Safety excludes bad behaviors; progress requires an eventual result under specified execution/fairness assumptions. A finite pending prefix does not refute eventuality. A transition model may be a complete finite object while representing only part of an external system.",
+        "criticism_response_residual": "Circular eventual promises can permit indefinite mutual waiting, but stronger guarded assume-guarantee rules are not rejected. IronFleet supplies a concrete combination of state-machine refinement and imperative reasoning with distinct safety, liveness, execution and trusted-tool premises, excluding then-unimplemented features. Its reported proof does not measure mission reliability.",
+        "present_bounded_understanding": "A source can supply a fault envelope or missing-premise judgment to a proof without proving the whole receiver. A complete finite proof is valuable at its actual domain; a failed external correspondence claim need not invalidate the conditional theorem.",
+        "synthesis_consequence": "The 10,900 F-bearing directions remain exact rather than being reclassified by a new deployment requirement. C2's fault budget, C3's histories and C4's resource assumptions remain typed inputs; a counterexample, an infinite admissible behavior and a failed verifier run retain different roles.",
+        "remaining_frontier": "Original source proofs outside inherited reading masks, original CALM priority and a selected implementation's environment assumptions remain open at their stated ceilings. This new comparison creates no new protocol proof or tool execution.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF",
+        "A005_current_consequence": "A005 preserves a valid fixed isolation/history result while limiting its credit for the existing compensation function. The source mechanism may be the object of the receiving evaluation; it need not operate an AI history checker. This is a present analytical scope correction, not a new theorem or genealogy."
+      },
+      {
+        "id": "H08",
+        "title": "External effects and world correspondence",
+        "commission_native_scope": "D02,D17–D28,D35–D38; F004–F006,F010–F015,F029–F032,F049",
+        "qualified_evidence": [
+          "D genealogy G08–G10,G18–G21",
+          "F genealogy G02,G08–G10,G14,G15",
+          "C1,C3/NX04,C6/NX05",
+          "R case C14"
+        ],
+        "development_and_relation_type": "Hoare-style reasoning, recovery semantics, stream snapshots and durable workflows offer different contracts for state and effect. Chandy–Lamport's documented adaptation into barrier snapshots retains channel/cycle premises. Workflow collaborations and SagaLLM are scoped domain translations; they do not carry database recovery theorems unchanged into external business or AI actions.",
+        "rival_meanings": "A proved model postcondition, an instrumented internal state, a counterparty action and the consumer's required function are distinct bearers. Translation/refinement must state what relation is preserved. Identity of modeled values does not establish external delivery or authorize an irreversible action.",
+        "criticism_response_residual": "NX04 retains the distinction between a universal pair property, which is preserved by restricting behaviors, and equality of possible output sets, which need not be. C14's inadequate acceptance test is a constructed witness, not an observed failure of Randell's prototype. NX05's software reset leaves physical age unchanged; an actual actuator repair would need a different effect model.",
+        "present_bounded_understanding": "Direct postcondition observation can settle the present question without reconstructing unknown history. Formal checks may constrain a repair, compensation or monitor while leaving real-world inclusion and authority open. Ordinary synchronous success remains a sufficient case when its contract covers the objective.",
+        "synthesis_consequence": "C1/C3 keep intent and external effect boundaries; C6 keeps physical renewal separate from software state. Material directions may provide one changed criterion or counterexample, and a scalar read-only formal role can have a bounded negative toward a physical controller without forbidding future explicit control models.",
+        "remaining_frontier": "Boundary instrumentation, external service contracts, real actuators and actual authority are target evidence. Uninspected proof certificates and runtime mechanisms are not newly validated by preserving their file identities.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H09",
+        "title": "Configuration, time, authority and proof currentness",
+        "commission_native_scope": "D04–D06,D10–D13,D28,D37,D39–D41; F015,F021–F024,F032–F035,F048",
+        "qualified_evidence": [
+          "D genealogy G06,G11,G12,G17,G21",
+          "F genealogy G08–G11,G14,G15",
+          "C2,C5/NX08,C8"
+        ],
+        "development_and_relation_type": "Leases, replicated services, logical/physical clocks and versioned proof systems address distinct currentness problems. Chubby's qualified genealogy names plural earlier systems and Gray–Cheriton leases; Spanner/HLC is comparison and hybridization, not the origin of all logical time. Formal validation, compiler proofs and certificate-checker ecosystems have their own versioned assumptions.",
+        "rival_meanings": "A wall-clock uncertainty bound, a lease expiration, a logical order, compatible workflow history and a still-applicable proof are different criteria. 'Checked once' does not mean the current configuration preserves the checked premise. Authority to mutate remains separate from a valid proof about possible behavior.",
+        "criticism_response_residual": "NX08's rational schema map preserves value histories while raw copying fails most of the finite cases. It does not establish machine-overflow, timing or external-effect behavior. RustBelt's relaxed-memory extension changes an explicit model boundary; the follow-up does not retroactively falsify its earlier sequentially consistent theorem.",
+        "present_bounded_understanding": "Revalidation should follow the changed dependency: a selected artifact, semantic relation, model assumption or trust boundary. A compatible subset or retained old worker can avoid unnecessary all-version testing. Direct migration contracts can substitute for a particular proof tool.",
+        "synthesis_consequence": "C5 retains selective translation validation as this synthesis's application, not a documented historical compiler-to-workflow influence. Prediction or RUL language alone leaves R023/R052 reverse lease/merge/quorum/reclamation interfaces unresolved; those sources need the actual native criterion, not merely a time number.",
+        "remaining_frontier": "Current deployment clocks, loaded membership, code versions and external consumers were not inspected. Certificate bytes or repository metadata not actually received remain unavailable evidence. No runtime currentness is inferred from a dated research packet.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H10",
+        "title": "Observed traces, finite checking and contrary evidence",
+        "commission_native_scope": "D42–D44; F007–F009,F016–F020,F025,F026,F031,F032,F036,F037",
+        "qualified_evidence": [
+          "F genealogy G05–G08,G12,G14–G16",
+          "D current D42–D44",
+          "C7",
+          "A002 controls K01,K04"
+        ],
+        "development_and_relation_type": "Temporal model checking, abstraction/refinement, symbolic execution, testing and proof checking have distinct origins and feedback loops. CEGAR is a method hybridization that refines from a counterexample rather than a universal command to build a larger model. Later automated theorem and repository tasks differ from autoformalization: a generated formal statement and a proof against an already supplied statement are different products.",
+        "rival_meanings": "Exhaustive finite checking, sampled executions, bounded symbolic search, a checkable proof and a field observation answer different questions. A concrete violating trace can defeat a universal; no counterexample in a strict sample does not prove the universal. A search failure may reflect a tool/resource limit.",
+        "criticism_response_residual": "Historical social and practical criticisms of proof receive qualified responses about inspectability, trusted premises and utility; they were not erased by a later tool name. Author controls preserve a known-invalid universal and an adequate small finite domain, so skeptical scope discipline cannot become rejection of useful finite proof.",
+        "present_bounded_understanding": "D's actual event and property semantics can be the subject of bounded checking. F's domain and observation constraints can change how a trace is interpreted. A local correction can be supported without claiming a fitted reliability-growth curve or causal population improvement.",
+        "synthesis_consequence": "C7 distinguishes ascertainment from mathematical confidence. The preserved source cohorts and tool versions prevent pooling benchmark successes across shared implementations. No new F-bearing outcome or claimed operational run follows from this historical comparison.",
+        "remaining_frontier": "S107's conflicting denominators and benchmark-time exclusions remain source limits, not resolved estimates. External tool stacks and long proofs were not executed here; the source masks and previously recorded qualified observations control their use.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H11",
+        "title": "Proportional formalization and distributed-system cost",
+        "commission_native_scope": "D14–D16,D45–D54; F019,F036–F050",
+        "qualified_evidence": [
+          "D genealogy G16,G17,G21,G22",
+          "F genealogy G12–G18",
+          "C1,C4,C5,C8",
+          "R case C11"
+        ],
+        "development_and_relation_type": "Lightweight formal methods, selective checking and practical verification coexist with stronger system proofs. The qualified 1996 lightweight account is a full short-paper reading, while a recent unit-proof similarity is conceptual convergence unless transmission is documented. HAT and coordination-avoidance work expose distribution costs rather than proving that all coordination is waste.",
+        "rival_meanings": "Assurance burden includes specification, proof maintenance, tool trust, runtime observation, latency and consumer effort. Stronger formalization can be justified by the consequence, while an already adequate local contract may need no additional proof layer. 'Lightweight' describes a chosen scope, not automatically low total cost.",
+        "criticism_response_residual": "Criticisms of unrealistic universal verification are answered by scoped successful methods, not a controlled universal cost-benefit victory. Practitioner and 2025–2026 AI-tool accounts remain selected populations and exact tasks. A decorative assurance case or third lineage adds no necessity to a configuration.",
+        "present_bounded_understanding": "Compare adequate alternatives under the actual objective. A simpler serial system, static admission, accepted consistency scope, directly validated migration or retained control can satisfy the requirement. Safety/authority conditions cannot be traded away merely because a check is expensive.",
+        "synthesis_consequence": "C8 retains assurance documentation only where an actual assurance consumer exists; C4 counts observer load instead of treating evidence as free. The whole result does not recommend one obligatory DRF lifecycle or universal maximal verification.",
+        "remaining_frontier": "Real developer effort, proof-maintenance churn, organizational acceptance and model-assistance error remain target measurements. Source-reported benchmark timing, including exclusions, is not a total engineering cost estimate.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H12",
+        "title": "Required function, specification and world",
+        "commission_native_scope": "R001–R005,R014,R015,R030–R033; F001–F004,F007–F010,F014,F015,F049",
+        "qualified_evidence": [
+          "R genealogy GE12,GE16",
+          "F genealogy G01–G07,G12,G17,G18",
+          "R cases C01,C04,C09,C11,C14",
+          "C1,C7"
+        ],
+        "development_and_relation_type": "Reliability traditions require a function and conditions; formal traditions make the statement and semantics explicit. The shared need for a criterion is a justified conceptual interface, not a claim that the dependability taxonomy descends from Hoare logic. Algebraic, temporal, assertional and refinement traditions remain plural rather than one proof language defining every legitimate service objective.",
+        "rival_meanings": "A specification may be correct as a formal object yet omit the consumer's needed behavior. A service-level indicator may accurately measure its chosen population while hiding an omitted subgroup. A normative required threshold is not established by either a theorem or an observed mean alone.",
+        "criticism_response_residual": "C09's minority failure and C14's acceptance-test gap challenge criterion adequacy. C11 preserves the counter-control: weaker freshness can be adequate for one consumer while wrong for another. The response is justified scoping and explicit consumers, not maximal specifications for every task.",
+        "present_bounded_understanding": "Reliability criteria can specify which events a formal obligation should distinguish; formal domain distinctions can constrain reliability evidence. Either is a material partial input without supplying all requirements, physical inclusion or stakeholder authority.",
+        "synthesis_consequence": "C1 preserves direct present-objective satisfaction, C7 retains event/denominator definitions, and A002's R030/R032/R033 inquiry uses actual native predicates rather than arbitrary encodings. An unknown target instance does not negate a supported conditional statement about those meanings.",
+        "remaining_frontier": "A selected service's affected consumers, requirement legitimacy and environmental inclusion still need actual evidence. No universal single optimum function or scalar goodness measure is supplied by this synthesis.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF",
+        "A005_current_consequence": "Fix the required function before interpreting refusal or success. Actual cancellation/refund differs from lawful attempt with truthful reporting; an adequate enclosing return may establish the former without a second observer. R055>D07 supplies this input only where the actual isolation claim is used to warrant that function."
+      },
+      {
+        "id": "H13",
+        "title": "Dependence, probability and composition",
+        "commission_native_scope": "R006–R015,R034,R040,R051; F002–F004,F012–F014,F016–F019,F029",
+        "qualified_evidence": [
+          "R genealogy GE06,GE07,GE10,GE20",
+          "F genealogy G08–G10,G14",
+          "SYN-S01,SYN-S02",
+          "R case C02",
+          "C2/NX07,NX09"
+        ],
+        "development_and_relation_type": "Fault-tree/structure models and formal composition share a need to state dependencies but operate on different mathematical objects. The qualified synthesis's limited Abadi–Lamport readings document a later response to an earlier composition formulation. They neither prove every circular rule sound nor show that all circular reasoning is invalid.",
+        "rival_meanings": "Logical implication or disjoint state ownership does not imply stochastic independence. Independent development does not imply independent failure. A conjunction of verified components needs compatible assumptions and an actual interface; a reliability product formula needs its probability premises.",
+        "criticism_response_residual": "R's software-diversity criticism narrows unearned independence and retains possible benefit. C02 and NX07 supply different positive/adverse dependence constructions. A shared proof tool, source family or benchmark makes evidence dependent even when the underlying components are distinct.",
+        "present_bounded_understanding": "A source can expose a missing joint-law premise or a circular progress assumption without proving the whole composite. Exact finite probability calculations and unbounded theorems retain their own proof burdens. Common-cause correction does not erase separately valid component claims.",
+        "synthesis_consequence": "C2's probabilistic and protocol derivations remain distinct. NX09 adds an independent-system lifetime/renewal example at its own premises; the A001 analytical scrutiny of survival, mean, hazard and large-age threshold is retained without claiming a fresh full optimum proof. Whole-lineage removal can leave the necessary substantive model supplied directly.",
+        "remaining_frontier": "Actual joint laws, shared shocks, voting failure and intervention risk are not measured. B19's different threshold remains an attributed alternative rather than a new A002 derivation. No pooled reliability estimate is made from these constructions.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF"
+      },
+      {
+        "id": "H14",
+        "title": "Recovery postconditions, monitors and authority",
+        "commission_native_scope": "R016–R021,R029,R031,R033,R036,R037; F010–F015,F023,F031,F032,F036",
+        "qualified_evidence": [
+          "R genealogy GE04,GE05,GE08,GE11,GE13,GE14",
+          "F genealogy G02–G04,G08–G10",
+          "R cases C03,C04,C12,C14",
+          "C1,C3,C4,C6,C8"
+        ],
+        "development_and_relation_type": "Recovery blocks, maintainability and formal postconditions meet at an explicit acceptance condition, with documented criticism already present in the recovery-block tradition. Maintenance/support and software rollback retain different effect domains. ROC's relation to later service practice is analogy/convergence where the evidence does not show transmission.",
+        "rival_meanings": "A monitor's observation, a repair mechanism's postcondition and authority to invoke it are separate. Restoration time can include diagnosis, logistics and active repair. An acceptance test may be one useful discriminator without representing the full specification.",
+        "criticism_response_residual": "C03 separates detected, isolated, restored and contained faults and makes false-positive loss explicit. C04 and C14 prevent internal success from being promoted to the consumer's full result. C12 supplies the adequate alternative of containment without full diagnosis; a useful action need not wait for omniscient history.",
+        "present_bounded_understanding": "A conditional recovery rule may act automatically within already warranted authority. Added tests and monitors consume resources and can introduce errors. Removing a redundant task may reduce cost, but an unobserved hidden consumer prevents a broad retirement inference.",
+        "synthesis_consequence": "C4 accounts for evidence-collection workload; C6 requires actual renewal and support; C8 separates action loss from authority and preserves no-change. R017/R046/R047 unknown interfaces remain where physical repair resources have no bound computational job/service interpretation.",
+        "remaining_frontier": "Live actuator behavior, resource availability, omitted consumers and authorization are not inferred from a proved model. Future transfer would need these actual links, with a smaller or existing adequate control considered first.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF",
+        "A004_current_consequence": "The incoming D36/D46 criteria constrain R055 existing restoration and retirement branches without presupposing an AI assistant. A supported global task relation does not automatically apply to C6 physical replacement or C8 ordinary alarm policy; their five affected supplements are withheld while their original criteria remain."
+      },
+      {
+        "id": "H15",
+        "title": "Demonstration, maintenance and finite proof",
+        "commission_native_scope": "R022–R030,R035,R041–R055; F016–F028,F033–F047",
+        "qualified_evidence": [
+          "R genealogy GE02,GE03,GE08,GE15,GE17,GE18",
+          "F genealogy G08–G16",
+          "SYN-S05",
+          "R cases C05–C08,C13",
+          "C5–C8"
+        ],
+        "development_and_relation_type": "Life-data demonstrations, repairable-process models, maintenance optimization and proof/checking tools share concerns about evidence while retaining distinct origins. Weibull's 1951 exposition to later NIST guidance is named codification, not proof of unique origin or exact direct citation; the 1939 item is only catalog-level evidence. Modern PHM and AI assistance translate data into proposed action rather than eliminating model and effect boundaries.",
+        "rival_meanings": "Finite proof of a declared model, statistical confidence under an event process, forecasting a remaining useful life and recommending a maintenance action are different inferences. A model's mean function does not determine its count law; a calibrated prediction does not confer action authority or instantiate a lease protocol.",
+        "criticism_response_residual": "C06 preserves zero-event bounds and censoring; C07 rejects a single acceleration factor across mismatched modes; C08 rejects raw count improvement as causal reliability growth; C13 disproves inference of an NHPP solely from a mean curve. The response is scoped assumptions and appropriate evidence, not rejection of every curve, sample, finite proof or useful prediction.",
+        "present_bounded_understanding": "Native finite-domain checks, concrete correction witnesses and event criteria can support conditional relations without a complete target deployment. Physical stress/mode mapping and AI task/data/action mapping still require substantive interfaces. A direct adequate check or simpler model is a legitimate substitute.",
+        "synthesis_consequence": "C6's physical exposure and perfect-renewal example, C7's ascertainment and C8's policy cost retain separate inputs. A002's K01–K09 and original 155 new unknown arguments remain historical evidence. A003 corrects five of those classifications and supplies source-specific reasons for five retained clock-interface gaps, leaving 150 of the new inquiries unresolved. No mechanical quota promotes an unknown.",
+        "remaining_frontier": "No fresh field effectiveness, proof artifact execution, full optimization proof or exhaustive 2026 literature census is asserted. Exact source versions, access masks, criticism residuals and conditional re-entry rules bound completion of this neutral comparison.",
+        "evidence_role": "NEW_COMPARATIVE_ANALYSIS_OF_EXACT_QUALIFIED_CARRIERS; PRIMARY_ACCESS_INHERITED",
+        "completion": "EXAMINED_AT_DECLARED_QUALIFIED_CUTOFF",
+        "A004_current_consequence": "The A003 five clock corrections and150 later unknown arguments remain preserved history. A004 adds39 source-specific M→U corrections after examining all108 R055/D uses, leaving219 current whole unknowns. All348 negatives and30 inherited unknowns remain exact. Qualitative task binding can suffice before deployment; absent performance numbers is not a default U rule.",
+        "A006_current_consequence": "The A002155,A003150 and A004219 unknown counts above describe their actual historical revisions. A005 then corrected the D07 scope input, leaving218. A006 corrects three existing-source clock false negatives after explicit source/native re-entry, leaving215current unknowns while all348negatives and30originalunknown bodies remain exact. Five prior clock corrections are retained; only the handbook-model and AI-task clock unknowns remain in that selected ten-direction inquiry. Unknown quantitative parameters within a described architecture must not be mistaken for absent architecture. All historical verdicts remain attached to their own exact subjects."
+      }
+    ],
+    "A003_reuse": "All original genealogy and source/access claims preserved. H02 current consequence corrected; H15 residual accounting updated. Fresh native reading is separately masked.",
+    "A004_reuse": {
+      "all_families": 15,
+      "changed_present_consequence_ids": [
+        "H03",
+        "H06",
+        "H14",
+        "H15"
+      ],
+      "genealogy_and_source_records_changed": false,
+      "new_primary_access": false,
+      "reading": "Full A003 current report and these four exact history records inspected; unchanged detailed genealogies remain attributed inherited evidence."
+    },
+    "A005_history_limit": "All15A004family records retain everyoldfield; only separately labeled present-consequence annotations are added toH03/H07/H12. Original source, genealogy and access limits remain; no new transmission claim.",
+    "A006_history_limit": "H02 current consequence replaced; H15 receives an explicit current annotation without rewriting dated earlier counts. Thirteen other complete family records are exact A005 objects, including H03/H07/H12 D07 consequences. No new genealogy or uninspected primary-body access is asserted."
+  }
+}

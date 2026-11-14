@@ -1,0 +1,216 @@
+{
+  "source_identity": {
+    "source_id": "S-c253124ccdf9d2b0",
+    "scientific_name": "OBSERVATION_FRAME_DIRECTIONS.json",
+    "original_bytes": 12120,
+    "original_sha256": "c253124ccdf9d2b06ed5f519666ab8d2f0f6f91df1b345f571ce9c08acc550ce"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-observation-frame-inquiry/1",
+    "common": {
+      "formal_source": "F011 requires the actual heap/resource frame, ownership and interference conditions. It is not physical failure independence or organizational authority.",
+      "actual_mechanism": "Use the already executed NX05 reset/evidence construction: reset changes x while a disjoint useful-evidence resource is preserved; aliasing can erase it. The source rule permits the protected value to represent the selected observation record. No new model is executed here.",
+      "original_basis": "Original D42/D43 RECOVERY_PRECONDITIONS and RECOVERY_PROFILE explicitly preserve evidence through failure/recovery; their current qualified telemetry/provenance predicates supply the actual receiving interpretation.",
+      "guard": "The actual local program operation has the justified write footprint and respects the logic's resource/interference conditions. The protected record is the specified input to the named telemetry/reconstruction question; it is not arbitrary unrelated storage.",
+      "limit": "Preservation of this program-state record does not establish crash durability, truthful measurement, a complete trace, causal identification of every physical event, current readiness or operating permission.",
+      "alternative": "Keep a small sufficient immutable/direct observation or use a local adequate postcondition. A physical durable log or full event journal is not universally required by this interface.",
+      "cost": "Retain only useful event/context evidence; memory/storage, instrumentation, privacy and recovery burden can make indiscriminate capture or extra proof unnecessary.",
+      "reentry": "Changed record meaning, selected inference, aliasing/resource ownership, reset footprint, failure model or retention/currentness assumptions reopen the affected use.",
+      "evidence_ceiling": "Own native/current/original correspondence and analytical application of already executed NX05. No constituent rerun, independent validation, empirical trace study or new property/novelty claim."
+    },
+    "authored_arguments": {
+      "path": "analysis_r11/observation_frame_interfaces.py",
+      "bytes": 4196,
+      "sha256": "f8bdadf3ea47e1141848359727d56f5ac068667ddc827f8fb5b7a11c9c5e0c68"
+    },
+    "reading_receipt": {
+      "path": "analysis_r11/ORIGINAL_D_READING_CORRESPONDENCE.json",
+      "bytes": 215010,
+      "sha256": "15b7c1d83db4b2c5c763f232e0a3bc393b78c34f05d6bc67c052fffff30ac7eb"
+    },
+    "rows": [
+      {
+        "direction": "F011>D42",
+        "pair": "D42|F011",
+        "reverse": "D42>F011",
+        "source": "F011",
+        "target": "D42",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "OBSERVATION_PRESERVATION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P42",
+          "native_pointer": "/PROPERTIES/41",
+          "current_pointer": "/QUALIFICATIONS/41",
+          "current_object_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d"
+        },
+        "source_contribution_and_receiving_change": "The useful telemetry event and its selection/coverage context survive the named local reset/update when they occupy a valid protected resource. This supplies an actual input needed to interpret the retained sample instead of losing it during recovery.",
+        "residual_and_negative_scope": "The receiver can retain this bounded event/coverage fact even if diagnosis or the wider system function is still unresolved. Preserving a value does not prove that the sampled population is representative or that no unobserved event occurred.",
+        "original_receiving_use": {
+          "carrier": {
+            "path": "work/drf_distributed_systems/revisions/r2/received/PROPERTY_LEDGER.json",
+            "bytes": 510298,
+            "sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+          },
+          "pointer": "/PROPERTIES/41/RECOVERY_PRECONDITIONS",
+          "value": "Evidence survives or is intentionally preserved through failure and recovery.",
+          "value_sha256": "cea6f25f5e4d3670542e054d5c300267640dd5a48f6bdeeb2fc7eeb2d3e5528a"
+        },
+        "case": {
+          "path": "analysis_r2/MODEL_OUTPUTS.json",
+          "id": "NX05",
+          "meaning": "Already executed local frame/alias case; no new execution."
+        },
+        "common_exact_alias": {
+          "path": "analysis_r11/OBSERVATION_FRAME_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D42>F011",
+        "pair": "D42|F011",
+        "reverse": "F011>D42",
+        "source": "D42",
+        "target": "F011",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "PROTECTED_EVIDENCE_CRITERION",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P42",
+          "native_pointer": "/PROPERTIES/41",
+          "current_pointer": "/QUALIFICATIONS/41",
+          "current_object_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6"
+        },
+        "source_contribution_and_receiving_change": "The native telemetry inference identifies the particular observed event and relevant sampling/loss/delay/context facts the frame must preserve across the local operation. An assertion about an irrelevant cell would not supply this receiving evidence.",
+        "residual_and_negative_scope": "This is a criterion for the local resource assertion, not evidence that the resources are disjoint or the observation process is unbiased. Required context can change with the inference; full capture is not mandatory.",
+        "original_receiving_use": {
+          "carrier": {
+            "path": "work/drf_distributed_systems/revisions/r2/received/PROPERTY_LEDGER.json",
+            "bytes": 510298,
+            "sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+          },
+          "pointer": "/PROPERTIES/41/RECOVERY_PRECONDITIONS",
+          "value": "Evidence survives or is intentionally preserved through failure and recovery.",
+          "value_sha256": "cea6f25f5e4d3670542e054d5c300267640dd5a48f6bdeeb2fc7eeb2d3e5528a"
+        },
+        "case": {
+          "path": "analysis_r2/MODEL_OUTPUTS.json",
+          "id": "NX05",
+          "meaning": "Already executed local frame/alias case; no new execution."
+        },
+        "common_exact_alias": {
+          "path": "analysis_r11/OBSERVATION_FRAME_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F011>D43",
+        "pair": "D43|F011",
+        "reverse": "D43>F011",
+        "source": "F011",
+        "target": "D43",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "OBSERVATION_PRESERVATION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P43",
+          "native_pointer": "/PROPERTIES/42",
+          "current_pointer": "/QUALIFICATIONS/42",
+          "current_object_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9"
+        },
+        "source_contribution_and_receiving_change": "The observed event/dependency/provenance record needed by the stated reconstruction can survive another local state change under the frame conditions. The NX05 alias contrast shows a concrete mechanism by which that evidence can otherwise be destroyed.",
+        "residual_and_negative_scope": "The contribution preserves the input distinction between observed edges, inferred associations and missing paths. It does not convert shared identifiers or sorted timestamps into causal proof or create records that were never observed.",
+        "original_receiving_use": {
+          "carrier": {
+            "path": "work/drf_distributed_systems/revisions/r2/received/PROPERTY_LEDGER.json",
+            "bytes": 510298,
+            "sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+          },
+          "pointer": "/PROPERTIES/42/RECOVERY_PRECONDITIONS",
+          "value": "Evidence survives or is intentionally preserved through failure and recovery.",
+          "value_sha256": "cea6f25f5e4d3670542e054d5c300267640dd5a48f6bdeeb2fc7eeb2d3e5528a"
+        },
+        "case": {
+          "path": "analysis_r2/MODEL_OUTPUTS.json",
+          "id": "NX05",
+          "meaning": "Already executed local frame/alias case; no new execution."
+        },
+        "common_exact_alias": {
+          "path": "analysis_r11/OBSERVATION_FRAME_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D43>F011",
+        "pair": "D43|F011",
+        "reverse": "F011>D43",
+        "source": "D43",
+        "target": "F011",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "PROTECTED_PROVENANCE_CRITERION",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P43",
+          "native_pointer": "/PROPERTIES/42",
+          "current_pointer": "/QUALIFICATIONS/42",
+          "current_object_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6"
+        },
+        "source_contribution_and_receiving_change": "The actual reconstruction question identifies which event identities, observed dependencies and provenance/gap annotations belong in the protected state assertion. Preserving unrelated program state would not support that question.",
+        "residual_and_negative_scope": "The criterion does not establish the frame theorem, external physical causality or access authority. A concise sufficient local record can be enough for the named inference without a universal distributed journal.",
+        "original_receiving_use": {
+          "carrier": {
+            "path": "work/drf_distributed_systems/revisions/r2/received/PROPERTY_LEDGER.json",
+            "bytes": 510298,
+            "sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9"
+          },
+          "pointer": "/PROPERTIES/42/RECOVERY_PRECONDITIONS",
+          "value": "Evidence survives or is intentionally preserved through failure and recovery.",
+          "value_sha256": "cea6f25f5e4d3670542e054d5c300267640dd5a48f6bdeeb2fc7eeb2d3e5528a"
+        },
+        "case": {
+          "path": "analysis_r2/MODEL_OUTPUTS.json",
+          "id": "NX05",
+          "meaning": "Already executed local frame/alias case; no new execution."
+        },
+        "common_exact_alias": {
+          "path": "analysis_r11/OBSERVATION_FRAME_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      }
+    ],
+    "added_directions": 4
+  }
+}

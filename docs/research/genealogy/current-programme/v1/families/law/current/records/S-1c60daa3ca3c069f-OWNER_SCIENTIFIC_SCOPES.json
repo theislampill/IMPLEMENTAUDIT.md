@@ -1,0 +1,466 @@
+{
+  "source_identity": {
+    "source_id": "S-1c60daa3ca3c069f",
+    "scientific_name": "OWNER_SCIENTIFIC_SCOPES.json",
+    "original_bytes": 32297,
+    "original_sha256": "1c60daa3ca3c069fd5fb4ba0a885e11db555ec415afebc7b01639b27a5713db6"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-a002-owner-native-scopes/1",
+    "status": "AUTHORED_MEMBER_BINDINGS",
+    "interpretation": "Each row binds a native owner to the shared argument and the individually enumerated receiving members. Column two is the source-side contribution and its limit. Column three identifies the receiving subject or legitimate local revision used in the negative-rule comparison. These are analytical contexts, not new experiments or claims of observed field use. Complete native fields, selected criteria and exact version pointers are carried by NATIVE_OWNER_EVIDENCE.json. No row grants an implementation obligation.",
+    "columns": [
+      "native_id",
+      "source_contribution_and_limit",
+      "specific_subject_or_revision"
+    ],
+    "rows": [
+      [
+        "EL-001",
+        "Beneficiary, outcome horizon and nontradeable constraints determine which consequences count in the receiver's actual trade-off. They do not demonstrate that the desired outcome occurs, reconcile all stakeholder conflicts or authorize deployment.",
+        "Revise a mistaken outcome assumption or acceptance condition after legitimate affected-party evidence; a short owned purpose can suffice for trivial work."
+      ],
+      [
+        "EL-002",
+        "The observed end-to-end work boundary and its queues expose where a receiver's timing or local improvement claim omits waiting. The map alone supplies neither causality nor value, and a different item or boundary cannot be substituted.",
+        "Correct the actual start/end, handoff or omitted queue in a small work path; retain enough observation to avoid merely moving the boundary."
+      ],
+      [
+        "EL-003",
+        "Fresh intelligible state can distinguish actual status, limits and uncertainty for a named actor. A decorative board, an unacknowledged alert or a visible conjecture has no such receiving effect.",
+        "Correct one misleading status or stale limit in the authoritative display that a real decision maker uses; a direct conversation or native record may suffice."
+      ],
+      [
+        "EL-004",
+        "An enforced admission/WIP rule specifies what work is committed concurrently, including exceptions and pre-entry backlog. It constrains an actual receiving plan but does not create capacity or guarantee shorter total delay.",
+        "Change an authorized admission limit or exception after evidence of starvation, hidden backlog or overload; count queues outside the board."
+      ],
+      [
+        "EL-005",
+        "Coherent batch boundaries expose fixed setup, propagation, holding and exposure trade-offs for the same work. A smaller batch is not inherently cheaper, independently qualifiable or valuable.",
+        "Change a coherent batch boundary while preserving real integration/qualification dependencies; retain a larger batch when its fixed costs justify it."
+      ],
+      [
+        "EL-006",
+        "Reducing the total safe setup/changeover path changes the feasible transition cadence. The contribution includes preparation and validation costs, not merely a shorter visible setup or removed safety check.",
+        "Remove a redundant preparation step or pre-stage a genuinely reusable resource without omitting necessary validation; rare setup may need no intervention."
+      ],
+      [
+        "EL-007",
+        "A sustainable pace estimate, levelling of predictable work and explicit residual variation inform actual workload and schedule assumptions. An estimate cannot become a physical buffer, and forced pace can transfer burden to workers and suppliers.",
+        "Replan a work-class pace after changed demand or actual capacity evidence; use finite-capacity planning or explicit priorities for nonrepetitive work."
+      ],
+      [
+        "EL-008",
+        "A real suitable inventory, time or capacity buffer and a genuinely available alternative can supply resilience at the needed horizon. Information and unqualified spares do not substitute for that physical or temporal resource.",
+        "Resize or relocate one real buffer after variance or dependency evidence, including holding and obsolescence costs; zero and nonzero are both conditional choices."
+      ],
+      [
+        "EL-009",
+        "A loading/admission policy can preserve actual headroom against variable arrivals and service demand. Its result depends on the work class and boundary; neither universal low utilization nor the disappearance of external backlog follows.",
+        "Adjust a resource loading or release decision using the real queue and service process; a stable low-variability case can legitimately run highly utilized."
+      ],
+      [
+        "EL-010",
+        "The output is a valid actual consumption/replenishment signal with origin, unit, freshness and receiver. It is not generic measurement quality, release identity or proof that the organization has capacity to respond.",
+        "Correct the actual event unit, source or receiving rule; preserve long-lead forecasts where pull signals alone cannot support capacity commitments."
+      ],
+      [
+        "EL-011",
+        "A detected and identified abnormality can trigger the receiver's actual containment or correction decision. Alert volume, unrelated anomalies and closed tickets do not show an affected claim is false or repaired.",
+        "Revise an abnormality threshold or reporting route after false negatives or noise; retain an actual response owner and consequence-based escalation."
+      ],
+      [
+        "EL-012",
+        "A real stop/contain/restart decision bounds propagation when the actor has the needed authority and response capability. A stop button without safe state or a restart signature without evidence is insufficient.",
+        "Use the authorized stop or restart path for the identified abnormality; reversible local containment and escalation need not wait for a universal ceremony."
+      ],
+      [
+        "EL-013",
+        "An embedded quality criterion and current verification can supply a local technical premise or prevent known defects progressing. Local detection does not guarantee system fitness or authorize final acceptance.",
+        "Correct an embedded check or its criterion when a real failure escapes it; keep independent or system checks where the local method cannot cover them."
+      ],
+      [
+        "EL-014",
+        "A task-specific error-prevention constraint can remove a known failure opportunity or expose invalid action. It must fit the actual cause; rigid prevention can obstruct legitimate exceptions and force unsafe workarounds.",
+        "Change one error-prone interface or validation rule after causal evidence, retaining an authorized escape where required; a simpler cue may suffice."
+      ],
+      [
+        "EL-015",
+        "Suitable automation with observable failure, safe stopping and human recovery can supply a repeatable execution path. Opaque automation or an impossible intervention workload can amplify the same mistake.",
+        "Correct an automation limit, stop condition or handoff to the human responder; keep a cheap reliable manual method when automation adds more burden."
+      ],
+      [
+        "EL-016",
+        "A valid process measurement and appropriate variation model can distinguish a signal from common noise in the actual receiver's quantity. It does not infer causality or stability from an arbitrary control chart.",
+        "Revise a measurement definition, sampling choice or inappropriate limit after checking its process assumptions; direct observation can be adequate."
+      ],
+      [
+        "EL-017",
+        "Current best-known task knowledge and its version establish what method is in force and why. The record neither freezes a practice forever nor grants the change authority it presupposes.",
+        "Correct a genuinely current task instruction through the real revision right; preserve adequate simple or unchanged practice instead of imposing ceremony."
+      ],
+      [
+        "EL-018",
+        "First-hand observation of the relevant work can expose a model's missing context, actual state or contradictory evidence. A manager's visit and a vivid anecdote do not represent every population or replace independent challenge.",
+        "Correct a factual model of the actual work after observing the relevant step and asking the people performing it; avoid surveillance theatre."
+      ],
+      [
+        "EL-019",
+        "A disciplined causal inquiry and countermeasure comparison can change the receiver's corrective choice or justify retaining the current method. A five-whys story without discriminating evidence does not identify a cause.",
+        "Revise a supported causal hypothesis or countermeasure after a new observation; use a cheap direct check when the cause and safe remedy are already known."
+      ],
+      [
+        "EL-020",
+        "The combined burden, durability and retirement of improvements constrain which optional controls should be kept. Local savings cannot hide maintenance, transferred labor or deteriorating whole-system outcomes.",
+        "Retire a redundant improvement artifact or retain a useful one on current evidence; preserve required functions and obligations while comparing total burden."
+      ],
+      [
+        "EL-021",
+        "Demonstrated competence and cross-coverage supply a particular human execution or response premise. Attendance, certificates and nominal headcount do not establish task skill, recency, availability or independence.",
+        "Correct a training task, supervised practice or coverage gap using actual performance; record editing alone is not the acquisition of competence."
+      ],
+      [
+        "EL-022",
+        "Protected voice, participation and bounded local improvement rights can supply the actual challenge or escalation route. Consultation alone neither delegates action nor guarantees truthful reports or a response.",
+        "Correct an ineffective reporting/escalation path or a bounded local delegation while retaining protection against retaliation and a responsible responder."
+      ],
+      [
+        "EL-023",
+        "Credible employment, workload-transition and gain/risk allocation constrain claims about productivity or fair improvement. Technical success and managerial promises do not establish worker protection or a universal employment policy.",
+        "Revise a specific workload or transition arrangement with affected parties and real authority; distinguish a cheap local adjustment from expensive contractual or livelihood consequences."
+      ],
+      [
+        "EL-024",
+        "Actual system ownership, resources and escalation can remove a cross-boundary obstacle or fund a needed response. Leadership rhetoric, allocated money and meetings alone do not create delivered capability or valid technical evidence.",
+        "Correct an ownership, escalation or resourcing decision after a demonstrated system obstacle; retain worker/supplier consequences and real decision rights."
+      ],
+      [
+        "EL-025",
+        "Stable definitions, boundaries and countermetrics can reveal a receiver's proxy distortion or transferred loss. A balanced dashboard does not automatically establish causality, surrogacy or benefit to every party.",
+        "Correct a denominator, gaming incentive or local optimization measure; a few direct narrative/quantitative checks can outperform a dashboard programme."
+      ],
+      [
+        "EL-026",
+        "A maintained real production/support asset and a feasible recovery path can supply the receiver's availability premise. Nominal maintenance completion or a spare sharing the same failed dependency is not readiness.",
+        "Correct an actual maintenance action, condition threshold or restore dependency; include downtime, skills, spares and the cost of maintaining evidence."
+      ],
+      [
+        "EL-027",
+        "An actual supplier's capability, openness, lead time and fair risk allocation can supply a needed external contribution. It cannot be generalized into every reviewer's competence or used to hide unpaid work and lock-in.",
+        "Correct a specific supplied interface, capability gap or negotiated risk allocation; routine commodity qualification may suffice without a development programme."
+      ],
+      [
+        "EL-028",
+        "Critical lower-tier and common-cause information changes whether an actual dependency or alternate is usable and independent. A dependency map does not create capability, access rights or physical resilience.",
+        "Correct a materially wrong dependency/common-cause assumption or qualify a real alternate; do not map every remote supplier without a consequential query."
+      ],
+      [
+        "EL-029",
+        "Feasible alternatives and explicit commitment/expiry conditions can preserve a valuable option. An unqualified imagined alternative is not a set, and delaying all decisions can cost more than committing.",
+        "Update an actual feasible option or commit when its learning value no longer exceeds the cost of delay; preserve physical and contractual constraints."
+      ],
+      [
+        "EL-030",
+        "Concurrent cross-disciplinary work can identify the actual requirement, process and interface dependencies before irreversible choices. Meeting simultaneity alone is neither integration nor a reason to synchronize independent work.",
+        "Revise a negotiated product/process interface after a real conflict is discovered; a direct bilateral decision may suffice for a small dependency."
+      ],
+      [
+        "EL-031",
+        "The software-adapted Lean path combines current build/test flow, relevant evidence and bounded recovery/exposure. It cannot inherit manufacturing takt, universal one-piece flow or operational permission by analogy.",
+        "Correct a software work-path or evidence defect with a coherent reversible change and required checks; keep release and exposure conditions explicit."
+      ],
+      [
+        "EL-032",
+        "A legitimate stop, defer, redesign or retire choice can limit continued commitment when outcomes or premises fail. It does not erase sunk effects, labor duties or continuing service obligations.",
+        "Stop or resize a particular low-value commitment using current evidence and real authority; justified no change remains a decision."
+      ],
+      [
+        "EA-01",
+        "A feedback loop is useful when its information can change a still-actionable decision at an affordable cost. A shorter cadence without a real decision consumer supplies no inferential benefit.",
+        "Change or retain a feedback cadence based on its claim, latency, noise, cost and remaining reversibility; sampling or a staged review can be adequate."
+      ],
+      [
+        "EA-02",
+        "Working integrated behavior supplies evidence about the actual configuration and evaluated behavior. It does not validate an external demand signal, intended benefit, untested hazard or independent right merely because software is involved.",
+        "Correct the evaluated integration or test question, preserving its actual configuration and representation; a local pass remains a local pass."
+      ],
+      [
+        "EA-03",
+        "Successively resolved uncertainty and explicit commitment boundaries can avoid premature detail. Remaining unrelated uncertainty need not prevent a justified current commitment.",
+        "Refine only the next consequential decision or revise an assumption after informative evidence; retain sufficiently stable detail where coordination needs it."
+      ],
+      [
+        "EA-04",
+        "Small coherent delivery/integration batches trade setup and qualification cost against delay, exposure and commitment. Fragmented nonqualifiable slices or universal tiny batches can increase total cost.",
+        "Change one actual delivery/integration batch while preserving the boundary needed for useful evidence and external obligations."
+      ],
+      [
+        "EA-05",
+        "Enforced WIP and visible end-to-end flow can constrain the actual admitted engineering population. A local board, target cycle time or uncounted upstream queue is not capacity or a system improvement.",
+        "Revise an admission exception or work boundary after overload or starvation evidence; retain necessary parallelism."
+      ],
+      [
+        "EA-10",
+        "A reproducible verified package supplies a technical candidate and its identity. It separates preparation from deployment/exposure; neither its green state nor its name settles a training, demand, labor or operational-authority claim.",
+        "Correct a reproducibility, environment or verification defect in the candidate while independently retaining release/exposure decisions."
+      ],
+      [
+        "EA-11",
+        "Enforced incremental exposure and current feedback can bound the actually affected population and supply a scoped behavior result. This can be a partial benefit without proving restoration, shorter duration, lower total loss or safety.",
+        "Correct the exposure boundary or stop/restore condition for the actual propagation path; account for irreversible disclosures and correlated dependencies."
+      ],
+      [
+        "EA-12",
+        "Discovery with representative users and contexts can change an intended-use or value assumption. A convenient sample, prototype reaction or short metric does not establish long-term benefit or release permission.",
+        "Revise a user/context hypothesis after representative evidence; use existing adequate evidence rather than performing a new workshop by default."
+      ],
+      [
+        "EA-13",
+        "Adaptive planning distinguishes real commitments, capacity and option timing. A forecast is not a promise, and perpetual replanning can hide lack of progress or impose costs on dependent parties.",
+        "Replan a specific future commitment after changed evidence while preserving firm interfaces and notifying the actual dependent parties."
+      ],
+      [
+        "EA-14",
+        "A validated surrogate and delayed follow-up can qualify an otherwise premature outcome claim. The relation is population/horizon dependent; no valid surrogate means retaining uncertainty, not inventing success.",
+        "Correct or withdraw a proxy after drift or failed surrogacy, retaining the delayed outcome and guardrails; directly observed timely outcomes need no proxy."
+      ],
+      [
+        "EA-15",
+        "A valid experiment or disciplined comparison can distinguish alternatives and their consequences. Assignment, exposure, measurement and ethical/operational authority remain separate conditions; a no-change result may be useful.",
+        "Change an experiment's claim, comparison or exposure only through its real permissions; use analysis or already adequate evidence when a live trial is unnecessary."
+      ],
+      [
+        "EA-16",
+        "Reflection with completed, evaluated improvement actions can supply causal learning or a specific impact result. Retrospective attendance and a plausible story do not improve the process or grant change authority.",
+        "Revise a specific improvement hypothesis or stop an ineffective intervention based on its actual consequences."
+      ],
+      [
+        "EA-17",
+        "Delivery measures with valid definitions, context and countermetrics can constrain a capability or flow inference. Cross-team ranking, target substitution and gaming can destroy that interpretation.",
+        "Correct an actual measure or its use after denominator, population or incentive changes; avoid metric programmes for directly visible work."
+      ],
+      [
+        "EA-18",
+        "A genuinely capable team with bounded decision rights can execute and coordinate the relevant change. Cross-functionality does not remove specialist, independent or external-authority duties.",
+        "Correct an actual team interface or delegated decision scope, with appropriate escalation and competence; do not infer authority from team labels."
+      ],
+      [
+        "EA-19",
+        "Actual multi-team dependency agreements and integration feedback supply joint-action and change-impact premises. A synchronization ceremony without a real dependency can add queues rather than coordinate work.",
+        "Revise a real inter-team interface or integration responsibility when the shared contract or evidence changes."
+      ],
+      [
+        "EA-20",
+        "Durable product/service ownership can sustain delayed outcome, maintenance and coordination duties. Ownership can transfer explicitly; an immortal team and continuing investment are not requirements.",
+        "Correct a handover, funding or continuing-service decision at the needed horizon; retire safely when the service is no longer justified."
+      ],
+      [
+        "EA-21",
+        "Relevant telemetry and systemic incident learning can identify an actual anomaly or causal correction. Dashboards, blame and a postmortem backlog do not establish incident closure or a different demand event's validity.",
+        "Correct the actual instrumentation, incident hypothesis or unfinished corrective action with event/configuration correspondence preserved."
+      ],
+      [
+        "EA-22",
+        "User-relevant reliability objectives and enforceable change-risk budgets constrain a specific release behavior. They are not a quota to spend on harm and cannot trade away a hard safety constraint.",
+        "Correct a service indicator, objective or release restriction when it misrepresents actual user harm; preserve real stop/slow authority."
+      ],
+      [
+        "EA-23",
+        "Continuously maintained security, safety and other quality evidence can reveal an actual hazard or invalidate a changed assurance premise. A passing automated check does not discharge every hazard, independent challenge or authority duty.",
+        "Correct an identified quality control or re-evaluate only the claims affected by the real change; retain valid evidence when its premises remain true."
+      ],
+      [
+        "EA-24",
+        "Current concise rationale, configuration and meaningful links can answer a future engineering decision. Documentation volume and a repository's existence do not establish current knowledge or legal compliance.",
+        "Correct a stale rationale or native link needed by an actual decision; avoid duplicating authoritative information without a receiving need."
+      ],
+      [
+        "EA-25",
+        "Sustainable workload and real recovery/rest constraints bound a repeated engineering or response duty. A cadence or headcount can conceal overtime, on-call load and supplier burden; spare capacity is not created by naming a limit.",
+        "Adjust a real workload allocation or response expectation through its actual authority, accounting for transferred duties and emergency recovery."
+      ],
+      [
+        "EA-26",
+        "Relevant skill growth and retrievable shared knowledge can reduce a particular single-person or obsolete-knowledge dependency. Nominal training, stale material and unavailable mentors do not supply usable competence.",
+        "Correct a task practice, knowledge artifact or coverage arrangement from demonstrated performance and realistic maintenance cost."
+      ],
+      [
+        "EA-27",
+        "An optional suitable platform capability can automate a recurring path or reduce a demonstrated user burden. A mandatory central platform can add bureaucracy and common-cause failure; the tool is not arbitrary physical capacity.",
+        "Correct one actual platform affordance or remove an unused service, preserving escape paths, security and support; templates or managed services may suffice."
+      ],
+      [
+        "EA-28",
+        "Evidence-bearing stop, defer or retire choices limit further commitment while preserving remaining duties. Continuing novelty and a short-term metric are not reasons to ignore delayed outcomes or irreversible obligations.",
+        "Retire a specific experiment, feature or service after current evidence, or retain it when residual value and duties justify continuation."
+      ],
+      [
+        "EW-P001",
+        "An authoritative revisable requirement/version supplies the operative obligation and its owner. Approval can preserve error, and neither authority nor completeness follows from a large document.",
+        "Current engineering intent and its approved/proposed/implemented/verified distinctions."
+      ],
+      [
+        "EW-P002",
+        "Explicit assumptions and unresolved needs can constrain a commitment or identify a useful inquiry. The existence of uncertainty does not automatically prohibit work whose necessary premises are already sufficient.",
+        "Current uncertainty, assumption and revision state for the specific decision."
+      ],
+      [
+        "EW-P003",
+        "Enough cross-disciplinary feasibility and architecture exposes actual system budgets, interfaces and expensive assumptions. A model or prestigious architecture title cannot substitute for representative evidence.",
+        "The architecture or feasibility decision before its particular hard commitment, including a thin evolutionary alternative."
+      ],
+      [
+        "EW-P004",
+        "A representative prototype, model or experiment can falsify a named high-risk assumption. It need not change the action to be informative; valid confirmation can justify the same choice.",
+        "The specific assumption, model fidelity and decision that uses the result."
+      ],
+      [
+        "EW-P005",
+        "A current lifecycle information artifact can preserve the rationale or coordination state a real future user needs. Volume and template completion can obscure stale or duplicated knowledge.",
+        "The named artifact, actual future query and authoritative representation."
+      ],
+      [
+        "EW-P006",
+        "Configuration identification and controlled version history establish which item and authorized change state a result concerns. Digital identity still needs physical/environment correspondence when that matters.",
+        "The actual controlled item, version and change path, not a label for a different bearer."
+      ],
+      [
+        "EW-P007",
+        "Audit of the actual configuration against declared state can expose drift or missing evidence. A correct manifest does not prove that the running or physical subject matches it.",
+        "The declared/actual state correspondence and the affected configuration evidence."
+      ],
+      [
+        "EW-P008",
+        "A real change-impact and decision path identifies affected premises, rights and recovery needs. Routine reversible changes can have delegated paths; central approval is not always needed.",
+        "The proposed change, dependency/evidence effects and actual permission boundary."
+      ],
+      [
+        "EW-P009",
+        "Negotiated interface meaning and integration responsibility can make a shared contribution testable and usable. Two approved specifications can still disagree or fail in the actual environment.",
+        "The real cross-boundary interface, versions, owners and integration evidence."
+      ],
+      [
+        "EW-P010",
+        "A verification method, article, environment and success criterion identify how a consequential requirement will be evaluated. A plan's existence does not show it was executed or that its requirement is good.",
+        "The actual requirement/evaluation correspondence and feasible test resources."
+      ],
+      [
+        "EW-P011",
+        "Current verification and system integration evidence can support or defeat a specific technical requirement. Coverage percentages and local tests cannot stand in for untested system behavior.",
+        "The evaluated requirement/configuration/environment and the still untested scope."
+      ],
+      [
+        "EW-P012",
+        "Validation in a relevant intended-use context can qualify whether the right system is being built. It stays distinct from verification, contractual acceptance, certification and operation rights.",
+        "The intended user, use, environment and meaningful outcome of the selected configuration."
+      ],
+      [
+        "EW-P013",
+        "Qualification evidence can establish capability over its stated envelope. It is neither universal suitability nor evidence that today's delivered/installed item retains that identity and condition.",
+        "The qualification envelope, configuration, assumptions and legitimate reuse boundary."
+      ],
+      [
+        "EW-P014",
+        "An empowered recipient's acceptance terms and disposition can govern delivery/responsibility transfer. Technical passing, acceptance and operational permission remain different acts.",
+        "The actual recipient, deliverable, conditions and transfer decision."
+      ],
+      [
+        "EW-P015",
+        "An independently established applicable external regime supplies real evidence and decision obligations. A historical source title, research example or ordinary private preference does not establish present applicability.",
+        "The actually applicable regime, edition, object and decision route, if any."
+      ],
+      [
+        "EW-P016",
+        "Competent separated challenge can identify a missing premise or satisfy a real independence condition. Reviewer identity, access, incentives and involvement matter; another heading is not independence.",
+        "The exact claim and evidence available to a sufficiently independent competent challenger."
+      ],
+      [
+        "EW-P017",
+        "Maintained semantic trace answers an actual obligation, evidence or impact query. Dense link counts can hide stale endpoints, meaningless links and high upkeep cost.",
+        "The needed direction/query, endpoints, versions and direct cheaper trace alternative."
+      ],
+      [
+        "EW-P018",
+        "Hazard analysis identifies consequential failure conditions and the needed control/evidence scope. A list or risk score does not establish control effectiveness or permission to accept residual risk.",
+        "The specific hazard, operating context, control and residual-risk authority."
+      ],
+      [
+        "EW-P019",
+        "An assurance argument binds a claim to scoped evidence, assumptions and defeaters. A polished case can conceal a gap, and maintaining it is a real cost.",
+        "The exact claim/premise/evidence/defeater relationship used in a decision."
+      ],
+      [
+        "EW-P020",
+        "Anomaly reporting, disposition and closure can identify which claim remains affected and whether corrective evidence exists. Administrative closure does not mean the defect is gone or accepted by the right actor.",
+        "The affected identity, anomaly, correction or accepted residual and actual closure evidence."
+      ],
+      [
+        "EW-P021",
+        "An evidence-bearing decision gate can limit a real consequential commitment. It has value through discriminating evidence, stop authority and alternatives, not a document count or ceremony.",
+        "The actual commitment, decision maker, evidence and continue/revise/defer/stop alternatives."
+      ],
+      [
+        "EW-P022",
+        "Incremental/concurrent staging can keep real dependency order while reducing commitment and enabling evidence. It need not impose one global clock or ignore a required integrated qualification boundary.",
+        "The stage/batch boundaries and the actual dependency or commitment each preserves."
+      ],
+      [
+        "EW-P023",
+        "Aligned lifecycle obligations coordinate parties when their real claims, interfaces or commitments depend on each other. Compatible outputs need not share every local cadence or meeting.",
+        "The specific cross-party obligation and evidence handoff, with unaffected independent work separated."
+      ],
+      [
+        "EW-P024",
+        "Tailoring compares control burden with consequence, reversibility and actual obligations. It recommends a proportional design; it cannot grant permission to waive a binding function.",
+        "The exact optional control, retained required function and real tailoring authority."
+      ],
+      [
+        "EW-P025",
+        "A rolling estimate with transparent assumptions and outside-view challenge qualifies a forecast and separates it from a target or commitment. It does not create the predicted capacity or force deterministic performance.",
+        "The estimate's reference class, uncertainty, actual updates and receiving planning decision."
+      ],
+      [
+        "EW-P026",
+        "Supplier obligations and actual capability/rights constrain a real delivered contribution or dependency. Contract wording cannot guarantee integration and should not hide lower-tier or unfair transferred risks.",
+        "The actual external contribution, interface/version, rights, lead time and correction/exit path."
+      ],
+      [
+        "EW-P027",
+        "Transition/readiness evidence and authorized handover can establish a particular operational-entry condition. A technically qualified item without operators, support, current configuration or authority is not ready for that transition.",
+        "The real operating entry, current configuration, support/skills and decision rights."
+      ],
+      [
+        "EW-P028",
+        "A feasible staged migration and recovery option can bound transition exposure or preserve alternatives. A rollback label cannot undo all persistent state, physical harm or external commitments.",
+        "The actual migration state, irreversible effects, restore horizon and qualified alternatives."
+      ],
+      [
+        "EW-P029",
+        "Through-life support and explicit obsolescence/retirement conditions can sustain the obligations relied upon by a long-horizon decision. A maintenance owner without funding, rights or parts is insufficient.",
+        "The service horizon, actual support resources, replacement and retirement obligations."
+      ],
+      [
+        "EW-P030",
+        "A semantically faithful model/data/evidence exchange can preserve identity, units and meaning for a real receiving query. Tool compatibility, hashes or converted labels alone cannot recover information a lossy mapping discarded.",
+        "The actual source representation, transformation, retained origin and receiving claim/query."
+      ],
+      [
+        "EW-P031",
+        "Suitable automated evidence collection or policy checks can supply a repeatable technical input and current status. Automation cannot manufacture the truth of its premise or independent operational approval.",
+        "The recurring check, exact configuration, limitations and necessary human/independent response."
+      ],
+      [
+        "EW-P032",
+        "A real operational decision or continuing authorization can constrain use and residual risk at a defined scope. Evidence, acceptance and certification cannot be silently promoted into that authority.",
+        "The actual operating decision, empowered actor, conditions and reconsideration trigger."
+      ],
+      [
+        "EW-P033",
+        "An economic analysis of consequence, reversibility and control burden can select a simpler or more substantial justified lifecycle design. Calendar lateness alone does not determine cost and economics cannot waive a duty.",
+        "The actual optional lifecycle/control choice, cost components, constraints and current alternatives."
+      ]
+    ]
+  }
+}

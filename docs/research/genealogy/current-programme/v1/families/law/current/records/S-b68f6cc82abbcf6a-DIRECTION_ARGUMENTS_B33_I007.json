@@ -1,0 +1,1345 @@
+{
+  "source_identity": {
+    "source_id": "S-b68f6cc82abbcf6a",
+    "scientific_name": "DIRECTION_ARGUMENTS_B33_I007.json",
+    "original_bytes": 69413,
+    "original_sha256": "b68f6cc82abbcf6ab39e9a699cb1d147d8f8877a8a4b7db94502f0d8c8dd2d66"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b33-current-factored-directed-arguments/1",
+    "identity": "B33_INCREMENT_007",
+    "literal_source": {
+      "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+      "bytes": 25863,
+      "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+    },
+    "common_contract": {
+      "population": "Only these six individually authored directions. The candidate query and native identifier cross-product confer no admission.",
+      "materiality": "EA07 supplies or consumes the actual combined-system state and its credible health evidence. Architecture, commitment and risk decisions must actually use the named interface, configuration, criterion or condition. General topic overlap and hypothetical integration-tool use do not qualify.",
+      "partial_input": "A useful necessary-condition result or scope input can be material before the entire receiving property is satisfied. A known necessary mismatch can defeat a same-scoped premise while other obligations remain unknown. Neither a local pass nor a useful input establishes the entire receiver.",
+      "evidence_kind": "C27 actually executes a finite pure-function composition. It does not instantiate an organisational mainline, frequency policy, architecture authority, commitment process or operating approval. Those applications are bounded native/analytical inferences, not measured field effects.",
+      "reverse": "Every reverse direction identifies its own consumed input. No reverse is inferred from symmetry.",
+      "history": "All earlier examined rows, the 476 unknowns, failures, UNKNOWN operation terminals and missing historical originals remain exact. The I006 prospective P022/P032 label error is corrected only in this new identity; the frozen I006 members and actual native IDs are unchanged."
+    },
+    "directions": [
+      {
+        "id": "B33-I007-D01",
+        "source": "LAW-L2::EA-07",
+        "receiver": "LAW-L3::EW-P003",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I007-F01",
+          "B33-I007-F02",
+          "B33-I007-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "shared_object": "The realised combined interface or cross-cutting behavior whose compatibility is an actual feasibility premise before a particular costly architectural commitment.",
+        "guard": "The architectural decision consumes the current combined configuration's relevant result to address a named high-consequence interface or feasibility assumption. The interface-to-decision correspondence is established; complete architecture, all requirements and eventual approval need not already be known.",
+        "source_contribution": "Real integration exposes whether separately acceptable changes actually compose under the required constraint. A relevant incompatibility challenges the feasibility premise and supplies a reason to revise the design, interface or commitment; truthful scope prevents unrelated green checks from standing for it.",
+        "receiving_consequence": "Architecture can reconcile its model with the realised configuration before freezing the affected costly choice. Other budgets, hazards and feasibility questions remain separate.",
+        "remaining_premises": "Representative system constraints, valid correspondence to the intended implementation/environment, the actual significance of the commitment and responsible judgment about untested constraints.",
+        "positive_witness": "C27 executes a centimetre producer and metre consumer that each pass their separate local check but return 300 metres for the declared 3-metre end-to-end requirement. If this exact compatibility premise is needed by the architectural commitment, the combined failure defeats that premise; it does not disprove every possible architecture.",
+        "nontrigger_or_counterexample": "An unrelated green component build, or an architecture diagram never reconciled to the combined subject, does not supply this input. Hardware feasibility not represented by the composition remains unknown.",
+        "cheap_alternative_and_removal": "Complete adequate interface analysis or a current representative assembly can supply the premise. C27's coherent source algebra is sufficient for its pure length-preservation question without another call. Removing all combined correspondence leaves the commitment premise unsupported; removing a fixed architecture meeting or daily pipeline with that evidence intact need not.",
+        "reentry": "Revisit after a relevant interface, implementation, criterion, environment or commitment change; preserve unaffected evidence and adequate prior analysis.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Actual finite compatibility counterexample and an explicit adequate analytical alternative. No field architecture outcome, cost saving or mainline adoption is measured.",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P003",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-07",
+        "entry_row": [
+          "LAW-L2::EA-07->LAW-L3::EW-P003",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i007/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P003",
+            "capsule": {
+              "path": "reading/i007/native/EW-P003.json",
+              "bytes": 6982,
+              "sha256": "d6dc2efd3d4bddb7ec04d31b3149c5049ce5c4c9ac2edf5d424f23a71e8e0e60"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P003::MECHANISM",
+            "LAW-L3::EW-P003::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P003::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P003::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P003::TRIGGER_OR_CONTEXT",
+            "LAW-L3::EW-P003::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P003::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P003::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P003::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I007-F01",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "0c847e6ec6120d672d0c0afccf4d52354563dd3a841920b7ca3dadaa8777d0f5"
+          },
+          {
+            "factor_id": "B33-I007-F02",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "7b574bdee3dc66cdb1977c914c4420da7e7d4e1a1cea4748165e8b5154b2e0fa"
+          },
+          {
+            "factor_id": "B33-I007-F03",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "29fd702d2beeb0b6a7932f79712953f1b0701c2e2f248ed4df54bef3c01a93ae"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "dbf830da434c85de107d093033fcad210330c01f02ba653d3e4e9c1cbec28ad8",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Actual finite compatibility counterexample and an explicit adequate analytical alternative. No field architecture outcome, cost saving or mainline adoption is measured.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Actual finite compatibility counterexample and an explicit adequate analytical alternative. No field architecture outcome, cost saving or mainline adoption is measured.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "be40a6960bd007e91e14276629c46767a09d65a519513e0c89f126ef8687f820",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Actual finite compatibility counterexample and an explicit adequate analytical alternative. No field architecture outcome, cost saving or mainline adoption is measured.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I007-D02",
+        "source": "LAW-L3::EW-P003",
+        "receiver": "LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "argument_factors": [
+          "B33-I007-F01",
+          "B33-I007-F02",
+          "B33-I007-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "CEREMONY_VS_PROPERTY",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "TRIGGER_OR_CONTEXT",
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "CEREMONY_VS_PROPERTY",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "shared_object": "An actual cross-component interface, system budget or feasibility constraint that determines which changes must be combined and what counts as relevant integration health.",
+        "guard": "The architecture/feasibility work supplies a specific current interface boundary or necessary criterion consumed by the real integration practice. The input may be a single sufficient constraint; a complete up-front design or whole P003 satisfaction is not a prior gate.",
+        "source_contribution": "The identified system constraint selects the relevant combined subject and independent criterion. It makes a component-local or implementation-echo pass inadequate when the required property is an interaction across that boundary.",
+        "receiving_consequence": "EA07 can integrate the appropriate interacting changes and interpret the result for the next actual decision instead of treating any passing branch pipeline as a healthy mainline.",
+        "remaining_premises": "Actual integration responsibility, reproducible combination, credible execution or adequate analysis, maintenance of the criterion and an appropriate repair response.",
+        "positive_witness": "In C27, the stated length-preservation interface selects the producer-consumer pair and distinguishes the mixed output of 300 from the required 3. The same observed output passes an implementation-echo criterion; the architecture-level criterion supplies meaning that the badge alone lacks.",
+        "nontrigger_or_counterexample": "A prestigious architecture package that supplies no relevant interface, budget or criterion is not this input. A complete design phase is not needed before integrating an already understood local coherent change.",
+        "cheap_alternative_and_removal": "A thin explicit interface contract or an existing well-understood design can supply the same scope. Removing the only independent constraint leaves the output unscored for that question; removing architecture ceremony while preserving the contract does not. C27's missing-criterion view does not erase the criterion known elsewhere.",
+        "reentry": "Revisit when the architecture identifies a new interaction, the current criterion becomes invalid, or the proposed integration boundary no longer represents the intended decision.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet"
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "The declared interface criterion changes the interpretation of actual composed output. It is not empirical proof of architecture quality or a universal serial prerequisite.",
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L3::EW-P003",
+        "entry_row": [
+          "LAW-L3::EW-P003->LAW-L2::EA-07",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P003",
+            "capsule": {
+              "path": "reading/i007/native/EW-P003.json",
+              "bytes": 6982,
+              "sha256": "d6dc2efd3d4bddb7ec04d31b3149c5049ce5c4c9ac2edf5d424f23a71e8e0e60"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i007/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P003::MECHANISM",
+            "LAW-L3::EW-P003::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P003::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P003::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P003::CEREMONY_VS_PROPERTY",
+            "LAW-L3::EW-P003::KNOWN_FAILURE_MODES"
+          ],
+          "receiver": [
+            "LAW-L2::EA-07::TRIGGER_OR_CONTEXT",
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::CEREMONY_VS_PROPERTY",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I007-F01",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "0c847e6ec6120d672d0c0afccf4d52354563dd3a841920b7ca3dadaa8777d0f5"
+          },
+          {
+            "factor_id": "B33-I007-F02",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "7b574bdee3dc66cdb1977c914c4420da7e7d4e1a1cea4748165e8b5154b2e0fa"
+          },
+          {
+            "factor_id": "B33-I007-F03",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "29fd702d2beeb0b6a7932f79712953f1b0701c2e2f248ed4df54bef3c01a93ae"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The declared interface criterion changes the interpretation of actual composed output. It is not empirical proof of architecture quality or a universal serial prerequisite.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/7",
+            "canonical_value_sha256": "e33ec0b0cf977061572be0fc35bd3c315844b0d036b97ae5e6fe9dbc8e2e087c",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The declared interface criterion changes the interpretation of actual composed output. It is not empirical proof of architecture quality or a universal serial prerequisite.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/8",
+            "canonical_value_sha256": "d38038612f0b2477728c0d74c70422512e472421be183a5693a243acb3e27fca",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The declared interface criterion changes the interpretation of actual composed output. It is not empirical proof of architecture quality or a universal serial prerequisite.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I007-D03",
+        "source": "LAW-L2::EA-07",
+        "receiver": "LAW-L3::EW-P022",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "argument_factors": [
+          "B33-I007-F01",
+          "B33-I007-F02",
+          "B33-I007-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "shared_object": "The actual integrable increment whose interface capability or unresolved incompatibility matters to the amount committed before the next risk-relevant result.",
+        "guard": "A staged commitment consumes the combined increment's current technical state as a premise for advancing, revising, reducing or deferring a specified commitment. Whole economic optimality and final acceptance may remain unresolved; the relevant technical-to-commitment correspondence must be actual.",
+        "source_contribution": "A real combined result distinguishes a risk-retiring increment from administrative slices whose separately green parts have not been reconciled. A necessary incompatibility is evidence against advancing on the claimed integrability premise.",
+        "receiving_consequence": "The next slice of money, design or dependency commitment can be sized with that technical uncertainty exposed. Passing the scoped integration check supports the stated premise only and does not price the option or mandate advancement.",
+        "remaining_premises": "Real separability, commitment and option-expiry conditions, acceptance obligations, funding/contract flexibility, integration overhead and the decision maker's judgment.",
+        "positive_witness": "C27's two isolated successes coexist with a failing actual mixed increment. The coherent updated pair supplies a different real combined result; the original coherent baseline also works, so switching is not automatically required. These facts can inform an actual commitment premise without measuring option value.",
+        "nontrigger_or_counterexample": "A milestone label or a set of independently passing branches that never form the relevant increment does not establish the claimed risk retirement. Integration evidence unrelated to the next commitment is not this input.",
+        "cheap_alternative_and_removal": "A stable understood larger commitment, current same-scoped evidence, complete adequate analysis or a cheap reversible ship/test/revert route may avoid formal staging or repeated runs. Removing the only integrability evidence exposes the premise; removing arbitrary increment dates while preserving that evidence and the commitment boundary does not.",
+        "reentry": "Revisit when the increment's coupled content, relevant result, commitment irreversibility, option expiry or acceptance conditions change.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_baseline_pair"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Real scoped compatibility evidence, not observed capital allocation, independently valuable delivery, option pricing or causal benefit from more frequent integration.",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P022",
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L2::EA-07",
+        "entry_row": [
+          "LAW-L2::EA-07->LAW-L3::EW-P022",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i007/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P022",
+            "capsule": {
+              "path": "reading/i007/native/EW-P022.json",
+              "bytes": 6874,
+              "sha256": "dd6219bdb47964a2a9acbc411e8f48bc35225898c62b11615e9a3e5451d8a44a"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P022::MECHANISM",
+            "LAW-L3::EW-P022::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P022::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P022::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P022::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P022::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P022::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P022::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I007-F01",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "0c847e6ec6120d672d0c0afccf4d52354563dd3a841920b7ca3dadaa8777d0f5"
+          },
+          {
+            "factor_id": "B33-I007-F02",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "7b574bdee3dc66cdb1977c914c4420da7e7d4e1a1cea4748165e8b5154b2e0fa"
+          },
+          {
+            "factor_id": "B33-I007-F03",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "29fd702d2beeb0b6a7932f79712953f1b0701c2e2f248ed4df54bef3c01a93ae"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "dbf830da434c85de107d093033fcad210330c01f02ba653d3e4e9c1cbec28ad8",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Real scoped compatibility evidence, not observed capital allocation, independently valuable delivery, option pricing or causal benefit from more frequent integration.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Real scoped compatibility evidence, not observed capital allocation, independently valuable delivery, option pricing or causal benefit from more frequent integration.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "49267700a23a42377ac81a2d0cec092da4af2f6db6804f59f7bccf61611b1844",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Real scoped compatibility evidence, not observed capital allocation, independently valuable delivery, option pricing or causal benefit from more frequent integration.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_baseline_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/3",
+            "canonical_value_sha256": "62e9821c37912d41c57fccab49f648ad88ecc8e531a194ce4f2f4df9321617f4",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Real scoped compatibility evidence, not observed capital allocation, independently valuable delivery, option pricing or causal benefit from more frequent integration.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I007-D04",
+        "source": "LAW-L3::EW-P022",
+        "receiver": "LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I007-F01",
+          "B33-I007-F02",
+          "B33-I007-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "receiver_fields": [
+          "MATURE_OR_EVOLVED_FORM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "OPEN_QUESTIONS",
+          "MECHANISM"
+        ],
+        "shared_object": "The current committed or proposed slice of coupled system changes and the next decision for which its integrated state must be known.",
+        "guard": "The actual staged-commitment choice identifies a coherent increment, a named risk to retire or a decision horizon that the integration practice consumes to choose its boundary and timing. An arbitrary administrative stage alone does not qualify.",
+        "source_contribution": "A real increment/option boundary states which interfaces belong to this combined candidate and when their result can change the next commitment. It prevents calling unrelated local branch results an evaluated increment and can avoid unnecessary all-system integration for a genuinely separable slice.",
+        "receiving_consequence": "EA07 can align its combined subject and proportionate cadence with the relevant next decision while maintaining truthful health. It need not wait for an unrelated global phase or complete business approval before performing internal integration.",
+        "remaining_premises": "The proposed slice must actually be separable or its residual coupling explicit; technical integration capability, credible criteria and repair capacity still need to exist. A funding boundary cannot make interfaces independent.",
+        "positive_witness": "C27 binds each result to its actual producer-consumer identity. A baseline pass cannot be relabelled as evidence for a different mixed target; an exact current coherent result can be reused. The commitment's actual chosen candidate determines which of these observations answers its integration question.",
+        "nontrigger_or_counterexample": "Quarterly gates that do not determine a real increment, relevant risk or decision horizon add no technical input. A nominally separate procurement slice does not make a tightly coupled physical system independently integrable.",
+        "cheap_alternative_and_removal": "An existing coherent-change boundary and adequate current evidence can realise the input with no added platform or formal staging. Removing the only target/decision boundary makes a pass easy to misapply; removing the stage ceremony with that boundary intact does not. A stable large assembly remains a possible justified route.",
+        "reentry": "Revisit after actual changes in coupled content, separability, commitment timing, risk-retirement question or evidence freshness.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Exact technical candidate/evidence correspondence only. No measured optimal cadence, option expiry, contract flexibility or economic value.",
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L3::EW-P022",
+        "entry_row": [
+          "LAW-L3::EW-P022->LAW-L2::EA-07",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P022",
+            "capsule": {
+              "path": "reading/i007/native/EW-P022.json",
+              "bytes": 6874,
+              "sha256": "dd6219bdb47964a2a9acbc411e8f48bc35225898c62b11615e9a3e5451d8a44a"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i007/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P022::MECHANISM",
+            "LAW-L3::EW-P022::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P022::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P022::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P022::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P022::IMPORTANT_CRITICISMS"
+          ],
+          "receiver": [
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L2::EA-07::OPEN_QUESTIONS",
+            "LAW-L2::EA-07::MECHANISM"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I007-F01",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "0c847e6ec6120d672d0c0afccf4d52354563dd3a841920b7ca3dadaa8777d0f5"
+          },
+          {
+            "factor_id": "B33-I007-F02",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "7b574bdee3dc66cdb1977c914c4420da7e7d4e1a1cea4748165e8b5154b2e0fa"
+          },
+          {
+            "factor_id": "B33-I007-F03",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "29fd702d2beeb0b6a7932f79712953f1b0701c2e2f248ed4df54bef3c01a93ae"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/4",
+            "canonical_value_sha256": "d1441763c01e989cc2b0e5cd4bfac6be8a5958652432214386e6783d004268cf",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Exact technical candidate/evidence correspondence only. No measured optimal cadence, option expiry, contract flexibility or economic value.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "147e9d66d1e556b8e6e2da61ce0f725299955bc720aa6c4f737956f357253783",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Exact technical candidate/evidence correspondence only. No measured optimal cadence, option expiry, contract flexibility or economic value.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I007-D05",
+        "source": "LAW-L2::EA-07",
+        "receiver": "LAW-L3::EW-P032",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I007-F01",
+          "B33-I007-F02",
+          "B33-I007-F03",
+          "B33-I007-F04"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "IMPORTANT_CRITICISMS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "CEREMONY_VS_PROPERTY"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "The current integrated configuration whose actual interface behavior is a stated technical premise of a consequential residual-risk or operational decision.",
+        "guard": "That decision consumes the integrated result for an explicit relevant condition and configuration. Evidence may inform rejection, limitation or unresolved risk before full acceptance is possible; neither complete assurance nor permission is a prior condition for admitting the useful input.",
+        "source_contribution": "Truthful combined evidence exposes an actual necessary incompatibility or supports a bounded technical condition. It prevents independent branch successes, a stale composition or a circular green criterion from silently becoming the technical basis of risk acceptance.",
+        "receiving_consequence": "The actual risk decision can change its technical premise, constrain the contemplated use or record the residual uncertainty. The result supplies no authority and does not itself accept the remaining risk.",
+        "remaining_premises": "Actual empowered decision maker and applicable delegation/regime, relevant operating environment, hazard significance, remaining evidence, stop/escalation powers and current conditions/expiry/monitoring.",
+        "positive_witness": "C27's mixed composition has a known failed length-preservation condition despite two local successes. If that condition is necessary for the specified operation, it is a real contrary technical input even when other residual risks remain unknown. The coherent pass still establishes no actual operational authority.",
+        "nontrigger_or_counterexample": "An internal integration result with no actual residual-risk/operating-decision use is not this input. A successful mainline build or an implementation-echo green result cannot authorize exposing users or operating a facility.",
+        "cheap_alternative_and_removal": "Existing adequate combined evidence, sufficient analysis or a qualified assembly without CI can supply the same technical premise. Removing the only relevant technical evidence weakens the decision; removing a daily integration ceremony with valid current evidence intact does not. Real binding approval conditions remain applicable.",
+        "reentry": "Revisit after relevant configuration, environment, condition, authority basis or hazard/criterion change; do not silently transfer a prior pass or permission.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair"
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "The construction provides a technical counterexample and pass with authority explicitly unestablished. It does not instantiate a real risk owner, hazard model, legal regime or operating decision.",
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P032",
+        "reverse_direction_key": "LAW-L3::EW-P032->LAW-L2::EA-07",
+        "entry_row": [
+          "LAW-L2::EA-07->LAW-L3::EW-P032",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i007/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P032",
+            "capsule": {
+              "path": "reading/i007/native/EW-P032.json",
+              "bytes": 7231,
+              "sha256": "e2765893d7e0947ec4adcd9c87b69d41f5835652bdcb5c93399197eb0a97f06e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31"
+            },
+            "selected_ref": null,
+            "native_status": "HIGH_CONSEQUENCE_CONTEXT_PROPERTY",
+            "selected_criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-07::CEREMONY_VS_PROPERTY"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P032::MECHANISM",
+            "LAW-L3::EW-P032::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P032::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P032::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P032::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P032::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I007-F01",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "0c847e6ec6120d672d0c0afccf4d52354563dd3a841920b7ca3dadaa8777d0f5"
+          },
+          {
+            "factor_id": "B33-I007-F02",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "7b574bdee3dc66cdb1977c914c4420da7e7d4e1a1cea4748165e8b5154b2e0fa"
+          },
+          {
+            "factor_id": "B33-I007-F03",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "29fd702d2beeb0b6a7932f79712953f1b0701c2e2f248ed4df54bef3c01a93ae"
+          },
+          {
+            "factor_id": "B33-I007-F04",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "fc116ced9a3a3a27a3155a5a1427f09f9f5e1ee91de48768091c504b9720f295"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The construction provides a technical counterexample and pass with authority explicitly unestablished. It does not instantiate a real risk owner, hazard model, legal regime or operating decision.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "49267700a23a42377ac81a2d0cec092da4af2f6db6804f59f7bccf61611b1844",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The construction provides a technical counterexample and pass with authority explicitly unestablished. It does not instantiate a real risk owner, hazard model, legal regime or operating decision.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/8",
+            "canonical_value_sha256": "d38038612f0b2477728c0d74c70422512e472421be183a5693a243acb3e27fca",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "The construction provides a technical counterexample and pass with authority explicitly unestablished. It does not instantiate a real risk owner, hazard model, legal regime or operating decision.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I007-D06",
+        "source": "LAW-L3::EW-P032",
+        "receiver": "LAW-L2::EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "argument_factors": [
+          "B33-I007-F01",
+          "B33-I007-F02",
+          "B33-I007-F03",
+          "B33-I007-F04"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.cheaper_or_boundary_alternative",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "receiver_fields": [
+          "MATURE_OR_EVOLVED_FORM",
+          "CEREMONY_VS_PROPERTY",
+          "IMPORTANT_CRITICISMS",
+          "MECHANISM",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "shared_object": "An actual operating boundary, configuration condition or residual-risk criterion that the combined-state evidence must address for its named next decision.",
+        "guard": "The actual risk/authority process supplies a relevant current condition or boundary that is consumed in selecting or interpreting integration evidence. A valid partial condition can be useful while final acceptance remains unresolved; generic governance titles and unrelated signatures are insufficient.",
+        "source_contribution": "The supplied scope distinguishes the target configuration and technical condition from internal green status, and identifies what the result may support. This can require a relevant integration check or narrow the evidence already sufficient within delegated tolerances.",
+        "receiving_consequence": "EA07 can judge whether its current combined evidence is healthy enough for the actual next decision and retain explicit limits. The condition does not require operational permission before internal code integration, nor can an authority declaration turn a technical failure into a pass.",
+        "remaining_premises": "Actual applicable authority and current condition, correspondence from the tested configuration to the contemplated use, credible integration evidence, and remaining operational controls. Authority cannot repair a wrong oracle or incompatible interface by declaration.",
+        "positive_witness": "C27's exact current coherent observation can answer its declared condition without a repeat call; the baseline pass belongs to a different composition, and removing the criterion leaves the supplied output unscored. These are technical scope distinctions an actual operating condition must preserve, not a simulation of approval.",
+        "nontrigger_or_counterexample": "A signature with no current configuration or criterion supplies no such constraint. An operation's approval route is not automatically a prerequisite for every internal merge; an unrelated authorization cannot establish mainline health.",
+        "cheap_alternative_and_removal": "Existing pre-authorised tolerances and the same competent person may suffice where the actual regime allows; no new committee or platform is implied. Adequate current evidence or complete analysis can satisfy the technical condition. Removing its only scoped criterion loses the intended interpretation; removing ceremony with the condition and legitimate authority intact does not.",
+        "reentry": "Revisit after a relevant condition, configuration, delegation, expiry, monitoring or intended-use change. Keep technical truth and authorization records separately scoped.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current"
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Evidence identity and criterion interpretation are actually constructed; real delegation, authorization and operating effects remain unestablished.",
+        "direction_key": "LAW-L3::EW-P032->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L3::EW-P032",
+        "entry_row": [
+          "LAW-L3::EW-P032->LAW-L2::EA-07",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P032",
+            "capsule": {
+              "path": "reading/i007/native/EW-P032.json",
+              "bytes": 7231,
+              "sha256": "e2765893d7e0947ec4adcd9c87b69d41f5835652bdcb5c93399197eb0a97f06e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31"
+            },
+            "selected_ref": null,
+            "native_status": "HIGH_CONSEQUENCE_CONTEXT_PROPERTY",
+            "selected_criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-07",
+            "capsule": {
+              "path": "reading/i007/native/EA-07.json",
+              "bytes": 5856,
+              "sha256": "d096aee5e6267a8cc4626c9d87624826d8c1e242293794b8eb6b6a48c65506e7"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/6"
+            },
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P032::MECHANISM",
+            "LAW-L3::EW-P032::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P032::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P032::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P032::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P032::REQUALIFICATION.cheaper_or_boundary_alternative",
+            "LAW-L3::EW-P032::IMPORTANT_CRITICISMS"
+          ],
+          "receiver": [
+            "LAW-L2::EA-07::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-07::CEREMONY_VS_PROPERTY",
+            "LAW-L2::EA-07::IMPORTANT_CRITICISMS",
+            "LAW-L2::EA-07::MECHANISM",
+            "LAW-L2::EA-07::NON_TRIGGER_OR_CHEAP_PATH"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I007-F01",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "0c847e6ec6120d672d0c0afccf4d52354563dd3a841920b7ca3dadaa8777d0f5"
+          },
+          {
+            "factor_id": "B33-I007-F02",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "7b574bdee3dc66cdb1977c914c4420da7e7d4e1a1cea4748165e8b5154b2e0fa"
+          },
+          {
+            "factor_id": "B33-I007-F03",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "29fd702d2beeb0b6a7932f79712953f1b0701c2e2f248ed4df54bef3c01a93ae"
+          },
+          {
+            "factor_id": "B33-I007-F04",
+            "source": {
+              "path": "authoring/B33_I007_LITERAL_ARGUMENTS.json",
+              "bytes": 25863,
+              "sha256": "d422f46370dc082c59674182ce992c0feb58a993c955836927c4591d90560653"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "fc116ced9a3a3a27a3155a5a1427f09f9f5e1ee91de48768091c504b9720f295"
+          }
+        ],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/4",
+            "canonical_value_sha256": "d1441763c01e989cc2b0e5cd4bfac6be8a5958652432214386e6783d004268cf",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Evidence identity and criterion interpretation are actually constructed; real delegation, authorization and operating effects remain unestablished.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "147e9d66d1e556b8e6e2da61ce0f725299955bc720aa6c4f737956f357253783",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Evidence identity and criterion interpretation are actually constructed; real delegation, authorization and operating effects remain unestablished.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/7",
+            "canonical_value_sha256": "e33ec0b0cf977061572be0fc35bd3c315844b0d036b97ae5e6fe9dbc8e2e087c",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Evidence identity and criterion interpretation are actually constructed; real delegation, authorization and operating effects remain unestablished.",
+            "evidence_origin": "CURRENT_INCREMENT_ACTUAL_RECORDED_CONTROL",
+            "additional_execution_for_binding": false
+          }
+        ]
+      }
+    ],
+    "scientific_verdicts_computed": false
+  }
+}

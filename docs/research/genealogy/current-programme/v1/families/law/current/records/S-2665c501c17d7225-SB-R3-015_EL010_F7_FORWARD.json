@@ -1,0 +1,891 @@
+{
+  "source_identity": {
+    "source_id": "S-2665c501c17d7225",
+    "scientific_name": "SB-R3-015_EL010_F7_FORWARD.json",
+    "original_bytes": 65903,
+    "original_sha256": "2665c501c17d7225ea2917e01a02f37125f9760c2123fca8e62d5cc76c9e65ce"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-015",
+    "title": "EL-010_FORWARD_SUPPLIER_BUFFER_AND_CONTINUITY_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:12:24.154573+00:00",
+    "inquiry_family": 7,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_005.json",
+      "bytes": 7000,
+      "sha256": "7059b0b8192ede42bdfa0e9318bc2f31067e9c2a2413d47b5f3ca8c0c9a257a7"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal supplier rule, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-004",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        }
+      },
+      {
+        "native_id": "EL-008",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        }
+      },
+      {
+        "native_id": "EL-009",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        }
+      },
+      {
+        "native_id": "EL-010",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        }
+      },
+      {
+        "native_id": "EL-027",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        }
+      },
+      {
+        "native_id": "EL-028",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        }
+      },
+      {
+        "native_id": "EW-P009",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P026",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P028",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        }
+      },
+      {
+        "native_id": "EW-P029",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY7_SOURCE_INQUIRY.json",
+      "bytes": 3318,
+      "sha256": "8ae0f20c1d19caca960236df794b847df83ab4bef3197eeaa0fa699cb7ef2c60"
+    },
+    "native_common_basis": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself.",
+    "common_cost_and_alternative": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Information treated as physical capacity.",
+      "First-tier diversity treated as independent lower-tier supply.",
+      "A complete document treated as operational capability.",
+      "A partial exposure or criterion input rejected for failing the whole receiver.",
+      "Capacity, stock or staff double-counted for routine and contingency use.",
+      "Buyer savings treated as joint fair gain."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P009",
+        "argument": "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P022",
+        "argument": "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P025",
+        "argument": "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P026",
+        "argument": "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P027",
+        "argument": "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P028",
+        "argument": "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P029",
+        "argument": "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P033",
+        "argument": "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P009",
+        "overclaim": "A current-looking message can have duplicated quantities or incompatible units; receipt is not evidence of valid demand or capacity.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P022",
+        "overclaim": "Zero current withdrawal can coexist with an impending committed launch; blindly deferring all procurement may destroy an otherwise useful option.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P025",
+        "overclaim": "A clean consumption series can omit suppressed demand and unserved backlog; recording fidelity is not total demand representativeness.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P026",
+        "overclaim": "A real-time purchase request arrives too late for a long custom lead time; speed of information is not production capability.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P027",
+        "overclaim": "An accurate demand count cannot establish trained responders, configured deployment or operating permission.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P028",
+        "overclaim": "Perfect inventory visibility cannot replenish an exhausted critical item before the stipulated recovery deadline.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P029",
+        "overclaim": "Stable recent consumption does not prove future supplier availability or cover a rare high-consequence replacement need.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P033",
+        "overclaim": "Good demand data cannot waive an independent obligation or supply recovery capability; a short interval is not automatically a sufficient one.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared capacity, information, organizations, tools or source works are not independent controls or benefits.",
+    "direction": "forward",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L1::EL-010->LAW-L3::EW-P009",
+      "LAW-L1::EL-010->LAW-L3::EW-P022",
+      "LAW-L1::EL-010->LAW-L3::EW-P025",
+      "LAW-L1::EL-010->LAW-L3::EW-P026",
+      "LAW-L1::EL-010->LAW-L3::EW-P027",
+      "LAW-L1::EL-010->LAW-L3::EW-P028",
+      "LAW-L1::EL-010->LAW-L3::EW-P029",
+      "LAW-L1::EL-010->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P009",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P009",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on."
+        },
+        "shared_question_or_object": "A replenishment signal transmitted across a consequential interface.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on."
+        },
+        "source_contribution": "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on.",
+        "receiving_consequence": "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on."
+        ],
+        "premises_remaining": [
+          "Actual two-sided semantics, compatibility evidence, ownership and change handling remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A current-looking message can have duplicated quantities or incompatible units; receipt is not evidence of valid demand or capacity.",
+        "counter_control": "A current-looking message can have duplicated quantities or incompatible units; receipt is not evidence of valid demand or capacity.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Use local types or a focused contract test when the boundary is private and low consequence.",
+        "subcondition_evidence": {
+          "P1": "A replenishment signal transmitted across a consequential interface.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "A consequential boundary between components or organizations",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+            "literal_bridge": "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on."
+          },
+          "P3": "Signal origin, item units, freshness and decision authority supply behavioral semantics that both sides of the interface must agree on.",
+          "P4": "Actual two-sided semantics, compatibility evidence, ownership and change handling remain necessary. Control: A current-looking message can have duplicated quantities or incompatible units; receipt is not evidence of valid demand or capacity."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P009->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P022",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need."
+        },
+        "shared_question_or_object": "A staged commitment informed by consumption and long-lead demand signals.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need."
+        },
+        "source_contribution": "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need.",
+        "receiving_consequence": "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need."
+        ],
+        "premises_remaining": [
+          "Separable decisions, sufficient relevant evidence, real option feasibility and commitment authority remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Zero current withdrawal can coexist with an impending committed launch; blindly deferring all procurement may destroy an otherwise useful option.",
+        "counter_control": "Zero current withdrawal can coexist with an impending committed launch; blindly deferring all procurement may destroy an otherwise useful option.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Stable well-understood delivery can justify a larger commitment without artificial staging.",
+        "subcondition_evidence": {
+          "P1": "A staged commitment informed by consumption and long-lead demand signals.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "A sequence of commitments under uncertainty",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+            "literal_bridge": "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need."
+          },
+          "P3": "A trustworthy signal plus explicit forecast complement can inform the next commitment without pretending that current withdrawals reveal future long-lead need.",
+          "P4": "Separable decisions, sufficient relevant evidence, real option feasibility and commitment authority remain necessary. Control: Zero current withdrawal can coexist with an impending committed launch; blindly deferring all procurement may destroy an otherwise useful option."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P025",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline."
+        },
+        "shared_question_or_object": "A forecast using withdrawal or replenishment records as actual demand evidence.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline."
+        },
+        "source_contribution": "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline.",
+        "receiving_consequence": "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline."
+        ],
+        "premises_remaining": [
+          "Comparable data, explicit ranges, honest assumptions and actual forecast updates remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A clean consumption series can omit suppressed demand and unserved backlog; recording fidelity is not total demand representativeness.",
+        "counter_control": "A clean consumption series can omit suppressed demand and unserved backlog; recording fidelity is not total demand representativeness.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. A short-horizon forecast from recent throughput can suffice.",
+        "subcondition_evidence": {
+          "P1": "A forecast using withdrawal or replenishment records as actual demand evidence.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "A forecast used for resource or commitment decisions",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+            "literal_bridge": "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline."
+          },
+          "P3": "Checking origin, units, freshness and exception treatment prevents a distorted signal from silently becoming the forecast baseline.",
+          "P4": "Comparable data, explicit ranges, honest assumptions and actual forecast updates remain necessary. Control: A clean consumption series can omit suppressed demand and unserved backlog; recording fidelity is not total demand representativeness."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P026",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P026",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+          "literal_bridge": "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it."
+        },
+        "shared_question_or_object": "Supplier replenishment and long-lead preparation governed across organizations.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+          "literal_bridge": "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it."
+        },
+        "source_contribution": "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it.",
+        "receiving_consequence": "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it."
+        ],
+        "premises_remaining": [
+          "Actual commercial authority, usable data rights, configuration correspondence and feasible supplier capability remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A real-time purchase request arrives too late for a long custom lead time; speed of information is not production capability.",
+        "counter_control": "A real-time purchase request arrives too late for a long custom lead time; speed of information is not production capability.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Direct coordination and a short dependency note can suffice at a simple shared-team boundary.",
+        "subcondition_evidence": {
+          "P1": "Supplier replenishment and long-lead preparation governed across organizations.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+            "literal_bridge": "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it."
+          },
+          "P3": "A shared demand-information contract clarifies which signal authorizes what replenishment and when forecasts or exceptions must supplement it.",
+          "P4": "Actual commercial authority, usable data rights, configuration correspondence and feasible supplier capability remain necessary. Control: A real-time purchase request arrives too late for a long custom lead time; speed of information is not production capability."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P026->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P027",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P027",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "Transition to operation or restart",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "literal_bridge": "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition."
+        },
+        "shared_question_or_object": "A readiness decision using demand and replenishment information for startup support.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "Transition to operation or restart",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "literal_bridge": "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition."
+        },
+        "source_contribution": "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition.",
+        "receiving_consequence": "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition."
+        ],
+        "premises_remaining": [
+          "Actual configured system, trained people, support, contingency and transition authority remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "An accurate demand count cannot establish trained responders, configured deployment or operating permission.",
+        "counter_control": "An accurate demand count cannot establish trained responders, configured deployment or operating permission.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Use proportionate existing readiness checks or a representative rehearsal where adequate and allowed.",
+        "subcondition_evidence": {
+          "P1": "A readiness decision using demand and replenishment information for startup support.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "Transition to operation or restart",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+            "literal_bridge": "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition."
+          },
+          "P3": "Reliable startup demand and supply signals inform stock, staffing and replenishment preparation for the actual transition.",
+          "P4": "Actual configured system, trained people, support, contingency and transition authority remain necessary. Control: An accurate demand count cannot establish trained responders, configured deployment or operating permission."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P027->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P028",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P028",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A proposed recovery claim after failure or change",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "literal_bridge": "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall."
+        },
+        "shared_question_or_object": "Recovery planning based on demand, inventory consumption and restoration signals.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A proposed recovery claim after failure or change",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "literal_bridge": "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall."
+        },
+        "source_contribution": "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall.",
+        "receiving_consequence": "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall."
+        ],
+        "premises_remaining": [
+          "Actual state coverage, accessible compatible resources, timing, ownership and correlated-failure examination remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Perfect inventory visibility cannot replenish an exhausted critical item before the stipulated recovery deadline.",
+        "counter_control": "Perfect inventory visibility cannot replenish an exhausted critical item before the stipulated recovery deadline.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. A stateless isolated disposable experiment may need only restart or deletion.",
+        "subcondition_evidence": {
+          "P1": "Recovery planning based on demand, inventory consumption and restoration signals.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "A proposed recovery claim after failure or change",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+            "literal_bridge": "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall."
+          },
+          "P3": "Valid demand and replenishment information identifies what restoration capacity or replacement stock is needed and can expose a looming shortfall.",
+          "P4": "Actual state coverage, accessible compatible resources, timing, ownership and correlated-failure examination remain necessary. Control: Perfect inventory visibility cannot replenish an exhausted critical item before the stipulated recovery deadline."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P028->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P029",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P029",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A supported system over its operational life",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "literal_bridge": "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand."
+        },
+        "shared_question_or_object": "Continuing support using field demand and replenishment signals.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A supported system over its operational life",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "literal_bridge": "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand."
+        },
+        "source_contribution": "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand.",
+        "receiving_consequence": "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand."
+        ],
+        "premises_remaining": [
+          "Continuing ownership, configuration, skills, funding, rights and deliberate end-of-support decisions remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Stable recent consumption does not prove future supplier availability or cover a rare high-consequence replacement need.",
+        "counter_control": "Stable recent consumption does not prove future supplier availability or cover a rare high-consequence replacement need.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. A short-lived tool may use an explicit early retirement policy.",
+        "subcondition_evidence": {
+          "P1": "Continuing support using field demand and replenishment signals.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "A supported system over its operational life",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+            "literal_bridge": "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand."
+          },
+          "P3": "Current signal semantics and long-lead visibility inform spares and support scheduling and distinguish normal consumption from obsolescence or exceptional failure demand.",
+          "P4": "Continuing ownership, configuration, skills, funding, rights and deliberate end-of-support decisions remain necessary. Control: Stable recent consumption does not prove future supplier availability or cover a rare high-consequence replacement need."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P029->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-010->LAW-L3::EW-P033",
+        "source_native_id": "EL-010",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action."
+        },
+        "shared_question_or_object": "Selecting a control package where demand information changes the timing or scale of commitment.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A demand or replenishment signal consumed by a release decision",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action."
+        },
+        "source_contribution": "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action.",
+        "receiving_consequence": "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action."
+        ],
+        "premises_remaining": [
+          "All material consequence dimensions and actual applicable obligations remain necessary; no universal scoring formula is asserted.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Good demand data cannot waive an independent obligation or supply recovery capability; a short interval is not automatically a sufficient one.",
+        "counter_control": "Good demand data cannot waive an independent obligation or supply recovery capability; a short interval is not automatically a sufficient one.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Use existing adequate controls and bounded preauthorization where the actual regime permits.",
+        "subcondition_evidence": {
+          "P1": "Selecting a control package where demand information changes the timing or scale of commitment.",
+          "P2": {
+            "source_bearer": "A demand or replenishment signal consumed by a release decision",
+            "receiving_bearer": "A decision about assurance strength under change",
+            "source_native_proposition": "A governed demand-information contract, not blind reaction to the latest request.",
+            "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+            "literal_bridge": "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action."
+          },
+          "P3": "Signal fidelity and latency supply an observability and exposure premise for control selection; trustworthy information may confirm an existing choice without changing action.",
+          "P4": "All material consequence dimensions and actual applicable obligations remain necessary; no universal scoring formula is asserted. Control: Good demand data cannot waive an independent obligation or supply recovery capability; a short interval is not automatically a sufficient one."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L1::EL-010",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

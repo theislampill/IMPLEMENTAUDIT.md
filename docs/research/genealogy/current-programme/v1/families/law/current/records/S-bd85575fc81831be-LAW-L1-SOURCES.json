@@ -1,0 +1,3314 @@
+{
+  "source_identity": {
+    "source_id": "S-bd85575fc81831be",
+    "scientific_name": "LAW-L1-SOURCES.json",
+    "original_bytes": 185583,
+    "original_sha256": "bd85575fc81831bee00fab67f641a4b9ba9c92f5ae2173236da7efa509568ebf"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "AUTHOR_SOURCE_EXAMINATION_REVIEW_PENDING",
+    "source_population_kind": "70 inherited citation records and 13 distinct newly identified works; neither count is an independent-study count",
+    "original_cutoff": "2026-08-11",
+    "current_inspection_window_utc": [
+      "2026-11-09",
+      "2026-11-10"
+    ],
+    "access_vocabulary_note": "SECTION_INSPECTED means only named body/section; a full-text URL or availability is not full-text inspection. Bibliographic corrections do not establish every inherited claim. NOT_NEWLY_ACCESSED entries preserve a stated absence of fresh access.",
+    "records": [
+      {
+        "source_id": "S001",
+        "native_locator": "#/SOURCE_REGISTER/0",
+        "inherited_source_record": {
+          "SOURCE_ID": "S001",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "The Birth of Jidoka",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate historical archive",
+          "EXACT_SECTION_PAGE_LOCATOR": "Part 1, ch. 1, sec. 1, item 4",
+          "CLAIM_SUPPORTED": "The 1897 Toyoda Power Loom stopped automatically on weft failure, preventing defective continuation and reducing continuous machine watching.",
+          "RELATION_TO_PROPERTIES": "EL-003, EL-011, EL-012, EL-015",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Retrospective corporate history; establishes an antecedent, not the complete later TPS doctrine.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter1/section1/item4.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "The Birth of Jidoka, main body",
+            "transcript_web_refs": [
+              "turn5822610view4"
+            ],
+            "claim_ceiling": "Historical antecedent: automatic stoppage for thread failure. Corporate retrospective, not independent effects evidence.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter1/section1/item4.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S002",
+        "native_locator": "#/SOURCE_REGISTER/1",
+        "inherited_source_record": {
+          "SOURCE_ID": "S002",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "The Origins of Just-in-Time",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate historical archive",
+          "EXACT_SECTION_PAGE_LOCATOR": "Part 1, ch. 2, sec. 4, item 5",
+          "CLAIM_SUPPORTED": "Kiichiro Toyoda formulated needed-quantity/needed-time flow before the war; wartime scarcity obstructed it and later mechanisms were required.",
+          "RELATION_TO_PROPERTIES": "EL-004, EL-007, EL-010, EL-034",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Retrospective; does not by itself establish the operational effectiveness of later JIT.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section4/item5.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "The Origins of Just-in-Time, main body",
+            "transcript_web_refs": [
+              "turn5822610view3"
+            ],
+            "claim_ceiling": "Kiichiro intent, wartime restrictions and later implementation are distinct events.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section4/item5.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S003",
+        "native_locator": "#/SOURCE_REGISTER/2",
+        "inherited_source_record": {
+          "SOURCE_ID": "S003",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Supermarket Method",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate historical archive",
+          "EXACT_SECTION_PAGE_LOCATOR": "Part 1, ch. 2, sec. 7, item 4",
+          "CLAIM_SUPPORTED": "Toyota introduced downstream withdrawal in 1954 after reading about a Lockheed implementation; kanban became an instruction/replenishment mechanism.",
+          "RELATION_TO_PROPERTIES": "EL-004, EL-010, EL-037",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Corrects the personal-supermarket-visit myth but cannot exhaust every influence on Ohno.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section7/item4.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Supermarket Method, main body",
+            "transcript_web_refs": [
+              "turn4563113view0"
+            ],
+            "claim_ceiling": "1954 industry account of Lockheed supermarket practice is a documented reported influence; direct supermarket experience came later.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section7/item4.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S004",
+        "native_locator": "#/SOURCE_REGISTER/3",
+        "inherited_source_record": {
+          "SOURCE_ID": "S004",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Toyota Production System chronology",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History chronology PDF, 2012",
+          "SOURCE_CLASS": "primary corporate chronology",
+          "EXACT_SECTION_PAGE_LOCATOR": "pp. 1–2; entries 1948–1975",
+          "CLAIM_SUPPORTED": "Dates early pull, andon, standardized work, kanban, setup reduction, fixed-position stopping, supplier kanban and quality measures.",
+          "RELATION_TO_PROPERTIES": "EL-004–EL-007, EL-011–EL-017, EL-026",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Chronology is compressed and weak on causal contribution or adverse effects.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/common/pdf/production_system.pdf",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Production-system chronology, early entries and selected dates; two-page PDF",
+            "transcript_web_refs": [
+              "turn9807099view0"
+            ],
+            "claim_ceiling": "Dates remain corporate chronology; uninspected later entries are not newly verified.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/common/pdf/production_system.pdf"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S005",
+        "native_locator": "#/SOURCE_REGISTER/4",
+        "inherited_source_record": {
+          "SOURCE_ID": "S005",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Development and Deployment of the Toyota Production System",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate historical archive",
+          "EXACT_SECTION_PAGE_LOCATOR": "Part 2, ch. 1, sec. 4, item 4",
+          "CLAIM_SUPPORTED": "TPS developed as interacting JIT and jidoka systems and required standardization, transport, levelling, equipment availability and supplier extension.",
+          "RELATION_TO_PROPERTIES": "EL-004, EL-007, EL-011–EL-017, EL-026–EL-028",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Success-oriented retrospective; does not establish universal transferability.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/text/entering_the_automotive_business/chapter1/section4/item4.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Development and Deployment, main body through Ohno recollection",
+            "transcript_web_refs": [
+              "turn2833226view4"
+            ],
+            "claim_ceiling": "Kanban expansion, andon, reliability, and labor reduction. These statements document policy and claimed history, not neutral effects.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/text/entering_the_automotive_business/chapter1/section4/item4.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S006",
+        "native_locator": "#/SOURCE_REGISTER/5",
+        "inherited_source_record": {
+          "SOURCE_ID": "S006",
+          "AUTHOR_OR_ORGANISATION": "Y. Sugimori, K. Kusunoki, F. Cho, S. Uchikawa",
+          "EXACT_TITLE": "Toyota production system and Kanban system: Materialization of just-in-time and respect-for-human system",
+          "DATE_VERSION_EDITION": "1977, International Journal of Production Research 15(6):553–564",
+          "SOURCE_CLASS": "primary participant paper",
+          "EXACT_SECTION_PAGE_LOCATOR": "abstract and sections describing JIT/minimum stock and respect-for-human system",
+          "CLAIM_SUPPORTED": "Contemporary Toyota account connects minimum stock/JIT with worker participation in operation and improvement.",
+          "RELATION_TO_PROPERTIES": "EL-004, EL-021–EL-024, EL-034",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Toyota-authored advocacy; historical labour assumptions do not prove worker experience.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1080/00207547708943149",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "pp. 553–564, most substantive discussion; kanban equation and smoothing/setup discussion",
+            "transcript_web_refs": [
+              "turn5822610view0",
+              "turn7246899view0",
+              "turn5725731view0"
+            ],
+            "claim_ceiling": "Participant theory explicitly includes minimum connecting stock, planning, overtime/stop responses and employment assumptions. Do not universalize its cultural assertions.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1080/00207547708943149"
+          }
+        ],
+        "dependence_group": "S006",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S007",
+        "native_locator": "#/SOURCE_REGISTER/6",
+        "inherited_source_record": {
+          "SOURCE_ID": "S007",
+          "AUTHOR_OR_ORGANISATION": "Taiichi Ohno",
+          "EXACT_TITLE": "Toyota Production System: Beyond Large-Scale Production",
+          "DATE_VERSION_EDITION": "Japanese 1978; English edition 1988",
+          "SOURCE_CLASS": "primary participant monograph",
+          "EXACT_SECTION_PAGE_LOCATOR": "esp. chs. on JIT, jidoka, waste, standard work and Five Whys; English p. 123 for Five Whys",
+          "CLAIM_SUPPORTED": "Ohno's retrospective account of TPS logic and mechanisms.",
+          "RELATION_TO_PROPERTIES": "EL-004–EL-007, EL-011–EL-019, EL-033–EL-040",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Author-centred retrospective; should not be treated as sole institutional history.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.4324/9780429273018",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [],
+        "dependence_group": "S007",
+        "current_requalification_status": "NOT_NEWLY_ACCESSED",
+        "current_access_limit": {
+          "access_level": "NOT_NEWLY_ACCESSED",
+          "inspected_locator": "Inherited participant monograph citation only",
+          "transcript_web_refs": [],
+          "claim_ceiling": "The book is not newly read. TPS mechanisms are independently checked against Sugimori and official histories; detailed page-specific Ohno claims remain inherited.",
+          "date_utc": "2026-11-10",
+          "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+        }
+      },
+      {
+        "source_id": "S008",
+        "native_locator": "#/SOURCE_REGISTER/7",
+        "inherited_source_record": {
+          "SOURCE_ID": "S008",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Personnel-Related Development — Developments in Education",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate historical archive",
+          "EXACT_SECTION_PAGE_LOCATOR": "education chronology and notes 1–2",
+          "CLAIM_SUPPORTED": "TWI was introduced to Japan by the Ministry of Labour in 1950; Toyota adopted JR/JI/JM selectively and later developed TJI, TJR/TCS and Standard Work and Improvement training.",
+          "RELATION_TO_PROPERTIES": "EL-017, EL-021, EL-022",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Establishes selective transmission, not that TWI authored TPS as a whole.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/personnel/personnel-related_development/education.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Education table 1951–1952 and surrounding chronology",
+            "transcript_web_refs": [
+              "turn6286701view0"
+            ],
+            "claim_ceiling": "JR 1951 / JI 1952 in corporate table conflicts with Kato recollection; exact sequence remains unresolved.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/personnel/personnel-related_development/education.html"
+          },
+          {
+            "date_utc": "2026-11-10",
+            "revision": "r2_fidelity_response",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Education chronology rows for 1951/1952 and footnote 1 (retrieval lines 25–29, 272–274).",
+            "transcript_web_refs": [
+              "turn5165036view0"
+            ],
+            "claim_ceiling": "Corporate history dates national introduction to 1950 and lists separate company module dates; exact disagreement with participant recollection remains.",
+            "log_origin": "Actual author reinspection after fidelity v1; exact requests retained in revision working logs.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/personnel/personnel-related_development/education.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S009",
+        "native_locator": "#/SOURCE_REGISTER/8",
+        "inherited_source_record": {
+          "SOURCE_ID": "S009",
+          "AUTHOR_OR_ORGANISATION": "Art Smalley summarising interview with Isao Kato",
+          "EXACT_TITLE": "Summary Notes from Art Smalley Interview with Mr. Isao Kato: TWI's Influence on TPS and Kaizen",
+          "DATE_VERSION_EDITION": "2006",
+          "SOURCE_CLASS": "participant testimony / historical correction",
+          "EXACT_SECTION_PAGE_LOCATOR": "entire 9-page interview summary, especially TWI adoption and replacement/adaptation passages",
+          "CLAIM_SUPPORTED": "TWI Job Instruction endured; Job Methods was judged insufficient for Toyota flow conditions and was supplemented/replaced; Job Relations was adapted.",
+          "RELATION_TO_PROPERTIES": "EL-017, EL-021, EL-022",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Retrospective testimony hosted by a practitioner organisation; use with Toyota's corporate chronology.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://artoflean.com/uploads/2019/01/Mr_Kato_Interview_on_TWI_and_TPS.pdf",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "EXACT_SECTION_PAGE_LOCATOR": "Five-page interview summary dated 8 February 2006; pp. 1–2 introduction and module dates; p. 3 JM replacement/P-Course; pp. 4–5 training interpretation and limits.",
+          "note": "LF-003: the supplied PDF has five pages, not nine. All five pages were inspected by the author during r2; earlier partial-access events remain historical records. LF-002: its text does not specify a 1955 P-Course teaching start."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "2006-02-08 interview pp.1–4, TWI introduction, JM replacement, standard work",
+            "transcript_web_refs": [
+              "turn5724868view1",
+              "turn6286701view2",
+              "turn6286701view3"
+            ],
+            "claim_ceiling": "Participant recollection supports influence and revision, not sole invention; dates conflict with S008. Last-page conclusion not yet inspected.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://artoflean.com/uploads/2019/01/Mr_Kato_Interview_on_TWI_and_TPS.pdf"
+          },
+          {
+            "date_utc": "2026-11-10",
+            "revision": "r2_fidelity_response",
+            "access_level": "FULL_SUPPLIED_PDF_INSPECTED",
+            "inspected_locator": "All five pages of the 8 February 2006 interview summary; PDF pages 1–5, retrieval lines 0–148.",
+            "transcript_web_refs": [
+              "turn5165036view1"
+            ],
+            "claim_ceiling": "Participant recollection supports selective influence. Exact dates differ from the corporate account; the supplied text does not specify the P-Course start year.",
+            "log_origin": "Actual author reinspection after fidelity v1; exact requests retained in revision working logs.",
+            "access_url": "https://artoflean.com/uploads/2019/01/Mr_Kato_Interview_on_TWI_and_TPS.pdf"
+          }
+        ],
+        "dependence_group": "S009",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S010",
+        "native_locator": "#/SOURCE_REGISTER/9",
+        "inherited_source_record": {
+          "SOURCE_ID": "S010",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Establishment of quality control system",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate historical archive",
+          "EXACT_SECTION_PAGE_LOCATOR": "Part 1, ch. 2, sec. 7, item 6",
+          "CLAIM_SUPPORTED": "Toyota began SQC investigation in 1949, used control charts and recurrence countermeasures, expanded quality control to suppliers, adopted company-wide TQC and received the Deming Application Prize in 1965.",
+          "RELATION_TO_PROPERTIES": "EL-013, EL-016, EL-019, EL-027",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Documents Toyota's chronology but not an idea-by-idea causal attribution to Deming.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section7/item6_a.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Establishment of quality control system, main body",
+            "transcript_web_refs": [
+              "turn4563113view2"
+            ],
+            "claim_ceiling": "SQC training and chart adoption; later TQC context. Corporate retrospective does not establish isolated causal effect.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section7/item6_a.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S011",
+        "native_locator": "#/SOURCE_REGISTER/10",
+        "inherited_source_record": {
+          "SOURCE_ID": "S011",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Total Quality Management (TQM): Changes and Innovations",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate chronology",
+          "EXACT_SECTION_PAGE_LOCATOR": "overview and entries from 1949 onward",
+          "CLAIM_SUPPORTED": "Toyota presents TQM as customer-first, kaizen and total participation following SQC introduction and quality-prize activity.",
+          "RELATION_TO_PROPERTIES": "EL-001, EL-016, EL-019, EL-021–EL-024",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Later corporate codification; does not prove that participation or customer value governed every practice.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/management_and_finances/management/tqm/change.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "TQM chronology, including 1951 suggestions and December 1982 target removal",
+            "transcript_web_refs": [
+              "turn1192463view1"
+            ],
+            "claim_ceiling": "Corporate chronology documents Ford suggestion-system import and later elimination of companywide suggestion-count targets; neither item proves universal effects.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/management_and_finances/management/tqm/change.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S012",
+        "native_locator": "#/SOURCE_REGISTER/11",
+        "inherited_source_record": {
+          "SOURCE_ID": "S012",
+          "AUTHOR_OR_ORGANISATION": "W. Edwards Deming Institute",
+          "EXACT_TITLE": "PDSA Cycle",
+          "DATE_VERSION_EDITION": "current page accessed 2026-08-11",
+          "SOURCE_CLASS": "authoritative lineage/guidance",
+          "EXACT_SECTION_PAGE_LOCATOR": "page sections on origin, prediction, study and iterative learning",
+          "CLAIM_SUPPORTED": "PDSA is a theory- and prediction-bearing learning cycle derived from Shewhart, not merely a four-box ritual.",
+          "RELATION_TO_PROPERTIES": "EL-019, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Guidance from the Deming tradition; not a controlled effectiveness study.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://deming.org/explore/pdsa/",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "PDSA main explanation",
+            "transcript_web_refs": [
+              "turn1192463view2"
+            ],
+            "claim_ceiling": "Deming Institute's current interpretation distinguishes prediction and study; institutional doctrine is not a causal trial or proof of all TPS ancestry.",
+            "access_url": "https://deming.org/explore/pdsa/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S012",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S013",
+        "native_locator": "#/SOURCE_REGISTER/12",
+        "inherited_source_record": {
+          "SOURCE_ID": "S013",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation and Toyota Motor Workers' Union",
+          "EXACT_TITLE": "Joint Declaration of Labor and Management",
+          "DATE_VERSION_EDITION": "24 February 1962; later 1996 resolution reproduced",
+          "SOURCE_CLASS": "primary institutional record",
+          "EXACT_SECTION_PAGE_LOCATOR": "points 2–3 and 1996 resolution point 3",
+          "CLAIM_SUPPORTED": "Toyota and its union linked productivity, mutual trust, working conditions and employment stability.",
+          "RELATION_TO_PROPERTIES": "EL-022, EL-023, EL-024",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "A declaration is evidence of institutional doctrine, not proof of universal lived experience or equal bargaining power.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/personnel/labor-management_relations/joint_declaration_of_labor.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "1962 declaration; start of 1996 declaration",
+            "transcript_web_refs": [
+              "turn4563113view3"
+            ],
+            "claim_ceiling": "Institutional commitment supports the stated arrangement, not realization or universal employment policy.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/personnel/labor-management_relations/joint_declaration_of_labor.html"
+          }
+        ],
+        "dependence_group": "S013",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S014",
+        "native_locator": "#/SOURCE_REGISTER/13",
+        "inherited_source_record": {
+          "SOURCE_ID": "S014",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Labor dispute over job cuts and resignation of President Kiichiro Toyoda",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate historical archive",
+          "EXACT_SECTION_PAGE_LOCATOR": "Part 1, ch. 2, sec. 6, item 6",
+          "CLAIM_SUPPORTED": "Toyota's 1950 crisis involved proposed reductions, wage cuts, a prolonged dispute and executive resignations.",
+          "RELATION_TO_PROPERTIES": "EL-023, EL-033, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Corporate framing; still demonstrates that employment security was not timeless or automatic.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section6/item6_c.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "1950 labor dispute, main body",
+            "transcript_web_refs": [
+              "turn1192463view3"
+            ],
+            "claim_ceiling": "Corporate historical account includes proposed wage/job cuts and conflict; retain its perspective and do not reduce TPS to harmonious doctrine.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/text/taking_on_the_automotive_business/chapter2/section6/item6_c.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S015",
+        "native_locator": "#/SOURCE_REGISTER/14",
+        "inherited_source_record": {
+          "SOURCE_ID": "S015",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Toyota Way 2001",
+          "DATE_VERSION_EDITION": "2001, archived in Toyota 75-Year History",
+          "SOURCE_CLASS": "official later doctrine",
+          "EXACT_SECTION_PAGE_LOCATOR": "overview of Continuous Improvement and Respect for People",
+          "CLAIM_SUPPORTED": "Toyota explicitly codified continuous improvement and respect for people as later governing pillars.",
+          "RELATION_TO_PROPERTIES": "EL-021–EL-024",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "A 2001 codification must not be projected backwards as proof of all historical practice.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/data/conditions/philosophy/toyotaway2001.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Toyota Way 2001 main values and establishment",
+            "transcript_web_refs": [
+              "turn9565772view0"
+            ],
+            "claim_ceiling": "2001 codification and later training organization are later than early TPS; value statements do not prove workers experienced them.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/data/conditions/philosophy/toyotaway2001.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S016",
+        "native_locator": "#/SOURCE_REGISTER/15",
+        "inherited_source_record": {
+          "SOURCE_ID": "S016",
+          "AUTHOR_OR_ORGANISATION": "John F. Krafcik",
+          "EXACT_TITLE": "Triumph of the Lean Production System",
+          "DATE_VERSION_EDITION": "1988, Sloan Management Review 30(1):41–52",
+          "SOURCE_CLASS": "original Lean-production research",
+          "EXACT_SECTION_PAGE_LOCATOR": "whole article; plant comparison and term usage",
+          "CLAIM_SUPPORTED": "The label 'lean production' emerged as an external analytical category in IMVP-related research.",
+          "RELATION_TO_PROPERTIES": "genealogy; EL-033–EL-037",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Comparative plant research did not establish a universally optimal production model.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.proquest.com/docview/224963951",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "1988 article, plant/sample and management-index definitions, results and explicit requirements",
+            "transcript_web_refs": [
+              "turn5822610view1",
+              "turn7246899view3",
+              "turn5725731view4"
+            ],
+            "claim_ceiling": "Nonrandom cross-plant association. Index includes absence and repair area; quality measure is not complete lifetime product quality.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.proquest.com/docview/224963951"
+          }
+        ],
+        "dependence_group": "S016",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S017",
+        "native_locator": "#/SOURCE_REGISTER/16",
+        "inherited_source_record": {
+          "SOURCE_ID": "S017",
+          "AUTHOR_OR_ORGANISATION": "James P. Womack, Daniel T. Jones, Daniel Roos",
+          "EXACT_TITLE": "The Machine That Changed the World",
+          "DATE_VERSION_EDITION": "1990",
+          "SOURCE_CLASS": "IMVP synthesis / advocacy monograph",
+          "EXACT_SECTION_PAGE_LOCATOR": "craft–mass–lean comparison and globalisation claims",
+          "CLAIM_SUPPORTED": "Popularised Lean production internationally.",
+          "RELATION_TO_PROPERTIES": "genealogy; EL-001–EL-009",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Its comparative framing and universality claims were challenged by later critics.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://books.google.com/books?id=_n5qRfaNv9AC",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [],
+        "dependence_group": "S017",
+        "current_requalification_status": "NOT_NEWLY_ACCESSED",
+        "current_access_limit": {
+          "access_level": "NOT_NEWLY_ACCESSED",
+          "inspected_locator": "Inherited 1990 monograph citation only",
+          "transcript_web_refs": [],
+          "claim_ceiling": "Naming and comparative premises are checked in Krafcik's original paper; every detailed claim of the 1990 book is not newly validated.",
+          "date_utc": "2026-11-10",
+          "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+        }
+      },
+      {
+        "source_id": "S018",
+        "native_locator": "#/SOURCE_REGISTER/17",
+        "inherited_source_record": {
+          "SOURCE_ID": "S018",
+          "AUTHOR_OR_ORGANISATION": "James P. Womack, Daniel T. Jones",
+          "EXACT_TITLE": "Lean Thinking",
+          "DATE_VERSION_EDITION": "1996; revised 2003",
+          "SOURCE_CLASS": "Lean enterprise generalisation",
+          "EXACT_SECTION_PAGE_LOCATOR": "chapters defining value, value stream, flow, pull and perfection",
+          "CLAIM_SUPPORTED": "Generalised Lean beyond automotive manufacture.",
+          "RELATION_TO_PROPERTIES": "EL-001, EL-002, EL-004, EL-009, EL-033",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Abstracts away Toyota-specific institutions and can encourage universalisation.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://www.lean.org/lexicon-terms/lean-thinking-and-practice/",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "RELATED_CURRENT_DOCTRINE_INSPECTED_BOOK_NOT_ACCESSED",
+            "inspected_locator": "Current LEI lexicon description of 1996 five principles and 2007 Purpose/Process/People",
+            "transcript_web_refs": [
+              "turn9565772view1"
+            ],
+            "claim_ceiling": "R008 is a distinct current institutional explanation. Neither 1996 nor 2003 full book has been newly read.",
+            "access_url": "https://www.lean.org/lexicon-terms/lean-thinking-and-practice/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S018",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S019",
+        "native_locator": "#/SOURCE_REGISTER/18",
+        "inherited_source_record": {
+          "SOURCE_ID": "S019",
+          "AUTHOR_OR_ORGANISATION": "Matthias Holweg",
+          "EXACT_TITLE": "The genealogy of lean production",
+          "DATE_VERSION_EDITION": "2007, Journal of Operations Management 25(2):420–437",
+          "SOURCE_CLASS": "peer-reviewed historical synthesis",
+          "EXACT_SECTION_PAGE_LOCATOR": "whole article",
+          "CLAIM_SUPPORTED": "Reconstructs Lean's longer historical development and diffusion.",
+          "RELATION_TO_PROPERTIES": "timeline and genealogy",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Secondary reconstruction; relies partly on retrospective participant accounts.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.jom.2006.04.001",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract; publication metadata",
+            "transcript_web_refs": [
+              "turn9565772view2"
+            ],
+            "claim_ceiling": "Author's interview-based historical interpretation; full genealogy argument not newly read.",
+            "access_url": "https://onlinelibrary.wiley.com/doi/10.1016/j.jom.2006.04.001",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S019",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S020",
+        "native_locator": "#/SOURCE_REGISTER/19",
+        "inherited_source_record": {
+          "SOURCE_ID": "S020",
+          "AUTHOR_OR_ORGANISATION": "Steven J. Spear, H. Kent Bowen",
+          "EXACT_TITLE": "Decoding the DNA of the Toyota Production System",
+          "DATE_VERSION_EDITION": "1999, Harvard Business Review 77(5):96–106",
+          "SOURCE_CLASS": "external field interpretation",
+          "EXACT_SECTION_PAGE_LOCATOR": "four rules and discussion of controlled experimentation",
+          "CLAIM_SUPPORTED": "Reinterprets TPS as specified work, direct connections, simple pathways and hypothesis-driven improvement rather than visible tools.",
+          "RELATION_TO_PROPERTIES": "EL-002, EL-017, EL-019, EL-024",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Influential interpretation, not Toyota's original canonical formalism; can understate labour power.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://hbr.org/1999/09/decoding-the-dna-of-the-toyota-production-system",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "METADATA_AND_OPENING_TEASER_ONLY",
+            "inspected_locator": "HBR title/byline and opening teaser",
+            "transcript_web_refs": [
+              "turn9565772view3"
+            ],
+            "claim_ceiling": "The four-rule exposition is inherited and not newly verified in full text. This access supports metadata, not detailed claims.",
+            "access_url": "https://hbr.org/1999/09/decoding-the-dna-of-the-toyota-production-system",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S020",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S021",
+        "native_locator": "#/SOURCE_REGISTER/20",
+        "inherited_source_record": {
+          "SOURCE_ID": "S021",
+          "AUTHOR_OR_ORGANISATION": "Rachna Shah, Peter T. Ward",
+          "EXACT_TITLE": "Defining and developing measures of lean production",
+          "DATE_VERSION_EDITION": "2007, Journal of Operations Management 25(4):785–805",
+          "SOURCE_CLASS": "peer-reviewed construct-development study",
+          "EXACT_SECTION_PAGE_LOCATOR": "construct definition and measurement model",
+          "CLAIM_SUPPORTED": "Lean production is multidimensional and socio-technical rather than a single tool.",
+          "RELATION_TO_PROPERTIES": "population construction; EL-021–EL-028",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Manufacturing-centred observational construct; measurement does not prove causality.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.jom.2007.01.019",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract",
+            "transcript_web_refs": [
+              "turn1263467search3",
+              "turn1263467search4"
+            ],
+            "claim_ceiling": "48 measurement items / 10 components; construct development does not establish the efficacy of every component.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1016/j.jom.2007.01.019"
+          }
+        ],
+        "dependence_group": "S021",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S022",
+        "native_locator": "#/SOURCE_REGISTER/21",
+        "inherited_source_record": {
+          "SOURCE_ID": "S022",
+          "AUTHOR_OR_ORGANISATION": "Jostein Pettersen",
+          "EXACT_TITLE": "Defining lean production: some conceptual and practical issues",
+          "DATE_VERSION_EDITION": "2009, The TQM Journal 21(2):127–142",
+          "SOURCE_CLASS": "peer-reviewed literature review",
+          "EXACT_SECTION_PAGE_LOCATOR": "definition comparison and conclusions",
+          "CLAIM_SUPPORTED": "The literature lacks a single consensus definition of Lean.",
+          "RELATION_TO_PROPERTIES": "methodology and denominator",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Review corpus is period- and manufacturing-centred.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1108/17542730910938137",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "LOCATOR_INACCESSIBLE_RELATED_VERSION_LOCATED",
+            "inspected_locator": "DOI inaccessible; 2008 conference version located but not substituted for 2009 paper",
+            "transcript_web_refs": [
+              "turn5942634view0",
+              "turn6522594search48",
+              "turn6522594search5"
+            ],
+            "claim_ceiling": "The 2009 definition-review conclusion remains inherited; a differently dated conference item is not proof of identical text.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://doi.org/10.1108/17542730910938137"
+          }
+        ],
+        "dependence_group": "S022",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S023",
+        "native_locator": "#/SOURCE_REGISTER/22",
+        "inherited_source_record": {
+          "SOURCE_ID": "S023",
+          "AUTHOR_OR_ORGANISATION": "Peter Hines, Matthias Holweg, Nick Rich",
+          "EXACT_TITLE": "Learning to evolve: A review of contemporary lean thinking",
+          "DATE_VERSION_EDITION": "2004, International Journal of Operations & Production Management 24(10):994–1011",
+          "SOURCE_CLASS": "peer-reviewed conceptual review",
+          "EXACT_SECTION_PAGE_LOCATOR": "historical stages and contingency discussion",
+          "CLAIM_SUPPORTED": "Lean evolved from shop-floor tools toward strategic, learning and contingent interpretations.",
+          "RELATION_TO_PROPERTIES": "evolution classification",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Conceptual review, not causal outcome evidence.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1108/01443570410558049",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Cardiff institutional abstract and authors' research-centre abstract",
+            "transcript_web_refs": [
+              "turn6522594search6",
+              "turn6522594search10"
+            ],
+            "claim_ceiling": "A conceptual framework for evolution/learning, not a demonstration that the whole field has converged.",
+            "access_url": "https://orca.cardiff.ac.uk/id/eprint/2876/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S023",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S024",
+        "native_locator": "#/SOURCE_REGISTER/23",
+        "inherited_source_record": {
+          "SOURCE_ID": "S024",
+          "AUTHOR_OR_ORGANISATION": "Karel Williams, Colin Haslam, John Williams, Sukhdev Johal, Ruth Cutler, Adair P. Murray",
+          "EXACT_TITLE": "Against lean production",
+          "DATE_VERSION_EDITION": "1992, Economy and Society 21(3):321–354",
+          "SOURCE_CLASS": "peer-reviewed critical analysis",
+          "EXACT_SECTION_PAGE_LOCATOR": "whole article",
+          "CLAIM_SUPPORTED": "Challenges the mass-production caricature, economic reasoning and universal-superiority claims of early Lean advocacy.",
+          "RELATION_TO_PROPERTIES": "EL-033–EL-037; criticism ledger",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Early in Lean's diffusion and focused on automotive/economic interpretation.",
+          "EVIDENCE_LABEL": "CONTESTED",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1080/03085149200000016",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Karel Williams; Colin Haslam; John Williams; Tony Cutler; Andy Adcroft; Sukhdev Johal",
+          "note": "Institutional author set confirmed. Ordered list follows the conventional citation; publisher order remains a bibliographic limit until full original access. Removed erroneous Ruth Cutler and Adair P. Murray."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "METADATA_INSPECTED_FULL_TEXT_INACCESSIBLE",
+            "inspected_locator": "Surrey institutional authors/date; publisher returned 403",
+            "transcript_web_refs": [
+              "turn6286701view6",
+              "turn2833226view0"
+            ],
+            "claim_ceiling": "Correct author set includes Adcroft, not Murray. Detailed criticism remains inherited until full paper is examined.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1080/03085149200000016"
+          }
+        ],
+        "dependence_group": "S024",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S025",
+        "native_locator": "#/SOURCE_REGISTER/24",
+        "inherited_source_record": {
+          "SOURCE_ID": "S025",
+          "AUTHOR_OR_ORGANISATION": "Paul A. Landsbergis, Jane Cahill, Peter Schnall",
+          "EXACT_TITLE": "The impact of lean production and related new systems of work organization on worker health",
+          "DATE_VERSION_EDITION": "1999, Journal of Occupational Health Psychology 4(2):108–130",
+          "SOURCE_CLASS": "peer-reviewed critical review",
+          "EXACT_SECTION_PAGE_LOCATOR": "review findings and discussion",
+          "CLAIM_SUPPORTED": "Lean-related work systems frequently intensified demands, constrained control and lacked demonstrated empowerment.",
+          "RELATION_TO_PROPERTIES": "EL-021–EL-023, EL-040",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Heterogeneous systems and mainly industrial evidence; cannot establish that every Lean configuration is harmful.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1037/1076-8998.4.2.108",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "PubMed abstract",
+            "transcript_web_refs": [
+              "turn5218868search0"
+            ],
+            "claim_ceiling": "Review findings concern the examined work settings and underlying studies; review is not an additional independent field study.",
+            "access_url": "https://pubmed.ncbi.nlm.nih.gov/10212864/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S025",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S026",
+        "native_locator": "#/SOURCE_REGISTER/25",
+        "inherited_source_record": {
+          "SOURCE_ID": "S026",
+          "AUTHOR_OR_ORGANISATION": "Sharon K. Parker",
+          "EXACT_TITLE": "Longitudinal effects of lean production on employee outcomes and the mediating role of work characteristics",
+          "DATE_VERSION_EDITION": "2003, Journal of Applied Psychology 88(4):620–634",
+          "SOURCE_CLASS": "quasi-experimental longitudinal study",
+          "EXACT_SECTION_PAGE_LOCATOR": "three-year study, N=368; results and mediation analyses",
+          "CLAIM_SUPPORTED": "Lean teams, assembly lines and workflow formalisation were associated with poorer employee outcomes, partly through reduced autonomy, skill use and participation.",
+          "RELATION_TO_PROPERTIES": "EL-017, EL-021–EL-023, EL-040",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "One organisational context and bundled interventions; not every Lean implementation.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1037/0021-9010.88.4.620",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Parker 2003 abstract, methods/sample pp. 624–626, discussion pp.631–633",
+            "transcript_web_refs": [
+              "turn3983688view2",
+              "turn5724868view6",
+              "turn6286701view5"
+            ],
+            "claim_ceiling": "Three-year matched 368, nonequivalent support-staff comparator, self-report, changed employment status. Negative experience cannot be dismissed as inauthentic Lean.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1037/0021-9010.88.4.620"
+          },
+          {
+            "date_utc": "2026-11-10",
+            "revision": "r2_fidelity_response",
+            "access_level": "PRIMARY_ABSTRACT_INSPECTED",
+            "inspected_locator": "PubMed metadata and complete article abstract returned by primary search; direct open returned footer only.",
+            "transcript_web_refs": [
+              "turn6637412view0",
+              "turn4752348search0"
+            ],
+            "claim_ceiling": "Contextual quasi-experimental evidence and mediation interpretation; no universal necessity of security/fair-gains bundle is established by this abstract. No new full-paper read.",
+            "log_origin": "Actual author reinspection after fidelity v1; exact requests retained in revision working logs.",
+            "access_url": "https://pubmed.ncbi.nlm.nih.gov/12940403/"
+          }
+        ],
+        "dependence_group": "S026",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL",
+        "dependence_note": "Different authors/designs and plants; do not conflate Huo with Parker. Mediation models remain observational."
+      },
+      {
+        "source_id": "S027",
+        "native_locator": "#/SOURCE_REGISTER/26",
+        "inherited_source_record": {
+          "SOURCE_ID": "S027",
+          "AUTHOR_OR_ORGANISATION": "Richard Conti, Jonathan Angelis, Cary Cooper, Brian Faragher, Colin Gill",
+          "EXACT_TITLE": "The effects of lean production on worker job stress",
+          "DATE_VERSION_EDITION": "2006, International Journal of Operations & Production Management 26(9):1013–1038",
+          "SOURCE_CLASS": "multi-site empirical study",
+          "EXACT_SECTION_PAGE_LOCATOR": "21 sites, 1,391 workers; model and results",
+          "CLAIM_SUPPORTED": "Stress effects varied substantially with management's work-system design rather than following mechanically from one Lean label.",
+          "RELATION_TO_PROPERTIES": "EL-021–EL-024",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Observational and manufacturing-specific; management variables may be endogenous.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1108/01443570610682616",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Robert Conti; Jannis Angelis; Cary Cooper; Brian Faragher; Colin Gill"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Emerald and Warwick structured abstract, sample and authors",
+            "transcript_web_refs": [
+              "turn4914541search0",
+              "turn4914541search3",
+              "turn4914541search4"
+            ],
+            "claim_ceiling": "1,391 workers at 21 UK sites; observational regression. Findings about work design do not establish that Lean is intrinsically harmless.",
+            "access_url": "https://wrap.warwick.ac.uk/id/eprint/33059/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S027",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S028",
+        "native_locator": "#/SOURCE_REGISTER/27",
+        "inherited_source_record": {
+          "SOURCE_ID": "S028",
+          "AUTHOR_OR_ORGANISATION": "Peter Hasle, Anders Bojesen, Per Langaa Jensen, Pia Bramming",
+          "EXACT_TITLE": "Lean and the working environment: a review of the literature",
+          "DATE_VERSION_EDITION": "2012, International Journal of Operations & Production Management 32(7):829–849",
+          "SOURCE_CLASS": "systematic literature review",
+          "EXACT_SECTION_PAGE_LOCATOR": "11 quantitative studies; findings and implications",
+          "CLAIM_SUPPORTED": "Strong negative evidence exists for low-complexity manual work, while other contexts show mixed effects.",
+          "RELATION_TO_PROPERTIES": "EL-021–EL-023, EL-040",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Evidence outside manufacturing was limited and implementation strategies varied.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1108/01443571211250103",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "DTU institutional abstract and bibliographic fields",
+            "transcript_web_refs": [
+              "turn5557521view1"
+            ],
+            "claim_ceiling": "Eleven quantitative studies; negative findings especially in low-complexity manual work with positive cases also present. Manufacturing predominance limits transfer.",
+            "access_url": "https://orbit.dtu.dk/en/publications/lean-and-the-working-environment-a-review-of-the-literature/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S028",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S029",
+        "native_locator": "#/SOURCE_REGISTER/28",
+        "inherited_source_record": {
+          "SOURCE_ID": "S029",
+          "AUTHOR_OR_ORGANISATION": "Darius Mehri",
+          "EXACT_TITLE": "The darker side of lean: An insider's perspective on the realities of the Toyota Production System",
+          "DATE_VERSION_EDITION": "2006, Academy of Management Perspectives 20(2):21–42",
+          "SOURCE_CLASS": "critical insider ethnography",
+          "EXACT_SECTION_PAGE_LOCATOR": "whole article",
+          "CLAIM_SUPPORTED": "Reports divergence between public empowerment rhetoric and observed hierarchy, stress and constrained voice.",
+          "RELATION_TO_PROPERTIES": "EL-021–EL-024; criticism ledger",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "One observer and period; contested by proponents and not population-wide.",
+          "EVIDENCE_LABEL": "CONTESTED",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.5465/amp.2006.20591003",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "PUBLISHER_PREVIEW_ONLY",
+            "inspected_locator": "Academy of Management issue page title/byline and opening overview",
+            "transcript_web_refs": [
+              "turn3097124search2"
+            ],
+            "claim_ceiling": "Detailed insider observations and responses remain inherited, not newly revalidated. Do not claim population-wide prevalence from one observer.",
+            "access_url": "https://journals.aom.org/toc/amp/20/2",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S029",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S030",
+        "native_locator": "#/SOURCE_REGISTER/29",
+        "inherited_source_record": {
+          "SOURCE_ID": "S030",
+          "AUTHOR_OR_ORGANISATION": "Thomas Bortolotti, Stefania Boscari, Pamela Danese",
+          "EXACT_TITLE": "Successful lean implementation: Organizational culture and soft lean practices",
+          "DATE_VERSION_EDITION": "2015, International Journal of Production Economics 160:182–201",
+          "SOURCE_CLASS": "comparative empirical study",
+          "EXACT_SECTION_PAGE_LOCATOR": "plant comparisons and model results",
+          "CLAIM_SUPPORTED": "Successful and unsuccessful plants differed materially in soft practices/culture despite similar technical-tool adoption.",
+          "RELATION_TO_PROPERTIES": "EL-021–EL-024, EL-037",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Observational; success and culture constructs can be circular and do not excuse harmful practice.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.ijpe.2014.10.013",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract and Swansea accepted-manuscript metadata",
+            "transcript_web_refs": [
+              "turn5288561search3",
+              "turn5288561search4"
+            ],
+            "claim_ceiling": "HPM multi-plant association between organizational culture, soft practices and classified success; selection and reverse causality remain plausible.",
+            "access_url": "https://cronfa.swan.ac.uk/Record/cronfa21636/Details",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S030",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S031",
+        "native_locator": "#/SOURCE_REGISTER/30",
+        "inherited_source_record": {
+          "SOURCE_ID": "S031",
+          "AUTHOR_OR_ORGANISATION": "Paul S. Adler, Barbara Goldoftas, David I. Levine",
+          "EXACT_TITLE": "Ergonomics, employee involvement, and the Toyota Production System: A case study of NUMMI's 1993 model introduction",
+          "DATE_VERSION_EDITION": "1997, Industrial and Labor Relations Review 50(3):416–437",
+          "SOURCE_CLASS": "peer-reviewed case study",
+          "EXACT_SECTION_PAGE_LOCATOR": "sections on andon, job design, standardised work and involvement",
+          "CLAIM_SUPPORTED": "NUMMI combined worker involvement, training and ability to signal/stop with structured work design.",
+          "RELATION_TO_PROPERTIES": "EL-011, EL-012, EL-017, EL-021–EL-023",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Single joint-venture case; institutional employment compact differs from many adopters.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1177/001979399705000303",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "CLAIM_SUPPORTED": "The NUMMI 1993 model introduction exposed ergonomic deficiencies and prompted union, management and regulatory responses. Employee involvement did not remove divergent stakeholder interests.",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Single-case adverse episode. R001 is a related account by the same authors, not an independent replication."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract",
+            "transcript_web_refs": [
+              "turn3983688view3"
+            ],
+            "claim_ceiling": "Central finding concerns ergonomic harm, regulatory intervention and differing stakeholder interests. Original favorable-only source summary needs repair. Related R001 is not independent replication.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1177/001979399705000303"
+          },
+          {
+            "date_utc": "2026-11-10",
+            "revision": "r2_fidelity_response",
+            "access_level": "PRIMARY_ABSTRACT_INSPECTED",
+            "inspected_locator": "Publisher metadata and abstract, retrieval lines 20–33.",
+            "transcript_web_refs": [
+              "turn6637412view2"
+            ],
+            "claim_ceiling": "Case account retains the adverse introduction and later improvement under particular institutional conditions; does not establish a universal causal bundle.",
+            "log_origin": "Actual author reinspection after fidelity v1; exact requests retained in revision working logs.",
+            "access_url": "https://journals.sagepub.com/doi/10.1177/001979399705000303"
+          }
+        ],
+        "dependence_group": "ADLER_GOLDOFTAS_LEVINE_NUMMI",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S032",
+        "native_locator": "#/SOURCE_REGISTER/31",
+        "inherited_source_record": {
+          "SOURCE_ID": "S032",
+          "AUTHOR_OR_ORGANISATION": "Wallace J. Hopp, Mark L. Spearman",
+          "EXACT_TITLE": "To Pull or Not to Pull: What Is the Question?",
+          "DATE_VERSION_EDITION": "2004, Manufacturing & Service Operations Management 6(2):133–148",
+          "SOURCE_CLASS": "peer-reviewed operations-science analysis",
+          "EXACT_SECTION_PAGE_LOCATOR": "pp. 142–147 definitions and buffer analysis; pp. 137–139 WIP/problem exposure",
+          "CLAIM_SUPPORTED": "Defines pull by an explicit WIP limit and Lean by minimal buffering cost; variability must be buffered by inventory, capacity or time.",
+          "RELATION_TO_PROPERTIES": "EL-004–EL-010, EL-034–EL-036",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Analytical abstraction omits labour, power and many disruption types.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1287/msom.1030.0028",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Hopp/Spearman 2004 sections 5–6, pp. 142–147; introduction/history",
+            "transcript_web_refs": [
+              "turn3983688view1",
+              "turn5897347view1",
+              "turn5897347view2"
+            ],
+            "claim_ceiling": "Tactical pull is an explicit WIP limit in this analysis, not a universal historical definition. Buffering categories are inventory/capacity/time; information helps select or reduce them.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1287/msom.1030.0028"
+          }
+        ],
+        "dependence_group": "S032",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S033",
+        "native_locator": "#/SOURCE_REGISTER/32",
+        "inherited_source_record": {
+          "SOURCE_ID": "S033",
+          "AUTHOR_OR_ORGANISATION": "Cuneyt Eroglu, Christian Hofer",
+          "EXACT_TITLE": "Lean, leaner, too lean? The inventory-performance link revisited",
+          "DATE_VERSION_EDITION": "2011, Journal of Operations Management 29(4):356–369",
+          "SOURCE_CLASS": "large-panel empirical study",
+          "EXACT_SECTION_PAGE_LOCATOR": "industry-level models and results",
+          "CLAIM_SUPPORTED": "Inventory-performance relationships vary by industry and are often concave, so further leanness beyond an optimum can reduce performance.",
+          "RELATION_TO_PROPERTIES": "EL-008, EL-034",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Firm-level archival data cannot specify every operational mechanism.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.jom.2010.05.002",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract",
+            "transcript_web_refs": [
+              "turn8225293view3"
+            ],
+            "claim_ceiling": "Industry-specific, commonly concave inventory-performance associations; an observational panel does not identify one universal inventory optimum.",
+            "access_url": "https://onlinelibrary.wiley.com/doi/10.1016/j.jom.2010.05.002",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S033",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S034",
+        "native_locator": "#/SOURCE_REGISTER/33",
+        "inherited_source_record": {
+          "SOURCE_ID": "S034",
+          "AUTHOR_OR_ORGANISATION": "Peter M. Bernegger, Scott Webster",
+          "EXACT_TITLE": "Fixed-Cycle Smoothed Production Improves Lean Performance for Make-to-Stock Manufacturing",
+          "DATE_VERSION_EDITION": "2014, Interfaces 44(4):411–427",
+          "SOURCE_CLASS": "peer-reviewed analytical/field study",
+          "EXACT_SECTION_PAGE_LOCATOR": "model, implementation and results",
+          "CLAIM_SUPPORTED": "Make-to-stock inventory and smoothed cycles can outperform simplistic pure-pull arrangements in suitable environments.",
+          "RELATION_TO_PROPERTIES": "EL-004, EL-007, EL-008",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Particular make-to-stock setting; not a universal replacement.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1287/inte.2014.0750",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract and metadata",
+            "transcript_web_refs": [
+              "turn3695824view2"
+            ],
+            "claim_ceiling": "Kodak case of combining replenishment, operations research and statistical process control; no isolated causal effect of a universal lean package.",
+            "access_url": "https://pubsonline.informs.org/doi/10.1287/inte.2014.0750",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S034",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S035",
+        "native_locator": "#/SOURCE_REGISTER/34",
+        "inherited_source_record": {
+          "SOURCE_ID": "S035",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "The Great East Japan Earthquake",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate disruption record",
+          "EXACT_SECTION_PAGE_LOCATOR": "Part 3, ch. 5, sec. 5, item 1",
+          "CLAIM_SUPPORTED": "Toyota found 659 damaged supplier sites, 1,260 affected items and exposure across lower tiers; restoration required cross-functional and supplier action.",
+          "RELATION_TO_PROPERTIES": "EL-008, EL-027, EL-028, EL-039",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Corporate recovery account; precise systemic counterfactuals are unavailable.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/text/leaping_forward_as_a_global_corporation/chapter5/section5/item1_a.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Earthquake record, main body",
+            "transcript_web_refs": [
+              "turn9807099view2"
+            ],
+            "claim_ceiling": "659 damaged supplier sites; 1,260 affected items; reported recovery. Corporate narrative lacks a controlled counterfactual.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/text/leaping_forward_as_a_global_corporation/chapter5/section5/item1_a.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S036",
+        "native_locator": "#/SOURCE_REGISTER/35",
+        "inherited_source_record": {
+          "SOURCE_ID": "S036",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Supply Chain Information Sharing System 'RESCUE'",
+          "DATE_VERSION_EDITION": "2016 corporate sustainability/resilience disclosure",
+          "SOURCE_CLASS": "primary corporate implementation account",
+          "EXACT_SECTION_PAGE_LOCATOR": "sections on lower-tier mapping and supplier training",
+          "CLAIM_SUPPORTED": "Post-disruption Toyota built item/site dependency visibility and trained suppliers to maintain data.",
+          "RELATION_TO_PROPERTIES": "EL-027, EL-028",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Corporate account does not establish optimal resilience or fair risk allocation.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://global.toyota/en/detail/13990677",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "SELECTION_STATE": "HISTORICAL_SOURCE_NOT_SELECTED_FOR_CURRENT_SUPPORT",
+          "REPLACEMENT_SOURCE_ID": "R002",
+          "note": "Distinct Toyota 2016 article replaces current support; the inaccessible historical source remains separately identified. No assertion of identical work or page."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ORIGINAL_LOCATOR_INACCESSIBLE",
+            "inspected_locator": "Original locator failure; distinct Toyota 2016 replacement examined as R002",
+            "transcript_web_refs": [
+              "turn9807099view1",
+              "turn2833226view5"
+            ],
+            "claim_ceiling": "S036 is not relabelled as the 2016 article. Selected current support uses R002, which reports around 6,800 items, not sites.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://global.toyota/en/detail/13990677"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S037",
+        "native_locator": "#/SOURCE_REGISTER/36",
+        "inherited_source_record": {
+          "SOURCE_ID": "S037",
+          "AUTHOR_OR_ORGANISATION": "Takahiro Fujimoto",
+          "EXACT_TITLE": "Supply chain competitiveness and robustness: A lesson from the 2011 Tohoku earthquake and supply chain 'virtual dualization'",
+          "DATE_VERSION_EDITION": "2019",
+          "SOURCE_CLASS": "scholarly historical/operations analysis",
+          "EXACT_SECTION_PAGE_LOCATOR": "sections on post-2011 mapping and virtual dualisation",
+          "CLAIM_SUPPORTED": "The earthquake exposed lower-tier opacity and motivated mapping of more than 10,000 sites plus redesign for recoverability.",
+          "RELATION_TO_PROPERTIES": "EL-027, EL-028, EL-039",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Japan automotive case; resilience measures may carry cost and concentration trade-offs.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://www.rieti.go.jp/jp/publications/dp/19e015.pdf",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "SELECTION_STATE": "MISBOUND_HISTORICAL_CITATION_NOT_SELECTED_FOR_CURRENT_SUPPORT",
+          "REPLACEMENT_SOURCE_ID": "R009",
+          "CLAIM_SUPPORTED": "Historical claim suspended: the cited RIETI document is unrelated. Current analytical support is the distinct and correctly identified Fujimoto 2011 work R009.",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "The more-than-10,000-sites statement has no inspected support. The wrong RIETI file is Adachi, Ogawa and Tsubuku, Productivity Dynamics during Major Crises in Japan: A Quantile Approach, March 2019."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "WRONG_DOCUMENT_CONFIRMED",
+            "inspected_locator": "RIETI cover and intended MMRC work separately examined as R009",
+            "transcript_web_refs": [
+              "turn1136397view0",
+              "turn3983688view0"
+            ],
+            "claim_ceiling": "The original URL identifies Adachi/Ogawa/Tsubuku's unrelated 2019 productivity paper. Current support is R009. The claim of more than 10,000 mapped sites is suspended.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://www.rieti.go.jp/jp/publications/dp/19e015.pdf"
+          }
+        ],
+        "dependence_group": "S037",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S038",
+        "native_locator": "#/SOURCE_REGISTER/37",
+        "inherited_source_record": {
+          "SOURCE_ID": "S038",
+          "AUTHOR_OR_ORGANISATION": "Jeffrey H. Dyer, Kentaro Nobeoka",
+          "EXACT_TITLE": "Creating and managing a high-performance knowledge-sharing network: The Toyota case",
+          "DATE_VERSION_EDITION": "2000, Strategic Management Journal 21(3):345–367",
+          "SOURCE_CLASS": "peer-reviewed network case analysis",
+          "EXACT_SECTION_PAGE_LOCATOR": "network mechanisms and supplier-learning results",
+          "CLAIM_SUPPORTED": "Toyota's supplier network used routines and institutions for interfirm knowledge sharing and capability development.",
+          "RELATION_TO_PROPERTIES": "EL-027, EL-030",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "A high-trust Japanese network may not transfer; dependency and bargaining asymmetry remain.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1002/(SICI)1097-0266(200003)21:3%3C345::AID-SMJ96%3E3.0.CO;2-N",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_RETRIEVAL_FAILED",
+            "inspected_locator": "Wiley/BYU abstract; MIT working-paper metadata, download 429",
+            "transcript_web_refs": [
+              "turn1263467search1",
+              "turn6286701view7",
+              "turn5724868view3"
+            ],
+            "claim_ceiling": "Network knowledge-sharing claim is author case inference; supplier fairness and causal generality remain unestablished. MIT 2002 deposit date is not 2000 publication date.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1002/(SICI)1097-0266(200003)21:3%3C345::AID-SMJ96%3E3.0.CO;2-N"
+          }
+        ],
+        "dependence_group": "S038",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S039",
+        "native_locator": "#/SOURCE_REGISTER/38",
+        "inherited_source_record": {
+          "SOURCE_ID": "S039",
+          "AUTHOR_OR_ORGANISATION": "Fei Ye, Xiande Zhao, Baofeng Huo",
+          "EXACT_TITLE": "The impact of just-in-time practices on supply chain disruption risk: the moderating role of supply chain centralization",
+          "DATE_VERSION_EDITION": "2022, Industrial Management & Data Systems",
+          "SOURCE_CLASS": "peer-reviewed survey study",
+          "EXACT_SECTION_PAGE_LOCATOR": "213 Chinese manufacturers; structural model and results",
+          "CLAIM_SUPPORTED": "Supplier- and customer-JIT can raise corresponding disruption risks, especially with centralisation.",
+          "RELATION_TO_PROPERTIES": "EL-027, EL-028, EL-039",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Cross-sectional survey and one national context; association is not full causal identification.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1108/IMDS-09-2021-0552",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Yuxiao Ye; Mohammed Ali Suleiman; Baofeng Huo",
+          "EXACT_TITLE": "Impact of just-in-time (JIT) on supply chain disruption risk: the moderating role of supply chain centralization",
+          "DATE_VERSION_EDITION": "Online 2022-05-18; Industrial Management & Data Systems 122(7), 1665–1685",
+          "CLAIM_SUPPORTED": "A survey of 213 Chinese manufacturers finds differing supplier, customer and internal disruption paths. Supplier JIT is positively associated with supplier disruption but negatively with internal disruption directly; customer JIT has no significant direct internal path.",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Abstract-level SEM/OLS evidence, with mediation and centralization moderators. No universal net JIT harm or identified causal benefit follows."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_RESTRICTED",
+            "inspected_locator": "Emerald structured abstract and bibliographic fields",
+            "transcript_web_refs": [
+              "turn3464331view3"
+            ],
+            "claim_ceiling": "213 Chinese manufacturers; supplier/customer/internal disruption paths differ. Observational SEM mediation does not identify causal effects.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1108/IMDS-09-2021-0552"
+          }
+        ],
+        "dependence_group": "S039",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S040",
+        "native_locator": "#/SOURCE_REGISTER/39",
+        "inherited_source_record": {
+          "SOURCE_ID": "S040",
+          "AUTHOR_OR_ORGANISATION": "Thomas Y. Choi, Dale Rogers, B. S. S. Rao, Tobias Schoenherr, Stephan M. Wagner",
+          "EXACT_TITLE": "Just-in-time for supply chains in turbulent times",
+          "DATE_VERSION_EDITION": "2023, Production and Operations Management 32(7):2331–2340",
+          "SOURCE_CLASS": "peer-reviewed contemporary synthesis",
+          "EXACT_SECTION_PAGE_LOCATOR": "five misconceptions and segmentation recommendations",
+          "CLAIM_SUPPORTED": "Rejects binary JIT-versus-JIC framing and advocates segmenting supply policies by risk, lead time and turbulence.",
+          "RELATION_TO_PROPERTIES": "EL-008, EL-010, EL-027–EL-028, EL-034, EL-039",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Normative synthesis; context-specific quantitative calibration remains unresolved.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1111/poms.13979",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Thomas Y. Choi; Torbjørn H. Netland; Nada Sanders; ManMohan S. Sodhi; Stephan M. Wagner"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Abstract, introduction and misconceptions/fit discussion",
+            "transcript_web_refs": [
+              "turn2857974view1"
+            ],
+            "claim_ceiling": "Conceptual expert analysis advocating contingent JIT and buffers; not an independent causal study or universal resilience prescription.",
+            "access_url": "https://journals.sagepub.com/doi/10.1111/poms.13979",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S040",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S041",
+        "native_locator": "#/SOURCE_REGISTER/40",
+        "inherited_source_record": {
+          "SOURCE_ID": "S041",
+          "AUTHOR_OR_ORGANISATION": "Kristy O. Cua, Kathleen E. McKone, Roger G. Schroeder",
+          "EXACT_TITLE": "Relationships between implementation of TQM, JIT, and TPM and manufacturing performance",
+          "DATE_VERSION_EDITION": "2001, Journal of Operations Management 19(6):675–694",
+          "SOURCE_CLASS": "peer-reviewed multi-plant empirical study",
+          "EXACT_SECTION_PAGE_LOCATOR": "integrated practice model and performance results",
+          "CLAIM_SUPPORTED": "High-performing plants combined common human/strategic practices with TQM, JIT and TPM techniques.",
+          "RELATION_TO_PROPERTIES": "EL-016, EL-021, EL-026",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Cross-sectional plant evidence; bundled practices limit causal attribution.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/S0272-6963(01)00066-3",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "University of Minnesota record and abstract",
+            "transcript_web_refs": [
+              "turn6968080view0"
+            ],
+            "claim_ceiling": "Joint TQM/JIT/TPM/social-practice associations; no isolated contribution of each practice established by the abstract.",
+            "access_url": "https://experts.umn.edu/en/publications/relationships-between-implementation-of-tqm-jit-and-tpm-and-manuf/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "CUA_MCKONE_SCHROEDER_MANUFACTURING_PROGRAMME_POSSIBLE_OVERLAP_UNRESOLVED",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S042",
+        "native_locator": "#/SOURCE_REGISTER/41",
+        "inherited_source_record": {
+          "SOURCE_ID": "S042",
+          "AUTHOR_OR_ORGANISATION": "Kathleen E. McKone, Roger G. Schroeder, Kristy O. Cua",
+          "EXACT_TITLE": "The impact of total productive maintenance practices on manufacturing performance",
+          "DATE_VERSION_EDITION": "2001, Journal of Operations Management 19(1):39–58",
+          "SOURCE_CLASS": "peer-reviewed multi-plant empirical study",
+          "EXACT_SECTION_PAGE_LOCATOR": "conceptual model and results",
+          "CLAIM_SUPPORTED": "TPM practices are associated with manufacturing performance directly and through interaction with JIT/TQM.",
+          "RELATION_TO_PROPERTIES": "EL-026",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Observational manufacturing evidence; the exact maintenance package is context-dependent.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/S0272-6963(00)00030-9",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "PUBLISHER_SEARCH_EXCERPT_INSPECTED",
+            "inspected_locator": "Publisher abstract/method excerpt; direct DOI failed",
+            "transcript_web_refs": [
+              "turn6522594search11",
+              "turn6522594search12",
+              "turn5942634view2"
+            ],
+            "claim_ceiling": "1997 WCM questionnaire database, three regions and industries. Original association claim is retained with an abstract-level ceiling; overlap with S041 is not resolved.",
+            "access_url": "https://www.sciencedirect.com/science/article/pii/S0272696300000309",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "CUA_MCKONE_SCHROEDER_MANUFACTURING_PROGRAMME_POSSIBLE_OVERLAP_UNRESOLVED",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S043",
+        "native_locator": "#/SOURCE_REGISTER/42",
+        "inherited_source_record": {
+          "SOURCE_ID": "S043",
+          "AUTHOR_OR_ORGANISATION": "Jennifer A. Farris, Eileen M. Van Aken, Toni L. Doolen, June Worley",
+          "EXACT_TITLE": "Critical success factors for human resource outcomes in Kaizen events: An empirical study",
+          "DATE_VERSION_EDITION": "2009, International Journal of Production Economics 117(1):42–65",
+          "SOURCE_CLASS": "peer-reviewed field study",
+          "EXACT_SECTION_PAGE_LOCATOR": "51 events in six manufacturing organisations",
+          "CLAIM_SUPPORTED": "Kaizen-event human outcomes depend on event design, goal clarity, management support and team/process conditions.",
+          "RELATION_TO_PROPERTIES": "EL-019, EL-020, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Event-level associations; does not prove customer/system payoff or superiority of event format.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.ijpe.2008.08.051",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract",
+            "transcript_web_refs": [
+              "turn3839143search4"
+            ],
+            "claim_ceiling": "51 events in six manufacturing organizations; limited human-outcome associations, not universal efficacy of event format.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://doi.org/10.1016/j.ijpe.2008.08.051"
+          }
+        ],
+        "dependence_group": "S043",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S044",
+        "native_locator": "#/SOURCE_REGISTER/43",
+        "inherited_source_record": {
+          "SOURCE_ID": "S044",
+          "AUTHOR_OR_ORGANISATION": "Wiljeana J. Glover, Jennifer A. Farris, Eileen M. Van Aken, Toni L. Doolen",
+          "EXACT_TITLE": "Critical success factors for the sustainability of Kaizen event human resource outcomes: An empirical study",
+          "DATE_VERSION_EDITION": "2011, International Journal of Production Economics 132(2):197–213",
+          "SOURCE_CLASS": "peer-reviewed longitudinal field study",
+          "EXACT_SECTION_PAGE_LOCATOR": "65 events in eight organisations, 9–18 month follow-up",
+          "CLAIM_SUPPORTED": "Sustainment depends on post-event ownership, follow-up and work-area conditions.",
+          "RELATION_TO_PROPERTIES": "EL-020, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Focuses human-resource outcomes, not complete technical or business effects.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.ijpe.2011.04.005",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract",
+            "transcript_web_refs": [
+              "turn7972765search10"
+            ],
+            "claim_ceiling": "Original authors/title confirmed; full study not newly inspected.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1016/j.ijpe.2011.04.005"
+          }
+        ],
+        "dependence_group": "S044",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S045",
+        "native_locator": "#/SOURCE_REGISTER/44",
+        "inherited_source_record": {
+          "SOURCE_ID": "S045",
+          "AUTHOR_OR_ORGANISATION": "Alan J. Card",
+          "EXACT_TITLE": "The problem with '5 whys'",
+          "DATE_VERSION_EDITION": "2017, BMJ Quality & Safety 26(8):671–677",
+          "SOURCE_CLASS": "peer-reviewed critical methods paper",
+          "EXACT_SECTION_PAGE_LOCATOR": "entire article, especially limitations of single-path/root-depth reasoning",
+          "CLAIM_SUPPORTED": "Five Whys has arbitrary depth, weak reproducibility and poor fit for complex causal systems; popularity is not evidence of effectiveness.",
+          "RELATION_TO_PROPERTIES": "EL-019, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Healthcare safety context, though causal-method criticisms generalise.",
+          "EVIDENCE_LABEL": "CONTESTED",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1136/bmjqs-2016-005849",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "METADATA_AND_AUTHOR_COMMENT_INSPECTED_FULL_TEXT_INACCESSIBLE",
+            "inspected_locator": "PubMed metadata, author's public explanation; publisher PDF 403",
+            "transcript_web_refs": [
+              "turn2649013search1",
+              "turn2649013search3",
+              "turn3127362view0"
+            ],
+            "claim_ceiling": "Card explicitly criticizes oversimplified causal exploration. Detailed whole-paper claims are not newly verified; S046 provides inspected related methodological criticism.",
+            "access_url": "https://pubmed.ncbi.nlm.nih.gov/27590189/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S045",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S046",
+        "native_locator": "#/SOURCE_REGISTER/45",
+        "inherited_source_record": {
+          "SOURCE_ID": "S046",
+          "AUTHOR_OR_ORGANISATION": "Mohammad Farhad Peerally, Susan Carr, Justin Waring, Mary Dixon-Woods",
+          "EXACT_TITLE": "The problem with root cause analysis",
+          "DATE_VERSION_EDITION": "2017, BMJ Quality & Safety 26(5):417–422",
+          "SOURCE_CLASS": "peer-reviewed critical methods paper",
+          "EXACT_SECTION_PAGE_LOCATOR": "whole article and recurrence example",
+          "CLAIM_SUPPORTED": "RCA is vulnerable to singular linear causation, poor investigation, political capture, weak controls and inadequate follow-up.",
+          "RELATION_TO_PROPERTIES": "EL-019, EL-020",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Healthcare focus; does not invalidate every causal investigation method.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1136/bmjqs-2016-005511",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "pp. 417–419: eight problems, case, and start of discussion",
+            "transcript_web_refs": [
+              "turn5942634view4"
+            ],
+            "claim_ceiling": "Critical synthesis and case illustration; supports limitations of linear narratives, weak controls and authority gaps, not the failure rate of every RCA.",
+            "access_url": "https://pure-oai.bham.ac.uk/ws/portalfiles/portal/70608217/Peerally_et_al_The_problem_with_BMJ_Qual_Saf_2016.pdf",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S046",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S047",
+        "native_locator": "#/SOURCE_REGISTER/46",
+        "inherited_source_record": {
+          "SOURCE_ID": "S047",
+          "AUTHOR_OR_ORGANISATION": "Michael J. Taylor, Chris McNicholas, Chris Nicolay, Ara Darzi, Derek Bell, Julie E. Reed",
+          "EXACT_TITLE": "Systematic review of the application of the plan-do-study-act method to improve quality in healthcare",
+          "DATE_VERSION_EDITION": "2014, BMJ Quality & Safety 23(4):290–298",
+          "SOURCE_CLASS": "systematic review",
+          "EXACT_SECTION_PAGE_LOCATOR": "73 included articles; adherence to iterative cycles, predictions, small-scale testing and time-series data",
+          "CLAIM_SUPPORTED": "PDSA was frequently used without its core methodological features and incompletely documented.",
+          "RELATION_TO_PROPERTIES": "EL-019, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Healthcare literature and publication/reporting limitations.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1136/bmjqs-2013-001862",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Methods, results and discussion; denominator and fidelity/outcome limitation",
+            "transcript_web_refs": [
+              "turn6633720view2",
+              "turn3695824view3"
+            ],
+            "claim_ceiling": "73 included papers; 47 with enough detail; two reported all five criteria. Poor reporting is not proof of absent practice; the review did not compare fidelity with outcome effectiveness.",
+            "access_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3963536/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S047",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S048",
+        "native_locator": "#/SOURCE_REGISTER/47",
+        "inherited_source_record": {
+          "SOURCE_ID": "S048",
+          "AUTHOR_OR_ORGANISATION": "Julie E. Reed, Alan J. Card",
+          "EXACT_TITLE": "The problem with Plan-Do-Study-Act cycles",
+          "DATE_VERSION_EDITION": "2016, BMJ Quality & Safety 25(3):147–152",
+          "SOURCE_CLASS": "peer-reviewed critical review",
+          "EXACT_SECTION_PAGE_LOCATOR": "failure modes and implementation discussion",
+          "CLAIM_SUPPORTED": "PDSA can fail through poor theory, measurement, local adaptation, scale-up and deimplementation planning.",
+          "RELATION_TO_PROPERTIES": "EL-019, EL-020, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Critique of use, not evidence that disciplined iterative testing is ineffective.",
+          "EVIDENCE_LABEL": "CONTESTED",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1136/bmjqs-2015-005076",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Accepted/published online-first text pp. 1–2, value and sophistication of PDSA",
+            "transcript_web_refs": [
+              "turn5942634view5",
+              "turn6522594view0"
+            ],
+            "claim_ceiling": "The authors defend tailored experimental learning while criticizing oversimplification; their universal applicability argument is a position, not causal evidence.",
+            "access_url": "https://spiral.imperial.ac.uk/entities/publication/5aafb160-1d3e-4ebc-9d25-6c41fba7947a",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S048",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S049",
+        "native_locator": "#/SOURCE_REGISTER/48",
+        "inherited_source_record": {
+          "SOURCE_ID": "S049",
+          "AUTHOR_OR_ORGANISATION": "Kim B. Clark, Takahiro Fujimoto",
+          "EXACT_TITLE": "Product Development Performance: Strategy, Organization, and Management in the World Auto Industry",
+          "DATE_VERSION_EDITION": "1991",
+          "SOURCE_CLASS": "comparative empirical monograph",
+          "EXACT_SECTION_PAGE_LOCATOR": "comparative data on 29 automotive projects; organisation/integration chapters",
+          "CLAIM_SUPPORTED": "Development performance was associated with cross-functional integration, project leadership, communication and organisational capability.",
+          "RELATION_TO_PROPERTIES": "EL-029, EL-030",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Automotive projects in a particular historical period; not proof of every later LPD claim.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://www.hbs.edu/faculty/Pages/item.aspx?num=4745",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "LOCATOR_INACCESSIBLE",
+            "inspected_locator": "HBS record returned 403",
+            "transcript_web_refs": [
+              "turn7307771view1"
+            ],
+            "claim_ceiling": "The 29-project monograph is not newly inspected. No precise effect-size or causal conclusion is promoted.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://www.hbs.edu/faculty/Pages/item.aspx?num=4745"
+          }
+        ],
+        "dependence_group": "S049",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S050",
+        "native_locator": "#/SOURCE_REGISTER/49",
+        "inherited_source_record": {
+          "SOURCE_ID": "S050",
+          "AUTHOR_OR_ORGANISATION": "Durward K. Sobek II, Allen C. Ward, Jeffrey K. Liker",
+          "EXACT_TITLE": "Toyota's Principles of Set-Based Concurrent Engineering",
+          "DATE_VERSION_EDITION": "1999, Sloan Management Review 40(2):67–83",
+          "SOURCE_CLASS": "original Toyota product-development interpretation",
+          "EXACT_SECTION_PAGE_LOCATOR": "principles: map design space, communicate sets, intersect constraints, narrow gradually",
+          "CLAIM_SUPPORTED": "Describes preserving alternatives and delaying irreversible convergence as Toyota development mechanisms.",
+          "RELATION_TO_PROPERTIES": "EL-029, EL-030",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Case-based interpretation; transfer and causal magnitude were not established.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://sloanreview.mit.edu/article/toyotas-principles-of-setbased-concurrent-engineering/",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Sloan Review publisher abstract",
+            "transcript_web_refs": [
+              "turn3983688view4"
+            ],
+            "claim_ceiling": "Map design space, integrate by intersection, establish feasibility before commitment. Toyota case interpretation; no blanket productivity guarantee.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://sloanreview.mit.edu/article/toyotas-principles-of-setbased-concurrent-engineering/"
+          }
+        ],
+        "dependence_group": "S050",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S051",
+        "native_locator": "#/SOURCE_REGISTER/50",
+        "inherited_source_record": {
+          "SOURCE_ID": "S051",
+          "AUTHOR_OR_ORGANISATION": "Hector C. Martínez León, Jennifer A. Farris",
+          "EXACT_TITLE": "Lean Product Development Research: Current State and Future Directions",
+          "DATE_VERSION_EDITION": "2011, Engineering Management Journal 23(1):29–51",
+          "SOURCE_CLASS": "systematic literature review",
+          "EXACT_SECTION_PAGE_LOCATOR": "review method, definition and research gaps",
+          "CLAIM_SUPPORTED": "LPD is not merely manufacturing Lean transferred to design; definitions and empirical evidence remain fragmented.",
+          "RELATION_TO_PROPERTIES": "EL-029, EL-030",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Review captures literature only through its search period.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1080/10429247.2011.11431885",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Hilda C. Martínez León; Jennifer A. Farris",
+          "DATE_VERSION_EDITION": "2011, Engineering Management Journal 23(1), 29–51; online digitization 2015-04-20"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher and SUNY institutional abstract/metadata",
+            "transcript_web_refs": [
+              "turn5288561search1",
+              "turn6968080view2"
+            ],
+            "claim_ceiling": "Review identifies domains and gaps; it does not establish manufacturing-method equivalence in development.",
+            "access_url": "https://researchconnect.suny.edu/en/publications/lean-product-development-research-current-state-and-future-direct/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S051",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S052",
+        "native_locator": "#/SOURCE_REGISTER/51",
+        "inherited_source_record": {
+          "SOURCE_ID": "S052",
+          "AUTHOR_OR_ORGANISATION": "Boris Toche, Robert Pellerin, Clément Fortin",
+          "EXACT_TITLE": "Set-based design: a review and new directions",
+          "DATE_VERSION_EDITION": "2020, Design Science 6:e18",
+          "SOURCE_CLASS": "systematic/design-science review",
+          "EXACT_SECTION_PAGE_LOCATOR": "sections 1, 4–6; 41 pages",
+          "CLAIM_SUPPORTED": "Set-based design theory and practical implementation are immature; coherent industrial implementations and causal performance evidence remain limited.",
+          "RELATION_TO_PROPERTIES": "EL-029, EL-030",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Review includes heterogeneous simulations, pilots and cases.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1017/dsj.2020.16",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Abstract and introduction",
+            "transcript_web_refs": [
+              "turn7307771view3",
+              "turn3695824view0"
+            ],
+            "claim_ceiling": "Review of set-based design and theoretical maturity; not evidence that retaining alternatives always dominates early commitment.",
+            "access_url": "https://www.cambridge.org/core/journals/design-science/article/setbased-design-a-review-and-new-directions/DD708BAB57193C6635CA85C7508FE82E",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S052",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S053",
+        "native_locator": "#/SOURCE_REGISTER/52",
+        "inherited_source_record": {
+          "SOURCE_ID": "S053",
+          "AUTHOR_OR_ORGANISATION": "Mary Poppendieck, Tom Poppendieck",
+          "EXACT_TITLE": "Lean Software Development: An Agile Toolkit",
+          "DATE_VERSION_EDITION": "2003",
+          "SOURCE_CLASS": "original practitioner translation",
+          "EXACT_SECTION_PAGE_LOCATOR": "seven principles and software-specific discussion",
+          "CLAIM_SUPPORTED": "Translated selected Lean principles to software, including build quality in, create knowledge, defer commitment, deliver fast, respect people and optimise the whole.",
+          "RELATION_TO_PROPERTIES": "EL-005, EL-019, EL-025, EL-029–EL-031",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Practitioner synthesis; not evidence of direct TPS lineage or causal effectiveness.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://dl.acm.org/doi/10.5555/829556",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "CLAIM_SUPPORTED": "The 2003 practitioner translation names seven principles: eliminate waste; amplify learning; decide as late as possible; deliver as fast as possible; empower the team; build integrity in; see the whole. It distinguishes principles from context-specific practices.",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Later formulations must not be attributed verbatim to the 2003 edition. The universal applicability of principles is the authors' argument, not a demonstrated empirical result."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "SAMPLE_CHAPTER_PARTIALLY_INSPECTED",
+            "inspected_locator": "2003 introduction pp. xxi–xxvii; seven principles and contextual-practices distinction",
+            "transcript_web_refs": [
+              "turn5724868view0",
+              "turn6286701view4",
+              "turn1372607view4",
+              "turn4332248view1"
+            ],
+            "claim_ceiling": "The 2003 wording differs from later Poppendieck formulations. Explicit practitioner transfer is historical evidence; asserted universality is not established empirically.",
+            "access_url": "https://ptgmedia.pearsoncmg.com/images/0321150783/samplechapter/poppendieckch.pdf",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S053",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S054",
+        "native_locator": "#/SOURCE_REGISTER/53",
+        "inherited_source_record": {
+          "SOURCE_ID": "S054",
+          "AUTHOR_OR_ORGANISATION": "David J. Anderson",
+          "EXACT_TITLE": "Kanban: Successful Evolutionary Change for Your Technology Business",
+          "DATE_VERSION_EDITION": "2010",
+          "SOURCE_CLASS": "original practitioner software-Kanban source",
+          "EXACT_SECTION_PAGE_LOCATOR": "core practices/principles and evolutionary change",
+          "CLAIM_SUPPORTED": "Software Kanban uses workflow visualisation, explicit WIP policies and evolutionary change without defining a full software-development lifecycle.",
+          "RELATION_TO_PROPERTIES": "EL-003, EL-004, EL-025, EL-031",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Practitioner source; board/card implementations can become ceremony and evidence was initially case-based.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://djaa.com/kanban-method/",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ORIGINAL_LOCATOR_INACCESSIBLE_RELATED_AUTHOR_ACCOUNT_INSPECTED",
+            "inspected_locator": "Current author retrospective, opening and change principles; 2010 book not inspected",
+            "transcript_web_refs": [
+              "turn8471078view0",
+              "turn3127362view1"
+            ],
+            "claim_ceiling": "R007 documents the author's retrospective account and acknowledges expansion beyond the book's five core properties. Do not retroject current six practices into the original edition.",
+            "access_url": "https://djaa.com/revisiting-the-principles-and-general-practices-of-the-kanban-method/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S054",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S055",
+        "native_locator": "#/SOURCE_REGISTER/54",
+        "inherited_source_record": {
+          "SOURCE_ID": "S055",
+          "AUTHOR_OR_ORGANISATION": "Muhammad Ovais Ahmad, Jouni Markkula, Markku Oivo",
+          "EXACT_TITLE": "Kanban in software development: A systematic literature review",
+          "DATE_VERSION_EDITION": "2013, 39th Euromicro SEAA, pp. 9–16",
+          "SOURCE_CLASS": "systematic literature review",
+          "EXACT_SECTION_PAGE_LOCATOR": "492 located; 19 primary studies included",
+          "CLAIM_SUPPORTED": "Early software-Kanban studies reported lead-time, quality and communication benefits but were few and dominated by case evidence.",
+          "RELATION_TO_PROPERTIES": "EL-004, EL-031",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Small and immature evidence base; publication and self-report bias.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1109/SEAA.2013.28",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "METADATA_INSPECTED_FULL_TEXT_NOT_RETRIEVED",
+            "inspected_locator": "IEEE JavaScript page and search bibliographic record",
+            "transcript_web_refs": [
+              "turn8471078view1",
+              "turn3887312search6"
+            ],
+            "claim_ceiling": "The original 19/492 study counts and detailed review findings remain inherited, not freshly inspected.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://doi.org/10.1109/SEAA.2013.28"
+          }
+        ],
+        "dependence_group": "S055",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S056",
+        "native_locator": "#/SOURCE_REGISTER/55",
+        "inherited_source_record": {
+          "SOURCE_ID": "S056",
+          "AUTHOR_OR_ORGANISATION": "Dag I. K. Sjøberg, Tore Dybå, Bente C. D. Anda, Jo E. Hannay",
+          "EXACT_TITLE": "The effects of WIP limits on lead time and productivity in software development: a longitudinal study",
+          "DATE_VERSION_EDITION": "2018, ESEM/ACM",
+          "SOURCE_CLASS": "longitudinal industrial study",
+          "EXACT_SECTION_PAGE_LOCATOR": "about 8,000 work items, five teams, four years",
+          "CLAIM_SUPPORTED": "Lower WIP was associated with shorter lead time, but WIP/productivity relationships and optimal limits were nontrivial and quality data were unavailable.",
+          "RELATION_TO_PROPERTIES": "EL-004, EL-025, EL-031",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Observational single-company setting; limit selection and causality unresolved.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1145/3239235.3239238",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Dag I. K. Sjøberg",
+          "EXACT_TITLE": "An empirical study of WIP in kanban teams",
+          "DATE_VERSION_EDITION": "ESEM 2018, pp. 13.1–13.8; DOI 10.1145/3239235.3239238"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_INACCESSIBLE",
+            "inspected_locator": "SINTEF institutional abstract and ACM/SIGSOFT metadata; ACM 403",
+            "transcript_web_refs": [
+              "turn3464331view1",
+              "turn1062941search5"
+            ],
+            "claim_ceiling": "Sole author Dag I.K.Sjøberg; exact title An empirical study of WIP in kanban teams. More than 8,000 items / five teams / four years; correlation, no quality outcome, productivity measurement threats.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1145/3239235.3239238"
+          }
+        ],
+        "dependence_group": "S056",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S057",
+        "native_locator": "#/SOURCE_REGISTER/56",
+        "inherited_source_record": {
+          "SOURCE_ID": "S057",
+          "AUTHOR_OR_ORGANISATION": "Jez Humble, David Farley",
+          "EXACT_TITLE": "Continuous Delivery: Reliable Software Releases through Build, Test, and Deployment Automation",
+          "DATE_VERSION_EDITION": "2010",
+          "SOURCE_CLASS": "original software-engineering monograph",
+          "EXACT_SECTION_PAGE_LOCATOR": "deployment pipeline, automated testing, small changes, configuration and release chapters",
+          "CLAIM_SUPPORTED": "Continuous Delivery makes small software changes economical by pairing flow with automation and release/recovery engineering.",
+          "RELATION_TO_PROPERTIES": "EL-005, EL-006, EL-013, EL-026, EL-031",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Practitioner source; the pipeline can automate bad tests or accelerate low-value work.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://www.oreilly.com/library/view/continuous-delivery-reliable/9780321670250/",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [],
+        "dependence_group": "S057",
+        "current_requalification_status": "NOT_NEWLY_ACCESSED",
+        "current_access_limit": {
+          "access_level": "NOT_NEWLY_ACCESSED",
+          "inspected_locator": "Inherited 2010 Continuous Delivery monograph citation only",
+          "transcript_web_refs": [],
+          "claim_ceiling": "Pipeline mechanisms are retained as practitioner-domain interpretation with no fresh whole-book or lineage-transmission claim.",
+          "date_utc": "2026-11-10",
+          "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+        }
+      },
+      {
+        "source_id": "S058",
+        "native_locator": "#/SOURCE_REGISTER/57",
+        "inherited_source_record": {
+          "SOURCE_ID": "S058",
+          "AUTHOR_OR_ORGANISATION": "DORA / Google Cloud",
+          "EXACT_TITLE": "DORA's software delivery performance metrics",
+          "DATE_VERSION_EDITION": "updated 5 January 2026",
+          "SOURCE_CLASS": "authoritative current research guidance",
+          "EXACT_SECTION_PAGE_LOCATOR": "metric definitions, interpretation and misuse cautions",
+          "CLAIM_SUPPORTED": "Delivery metrics are system indicators, should be used together and should not become individual/team competitions or cross-context rankings.",
+          "RELATION_TO_PROPERTIES": "EL-025, EL-031",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "DORA evidence is mainly survey/observational and definitions have evolved.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://dora.dev/guides/dora-metrics/",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "DATE_VERSION_EDITION": "Current guide by Nathen Harvey, updated 2026-01-05; accessed 2026-11-10",
+          "EVIDENCE_LABEL": "CURRENT_RESEARCH_PROGRAMME_GUIDANCE",
+          "note": "Current five-metric guidance is not itself the underlying empirical dataset or a Lean-specific causal test."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "MAIN_BODY_INSPECTED",
+            "inspected_locator": "DORA metrics guide, five current metrics and contextual use warnings",
+            "transcript_web_refs": [
+              "turn8471078view2"
+            ],
+            "claim_ceiling": "Current guidance updated 2026-01-05; five metrics for service/application-level improvement, not individual productivity or proof of a Lean causal effect.",
+            "access_url": "https://dora.dev/guides/dora-metrics/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S058",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S059",
+        "native_locator": "#/SOURCE_REGISTER/58",
+        "inherited_source_record": {
+          "SOURCE_ID": "S059",
+          "AUTHOR_OR_ORGANISATION": "Nicole Forsgren, Margaret-Anne Storey, Chandra Maddila, Thomas Zimmermann, Brian Houck, Jenna Butler",
+          "EXACT_TITLE": "The SPACE of Developer Productivity: There's more to it than you think",
+          "DATE_VERSION_EDITION": "2021, ACM Queue 19(1):20–48",
+          "SOURCE_CLASS": "peer-reviewed framework paper",
+          "EXACT_SECTION_PAGE_LOCATOR": "five dimensions and measurement guidance",
+          "CLAIM_SUPPORTED": "Developer productivity is multidimensional and cannot be validly represented by a single activity or flow metric.",
+          "RELATION_TO_PROPERTIES": "EL-025, EL-031, EL-038",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Framework and case examples, not a causal intervention trial.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://queue.acm.org/detail.cfm?id=3454124",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Microsoft Research author page; ACM search text",
+            "transcript_web_refs": [
+              "turn3127362view2",
+              "turn2649013search4"
+            ],
+            "claim_ceiling": "Multidimensional productivity framework; no single activity proxy suffices. The framework itself is not a randomized test.",
+            "access_url": "https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S059",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S060",
+        "native_locator": "#/SOURCE_REGISTER/59",
+        "inherited_source_record": {
+          "SOURCE_ID": "S060",
+          "AUTHOR_OR_ORGANISATION": "Jorge Moraros, Mark Lemstra, Chijioke Nwankwo",
+          "EXACT_TITLE": "Lean interventions in healthcare: do they actually work? A systematic literature review",
+          "DATE_VERSION_EDITION": "2016, International Journal for Quality in Health Care 28(2):150–165",
+          "SOURCE_CLASS": "systematic review",
+          "EXACT_SECTION_PAGE_LOCATOR": "worker/patient satisfaction, health/process outcomes and costs",
+          "CLAIM_SUPPORTED": "Evidence did not show significant patient satisfaction or health-outcome improvement and included negative or inconsistent cost/worker findings.",
+          "RELATION_TO_PROPERTIES": "domain evidence; EL-001, EL-002, EL-019–EL-020",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Underlying studies were heterogeneous and often methodologically weak.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1093/intqhc/mzv123",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "John Moraros; Mark Lemstra; Chijioke Nwankwo",
+          "CLAIM_SUPPORTED": "This review reports weak, heterogeneous healthcare evidence and mixed process outcomes. Its largest mortality study is incorrectly presented as Lean evidence and its percentage-point difference is labelled a relative risk.",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "R005 evaluates Premier pay for performance, not directly Lean. This discrepancy blocks using that study as a Lean mortality null. R006 supplies an actual controlled Lean-program comparison with its own limits; the review's other findings are not collectively invalidated."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+            "inspected_locator": "Abstract, methods, health/process results, limitations and reference 13",
+            "transcript_web_refs": [
+              "turn6036892view1",
+              "turn6368915view6",
+              "turn6368915view7",
+              "turn4332248view0",
+              "turn6923557search3",
+              "turn6923557search4"
+            ],
+            "claim_ceiling": "Its largest mortality comparison is pay for performance (R005), not directly a Lean exposure, and percentage points are mislabelled RR. Other findings require separate appraisal; no general Lean ineffectiveness is inferred.",
+            "access_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4833201/",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S060",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S061",
+        "native_locator": "#/SOURCE_REGISTER/60",
+        "inherited_source_record": {
+          "SOURCE_ID": "S061",
+          "AUTHOR_OR_ORGANISATION": "Diego Tlapa et al.",
+          "EXACT_TITLE": "Effects of Lean Healthcare on Patient Flow: A Systematic Review",
+          "DATE_VERSION_EDITION": "2020, Value in Health 23(2):260–273",
+          "SOURCE_CLASS": "systematic review",
+          "EXACT_SECTION_PAGE_LOCATOR": "ambulatory flow outcomes, waiting time and length of stay",
+          "CLAIM_SUPPORTED": "Many studies reported lower waiting time/length of stay, while evidence for satisfaction, savings and broader outcomes was scarce.",
+          "RELATION_TO_PROPERTIES": "domain evidence; EL-002, EL-005, EL-019",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Heterogeneous designs and focus on local flow outcomes.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.jval.2019.11.002",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "PubMed and publisher abstract",
+            "transcript_web_refs": [
+              "turn9923637search2",
+              "turn9923637search6",
+              "turn9923637search7"
+            ],
+            "claim_ceiling": "Forty included studies report mainly process-flow outcomes; cost and satisfaction evidence sparse. Overlap with other reviews is not independent corroboration.",
+            "access_url": "https://www.valueinhealthjournal.com/article/S1098-3015%2819%2935217-9/fulltext",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S061",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S062",
+        "native_locator": "#/SOURCE_REGISTER/61",
+        "inherited_source_record": {
+          "SOURCE_ID": "S062",
+          "AUTHOR_OR_ORGANISATION": "René Abreu-Ledón, Darkys E. Luján-García, Pedro Garrido-Vega, Bernabé Escobar-Pérez",
+          "EXACT_TITLE": "A meta-analytic study of the impact of Lean Production on business performance",
+          "DATE_VERSION_EDITION": "2018, International Journal of Production Economics 200:83–102",
+          "SOURCE_CLASS": "meta-analysis",
+          "EXACT_SECTION_PAGE_LOCATOR": "30 articles from 2000–2016; financial and market outcomes",
+          "CLAIM_SUPPORTED": "Lean practices have an average positive association with business performance, with heterogeneity across practices and outcomes.",
+          "RELATION_TO_PROPERTIES": "overall evidence; EL-001–EL-028",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Observational studies, construct heterogeneity and weaker financial attribution limit causal confidence.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.ijpe.2018.03.015",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "PUBLISHER_ABSTRACT_EXCERPT_INSPECTED",
+            "inspected_locator": "Publisher search abstract; direct DOI failed",
+            "transcript_web_refs": [
+              "turn6522594search4",
+              "turn6522594search8",
+              "turn5942634view3"
+            ],
+            "claim_ceiling": "Meta-analysis of published LP/business-performance relationships; the original detailed 30-study count is inherited, not newly checked against full methods.",
+            "access_url": "https://www.sciencedirect.com/science/article/pii/S0925527318301403",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S062",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S063",
+        "native_locator": "#/SOURCE_REGISTER/62",
+        "inherited_source_record": {
+          "SOURCE_ID": "S063",
+          "AUTHOR_OR_ORGANISATION": "Florian Bohnen, Thorsten Maschek, Jochen Deuse",
+          "EXACT_TITLE": "Leveling of low volume and high mix production based on a group technology approach",
+          "DATE_VERSION_EDITION": "2013, CIRP Journal of Manufacturing Science and Technology 6(1):53–58",
+          "SOURCE_CLASS": "peer-reviewed methods/case paper",
+          "EXACT_SECTION_PAGE_LOCATOR": "problem statement, method and case",
+          "CLAIM_SUPPORTED": "Conventional levelling approaches are difficult in low-volume/high-mix environments and require adapted grouping methods.",
+          "RELATION_TO_PROPERTIES": "EL-007",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "A particular method and case; not a universal solution for high variability.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1016/j.cirpj.2012.10.003",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Fabian Bohnen; Matthias Buhl; Jochen Deuse",
+          "EXACT_TITLE": "Systematic procedure for leveling of low volume and high mix production",
+          "DATE_VERSION_EDITION": "2013, CIRP Journal of Manufacturing Science and Technology 6(1), 53–58; DOI 10.1016/j.cirpj.2012.10.003",
+          "note": "The original author/title combination is inconsistent with its DOI. Do not conflate the distinct 2011 group-technology work with this 2013 procedure."
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract/introduction and TU Dortmund bibliography",
+            "transcript_web_refs": [
+              "turn3695824search0",
+              "turn3695824search4",
+              "turn3695824search7"
+            ],
+            "claim_ceiling": "Correct DOI is a 2013 Bohnen/Buhl/Deuse procedure with application; not a universal fixed-takt guarantee.",
+            "access_url": "https://sfb876.tu-dortmund.de/en/auto2fb8.html",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S063",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S064",
+        "native_locator": "#/SOURCE_REGISTER/63",
+        "inherited_source_record": {
+          "SOURCE_ID": "S064",
+          "AUTHOR_OR_ORGANISATION": "Igor Tomašević et al.",
+          "EXACT_TITLE": "A review of production planning and control in the high-mix low-volume industry",
+          "DATE_VERSION_EDITION": "2020, Production Planning & Control",
+          "SOURCE_CLASS": "systematic literature review",
+          "EXACT_SECTION_PAGE_LOCATOR": "110 articles; maturity and gaps",
+          "CLAIM_SUPPORTED": "Evidence for planning, variability and buffering in high-mix/low-volume settings remains fragmented and often tool-centred.",
+          "RELATION_TO_PROPERTIES": "EL-007, EL-008, EL-010",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Review scope and terminology are heterogeneous.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1080/09537287.2020.1782094",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Ivan Tomašević; Dragana Stojanović; Dragoslav Slović; Barbara Simeunović; Ivona Jovanović",
+          "EXACT_TITLE": "Lean in High-Mix/Low-Volume industry: a systematic literature review",
+          "DATE_VERSION_EDITION": "Online 2020-06-22; Production Planning & Control 32, 1004–1019 (2021)"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher and Belgrade institutional metadata/abstract",
+            "transcript_web_refs": [
+              "turn3695824search1",
+              "turn3695824search5"
+            ],
+            "claim_ceiling": "Review of 110 articles reports immature theory and limited variability/buffering research. Full study quality not independently assessed.",
+            "access_url": "https://rfos.fon.bg.ac.rs/handle/123456789/2222?show=full",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S064",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S065",
+        "native_locator": "#/SOURCE_REGISTER/64",
+        "inherited_source_record": {
+          "SOURCE_ID": "S065",
+          "AUTHOR_OR_ORGANISATION": "David Chroneer, Peter Wallström",
+          "EXACT_TITLE": "Exploring waste and value in a lean context",
+          "DATE_VERSION_EDITION": "2016, International Journal of Business and Management 11(10):282–297",
+          "SOURCE_CLASS": "peer-reviewed conceptual/empirical study",
+          "EXACT_SECTION_PAGE_LOCATOR": "literature and findings on imbalance between waste and value",
+          "CLAIM_SUPPORTED": "Lean discourse and practice often elaborate waste far more than customer value, risking efficient production of low-value outcomes.",
+          "RELATION_TO_PROPERTIES": "EL-001, EL-025, EL-033",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Limited empirical base; value remains contested and stakeholder-dependent.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.5539/ijbm.v11n10p282",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Diana Chronéer; Peter Wallström"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "Publisher abstract and authors",
+            "transcript_web_refs": [
+              "turn3695824view1",
+              "turn3695824search3"
+            ],
+            "claim_ceiling": "Review plus four cases distinguishes value generation from waste elimination; not a quantified universal outcome effect.",
+            "access_url": "https://ccsenet.org/journal/index.php/ijbm/article/view/62167",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history."
+          }
+        ],
+        "dependence_group": "S065",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S066",
+        "native_locator": "#/SOURCE_REGISTER/65",
+        "inherited_source_record": {
+          "SOURCE_ID": "S066",
+          "AUTHOR_OR_ORGANISATION": "Beena Kanabar et al.",
+          "EXACT_TITLE": "The Impact and Challenges of the Implementation of 5S Methodology in Healthcare Settings: A Systematic Review",
+          "DATE_VERSION_EDITION": "2024, Cureus 16(7):e64634",
+          "SOURCE_CLASS": "systematic review",
+          "EXACT_SECTION_PAGE_LOCATOR": "six included studies; outcomes, prerequisites and limitations",
+          "CLAIM_SUPPORTED": "5S may improve organisation and cleanliness, but evidence is small, heterogeneous and weak on long-term sustainability.",
+          "RELATION_TO_PROPERTIES": "EL-003, EL-037",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Only six studies; small samples and no strong causal generalisation.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.7759/cureus.64634",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Bhavesh Kanabar; Kiran G. Piparva; Dhruvin Pandya; Rajvi B. Kanabar",
+          "DATE_VERSION_EDITION": "2024-07-16; Cureus 16(7), e64634; DOI 10.7759/cureus.64634"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+            "inspected_locator": "PubMed abstract and bibliographic fields; PMC CAPTCHA",
+            "transcript_web_refs": [
+              "turn3695824search2",
+              "turn6036892view2"
+            ],
+            "claim_ceiling": "Six-study 5S review; limited evidence and sustainability questions. Does not prove 5S is necessary for every workplace.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://doi.org/10.7759/cureus.64634"
+          }
+        ],
+        "dependence_group": "S066",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S067",
+        "native_locator": "#/SOURCE_REGISTER/66",
+        "inherited_source_record": {
+          "SOURCE_ID": "S067",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Toyota Production System — Jidoka and Just-in-Time",
+          "DATE_VERSION_EDITION": "current official page accessed 2026-08-11",
+          "SOURCE_CLASS": "official current doctrine",
+          "EXACT_SECTION_PAGE_LOCATOR": "sections on stopping abnormalities and minimum required parts",
+          "CLAIM_SUPPORTED": "Toyota's current account states that jidoka stops abnormal processes and JIT holds the minimum parts required, not zero inventory.",
+          "RELATION_TO_PROPERTIES": "EL-011–EL-015, EL-034",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Current doctrine is not historical proof or independent effectiveness evidence.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://global.toyota/en/company/vision-and-philosophy/production-system/",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED",
+            "inspected_locator": "Official current TPS overview",
+            "transcript_web_refs": [
+              "turn9807099view3"
+            ],
+            "claim_ceiling": "Current doctrine includes minimum advance stock and labor reduction. Doctrine is not an independent outcome evaluation.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://global.toyota/en/company/vision-and-philosophy/production-system/"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S068",
+        "native_locator": "#/SOURCE_REGISTER/67",
+        "inherited_source_record": {
+          "SOURCE_ID": "S068",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Europe",
+          "EXACT_TITLE": "Genchi Genbutsu",
+          "DATE_VERSION_EDITION": "current official explanation accessed 2026-08-11",
+          "SOURCE_CLASS": "official current doctrine",
+          "EXACT_SECTION_PAGE_LOCATOR": "definition and observation/problem-solving sections",
+          "CLAIM_SUPPORTED": "Direct observation is intended to establish facts at the actual process rather than rely only on reports.",
+          "RELATION_TO_PROPERTIES": "EL-018",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Does not solve distributed, latent or data-intensive causation and can become performative surveillance.",
+          "EVIDENCE_LABEL": "SOURCE_INTERPRETATION",
+          "STABLE_URL_OR_DOI": "https://www.toyota-europe.com/about-us/toyota-vision-and-philosophy/toyota-production-system/genchi-genbutsu",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {},
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "access_level": "ORIGINAL_LOCATOR_INACCESSIBLE",
+            "inspected_locator": "Official current URL failed",
+            "transcript_web_refs": [
+              "turn1723695view3"
+            ],
+            "claim_ceiling": "Original specific page not freshly verified. Direct-observation doctrine is supported elsewhere, but latent or distributed causal claims require other evidence.",
+            "date_utc": "2026-11-10",
+            "log_origin": "Actual source examination; transcript references and saved access_logs. Not a reconstructed search history.",
+            "access_url": "https://www.toyota-europe.com/about-us/toyota-vision-and-philosophy/toyota-production-system/genchi-genbutsu"
+          }
+        ],
+        "dependence_group": "S068",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S069",
+        "native_locator": "#/SOURCE_REGISTER/68",
+        "inherited_source_record": {
+          "SOURCE_ID": "S069",
+          "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+          "EXACT_TITLE": "Purchasing and supplier association history",
+          "DATE_VERSION_EDITION": "Toyota 75-Year History, published 2012",
+          "SOURCE_CLASS": "primary corporate chronology",
+          "EXACT_SECTION_PAGE_LOCATOR": "purchasing overview; supplier QC study groups, TPS training and value analysis entries",
+          "CLAIM_SUPPORTED": "Toyota institutionalised supplier associations, quality study and TPS training alongside cost/value-analysis programmes.",
+          "RELATION_TO_PROPERTIES": "EL-027, EL-028",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Corporate history underreports supplier bargaining pressure and risk transfer.",
+          "EVIDENCE_LABEL": "SOURCE_ESTABLISHED",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/purchasing/index.html",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "EXACT_TITLE": "Purchasing | Overview",
+          "STABLE_URL_OR_DOI": "https://www.toyota-global.com/company/history_of_toyota/75years/data/automotive_business/production/purchasing/overview/index.html"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "SECTION_INSPECTED_ORIGINAL_LOCATOR_INACCESSIBLE",
+            "inspected_locator": "Official Purchasing/Overview, main body and chronology through 2009",
+            "transcript_web_refs": [
+              "turn7559926view0",
+              "turn4563113view4"
+            ],
+            "claim_ceiling": "Locator correction. Supplier associations, quality/capability programs and cost-reduction incentives coexist.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://www.toyota-global.com/company/history_of_toyota/75years/data/company_information/purchasing/index.html"
+          }
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_HISTORY",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL"
+      },
+      {
+        "source_id": "S070",
+        "native_locator": "#/SOURCE_REGISTER/69",
+        "inherited_source_record": {
+          "SOURCE_ID": "S070",
+          "AUTHOR_OR_ORGANISATION": "Sharon K. Parker et al.",
+          "EXACT_TITLE": "Lean production, work intensification and employee wellbeing: Can line-manager support make a difference?",
+          "DATE_VERSION_EDITION": "2022, Economic and Industrial Democracy",
+          "SOURCE_CLASS": "two-wave worker survey",
+          "EXACT_SECTION_PAGE_LOCATOR": "315 workers; intensification, exhaustion and managerial support model",
+          "CLAIM_SUPPORTED": "Lean-related work intensification predicted emotional exhaustion and poorer wellbeing; line-manager support buffered but did not erase the mechanism.",
+          "RELATION_TO_PROPERTIES": "EL-021–EL-024",
+          "CONTRARY_EVIDENCE_OR_LIMIT": "Survey evidence and context limits causal inference.",
+          "EVIDENCE_LABEL": "EMPIRICAL_OR_DOMAIN_FINDING",
+          "STABLE_URL_OR_DOI": "https://doi.org/10.1177/0143831X19890678",
+          "ACCESS_DATE": "2026-08-11"
+        },
+        "current_bibliographic_corrections": {
+          "AUTHOR_OR_ORGANISATION": "Meng-Long Huo; Peter Boxall; Gordon W. Cheung",
+          "DATE_VERSION_EDITION": "First online 2019-12-17; Economic and Industrial Democracy 43(1), 2022, pp. 198–220"
+        },
+        "original_access_date_status": "INHERITED_ASSERTION_NOT_CURRENT_ACCESS",
+        "actual_current_access": [
+          {
+            "date_utc": "2026-11-09/10",
+            "access_level": "ABSTRACT_AND_METADATA_INSPECTED_FULL_TEXT_RESTRICTED",
+            "inspected_locator": "Sage abstract; /pdf request redirected to abstract",
+            "transcript_web_refs": [
+              "turn3464331view2"
+            ],
+            "claim_ceiling": "Huo/Boxall/Cheung, online 2019/issue 2022. Two-wave 315 workers, one plant; observational moderation/mediation, not randomized treatment.",
+            "log_origin": "Exact tool outputs in session; saved raw logs where present. No retrospective search-log invention.",
+            "access_url": "https://doi.org/10.1177/0143831X19890678"
+          },
+          {
+            "date_utc": "2026-11-10",
+            "revision": "r2_fidelity_response",
+            "access_level": "PRIMARY_ABSTRACT_INSPECTED",
+            "inspected_locator": "Publisher metadata and abstract, retrieval lines 20–32.",
+            "transcript_web_refs": [
+              "turn6637412view1"
+            ],
+            "claim_ceiling": "Single-plant two-wave evidence on work intensity/support; no new full-methods or general necessary-condition claim.",
+            "log_origin": "Actual author reinspection after fidelity v1; exact requests retained in revision working logs.",
+            "access_url": "https://journals.sagepub.com/doi/10.1177/0143831X19890678"
+          }
+        ],
+        "dependence_group": "S070",
+        "current_requalification_status": "EXAMINED_AT_STATED_LEVEL",
+        "dependence_note": "Different authors/designs and plants; do not conflate Huo with Parker. Mediation models remain observational."
+      }
+    ],
+    "new_sources": [
+      {
+        "SOURCE_ID": "R001",
+        "AUTHOR_OR_ORGANISATION": "Paul S. Adler; Barbara Goldoftas; David I. Levine",
+        "EXACT_TITLE": "Stability and Change at NUMMI",
+        "DATE_VERSION_EDITION": "1997-06-27 author manuscript, forthcoming chapter",
+        "STABLE_URL_OR_DOI": "https://faculty.marshall.usc.edu/Paul-Adler/research/NummiStabilityAndChange-1.pdf",
+        "EXACT_SECTION_PAGE_LOCATOR": "Ergonomics at NUMMI; conclusion",
+        "SOURCE_CLASS": "Author case-research manuscript",
+        "CLAIM_SUPPORTED": "Describes the 1993 ergonomic citations and subsequent negotiated responses.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Same authors and case programme as S031; no independent replication. Only named sections inspected.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+        "transcript_web_refs": [
+          "turn9807099view4",
+          "turn5724868view7",
+          "turn1372607view3"
+        ],
+        "dependence_group": "ADLER_GOLDOFTAS_LEVINE_NUMMI"
+      },
+      {
+        "SOURCE_ID": "R002",
+        "AUTHOR_OR_ORGANISATION": "Toyota Motor Corporation",
+        "EXACT_TITLE": "Five Years on: Toyota’s Efforts to Build a Disaster Resilient Future",
+        "DATE_VERSION_EDITION": "2016-03-11",
+        "STABLE_URL_OR_DOI": "https://global.toyota/en/detail/11373994",
+        "EXACT_SECTION_PAGE_LOCATOR": "Main body; Improving Supply Chain Transparency",
+        "SOURCE_CLASS": "Official corporate account",
+        "CLAIM_SUPPORTED": "Reports RESCUE information for around 6,800 items, confidentiality arrangements and supplier training.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Distinct replacement for inaccessible S036. Corporate account does not identify the causal effect of mapping or guarantee resilience.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "MAIN_BODY_INSPECTED",
+        "transcript_web_refs": [
+          "turn2833226view5"
+        ],
+        "dependence_group": "TOYOTA_CORPORATE_RESILIENCE"
+      },
+      {
+        "SOURCE_ID": "R003",
+        "AUTHOR_OR_ORGANISATION": "Carl Wänström; Lars Medbo; Malin Hallin; Robert Kusén",
+        "EXACT_TITLE": "How a lean learning system can improve operators’ work performance and well-being in a production setting",
+        "DATE_VERSION_EDITION": "Online 2026-04-10; International Journal of Quality & Reliability Management 43(6), 1569–1592; DOI 10.1108/IJQRM-05-2024-0165",
+        "STABLE_URL_OR_DOI": "https://www.emerald.com/ijqrm/article/43/6/1569/1358835/How-a-lean-learning-system-can-improve-operators",
+        "EXACT_SECTION_PAGE_LOCATOR": "Abstract, methods and limitations",
+        "SOURCE_CLASS": "Retrospective organizational case",
+        "CLAIM_SUPPORTED": "Describes a favorable learning-system transformation using manager interviews and internal documents.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Retrospective managerial reconstruction of 1999/2009 conditions; not direct longitudinal worker-health evidence or randomized attribution. Predates the old cutoff although newly examined here.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+        "transcript_web_refs": [
+          "turn2833226view2",
+          "turn6691332view2",
+          "turn5724868view5"
+        ],
+        "dependence_group": "WANSTROM_CASE"
+      },
+      {
+        "SOURCE_ID": "R004",
+        "AUTHOR_OR_ORGANISATION": "Nsikan John",
+        "EXACT_TITLE": "Lean but strained: a socio-technical explanation of the safety paradox in just-in-time modular construction",
+        "DATE_VERSION_EDITION": "Online 2026-10-16; DOI 10.1108/IJIEOM-04-2026-0119",
+        "STABLE_URL_OR_DOI": "https://www.emerald.com/ijieom/article/doi/10.1108/IJIEOM-04-2026-0119/1402487/Lean-but-strained-a-socio-technical-explanation-of",
+        "EXACT_SECTION_PAGE_LOCATOR": "Abstract; methods 3.1–3.4; results 4.1–4.4; limitations",
+        "SOURCE_CLASS": "Two-wave multi-informant observational survey",
+        "CLAIM_SUPPORTED": "Reports positive JIT associations with perceived safety and strain across 103 modular-construction firms; strain also relates positively to reported safety, contrary to the proposed negative path.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Four-week lag and perceptual measures do not identify causality or long-term health. Compensatory vigilance is a proposed explanation, not an observed mechanism; no endorsement of overload follows.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+        "transcript_web_refs": [
+          "turn6036892view0",
+          "turn1372607view0",
+          "turn1372607view1",
+          "turn1372607view2",
+          "turn6368915view3"
+        ],
+        "dependence_group": "JOHN_2026_MODULAR_CONSTRUCTION"
+      },
+      {
+        "SOURCE_ID": "R005",
+        "AUTHOR_OR_ORGANISATION": "Ashish K. Jha; Karen E. Joynt; E. John Orav; Arnold M. Epstein",
+        "EXACT_TITLE": "The long-term effect of premier pay for performance on patient outcomes",
+        "DATE_VERSION_EDITION": "Online 2012-03-28; New England Journal of Medicine 366(17), 1606–1615; DOI 10.1056/NEJMsa1112351",
+        "STABLE_URL_OR_DOI": "https://pubmed.ncbi.nlm.nih.gov/22455751/",
+        "EXACT_SECTION_PAGE_LOCATOR": "Primary article abstract and metadata",
+        "SOURCE_CLASS": "Controlled observational pay-for-performance study; source-audit discriminator",
+        "CLAIM_SUPPORTED": "Compares Premier pay-for-performance hospitals with public-reporting controls and reports a mortality difference of 0.08 percentage points.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Not a direct Lean exposure study. Added to audit S060's exposure/estimand mismatch, not as evidence of Lean benefit or harm. Full paper not inspected.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "ABSTRACT_AND_METADATA_INSPECTED",
+        "transcript_web_refs": [
+          "turn9923637search0",
+          "turn7562456view1"
+        ],
+        "dependence_group": "JHA_PREMIER_2012"
+      },
+      {
+        "SOURCE_ID": "R006",
+        "AUTHOR_OR_ORGANISATION": "Marian J. Vermeulen; Therese A. Stukel; Astrid Guttmann; Brian H. Rowe; Merrick Zwarenstein; Brian Golden; Amit Nigam; Geoff Anderson; Robert S. Bell; Michael J. Schull; ED Investigator Team",
+        "EXACT_TITLE": "Evaluation of an Emergency Department Lean Process Improvement Program to Reduce Length of Stay",
+        "DATE_VERSION_EDITION": "2014; Annals of Emergency Medicine 64(5), 427–438; DOI 10.1016/j.annemergmed.2014.06.007",
+        "STABLE_URL_OR_DOI": "https://openaccess.city.ac.uk/id/eprint/23229/1/1-s2.0-S0196064414005162-main.pdf",
+        "EXACT_SECTION_PAGE_LOCATOR": "Abstract; methods pp. 428–429; results table and limitations/discussion pp. 432–435",
+        "SOURCE_CLASS": "Controlled retrospective cohort/time-series study",
+        "CLAIM_SUPPORTED": "Before-after improvements were substantially attenuated against concurrent controls; some median-flow benefits remained while tail results differed.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Voluntary nonrandom selection, overlapping policies and control-site Lean activity limit causal isolation. No frontline-staff outcome evaluation. The PMC4123037 poster is a separate version of the same study, not independent replication.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+        "transcript_web_refs": [
+          "turn2649013view0",
+          "turn3127362view3"
+        ],
+        "dependence_group": "VERMEULEN_ONTARIO_2014"
+      },
+      {
+        "SOURCE_ID": "R007",
+        "AUTHOR_OR_ORGANISATION": "David J. Anderson",
+        "EXACT_TITLE": "Revisiting the Principles and General Practices of the Kanban Method",
+        "DATE_VERSION_EDITION": "Undated current page; 18 June displayed without year; accessed 2026-11-10",
+        "STABLE_URL_OR_DOI": "https://djaa.com/revisiting-the-principles-and-general-practices-of-the-kanban-method/",
+        "EXACT_SECTION_PAGE_LOCATOR": "Opening and change-management principles",
+        "SOURCE_CLASS": "Author retrospective practitioner account",
+        "CLAIM_SUPPORTED": "Describes WIP-limited evolutionary change and explicitly says the 2010 book's five core properties were later expanded.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Not full access to the 2010 book S054, and not empirical proof that the approach always succeeds. Precise page publication year is unverified.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+        "transcript_web_refs": [
+          "turn3127362view1"
+        ],
+        "dependence_group": "ANDERSON_KANBAN_PRACTITIONER"
+      },
+      {
+        "SOURCE_ID": "R008",
+        "AUTHOR_OR_ORGANISATION": "Lean Enterprise Institute",
+        "EXACT_TITLE": "Lean Thinking and Practice",
+        "DATE_VERSION_EDITION": "Current institutional lexicon; accessed 2026-11-10",
+        "STABLE_URL_OR_DOI": "https://www.lean.org/lexicon-terms/lean-thinking-and-practice/",
+        "EXACT_SECTION_PAGE_LOCATOR": "Five principles and Purpose/Process/People explanation",
+        "SOURCE_CLASS": "Institutional current doctrine",
+        "CLAIM_SUPPORTED": "Explains the 1996 five-principle formulation and later Purpose/Process/People framing.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Distinct from the cited monograph S018; current explanation does not establish every original edition's wording or causal efficacy.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "MAIN_BODY_INSPECTED",
+        "transcript_web_refs": [
+          "turn9565772view1"
+        ],
+        "dependence_group": "LEI_LEAN_THINKING"
+      },
+      {
+        "SOURCE_ID": "R009",
+        "AUTHOR_OR_ORGANISATION": "Takahiro Fujimoto",
+        "EXACT_TITLE": "Supply Chain Competitiveness and Robustness: A Lesson from the 2011 Tohoku Earthquake and Supply Chain “Virtual Dualization”",
+        "DATE_VERSION_EDITION": "MMRC Discussion Paper 362, September 2011",
+        "STABLE_URL_OR_DOI": "https://merc.e.u-tokyo.ac.jp/mmrc/dp/pdf/MMRC362_2011.pdf",
+        "EXACT_SECTION_PAGE_LOCATOR": "Cover, abstract and introductory competitiveness/robustness argument",
+        "SOURCE_CLASS": "Author analytical working paper",
+        "CLAIM_SUPPORTED": "Proposes balancing supply-chain competitiveness and robustness through portability of design information and virtual dualization.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Correctly identified work replacing current support of misbound S037; proposal and preliminary case analysis, not causal effect evidence. The more-than-10,000-sites claim is not supported by inspected passages.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+        "transcript_web_refs": [
+          "turn3983688view0"
+        ],
+        "dependence_group": "FUJIMOTO_2011_ROBUSTNESS"
+      },
+      {
+        "SOURCE_ID": "R010",
+        "AUTHOR_OR_ORGANISATION": "Lauri Koskela",
+        "EXACT_TITLE": "Application of the New Production Philosophy to Construction",
+        "DATE_VERSION_EDITION": "1992; CIFE Technical Report 072",
+        "STABLE_URL_OR_DOI": "https://purl.stanford.edu/kh328xt3298",
+        "EXACT_SECTION_PAGE_LOCATOR": "Stanford CIFE publication list; PURL retrieval failed",
+        "SOURCE_CLASS": "Original construction research report",
+        "CLAIM_SUPPORTED": "Primary institutional catalogue establishes the work and date; no detailed substantive proposition is derived from this access.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Original report not inspected. Ballard R011 independently documents its influence on his own research, not every proposition in the report.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "METADATA_ONLY_FULL_TEXT_INACCESSIBLE",
+        "transcript_web_refs": [
+          "turn2595187search0",
+          "turn2595187search1",
+          "turn5202114view0"
+        ],
+        "dependence_group": "KOSKELA_CONSTRUCTION"
+      },
+      {
+        "SOURCE_ID": "R011",
+        "AUTHOR_OR_ORGANISATION": "Herman Glenn Ballard",
+        "EXACT_TITLE": "The Last Planner System of Production Control",
+        "DATE_VERSION_EDITION": "May 2000; PhD thesis, University of Birmingham",
+        "STABLE_URL_OR_DOI": "https://etheses.bham.ac.uk/id/eprint/4789/1/Ballard00PhD.pdf",
+        "EXACT_SECTION_PAGE_LOCATOR": "Abstract; chapter 1 scope and author role; chapter 3 sections 3.1–3.3",
+        "SOURCE_CLASS": "Original developer case-research thesis",
+        "CLAIM_SUPPORTED": "Documents TPS/Lean and Koskela influence on a shift toward work-flow reliability; distinguishes desired assignments from feasible commitments.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Developer led implementation and data collection. Only named sections inspected; case-level efficacy is not independently reanalysed. The design case was interrupted and quantified downstream benefits remained a research question.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "FULL_TEXT_AVAILABLE_PARTIALLY_INSPECTED",
+        "transcript_web_refs": [
+          "turn5202114view1",
+          "turn2084856view0",
+          "turn2084856view2"
+        ],
+        "dependence_group": "BALLARD_LAST_PLANNER_CASES"
+      },
+      {
+        "SOURCE_ID": "R012",
+        "AUTHOR_OR_ORGANISATION": "Eric Ries",
+        "EXACT_TITLE": "The Lean Startup",
+        "DATE_VERSION_EDITION": "2011-09-13 book; publisher description accessed 2026-11-10",
+        "STABLE_URL_OR_DOI": "https://www.penguinrandomhouse.com/books/210088/the-lean-startup-by-eric-ries/9780307887894/",
+        "EXACT_SECTION_PAGE_LOCATOR": "Publisher publication fields and description",
+        "SOURCE_CLASS": "Original practitioner book, description only",
+        "CLAIM_SUPPORTED": "Publisher describes explicit inspiration from Lean manufacturing and a shift toward entrepreneurial learning.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "The book is not newly read. Promotional claims of capital efficiency or startup success are not empirical efficacy evidence.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "PUBLISHER_DESCRIPTION_AND_METADATA_ONLY",
+        "transcript_web_refs": [
+          "turn2595187search3"
+        ],
+        "dependence_group": "RIES_LEAN_STARTUP"
+      },
+      {
+        "SOURCE_ID": "R013",
+        "AUTHOR_OR_ORGANISATION": "The Lean Startup / Eric Ries",
+        "EXACT_TITLE": "Methodology",
+        "DATE_VERSION_EDITION": "Undated current official page; accessed 2026-11-10",
+        "STABLE_URL_OR_DOI": "https://theleanstartup.com/principles",
+        "EXACT_SECTION_PAGE_LOCATOR": "Main methodology and principles text",
+        "SOURCE_CLASS": "Official practitioner doctrine",
+        "CLAIM_SUPPORTED": "Defines build-measure-learn, customer-response evidence and pivot/persevere decisions, with Five Whys also advocated.",
+        "CONTRARY_EVIDENCE_OR_LIMIT": "Method description and scientific-language claims do not identify causal benefit or remove validity questions about feedback, metrics or safety. Not independent of R012.",
+        "ACCESS_DATE": "2026-11-10",
+        "EVIDENCE_LABEL": "NEWLY_EXAMINED_AT_STATED_LEVEL",
+        "access_level": "MAIN_BODY_INSPECTED",
+        "transcript_web_refs": [
+          "turn5202114view2"
+        ],
+        "dependence_group": "RIES_LEAN_STARTUP"
+      }
+    ],
+    "selected_source_index": [
+      {
+        "source_id": "S001",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/0",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S002",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/1",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S003",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/2",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S004",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/3",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S005",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/4",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S006",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/5",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S007",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/6",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S008",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/7",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S009",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/8",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S010",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/9",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S011",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/10",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S012",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/11",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S013",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/12",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S014",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/13",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S015",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/14",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S016",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/15",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S017",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/16",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S018",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/17",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S019",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/18",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S020",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/19",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S021",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/20",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S022",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/21",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S023",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/22",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S024",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/23",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S025",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/24",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S026",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/25",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S027",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/26",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S028",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/27",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S029",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/28",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S030",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/29",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S031",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/30",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S032",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/31",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S033",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/32",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S034",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/33",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S035",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/34",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S036",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/35",
+        "selection_state": "HISTORICAL_NOT_SELECTED"
+      },
+      {
+        "source_id": "S037",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/36",
+        "selection_state": "HISTORICAL_NOT_SELECTED"
+      },
+      {
+        "source_id": "S038",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/37",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S039",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/38",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S040",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/39",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S041",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/40",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S042",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/41",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S043",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/42",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S044",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/43",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S045",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/44",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S046",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/45",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S047",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/46",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S048",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/47",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S049",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/48",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S050",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/49",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S051",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/50",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S052",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/51",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S053",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/52",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S054",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/53",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S055",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/54",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S056",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/55",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S057",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/56",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S058",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/57",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S059",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/58",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S060",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/59",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S061",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/60",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S062",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/61",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S063",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/62",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S064",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/63",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S065",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/64",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S066",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/65",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S067",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/66",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S068",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/67",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S069",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/68",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "S070",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/69",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R001",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/70",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R002",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/71",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R003",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/72",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R004",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/73",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R005",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/74",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R006",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/75",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R007",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/76",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R008",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/77",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R009",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/78",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R010",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/79",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R011",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/80",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R012",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/81",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      },
+      {
+        "source_id": "R013",
+        "selected_locator": "LEAN_REQUALIFIED_LEDGER.json#/SOURCE_REGISTER/82",
+        "selection_state": "SELECTED_WITH_ACCESS_CEILING"
+      }
+    ],
+    "population_accounting": {
+      "inherited_citation_records": 70,
+      "distinct_added_source_records": 13,
+      "indexed_records": 83,
+      "selected_for_current_support": 81,
+      "independent_studies": "NOT_DERIVED_FROM_SOURCE_COUNT"
+    }
+  }
+}

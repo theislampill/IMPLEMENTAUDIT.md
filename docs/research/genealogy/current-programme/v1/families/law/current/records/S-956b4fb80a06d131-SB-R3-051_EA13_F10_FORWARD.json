@@ -1,0 +1,1046 @@
+{
+  "source_identity": {
+    "source_id": "S-956b4fb80a06d131",
+    "scientific_name": "SB-R3-051_EA13_F10_FORWARD.json",
+    "original_bytes": 79344,
+    "original_sha256": "956b4fb80a06d131c102b5aa86c04daf23d4e6f0f00cee9f49d78b909ad814fa"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-051",
+    "title": "EA-13_FORWARD_FEEDBACK_RISK_AND_COMMITMENT",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T00:56:37.976621+00:00",
+    "inquiry_family": 10,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_009.json",
+      "bytes": 2255,
+      "sha256": "30275ce0d0497e756226547c0fd20c982874b60d4bd54e5f3a1ad3c104ed3ac1"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY10_REMAINING132_NATIVE_MEANINGS.json",
+      "bytes": 125638,
+      "sha256": "12f74b20f49c095ce5835481b375996e084ded0910c6ac801a8ea94c07bc5c57"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY10_REMAINING132_LITERAL_ARGUMENTS.json",
+      "bytes": 51404,
+      "sha256": "e33fcc9f5b481afe2eccc596d417a3f4baca77c022211e6881530d5f46bfafd2"
+    },
+    "bounded_interface_domain": [
+      "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+      "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+      "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+      "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+      "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+    ],
+    "native_common_basis": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+    "common_cost_and_alternative": [
+      "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+      "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+      "No addition is warranted solely because another named method could be introduced.",
+      "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+    ],
+    "evidence_ceiling": "Conditional root analytical arguments from exact accepted native mechanisms. No new primary-body access, empirical effect, universal cadence, independent review, new property identity or scientific qualification claimed.",
+    "common_subconditions": {
+      "P1": "Actual common question, object and receiving use.",
+      "P2": "Exact native meaning and accepted overlay.",
+      "P3": "The separately reasoned partial consequence.",
+      "P4": "Counterexample, absent guard, remaining premises, cost, alternative and reentry."
+    },
+    "inference": "The specified partial input can materially change a decision premise or warrant even when the action is confirmed. No universal cadence, symmetric equivalence, temporal chain or requirement to add a new control follows.",
+    "common_source_dependence": "Shared evidence, method ancestry, prototype or model is not independent support twice.",
+    "exceptions": [],
+    "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P001",
+        "argument": "Evidence-triggered planning identifies which horizon and dependent commitment a new result can legitimately revise, preserving necessary long-term intent while adapting near-term work."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P002",
+        "argument": "The actual planning horizons, deadlines and switching costs identify when a learning result is useful and which unresolved premise threatens the next commitment."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P003",
+        "argument": "Multihorizon planning places architectural learning before the relevant hard commitment while preserving long-lead dependencies that cannot be changed at iteration speed."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P004",
+        "argument": "The plan horizon, decision deadline and feasible response define a discriminating investigation whose result can still inform an affordable revision."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P012",
+        "argument": "The actual horizon and change cost locate where validation findings can alter scope, timing or assumptions without discarding necessary dependencies."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P021",
+        "argument": "Multihorizon planning supplies the affected dependencies, available response horizon and switching costs for an empowered go, redirect, hold or stop decision."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P022",
+        "argument": "Near-term planning identifies the next useful information and limits commitments until that information can inform the longer investment horizon."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P023",
+        "argument": "Multihorizon replanning coordinates local iterations with longer integration and commitment dependencies instead of imposing one cadence on all work."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P024",
+        "argument": "Evidence availability, horizon, switching cost and necessary dependencies explain when flexible replanning or a protected commitment interval is the proportionate control."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P025",
+        "argument": "The actual decision horizon and response options determine when forecast changes matter to the plan and when switching costs justify waiting."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P033",
+        "argument": "Multihorizon dependency and switching analysis identifies which revisions are cheap local responses and which expose costly commitments or delayed recovery."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P001",
+        "overclaim": "Constant backlog reprioritization can sever agreed dependencies without authorized intent revision or enough benefit to cover switching.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P002",
+        "overclaim": "A calendar replanning cycle can repeatedly revisit an assumption before any discriminating evidence is possible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P003",
+        "overclaim": "Frequent near-term reprioritization can miss a procurement or certification window and make the planned architecture infeasible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P004",
+        "overclaim": "A prototype delivered after an irreversible purchase may be informative yet unable to affect the decision it was meant to support.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P012",
+        "overclaim": "Replanning around every short-term preference can undermine a longer user outcome or a protected operational window.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P021",
+        "overclaim": "Routine planning authority may not include the power to change an external commitment; a changed backlog is not a valid authorization.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P022",
+        "overclaim": "Repeated small commitments can still create cumulative lock-in, transaction costs or an expired option before useful evidence arrives.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P023",
+        "overclaim": "Independent local replanning can produce incompatible configurations or consume a shared integration window.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P024",
+        "overclaim": "A label of agility cannot waive contractual change authority or justify continuous replanning whose distraction exceeds its benefit.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P025",
+        "overclaim": "Replanning on every forecast fluctuation can amplify noise and confuse a target with an expected completion date.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P033",
+        "overclaim": "A short planning horizon does not make a fleet-wide deployment consequence reversible or a rushed decision safe.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-13->LAW-L3::EW-P001",
+      "LAW-L2::EA-13->LAW-L3::EW-P002",
+      "LAW-L2::EA-13->LAW-L3::EW-P003",
+      "LAW-L2::EA-13->LAW-L3::EW-P004",
+      "LAW-L2::EA-13->LAW-L3::EW-P012",
+      "LAW-L2::EA-13->LAW-L3::EW-P021",
+      "LAW-L2::EA-13->LAW-L3::EW-P022",
+      "LAW-L2::EA-13->LAW-L3::EW-P023",
+      "LAW-L2::EA-13->LAW-L3::EW-P024",
+      "LAW-L2::EA-13->LAW-L3::EW-P025",
+      "LAW-L2::EA-13->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P001",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P001",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "shared_question_or_object": "Near-term learning may change intent while longer commitments remain operative.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Evidence-triggered planning identifies which horizon and dependent commitment a new result can legitimately revise, preserving necessary long-term intent while adapting near-term work.",
+        "receiving_consequence": "Evidence-triggered planning identifies which horizon and dependent commitment a new result can legitimately revise, preserving necessary long-term intent while adapting near-term work.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Evidence-triggered planning identifies which horizon and dependent commitment a new result can legitimately revise, preserving necessary long-term intent while adapting near-term work."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Constant backlog reprioritization can sever agreed dependencies without authorized intent revision or enough benefit to cover switching.",
+        "counter_control": "Constant backlog reprioritization can sever agreed dependencies without authorized intent revision or enough benefit to cover switching.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P001->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "actual_object": "Near-term learning may change intent while longer commitments remain operative.",
+          "literal_bridge": "Evidence-triggered planning identifies which horizon and dependent commitment a new result can legitimately revise, preserving necessary long-term intent while adapting near-term work."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P002",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P002",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "shared_question_or_object": "Uncertainty must be investigated in time to affect decisions at different horizons.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual planning horizons, deadlines and switching costs identify when a learning result is useful and which unresolved premise threatens the next commitment.",
+        "receiving_consequence": "The actual planning horizons, deadlines and switching costs identify when a learning result is useful and which unresolved premise threatens the next commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual planning horizons, deadlines and switching costs identify when a learning result is useful and which unresolved premise threatens the next commitment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A calendar replanning cycle can repeatedly revisit an assumption before any discriminating evidence is possible.",
+        "counter_control": "A calendar replanning cycle can repeatedly revisit an assumption before any discriminating evidence is possible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P002->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "actual_object": "Uncertainty must be investigated in time to affect decisions at different horizons.",
+          "literal_bridge": "The actual planning horizons, deadlines and switching costs identify when a learning result is useful and which unresolved premise threatens the next commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P003",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P003",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "shared_question_or_object": "Architecture and feasibility decisions interact with near-term work and longer dependencies.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Multihorizon planning places architectural learning before the relevant hard commitment while preserving long-lead dependencies that cannot be changed at iteration speed.",
+        "receiving_consequence": "Multihorizon planning places architectural learning before the relevant hard commitment while preserving long-lead dependencies that cannot be changed at iteration speed.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Multihorizon planning places architectural learning before the relevant hard commitment while preserving long-lead dependencies that cannot be changed at iteration speed."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Frequent near-term reprioritization can miss a procurement or certification window and make the planned architecture infeasible.",
+        "counter_control": "Frequent near-term reprioritization can miss a procurement or certification window and make the planned architecture infeasible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "actual_object": "Architecture and feasibility decisions interact with near-term work and longer dependencies.",
+          "literal_bridge": "Multihorizon planning places architectural learning before the relevant hard commitment while preserving long-lead dependencies that cannot be changed at iteration speed."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P004",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P004",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "shared_question_or_object": "An executable investigation can inform a pending plan or commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The plan horizon, decision deadline and feasible response define a discriminating investigation whose result can still inform an affordable revision.",
+        "receiving_consequence": "The plan horizon, decision deadline and feasible response define a discriminating investigation whose result can still inform an affordable revision.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The plan horizon, decision deadline and feasible response define a discriminating investigation whose result can still inform an affordable revision."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A prototype delivered after an irreversible purchase may be informative yet unable to affect the decision it was meant to support.",
+        "counter_control": "A prototype delivered after an irreversible purchase may be informative yet unable to affect the decision it was meant to support.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P004->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "actual_object": "An executable investigation can inform a pending plan or commitment.",
+          "literal_bridge": "The plan horizon, decision deadline and feasible response define a discriminating investigation whose result can still inform an affordable revision."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P012",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P012",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "shared_question_or_object": "Evidence about intended use arrives while delivery and long-term outcome commitments continue.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual horizon and change cost locate where validation findings can alter scope, timing or assumptions without discarding necessary dependencies.",
+        "receiving_consequence": "The actual horizon and change cost locate where validation findings can alter scope, timing or assumptions without discarding necessary dependencies.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual horizon and change cost locate where validation findings can alter scope, timing or assumptions without discarding necessary dependencies."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Replanning around every short-term preference can undermine a longer user outcome or a protected operational window.",
+        "counter_control": "Replanning around every short-term preference can undermine a longer user outcome or a protected operational window.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P012->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "actual_object": "Evidence about intended use arrives while delivery and long-term outcome commitments continue.",
+          "literal_bridge": "The actual horizon and change cost locate where validation findings can alter scope, timing or assumptions without discarding necessary dependencies."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P021",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P021",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "shared_question_or_object": "An evidence-triggered revision reaches a consequential commitment decision.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Multihorizon planning supplies the affected dependencies, available response horizon and switching costs for an empowered go, redirect, hold or stop decision.",
+        "receiving_consequence": "Multihorizon planning supplies the affected dependencies, available response horizon and switching costs for an empowered go, redirect, hold or stop decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Multihorizon planning supplies the affected dependencies, available response horizon and switching costs for an empowered go, redirect, hold or stop decision."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Routine planning authority may not include the power to change an external commitment; a changed backlog is not a valid authorization.",
+        "counter_control": "Routine planning authority may not include the power to change an external commitment; a changed backlog is not a valid authorization.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "actual_object": "An evidence-triggered revision reaches a consequential commitment decision.",
+          "literal_bridge": "Multihorizon planning supplies the affected dependencies, available response horizon and switching costs for an empowered go, redirect, hold or stop decision."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P022",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "shared_question_or_object": "Incremental investments preserve options while plans adapt to evidence.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Near-term planning identifies the next useful information and limits commitments until that information can inform the longer investment horizon.",
+        "receiving_consequence": "Near-term planning identifies the next useful information and limits commitments until that information can inform the longer investment horizon.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Near-term planning identifies the next useful information and limits commitments until that information can inform the longer investment horizon."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Repeated small commitments can still create cumulative lock-in, transaction costs or an expired option before useful evidence arrives.",
+        "counter_control": "Repeated small commitments can still create cumulative lock-in, transaction costs or an expired option before useful evidence arrives.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "actual_object": "Incremental investments preserve options while plans adapt to evidence.",
+          "literal_bridge": "Near-term planning identifies the next useful information and limits commitments until that information can inform the longer investment horizon."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P023",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P023",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22",
+          "expected_native_id": "EW-P023"
+        },
+        "shared_question_or_object": "Different lifecycle activities and system levels require different evidence and planning horizons.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Multihorizon replanning coordinates local iterations with longer integration and commitment dependencies instead of imposing one cadence on all work.",
+        "receiving_consequence": "Multihorizon replanning coordinates local iterations with longer integration and commitment dependencies instead of imposing one cadence on all work.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Multihorizon replanning coordinates local iterations with longer integration and commitment dependencies instead of imposing one cadence on all work."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Independent local replanning can produce incompatible configurations or consume a shared integration window.",
+        "counter_control": "Independent local replanning can produce incompatible configurations or consume a shared integration window.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P023->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "actual_object": "Different lifecycle activities and system levels require different evidence and planning horizons.",
+          "literal_bridge": "Multihorizon replanning coordinates local iterations with longer integration and commitment dependencies instead of imposing one cadence on all work."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P024",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P024",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "shared_question_or_object": "Planning and change-control practices are tailored to actual uncertainty and commitments.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Evidence availability, horizon, switching cost and necessary dependencies explain when flexible replanning or a protected commitment interval is the proportionate control.",
+        "receiving_consequence": "Evidence availability, horizon, switching cost and necessary dependencies explain when flexible replanning or a protected commitment interval is the proportionate control.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Evidence availability, horizon, switching cost and necessary dependencies explain when flexible replanning or a protected commitment interval is the proportionate control."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A label of agility cannot waive contractual change authority or justify continuous replanning whose distraction exceeds its benefit.",
+        "counter_control": "A label of agility cannot waive contractual change authority or justify continuous replanning whose distraction exceeds its benefit.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P024->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "actual_object": "Planning and change-control practices are tailored to actual uncertainty and commitments.",
+          "literal_bridge": "Evidence availability, horizon, switching cost and necessary dependencies explain when flexible replanning or a protected commitment interval is the proportionate control."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P025",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "shared_question_or_object": "A plan is updated using uncertain forecasts while commitments and targets remain distinct.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual decision horizon and response options determine when forecast changes matter to the plan and when switching costs justify waiting.",
+        "receiving_consequence": "The actual decision horizon and response options determine when forecast changes matter to the plan and when switching costs justify waiting.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual decision horizon and response options determine when forecast changes matter to the plan and when switching costs justify waiting."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Replanning on every forecast fluctuation can amplify noise and confuse a target with an expected completion date.",
+        "counter_control": "Replanning on every forecast fluctuation can amplify noise and confuse a target with an expected completion date.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "actual_object": "A plan is updated using uncertain forecasts while commitments and targets remain distinct.",
+          "literal_bridge": "The actual decision horizon and response options determine when forecast changes matter to the plan and when switching costs justify waiting."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L3::EW-P033",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12",
+            "expected_native_id": "AGQ-EA-13"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "shared_question_or_object": "The cadence and strength of planning controls depend on commitment and recovery consequences.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Multihorizon dependency and switching analysis identifies which revisions are cheap local responses and which expose costly commitments or delayed recovery.",
+        "receiving_consequence": "Multihorizon dependency and switching analysis identifies which revisions are cheap local responses and which expose costly commitments or delayed recovery.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Multihorizon dependency and switching analysis identifies which revisions are cheap local responses and which expose costly commitments or delayed recovery."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A short planning horizon does not make a fleet-wide deployment consequence reversible or a rushed decision safe.",
+        "counter_control": "A short planning horizon does not make a fleet-wide deployment consequence reversible or a rushed decision safe.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+          "source_criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "actual_object": "The cadence and strength of planning controls depend on commitment and recovery consequences.",
+          "literal_bridge": "Multihorizon dependency and switching analysis identifies which revisions are cheap local responses and which expose costly commitments or delayed recovery."
+        }
+      }
+    ],
+    "independent_review_scope": "Full common premise, literal membership, native scope and controls require later fidelity and separate adversarial assessment."
+  }
+}

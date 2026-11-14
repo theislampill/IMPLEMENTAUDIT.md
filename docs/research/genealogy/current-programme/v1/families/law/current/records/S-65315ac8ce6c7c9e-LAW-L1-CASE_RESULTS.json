@@ -1,0 +1,366 @@
+{
+  "source_identity": {
+    "source_id": "S-65315ac8ce6c7c9e",
+    "scientific_name": "LAW-L1-CASE_RESULTS.json",
+    "original_bytes": 14765,
+    "original_sha256": "65315ac8ce6c7c9efda2df4f225358fa934dc9dcb5cef48f2b28ed47531a4080"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "AUTHOR_CHECKS_EXECUTED",
+    "review_mode": "Exposed development cases; not independent or held out",
+    "case_count": 14,
+    "cases": [
+      {
+        "case_id": "C01",
+        "proposition": "A WIP limit can relocate a queue without reducing total lead time.",
+        "inputs": {
+          "arrivals": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "service_time": 1,
+          "release_rule": "Admit only when server idle"
+        },
+        "observed": {
+          "all_released_mean_cycle": 3.0,
+          "cap_one_mean_local_cycle": 1.0,
+          "cap_one_mean_preentry_wait": 2.0,
+          "both_mean_total_lead": 3.0
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Finite deterministic construction; no switching, quality or worker effects. Not a Little law proof or a field replication.",
+        "counter_control": "A single arriving job has local and total lead time 1 under either rule. An admission cap may still protect active commitments."
+      },
+      {
+        "case_id": "C02",
+        "proposition": "Full utilization alone does not determine waiting; arrival variability matters.",
+        "inputs": {
+          "stable_arrivals": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "burst_arrivals": [
+            0,
+            0,
+            2,
+            2,
+            4,
+            4
+          ],
+          "service_time": 1,
+          "observation_horizon": 6
+        },
+        "observed": {
+          "utilization_both": 1,
+          "stable_mean_wait": 0.0,
+          "burst_mean_wait": 0.5
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Finite traces, not stationary stochastic queue results. Does not establish a universal optimum or the safety of sustained human loading.",
+        "counter_control": "The stable trace defeats a universal claim that maximum utilization always creates a queue; the burst trace defeats equivalence of utilization and service quality."
+      },
+      {
+        "case_id": "C03",
+        "proposition": "Batch size trades setup cost against feedback; minimum size is not universally best.",
+        "inputs": {
+          "units": 12,
+          "setup_time": 5,
+          "unit_time": 1,
+          "batch_sizes": [
+            1,
+            6
+          ],
+          "feedback": "Only after a complete batch"
+        },
+        "observed": {
+          "batch_one": {
+            "total_time": 72,
+            "first_batch_ready": 6
+          },
+          "batch_six": {
+            "total_time": 22,
+            "first_batch_ready": 11
+          },
+          "zero_setup_one": {
+            "total_time": 12,
+            "first_batch_ready": 1
+          },
+          "zero_setup_six": {
+            "total_time": 12,
+            "first_batch_ready": 6
+          }
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Serial nonoverlapping batch model; transport, rework and inventory costs omitted. No recommendation for a real process.",
+        "counter_control": "With zero setup both batches have equal completion time and batch one provides earlier feedback. Setup reduction can change the trade-off."
+      },
+      {
+        "case_id": "C04",
+        "proposition": "The same positive signal can warrant different containment under different consequences.",
+        "inputs": {
+          "prevalence": 0.01,
+          "sensitivity": 0.99,
+          "specificity": 0.95,
+          "bounded_stop_cost": 5.0,
+          "continue_losses": [
+            1000,
+            1
+          ],
+          "model_assumption": "Stop eliminates the modelled loss; expected costs are commensurable"
+        },
+        "observed": {
+          "probability_real_defect_given_signal": 0.16666666666666655,
+          "expected_continue_severe": 166.66666666666654,
+          "expected_continue_benign": 0.16666666666666655,
+          "severe_choice": "Bounded containment",
+          "benign_choice": "Continue with proportionate checking"
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Hypothetical expected-loss model. Legal/safety constraints, uncertainty, authority and unmodelled harms are separate premises; this calculation authorizes no action.",
+        "counter_control": "An infallible safe interlock may be simpler. A noisy alarm without a responder is not containment; indiscriminate global stopping is not justified by detection alone."
+      },
+      {
+        "case_id": "C05",
+        "proposition": "A valid buyer saving can coexist with increased system cost.",
+        "inputs": {
+          "cost_changes_buyer_supplier_customer": [
+            -100,
+            140,
+            30
+          ],
+          "alternative": [
+            -100,
+            20,
+            10
+          ]
+        },
+        "observed": {
+          "local_saving": 100,
+          "first_total_cost_change": 70,
+          "alternative_total_cost_change": -70
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Constructed commensurable costs; worker rights and other nontradable constraints must still be checked separately.",
+        "counter_control": "The alternative preserves a buyer saving and reduces total cost. The counterexample rejects automatic inference from focal savings, not all inventory reduction or supplier coordination."
+      },
+      {
+        "case_id": "C06",
+        "proposition": "Signal counts do not establish response, decision rights or protection.",
+        "inputs": {
+          "model": "Four distinct qualitative premises, with missing evidence represented by None"
+        },
+        "observed": {
+          "reports_without_response": "NOT_SATISFIED_IN_MODEL",
+          "known_response_unknown_protection": "UNKNOWN",
+          "bounded_rights_and_response": "SATISFIED_IN_MODEL"
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Author-defined logical separation, not a measurement of human experience or a historical Boolean predicate.",
+        "counter_control": "A small team with demonstrated bounded authority can satisfy the model without a formal suggestion programme. A statement of rights is not evidence of their realization."
+      },
+      {
+        "case_id": "C07",
+        "proposition": "Useful standardization permits legitimate exceptions and changed-condition review.",
+        "inputs": {
+          "cases": [
+            "stable applicable method",
+            "authorized exception",
+            "uncovered exception",
+            "changed conditions"
+          ]
+        },
+        "observed": {
+          "decisions": [
+            "USE_CURRENT_BASELINE",
+            "USE_BOUNDED_EXCEPTION",
+            "ESCALATE_SCOPE_GAP",
+            "REASSESS_AFFECTED_BASELINE"
+          ]
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Constructed decision model; explicit expiry is an analytical safeguard, not a historical TPS universal.",
+        "counter_control": "The stable applicable case requires no rewrite; the authorized exception defeats immutable compliance without permitting arbitrary unsafe deviation."
+      },
+      {
+        "case_id": "C08",
+        "proposition": "Option intersection can avert premature commitment but does not require endless parallelism.",
+        "inputs": {
+          "a_accepts": [
+            "a",
+            "b"
+          ],
+          "b_accepts": [
+            "b",
+            "c"
+          ],
+          "early_choice": "a"
+        },
+        "observed": {
+          "joint_feasible": [
+            "b"
+          ],
+          "early_choice_feasible": false,
+          "remove_a_extra": [
+            "c"
+          ],
+          "remove_b_extra": [
+            "a"
+          ]
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Finite fully known design sets; learning cost, deadlines and real feasibility uncertainty remain open.",
+        "counter_control": "If both disciplines already accept only a, early commitment is adequate. The result is subsumed by EL-029/EL-030 and does not earn a new property identity."
+      },
+      {
+        "case_id": "C09",
+        "proposition": "An accessible citation URL is not evidence of source identity.",
+        "inputs": {
+          "old_expected_identity": "Fujimoto supply-chain robustness",
+          "observed_identity": "Adachi/Ogawa/Tsubuku productivity dynamics",
+          "replacement_identity": "Fujimoto supply-chain robustness",
+          "inspected_records": [
+            "S037",
+            "R009"
+          ]
+        },
+        "observed": {
+          "url_exists": true,
+          "original_identity_matches": false,
+          "replacement_identity_matches": true
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Regression against author-inspected document identities; does not re-fetch the web or prove any downstream supply-chain proposition.",
+        "counter_control": "R009 matches the intended topic, but its proposal still is not causal resilience evidence. Full bibliography closure cannot be inferred from this one repaired citation."
+      },
+      {
+        "case_id": "C10",
+        "proposition": "Exposure and estimand must match before a study can support a Lean outcome claim.",
+        "inputs": {
+          "primary": "R005",
+          "review": "S060",
+          "primary_exposure": "Premier pay for performance",
+          "review_exposure": "Lean intervention",
+          "primary_estimand": "percentage-point mortality difference",
+          "review_estimand": "relative risk",
+          "estimate": 0.08,
+          "interval": [
+            -0.3,
+            0.46
+          ]
+        },
+        "observed": {
+          "exposure_matches": false,
+          "estimand_matches": false,
+          "supported_conclusion": "This study cannot directly establish a Lean mortality null"
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Source-comparison regression, not a reanalysis of patient data and not invalidation of every review result.",
+        "counter_control": "R006 actually evaluates a Lean programme, but nonrandom assignment and co-interventions still limit causal attribution. Correct exposure does not itself guarantee causality."
+      },
+      {
+        "case_id": "C11",
+        "proposition": "A cheap existing mechanism or no change can satisfy a bounded need.",
+        "inputs": {
+          "active_work": 1,
+          "existing_rule": "Finish before starting the next item",
+          "one_off_error_loss": 20,
+          "extra_artifact_cost": 100,
+          "repeated_critical_loss": 5000
+        },
+        "observed": {
+          "natural_wip_bound": 1,
+          "elaborate_control_net_for_one_off": -80,
+          "elaborate_control_net_if_effective_for_critical": 4900
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Illustrative decision economics assumes stated effectiveness; no empirical benefit of a specific control is established.",
+        "counter_control": "Natural boundedness needs no board to create the bound. The higher-consequence case shows why the cheap-path result does not justify omission everywhere."
+      },
+      {
+        "case_id": "C12",
+        "proposition": "Individually useful controls can be jointly uneconomic when their benefits overlap.",
+        "inputs": {
+          "each_control_cost": 3,
+          "each_standalone_benefit": 5,
+          "joint_benefit": 5
+        },
+        "observed": {
+          "each_net": 2,
+          "combined_net": -1,
+          "choose": "One adequate control"
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Constructed overlap model, not an estimate of real Lean control overhead.",
+        "counter_control": "With distinct independent benefits totalling 10, the pair has net benefit 4. Composition must establish overlap or distinctness rather than assume either."
+      },
+      {
+        "case_id": "C13",
+        "proposition": "An enforced smaller deployment can reduce directly exposed independent instances without qualification or recovery.",
+        "inputs": {
+          "origin": "Reviewer RV01, reproduced by the author for r2",
+          "exposure_measure": "Number of independent instances receiving the same faulty change",
+          "total_instances": 100,
+          "small_scope": 1,
+          "large_scope": 100,
+          "same_local_fault": true,
+          "scope_enforced": true,
+          "cross_instance_propagation": false,
+          "qualification_exists": false,
+          "recovery_exists": false
+        },
+        "observed": {
+          "small_exposed": 1,
+          "large_exposed": 100,
+          "reduction": 99,
+          "partial_reduction_without_claimed_necessary_bundle": true,
+          "total_risk_adequacy": "NOT_ESTABLISHED",
+          "shared_state_propagation_control_exposed": 100
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Finite reviewer counterexample reproduced, not independently authored or a field trial. It refutes the former necessary-bundle clause for this count; duration, severity, value, total cost and authority are not established.",
+        "counter_control": "If a single changed instance corrupts shared state used by all 100, the isolation guard fails and all 100 can be affected. A smaller nominal scope alone does not guarantee this exposure reduction."
+      },
+      {
+        "case_id": "C14",
+        "proposition": "Scoped qualification and functioning recovery can add benefits beyond a bounded exposure count.",
+        "inputs": {
+          "total_instances": 100,
+          "first_cohort": 1,
+          "qualification_results": {
+            "known_good": true,
+            "known_bad": false,
+            "escaped_fault": true
+          },
+          "scope_enforced": true,
+          "cross_instance_propagation": false,
+          "further_rollout_halted_on_signal": true,
+          "detection_delay": 1,
+          "restoration_delay": 1,
+          "maximum_affected_instances": 1,
+          "maximum_failed_instance_time": 3,
+          "criterion_scope": "These two stipulated operational limits and known qualification fixtures only"
+        },
+        "observed": {
+          "known_bad_prevented": true,
+          "escaped_fault_exposed": 1,
+          "escaped_fault_failed_instance_time": 2,
+          "meets_declared_model_limits": true,
+          "bulk_failed_instance_time": 200,
+          "failed_restoration_control_instance_time": 10,
+          "authorization_and_net_benefit": "NOT_ESTABLISHED"
+        },
+        "author_check": "PASS_AT_CONSTRUCTED_SCOPE",
+        "ceiling": "Constructed positive configuration at explicit limits. Qualification is incomplete by construction; recovery is stipulated to work for this mode. No universal adequacy, authorization, real-system effectiveness or net economic benefit follows.",
+        "counter_control": "The escaped-fault branch defeats qualification-as-guarantee; failed restoration breaches the duration limit despite the one-instance bound. A known rejected fault demonstrates prevention, while C13 independently preserves partial exposure reduction without either control."
+      }
+    ]
+  }
+}

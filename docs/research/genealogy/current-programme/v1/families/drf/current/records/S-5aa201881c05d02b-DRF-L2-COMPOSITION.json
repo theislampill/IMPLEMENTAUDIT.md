@@ -1,0 +1,1040 @@
+{
+  "source_identity": {
+    "source_id": "S-5aa201881c05d02b",
+    "scientific_name": "DRF-L2-COMPOSITION.json",
+    "original_bytes": 50931,
+    "original_sha256": "5aa201881c05d02bce0b62d504ad8cc856091771d8751b6d89b61aeeb18d3c91"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-l2-within-lineage-composition/1",
+    "state": "AUTHOR_SOURCE_NOT_INDEPENDENTLY_QUALIFIED",
+    "claim_population": 55,
+    "total_distinct_directed_pair_space": 2970,
+    "pair_space_basis": "55 × 54 distinct original property identities, excluding self-pairs. This number is a combinatorial denominator, not an inspection count.",
+    "selection": {
+      "rule": "Purposive selection of report-load-bearing relations among function/evidence, dependence/redundancy, detection/containment, diagnosis/restore, repair/support, configuration/experimentation, consumer measures, retries/capacity, preserved evidence/corrective action, acceleration/demonstration and two explicit proxy/ceremony negative controls.",
+      "scope": "Thirteen unordered pairs, with both directions separately adjudicated. A shared term, source citation or possible co-use is insufficient for admission.",
+      "unselected_state": "NOT_EXAMINED_AS_PAIR; no scientific negative or completeness claim over the remaining pair space.",
+      "native_block_rule": "Pair endpoints resolve to the 55 native records and their actual applicable profile families in the current ledger; these labels are descriptive membership, not evidence of an edge.",
+      "selected_unordered_pairs": 13,
+      "inspected_directed_pairs": 26,
+      "unexamined_directed_pairs": 2944
+    },
+    "pairs": [
+      {
+        "id": "PAIR-01",
+        "a": "ERM-P001",
+        "b": "ERM-P026",
+        "selection_reason": "Mission semantics determine which events demonstration evidence can count.",
+        "directions": [
+          "ERM-P001→ERM-P026",
+          "ERM-P026→ERM-P001"
+        ]
+      },
+      {
+        "id": "PAIR-02",
+        "a": "ERM-P008",
+        "b": "ERM-P009",
+        "selection_reason": "The load-bearing redundancy refinement is dependence-aware.",
+        "directions": [
+          "ERM-P008→ERM-P009",
+          "ERM-P009→ERM-P008"
+        ]
+      },
+      {
+        "id": "PAIR-03",
+        "a": "ERM-P011",
+        "b": "ERM-P010",
+        "selection_reason": "Useful partial detection and containment are deliberately separated from restoration.",
+        "directions": [
+          "ERM-P011→ERM-P010",
+          "ERM-P010→ERM-P011"
+        ]
+      },
+      {
+        "id": "PAIR-04",
+        "a": "ERM-P012",
+        "b": "ERM-P016",
+        "selection_reason": "Action-sufficient diagnosis can help restoration without root-cause certainty.",
+        "directions": [
+          "ERM-P012→ERM-P016",
+          "ERM-P016→ERM-P012"
+        ]
+      },
+      {
+        "id": "PAIR-05",
+        "a": "ERM-P019",
+        "b": "ERM-P016",
+        "selection_reason": "Repairability can change a concrete restoration path.",
+        "directions": [
+          "ERM-P019→ERM-P016",
+          "ERM-P016→ERM-P019"
+        ]
+      },
+      {
+        "id": "PAIR-06",
+        "a": "ERM-P020",
+        "b": "ERM-P016",
+        "selection_reason": "Resources, logistics and authority are distinct from design repairability.",
+        "directions": [
+          "ERM-P020→ERM-P016",
+          "ERM-P016→ERM-P020"
+        ]
+      },
+      {
+        "id": "PAIR-07",
+        "a": "ERM-P029",
+        "b": "ERM-P035",
+        "selection_reason": "Configuration binding changes the meaning of a fault experiment.",
+        "directions": [
+          "ERM-P029→ERM-P035",
+          "ERM-P035→ERM-P029"
+        ]
+      },
+      {
+        "id": "PAIR-08",
+        "a": "ERM-P031",
+        "b": "ERM-P032",
+        "selection_reason": "Consumer consequences and service indicators must be related without conflating values with measurements.",
+        "directions": [
+          "ERM-P031→ERM-P032",
+          "ERM-P032→ERM-P031"
+        ]
+      },
+      {
+        "id": "PAIR-09",
+        "a": "ERM-P018",
+        "b": "ERM-P036",
+        "selection_reason": "Recovery attempts contribute load; capacity conditions constrain retry validity.",
+        "directions": [
+          "ERM-P018→ERM-P036",
+          "ERM-P036→ERM-P018"
+        ]
+      },
+      {
+        "id": "PAIR-10",
+        "a": "ERM-P037",
+        "b": "ERM-P025",
+        "selection_reason": "Evidence preservation can discriminate a corrective action's recurrence effect.",
+        "directions": [
+          "ERM-P037→ERM-P025",
+          "ERM-P025→ERM-P037"
+        ]
+      },
+      {
+        "id": "PAIR-11",
+        "a": "ERM-P027",
+        "b": "ERM-P026",
+        "selection_reason": "Acceleration changes which exposure can support a use-condition demonstration.",
+        "directions": [
+          "ERM-P027→ERM-P026",
+          "ERM-P026→ERM-P027"
+        ]
+      },
+      {
+        "id": "PAIR-12",
+        "a": "ERM-P041",
+        "b": "ERM-P042",
+        "selection_reason": "Negative control: scalar proxy identities and their numerical encodings.",
+        "directions": [
+          "ERM-P041→ERM-P042",
+          "ERM-P042→ERM-P041"
+        ]
+      },
+      {
+        "id": "PAIR-13",
+        "a": "ERM-P038",
+        "b": "ERM-P045",
+        "selection_reason": "Negative control: cheap-path and worksheet completion do not entail one another.",
+        "directions": [
+          "ERM-P038→ERM-P045",
+          "ERM-P045→ERM-P038"
+        ]
+      }
+    ],
+    "directions": [
+      {
+        "id": "D-01",
+        "pair_id": "PAIR-01",
+        "from": "ERM-P001",
+        "to": "ERM-P026",
+        "current_from": "DRF-L2-C001",
+        "current_to": "DRF-L2-C026",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "The named function, exposure and failure predicate correspond to the demonstration question.",
+        "native_bearer_and_input": "Required mission/function and unacceptable states.",
+        "intermediate_effect": "Determines the event and denominator to which a confidence calculation applies.",
+        "receiving_criterion": "An explicit population, failure event, exposure and model-bound inference.",
+        "remaining_premises": "Sampling, censoring, independence/other process assumptions and representativeness.",
+        "counterexample_or_nontrigger": "A vague mission slogan supplies no event; a well-defined failure predicate cannot make nonrepresentative data representative.",
+        "cheap_alternative": "A directly observed deterministic function may need only an exact test.",
+        "cost_or_interference": "More detailed state coding can cost more than it changes the decision.",
+        "evidence_refs": [
+          "F005",
+          "F006"
+        ],
+        "case_refs": [
+          "C06"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-02",
+        "pair_id": "PAIR-01",
+        "from": "ERM-P026",
+        "to": "ERM-P001",
+        "current_from": "DRF-L2-C026",
+        "current_to": "DRF-L2-C001",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "A test discovers an observed outcome omitted by the declared function/failure criterion.",
+        "native_bearer_and_input": "Demonstration observations and acceptance mismatches.",
+        "intermediate_effect": "Exposes an ambiguity or missing state for the mission owner to reconsider.",
+        "receiving_criterion": "An adequately specified function including the relevant observed boundary.",
+        "remaining_premises": "The owner must decide whether the new state is actually unacceptable; measurements do not choose values.",
+        "counterexample_or_nontrigger": "A successful test of an already adequate predicate adds no new mission requirement.",
+        "cheap_alternative": "Retain the current criterion with an explicit no-change rationale.",
+        "cost_or_interference": "Chasing irrelevant test anomalies can distort the actual mission.",
+        "evidence_refs": [
+          "F006",
+          "F046"
+        ],
+        "case_refs": [
+          "C14"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-03",
+        "pair_id": "PAIR-02",
+        "from": "ERM-P008",
+        "to": "ERM-P009",
+        "current_from": "DRF-L2-C008",
+        "current_to": "DRF-L2-C009",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "The dependence model addresses the same fault set, channels and configuration as the protection claim.",
+        "native_bearer_and_input": "Joint event law or evidence of shared failure causes.",
+        "intermediate_effect": "Changes the estimated rescue set or invalidates an independence shortcut.",
+        "receiving_criterion": "A credible bounded redundancy benefit including added failure mechanisms.",
+        "remaining_premises": "Real joint law, transfer, state, controller and capacity correspondence.",
+        "counterexample_or_nontrigger": "Perfect shared failure gives no rescue; merely counting replicas gives no dependence evidence.",
+        "cheap_alternative": "Conservative bounds, one system with repair or a manual spare.",
+        "cost_or_interference": "More isolation and diverse infrastructure may add maintenance/control paths.",
+        "evidence_refs": [
+          "F003",
+          "F010",
+          "F045"
+        ],
+        "case_refs": [
+          "C02"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-04",
+        "pair_id": "PAIR-02",
+        "from": "ERM-P009",
+        "to": "ERM-P008",
+        "current_from": "DRF-L2-C009",
+        "current_to": "DRF-L2-C008",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "Observed failures/successes of redundant paths are recorded under comparable exposure.",
+        "native_bearer_and_input": "Cofailure and rescue observations from the architecture.",
+        "intermediate_effect": "Constrains possible joint failures and directs common-cause inquiry.",
+        "receiving_criterion": "A dependency claim that distinguishes observed correlation from causal mechanism.",
+        "remaining_premises": "Sufficient exposure, observation coverage and causal discrimination.",
+        "counterexample_or_nontrigger": "Cofailure can arise by chance or a common input rather than a shared physical component; a design diagram is not an observed joint law.",
+        "cheap_alternative": "Retain several candidate couplings and a bound.",
+        "cost_or_interference": "Instrumentation and rare-event observation can be costly.",
+        "evidence_refs": [
+          "F010",
+          "F017"
+        ],
+        "case_refs": [
+          "C02"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-05",
+        "pair_id": "PAIR-03",
+        "from": "ERM-P011",
+        "to": "ERM-P010",
+        "current_from": "DRF-L2-C011",
+        "current_to": "DRF-L2-C010",
+        "disposition": "ADMIT_PARTIAL_CONTRIBUTION",
+        "guard": "A detected condition is timely and invokes a justified containment action.",
+        "native_bearer_and_input": "Detection of a named failure or error state.",
+        "intermediate_effect": "Enables selected barriers, isolation or load shedding before propagation.",
+        "receiving_criterion": "Reduction of the particular propagation path, not full diagnosis or restored mission.",
+        "remaining_premises": "Action effectiveness, latency, false decisions and unobserved classes.",
+        "counterexample_or_nontrigger": "Detection without an effective barrier gives no containment; an automatic false action can do harm.",
+        "cheap_alternative": "A simple direct check and bounded reversible barrier.",
+        "cost_or_interference": "Alarm burden and unnecessary isolation can exceed benefit.",
+        "evidence_refs": [
+          "F009",
+          "F021"
+        ],
+        "case_refs": [
+          "C03",
+          "C12"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-06",
+        "pair_id": "PAIR-03",
+        "from": "ERM-P010",
+        "to": "ERM-P011",
+        "current_from": "DRF-L2-C010",
+        "current_to": "DRF-L2-C011",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "A containment boundary preserves or exposes signals relevant to the detector.",
+        "native_bearer_and_input": "A partitioned fault/effect region with observable boundary behavior.",
+        "intermediate_effect": "Can localize the signal population and reduce ambiguity or propagation noise.",
+        "receiving_criterion": "Better-supported detection for the named class.",
+        "remaining_premises": "Sensor adequacy, signal distinguishability and preservation.",
+        "counterexample_or_nontrigger": "A barrier can also erase evidence or hide a downstream symptom; containment is not detection by definition.",
+        "cheap_alternative": "Keep existing detection if the boundary contributes no information.",
+        "cost_or_interference": "Additional boundaries and telemetry introduce complexity.",
+        "evidence_refs": [
+          "F009",
+          "F043"
+        ],
+        "case_refs": [
+          "C12"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-07",
+        "pair_id": "PAIR-04",
+        "from": "ERM-P012",
+        "to": "ERM-P016",
+        "current_from": "DRF-L2-C012",
+        "current_to": "DRF-L2-C016",
+        "disposition": "ADMIT_PARTIAL_CONTRIBUTION",
+        "guard": "The same supported remedy is effective and permitted across the remaining candidate cause set.",
+        "native_bearer_and_input": "Calibrated ambiguity set plus observed state.",
+        "intermediate_effect": "Selects a restoration action with a justified conditional postcondition.",
+        "receiving_criterion": "The stated function/state is restored at the declared boundary.",
+        "remaining_premises": "Execution, state integrity, dependencies and wider authority may remain unresolved.",
+        "counterexample_or_nontrigger": "A guessed cause can trigger an irreversible wrong repair; diagnosis alone does not execute restoration.",
+        "cheap_alternative": "Act on a supported symptom-level remedy and defer exact cause.",
+        "cost_or_interference": "Extra diagnostic delay can cost more than the information is worth.",
+        "evidence_refs": [
+          "F043",
+          "F009"
+        ],
+        "case_refs": [
+          "C04",
+          "C12"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-08",
+        "pair_id": "PAIR-04",
+        "from": "ERM-P016",
+        "to": "ERM-P012",
+        "current_from": "DRF-L2-C016",
+        "current_to": "DRF-L2-C012",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "Before/after observations distinguish candidate hypotheses and are not destroyed by intervention.",
+        "native_bearer_and_input": "Documented result of a particular restoration action.",
+        "intermediate_effect": "Can update the candidate cause set or eliminate a hypothesis.",
+        "receiving_criterion": "Better-supported diagnosis, still allowing residual ambiguity.",
+        "remaining_premises": "Confounding actions and unknown intervention specificity.",
+        "counterexample_or_nontrigger": "Many causes share the same remedy, so success alone does not prove a unique cause.",
+        "cheap_alternative": "Record that the remedy worked and retain causal uncertainty.",
+        "cost_or_interference": "Restoration may overwrite evidence; preservation can itself delay repair.",
+        "evidence_refs": [
+          "F043"
+        ],
+        "case_refs": [
+          "C12"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-09",
+        "pair_id": "PAIR-05",
+        "from": "ERM-P019",
+        "to": "ERM-P016",
+        "current_from": "DRF-L2-C019",
+        "current_to": "DRF-L2-C016",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "The failed element is accessible, diagnosable or replaceable by the named means.",
+        "native_bearer_and_input": "Design provisions for access, interchange and verification.",
+        "intermediate_effect": "Shortens or makes feasible a selected repair/restore operation.",
+        "receiving_criterion": "Feasible restoration of the required function at the stated resources and conditions.",
+        "remaining_premises": "Support availability, operator skill, compatible parts and post-repair validation.",
+        "counterexample_or_nontrigger": "A replaceable module helps little if no compatible spare or authority exists.",
+        "cheap_alternative": "Replace a whole simple unit if fine-grained modularity adds no value.",
+        "cost_or_interference": "Modularity can add interfaces, spares diversity and configuration complexity.",
+        "evidence_refs": [
+          "F006",
+          "F007",
+          "F023"
+        ],
+        "case_refs": [],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-10",
+        "pair_id": "PAIR-05",
+        "from": "ERM-P016",
+        "to": "ERM-P019",
+        "current_from": "DRF-L2-C016",
+        "current_to": "DRF-L2-C019",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "An observed restore exercise or incident identifies an actual access/repair obstruction.",
+        "native_bearer_and_input": "Timed or qualitatively recorded restoration steps.",
+        "intermediate_effect": "Reveals a design constraint worth changing or confirms current repairability.",
+        "receiving_criterion": "A repairability claim grounded in the observed operation.",
+        "remaining_premises": "Generalization across faults, conditions and technicians.",
+        "counterexample_or_nontrigger": "One successful local restore cannot establish every physical access condition.",
+        "cheap_alternative": "Retain the current design when the observed path is adequate.",
+        "cost_or_interference": "Detailed timing instrumentation may be unnecessary for a simple replaceable unit.",
+        "evidence_refs": [
+          "F006",
+          "F023"
+        ],
+        "case_refs": [
+          "C04"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-11",
+        "pair_id": "PAIR-06",
+        "from": "ERM-P020",
+        "to": "ERM-P016",
+        "current_from": "DRF-L2-C020",
+        "current_to": "DRF-L2-C016",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "The required spares, skill, access, tools and authorization are available when needed.",
+        "native_bearer_and_input": "A concrete support capability, including delay and compatibility.",
+        "intermediate_effect": "Enables the restore path or reduces a named waiting interval.",
+        "receiving_criterion": "Actual restoration under stated support conditions.",
+        "remaining_premises": "Failure identification, design access, repair validity and external dependencies.",
+        "counterexample_or_nontrigger": "Stored spares of the wrong revision or unavailable credentials do not enable the action.",
+        "cheap_alternative": "Shared support or accepted waiting time can suffice.",
+        "cost_or_interference": "Inventory, training, travel, obsolescence and maintenance of the support system.",
+        "evidence_refs": [
+          "F006",
+          "F023",
+          "F017"
+        ],
+        "case_refs": [
+          "C04"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-12",
+        "pair_id": "PAIR-06",
+        "from": "ERM-P016",
+        "to": "ERM-P020",
+        "current_from": "DRF-L2-C016",
+        "current_to": "DRF-L2-C020",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "Restore observations distinguish support waits from active repair and overlapping tasks.",
+        "native_bearer_and_input": "A trace of the restoration path and resource use.",
+        "intermediate_effect": "Reveals bottlenecks or unnecessary support provisions.",
+        "receiving_criterion": "A support plan matched to actual need and consequence.",
+        "remaining_premises": "Demand forecast, costs and other mission conditions.",
+        "counterexample_or_nontrigger": "A fast repair during a staffed exercise does not establish overnight or remote support.",
+        "cheap_alternative": "Keep a documented simpler support arrangement if adequate.",
+        "cost_or_interference": "Overreacting to one event can create excessive inventory or staffing.",
+        "evidence_refs": [
+          "F006",
+          "F023"
+        ],
+        "case_refs": [
+          "C01"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-13",
+        "pair_id": "PAIR-07",
+        "from": "ERM-P029",
+        "to": "ERM-P035",
+        "current_from": "DRF-L2-C029",
+        "current_to": "DRF-L2-C035",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "The experiment's design and observations are tied to the relevant current configuration.",
+        "native_bearer_and_input": "Configuration and changed assumptions of the protection claim.",
+        "intermediate_effect": "Selects representative fault conditions or identifies obsolete evidence.",
+        "receiving_criterion": "An experiment that answers the actual current uncertainty.",
+        "remaining_premises": "Observation validity, bounded risk and test relevance.",
+        "counterexample_or_nontrigger": "An exact software hash does not establish representative data, environment or authority.",
+        "cheap_alternative": "Reuse valid prior evidence after a reasoned change assessment.",
+        "cost_or_interference": "A universal live graph and full retest for every edit can cost more than their value.",
+        "evidence_refs": [
+          "F006",
+          "F027",
+          "F019"
+        ],
+        "case_refs": [],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-14",
+        "pair_id": "PAIR-07",
+        "from": "ERM-P035",
+        "to": "ERM-P029",
+        "current_from": "DRF-L2-C035",
+        "current_to": "DRF-L2-C029",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "The experiment exposes a configuration-dependent behavior or assumption mismatch.",
+        "native_bearer_and_input": "Fault experiment result under recorded conditions.",
+        "intermediate_effect": "Refines which changes invalidate which claim.",
+        "receiving_criterion": "Evidence remains bound to its actual dependency conditions.",
+        "remaining_premises": "Unexercised states and future changes remain.",
+        "counterexample_or_nontrigger": "A no-change experimental result need not force a new graph or new action.",
+        "cheap_alternative": "Record continued support at the tested scope.",
+        "cost_or_interference": "A risky experiment with no decision value can be wasteful.",
+        "evidence_refs": [
+          "F027",
+          "F042"
+        ],
+        "case_refs": [],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-15",
+        "pair_id": "PAIR-08",
+        "from": "ERM-P031",
+        "to": "ERM-P032",
+        "current_from": "DRF-L2-C031",
+        "current_to": "DRF-L2-C032",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "The consumer journey identifies a relevant outcome and a legitimate tolerance-setting process.",
+        "native_bearer_and_input": "Named users, outcome, interval and excluded consequences.",
+        "intermediate_effect": "Gives the indicator and objective a meaningful target.",
+        "receiving_criterion": "A scoped SLI/SLO whose denominator and consequence are explicit.",
+        "remaining_premises": "Accurate instrumentation and actual authority for budget decisions.",
+        "counterexample_or_nontrigger": "A weighted average can hide a completely failed small group; a stated objective cannot authorize a forbidden loss.",
+        "cheap_alternative": "A simple binary functional check or no SLO for a one-shot task.",
+        "cost_or_interference": "Segmentation and monitoring cost can exceed their decision value.",
+        "evidence_refs": [
+          "F024",
+          "F025"
+        ],
+        "case_refs": [
+          "C09"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-16",
+        "pair_id": "PAIR-08",
+        "from": "ERM-P032",
+        "to": "ERM-P031",
+        "current_from": "DRF-L2-C032",
+        "current_to": "DRF-L2-C031",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "An observed indicator discrepancy identifies a neglected journey or user population.",
+        "native_bearer_and_input": "Disaggregated SLI data, incident or budget observation.",
+        "intermediate_effect": "Exposes a possible consumer-consequence omission.",
+        "receiving_criterion": "A more adequate account of whom and what the service is for.",
+        "remaining_premises": "Legitimate assessment of importance, exclusions and tradeoffs.",
+        "counterexample_or_nontrigger": "A metric cannot dictate moral weights or make an excluded loss acceptable.",
+        "cheap_alternative": "Retain the original consumer model when the discrepancy is irrelevant.",
+        "cost_or_interference": "Metric optimization can displace unmeasured outcomes.",
+        "evidence_refs": [
+          "F024"
+        ],
+        "case_refs": [
+          "C09"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-17",
+        "pair_id": "PAIR-09",
+        "from": "ERM-P018",
+        "to": "ERM-P036",
+        "current_from": "DRF-L2-C018",
+        "current_to": "DRF-L2-C036",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "Recovery attempts consume the same constrained resource or affect another capacity bottleneck.",
+        "native_bearer_and_input": "Retry/restart rates, state semantics and timing.",
+        "intermediate_effect": "Changes effective load and reveals amplification risk.",
+        "receiving_criterion": "Recovery policy remains within a declared capacity/latency regime.",
+        "remaining_premises": "Queueing, service distribution, admission and nonlinear feedback.",
+        "counterexample_or_nontrigger": "Unbounded immediate retry at high utilization can push demand over capacity.",
+        "cheap_alternative": "Stop, delay, shed load or return a bounded partial response.",
+        "cost_or_interference": "Extra retries consume energy, bandwidth and possibly duplicate transactions.",
+        "evidence_refs": [
+          "F017",
+          "F043"
+        ],
+        "case_refs": [
+          "C10"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-18",
+        "pair_id": "PAIR-09",
+        "from": "ERM-P036",
+        "to": "ERM-P018",
+        "current_from": "DRF-L2-C036",
+        "current_to": "DRF-L2-C018",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "Capacity/load observations are relevant to the proposed retry action.",
+        "native_bearer_and_input": "Headroom, backlog, deadline and feedback state.",
+        "intermediate_effect": "Determines whether waiting, retrying or stopping is justified.",
+        "receiving_criterion": "A context-valid retry/restart/rollback claim.",
+        "remaining_premises": "Idempotency, state compatibility, authority and downstream effects.",
+        "counterexample_or_nontrigger": "Headroom alone does not make a non-idempotent payment retry safe; overload need not forbid all later retries.",
+        "cheap_alternative": "A finite delayed retry or explicit fail-fast behavior.",
+        "cost_or_interference": "Overconservative stopping sacrifices useful service.",
+        "evidence_refs": [
+          "F017"
+        ],
+        "case_refs": [
+          "C10"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-19",
+        "pair_id": "PAIR-10",
+        "from": "ERM-P037",
+        "to": "ERM-P025",
+        "current_from": "DRF-L2-C037",
+        "current_to": "DRF-L2-C025",
+        "disposition": "ADMIT_PARTIAL_CONTRIBUTION",
+        "guard": "The preserved observations bear on the hypothesized recurrence mechanism and comparable exposure.",
+        "native_bearer_and_input": "Relevant failure/recovery logs and state evidence.",
+        "intermediate_effect": "Enables mechanism discrimination or a later recurrence comparison.",
+        "receiving_criterion": "A bounded claim about corrective-action effectiveness.",
+        "remaining_premises": "Valid comparison, changed detection, exposure and deployment fidelity.",
+        "counterexample_or_nontrigger": "Huge logs without a consumer or consistent denominator do not establish effect.",
+        "cheap_alternative": "A few decisive observations or honest unknown may suffice.",
+        "cost_or_interference": "Storage, privacy, processing and service delay costs.",
+        "evidence_refs": [
+          "F043",
+          "F037"
+        ],
+        "case_refs": [
+          "C08"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-20",
+        "pair_id": "PAIR-10",
+        "from": "ERM-P025",
+        "to": "ERM-P037",
+        "current_from": "DRF-L2-C025",
+        "current_to": "DRF-L2-C037",
+        "disposition": "ADMIT_FEEDBACK_CONDITIONAL",
+        "guard": "A specific corrective hypothesis identifies what would distinguish success from recurrence.",
+        "native_bearer_and_input": "Targeted mechanism and effect criterion.",
+        "intermediate_effect": "Selects which evidence needs preservation.",
+        "receiving_criterion": "Observability tied to a real decision rather than volume.",
+        "remaining_premises": "Instrumentation feasibility and alternative causal mechanisms.",
+        "counterexample_or_nontrigger": "An asserted fix without a falsifiable effect supplies no useful logging requirement.",
+        "cheap_alternative": "Retain existing adequate records; no new telemetry quota.",
+        "cost_or_interference": "Overfitting telemetry to one incident can miss a different mechanism.",
+        "evidence_refs": [
+          "F043",
+          "F046"
+        ],
+        "case_refs": [],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-21",
+        "pair_id": "PAIR-11",
+        "from": "ERM-P027",
+        "to": "ERM-P026",
+        "current_from": "DRF-L2-C027",
+        "current_to": "DRF-L2-C026",
+        "disposition": "ADMIT_MATERIAL_CONDITIONAL",
+        "guard": "Stress preserves the relevant mechanism and the stress-to-use mapping is supported.",
+        "native_bearer_and_input": "Mechanism-specific acceleration model and test observations.",
+        "intermediate_effect": "Translates exposure or lifetime parameters at stated uncertainty.",
+        "receiving_criterion": "A bounded reliability inference for the named use conditions.",
+        "remaining_premises": "Mixture proportions, censoring, model fit and actual population correspondence.",
+        "counterexample_or_nontrigger": "A single factor applied to two differently accelerated modes biases the result.",
+        "cheap_alternative": "Use-condition observation or a qualitative bound when transport is unsupported.",
+        "cost_or_interference": "Higher stress and more model complexity can create a different mechanism.",
+        "evidence_refs": [
+          "F004",
+          "F005"
+        ],
+        "case_refs": [
+          "C07"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-22",
+        "pair_id": "PAIR-11",
+        "from": "ERM-P026",
+        "to": "ERM-P027",
+        "current_from": "DRF-L2-C026",
+        "current_to": "DRF-L2-C027",
+        "disposition": "ADMIT_DESIGN_FEEDBACK_CONDITIONAL",
+        "guard": "The demonstration estimand identifies which mechanism and use conditions matter.",
+        "native_bearer_and_input": "Target reliability quantity, confidence and population.",
+        "intermediate_effect": "Constrains the accelerated-test question and what must be preserved.",
+        "receiving_criterion": "A mechanism-relevant stress plan rather than arbitrary test severity.",
+        "remaining_premises": "Physical model and calibration still need evidence.",
+        "counterexample_or_nontrigger": "A desired confidence number cannot make an acceleration law true.",
+        "cheap_alternative": "A narrow unaccelerated deterministic check if it answers the actual question.",
+        "cost_or_interference": "Designing an elaborate acceleration programme may be unnecessary.",
+        "evidence_refs": [
+          "F004",
+          "F006"
+        ],
+        "case_refs": [
+          "C07"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-23",
+        "pair_id": "PAIR-12",
+        "from": "ERM-P041",
+        "to": "ERM-P042",
+        "current_from": "DRF-L2-C041",
+        "current_to": "DRF-L2-C042",
+        "disposition": "REJECT_UNGUARDED_PROXY_TRANSFER",
+        "guard": "No general guard establishes the proposed universal conversion.",
+        "native_bearer_and_input": "A reported MTBF scalar without repair process or mission context.",
+        "intermediate_effect": "No warranted unique availability/nines follows.",
+        "receiving_criterion": "A service availability statement requires its own event, interval and repair model.",
+        "remaining_premises": "All missing process and consumer premises.",
+        "counterexample_or_nontrigger": "Same availability can have different interruption patterns, and MTBF alone omits downtime.",
+        "cheap_alternative": "State the particular mean and a separate measured availability.",
+        "cost_or_interference": "Extra precision or unit conversion creates no new evidence.",
+        "evidence_refs": [
+          "F013",
+          "F024"
+        ],
+        "case_refs": [
+          "C01"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-24",
+        "pair_id": "PAIR-12",
+        "from": "ERM-P042",
+        "to": "ERM-P041",
+        "current_from": "DRF-L2-C042",
+        "current_to": "DRF-L2-C041",
+        "disposition": "REJECT_UNGUARDED_PROXY_TRANSFER",
+        "guard": "No general guard establishes the reverse universal conversion.",
+        "native_bearer_and_input": "An aggregate availability percentage.",
+        "intermediate_effect": "No unique mean time between failures follows.",
+        "receiving_criterion": "A defined failure process and exposure are required.",
+        "remaining_premises": "Failure counts, duration distribution, repair and observation model.",
+        "counterexample_or_nontrigger": "Many short outages and one long outage can have identical availability.",
+        "cheap_alternative": "Preserve the measured fraction without inventing a failure rate.",
+        "cost_or_interference": "Relabeling a percentage as a reliability score hides ambiguity.",
+        "evidence_refs": [
+          "F013"
+        ],
+        "case_refs": [
+          "C01"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-25",
+        "pair_id": "PAIR-13",
+        "from": "ERM-P038",
+        "to": "ERM-P045",
+        "current_from": "DRF-L2-C038",
+        "current_to": "DRF-L2-C045",
+        "disposition": "REJECT_GENERIC_CO_USE_AS_PROOF",
+        "guard": "A cheap deterministic check is sufficient only for its own actual predicate.",
+        "native_bearer_and_input": "A low-cost functional observation.",
+        "intermediate_effect": "Does not prove that all failure modes are controlled or that a worksheet is complete.",
+        "receiving_criterion": "Failure-mode adequacy/control is a separate claim.",
+        "remaining_premises": "Coverage of relevant modes and actual mitigations.",
+        "counterexample_or_nontrigger": "Passing a narrow green check leaves unobserved modes untouched.",
+        "cheap_alternative": "Use the narrow result as such, without a general FMECA proof claim.",
+        "cost_or_interference": "Eliminating warranted analysis solely because a check is cheap can raise risk.",
+        "evidence_refs": [
+          "F046"
+        ],
+        "case_refs": [
+          "C14"
+        ],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      },
+      {
+        "id": "D-26",
+        "pair_id": "PAIR-13",
+        "from": "ERM-P045",
+        "to": "ERM-P038",
+        "current_from": "DRF-L2-C045",
+        "current_to": "DRF-L2-C038",
+        "disposition": "REJECT_GENERIC_CO_USE_AS_PROOF",
+        "guard": "A completed analysis form is not evidence of the cheapest sufficient implementation.",
+        "native_bearer_and_input": "Worksheet completion alone.",
+        "intermediate_effect": "Does not establish a direct functional predicate or cost adequacy.",
+        "receiving_criterion": "An adequate cheap check needs an observed function and relevant acceptance criterion.",
+        "remaining_premises": "Actual function, failure class and observation.",
+        "counterexample_or_nontrigger": "A large completed worksheet can coexist with a failing basic function.",
+        "cheap_alternative": "Perform a directly justified check or record uncertainty.",
+        "cost_or_interference": "Documentation volume can conceal rather than eliminate operational burden.",
+        "evidence_refs": [
+          "F046"
+        ],
+        "case_refs": [],
+        "quantifier": "Conditional contribution only; no universal implication and no complete receiving-property proof."
+      }
+    ],
+    "configurations": [
+      {
+        "id": "CFG01",
+        "name": "Direct function check and replace/rebuild",
+        "properties": [
+          "ERM-P001",
+          "ERM-P003",
+          "ERM-P016",
+          "ERM-P019",
+          "ERM-P038"
+        ],
+        "workable_when": "A small system has a directly observable function, tolerable interruption and an adequate replace/rebuild path.",
+        "total_protection": "Detection and restoration of the declared simple function; no claim of continuous service or complete diagnosis.",
+        "missing_but_not_fatal": "Redundancy, a live dependency graph and predictive modeling may add no relevant benefit.",
+        "incompatibility": "Cannot satisfy an unstated continuous-service or irreversible-state requirement.",
+        "cumulative_cost": "Low standing control cost; concentrated downtime and rebuild burden.",
+        "maintenance_and_retirement": "Refresh the check or rebuild path when the function, state or artifact changes; retire redundant checks after relevance assessment.",
+        "comparison": "Can dominate a larger bundle for the stated modest consequence, but no universal cheapest design is proved."
+      },
+      {
+        "id": "CFG02",
+        "name": "Single robust system with bounded support and repair",
+        "properties": [
+          "ERM-P001",
+          "ERM-P005",
+          "ERM-P016",
+          "ERM-P019",
+          "ERM-P020",
+          "ERM-P021",
+          "ERM-P022",
+          "ERM-P038"
+        ],
+        "workable_when": "Single-channel failure is tolerable and support can restore the function within the stated interval.",
+        "total_protection": "A defensible restoration path and support assumption; prevention/maintenance selected only where mechanism warrants.",
+        "missing_but_not_fatal": "No claim to survive every component failure without interruption.",
+        "incompatibility": "Inadequate when the mission cannot tolerate the supported downtime or local support cannot reach the failure.",
+        "cumulative_cost": "Parts, skill, access and validation; less replication complexity, potentially higher interruption consequence.",
+        "maintenance_and_retirement": "Maintain compatibility and available skills; remove stale support only after checking latent obligations.",
+        "comparison": "Compare actual repair/support burden with additional redundancy, not merely initial hardware cost."
+      },
+      {
+        "id": "CFG03",
+        "name": "Redundant paths with dependence-aware transition",
+        "properties": [
+          "ERM-P001",
+          "ERM-P007",
+          "ERM-P008",
+          "ERM-P009",
+          "ERM-P010",
+          "ERM-P011",
+          "ERM-P016",
+          "ERM-P020",
+          "ERM-P029",
+          "ERM-P034"
+        ],
+        "workable_when": "Some single-path failures are consequential and a second path rescues relevant cases despite dependence and added mechanisms.",
+        "total_protection": "Specified tolerated fault set, detectable transition and bounded restored/degraded function; not universal resilience.",
+        "missing_but_not_fatal": "Common-cause residuals can remain if the actual protection claim and acceptance decision acknowledge them.",
+        "incompatibility": "Shared controller/state/update faults may defeat both paths or introduce more harm than rescue.",
+        "cumulative_cost": "Duplicate resources, energy, synchronization, diagnosis, software updates, exercises and support; overlapping controls do not add benefits arithmetically.",
+        "maintenance_and_retirement": "Retain current standby readiness/state evidence; change, combine or remove layers when their incremental benefit no longer warrants cost.",
+        "comparison": "C02 illustrates positive dependent benefit, no gain, and net loss; it supplies no deployed choice or numerical optimum."
+      },
+      {
+        "id": "CFG04",
+        "name": "Stateful service with scoped degradation and restoration",
+        "properties": [
+          "ERM-P001",
+          "ERM-P003",
+          "ERM-P012",
+          "ERM-P014",
+          "ERM-P015",
+          "ERM-P016",
+          "ERM-P018",
+          "ERM-P029",
+          "ERM-P031",
+          "ERM-P032",
+          "ERM-P036",
+          "ERM-P037"
+        ],
+        "workable_when": "A useful partial service and a safe stop can be distinguished under explicit state and consumer criteria.",
+        "total_protection": "Preserved named function during selected failures, bounded recovery and evidence for later learning.",
+        "missing_but_not_fatal": "Exact root cause, every external dependency and all future recurrence need not be resolved for a valid internal restore or safe partial service.",
+        "incompatibility": "Stale search can be acceptable while stale payment authority is not; the same degraded label cannot authorize both.",
+        "cumulative_cost": "State validation, consumer measures, retries/load control and evidence preservation can overlap or conflict; optimize only with real decision data.",
+        "maintenance_and_retirement": "Keep critical semantic checks current; reassess telemetry and budget policies when consumers, authority or cost changes.",
+        "comparison": "Compare explicit stopped service, partial service and full restore under their own consequences; no general fail-open/fail-closed rule."
+      }
+    ],
+    "novelty": {
+      "new_property_identities": 0,
+      "basis": "Every admitted edge is a conditional contribution to an existing native property. Conjunctions and useful configurations do not automatically create an irreducible new property.",
+      "removal_tests": [
+        {
+          "id": "R01",
+          "candidate": "Detection plus restoration as one indivisible maturity property",
+          "parents": [
+            "ERM-P011",
+            "ERM-P016"
+          ],
+          "test": "C12 enumerates detection, safe action, manual restore and root-known variables.",
+          "result": "Containment can hold without restoration/root knowledge, and manual restoration can hold without detected fault. Neither parent is universally necessary for the other's bounded contribution.",
+          "disposition": "SPLIT_EXISTING_PROPERTIES; no new indivisible property.",
+          "limits": "Finite stipulated model, not all physical containment mechanisms."
+        },
+        {
+          "id": "R02",
+          "candidate": "Common-cause analysis plus redundancy as a new property",
+          "parents": [
+            "ERM-P008",
+            "ERM-P009"
+          ],
+          "test": "Remove common-cause evidence from a numeric protection inference; retain the architecture. Remove the added path; retain a dependency inquiry.",
+          "result": "The first removal can invalidate a numerical shortcut; the second leaves useful common-cause knowledge. The relation is a guard/information contribution, not an irreducible new bearer.",
+          "disposition": "CONDITIONAL_RELATION; no new identity.",
+          "limits": "External dependence evidence remains required."
+        },
+        {
+          "id": "R03",
+          "candidate": "Diagnostic certainty plus restoration as a necessary composite",
+          "parents": [
+            "ERM-P012",
+            "ERM-P016"
+          ],
+          "test": "Several candidate causes share one supported reversible remedy; remove unique root-cause identification.",
+          "result": "The bounded restoration claim can survive. Removing remedy effectiveness defeats restoration even with perfect cause identification.",
+          "disposition": "ACTION_SUFFICIENCY_REFINEMENT; no new identity.",
+          "limits": "Irreversible or cause-sensitive actions may need more diagnosis."
+        },
+        {
+          "id": "R04",
+          "candidate": "Configuration ledger plus experiment as a new reliability property",
+          "parents": [
+            "ERM-P029",
+            "ERM-P035"
+          ],
+          "test": "Replace a live dependency graph by a small adequate configuration statement; retain the same supported experiment inference.",
+          "result": "Representation change alone leaves the criterion unchanged. The contribution is evidence binding, not a new property created by a tool.",
+          "disposition": "OPERATIONALIZATION_OR_ENCODING; no new identity.",
+          "limits": "The simplified statement must actually preserve the dependencies the claim uses."
+        },
+        {
+          "id": "R05",
+          "candidate": "Renamed/compressed or duplicated reliability labels",
+          "parents": [
+            "ERM-P041",
+            "ERM-P042"
+          ],
+          "test": "C12 uses a bijective encoding with unchanged outcomes; C01 retains equal aggregate availability with different interruption patterns.",
+          "result": "Encoding does not add discriminating power; a scalar relabel does not recover omitted process semantics.",
+          "disposition": "ENCODING_NEGATIVE; no new identity.",
+          "limits": "A richer measure can be useful when it genuinely observes additional relevant information."
+        }
+      ]
+    },
+    "limits": [
+      "No cross-lineage or DRF fourth-stage synthesis.",
+      "No target repository adoption, deployed experiment, field effect size or cost optimum.",
+      "Pure-model contributions are retained even when external correspondence or normative authorization remains unresolved.",
+      "Negative controls are inspected specific propositions, not a verdict that the endpoints can never interact."
+    ],
+    "reverse_direction_census": [
+      {
+        "pair_id": "PAIR-01",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-02",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-03",
+        "forward": "ADMIT_PARTIAL_CONTRIBUTION",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-04",
+        "forward": "ADMIT_PARTIAL_CONTRIBUTION",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-05",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-06",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-07",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-08",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-09",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_MATERIAL_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-10",
+        "forward": "ADMIT_PARTIAL_CONTRIBUTION",
+        "reverse": "ADMIT_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-11",
+        "forward": "ADMIT_MATERIAL_CONDITIONAL",
+        "reverse": "ADMIT_DESIGN_FEEDBACK_CONDITIONAL",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-12",
+        "forward": "REJECT_UNGUARDED_PROXY_TRANSFER",
+        "reverse": "REJECT_UNGUARDED_PROXY_TRANSFER",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      },
+      {
+        "pair_id": "PAIR-13",
+        "forward": "REJECT_GENERIC_CO_USE_AS_PROOF",
+        "reverse": "REJECT_GENERIC_CO_USE_AS_PROOF",
+        "independent_adjudication": "The reverse row has its own guard, input, effect and failure witness; it was not inferred by reversing an arrow."
+      }
+    ]
+  }
+}

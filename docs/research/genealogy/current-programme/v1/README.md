@@ -1,5 +1,9 @@
 # Evolved scientific programme — version 1
 
+## Current public research edition — 13 November 2026
+
+Read the [32 substantial scientific accounts](CURRENT_RESEARCH.md): all 24 constituent lineages and eight separately qualified syntheses, with detailed predicates, guarded relationships, alternatives, negative findings and limitations. [PUBLIC_SCIENCE.json](PUBLIC_SCIENCE.json) joins the accounts to their accepted scientific identities; the [publication review record](PUBLICATION_REVIEW.json) records the independent review of these derived explanations. Earlier disclosure-pending statements below retain their historical cutoffs and do not describe this later authorized edition.
+
 This explicitly versioned layer describes **eight families, 24 constituent lineages and eight fourth-stage syntheses: 32 scientific units**. It preserves the [original four-family corpus](../../README.md) and its immutable **12-lineage / 658-property** population. It does not rewrite that corpus as if it had always represented eight families.
 
 Repository baseline: [`e78f7cb21af4197d490f10bc95917a4c75f748aa`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e78f7cb21af4197d490f10bc95917a4c75f748aa), tree `e0263d4455549a47243d82f45cf31101c6b94df2`. Scientific receiving cutoff: **2026-11-12 22:31:39 UTC**. This is Cohort C’s documentary projection, not Cohort A’s central scientific registry.

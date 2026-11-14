@@ -1,0 +1,1122 @@
+{
+  "source_identity": {
+    "source_id": "S-a4f5d25394bd158c",
+    "scientific_name": "SB-R3-036_EA19_F9_REVERSE.json",
+    "original_bytes": 96820,
+    "original_sha256": "a4f5d25394bd158c7079ea8acaf7de8f07248c693ae05bdd3435a1b99dddf388"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-036",
+    "title": "EA-19_REVERSE_INTEGRATION_AND_CONFIGURATION_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:40:37.543559+00:00",
+    "inquiry_family": 9,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_ORIGINAL_AGILE_ROW_AND_ACCEPTED_OVERLAY",
+      "COMPLETE_CURRENT_WATERFALL_ROW",
+      "ACTUAL_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_007.json",
+      "bytes": 12364,
+      "sha256": "bb1119a087d6b0691dd0701b81c0638beee7881f7dad2ef323548dddb8314ada"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY9_NATIVE_MEANINGS.json",
+      "bytes": 151028,
+      "sha256": "f4113277f3aa84794b7ce823b2698d69ffcb4395b3793fd8b38a3b786406afa4"
+    },
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY9_SOURCE_INQUIRY.json",
+      "bytes": 4684,
+      "sha256": "9d06a0c2d8ec095f02b6ba760a21a39560a258b8064485cc5644f590d538cb45"
+    },
+    "bounded_interface_domain": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+    "native_common_basis": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+    "common_cost_and_alternative": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony.",
+    "domain_horizon_authority": "Each member exact technical decision, configuration and actual authority; no universal process order or automatic exposure.",
+    "evidence_ceiling": "Conditional analytical partial-input relation. No empirical effect estimate, complete receiver entailment, legal applicability judgment, novelty or independent acceptance.",
+    "common_subconditions": {
+      "P1": "Actual common object and used receiving concern.",
+      "P2": "Complete native meanings support the specific input.",
+      "P3": "Literal input affects a receiving premise or its interpretation.",
+      "P4": "Missing premises, cost, cheaper alternative, nontrigger and stronger-claim counterexample remain explicit."
+    },
+    "inference": "The explicit contribution is material at its stated guard even when final action is confirmed rather than changed. Corresponding mechanisms may overlap; duplicate names, reused tests and common pipelines do not create additional benefit or independence.",
+    "attempted_contrary_interfaces": [
+      "Identical test behavior treated as unique artifact identity.",
+      "A green pipeline treated as exposure authority.",
+      "An approved model treated as actual deployed state.",
+      "The same test counted as independent evidence twice.",
+      "All evidence discarded after harmless change.",
+      "All evidence carried after a changed critical premise.",
+      "A trace link treated as proof of the linked claim."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P005->LAW-L2::EA-19",
+        "argument": "Maintained interface rationale and constraints let later teams interpret shared commitments without reconstructing tacit agreement."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P006->LAW-L2::EA-19",
+        "argument": "Authoritative component and system identities make coordinated commitments refer to a particular recoverable configuration."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-19",
+        "argument": "Observed drift and deployment differences expose commitments that coordinated teams must repair or explicitly renegotiate."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-19",
+        "argument": "Risk-proportional authority and change analysis determine which cross-team commitments need consultation, approval or updated evidence."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-19",
+        "argument": "A testable versioned contract makes the coordinated commitment concrete and distinguishes local freedom from externally consequential changes."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L2::EA-19",
+        "argument": "A feasible evaluation method and evidence responsibilities make the inter-team verification commitment specific and testable."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L2::EA-19",
+        "argument": "Interaction-level results expose which cross-team assumptions fail and which dependencies require correction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L2::EA-19",
+        "argument": "Accurate cross-boundary links let affected teams locate the requirements, interfaces and evidence that require reconsideration."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-19",
+        "argument": "The explicit system argument identifies the cross-team assumption or evidence gap that coordination must resolve for the claimed conclusion."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-19",
+        "argument": "One problem identity, affected versions and residual disposition prevent cross-team handoffs from losing or duplicating the anomaly."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-19",
+        "argument": "Scoped model authority, interoperability and version relationships make cross-team data exchange and reconciliation concrete."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-19",
+        "argument": "Configuration-linked recurring results reveal incompatible assumptions and provide current shared evidence for dependency decisions."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P005->LAW-L2::EA-19",
+        "overclaim": "Good documents cannot resolve an actual authority dispute or remove a dependency.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P006->LAW-L2::EA-19",
+        "overclaim": "A complete bill of versions does not resolve resource contention or semantic incompatibility.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-19",
+        "overclaim": "A current inventory does not establish end-to-end value or remove organizational waiting.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-19",
+        "overclaim": "A formal approval route cannot supply missing interface knowledge or guarantee timely coordination.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-19",
+        "overclaim": "Contract precision alone does not provide staff, resolve resource queues or guarantee either side implements it.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L2::EA-19",
+        "overclaim": "Test planning does not guarantee access to scarce facilities or remove resource conflict.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L2::EA-19",
+        "overclaim": "An end-to-end test can reveal a problem without assigning authority or proving that a proposed coordination framework is worthwhile.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L2::EA-19",
+        "overclaim": "Trace access may be incomplete across a supplier boundary, and a graph alone cannot negotiate a commitment.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-19",
+        "overclaim": "An argument assigning responsibilities does not give its author contractual or operational authority over every supplier.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-19",
+        "overclaim": "A single issue record does not establish a root cause or ensure that the teams can deliver a compatible repair.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-19",
+        "overclaim": "Interoperable models do not remove organizational dependencies or prove that a central platform improves delivery.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-19",
+        "overclaim": "A common dashboard cannot assign interface authority or turn local checks into complete system assurance.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      }
+    ],
+    "exceptions": [],
+    "author_challenge": "Each member has a separately written contribution and stronger-claim witness; reverse meanings were reasoned separately. This code only serializes and checks the literal set.",
+    "common_source_dependence": "Shared source works, configurations, models, observers, tests and pipelines are not independent assurance.",
+    "independent_review_scope": "Later fidelity and genuinely separate adversarial assessment must examine common premise, exact membership, native scope and controls; no author acceptance here.",
+    "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P005->LAW-L2::EA-19",
+      "LAW-L3::EW-P006->LAW-L2::EA-19",
+      "LAW-L3::EW-P007->LAW-L2::EA-19",
+      "LAW-L3::EW-P008->LAW-L2::EA-19",
+      "LAW-L3::EW-P009->LAW-L2::EA-19",
+      "LAW-L3::EW-P010->LAW-L2::EA-19",
+      "LAW-L3::EW-P011->LAW-L2::EA-19",
+      "LAW-L3::EW-P017->LAW-L2::EA-19",
+      "LAW-L3::EW-P019->LAW-L2::EA-19",
+      "LAW-L3::EW-P020->LAW-L2::EA-19",
+      "LAW-L3::EW-P030->LAW-L2::EA-19",
+      "LAW-L3::EW-P031->LAW-L2::EA-19"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P005->LAW-L2::EA-19",
+        "source_native_id": "EW-P005",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/4",
+          "expected_native_id": "EW-P005"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Engineering knowledge needed beyond its immediate author",
+          "source_proposition": "Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified by future decisions.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "Future teams must recover why a shared interface or dependency decision was made.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Engineering knowledge needed beyond its immediate author",
+          "source_proposition": "Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified by future decisions.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Maintained interface rationale and constraints let later teams interpret shared commitments without reconstructing tacit agreement."
+        },
+        "source_contribution": "Maintained interface rationale and constraints let later teams interpret shared commitments without reconstructing tacit agreement.",
+        "receiving_consequence": "Maintained interface rationale and constraints let later teams interpret shared commitments without reconstructing tacit agreement.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Maintained interface rationale and constraints let later teams interpret shared commitments without reconstructing tacit agreement."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Good documents cannot resolve an actual authority dispute or remove a dependency.",
+        "counter_control": "Good documents cannot resolve an actual authority dispute or remove a dependency.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. A concise record, executable example or generated reference may beat duplicated prose.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Future teams must recover why a shared interface or dependency decision was made.",
+          "P2": {
+            "source_bearer": "Engineering knowledge needed beyond its immediate author",
+            "source_proposition": "Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified by future decisions.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Maintained interface rationale and constraints let later teams interpret shared commitments without reconstructing tacit agreement.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Good documents cannot resolve an actual authority dispute or remove a dependency."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P005",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P006->LAW-L2::EA-19",
+        "source_native_id": "EW-P006",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/5",
+          "expected_native_id": "EW-P006"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An item or baseline on which evidence or authority depends",
+          "source_proposition": "Authoritative identity across intent, source/model, build, test evidence and release, with proportionate promotion controls.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "Several organizations contribute versions to one integrated system baseline.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "An item or baseline on which evidence or authority depends",
+          "source_proposition": "Authoritative identity across intent, source/model, build, test evidence and release, with proportionate promotion controls.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Authoritative component and system identities make coordinated commitments refer to a particular recoverable configuration."
+        },
+        "source_contribution": "Authoritative component and system identities make coordinated commitments refer to a particular recoverable configuration.",
+        "receiving_consequence": "Authoritative component and system identities make coordinated commitments refer to a particular recoverable configuration.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Authoritative component and system identities make coordinated commitments refer to a particular recoverable configuration."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A complete bill of versions does not resolve resource contention or semantic incompatibility.",
+        "counter_control": "A complete bill of versions does not resolve resource contention or semantic incompatibility.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. Ordinary version control plus a build manifest may suffice; a baseline is not a universal freeze.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Several organizations contribute versions to one integrated system baseline.",
+          "P2": {
+            "source_bearer": "An item or baseline on which evidence or authority depends",
+            "source_proposition": "Authoritative identity across intent, source/model, build, test evidence and release, with proportionate promotion controls.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Authoritative component and system identities make coordinated commitments refer to a particular recoverable configuration.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A complete bill of versions does not resolve resource contention or semantic incompatibility."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P006",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P007->LAW-L2::EA-19",
+        "source_native_id": "EW-P007",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/6",
+          "expected_native_id": "EW-P007"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "The correspondence of designed, built, tested and operated states",
+          "source_proposition": "Evidence-backed correspondence among authoritative models/data and actual built, tested and operating configurations, with explicit residual unknowns.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "Cross-team delivery claims must correspond to the actual combined deployed system.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "The correspondence of designed, built, tested and operated states",
+          "source_proposition": "Evidence-backed correspondence among authoritative models/data and actual built, tested and operating configurations, with explicit residual unknowns.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Observed drift and deployment differences expose commitments that coordinated teams must repair or explicitly renegotiate."
+        },
+        "source_contribution": "Observed drift and deployment differences expose commitments that coordinated teams must repair or explicitly renegotiate.",
+        "receiving_consequence": "Observed drift and deployment differences expose commitments that coordinated teams must repair or explicitly renegotiate.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Observed drift and deployment differences expose commitments that coordinated teams must repair or explicitly renegotiate."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A current inventory does not establish end-to-end value or remove organizational waiting.",
+        "counter_control": "A current inventory does not establish end-to-end value or remove organizational waiting.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. A deployment digest can suffice for a narrow identity need; deeper physical reconciliation has a consequence-dependent cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Cross-team delivery claims must correspond to the actual combined deployed system.",
+          "P2": {
+            "source_bearer": "The correspondence of designed, built, tested and operated states",
+            "source_proposition": "Evidence-backed correspondence among authoritative models/data and actual built, tested and operating configurations, with explicit residual unknowns.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Observed drift and deployment differences expose commitments that coordinated teams must repair or explicitly renegotiate.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A current inventory does not establish end-to-end value or remove organizational waiting."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P007",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P008->LAW-L2::EA-19",
+        "source_native_id": "EW-P008",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "source_proposition": "Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance of residual risk.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "A local change affects another team or supplier commitment.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "source_proposition": "Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance of residual risk.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Risk-proportional authority and change analysis determine which cross-team commitments need consultation, approval or updated evidence."
+        },
+        "source_contribution": "Risk-proportional authority and change analysis determine which cross-team commitments need consultation, approval or updated evidence.",
+        "receiving_consequence": "Risk-proportional authority and change analysis determine which cross-team commitments need consultation, approval or updated evidence.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Risk-proportional authority and change analysis determine which cross-team commitments need consultation, approval or updated evidence."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A formal approval route cannot supply missing interface knowledge or guarantee timely coordination.",
+        "counter_control": "A formal approval route cannot supply missing interface knowledge or guarantee timely coordination.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. Preauthorized local change, targeted peer assessment and timely emergency handling can replace a universal board.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A local change affects another team or supplier commitment.",
+          "P2": {
+            "source_bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "source_proposition": "Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance of residual risk.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Risk-proportional authority and change analysis determine which cross-team commitments need consultation, approval or updated evidence.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A formal approval route cannot supply missing interface knowledge or guarantee timely coordination."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P008",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-19",
+        "source_native_id": "EW-P009",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "Teams share a consequential interface with independent delivery authority.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "A testable versioned contract makes the coordinated commitment concrete and distinguishes local freedom from externally consequential changes."
+        },
+        "source_contribution": "A testable versioned contract makes the coordinated commitment concrete and distinguishes local freedom from externally consequential changes.",
+        "receiving_consequence": "A testable versioned contract makes the coordinated commitment concrete and distinguishes local freedom from externally consequential changes.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A testable versioned contract makes the coordinated commitment concrete and distinguishes local freedom from externally consequential changes."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Contract precision alone does not provide staff, resolve resource queues or guarantee either side implements it.",
+        "counter_control": "Contract precision alone does not provide staff, resolve resource queues or guarantee either side implements it.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. A language type or contract test may suffice; include negotiation and supported-version costs.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Teams share a consequential interface with independent delivery authority.",
+          "P2": {
+            "source_bearer": "A consequential boundary between components or organizations",
+            "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "A testable versioned contract makes the coordinated commitment concrete and distinguishes local freedom from externally consequential changes.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Contract precision alone does not provide staff, resolve resource queues or guarantee either side implements it."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P009",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L2::EA-19",
+        "source_native_id": "EW-P010",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A requirement proposed as a basis for verification",
+          "source_proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "A system requirement needs evidence supplied by several teams.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A requirement proposed as a basis for verification",
+          "source_proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "A feasible evaluation method and evidence responsibilities make the inter-team verification commitment specific and testable."
+        },
+        "source_contribution": "A feasible evaluation method and evidence responsibilities make the inter-team verification commitment specific and testable.",
+        "receiving_consequence": "A feasible evaluation method and evidence responsibilities make the inter-team verification commitment specific and testable.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A feasible evaluation method and evidence responsibilities make the inter-team verification commitment specific and testable."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Test planning does not guarantee access to scarce facilities or remove resource conflict.",
+        "counter_control": "Test planning does not guarantee access to scarce facilities or remove resource conflict.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. An executable example may supply the whole plan; do not lock future discovery to an early document.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A system requirement needs evidence supplied by several teams.",
+          "P2": {
+            "source_bearer": "A requirement proposed as a basis for verification",
+            "source_proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "A feasible evaluation method and evidence responsibilities make the inter-team verification commitment specific and testable.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Test planning does not guarantee access to scarce facilities or remove resource conflict."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P010",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L2::EA-19",
+        "source_native_id": "EW-P011",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A realized component and its integrations",
+          "source_proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "Individually completed components must support an end-to-end behavior claim.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A realized component and its integrations",
+          "source_proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Interaction-level results expose which cross-team assumptions fail and which dependencies require correction."
+        },
+        "source_contribution": "Interaction-level results expose which cross-team assumptions fail and which dependencies require correction.",
+        "receiving_consequence": "Interaction-level results expose which cross-team assumptions fail and which dependencies require correction.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Interaction-level results expose which cross-team assumptions fail and which dependencies require correction."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "An end-to-end test can reveal a problem without assigning authority or proving that a proposed coordination framework is worthwhile.",
+        "counter_control": "An end-to-end test can reveal a problem without assigning authority or proving that a proposed coordination framework is worthwhile.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. Reuse valid component evidence and add only the justified missing level; extra phases may merely duplicate cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Individually completed components must support an end-to-end behavior claim.",
+          "P2": {
+            "source_bearer": "A realized component and its integrations",
+            "source_proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Interaction-level results expose which cross-team assumptions fail and which dependencies require correction.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: An end-to-end test can reveal a problem without assigning authority or proving that a proposed coordination framework is worthwhile."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P011",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L2::EA-19",
+        "source_native_id": "EW-P017",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "source_proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "A consequential change query crosses team and supplier boundaries.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "source_proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Accurate cross-boundary links let affected teams locate the requirements, interfaces and evidence that require reconsideration."
+        },
+        "source_contribution": "Accurate cross-boundary links let affected teams locate the requirements, interfaces and evidence that require reconsideration.",
+        "receiving_consequence": "Accurate cross-boundary links let affected teams locate the requirements, interfaces and evidence that require reconsideration.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Accurate cross-boundary links let affected teams locate the requirements, interfaces and evidence that require reconsideration."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Trace access may be incomplete across a supplier boundary, and a graph alone cannot negotiate a commitment.",
+        "counter_control": "Trace access may be incomplete across a supplier boundary, and a graph alone cannot negotiate a commitment.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. A focused native query may beat a universal matrix; ideal supplied traces do not establish lifecycle return.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A consequential change query crosses team and supplier boundaries.",
+          "P2": {
+            "source_bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "source_proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Accurate cross-boundary links let affected teams locate the requirements, interfaces and evidence that require reconsideration.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Trace access may be incomplete across a supplier boundary, and a graph alone cannot negotiate a commitment."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P017",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L2::EA-19",
+        "source_native_id": "EW-P019",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An assurance argument for a system in a specified context",
+          "source_proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "An assurance argument depends on evidence and assumptions owned by several organizations.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "An assurance argument for a system in a specified context",
+          "source_proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "The explicit system argument identifies the cross-team assumption or evidence gap that coordination must resolve for the claimed conclusion."
+        },
+        "source_contribution": "The explicit system argument identifies the cross-team assumption or evidence gap that coordination must resolve for the claimed conclusion.",
+        "receiving_consequence": "The explicit system argument identifies the cross-team assumption or evidence gap that coordination must resolve for the claimed conclusion.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The explicit system argument identifies the cross-team assumption or evidence gap that coordination must resolve for the claimed conclusion."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "An argument assigning responsibilities does not give its author contractual or operational authority over every supplier.",
+        "counter_control": "An argument assigning responsibilities does not give its author contractual or operational authority over every supplier.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. A concise argument may suffice; avoid persuasive dossiers and double-counted common evidence.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An assurance argument depends on evidence and assumptions owned by several organizations.",
+          "P2": {
+            "source_bearer": "An assurance argument for a system in a specified context",
+            "source_proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "The explicit system argument identifies the cross-team assumption or evidence gap that coordination must resolve for the claimed conclusion.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: An argument assigning responsibilities does not give its author contractual or operational authority over every supplier."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P019",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-19",
+        "source_native_id": "EW-P020",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "An anomaly spans several components or organizations.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "One problem identity, affected versions and residual disposition prevent cross-team handoffs from losing or duplicating the anomaly."
+        },
+        "source_contribution": "One problem identity, affected versions and residual disposition prevent cross-team handoffs from losing or duplicating the anomaly.",
+        "receiving_consequence": "One problem identity, affected versions and residual disposition prevent cross-team handoffs from losing or duplicating the anomaly.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "One problem identity, affected versions and residual disposition prevent cross-team handoffs from losing or duplicating the anomaly."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A single issue record does not establish a root cause or ensure that the teams can deliver a compatible repair.",
+        "counter_control": "A single issue record does not establish a root cause or ensure that the teams can deliver a compatible repair.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. A tracked issue and relevant regression check can suffice; administrative closure is not defect closure.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An anomaly spans several components or organizations.",
+          "P2": {
+            "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "One problem identity, affected versions and residual disposition prevent cross-team handoffs from losing or duplicating the anomaly.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A single issue record does not establish a root cause or ensure that the teams can deliver a compatible repair."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P020",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-19",
+        "source_native_id": "EW-P030",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An authoritative engineering model or digital environment",
+          "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "Several disciplines maintain authoritative representations of one system.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "An authoritative engineering model or digital environment",
+          "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Scoped model authority, interoperability and version relationships make cross-team data exchange and reconciliation concrete."
+        },
+        "source_contribution": "Scoped model authority, interoperability and version relationships make cross-team data exchange and reconciliation concrete.",
+        "receiving_consequence": "Scoped model authority, interoperability and version relationships make cross-team data exchange and reconciliation concrete.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Scoped model authority, interoperability and version relationships make cross-team data exchange and reconciliation concrete."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Interoperable models do not remove organizational dependencies or prove that a central platform improves delivery.",
+        "counter_control": "Interoperable models do not remove organizational dependencies or prove that a central platform improves delivery.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. Versioned native documents, source and tests may outperform a new platform; include migration, licensing and specialist upkeep.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Several disciplines maintain authoritative representations of one system.",
+          "P2": {
+            "source_bearer": "An authoritative engineering model or digital environment",
+            "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Scoped model authority, interoperability and version relationships make cross-team data exchange and reconciliation concrete.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Interoperable models do not remove organizational dependencies or prove that a central platform improves delivery."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P030",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-19",
+        "source_native_id": "EW-P031",
+        "receiving_native_id": "EA-19",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/18",
+          "expected_native_id": "EA-19",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/18",
+            "expected_native_id": "AGQ-EA-19"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+        },
+        "shared_question_or_object": "Cross-team integration consumes recurring technical and assurance evidence.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+          "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+          "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence.",
+          "literal_bridge": "Configuration-linked recurring results reveal incompatible assumptions and provide current shared evidence for dependency decisions."
+        },
+        "source_contribution": "Configuration-linked recurring results reveal incompatible assumptions and provide current shared evidence for dependency decisions.",
+        "receiving_consequence": "Configuration-linked recurring results reveal incompatible assumptions and provide current shared evidence for dependency decisions.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Configuration-linked recurring results reveal incompatible assumptions and provide current shared evidence for dependency decisions."
+        ],
+        "premises_remaining": [
+          "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A common dashboard cannot assign interface authority or turn local checks into complete system assurance.",
+        "counter_control": "A common dashboard cannot assign interface authority or turn local checks into complete system assurance.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include cross-team queues, negotiation and opportunity cost; a small contract or dependency removal can be cheaper than a release train or centralized programme ceremony. Manual or periodic evidence can be adequate at low cadence; automation adds upkeep and common-mode failure risk.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Cross-team integration consumes recurring technical and assurance evidence.",
+          "P2": {
+            "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+            "receiving_bearer": "A system composed of interacting teams, components, suppliers or qualification paths.",
+            "receiving_criterion": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence."
+          },
+          "P3": "Configuration-linked recurring results reveal incompatible assumptions and provide current shared evidence for dependency decisions.",
+          "P4": "System dependencies and interface commitments require coordination at the smallest actual authoritative boundary. Truly independent local work retains its independence. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A common dashboard cannot assign interface authority or turn local checks into complete system assurance."
+        },
+        "reverse_direction_key": "LAW-L2::EA-19->LAW-L3::EW-P031",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      }
+    ]
+  }
+}

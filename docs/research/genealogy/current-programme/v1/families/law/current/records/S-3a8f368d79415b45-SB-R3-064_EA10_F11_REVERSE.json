@@ -1,0 +1,858 @@
+{
+  "source_identity": {
+    "source_id": "S-3a8f368d79415b45",
+    "scientific_name": "SB-R3-064_EA10_F11_REVERSE.json",
+    "original_bytes": 64506,
+    "original_sha256": "3a8f368d79415b455febdc9e960eaa1f27398d0e2d150e7f13a0d0ca195cc17d"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-064",
+    "title": "EA-10_REVERSE_CHANGE_EXPOSURE_AND_RECOVERY",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T02:08:23.473449+00:00",
+    "inquiry_family": 11,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_010.json",
+      "bytes": 1923,
+      "sha256": "a013c11f6dd82b0dfff8992948d504b8ad283424b0cb4ddd44145cc94d1b5599"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY11_NATIVE_MEANINGS.json",
+      "bytes": 109853,
+      "sha256": "8c33a36942b96e29f7debfe86266b599068b2e828d0a41c446011aa2350ed766"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY11_COMPLETE_CORE_LITERAL_ARGUMENTS.json",
+      "bytes": 52778,
+      "sha256": "9e6dd8e47bf991e72294a803acb6cb865f144922f6f446a0567f7338b7b5cf35"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY11_CONTROLS.json",
+      "bytes": 8305,
+      "sha256": "0b8aaa5f79923b9e758e18950db840244f5196979e0870ed7d6c505516d25831"
+    },
+    "bounded_interface_domain": [
+      "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+      "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+      "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+      "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+      "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+    ],
+    "native_common_basis": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+    "common_cost_and_alternative": [
+      "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+      "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+      "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+      "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+    ],
+    "evidence_ceiling": "Root analytical arguments from complete selected native bodies and seven own finite controls. Two bounded practitioner-source accesses corroborate mechanisms, not universal causal effects. No deployed experiment, new property, whole synthesis completion or independent acceptance.",
+    "common_subconditions": {
+      "P1": "The precise common object and actual receiving use exist.",
+      "P2": "The full source and receiver meanings govern, including cheap paths and rejected universal claims.",
+      "P3": "The literal separately reasoned partial consequence follows under its guard.",
+      "P4": "The stronger-claim witness, residual premises, alternatives and re-entry remain."
+    },
+    "inference": "The specifically identified partial capability, evidence or scope constraint is material to the receiving decision. This does not establish complete recovery, a universal cost curve, a deployment cadence, an authority grant or a new control requirement.",
+    "common_source_dependence": "Both new practitioner sources belong to the Google SRE ecosystem; no independent causal replication or duplicate credit. Shared artifacts and controls remain shared.",
+    "exceptions": [],
+    "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-10",
+        "argument": "Architectural interface and resource constraints specify which candidate evidence matters and which superficially deployable package is unsuitable for the intended system."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L2::EA-10",
+        "argument": "The applicable envelope, evidence validity and change-trigger rules determine which qualification conditions must be satisfied before the candidate may be called ready for that use."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L2::EA-10",
+        "argument": "Hazard-control requirements and actual risk-acceptance authority define the consequence-sensitive release conditions and prevent automatic exposure merely because the candidate builds."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L2::EA-10",
+        "argument": "Actual transition conditions and delegated authority determine when and where the prepared candidate may be exposed, and which operational deficits remain despite technical success."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L2::EA-10",
+        "argument": "Recovery and compatibility tests constrain what a candidate must preserve and whether its deployment can truthfully claim a usable rollback or containment path."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L2::EA-10",
+        "argument": "Support horizon, fielded versions and retirement obligations identify which candidate lines must remain maintainable and which can deliberately be ended."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-10",
+        "argument": "Actual consequences, recovery limits, coupling and obligations determine the appropriate candidate evidence and exposure authorization without prescribing a universal deployment frequency."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-10",
+        "argument": "Rejecting the universal phase curve removes a false requirement to freeze all future candidate changes early and demands actual evidence for batching or extra control."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-10",
+        "overclaim": "An architecture plan cannot make an unreproducible candidate release-ready or grant exposure authority.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L2::EA-10",
+        "overclaim": "A prior design-type qualification cannot silently cover a changed binary, environment or unsupported operating envelope.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L2::EA-10",
+        "overclaim": "A hazard analysis without credible implementation evidence does not make the candidate ready, and it need not impose a universal extra approver on low-consequence work.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L2::EA-10",
+        "overclaim": "An operational sign-off cannot substitute for a broken candidate build or erase an unexamined configuration difference.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L2::EA-10",
+        "overclaim": "One successful code revert does not establish that the candidate meets all release requirements or that its exposure is authorized.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L2::EA-10",
+        "overclaim": "Promising long-term support does not ensure that archived build inputs can be reconstructed or that the resulting candidate is correct.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-10",
+        "overclaim": "A high-consequence deployment does not imply that every internal build needs a full operational readiness ceremony.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-10",
+        "overclaim": "The rejection does not require continuous deployment; an infrequent properly qualified release can remain the cheapest adequate path.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L3::EW-P003->LAW-L2::EA-10",
+      "LAW-L3::EW-P013->LAW-L2::EA-10",
+      "LAW-L3::EW-P018->LAW-L2::EA-10",
+      "LAW-L3::EW-P027->LAW-L2::EA-10",
+      "LAW-L3::EW-P028->LAW-L2::EA-10",
+      "LAW-L3::EW-P029->LAW-L2::EA-10",
+      "LAW-L3::EW-P033->LAW-L2::EA-10",
+      "LAW-L3::EW-P038->LAW-L2::EA-10"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-10",
+        "source_native_id": "EW-P003",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "An identified packaged candidate exercises a feasibility assumption before a consequential architecture commitment.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Architectural interface and resource constraints specify which candidate evidence matters and which superficially deployable package is unsuitable for the intended system.",
+        "receiving_consequence": "Architectural interface and resource constraints specify which candidate evidence matters and which superficially deployable package is unsuitable for the intended system.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Architectural interface and resource constraints specify which candidate evidence matters and which superficially deployable package is unsuitable for the intended system."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "An architecture plan cannot make an unreproducible candidate release-ready or grant exposure authority.",
+        "counter_control": "An architecture plan cannot make an unreproducible candidate release-ready or grant exposure authority.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P003",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "An identified packaged candidate exercises a feasibility assumption before a consequential architecture commitment.",
+          "literal_bridge": "Architectural interface and resource constraints specify which candidate evidence matters and which superficially deployable package is unsuitable for the intended system."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L2::EA-10",
+        "source_native_id": "EW-P013",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "A candidate release is the identified configuration to which design-envelope evidence is attached.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The applicable envelope, evidence validity and change-trigger rules determine which qualification conditions must be satisfied before the candidate may be called ready for that use.",
+        "receiving_consequence": "The applicable envelope, evidence validity and change-trigger rules determine which qualification conditions must be satisfied before the candidate may be called ready for that use.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The applicable envelope, evidence validity and change-trigger rules determine which qualification conditions must be satisfied before the candidate may be called ready for that use."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A prior design-type qualification cannot silently cover a changed binary, environment or unsupported operating envelope.",
+        "counter_control": "A prior design-type qualification cannot silently cover a changed binary, environment or unsupported operating envelope.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P013",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "A candidate release is the identified configuration to which design-envelope evidence is attached.",
+          "literal_bridge": "The applicable envelope, evidence validity and change-trigger rules determine which qualification conditions must be satisfied before the candidate may be called ready for that use."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L2::EA-10",
+        "source_native_id": "EW-P018",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "The release candidate contains implemented controls for a named lifecycle hazard.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Hazard-control requirements and actual risk-acceptance authority define the consequence-sensitive release conditions and prevent automatic exposure merely because the candidate builds.",
+        "receiving_consequence": "Hazard-control requirements and actual risk-acceptance authority define the consequence-sensitive release conditions and prevent automatic exposure merely because the candidate builds.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Hazard-control requirements and actual risk-acceptance authority define the consequence-sensitive release conditions and prevent automatic exposure merely because the candidate builds."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A hazard analysis without credible implementation evidence does not make the candidate ready, and it need not impose a universal extra approver on low-consequence work.",
+        "counter_control": "A hazard analysis without credible implementation evidence does not make the candidate ready, and it need not impose a universal extra approver on low-consequence work.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P018",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "The release candidate contains implemented controls for a named lifecycle hazard.",
+          "literal_bridge": "Hazard-control requirements and actual risk-acceptance authority define the consequence-sensitive release conditions and prevent automatic exposure merely because the candidate builds."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L2::EA-10",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "The same identified candidate moves from technical preparation toward an actual operational transition.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Actual transition conditions and delegated authority determine when and where the prepared candidate may be exposed, and which operational deficits remain despite technical success.",
+        "receiving_consequence": "Actual transition conditions and delegated authority determine when and where the prepared candidate may be exposed, and which operational deficits remain despite technical success.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Actual transition conditions and delegated authority determine when and where the prepared candidate may be exposed, and which operational deficits remain despite technical success."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "An operational sign-off cannot substitute for a broken candidate build or erase an unexamined configuration difference.",
+        "counter_control": "An operational sign-off cannot substitute for a broken candidate build or erase an unexamined configuration difference.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P027",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "The same identified candidate moves from technical preparation toward an actual operational transition.",
+          "literal_bridge": "Actual transition conditions and delegated authority determine when and where the prepared candidate may be exposed, and which operational deficits remain despite technical success."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L2::EA-10",
+        "source_native_id": "EW-P028",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "A deployment needs a known prior or replacement artifact as one element of its recovery path.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Recovery and compatibility tests constrain what a candidate must preserve and whether its deployment can truthfully claim a usable rollback or containment path.",
+        "receiving_consequence": "Recovery and compatibility tests constrain what a candidate must preserve and whether its deployment can truthfully claim a usable rollback or containment path.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Recovery and compatibility tests constrain what a candidate must preserve and whether its deployment can truthfully claim a usable rollback or containment path."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "One successful code revert does not establish that the candidate meets all release requirements or that its exposure is authorized.",
+        "counter_control": "One successful code revert does not establish that the candidate meets all release requirements or that its exposure is authorized.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P028",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "A deployment needs a known prior or replacement artifact as one element of its recovery path.",
+          "literal_bridge": "Recovery and compatibility tests constrain what a candidate must preserve and whether its deployment can truthfully claim a usable rollback or containment path."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L2::EA-10",
+        "source_native_id": "EW-P029",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "A supported released version needs reproducible maintenance builds or a controlled replacement candidate.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Support horizon, fielded versions and retirement obligations identify which candidate lines must remain maintainable and which can deliberately be ended.",
+        "receiving_consequence": "Support horizon, fielded versions and retirement obligations identify which candidate lines must remain maintainable and which can deliberately be ended.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Support horizon, fielded versions and retirement obligations identify which candidate lines must remain maintainable and which can deliberately be ended."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Promising long-term support does not ensure that archived build inputs can be reconstructed or that the resulting candidate is correct.",
+        "counter_control": "Promising long-term support does not ensure that archived build inputs can be reconstructed or that the resulting candidate is correct.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P029",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "A supported released version needs reproducible maintenance builds or a controlled replacement candidate.",
+          "literal_bridge": "Support horizon, fielded versions and retirement obligations identify which candidate lines must remain maintainable and which can deliberately be ended."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-10",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "Assurance strength is selected separately for constructing a candidate and exposing it to a real population.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Actual consequences, recovery limits, coupling and obligations determine the appropriate candidate evidence and exposure authorization without prescribing a universal deployment frequency.",
+        "receiving_consequence": "Actual consequences, recovery limits, coupling and obligations determine the appropriate candidate evidence and exposure authorization without prescribing a universal deployment frequency.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Actual consequences, recovery limits, coupling and obligations determine the appropriate candidate evidence and exposure authorization without prescribing a universal deployment frequency."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A high-consequence deployment does not imply that every internal build needs a full operational readiness ceremony.",
+        "counter_control": "A high-consequence deployment does not imply that every internal build needs a full operational readiness ceremony.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P033",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "Assurance strength is selected separately for constructing a candidate and exposing it to a real population.",
+          "literal_bridge": "Actual consequences, recovery limits, coupling and obligations determine the appropriate candidate evidence and exposure authorization without prescribing a universal deployment frequency."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P038->LAW-L2::EA-10",
+        "source_native_id": "EW-P038",
+        "receiving_native_id": "EA-10",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/37",
+          "expected_native_id": "EW-P038"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+          "expected_native_id": "EA-10",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/9",
+            "expected_native_id": "AGQ-EA-10"
+          }
+        },
+        "shared_question_or_object": "An alleged universal late-change penalty is used to justify large, exceptional releases.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          },
+          "receiver": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Rejecting the universal phase curve removes a false requirement to freeze all future candidate changes early and demands actual evidence for batching or extra control.",
+        "receiving_consequence": "Rejecting the universal phase curve removes a false requirement to freeze all future candidate changes early and demands actual evidence for batching or extra control.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Rejecting the universal phase curve removes a false requirement to freeze all future candidate changes early and demands actual evidence for batching or extra control."
+        ],
+        "premises_remaining": [
+          "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "The rejection does not require continuous deployment; an infrequent properly qualified release can remain the cheapest adequate path.",
+        "counter_control": "The rejection does not require continuous deployment; an infrequent properly qualified release can remain the cheapest adequate path.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L2::EA-10->LAW-L3::EW-P038",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+            "criterion": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions."
+          },
+          "actual_object": "An alleged universal late-change penalty is used to justify large, exceptional releases.",
+          "literal_bridge": "Rejecting the universal phase curve removes a false requirement to freeze all future candidate changes early and demands actual evidence for batching or extra control."
+        }
+      }
+    ],
+    "independent_review_scope": "Actual common premise, every literal membership, source and receiver meanings, cost, alternatives and controls remain subject to later whole-study fidelity and separate adversarial review."
+  }
+}

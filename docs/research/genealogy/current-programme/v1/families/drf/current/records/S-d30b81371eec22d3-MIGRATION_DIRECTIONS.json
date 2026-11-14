@@ -1,0 +1,1209 @@
+{
+  "source_identity": {
+    "source_id": "S-d30b81371eec22d3",
+    "scientific_name": "MIGRATION_DIRECTIONS.json",
+    "original_bytes": 85438,
+    "original_sha256": "d30b81371eec22d314770abdfb02cc00e288a3d8b6ed5b37d35ac5a4555daeb3"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-direct-migration-inquiry/1",
+    "common": {
+      "status": "AUTHOR_SCIENTIFIC_FINDINGS_PENDING_INDEPENDENT_REVIEW",
+      "source_ceiling": "Own analytical application of received full native/current meanings, newly read original D28/D39, and one constructed NX08 execution. No new external source, verified toolchain, production rollout or empirical effectiveness claim.",
+      "authority_boundary": "Successful compatibility evidence does not authorize migration, mutation or worker retirement. The constructed eligibility relation is not real routing enforcement.",
+      "cost": "Pinning retains old workers/dependencies/storage; migration adds transformation and validation work; cutover can incur accepted downtime; all methods retain interpretation and affected-change costs. No empirical cost figures or universally optimal policy are asserted.",
+      "reentry": "Changed observations, units, identity semantics, overflow, allowed pairings, replay status, downstream stages or routing/retention assumptions reopen only the affected argument. Display-label bytes can change without changing this observation relation.",
+      "type_model_detail": "Typing is the explicit representation predicate H_v=List(String×Integer) with v∈{1,2}. A copy maps H_1 to H_2 and therefore preserves that representation predicate for all finite lists. It need not preserve Obs_v(h)=[(intent,n/divisor(v))]. This one-line mathematical preservation argument is separate from the Python parsing evaluations and proves no Python language meta-theorem."
+    },
+    "case_identity": {
+      "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+      "bytes": 4129,
+      "sha256": "48c19aad850a97c720eb1860db104cfc32caae2bdb5245de5f3f84b9d170a227"
+    },
+    "authored_arguments": {
+      "path": "analysis_r8/migration_interfaces.py",
+      "bytes": 13303,
+      "sha256": "60c8811851c2337c8a28181b4d83ca051d55956ec77096260ed66eff39630a3f"
+    },
+    "rows": [
+      {
+        "direction": "F014>D28",
+        "pair": "D28|F014",
+        "reverse": "D28>F014",
+        "source": "F014",
+        "target": "D28",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "CORRESPONDENCE_EVIDENCE",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "185af218945c55d0054113cc3d7f59fb3d2cb4b422708ece26aee15e9c753520"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The relation equates the ordered intent IDs and exact rational quantities of the old and migrated history. Multiplication by10 establishes that relation in the stipulated semantics; merely copying integer fields does not. This supplies a concrete representation-preservation premise.",
+        "guard": "Use source interpretation n/100 and target m/1000, stable sequence/intent, exact unbounded arithmetic, and precisely these observations. Transfer only predicates invariant under this relation. A refinement label does not cover timing, unknown effects or later unvalidated stages.",
+        "contrary_control": "NX08 raw copying passes the representation check but changes100/100 to100/1000. Changing an intent ID also fails the selected relation. The relation deliberately ignores a display label only because this named consumer does.",
+        "nontrigger_or_cheaper_alternative": "Keep compatible old workers, finish histories before cutover, or directly compare the small required observations; a general refinement toolchain is not mandatory.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D28>F014",
+        "pair": "D28|F014",
+        "reverse": "F014>D28",
+        "source": "D28",
+        "target": "F014",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "185af218945c55d0054113cc3d7f59fb3d2cb4b422708ece26aee15e9c753520"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D criterion selects what the abstract/concrete relation must preserve: eligible history behavior for D28 and permitted cross-version interaction meaning for D39. It rules out parse-only and quantity-only relations that drop a material intent or ordering observation.",
+        "guard": "This is an application-specification input to F014, not a proof of the relation and not equivalence of every implementation property. A model-only transformation theorem remains legitimate.",
+        "contrary_control": "NX08 raw copying passes the representation check but changes100/100 to100/1000. Changing an intent ID also fails the selected relation. The relation deliberately ignores a display label only because this named consumer does.",
+        "nontrigger_or_cheaper_alternative": "Keep compatible old workers, finish histories before cutover, or directly compare the small required observations; a general refinement toolchain is not mandatory.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F014>D39",
+        "pair": "D39|F014",
+        "reverse": "D39>F014",
+        "source": "F014",
+        "target": "D39",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "CORRESPONDENCE_EVIDENCE",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "185af218945c55d0054113cc3d7f59fb3d2cb4b422708ece26aee15e9c753520"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The relation equates the ordered intent IDs and exact rational quantities of the old and migrated history. Multiplication by10 establishes that relation in the stipulated semantics; merely copying integer fields does not. This supplies a concrete representation-preservation premise.",
+        "guard": "Use source interpretation n/100 and target m/1000, stable sequence/intent, exact unbounded arithmetic, and precisely these observations. Transfer only predicates invariant under this relation. A refinement label does not cover timing, unknown effects or later unvalidated stages.",
+        "contrary_control": "NX08 raw copying passes the representation check but changes100/100 to100/1000. Changing an intent ID also fails the selected relation. The relation deliberately ignores a display label only because this named consumer does.",
+        "nontrigger_or_cheaper_alternative": "Keep compatible old workers, finish histories before cutover, or directly compare the small required observations; a general refinement toolchain is not mandatory.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D39>F014",
+        "pair": "D39|F014",
+        "reverse": "F014>D39",
+        "source": "D39",
+        "target": "F014",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "185af218945c55d0054113cc3d7f59fb3d2cb4b422708ece26aee15e9c753520"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D criterion selects what the abstract/concrete relation must preserve: eligible history behavior for D28 and permitted cross-version interaction meaning for D39. It rules out parse-only and quantity-only relations that drop a material intent or ordering observation.",
+        "guard": "This is an application-specification input to F014, not a proof of the relation and not equivalence of every implementation property. A model-only transformation theorem remains legitimate.",
+        "contrary_control": "NX08 raw copying passes the representation check but changes100/100 to100/1000. Changing an intent ID also fails the selected relation. The relation deliberately ignores a display label only because this named consumer does.",
+        "nontrigger_or_cheaper_alternative": "Keep compatible old workers, finish histories before cutover, or directly compare the small required observations; a general refinement toolchain is not mandatory.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F034>D28",
+        "pair": "D28|F034",
+        "reverse": "D28>F034",
+        "source": "F034",
+        "target": "D28",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "PER_RUN_VALIDATION_EVIDENCE",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "01999bcfd375b2f3920a3d6b9bb3818e6b4581012bcb34981eb50a207a09a7b3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "A relation check on the actual source and target histories can support the selected migration even without proving every transformer invocation correct. NX08 records concrete source/target identities, the observation relation, successful scaling and a rejected raw copy.",
+        "guard": "The source/target are meaningful workflow-state representations with specified command semantics, not arbitrary encodings of prose. Bind the particular pair, validator semantics and downstream stages. This is a guarded application of the native semantic per-run mechanism beyond its compiler examples, not evidence of historical influence or an independently certified validator.",
+        "contrary_control": "Two results can have the same field types while differing in meaning. Changed source/target identities cannot reuse the old per-run receipt merely because the transformer name is the same.",
+        "nontrigger_or_cheaper_alternative": "The exact direct relation check is the small alternative. Pinning or an explicit stop/cutover can avoid migration and its validation burden entirely.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D28>F034",
+        "pair": "D28|F034",
+        "reverse": "F034>D28",
+        "source": "D28",
+        "target": "F034",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "01999bcfd375b2f3920a3d6b9bb3818e6b4581012bcb34981eb50a207a09a7b3"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D requirement supplies the particular input/output population, semantic observations and eligibility restriction that the per-run validator must check; validation of an unrelated artifact or a parsing relation would not discharge that migration premise.",
+        "guard": "The criterion does not establish validator correctness. Rejection can mean an unsupported relation or checker limitation in general; the raw-copy witness here is concretely wrong under the stipulated quantity interpretation.",
+        "contrary_control": "Two results can have the same field types while differing in meaning. Changed source/target identities cannot reuse the old per-run receipt merely because the transformer name is the same.",
+        "nontrigger_or_cheaper_alternative": "The exact direct relation check is the small alternative. Pinning or an explicit stop/cutover can avoid migration and its validation burden entirely.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F034>D39",
+        "pair": "D39|F034",
+        "reverse": "D39>F034",
+        "source": "F034",
+        "target": "D39",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "PER_RUN_VALIDATION_EVIDENCE",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "01999bcfd375b2f3920a3d6b9bb3818e6b4581012bcb34981eb50a207a09a7b3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "A relation check on the actual source and target histories can support the selected migration even without proving every transformer invocation correct. NX08 records concrete source/target identities, the observation relation, successful scaling and a rejected raw copy.",
+        "guard": "The source/target are meaningful workflow-state representations with specified command semantics, not arbitrary encodings of prose. Bind the particular pair, validator semantics and downstream stages. This is a guarded application of the native semantic per-run mechanism beyond its compiler examples, not evidence of historical influence or an independently certified validator.",
+        "contrary_control": "Two results can have the same field types while differing in meaning. Changed source/target identities cannot reuse the old per-run receipt merely because the transformer name is the same.",
+        "nontrigger_or_cheaper_alternative": "The exact direct relation check is the small alternative. Pinning or an explicit stop/cutover can avoid migration and its validation burden entirely.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D39>F034",
+        "pair": "D39|F034",
+        "reverse": "F034>D39",
+        "source": "D39",
+        "target": "F034",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "01999bcfd375b2f3920a3d6b9bb3818e6b4581012bcb34981eb50a207a09a7b3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D requirement supplies the particular input/output population, semantic observations and eligibility restriction that the per-run validator must check; validation of an unrelated artifact or a parsing relation would not discharge that migration premise.",
+        "guard": "The criterion does not establish validator correctness. Rejection can mean an unsupported relation or checker limitation in general; the raw-copy witness here is concretely wrong under the stipulated quantity interpretation.",
+        "contrary_control": "Two results can have the same field types while differing in meaning. Changed source/target identities cannot reuse the old per-run receipt merely because the transformer name is the same.",
+        "nontrigger_or_cheaper_alternative": "The exact direct relation check is the small alternative. Pinning or an explicit stop/cutover can avoid migration and its validation burden entirely.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F016>D28",
+        "pair": "D28|F016",
+        "reverse": "D28>F016",
+        "source": "F016",
+        "target": "D28",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "FINITE_EXPLORATION_EVIDENCE",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P016",
+          "native_pointer": "/properties/15/native_record",
+          "current_pointer": "/properties/15/current_claim",
+          "current_object_sha256": "e8cabfadf14582c74f16a8d168de62cfcf0277646952b23051a372e3425e0b25"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "Complete enumeration establishes the migration relation on the explicitly constructed31 input states (length0–2, five integer values). It also fully enumerates the four worker/history eligibility pairs for the two live histories, revealing the invalid all-pairs demand.",
+        "guard": "The finite model is the actual intended constructed object. All31 states and all4 eligibility pairs are included with exact arithmetic; no claim about all deployed histories follows from that count. The separate all-integer algebra argument supplies its own extension.",
+        "contrary_control": "The three empty/zero-only histories all allow the wrong copy. Exhausting only those three would be a true result for an inadequate domain. Complete finite enumeration and production completeness remain different.",
+        "nontrigger_or_cheaper_alternative": "For the pointwise scaling rule, a direct algebraic argument is smaller than expanding numeric/history bounds. For a single bad input, ordinary evaluation suffices.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D28>F016",
+        "pair": "D28|F016",
+        "reverse": "F016>D28",
+        "source": "D28",
+        "target": "F016",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P016",
+          "native_pointer": "/properties/15/native_record",
+          "current_pointer": "/properties/15/current_claim",
+          "current_object_sha256": "e8cabfadf14582c74f16a8d168de62cfcf0277646952b23051a372e3425e0b25"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D requirement chooses the decision-relevant source histories, command observations and existential eligibility condition for the finite check. Otherwise a complete search could establish the wrong all-pairs or parse-only question.",
+        "guard": "A relevant finite-state model need not include a production inventory unless that inventory is the claimed object. The native consumer criterion provides domain and property input, not proof of search completeness.",
+        "contrary_control": "The three empty/zero-only histories all allow the wrong copy. Exhausting only those three would be a true result for an inadequate domain. Complete finite enumeration and production completeness remain different.",
+        "nontrigger_or_cheaper_alternative": "For the pointwise scaling rule, a direct algebraic argument is smaller than expanding numeric/history bounds. For a single bad input, ordinary evaluation suffices.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F016>D39",
+        "pair": "D39|F016",
+        "reverse": "D39>F016",
+        "source": "F016",
+        "target": "D39",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "FINITE_EXPLORATION_EVIDENCE",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P016",
+          "native_pointer": "/properties/15/native_record",
+          "current_pointer": "/properties/15/current_claim",
+          "current_object_sha256": "e8cabfadf14582c74f16a8d168de62cfcf0277646952b23051a372e3425e0b25"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "Complete enumeration establishes the migration relation on the explicitly constructed31 input states (length0–2, five integer values). It also fully enumerates the four worker/history eligibility pairs for the two live histories, revealing the invalid all-pairs demand.",
+        "guard": "The finite model is the actual intended constructed object. All31 states and all4 eligibility pairs are included with exact arithmetic; no claim about all deployed histories follows from that count. The separate all-integer algebra argument supplies its own extension.",
+        "contrary_control": "The three empty/zero-only histories all allow the wrong copy. Exhausting only those three would be a true result for an inadequate domain. Complete finite enumeration and production completeness remain different.",
+        "nontrigger_or_cheaper_alternative": "For the pointwise scaling rule, a direct algebraic argument is smaller than expanding numeric/history bounds. For a single bad input, ordinary evaluation suffices.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D39>F016",
+        "pair": "D39|F016",
+        "reverse": "F016>D39",
+        "source": "D39",
+        "target": "F016",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P016",
+          "native_pointer": "/properties/15/native_record",
+          "current_pointer": "/properties/15/current_claim",
+          "current_object_sha256": "e8cabfadf14582c74f16a8d168de62cfcf0277646952b23051a372e3425e0b25"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D requirement chooses the decision-relevant source histories, command observations and existential eligibility condition for the finite check. Otherwise a complete search could establish the wrong all-pairs or parse-only question.",
+        "guard": "A relevant finite-state model need not include a production inventory unless that inventory is the claimed object. The native consumer criterion provides domain and property input, not proof of search completeness.",
+        "contrary_control": "The three empty/zero-only histories all allow the wrong copy. Exhausting only those three would be a true result for an inadequate domain. Complete finite enumeration and production completeness remain different.",
+        "nontrigger_or_cheaper_alternative": "For the pointwise scaling rule, a direct algebraic argument is smaller than expanding numeric/history bounds. For a single bad input, ordinary evaluation suffices.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F018>D28",
+        "pair": "D28|F018",
+        "reverse": "D28>F018",
+        "source": "F018",
+        "target": "D28",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "BOUND_AND_EXTENSION_CONSTRAINT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P018",
+          "native_pointer": "/properties/17/native_record",
+          "current_pointer": "/properties/17/current_claim",
+          "current_object_sha256": "72181ad02f69ae3553162e258f4d3ec0742a440d80fbe6b013dbcc569f3451be"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The finite31-state result is kept separate from the universal finite-history claim. The latter uses the pointwise identity(10*n)/1000=n/100 and sequence lifting, not an extrapolation from passing cases.",
+        "guard": "Report exact numeric/length bounds, completed execution and excluded machine overflow/timing/physical effects. The algebra applies only to the stated exact semantics; a larger production domain may introduce a new premise.",
+        "contrary_control": "A zero-only test passes the wrong copier. Increasing its length still cannot expose nonzero-unit errors. Relevant numeric domain and interpretation matter, not only trace length.",
+        "nontrigger_or_cheaper_alternative": "Use a small exact admitted population, a direct counterexample, or the simple algebraic proof; repeatedly increasing bounds without a new scientific question adds no claimed confidence here.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D28>F018",
+        "pair": "D28|F018",
+        "reverse": "F018>D28",
+        "source": "D28",
+        "target": "F018",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P018",
+          "native_pointer": "/properties/17/native_record",
+          "current_pointer": "/properties/17/current_claim",
+          "current_object_sha256": "72181ad02f69ae3553162e258f4d3ec0742a440d80fbe6b013dbcc569f3451be"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "D28/D39 specify which live histories and allowed interactions the application claim ranges over. That determines whether a finite check already closes the intended question or needs a sound extension/coverage argument.",
+        "guard": "An operational requirement for all admitted histories must not be weakened to those tested merely to retain a pass. A genuinely bounded planned cutover can instead legitimately change the intended domain.",
+        "contrary_control": "A zero-only test passes the wrong copier. Increasing its length still cannot expose nonzero-unit errors. Relevant numeric domain and interpretation matter, not only trace length.",
+        "nontrigger_or_cheaper_alternative": "Use a small exact admitted population, a direct counterexample, or the simple algebraic proof; repeatedly increasing bounds without a new scientific question adds no claimed confidence here.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F018>D39",
+        "pair": "D39|F018",
+        "reverse": "D39>F018",
+        "source": "F018",
+        "target": "D39",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "BOUND_AND_EXTENSION_CONSTRAINT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P018",
+          "native_pointer": "/properties/17/native_record",
+          "current_pointer": "/properties/17/current_claim",
+          "current_object_sha256": "72181ad02f69ae3553162e258f4d3ec0742a440d80fbe6b013dbcc569f3451be"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The finite31-state result is kept separate from the universal finite-history claim. The latter uses the pointwise identity(10*n)/1000=n/100 and sequence lifting, not an extrapolation from passing cases.",
+        "guard": "Report exact numeric/length bounds, completed execution and excluded machine overflow/timing/physical effects. The algebra applies only to the stated exact semantics; a larger production domain may introduce a new premise.",
+        "contrary_control": "A zero-only test passes the wrong copier. Increasing its length still cannot expose nonzero-unit errors. Relevant numeric domain and interpretation matter, not only trace length.",
+        "nontrigger_or_cheaper_alternative": "Use a small exact admitted population, a direct counterexample, or the simple algebraic proof; repeatedly increasing bounds without a new scientific question adds no claimed confidence here.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D39>F018",
+        "pair": "D39|F018",
+        "reverse": "F018>D39",
+        "source": "D39",
+        "target": "F018",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P018",
+          "native_pointer": "/properties/17/native_record",
+          "current_pointer": "/properties/17/current_claim",
+          "current_object_sha256": "72181ad02f69ae3553162e258f4d3ec0742a440d80fbe6b013dbcc569f3451be"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "D28/D39 specify which live histories and allowed interactions the application claim ranges over. That determines whether a finite check already closes the intended question or needs a sound extension/coverage argument.",
+        "guard": "An operational requirement for all admitted histories must not be weakened to those tested merely to retain a pass. A genuinely bounded planned cutover can instead legitimately change the intended domain.",
+        "contrary_control": "A zero-only test passes the wrong copier. Increasing its length still cannot expose nonzero-unit errors. Relevant numeric domain and interpretation matter, not only trace length.",
+        "nontrigger_or_cheaper_alternative": "Use a small exact admitted population, a direct counterexample, or the simple algebraic proof; repeatedly increasing bounds without a new scientific question adds no claimed confidence here.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F017>D28",
+        "pair": "D28|F017",
+        "reverse": "D28>F017",
+        "source": "F017",
+        "target": "D28",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "DISCRIMINATING_COUNTEREXAMPLE_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "305dfa032d597a81100149bd4fc0d79fbd804fa56bab18381d9629df78d91d66"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The concrete v1 history with quantity100 has observation1; a copied v2 history has observation1/10. This is a feasible counterexample to semantic preservation for this transformer and interpretation, rather than an abstract or unbound deployment allegation.",
+        "guard": "The required observation really is quantity plus ordered intent; both records are valid in the constructed source/target domains. Attribution is to the constructed copy transformer only. No real workflow-engine defect or empirical rate is inferred.",
+        "contrary_control": "A label-only change gives different artifact bytes without changing the named semantics. It challenges a blanket changed-hash-equals-semantic-defect rule; a version interpretation change with identical numbers does change semantics.",
+        "nontrigger_or_cheaper_alternative": "One transparent failing input suffices for the universal copy claim; no industrial incident collection or broad fault exercise is needed for this mathematical counterexample.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D28>F017",
+        "pair": "D28|F017",
+        "reverse": "F017>D28",
+        "source": "D28",
+        "target": "F017",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "305dfa032d597a81100149bd4fc0d79fbd804fa56bab18381d9629df78d91d66"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D criterion determines whether the differing observation is consequential: quantity semantics and intent identity are material, while the chosen display label is not. It also identifies the invalid eligibility claim contradicted by two compatible pinned workers.",
+        "guard": "The criterion defines the violated property and admissible pairing before blame. If the consumer legitimately needs only parsing, the copy is not a counterexample to that narrower requirement.",
+        "contrary_control": "A label-only change gives different artifact bytes without changing the named semantics. It challenges a blanket changed-hash-equals-semantic-defect rule; a version interpretation change with identical numbers does change semantics.",
+        "nontrigger_or_cheaper_alternative": "One transparent failing input suffices for the universal copy claim; no industrial incident collection or broad fault exercise is needed for this mathematical counterexample.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F017>D39",
+        "pair": "D39|F017",
+        "reverse": "D39>F017",
+        "source": "F017",
+        "target": "D39",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "DISCRIMINATING_COUNTEREXAMPLE_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "305dfa032d597a81100149bd4fc0d79fbd804fa56bab18381d9629df78d91d66"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The concrete v1 history with quantity100 has observation1; a copied v2 history has observation1/10. This is a feasible counterexample to semantic preservation for this transformer and interpretation, rather than an abstract or unbound deployment allegation.",
+        "guard": "The required observation really is quantity plus ordered intent; both records are valid in the constructed source/target domains. Attribution is to the constructed copy transformer only. No real workflow-engine defect or empirical rate is inferred.",
+        "contrary_control": "A label-only change gives different artifact bytes without changing the named semantics. It challenges a blanket changed-hash-equals-semantic-defect rule; a version interpretation change with identical numbers does change semantics.",
+        "nontrigger_or_cheaper_alternative": "One transparent failing input suffices for the universal copy claim; no industrial incident collection or broad fault exercise is needed for this mathematical counterexample.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D39>F017",
+        "pair": "D39|F017",
+        "reverse": "F017>D39",
+        "source": "D39",
+        "target": "F017",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "305dfa032d597a81100149bd4fc0d79fbd804fa56bab18381d9629df78d91d66"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D criterion determines whether the differing observation is consequential: quantity semantics and intent identity are material, while the chosen display label is not. It also identifies the invalid eligibility claim contradicted by two compatible pinned workers.",
+        "guard": "The criterion defines the violated property and admissible pairing before blame. If the consumer legitimately needs only parsing, the copy is not a counterexample to that narrower requirement.",
+        "contrary_control": "A label-only change gives different artifact bytes without changing the named semantics. It challenges a blanket changed-hash-equals-semantic-defect rule; a version interpretation change with identical numbers does change semantics.",
+        "nontrigger_or_cheaper_alternative": "One transparent failing input suffices for the universal copy claim; no industrial incident collection or broad fault exercise is needed for this mathematical counterexample.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F027>D28",
+        "pair": "D28|F027",
+        "reverse": "D28>F027",
+        "source": "F027",
+        "target": "D28",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "TYPE_CLAIM_SCOPE_CONSTRAINT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "973fd0dc0c0a65eaf3cf737637785c82d05566ce3158683abdad974c3c4d0498"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "For the actual history data model, the ordinary representation type is(version in{1,2}, list of(string intent, integer quantity)). The copy preserves that type but not the required interpreted quantity, so that typing fact cannot be credited as migration compatibility.",
+        "guard": "The analytical typing judgment concerns this explicit data model only: retaining integer values and string intents preserves its representation type for every finite list. It is not a formal soundness theorem for Python, a compiler or an unstated language. NX08 parsing is the executable representation predicate; the semantic relation is separate.",
+        "contrary_control": "Both correct scaling and wrong copying retain integer fields. The counterexample does not refute the typing fact; it refutes extending that fact to an unstated functional relation.",
+        "nontrigger_or_cheaper_alternative": "Keep ordinary representation checks and add the direct semantic equality check only where required. Encoding the entire migration policy in dependent types is not automatically cheaper.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D28>F027",
+        "pair": "D28|F027",
+        "reverse": "F027>D28",
+        "source": "D28",
+        "target": "F027",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "973fd0dc0c0a65eaf3cf737637785c82d05566ce3158683abdad974c3c4d0498"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D criterion identifies the missing value relation and intent/order semantics that ordinary representation typing does not express. It thereby limits the actual application credit of a type result, while retaining valid representation safety.",
+        "guard": "A richer unit/refinement type may express the necessary relation and would need its own proof and faithful interpretation. D28/D39 do not imply a typing theorem or prohibit such richer types.",
+        "contrary_control": "Both correct scaling and wrong copying retain integer fields. The counterexample does not refute the typing fact; it refutes extending that fact to an unstated functional relation.",
+        "nontrigger_or_cheaper_alternative": "Keep ordinary representation checks and add the direct semantic equality check only where required. Encoding the entire migration policy in dependent types is not automatically cheaper.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F027>D39",
+        "pair": "D39|F027",
+        "reverse": "D39>F027",
+        "source": "F027",
+        "target": "D39",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "TYPE_CLAIM_SCOPE_CONSTRAINT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "973fd0dc0c0a65eaf3cf737637785c82d05566ce3158683abdad974c3c4d0498"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "For the actual history data model, the ordinary representation type is(version in{1,2}, list of(string intent, integer quantity)). The copy preserves that type but not the required interpreted quantity, so that typing fact cannot be credited as migration compatibility.",
+        "guard": "The analytical typing judgment concerns this explicit data model only: retaining integer values and string intents preserves its representation type for every finite list. It is not a formal soundness theorem for Python, a compiler or an unstated language. NX08 parsing is the executable representation predicate; the semantic relation is separate.",
+        "contrary_control": "Both correct scaling and wrong copying retain integer fields. The counterexample does not refute the typing fact; it refutes extending that fact to an unstated functional relation.",
+        "nontrigger_or_cheaper_alternative": "Keep ordinary representation checks and add the direct semantic equality check only where required. Encoding the entire migration policy in dependent types is not automatically cheaper.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D39>F027",
+        "pair": "D39|F027",
+        "reverse": "F027>D39",
+        "source": "D39",
+        "target": "F027",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "973fd0dc0c0a65eaf3cf737637785c82d05566ce3158683abdad974c3c4d0498"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The D criterion identifies the missing value relation and intent/order semantics that ordinary representation typing does not express. It thereby limits the actual application credit of a type result, while retaining valid representation safety.",
+        "guard": "A richer unit/refinement type may express the necessary relation and would need its own proof and faithful interpretation. D28/D39 do not imply a typing theorem or prohibit such richer types.",
+        "contrary_control": "Both correct scaling and wrong copying retain integer fields. The counterexample does not refute the typing fact; it refutes extending that fact to an unstated functional relation.",
+        "nontrigger_or_cheaper_alternative": "Keep ordinary representation checks and add the direct semantic equality check only where required. Encoding the entire migration policy in dependent types is not automatically cheaper.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F046>D28",
+        "pair": "D28|F046",
+        "reverse": "D28>F046",
+        "source": "F046",
+        "target": "D28",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "REJECTED_UNIVERSAL_WITH_GUARDED_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P046",
+          "native_pointer": "/properties/45/native_record",
+          "current_pointer": "/properties/45/current_claim",
+          "current_object_sha256": "59442e9028fb2a48df1b33faa747cadb0007ccf587497be9f01b1d24833755de"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The native rejection of type-safety-implies-all-functionality supplies a material boundary for this particular migration: safe/valid representation alone cannot resolve old/new unit meaning. This guarded contribution remains useful despite the native universal being rejected.",
+        "guard": "Use the same explicitly defined representation judgment and intended semantic relation as NX08; do not relabel schema validation as a general language-soundness proof. Preserve the legitimate narrower type fact and allow a specification-rich type to establish what it actually encodes.",
+        "contrary_control": "Wrong and correct transformations are identically representation-typed, while the observation relation differs. This is a functional counterexample, not evidence that type checking is worthless.",
+        "nontrigger_or_cheaper_alternative": "Use ordinary type checks for their actual error class and direct relation checking for units/intent. Retain an already sufficient richer type contract if its semantics actually subsumes this check.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D28>F046",
+        "pair": "D28|F046",
+        "reverse": "F046>D28",
+        "source": "D28",
+        "target": "F046",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P046",
+          "native_pointer": "/properties/45/native_record",
+          "current_pointer": "/properties/45/current_claim",
+          "current_object_sha256": "59442e9028fb2a48df1b33faa747cadb0007ccf587497be9f01b1d24833755de"
+        },
+        "receiving_native_role": {
+          "shared_object": "The eligible execution/migration path for each live workflow history, including ordered intent and quantity semantics.",
+          "partial_role": "A migration-validity premise for a named history; it need not establish every worker/history pairing or any external effect.",
+          "criterion": "A history retains a compatible pinned worker or a migration preserving its required command observations. In NX08 W1 serves v1 and W2 serves v2; all four pairings are not required.",
+          "residual": "Actual routing, worker lifetime, retained dependencies, replay status, crash durability, external-effect identity, deployment and authority remain separate."
+        },
+        "source_contribution_and_receiving_change": "The distributed migration requirement gives a concrete functional proposition against which a typing claim is evaluated. It distinguishes a legitimate representation result from the unsupported semantic-compatibility extension.",
+        "guard": "The receiver F046 concerns the actual implication being claimed. D28/D39 supply that missing requirement; they do not prove type soundness or require extra proof for an already adequate representation-only task.",
+        "contrary_control": "Wrong and correct transformations are identically representation-typed, while the observation relation differs. This is a functional counterexample, not evidence that type checking is worthless.",
+        "nontrigger_or_cheaper_alternative": "Use ordinary type checks for their actual error class and direct relation checking for units/intent. Retain an already sufficient richer type contract if its semantics actually subsumes this check.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F046>D39",
+        "pair": "D39|F046",
+        "reverse": "D39>F046",
+        "source": "F046",
+        "target": "D39",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "REJECTED_UNIVERSAL_WITH_GUARDED_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P046",
+          "native_pointer": "/properties/45/native_record",
+          "current_pointer": "/properties/45/current_claim",
+          "current_object_sha256": "59442e9028fb2a48df1b33faa747cadb0007ccf587497be9f01b1d24833755de"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The native rejection of type-safety-implies-all-functionality supplies a material boundary for this particular migration: safe/valid representation alone cannot resolve old/new unit meaning. This guarded contribution remains useful despite the native universal being rejected.",
+        "guard": "Use the same explicitly defined representation judgment and intended semantic relation as NX08; do not relabel schema validation as a general language-soundness proof. Preserve the legitimate narrower type fact and allow a specification-rich type to establish what it actually encodes.",
+        "contrary_control": "Wrong and correct transformations are identically representation-typed, while the observation relation differs. This is a functional counterexample, not evidence that type checking is worthless.",
+        "nontrigger_or_cheaper_alternative": "Use ordinary type checks for their actual error class and direct relation checking for units/intent. Retain an already sufficient richer type contract if its semantics actually subsumes this check.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D39>F046",
+        "pair": "D39|F046",
+        "reverse": "F046>D39",
+        "source": "D39",
+        "target": "F046",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "APPLICATION_CRITERION_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P046",
+          "native_pointer": "/properties/45/native_record",
+          "current_pointer": "/properties/45/current_claim",
+          "current_object_sha256": "59442e9028fb2a48df1b33faa747cadb0007ccf587497be9f01b1d24833755de"
+        },
+        "receiving_native_role": {
+          "shared_object": "Meaning of quantities and intent IDs across the versioned interactions actually admitted during coexistence, replay and rollback.",
+          "partial_role": "Semantic compatibility of the selected old/new history representation, beyond successful parsing of integer fields.",
+          "criterion": "Admitted producer/consumer or history/worker pairings preserve required observations, or a cutover excludes the incompatible pair. NX08 explicitly compares quantities in two units.",
+          "residual": "Wire/parser/compiler correspondence, real rollout inventory, unknown-field behavior, failure recovery, downstream transformations and rollback of new writes remain separate."
+        },
+        "source_contribution_and_receiving_change": "The distributed migration requirement gives a concrete functional proposition against which a typing claim is evaluated. It distinguishes a legitimate representation result from the unsupported semantic-compatibility extension.",
+        "guard": "The receiver F046 concerns the actual implication being claimed. D28/D39 supply that missing requirement; they do not prove type soundness or require extra proof for an already adequate representation-only task.",
+        "contrary_control": "Wrong and correct transformations are identically representation-typed, while the observation relation differs. This is a functional counterexample, not evidence that type checking is worthless.",
+        "nontrigger_or_cheaper_alternative": "Use ordinary type checks for their actual error class and direct relation checking for units/intent. Retain an already sufficient richer type contract if its semantics actually subsumes this check.",
+        "case": {
+          "path": "analysis_r8/MIGRATION_MODEL_OUTPUT.json",
+          "id": "NX08"
+        },
+        "common_exact_alias": {
+          "path": "analysis_r8/MIGRATION_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      }
+    ],
+    "added_directions": 28
+  }
+}
