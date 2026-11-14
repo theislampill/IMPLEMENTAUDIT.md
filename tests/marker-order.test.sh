@@ -163,4 +163,32 @@ if bash scripts/check-marker-order.sh "$tmp/gaps-after-complete.md" >/dev/null 2
   exit 1
 fi
 
+# A corrected audit starts a fresh nonterminal round before its sole closure.
+cat >"$tmp/two-round-valid.md" <<'EOF'
+AUDIT_START
+AUDIT_VERIFY
+AUDIT_GAPS
+AUDIT_START
+AUDIT_VERIFY
+AUDIT_COMPLETE
+IMPLEMENTAUDIT_RUN_COMPLETE
+EOF
+
+bash scripts/check-marker-order.sh "$tmp/two-round-valid.md"
+
+cat >"$tmp/two-round-wrong-final-order.md" <<'EOF'
+AUDIT_START
+AUDIT_VERIFY
+AUDIT_GAPS
+AUDIT_START
+AUDIT_VERIFY
+IMPLEMENTAUDIT_RUN_COMPLETE
+AUDIT_COMPLETE
+EOF
+
+if bash scripts/check-marker-order.sh "$tmp/two-round-wrong-final-order.md" >/dev/null 2>&1; then
+  printf 'marker-order.test: expected wrong final order after correction to fail\n' >&2
+  exit 1
+fi
+
 printf 'marker-order.test: ok\n'

@@ -104,14 +104,15 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-audit-pending.py",
-      "bytes": 62044,
-      "sha256": "0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986",
+      "bytes": 65426,
+      "sha256": "e748ebae90de3d9ae4775dbf6b4138edcb2d3ece4a2d10089040d532e4768308",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": "bbb6e9707a351531809708ce427056ce77560df4351de9ed64b48aff41a12329",
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97"
+      "source_delta_sha256": "efa76b9360b07f751481a5240c6ef6ddc4a0073755b35881041e1d9864885a97",
+      "additional_delta": "R0033 portable pending path custody: preserve genuine absence; refuse lexically present unsafe leaf or ancestor before interpreting an empty state. Applied to SHA256 0c673a96c86a131d73cb8dbf4ec0dce124943fd2f2c72c7b26af9a024249a986; original generic projection provenance retained. Further R0033 pending-owned correction on caca3f0a: decode one admitted bounded UTF-8 buffer with the existing duplicate-key hook; preserve lexical/path/regular-file custody and shared H0 source. No native admission or consumption claim. Further R0033 pending-owned correction on 50a67ea7: validate every stored observation counter as an exact integer, with version positive and consumed_version between zero and version, before deciding whether work is pending. Generic projection provenance and native authority boundaries are unchanged. Further R0033 stored-loader receiving on 2361a002 from PR252 f74a7c66 owner law: deny nonfinite JSON before state return while preserving counter-domain diagnostic precedence; close before/opened/after/live-path physical witnesses around the original bounded os.read buffer. Shared request/native behavior and one-open read-domain semantics are unchanged. Further R0033 stored-loader correction on 3ce71493: require revision, signals and unresolved_signal_version to be exact nonnegative integers before a decision or mutation, preserving earlier shape, observation-counter and nonfinite diagnostic precedence. Ordinary malformed-state refusal only; no native signal event or actual obligation-loss claim."
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",

@@ -20,9 +20,12 @@ def exact_files(directory: Path, suffix: str) -> dict[str, Path]:
         return {}
     result: dict[str, Path] = {}
     for path in directory.iterdir():
-        if path.is_symlink() or not path.is_file() or path.suffix != suffix:
+        if path.suffix != suffix:
             continue
-        result[path.stem] = path
+        if path.is_symlink():
+            fail(f"standalone child entry must not be a symlink: {path.name}")
+        if path.is_file():
+            result[path.stem] = path
     return result
 
 
@@ -32,14 +35,20 @@ def canonical_children(governor: Path) -> dict[str, Path]:
         return {}
     result: dict[str, Path] = {}
     for name in CHILDREN:
-        path = skill_root / name / "SKILL.md"
+        directory = skill_root / name
+        if directory.is_symlink():
+            fail(f"canonical child directory must not be a symlink: {name}")
+        path = directory / "SKILL.md"
         if path.is_file() and not path.is_symlink():
             result[name] = path
-    observed = {
-        path.parent.name
-        for path in skill_root.glob("*/SKILL.md")
-        if path.is_file() and not path.is_symlink() and path.parent.name != "implementaudit"
-    }
+    observed = set()
+    for path in skill_root.glob("*/SKILL.md"):
+        if path.parent.name == "implementaudit":
+            continue
+        if path.is_symlink() or path.parent.is_symlink():
+            fail(f"canonical child entry must not be a symlink: {path.parent.name}")
+        if path.is_file():
+            observed.add(path.parent.name)
     if not observed:
         return {}
     if observed != set(CHILDREN):
@@ -53,7 +62,7 @@ def canonical_children(governor: Path) -> dict[str, Path]:
 def standalone_children(governor: Path) -> dict[str, Path]:
     directory = governor.parent / "internal-procedures"
     observed = exact_files(directory, ".md")
-    if not observed and not directory.exists():
+    if not observed and not directory.exists() and not directory.is_symlink():
         return {}
     if set(observed) != set(CHILDREN):
         fail(
@@ -81,8 +90,10 @@ def resolve(governor: Path, child: str) -> Path:
     if child not in CHILDREN:
         fail(f"unknown child: {child}")
     requested = governor.absolute()
-    if requested.is_symlink():
-        fail("governor must not be a symlink")
+    if requested.is_symlink() or requested.parent.is_symlink():
+        fail("governor and its directory must not be symlinks")
+    if requested.parent.parent.name == "skills" and requested.parent.parent.is_symlink():
+        fail("package skills directory must not be a symlink")
     try:
         governor = requested.resolve(strict=True)
     except OSError as exc:
@@ -96,10 +107,19 @@ def resolve(governor: Path, child: str) -> Path:
         fail(f"ambiguous plugin/standalone precedence: {peer}")
 
     standalone = standalone_children(governor)
+    if standalone and governor.parent.parent.name == "skills":
+        # A standalone host may have unrelated user skills. Reserved child
+        # siblings, including incomplete or dangling peers, are competing
+        # IMPLEMENTAUDIT populations and cannot silently lose precedence.
+        siblings = [governor.parent.parent / name for name in CHILDREN]
+        if any(path.exists() or path.is_symlink() for path in siblings):
+            fail("ambiguous canonical/standalone child populations")
     selected = standalone if standalone else canonical_children(governor)
     if not selected:
         fail("executing package layout is missing or incomplete")
     path = selected[child].resolve(strict=True)
+    if path != selected[child]:
+        fail("selected child escaped the exact package-local path")
     print(path)
     return path
 

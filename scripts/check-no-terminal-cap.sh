@@ -98,6 +98,9 @@ DIRECT_STRIKE_CAP_PATTERNS = [
     r"\bstrikes?\s+(?:counter|count|cap|limit)\b",
     r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+strikes?\b.*\b(?:stop|stops|block|blocks|handoff|hands\s+off|terminate|terminates|fail|fails|close|closes)\b",
 ]
+DIRECT_RETRY_CAP_PATTERNS = [
+    r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+(?:retry|retries)\b.*\b(?:stop|stops|block|blocks|handoff|hand\s+off|hands\s+off|terminate|terminates|fail|fails|close|closes)\b",
+]
 
 ALWAYS_FORBIDDEN = [
     "no subsequent phases execute",
@@ -145,11 +148,12 @@ for path in paths:
             STRIKE_POLICY_CONTEXT, lowered
         )
         direct_strike_cap = any(re.search(pattern, lowered) for pattern in DIRECT_STRIKE_CAP_PATTERNS)
-        if (counted_strike_policy or direct_strike_cap) and not any(
+        direct_retry_cap = any(re.search(pattern, lowered) for pattern in DIRECT_RETRY_CAP_PATTERNS)
+        if (counted_strike_policy or direct_strike_cap or direct_retry_cap) and not any(
             context in lowered for context in NEGATED_CONTEXT
         ):
             violations.append(
-                f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: counted/capped strike policy"
+                f"{path.as_posix()}:{lineno}: disallowed public-claim terminal-cap wording: counted/capped retry or strike policy"
             )
         if (
             "first" in lowered

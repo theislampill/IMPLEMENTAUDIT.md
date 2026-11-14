@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import stat
@@ -156,11 +157,75 @@ def blank(session):
 
 def load(store, session):
     path = state_path(store, session)
-    if not path.exists():
+    if not os.path.lexists(path):
+        # A missing leaf under an alias is unavailable custody, not empty state.
+        ancestor = path.parent
+        while not os.path.lexists(ancestor):
+            ancestor = ancestor.parent
+        CORE.safe_existing_directory(str(ancestor), 'compaction audit pending state ancestor')
         return blank(session)
-    require(path.stat().st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
-    value = CORE.read_json(path, 'compaction audit pending state')
+    info = path.lstat()
+    if CORE.unsafe_file(info):
+        CORE.fail('compaction audit pending state is not a safe regular file')
+    require(info.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+    CORE.safe_existing_directory(str(path.parent), 'compaction audit pending state')
+    stamp = lambda item: (item.st_dev, item.st_ino, item.st_mode, item.st_nlink,
+                          item.st_size, item.st_mtime_ns, item.st_ctime_ns)
+    flags = os.O_RDONLY | getattr(os, 'O_NOFOLLOW', 0) | getattr(os, 'O_NONBLOCK', 0) | getattr(os, 'O_BINARY', 0)
+    descriptor = os.open(path, flags)
+    try:
+        opened = os.fstat(descriptor)
+        if CORE.unsafe_file(opened):
+            CORE.fail('compaction audit pending state is not a safe regular file')
+        require(stamp(opened) == stamp(info), 'PENDING_STATE_CHANGED_DURING_READ')
+        require(opened.st_size <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+        # One admitted descriptor supplies the bounded UTF-8 buffer to decode.
+        raw = bytearray()
+        while len(raw) <= MAX_STATE:
+            chunk = os.read(descriptor, min(65536, MAX_STATE + 1 - len(raw)))
+            if not chunk:
+                break
+            raw.extend(chunk)
+        require(len(raw) <= MAX_STATE, 'PENDING_STATE_BYTE_BOUND')
+        require(stamp(os.fstat(descriptor)) == stamp(info) and len(raw) == info.st_size,
+                'PENDING_STATE_CHANGED_DURING_READ')
+    finally:
+        os.close(descriptor)
+    require(stamp(path.lstat()) == stamp(info), 'PENDING_STATE_CHANGED_DURING_READ')
+    CORE.safe_existing_directory(str(path.parent), 'compaction audit pending state')
+    nonfinite_reason = None
+
+    def reject_nonfinite(reason):
+        nonlocal nonfinite_reason
+        if nonfinite_reason is None:
+            nonfinite_reason = reason
+        return None
+
+    def finite_number(token):
+        number = float(token)
+        return number if math.isfinite(number) else reject_nonfinite('PENDING_STATE_JSON_NUMBER')
+
+    try:
+        value = json.loads(raw.decode('utf-8'), object_pairs_hook=unique,
+                           parse_float=finite_number,
+                           parse_constant=lambda _: reject_nonfinite('PENDING_STATE_JSON_CONSTANT'))
+    except (UnicodeError, json.JSONDecodeError) as exc:
+        CORE.fail('compaction audit pending state is unreadable or malformed: ' + str(exc))
+    if not isinstance(value, dict):
+        CORE.fail('compaction audit pending state is not an object')
     require(set(blank(session)) <= set(value) <= set(blank(session)) | {'current_assignment', 'successor_stage', 'successor_assignment'} and value['schema'] == SCHEMA and (value['session_id'] == session) and (type(value['revision']) is int) and isinstance(value['observations'], dict) and isinstance(value['assignments'], dict), 'PENDING_STATE_SHAPE')
+    for item in value['observations'].values():
+        require(isinstance(item, dict) and type(item.get('version')) is int and item['version'] > 0
+                and type(item.get('consumed_version')) is int
+                and 0 <= item['consumed_version'] <= item['version'],
+                'PENDING_OBSERVATION_COUNTERS')
+    # Keep the existing counter-domain refusal, then deny every other nonfinite
+    # token before stored state can reach a decision or mutation.
+    if nonfinite_reason is not None:
+        raise Refusal(nonfinite_reason)
+    require(all(type(value[key]) is int and value[key] >= 0
+                for key in ('revision', 'signals', 'unresolved_signal_version')),
+            'PENDING_STATE_COUNTERS')
     return value
 
 def save(store, state):

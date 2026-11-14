@@ -4,6 +4,9 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$repo_root"
 
+PYTHONDONTWRITEBYTECODE=1 python3 tests/evidential-support-cases.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/internal-skill-resolver-custody.py
+
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
@@ -109,7 +112,9 @@ for token in (
     "already-known cheap deterministic failure",
     "new constraint defeats the selected countermeasure",
     "fresh `audit-andon` route",
-    "fresh `audit-implement` route",
+    "execution/repair remains governor-owned",
+    "separately warranted exact claim",
+    "branch-specific admission/currentness gates",
 ):
     require(transcript, token, transcript_path.as_posix())
 
@@ -275,6 +280,10 @@ fi
 
 printf 'internal-skill-routing.test: resolver controls ok\n'
 
+python tests/cognition-obligation-cases.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-pending-durability.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-pending-loader.py
+
 python - <<'PY'
 from __future__ import annotations
 
@@ -292,10 +301,19 @@ class Event:
 
 
 def accepts(events: list[Event]) -> bool:
+    # This is the routing-observability oracle, not native admission or result
+    # consumption. Required observations are explicit fixture inputs; a receipt
+    # or governor-equivalent narration cannot silently erase that obligation.
+    boundaries = [(index, event.value) for index, event in enumerate(events)
+                  if event.kind == "completed-resumed-boundary"]
+    # The proved completed event entails the obligation even if its projection
+    # is absent. This fixture oracle does not authenticate the event itself.
+    required = sorted({event.value for event in events if event.kind == "required-obligation"}
+                      | {value for _index, value in boundaries})
     loads = [(index, event) for index, event in enumerate(events) if event.kind == "child-loaded"]
     announces = [(index, event) for index, event in enumerate(events) if event.kind == "route-announcement"]
     if not loads:
-        return not announces
+        return not announces and not required
     if len(loads) != 1 or len(announces) != 1:
         return False
     load_index, load = loads[0]
@@ -304,15 +322,25 @@ def accepts(events: list[Event]) -> bool:
         return False
     if load.value == "audit-state":
         receipts = [(index, event) for index, event in enumerate(events) if event.kind == "verified-receipt"]
-        if len(receipts) != 1 or receipts[0][0] >= load_index:
-            return False
+        if len(receipts) == 1 and receipts[0][0] < load_index:
+            gate_index = receipts[0][0]
+        else:
+            selected = [(index, value) for index, value in boundaries if value in required and index < load_index]
+            if (len(receipts) != 0 or len(required) != 1 or len(selected) != 1
+                    or not any(event.kind == "currentness-unresolved" for event in events[:load_index])
+                    or not any(event.kind == "authority-ceiling" and event.value == "NONE"
+                               for event in events[:load_index])):
+                return False
+            gate_index = selected[0][0]
         first_permitted_message = min(
             (event.message for index, event in enumerate(events)
-             if index > receipts[0][0] and event.kind == "assistant-narration"),
+             if index > gate_index and event.kind == "assistant-narration"),
             default=announce.message,
         )
         if announce.message != first_permitted_message:
             return False
+    elif required:
+        return False
     return True
 
 
@@ -346,6 +374,57 @@ cases = {
     "governor-only-equivalent-reasoning": (
         True,
         [Event("verified-receipt"), Event("assistant-narration", "state-like", 1)],
+    ),
+    "completed-boundary-without-projection-cannot-use-governor": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("verified-receipt"),
+         Event("assistant-narration", "state-like", 1)],
+    ),
+    "completed-boundary-without-projection-cannot-load-assess": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("child-loaded", "audit-assess"),
+         Event("route-announcement", "audit-assess", 1)],
+    ),
+    "completed-boundary-without-projection-retains-bounded-route": (
+        True,
+        [Event("completed-resumed-boundary", "b1"), Event("currentness-unresolved"),
+         Event("authority-ceiling", "NONE"), Event("child-loaded", "audit-state"),
+         Event("route-announcement", "audit-state", 1)],
+    ),
+    "required-boundary-cannot-use-governor-substitution": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("required-obligation", "b1"),
+         Event("verified-receipt"), Event("assistant-narration", "state-like", 1)],
+    ),
+    "required-boundary-unresolved-bounded-load": (
+        True,
+        [Event("completed-resumed-boundary", "b1"), Event("required-obligation", "b1"),
+         Event("currentness-unresolved"), Event("authority-ceiling", "NONE"),
+         Event("child-loaded", "audit-state"), Event("route-announcement", "audit-state", 1),
+         Event("assistant-narration", message=1)],
+    ),
+    "unresolved-without-completed-boundary-refuses": (
+        False,
+        [Event("required-obligation", "b1"), Event("currentness-unresolved"),
+         Event("authority-ceiling", "NONE"), Event("child-loaded", "audit-state"),
+         Event("route-announcement", "audit-state", 1)],
+    ),
+    "unresolved-foreign-boundary-refuses": (
+        False,
+        [Event("completed-resumed-boundary", "b2"), Event("required-obligation", "b1"),
+         Event("currentness-unresolved"), Event("authority-ceiling", "NONE"),
+         Event("child-loaded", "audit-state"), Event("route-announcement", "audit-state", 1)],
+    ),
+    "unresolved-authority-claim-refuses": (
+        False,
+        [Event("completed-resumed-boundary", "b1"), Event("required-obligation", "b1"),
+         Event("currentness-unresolved"), Event("authority-ceiling", "MUTATION"),
+         Event("child-loaded", "audit-state"), Event("route-announcement", "audit-state", 1)],
+    ),
+    "required-state-obligation-cannot-load-other-child": (
+        False,
+        [Event("required-obligation", "b1"), Event("child-loaded", "audit-assess"),
+         Event("route-announcement", "audit-assess", 1)],
     ),
     "false-route-announcement": (
         False,
@@ -388,24 +467,33 @@ print(f"internal-skill-routing.test: routing observability controls ok ({len(cas
 
 
 def accepts_secondary_abnormality(events: list[Event]) -> bool:
+    # Supplied-event composition only: a matching qualification-admission is a
+    # projection of existing branch-specific mechanical gates, not their issuer
+    # or a second validator. Neither this fixture nor its events authenticate
+    # native selection, loading, return, currentness or acceptance.
     active = ""
     last_kind = ""
+    needs_rederive = False
     defeated = False
     andon_after_defeat = False
     repair_warranted = False
-    implement_after_repair = False
+    qualification_claim = ""
+    qualification_admission = ""
     for index, event in enumerate(events):
         if event.kind == "governor-route":
-            if active or event.value not in CHILDREN:
+            if active or needs_rederive or event.value not in CHILDREN:
+                return False
+            if event.value == "audit-implement" and (
+                not qualification_claim or qualification_admission != qualification_claim
+            ):
                 return False
         elif event.kind == "child-loaded":
             if active or last_kind != "governor-route" or events[index - 1].value != event.value:
                 return False
             active = event.value
+            qualification_claim = qualification_admission = ""
             if defeated and event.value == "audit-andon":
                 andon_after_defeat = True
-            if repair_warranted and event.value == "audit-implement":
-                implement_after_repair = True
         elif event.kind == "verification-result":
             if active != "audit-implement":
                 return False
@@ -418,25 +506,63 @@ def accepts_secondary_abnormality(events: list[Event]) -> bool:
             if not active:
                 return False
             active = ""
+            needs_rederive = True
+            qualification_claim = qualification_admission = ""
         elif event.kind == "governor-rederive":
             if active or last_kind != "child-return":
                 return False
+            needs_rederive = False
+        elif event.kind == "qualification-claim":
+            if active or needs_rederive or not event.value:
+                return False
+            qualification_claim = event.value
+            qualification_admission = ""
+        elif event.kind == "qualification-admission":
+            if active or needs_rederive or not qualification_claim or event.value != qualification_claim:
+                return False
+            qualification_admission = event.value
+        elif event.kind == "governor-repair":
+            if active or needs_rederive or not repair_warranted or event.value != "progressive-reference":
+                return False
+            qualification_claim = qualification_admission = ""
+            repair_warranted = False
         last_kind = event.kind
-    if active:
+    if active or needs_rederive:
         return False
     if defeated and not andon_after_defeat:
         return False
-    if repair_warranted and not implement_after_repair:
-        return False
+    # A repair recommendation can return to the governor without qualification.
     return True
 
+
+initial_qualification = [
+    Event("qualification-claim", "initial-candidate"),
+    Event("qualification-admission", "initial-candidate"),
+    Event("governor-route", "audit-implement"),
+    Event("child-loaded", "audit-implement"),
+]
+defeated_return = initial_qualification + [
+    Event("verification-result", "countermeasure-defeated"),
+    Event("child-return"),
+    Event("governor-rederive"),
+]
+repair_diagnosis = defeated_return + [
+    Event("governor-route", "audit-andon"),
+    Event("child-loaded", "audit-andon"),
+    Event("diagnosis", "repair-warranted"),
+]
+repair_return = repair_diagnosis + [Event("child-return"), Event("governor-rederive")]
+qualification_route = [
+    Event("governor-route", "audit-implement"),
+    Event("child-loaded", "audit-implement"),
+    Event("child-return"),
+    Event("governor-rederive"),
+]
 
 secondary_cases = {
     "known-cheap-report-needs-no-model-child": (
         True,
-        [
-            Event("governor-route", "audit-implement"),
-            Event("child-loaded", "audit-implement"),
+        initial_qualification + [
             Event("verification-result", "known-deterministic"),
             Event("child-return"),
             Event("governor-rederive"),
@@ -444,12 +570,7 @@ secondary_cases = {
     ),
     "new-constraint-defeats-countermeasure-routes-andon": (
         True,
-        [
-            Event("governor-route", "audit-implement"),
-            Event("child-loaded", "audit-implement"),
-            Event("verification-result", "countermeasure-defeated"),
-            Event("child-return"),
-            Event("governor-rederive"),
+        defeated_return + [
             Event("governor-route", "audit-andon"),
             Event("child-loaded", "audit-andon"),
             Event("diagnosis", "no-repair"),
@@ -457,8 +578,9 @@ secondary_cases = {
             Event("governor-rederive"),
         ],
     ),
-    "andon-warrants-fresh-governor-routed-implement": (
-        True,
+    # Exact predecessor wrong-positive trace retained as a negative witness.
+    "original-diagnosis-only-qualification-is-red": (
+        False,
         [
             Event("governor-route", "audit-implement"),
             Event("child-loaded", "audit-implement"),
@@ -478,12 +600,90 @@ secondary_cases = {
     ),
     "direct-child-to-child-is-red": (
         False,
-        [
-            Event("governor-route", "audit-implement"),
-            Event("child-loaded", "audit-implement"),
+        initial_qualification + [
             Event("verification-result", "countermeasure-defeated"),
             Event("child-loaded", "audit-andon"),
         ],
+    ),
+    "repair-return-needs-no-qualification-child": (True, repair_return),
+    "repair-stays-with-governor-reference": (
+        True,
+        repair_return + [Event("governor-repair", "progressive-reference")],
+    ),
+    "later-independent-claim-with-current-admission": (
+        True,
+        repair_return + [
+            Event("governor-repair", "progressive-reference"),
+            Event("qualification-claim", "repaired-candidate"),
+            Event("qualification-admission", "repaired-candidate"),
+        ] + qualification_route,
+    ),
+    "separate-evidential-claim-without-repair-execution": (
+        True,
+        repair_return + [
+            Event("qualification-claim", "constraint-proposition"),
+            Event("qualification-admission", "constraint-proposition"),
+        ] + qualification_route,
+    ),
+    "diagnosis-alone-does-not-admit-qualification": (
+        False, repair_return + qualification_route,
+    ),
+    "separate-claim-without-admission-refuses": (
+        False, repair_return + [Event("qualification-claim", "repaired-candidate")] + qualification_route,
+    ),
+    "admission-without-separate-claim-refuses": (
+        False, repair_return + [Event("qualification-admission", "repaired-candidate")] + qualification_route,
+    ),
+    "foreign-claim-admission-refuses": (
+        False,
+        repair_return + [
+            Event("qualification-claim", "repaired-candidate"),
+            Event("qualification-admission", "other-candidate"),
+        ] + qualification_route,
+    ),
+    "pre-andon-admission-cannot-cross-return": (
+        False,
+        defeated_return + [
+            Event("qualification-claim", "next-candidate"),
+            Event("qualification-admission", "next-candidate"),
+            Event("governor-route", "audit-andon"),
+            Event("child-loaded", "audit-andon"),
+            Event("diagnosis", "repair-warranted"),
+            Event("child-return"),
+            Event("governor-rederive"),
+        ] + qualification_route,
+    ),
+    "child-cannot-supply-qualification-admission": (
+        False,
+        repair_diagnosis + [
+            Event("qualification-claim", "repaired-candidate"),
+            Event("qualification-admission", "repaired-candidate"),
+            Event("child-return"),
+            Event("governor-rederive"),
+        ] + qualification_route,
+    ),
+    "post-return-qualification-needs-rederivation": (
+        False,
+        repair_diagnosis + [
+            Event("child-return"),
+            Event("qualification-claim", "repaired-candidate"),
+            Event("qualification-admission", "repaired-candidate"),
+        ] + qualification_route,
+    ),
+    "governor-repair-needs-return-and-rederivation": (
+        False,
+        repair_diagnosis + [
+            Event("child-return"),
+            Event("governor-repair", "progressive-reference"),
+        ],
+    ),
+    "repair-invalidates-earlier-qualification-admission": (
+        False,
+        repair_return + [
+            Event("qualification-claim", "candidate-before-repair"),
+            Event("qualification-admission", "candidate-before-repair"),
+            Event("governor-repair", "progressive-reference"),
+        ] + qualification_route,
     ),
 }
 
@@ -500,3 +700,6 @@ print(
     f"({len(secondary_cases)}/{len(secondary_cases)})"
 )
 PY
+
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-lifecycle-composition.py
+PYTHONDONTWRITEBYTECODE=1 python3 tests/cognition-delivery-capture.py
