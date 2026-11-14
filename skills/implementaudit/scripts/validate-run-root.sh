@@ -19,7 +19,7 @@ if [ "${1:-}" = "--turn-disposition" ]; then
   elif command -v py >/dev/null 2>&1; then disposition_py=(py -3 -B)
   else printf 'validate-run-root: Python required for disposition records\n' >&2; exit 2; fi
   "${disposition_py[@]}" - "${BASH_SOURCE[0]}" "$@" <<'PYDISPOSITION'
-import argparse,concurrent.futures,hashlib,json,os,re,signal,stat,subprocess,sys,tempfile,threading,time
+import argparse,concurrent.futures,hashlib,json,os,re,shutil,signal,stat,subprocess,sys,tempfile,threading,time
 from pathlib import Path
 
 def refuse(message):
@@ -67,15 +67,9 @@ def inventory(directory):
     return entries
 
 live=[];gate=threading.Lock() # stop actions of running owners
-def windows_owner(command):
+def windows_owner(command,env=None):
     # Start only in a kill-on-close job; never fall back to an uncontained owner.
     import ctypes
-    class BasicLimits(ctypes.Structure):
-        _fields_=[('times',ctypes.c_longlong*2),('flags',ctypes.c_ulong),
-                  ('working_set',ctypes.c_size_t*2),('active',ctypes.c_ulong),
-                  ('affinity',ctypes.c_size_t),('classes',ctypes.c_ulong*2)]
-    class ExtendedLimits(ctypes.Structure):
-        _fields_=[('basic',BasicLimits),('io',ctypes.c_ulonglong*6),('memory',ctypes.c_size_t*4)]
     kernel=ctypes.WinDLL('kernel32');handle=ctypes.c_void_p
     kernel.CreateJobObjectW.restype=handle
     kernel.AssignProcessToJobObject.argtypes=[handle,handle];kernel.TerminateJobObject.argtypes=[handle,ctypes.c_uint]
@@ -85,11 +79,11 @@ def windows_owner(command):
     if not job:refuse('unsupported Windows owner containment')
     process=None;owned=False;stop=None
     try:
-        limits=ExtendedLimits();limits.basic.flags=0x2000 # KILL_ON_JOB_CLOSE; no breakaway.
-        if not kernel.SetInformationJobObject(job,9,ctypes.byref(limits),ctypes.sizeof(limits)):
+        limits=(ctypes.c_ulong*(20+2*ctypes.sizeof(handle)))();limits[4]=0x2000 # KILL_ON_JOB_CLOSE; no breakaway.
+        if not kernel.SetInformationJobObject(job,9,limits,ctypes.sizeof(limits)):
             refuse('unsupported Windows owner containment')
         with tempfile.TemporaryFile(mode='w+') as out,tempfile.TemporaryFile(mode='w+') as err:
-            process=subprocess.Popen(command,stdout=out,stderr=err,creationflags=subprocess.CREATE_NEW_PROCESS_GROUP|4) # CREATE_SUSPENDED
+            process=subprocess.Popen(command,env=env,stdout=out,stderr=err,creationflags=subprocess.CREATE_NEW_PROCESS_GROUP|4) # CREATE_SUSPENDED
             owned=bool(kernel.AssignProcessToJobObject(job,int(process._handle)))
             if not owned:refuse('unsupported Windows owner containment')
             def stop():
@@ -130,23 +124,36 @@ def run(command,allowed=(0,)):
         # Use the same explicit Git Bash owner as read-canonical-pair.py.
         command=[str(Path(r'C:\Program Files\Git')/'bin/bash.exe'),
                  *(value.replace('\\','/') if re.match(r'^[A-Za-z]:\\',value) else value for value in command[1:])]
-    if os.name=='nt':result=subprocess.CompletedProcess(command,*windows_owner(command))
-    else:
-        process=subprocess.Popen(command,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
-        stop=lambda:process.poll() is None and os.killpg(process.pid,signal.SIGKILL)
-        live.append(stop)
-        try:
-            stdout,stderr=process.communicate(timeout=10)
-        except subprocess.TimeoutExpired:
-            try:os.killpg(process.pid,signal.SIGKILL)
-            except ProcessLookupError:pass
-            try:process.communicate(timeout=2)
+    # Private temporary directory, removed after the owner; never through a link or a replaced directory.
+    home=tempfile.mkdtemp()
+    try:
+        made=os.lstat(home);env=dict(os.environ,TMPDIR=home,TMP=home,TEMP=home)
+        if os.name=='nt':result=subprocess.CompletedProcess(command,*windows_owner(command,env))
+        else:
+            process=subprocess.Popen(command,env=env,text=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True)
+            stop=lambda:process.poll() is None and os.killpg(process.pid,signal.SIGKILL)
+            live.append(stop)
+            try:
+                stdout,stderr=process.communicate(timeout=10)
             except subprocess.TimeoutExpired:
-                process.stdout.close();process.stderr.close()
-            raise OwnerTimeout('packaged owner read timed out')
-        finally:
-            with gate:live.remove(stop)
-        result=subprocess.CompletedProcess(command,process.returncode,stdout,stderr)
+                try:os.killpg(process.pid,signal.SIGKILL)
+                except ProcessLookupError:pass
+                try:process.communicate(timeout=2)
+                except subprocess.TimeoutExpired:
+                    process.stdout.close();process.stderr.close()
+                raise OwnerTimeout('packaged owner read timed out')
+            finally:
+                with gate:live.remove(stop)
+            result=subprocess.CompletedProcess(command,process.returncode,stdout,stderr)
+    finally:
+        deadline=time.monotonic()+2
+        while time.monotonic()<deadline:
+            try:
+                info=os.lstat(home)
+                if getattr(info,'st_file_attributes',0)&0x400 or not os.path.samestat(info,made):break
+            except (OSError,NameError):break
+            shutil.rmtree(home,ignore_errors=True);time.sleep(0.01)
+    if os.path.lexists(home):refuse('unsupported owner temporary directory')
     if result.returncode not in allowed:
         refuse('packaged owner refused: '+Path(command[1]).name+'\n'+result.stdout+result.stderr)
     return result

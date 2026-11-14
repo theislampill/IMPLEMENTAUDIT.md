@@ -254,13 +254,13 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-prior-mcp.py",
       "materialized_path": "skills/implementaudit/scripts/compaction-prior-mcp.py",
-      "bytes": 12108,
-      "sha256": "66c730b3c199ad47c714cc2fb6d520ce4678872d949483fdd6bf951c2f54268c",
+      "bytes": 17629,
+      "sha256": "f4790b4aad0f634a0d86fcd936fed83ce799f8c4253490e07b89abfb6cc34b04",
       "mode": "100644",
       "semantic_owner": "R0039",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "modified": true,
-      "additional_delta": "Closed H0 mechanical LOAD/DELIVER/BIND transport; no cognition or result authority."
+      "additional_delta": "Closed H0 mechanical LOAD/DELIVER/BIND transport; no cognition or result authority. DG18 descendant-cleanup correction: DELIVER/BIND owner worker runs in its own session and its whole process group is killed on timeout and after exit, and by an in-group watcher when the server dies (watch pipe EOF; no new file); every bound stays 30s; refusal text, UNKNOWN and no-replay semantics unchanged; no native admission."
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",

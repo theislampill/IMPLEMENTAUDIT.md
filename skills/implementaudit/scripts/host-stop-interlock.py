@@ -171,17 +171,16 @@ def plugin_store():
     if not all(re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", name)
                for name in (marketplace.name, plugin.name)):
         raise InterlockUnavailable("installed owner component is invalid")
-    # Same owner mapping as codex-recovery-prompt-input.py. Native scratch
-    # names may collide; the physical marketplace/plugin pair cannot be
-    # inferred from that flattened string and remains the H0 authority key.
+    # Same owner mapping as codex-recovery-prompt-input.py. Flattened native
+    # names can collide; the physical marketplace/plugin pair is the H0 authority key.
     owner_data = plugins / "data" / marketplace.name / plugin.name
     native_data = plugins / "data" / (plugin.name + "-" + marketplace.name)
     raw_data = os.environ.get("PLUGIN_DATA")
     if raw_data not in (str(owner_data), str(native_data)):
         raise InterlockUnavailable("PLUGIN_DATA differs from physical owner")
     def optional_directory(path):
-        # An ordinary session need not have created plugin data. Validate the
-        # physical existing ancestor without creating or enumerating anything.
+        # Plugin data may not exist yet. Validate the existing physical
+        # ancestor; create and enumerate nothing.
         ancestor = path
         while not path_present(ancestor):
             parent = ancestor.parent
@@ -280,7 +279,7 @@ MAX_CORE_BYTES = 131072
 def emit(payload):
     if len(sys.argv) > 1 and sys.argv[1] == "--codex-stop-policy":
         # Codex StopCommandOutputWire denies unknown fields. Proof metadata
-        # belongs in private receipts, never in the native control response.
+        # stays in private receipts, never in the native response.
         permitted = {"decision", "reason", "systemMessage"}
         print(json.dumps({key: value for key, value in payload.items() if key in permitted},
                          sort_keys=True, separators=(",", ":")))
@@ -379,10 +378,9 @@ def main():
             emit({"status": "UNBOUND", "disposition": "NO_ACTIVE_AUDIT_OBJECT",
                   "active_audit_object": False})
             return 0
-        # No supported issuer/grant verifier is selected for this host. Readable
-        # attribution, purpose labels, reentry flags and historical receipts
-        # cannot authorize a current dependent effect. Do not call route,
-        # compiler, disposition, consumption or lifecycle owners here.
+        # No issuer/grant verifier is selected for this host. Attribution,
+        # purpose labels, reentry flags and old receipts authorize no effect.
+        # Call no route, compiler, disposition, consumption or lifecycle owner here.
         raise InterlockUnavailable("UNSUPPORTED_HOST_EFFECT_AUTHENTICATION")
     except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError,
             subprocess.SubprocessError) as error:
@@ -503,10 +501,9 @@ def selected_codex_stop(policy_path, expected_digest):
                 raise InterlockUnavailable("lifecycle owner returned another disposition")
     except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError,
             subprocess.SubprocessError) as error:
-        # Failure is still an observation. Do not lose the selected event and
-        # validator diagnostics by escaping before the receipt is durable. The
-        # exception message/command may contain unrelated sensitive arguments;
-        # retain its type and bounded partial streams instead.
+        # Failure is an observation: write the receipt before escaping. The
+        # exception message/command may hold sensitive arguments; keep only
+        # its type and bounded partial streams.
         validator_error = {"type": type(error).__name__, "phase": "record_validation"}
         output = None
         if result is None:
@@ -545,8 +542,8 @@ OWNER_TIMEOUT_PREFIX = "validate-run-root: OWNER_TIMEOUT: "
 
 def block_reason(receipt_path, validator_error, validator_stderr):
     """Fixed block text; an owner that did not finish is not a refused record."""
-    # Both outcomes block. Only the instruction differs: nothing in a record
-    # can be corrected when its owner never completed the bounded read.
+    # Both outcomes block. A record has nothing to correct when its owner
+    # never completed.
     unfinished = ((validator_error or {}).get("type") == "TimeoutExpired"
                   or (validator_error is None and isinstance(validator_stderr, str)
                       and validator_stderr.startswith(OWNER_TIMEOUT_PREFIX)))
@@ -560,22 +557,20 @@ def block_reason(receipt_path, validator_error, validator_stderr):
 
 
 def windows_owner(command, *, cwd, env, timeout, **_):
-    # Private kill-on-close job, file output: a killed direct child can leave
-    # descendants holding output pipes past the bound. As the validator's own
-    # owner: never start uncontained; complete only when the job is empty.
-    import ctypes, tempfile, time
-    size, long, handle = ctypes.c_size_t, ctypes.c_ulong, ctypes.c_void_p
-    class Basic(ctypes.Structure):
-        _fields_ = [("times", ctypes.c_longlong * 2), ("flags", long), ("working_set", size * 2),
-                    ("active", long), ("affinity", size), ("classes", long * 2)]
-    class Extended(ctypes.Structure):
-        _fields_ = [("basic", Basic), ("io", ctypes.c_ulonglong * 6), ("memory", size * 4)]
+    # Private kill-on-close job, file output (descendants can hold pipes past
+    # the bound). Never start uncontained; complete only when the job is empty.
+    # Its temporary directory is removed after it, never through a link or a
+    # replaced directory; a completed owner that leaves one is refused.
+    import ctypes, shutil, tempfile, time
+    long, handle = ctypes.c_ulong, ctypes.c_void_p
     kernel = ctypes.WinDLL("kernel32"); kernel.CreateJobObjectW.restype = handle
-    job = handle(kernel.CreateJobObjectW(None, None)); process = None
-    limits = Extended(); limits.basic.flags = 0x2000  # KILL_ON_JOB_CLOSE; no breakaway.
+    job = handle(kernel.CreateJobObjectW(None, None)); process = home = None
+    limits = (long * (20 + 2 * ctypes.sizeof(handle)))(); limits[4] = 0x2000  # KILL_ON_JOB_CLOSE; no breakaway.
     try:
-        if not (job and kernel.SetInformationJobObject(job, 9, ctypes.byref(limits), ctypes.sizeof(limits))):
+        if not (job and kernel.SetInformationJobObject(job, 9, limits, ctypes.sizeof(limits))):
             raise InterlockUnavailable("Windows owner containment unavailable")
+        home = tempfile.mkdtemp(); made = os.lstat(home)
+        env = env | dict.fromkeys(("TMPDIR", "TMP", "TEMP"), home)
         with tempfile.TemporaryFile() as out, tempfile.TemporaryFile() as err:
             process = subprocess.Popen(command, cwd=cwd, env=env, stdin=subprocess.DEVNULL,
                                        stdout=out, stderr=err, creationflags=4)  # CREATE_SUSPENDED
@@ -596,7 +591,7 @@ def windows_owner(command, *, cwd, env, timeout, **_):
                 out.seek(0); err.seek(0); error.stdout, error.stderr = out.read(), err.read()
                 raise
             out.seek(0); err.seek(0)
-            return subprocess.CompletedProcess(command, process.returncode,
+            result = subprocess.CompletedProcess(command, process.returncode,
                 *(io.TextIOWrapper(io.BytesIO(stream.read()), encoding="utf-8").read() for stream in (out, err)))
     finally:
         try:
@@ -607,6 +602,19 @@ def windows_owner(command, *, cwd, env, timeout, **_):
                 process.wait(2)
         finally:
             kernel.CloseHandle(job)
+            deadline = time.monotonic() + 2
+            while home and time.monotonic() < deadline:
+                try:
+                    info = os.lstat(home)
+                    if info.st_file_attributes & 0x400 or not os.path.samestat(info, made):
+                        break
+                except (OSError, ValueError, NameError):
+                    break
+                shutil.rmtree(home, ignore_errors=True)
+                time.sleep(0.01)
+    if os.path.lexists(home):
+        raise InterlockUnavailable("Windows owner containment unavailable")
+    return result
 
 
 def selected_record_verdict(policy, run_root, helper, custody, response,

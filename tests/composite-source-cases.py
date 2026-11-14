@@ -1493,15 +1493,39 @@ class CompositeSourceCases(unittest.TestCase):
             # Its owner executes its own disposable source. The state below
             # still compares actual ROOT producer/payload data; this is a
             # source-contract positive only, not a native image qualification.
+            # V4 keeps its exact historical base. It still loads, but it must
+            # refuse the actual builder instead of silently adopting it.
+            builder = "scripts/package-contract.py"
+            frozen_output = Path(temporary) / "frozen-v4-evidence"
+            frozen_source = self.c5_selected_source_fixture("R5_CURRENT_V4")
+            frozen_owner = load("frozen_c5_selected_r5_v4", frozen_source / "scripts/load-work-graph-c5-executor.py")
+            frozen = frozen_owner.create_r5_hosted_ubuntu24_inner_capture_c5_session_v4(
+                frozen_source, frozen_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
+            try:
+                base = type(frozen).__init__.__globals__["B"]
+                self.assertEqual(base.SPEC["programs"][builder],
+                                 "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960")
+                state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
+                                   for name in set(base.SPEC["programs"]) | set(base.SPEC["payload_sources"])}}
+                self.assertNotEqual(state["files"][builder]["sha256"], base.SPEC["programs"][builder])
+                with self.assertRaisesRegex(ValueError,
+                        r"^C5 original producer source differs: scripts/package-contract\.py$"):
+                    base._producer_contract(state)
+                self.assertEqual(list(frozen_output.iterdir()), [])
+                self.assertFalse(frozen.attempted)
+            finally:
+                frozen.close()
             current_output = Path(temporary) / "correspondence-evidence"
-            current_source = self.c5_selected_source_fixture("R5_CURRENT_V4")
+            current_source = self.c5_selected_source_fixture("R5_CURRENT_BUILDER_V10")
             current_owner = load("current_c5_selected_r5_builder", current_source / "scripts/load-work-graph-c5-executor.py")
-            current = current_owner.create_r5_hosted_ubuntu24_inner_capture_c5_session_v4(
+            current = current_owner._Engine(current_owner.R5_HOSTED_PROFILE,
+                source_revision=current_owner.R5_BUDGET5_BUILDER_SOURCE_REVISION).load().GenuineC5Session(
                 current_source, current_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(current).__init__.__globals__["B"]
                 state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
                                    for name in set(base.SPEC["programs"]) | set(base.SPEC["payload_sources"])}}
+                self.assertEqual(state["files"][builder]["sha256"], base.SPEC["programs"][builder])
                 contract = base._producer_contract(state)
                 self.assertEqual(contract["expected_archive_members"], {"canonical_plugin": 75, "standalone_compatibility": 72})
                 self.assertEqual(len(contract["selected_programs"]), 6)
@@ -1510,6 +1534,35 @@ class CompositeSourceCases(unittest.TestCase):
                 self.assertFalse(current.attempted)
             finally:
                 current.close()
+            # V10 keeps its exact 8754 compiler through its retained member. The
+            # separately explicit V11 tuple is the one that names the actual compiler.
+            compiler = current_owner.COMPILER
+            actual_compiler = hashlib.sha256((ROOT / compiler).read_bytes()).hexdigest()
+            self.assertEqual(hashlib.sha256((current_source / compiler).read_bytes()).hexdigest(),
+                             current_owner.R5_BUDGET5_BUILDER_PINS[compiler])
+            self.assertNotEqual(current_owner.R5_BUDGET5_BUILDER_PINS[compiler], actual_compiler)
+            successor_output = Path(temporary) / "successor-evidence"
+            successor_source = self.c5_selected_source_fixture("R5_CURRENT_COMPILER_V11")
+            successor_owner = load("current_c5_selected_r5_compiler", successor_source / "scripts/load-work-graph-c5-executor.py")
+            self.assertEqual(dict(successor_owner.R5_DG17_OWNER_TEMPORARY_PINS),
+                             dict(successor_owner.R5_BUDGET5_BUILDER_PINS, **{compiler: actual_compiler}))
+            self.assertEqual(hashlib.sha256((successor_source / compiler).read_bytes()).hexdigest(), actual_compiler)
+            successor = successor_owner._Engine(successor_owner.R5_HOSTED_PROFILE,
+                source_revision=successor_owner.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION).load().GenuineC5Session(
+                successor_source, successor_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
+            try:
+                base = type(successor).__init__.__globals__["B"]
+                state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
+                                   for name in set(base.SPEC["programs"]) | set(base.SPEC["payload_sources"])}}
+                self.assertEqual(state["files"][builder]["sha256"], base.SPEC["programs"][builder])
+                contract = base._producer_contract(state)
+                self.assertEqual(contract["expected_archive_members"], {"canonical_plugin": 75, "standalone_compatibility": 72})
+                self.assertEqual(len(contract["selected_programs"]), 6)
+                self.assertEqual(len(contract["roles"]), 19)
+                self.assertEqual(list(successor_output.iterdir()), [])
+                self.assertFalse(successor.attempted)
+            finally:
+                successor.close()
 
     @contextlib.contextmanager
     def current_c5_source_copy(self):
@@ -1542,7 +1595,7 @@ class CompositeSourceCases(unittest.TestCase):
     @contextlib.contextmanager
     def correspondence_c5_source_copy(self):
         """Current producer inputs under the separately explicit current R5 tuple."""
-        root = self.c5_selected_source_fixture("R5_CURRENT_V4")
+        root = self.c5_selected_source_fixture("R5_CURRENT_BUILDER_V10")
         yield root, root.parent / "evidence"
 
 
@@ -1553,6 +1606,10 @@ class CompositeSourceCases(unittest.TestCase):
         with mock.patch("subprocess.Popen", side_effect=AssertionError("source loading dispatched a producer")):
             selected = owner.hosted_current_owner(ROOT)
             self.assertTrue(callable(selected.GenuineC5Session))
+            # The held reader selects the tuple that names the actual compiler.
+            compiler = "skills/implementaudit/scripts/compile-work-graph.py"
+            self.assertEqual(hashlib.sha256(selected.SOURCES[compiler][0]).hexdigest(),
+                             hashlib.sha256((ROOT / compiler).read_bytes()).hexdigest())
 
     def test_current_c5_unknown_selection_refuses(self):
         """Break caught: a caller can supply an unreviewed source policy."""
@@ -1649,11 +1706,20 @@ class CompositeSourceCases(unittest.TestCase):
                                      "8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0b")
                     self.assertEqual(dict(owner.R5_CONTINUITY_RECEIVER_PINS),
                                      dict(owner.R5_QUALIFIER_REPAIR_PINS, **{owner.COMPILER:
-                                         hashlib.sha256((root / owner.COMPILER).read_bytes()).hexdigest()}))
+                                         "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"}))
+                    self.assertEqual(owner.R5_BUDGET5_BUILDER_PINS[owner.COMPILER],
+                                     hashlib.sha256((root / owner.COMPILER).read_bytes()).hexdigest())
                     self.assertEqual(dict(owner.R5_INNER_CAPTURE_PINS),
                                      dict(owner.R5_CONTINUITY_RECEIVER_PINS, **{owner.QUALIFIER:
                                          "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"}))
-                    session = owner.create_r5_hosted_ubuntu24_inner_capture_c5_session_v4(root, output,
+                    self.assertEqual({name: pin for name, pin in owner.R5_BUDGET5_BUILDER_PINS.items()
+                                      if name not in (owner.R5_BUDGET5_BUILDER_BASE_SELECTION,
+                                                      owner.R5_BUDGET5_BUILDER_EXECUTION_SELECTION)},
+                                     {name: pin for name, pin in owner.R5_DG17_COMPOSED_PINS.items()
+                                      if name not in (owner.R5_HOSTED_BASE_SELECTION,
+                                                      owner.R5_RUNTIME_DIRECTORY_MODE_EXECUTION_SELECTION)})
+                    session = owner._Engine(owner.R5_HOSTED_PROFILE,
+                        source_revision=owner.R5_BUDGET5_BUILDER_SOURCE_REVISION).load().GenuineC5Session(root, output,
                         expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
                     try:
                         base = type(session).__init__.__globals__["B"]
@@ -1782,7 +1848,7 @@ class CompositeSourceCases(unittest.TestCase):
         previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
                          (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261112-dg17-unowned-containment-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261114-dg17-owner-temporary-v1-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
         self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
@@ -1814,9 +1880,15 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
         transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
-        prefix = "composite-20261112-dg17-unowned-containment-v1-"
+        prefix = "composite-20261114-dg17-owner-temporary-v1-"
         previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
                     if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 47)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         '84e28126d77b86486cbe30dd6e7fc4b1762a321cc3e9e13dfdb5de37cd0b1c19')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261112-dg17-unowned-containment-v1-")}
         self.assertEqual(len(previous), 46)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
@@ -1880,7 +1952,7 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
                          "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 47)
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 48)
         for kind, directory in (("core", CORE), ("original14", PEER)):
             with self.subTest(kind=kind):
                 selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"
@@ -1908,7 +1980,7 @@ class CompositeSourceCases(unittest.TestCase):
         import types
         owner = load("capture_receiver_shapes", ROOT / "scripts/operational-evidence.py")
         transport = load("capture_transport_shapes", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261112-dg17-unowned-containment-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261114-dg17-owner-temporary-v1-core']
         pair = dict(claim_sha256=profile[0][2], validate_sha256=profile[1][2])
         source = ROOT / "scripts/work-graph-continuity-transport.py"
         raw = source.read_bytes()
@@ -2480,7 +2552,7 @@ else:
         stop = load("selected_record_pin_guard", CORE / "host-stop-interlock.py")
         helper = CORE / "validate-run-root.sh"
         raw = helper.read_bytes()
-        expected = "9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20"
+        expected = "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
         self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
         policy = {"bash": "INERT_NO_EXECUTION", "validator_sha256": expected,
                   "binding": {"repository_identity": str(ROOT)},

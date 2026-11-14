@@ -103,7 +103,7 @@
   "programs": {
     "scripts/build-release-asset.sh": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708",
     "scripts/check-package-contract.sh": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc",
-    "scripts/package-contract.py": "506d52a9e12261c295a1bf0fe16e4cf4c382ec06335feeb8806f404396568c1f",
+    "scripts/package-contract.py": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960",
     "scripts/repro-event-capture.py": "e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08",
     "scripts/write-release-checksums.sh": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e",
     "tests/reproducible-release-asset.test.sh": "550a92a48989a2a9987b3d51c26a3198cf4828aad28fd3ffe8815fea6399019d"

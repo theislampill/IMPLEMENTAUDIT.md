@@ -231,7 +231,40 @@ R5_CONTINUITY_COMPILER_PHYSICAL_HISTORY=types.MappingProxyType({COMPILER:(
     '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d')})
 
 
+# Explicit current builder successor; V9 above becomes historical. V1-V9 keep
+# their original base bytes; only V10 selects the actual package builder.
+R5_BUDGET5_BUILDER_SOURCE_REVISION='R5_HOSTED_UBUNTU24_BUDGET5_BUILDER_SOURCE_20261113_V10'
+R5_BUDGET5_BUILDER_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-budget5-builder-python312.json'
+R5_BUDGET5_BUILDER_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-budget5-builder-execution-profile.json'
+R5_BUDGET5_BUILDER_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_DG17_COMPOSED_PINS.items()
+       if name not in (R5_HOSTED_BASE_SELECTION,R5_RUNTIME_DIRECTORY_MODE_EXECUTION_SELECTION)},
+    R5_BUDGET5_BUILDER_BASE_SELECTION:'5963c8779ebc1717fd120f44ab21b10386e86e3afe66c644526fe4cc9d7bbc26',
+    R5_BUDGET5_BUILDER_EXECUTION_SELECTION:'31b973b68438ac28d72272677000a7c5d1091de5997c8ea63c3c2b6b7750cebe'})
+R5_BUDGET5_BUILDER_ORIGINS=types.MappingProxyType(dict(R5_HOSTED_ORIGINS,base_actual_member=R5_BUDGET5_BUILDER_BASE_SELECTION))
+
+
+# Explicit current compiler successor (DG17 owner temporary-directory closure);
+# V10 above becomes historical. Only the compiler pin differs from V10.
+R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION='R5_HOSTED_UBUNTU24_DG17_OWNER_TEMPORARY_SOURCE_20261114_V11'
+R5_DG17_OWNER_TEMPORARY_COMPILER_SHA256='226f4897a5e8edd0ffe460426a9b2995cd5f2bcfb169b68978ae727d065f685b'
+R5_DG17_OWNER_TEMPORARY_PINS=types.MappingProxyType(dict(R5_BUDGET5_BUILDER_PINS,
+    **{COMPILER:R5_DG17_OWNER_TEMPORARY_COMPILER_SHA256}))
+# Frozen V9-V10 compiler bytes are explicit physical history, not a fallback.
+R5_DG17_COMPOSED_COMPILER_PHYSICAL_HISTORY=types.MappingProxyType({COMPILER:(
+    'test-support/r5-dg17-composed-compiler-history/8754-source/skills/implementaudit/scripts/compile-work-graph.py',
+    R5_DG17_COMPOSED_COMPILER_SHA256)})
+
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Current compiler source requires the fixed R5 hosted profile')
+        return R5_DG17_OWNER_TEMPORARY_PINS,R5_BUDGET5_BUILDER_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_BUDGET5_BUILDER_EXECUTION_SELECTION,R5_BUDGET5_BUILDER_ORIGINS
+    if source_revision == R5_BUDGET5_BUILDER_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Current builder source requires the fixed R5 hosted profile')
+        return R5_BUDGET5_BUILDER_PINS,R5_BUDGET5_BUILDER_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_BUDGET5_BUILDER_EXECUTION_SELECTION,R5_BUDGET5_BUILDER_ORIGINS
     if source_revision == R5_DG17_COMPOSED_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Current composed source requires the fixed R5 hosted profile')
@@ -370,7 +403,11 @@ def _read(name, profile=PROFILE,source_revision=None):
     retained = R5_CONTINUITY_COMPILER_PHYSICAL_HISTORY.get(name)
     if retained is not None and pins.get(name) == retained[1]:
         physical = retained[0]
-    if (source_revision in (R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION, R5_DG17_COMPOSED_SOURCE_REVISION) and name == EXECUTOR
+    retained = R5_DG17_COMPOSED_COMPILER_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
+    if (source_revision in (R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION, R5_DG17_COMPOSED_SOURCE_REVISION,
+                            R5_BUDGET5_BUILDER_SOURCE_REVISION, R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -434,7 +471,8 @@ class _Engine:
             raise ValueError('Unsupported fixed C5 execution selection')
         if self.source_revision in (R5_TEMPLATE_POPULATION_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION,
                                     R5_RUNTIME_DEFAULT_ACL_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION,
-                                    R5_DG17_COMPOSED_SOURCE_REVISION):
+                                    R5_DG17_COMPOSED_SOURCE_REVISION, R5_BUDGET5_BUILDER_SOURCE_REVISION,
+                                    R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution

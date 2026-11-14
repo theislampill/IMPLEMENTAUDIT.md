@@ -24,6 +24,20 @@ establish current runtime state, grant authority, or certify a native episode.
   and assignment failures as well as normal/timeout paths. It removes only its
   own cleanup entry, terminates/reaps any created process and closes the job.
   An error or unknown cleanup result never supplies a successful disposition.
+- Temporary directory (proposed candidate, not adopted): the composing
+  validator's `run` gives every owner, on Windows and POSIX, one private
+  directory as `TMPDIR`/`TMP`/`TEMP` and removes it after the owner on every
+  path, for at most two seconds. A killed owner cannot clean up: before this,
+  the inner validator's `mktemp -d` directory stayed after `OWNER_TIMEOUT` when
+  the command ran without the Stop interlock. Same rules as the interlock's
+  directory below: removed only while it is the same non-reparse directory,
+  never through a link or a replaced directory; links inside are unlinked. A
+  completed owner whose directory remains refuses as `OUT_OF_PROFILE`
+  (`unsupported owner temporary directory`); `OWNER_TIMEOUT` and every other
+  outcome is kept. The ten-second owner bound is unchanged and the removal adds
+  no execution budget. Control: `forced-owner-timeout` in
+  `owner_timeout_controls` now runs with a private temporary lease and requires
+  it to be empty afterwards.
 - Source controls: `windows_containment_controls` and `owner_timeout_controls`
   in `tests/nonterminal-yield-cases.py`. They exercise real local Windows processes
   with bounded Win32 failure injection; these are not native campaign acceptance.
@@ -64,6 +78,28 @@ establish current runtime state, grant authority, or certify a native episode.
   instead of 2000 B (usable limit 588584 B) for this correction only; the cap
   and the standalone reserve are unchanged. The margin is a few bytes, so any
   further packaged byte must be re-measured and may need a new owner decision.
+- Temporary directory (proposed candidate, not adopted): a terminated job cannot
+  run its members' exit handlers, so every temporary directory a member made
+  stayed in TMP after an owner timeout. The owner now creates one private
+  directory, passes it as `TMPDIR`/`TMP`/`TEMP` to the job only, and removes it
+  after the job handle is closed, for at most two seconds. Dimensions: created
+  / identity recorded / identity unchanged / link or replaced / removed / owner
+  outcome. It is removed only while it is still the same non-reparse directory;
+  links inside it are unlinked, never followed. An owner that completed while
+  the directory remains is refused with `InterlockUnavailable`; an owner that
+  already failed or timed out keeps its own outcome even when the removal does
+  not finish. If the directory cannot be read during removal (it vanished, or
+  `lstat` fails) or its identity was never recorded, the loop ends without
+  deleting and the same two outcome rules apply; no other exception replaces
+  them. The two seconds follow the owner bound and add no execution budget.
+  Controls: the three `temporary-*` cases of `interlock_containment_controls`.
+  The job limits are passed as a raw buffer with the same bytes and size as
+  the former structures (144 B on 64-bit, 112 B on 32-bit, flags at offset 16).
+  Budget: the whole correction (this owner, the validator's owner and the pin
+  closure) measures 588538 B at the 8754 identity, 46 B below the usable limit
+  of 588584 B; cap and reserves are unchanged. The bytes were recovered by the raw
+  limit buffers and by shortening comments whose original wording is kept in
+  DG17-RELOCATED-SOURCE-COMMENTS.
 - Status: source-qualified on one Windows host. Native Stop, original14 and
   host behaviour on hook overrun remain unreceived. Abrupt external termination
   between suspended creation and assignment is outside these controls; this is
@@ -92,6 +128,92 @@ establish current runtime state, grant authority, or certify a native episode.
   `test-support/dg17-validator-history/pre-composed-owner-20261112/`; the historical
   profile tests still reject current bytes as substitutes. This retains the old
   source relation rather than rebasing historical evidence onto the new owner.
+- Owner temporary-directory generation (proposed candidate, not adopted): the
+  validator change above forces one more additive generation of this closure.
+  New profile `composite-20261114-dg17-owner-temporary-v1-core`, pair
+  `_WINDOWS_DG17_OWNER_TEMPORARY_CORE8_PAIR_V1`, one retained-predecessor row in
+  the route peer, one route-producer row in both compilers, and
+  `dg17_owner_temporary_preimage` entries in the route-graph manifest. Every
+  earlier profile, pair, row and preimage is unchanged. The changed compiler has
+  its own C5 source revision, V11 (see C5-EXPLICIT-CURRENT-VERSUS-FROZEN-SOURCE).
+
+## DG17-RELOCATED-SOURCE-COMMENTS
+
+- Why: the canonical plugin budget left no room for the owner temporary-directory
+  correction. Packaged comments were shortened in place instead of raising a cap
+  or a reserve. The original wording is kept here, byte for byte, so that no
+  statement is lost. Each short form states the same rule; where the two differ
+  in detail, this text is the full statement. Neither form grants authority.
+- Source: `skills/implementaudit/scripts/host-stop-interlock.py`. Original comment
+  lines, by enclosing function:
+  - `plugin_store`:
+
+        # Same owner mapping as codex-recovery-prompt-input.py. Native scratch
+        # names may collide; the physical marketplace/plugin pair cannot be
+        # inferred from that flattened string and remains the H0 authority key.
+
+  - `optional_directory`:
+
+        # An ordinary session need not have created plugin data. Validate the
+        # physical existing ancestor without creating or enumerating anything.
+
+  - `emit`:
+
+        # Codex StopCommandOutputWire denies unknown fields. Proof metadata
+        # belongs in private receipts, never in the native control response.
+
+  - `main`:
+
+        # No supported issuer/grant verifier is selected for this host. Readable
+        # attribution, purpose labels, reentry flags and historical receipts
+        # cannot authorize a current dependent effect. Do not call route,
+        # compiler, disposition, consumption or lifecycle owners here.
+
+  - `selected_codex_stop`:
+
+        # Failure is still an observation. Do not lose the selected event and
+        # validator diagnostics by escaping before the receipt is durable. The
+        # exception message/command may contain unrelated sensitive arguments;
+        # retain its type and bounded partial streams instead.
+
+  - `block_reason`:
+
+        # Both outcomes block. Only the instruction differs: nothing in a record
+        # can be corrected when its owner never completed the bounded read.
+
+  - `windows_owner`:
+
+        # Private kill-on-close job, file output: a killed direct child can leave
+        # descendants holding output pipes past the bound. As the validator's own
+        # owner: never start uncontained; complete only when the job is empty.
+        # The job's temporary directory is removed after it, never through a link
+        # or a replaced directory; a completed owner that leaves one is refused.
+
+- Source: `_NATIVE_ROUTE_PRODUCER_PROFILES_V1` in both copies of
+  `compile-work-graph.py`. Four row comments were replaced by one pointer line
+  (`# Row provenance: SOURCE_MANIFEST.json; no native credit.`). Their wording is
+  kept under `route_producer_profile_provenance` in
+  `source-peers/route-graph/SOURCE_MANIFEST.json` and here, keyed by the row each
+  comment preceded:
+  - `1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca`:
+
+        # Exact retained-source-map receiving delta from R0033 donor79316011.
+
+  - `d060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb`:
+
+        # Exact nonblocking delivery capture received from R0033 donor899d32f8.
+
+  - `87bce990c85c7db9134c788eb14d9d5d5b38c55091fa47b256396ffc99316bbe`:
+
+        # DG07 exact original14 recovery receiving and safe binder source pair.
+
+  - `f43f27cf176a16ea4b1f24b3639313ade487f9a1cab77ad4cd1b8543987feb9e`:
+
+        # Exact DG08 source-only predecessor binding; no native credit.
+
+- Not changed: code, docstrings, messages, and every comment not listed here.
+- Guard: `STATEMENT_MAP.md` of the candidate return lists each old and new line.
+  A later edit of a short form must keep this section true or update it.
 
 ## PR255-GUARDED-PUBLICATION
 
@@ -182,6 +304,17 @@ establish current runtime state, grant authority, or certify a native episode.
   identity/hash checks remain required; no hash search or current/historical
   wildcard is introduced. Repair uses a separate source revision and preserves
   old tuples and failures; source receiving never grants native dispatch.
+- Successors (proposed candidate, not adopted): V10
+  (`R5_BUDGET5_BUILDER_SOURCE_REVISION`) names the actual package builder
+  through its own base member; V9 keeps its original base. V11
+  (`R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION`) differs from V10 only in the
+  compiler pin and is what the held loader pin now selects. V9 and V10 keep the
+  8754 compiler through the explicit member in
+  `test-support/r5-dg17-composed-compiler-history/` (its `MANIFEST.json` also
+  fixes the V1-V10 tables). Dimensions: revision / compiler pin / physical
+  compiler member / held loader pair. Current compiler bytes at the retained
+  member, retained bytes at the current path, and a V10 loader facing the
+  current compiler all refuse; none is searched for or substituted.
 - `tests/c5-current-source-receiving.py`, invoked by the canonical composite
   test, covers current/frozen loading, captured and fresh drift refusal, exact
   producer/payload rejection and preservation of prior pin/revision tables.

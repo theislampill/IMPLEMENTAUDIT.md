@@ -7,6 +7,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import selectors
 import shutil
 import signal
@@ -14,6 +15,7 @@ import subprocess
 import sys
 import threading
 import unittest
+import warnings
 
 REPO = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location(
@@ -485,7 +487,12 @@ class PendingSettlementCases(unittest.TestCase):
         child_pid = None
         payload, status, timed_out = b"", None, False
         try:
-            child_pid = os.fork()
+            # Forking while another thread owns the lock is this control's subject. CPython 3.12+
+            # reports exactly that through the runner's progress stream; record this one call
+            # and require below that nothing except that advisory was recorded.
+            with warnings.catch_warnings(record=True) as fork_warnings:
+                warnings.simplefilter("always")
+                child_pid = os.fork()
             if child_pid == 0:
                 os.close(read_fd)
                 signal.signal(signal.SIGALRM, signal.SIG_DFL)
@@ -563,6 +570,11 @@ class PendingSettlementCases(unittest.TestCase):
             after_sha256=hashlib.sha256(after).hexdigest())
         self.assertFalse(holder.is_alive())
         self.assertEqual(hold_errors, [])
+        self.assertEqual([
+            (warning.category.__name__, str(warning.message)) for warning in fork_warnings
+            if warning.category is not DeprecationWarning or re.fullmatch(
+                r"This process \(pid=%d\) is multi-threaded, use of fork\(\) may lead to "
+                r"deadlocks in the child\." % parent_pid, str(warning.message)) is None], [])
         self.assertEqual(status, 0, "inherited receiver did not refuse before the inherited-lock deadline")
         self.assertFalse(timed_out)
         self.assertNotEqual(parent_pid, report["child_pid"])

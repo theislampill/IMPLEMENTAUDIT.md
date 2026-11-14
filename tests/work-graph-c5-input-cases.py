@@ -37,29 +37,68 @@ def correspondence_profile_globals():
     old = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_20261031_V1'
     fresh = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_CURRENT_HOST_20261104_V1'
     cache = 'FIXED_GENUINE_C5_SHARED_IMAGE_CORRESPONDENCE_R4_BUILD_LOCAL_COMPRESSION_20261104_V1'
-    return dict(CORRESPONDENCE_PROFILE=old, R4_CORRESPONDENCE_PROFILE=fresh,
-                R4_BUILD_CACHE_PROFILE=cache, R4_HOST_PROFILES=(fresh, cache),
-                CORRESPONDENCE_PROFILES=(old, fresh, cache))
+    hosted = 'FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1'
+    supplied = dict(CORRESPONDENCE_PROFILE=old, R4_CORRESPONDENCE_PROFILE=fresh,
+                    R4_BUILD_CACHE_PROFILE=cache, R4_HOST_PROFILES=(fresh, cache),
+                    R5_HOSTED_PROFILE=hosted, UID0_HOST_PROFILES=(fresh, cache, hosted),
+                    CORRESPONDENCE_PROFILES=(old, fresh, cache, hosted))
+    # The literals above are compared with the executor's own top-level
+    # declarations, so a later closed-name change fails here, not as a NameError.
+    declared = {}
+    for node in ast.parse((ROOT / 'scripts/work-graph-c5-executor.py').read_bytes()).body:
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name) and node.targets[0].id in supplied):
+            exec(compile(ast.Module(body=[node], type_ignores=[]), '<c5-profile-names>', 'exec'), declared)
+    declared.pop('__builtins__', None)
+    if declared != supplied:
+        raise AssertionError('C5 fragment profile globals differ from the executor declarations')
+    return supplied
 
+
+
+def current_c5_loader(name='c5_fixture_selected_source'):
+    path = ROOT / 'scripts/load-work-graph-c5-executor.py'
+    module = types.ModuleType(name); module.__file__ = str(path)
+    exec(compile(path.read_bytes(), str(path), 'exec'), module.__dict__)
+    return module
+
+
+def copy_selected_c5_source(destination, owner, profile, revision):
+    """Materialize one exact selected tuple at the physical names its loader reads.
+
+    Every production-declared physical history is followed, and a frozen member
+    whose logical name now holds later bytes comes from the retained history
+    declared by tests/c5-selected-source-fixture.py. Each member is read against
+    its unmodified pin; no pin, table or loader guard is changed or bypassed,
+    and the copied loader still verifies the whole tuple itself.
+    """
+    path = ROOT / 'tests/c5-selected-source-fixture.py'
+    fixture = types.ModuleType('c5_input_selected_source_fixture'); fixture.__file__ = str(path)
+    exec(compile(path.read_bytes(), str(path), 'exec'), fixture.__dict__)
+    physical = {owner.LOADER: owner.LOADER}
+    buffers = {owner.LOADER: (ROOT / owner.LOADER).read_bytes()}
+    for name, pin in owner._selection(profile, revision)[0].items():
+        member = fixture.physical_member(owner, name, pin, profile, revision)
+        if member in buffers:
+            raise ValueError('conflicting selected C5 physical member: ' + member)
+        buffers[member] = fixture.read_member(ROOT, fixture.RETAINED.get((name, pin), member), pin)[0]
+        physical[name] = member
+    # work-graph-completion.py reads the compiler at its logical name against the
+    # same pin, so that name stays inside the same frozen tuple (the selected-source
+    # fixture's rule); the retained physical member above is what the loader reads.
+    buffers.setdefault(owner.COMPILER, buffers[physical[owner.COMPILER]])
+    for member, raw in sorted(buffers.items()):
+        target = destination / member; target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(raw); target.chmod(0o644)
+    return physical
 
 
 def copy_c5_closed_source(destination, *, current_builder=False):
     """Materialize exact selected physical members, including historical owners."""
-    path = ROOT / 'scripts/load-work-graph-c5-executor.py'
-    module = types.ModuleType('c5_fixture_selected_source'); module.__file__ = str(path)
-    exec(compile(path.read_bytes(), str(path), 'exec'), module.__dict__)
+    module = current_c5_loader()
     profile = module.R4_BUILD_CACHE_PROFILE if current_builder else module.CORRESPONDENCE_PROFILE
     revision = module.R4_BUILD_CACHE_SOURCE_REVISION if current_builder else module.R4_COMPOSED_SOURCE_REVISION
-    pins = module._selection(profile, revision)[0]
-    physical = {module.LOADER}
-    for name, pin in pins.items():
-        historical = module.R4_BUILD_CACHE_PHYSICAL_HISTORY.get(name)
-        member = (historical[0] if historical is not None and historical[1] == pin else
-                  module.R4_COPY_GATE_MEMBER if name == module.GATE and not current_builder else name)
-        physical.add(member)
-    for name in sorted(physical):
-        target = destination / name; target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes((ROOT / name).read_bytes()); target.chmod(0o644)
+    return copy_selected_c5_source(destination, module, profile, revision)
 
 
 class C5InputFixture:
@@ -67,7 +106,15 @@ class C5InputFixture:
         # These controls concern maintained data capture, not the legacy
         # README route's historical source identity. Select the exact closed
         # explicit composed R4 tuple; loading its bound base owner dispatches nothing.
-        path = ROOT / 'scripts/load-work-graph-c5-executor.py'
+        # That tuple is frozen: its members are materialized from declared
+        # history, and the copied loader enforces its unchanged pins.
+        declared = current_c5_loader('c5_current_input_declarations')
+        temporary = tempfile.TemporaryDirectory(prefix='c5-selected-owner-')
+        self.addCleanup(temporary.cleanup)
+        source = Path(temporary.name) / 'source'
+        copy_selected_c5_source(source, declared, declared.CURRENT_PROFILE,
+                                declared.R4_COMPOSED_SOURCE_REVISION)
+        path = source / 'scripts/load-work-graph-c5-executor.py'
         spec = importlib.util.spec_from_file_location('c5_current_input_controls', path)
         outer = importlib.util.module_from_spec(spec)
         exec(compile(path.read_bytes(), str(path), 'exec'), outer.__dict__)
@@ -647,7 +694,11 @@ class C5CorrespondenceLiveCases(unittest.TestCase):
         engine=owner._Engine(owner.R4_BUILD_CACHE_PROFILE,source_revision=owner.R4_BUILD_CACHE_SOURCE_REVISION).load()
         names=set(engine.B.SPEC['payload_sources'])|set(engine.B.SPEC['programs'])
         names|={p.relative_to(ROOT).as_posix() for p in (ROOT/'skills/implementaudit').rglob('*') if p.is_file()}
-        state=dict(files={name:dict(sha256=hashlib.sha256((ROOT/name).read_bytes()).hexdigest()) for name in names})
+        # This tuple is frozen with its own builder. ROOT's later builder belongs to a
+        # later tuple, so the exact retained bytes are this contract's producer source;
+        # the unchanged contract still compares their actual digest with its pin.
+        retained={'scripts/package-contract.py':ROOT/'fixtures/work-graph-c5-inputs/r4-package-contract-build-local-compression-v6.py'}
+        state=dict(files={name:dict(sha256=hashlib.sha256(retained.get(name,ROOT/name).read_bytes()).hexdigest()) for name in names})
         return owner,engine,state
 
     def test_correspondence_actual_source_contract_uses_separate_current_base(self):
@@ -1064,8 +1115,13 @@ class C5R4ComposedSourceCases(unittest.TestCase):
         self.assertEqual(set(owner.R4_COMPOSED_PINS), set(expected))
         with mock.patch('subprocess.Popen', side_effect=AssertionError('source receiving dispatched')):
             for profile in expected:
-                with self.subTest(profile=profile):
-                    captured = owner._Engine(profile, source_revision=owner.R4_COMPOSED_SOURCE_REVISION)
+                with self.subTest(profile=profile), tempfile.TemporaryDirectory(prefix='c5-r4-profile-') as temporary:
+                    root = Path(temporary) / 'source'
+                    copy_selected_c5_source(root, owner, profile, owner.R4_COMPOSED_SOURCE_REVISION)
+                    selected = self.module(root)
+                    self.assertEqual(selected._selection(profile, selected.R4_COMPOSED_SOURCE_REVISION),
+                                     owner._selection(profile, owner.R4_COMPOSED_SOURCE_REVISION))
+                    captured = selected._Engine(profile, source_revision=selected.R4_COMPOSED_SOURCE_REVISION)
                     engine = captured.load()
                     self.assertEqual(engine.PROFILE, profile)
                     self.assertEqual(engine.LIMITS['wall_seconds'], 120)
@@ -1085,15 +1141,7 @@ class C5R4ComposedSourceCases(unittest.TestCase):
             with self.subTest(profile=profile), tempfile.TemporaryDirectory(prefix='c5-r4-source-') as temporary:
                 root = Path(temporary) / 'source'; root.mkdir()
                 output = Path(temporary) / 'must-not-exist'
-                physical = {current.LOADER: current.LOADER}
-                for name, pin in current.R4_COMPOSED_PINS[profile].items():
-                    history = current.R4_BUILD_CACHE_PHYSICAL_HISTORY.get(name)
-                    member = (history[0] if history is not None and history[1] == pin else
-                              current.R4_COPY_GATE_MEMBER if name == current.GATE else name)
-                    physical[name] = member
-                for member in physical.values():
-                    target = root / member; target.parent.mkdir(parents=True, exist_ok=True)
-                    target.write_bytes((ROOT / member).read_bytes()); target.chmod(0o644)
+                physical = copy_selected_c5_source(root, current, profile, current.R4_COMPOSED_SOURCE_REVISION)
                 owner = self.module(root)
                 with mock.patch('subprocess.Popen', side_effect=AssertionError('invalid source dispatched')):
                     with self.assertRaisesRegex(ValueError, 'C5 post-commit comparison metadata is malformed'):

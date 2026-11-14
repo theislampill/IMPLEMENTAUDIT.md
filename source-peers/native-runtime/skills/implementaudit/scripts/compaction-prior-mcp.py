@@ -12,13 +12,23 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import selectors
+import signal
 import subprocess
 import sys
+import time
 import types
 
 PROFILE = 'codex-app-server-0.166.0-linux-prior-mechanical-v1'
 SEQUENCE = ('LOAD', 'DELIVER', 'BIND', 'BIND', 'LOAD', 'DELIVER', 'BIND')
 MAX_BYTES = 256 * 1024
+# DELIVER/BIND owner worker bound, unchanged at 30s like LOAD. The worker runs in its
+# own session so that its whole process group is killed on timeout and after exit.
+# A watcher in that group kills it as well when this server dies for any reason.
+# A fired bound leaves the owner effect UNKNOWN and closes the sequence; nothing is retried.
+OWNER_SECONDS = 30
+REAP_SECONDS = 2
+OUTPUT_BYTES = 128 * 1024
 
 
 def require(ok, why):
@@ -57,6 +67,121 @@ def schema():
                 'operation': {'type': 'string', 'enum': ['LOAD', 'DELIVER', 'BIND']},
                 'request_json': {'type': 'string', 'maxLength': 131072}},
                 'required': ['selection_sha256', 'operation', 'request_json'], 'additionalProperties': False}}
+
+
+def owner_guard(watch, argv):
+    """Become the exact owner argv after leaving a watcher in this process group.
+
+    The watcher holds the read end of a pipe whose only write end the server holds.
+    When that end closes, including by the death of the server, the watcher kills
+    its own whole process group. This process then executes argv in place, so the
+    worker keeps the pid, parent, session and group the server gave it.
+    """
+    os.set_inheritable(watch, False)
+    middle = os.fork()
+    if middle == 0:
+        status = 1
+        try:
+            if os.fork() == 0:
+                try:
+                    null = os.open(os.devnull, os.O_RDWR)
+                    for stream in (0, 1, 2):
+                        os.dup2(null, stream)
+                    os.close(null)
+                    os.read(watch, 1)
+                finally:
+                    os.killpg(0, signal.SIGKILL)
+            status = 0
+        finally:
+            os._exit(status)
+    require(os.waitpid(middle, 0)[1] == 0, 'MECHANICAL_OWNER_WATCHER_REQUIRED')
+    for name in ('SIGPIPE', 'SIGXFZ', 'SIGXFSZ'):
+        if hasattr(signal, name):
+            signal.signal(getattr(signal, name), signal.SIG_DFL)
+    os.execv(argv[0], argv)
+
+
+def owner_worker(argv, request, environment):
+    """Run the exact owner argv in its own session under OWNER_SECONDS.
+
+    The leader is only observed (never reaped) until its whole process group has
+    been killed, so the group id cannot name another process. Only this server
+    holds the write end of the watch pipe; see owner_guard.
+    """
+    watch, hold = os.pipe()
+    try:
+        child = subprocess.Popen([argv[0], '-I', '-S', '-B', str(Path(__file__).resolve()), '--owner-guard', str(watch)] + argv,
+                                 stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                 env=environment, close_fds=True, start_new_session=True, pass_fds=(watch,))
+    except BaseException:
+        os.close(hold)
+        raise
+    finally:
+        os.close(watch)
+    deadline = time.monotonic() + OWNER_SECONDS
+    streams = {'stdout': bytearray(), 'stderr': bytearray()}
+    selector = selectors.DefaultSelector()
+    written = 0
+    state = 'TIMEOUT'
+    try:
+        for stream, role in ((child.stdin, 'stdin'), (child.stdout, 'stdout'), (child.stderr, 'stderr')):
+            os.set_blocking(stream.fileno(), False)
+            selector.register(stream, selectors.EVENT_WRITE if role == 'stdin' else selectors.EVENT_READ, role)
+        while selector.get_map() and state == 'TIMEOUT':
+            left = deadline - time.monotonic()
+            if left <= 0:
+                break
+            for key, _ in selector.select(min(left, .05)):
+                stream, role = key.fileobj, key.data
+                if role == 'stdin':
+                    try:
+                        written += os.write(stream.fileno(), request[written:written + 65536])
+                    except BlockingIOError:
+                        continue
+                    except BrokenPipeError:
+                        written = len(request)
+                    if written >= len(request):
+                        selector.unregister(stream)
+                        stream.close()
+                    continue
+                try:
+                    block = os.read(stream.fileno(), 16384)
+                except BlockingIOError:
+                    continue
+                if not block:
+                    selector.unregister(stream)
+                    stream.close()
+                    continue
+                streams[role].extend(block)
+                if len(streams['stdout']) + len(streams['stderr']) > OUTPUT_BYTES:
+                    state = 'OUTPUT'
+                    break
+        while state == 'TIMEOUT' and not selector.get_map():
+            if os.waitid(os.P_PID, child.pid, os.WEXITED | os.WNOHANG | os.WNOWAIT) is not None:
+                state = 'EXITED'
+            elif time.monotonic() >= deadline:
+                break
+            else:
+                time.sleep(.01)
+    finally:
+        selector.close()
+        try:
+            os.killpg(child.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        try:
+            child.wait(timeout=REAP_SECONDS)
+        except subprocess.TimeoutExpired:
+            state = 'TIMEOUT'
+        for stream in (child.stdin, child.stdout, child.stderr):
+            with contextlib.suppress(OSError):
+                stream.close()
+        os.close(hold)
+    require(state != 'OUTPUT', 'MECHANICAL_CHILD_OUTPUT_BOUND')
+    if state != 'EXITED':
+        raise subprocess.TimeoutExpired(argv, OWNER_SECONDS)
+    return subprocess.CompletedProcess(['observe-child'], child.returncode,
+                                       bytes(streams['stdout']), bytes(streams['stderr']))
 
 
 class ClosedSequence:
@@ -166,9 +291,12 @@ def tool_call(source_path, arguments, metadata, sequence):
             held.enter_context(custody.held_file(skills_root / key, allow_append=False))
         held.enter_context(custody.held_file(pins['python_pin']['path'], allow_append=False))
         held.enter_context(custody.held_file(pins['config_pin']['path'], allow_append=False))
-        child = subprocess.run(argv, input=protocol.canonical(request), stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE, timeout=30, check=False,
-                               env={'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8', 'PYTHONDONTWRITEBYTECODE': '1'})
+        environment = {'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8', 'PYTHONDONTWRITEBYTECODE': '1'}
+        if operation == 'LOAD':
+            child = subprocess.run(argv, input=protocol.canonical(request), stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, timeout=30, check=False, env=environment)
+        else:
+            child = owner_worker(argv, protocol.canonical(request), environment)
         require(pending.nonprotected_code_identity() == assignment['code'], 'MECHANICAL_CODE_CHANGED_DURING_CALL')
     require(len(child.stdout) + len(child.stderr) <= 128 * 1024, 'MECHANICAL_CHILD_OUTPUT_BOUND')
     sequence.complete(child.returncode)
@@ -182,6 +310,8 @@ def tool_call(source_path, arguments, metadata, sequence):
 
 
 def main():
+    if sys.argv[1:2] == ['--owner-guard']:
+        owner_guard(int(sys.argv[2]), sys.argv[3:])
     parser = argparse.ArgumentParser()
     parser.add_argument('--source-owner', type=Path)
     parser.add_argument('--load-worker', action='store_true')

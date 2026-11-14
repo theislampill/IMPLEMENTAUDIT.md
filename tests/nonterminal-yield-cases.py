@@ -866,8 +866,52 @@ def interlock_containment_controls(parent):
             for job in jobs:
                 flags = ctypes.c_ulong()
                 if kernel.GetHandleInformation(job, ctypes.byref(flags)): kernel.CloseHandle(job)
+    # The owner's job gets a private temporary directory. A terminated job
+    # cannot run its own exit handlers, so the owner removes that directory,
+    # and only that directory, on every path.
+    foreign = parent / 'interlock-temporary-foreign'; foreign.mkdir()
+    sentinel = foreign / 'sentinel'; sentinel.write_text('kept')
+    seen = parent / 'interlock-temporary.seen'
+    prefix = ('import os,subprocess,sys,tempfile,time\nhome=tempfile.gettempdir()\n'
+              'open(sys.argv[1],"w").write(home)\nopen(os.path.join(home,"left"),"w").write("x")\n')
+    holder = 'import sys,time\nheld=open(sys.argv[1],"w")\ntime.sleep(30)\n'
+    for label, body, bound in (
+            ('positive', '', 10),
+            ('timeout', 'subprocess.Popen([sys.executable,"-I","-B","-c",%r,os.path.join(home,"held")])\n'
+                        'time.sleep(30)\n' % holder, 2),
+            ('replaced', 'os.remove(os.path.join(home,"left"));os.rmdir(home)\n'
+                         'import _winapi;_winapi.CreateJunction(sys.argv[2],home)\n', 10)):
+        lease = parent / ('interlock-temporary-' + label); lease.mkdir()
+        error = None; result = None; began = time.monotonic()
+        try:
+            with mock.patch.object(tempfile, 'tempdir', str(lease)):
+                try:
+                    result = stop.windows_owner([sys.executable, '-I', '-B', '-c', prefix + body, str(seen), str(foreign)],
+                                                cwd=str(parent), env=dict(os.environ), timeout=bound)
+                except (stop.InterlockUnavailable, subprocess.TimeoutExpired) as exc: error = exc
+            elapsed = time.monotonic() - began
+            home = Path(seen.read_text())
+            assert home.parent == lease, 'owner did not receive a private temporary directory: ' + str(home)
+            left = sorted(path.name for path in lease.iterdir())
+            if label == 'positive':
+                assert error is None and result.returncode == 0, (error, result)
+            elif label == 'timeout':
+                assert isinstance(error, subprocess.TimeoutExpired) and elapsed < 2 + 5, (error, elapsed)
+            else:
+                assert isinstance(error, stop.InterlockUnavailable), \
+                    'replaced temporary directory was not refused: ' + repr((error, result))
+                assert left == [home.name] and os.path.isdir(home), 'replaced temporary directory entry was removed'
+                os.rmdir(home)  # the junction itself, created by this control
+            if label != 'replaced':
+                assert not left, 'owner left temporary entries: ' + repr(left)
+            assert sentinel.read_text() == 'kept' and sorted(path.name for path in foreign.iterdir()) == ['sentinel'], \
+                'cleanup reached outside the owner temporary directory'
+            print('PASS Windows-interlock-owner-temporary-' + label)
+        except AssertionError as exc:
+            failures.append('temporary-' + label + ': ' + str(exc))
+            print('FAIL Windows-interlock-owner-temporary-' + label + ': ' + str(exc))
     assert not failures, '\n'.join(failures)
-    return 5
+    return 8
 
 
 def owner_timeout_controls(parent, *, selected=None):
@@ -888,12 +932,22 @@ def owner_timeout_controls(parent, *, selected=None):
             '    case "$3" in */STATE.md) printf reached > ' + shlex.quote(trigger.as_posix()) + '; sleep 14 ;; esac\n'
             '  fi\n  ' + shlex.quote(Path(sys.executable).as_posix()) + ' "$@"\n}\nexport -f python\n').encode())
         before = inventory(root)
-        result = composed(root, environment={'BASH_ENV': schedule.as_posix()})
+        # The command's whole temporary area is a private lease: whatever is
+        # left in it after the return was left by this command's owners.
+        lease = parent / 'forced-owner-timeout-temporary'; lease.mkdir()
+        result = composed(root, environment={'BASH_ENV': schedule.as_posix(),
+                                             **dict.fromkeys(('TMPDIR', 'TMP', 'TEMP'), str(lease))})
         assert trigger.exists(), 'forced-owner-timeout: scheduled owner boundary was not reached\n' + result.stdout + result.stderr
         assert result.returncode == 1 and result.stdout == '', 'forced-owner-timeout: an unfinished owner must still block\n' + result.stdout + result.stderr
         assert result.stderr == 'validate-run-root: OWNER_TIMEOUT: packaged owner read timed out; no disposition\n', \
             'forced-owner-timeout: unfinished owner misreported as a record finding: ' + result.stderr
         assert inventory(root) == before, 'forced-owner-timeout: validator mutated its inputs'
+        # Output files of just-terminated processes can outlive the return by
+        # milliseconds; a directory the killed owner made never goes by itself.
+        settle = time.monotonic() + 2
+        while any(lease.iterdir()) and time.monotonic() < settle: time.sleep(0.05)
+        left = sorted(path.name for path in lease.iterdir())
+        assert not left, 'forced-owner-timeout: the timed-out owner left temporary entries: ' + repr(left)
         count += 1; print('PASS owner-timeout-is-not-record-refusal')
     if wanted('interlock-timeout-reason'):
         spec = importlib.util.spec_from_file_location('yield_stop_reason',

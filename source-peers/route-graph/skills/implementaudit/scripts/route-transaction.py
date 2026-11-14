@@ -5699,6 +5699,8 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, 'a58d27accd96
 # Exact DG17 Windows job-completion source; no native admission.
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196'), 'claim-run-rotation.py': (291624, '8da36303035cad030e01331ca1eafb0968137e0e42004e908e85d37cd8cffa2a')},)
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb'), 'claim-run-rotation.py': (291624, '7523ed5fd31c498f0ef32cf1be5ea5c14f1ba969cc1e780cfe788d685995693a')},)
+# Exact DG17 owner temporary-directory source; no native admission.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353'), 'claim-run-rotation.py': (291624, '866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d')},)
 
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
