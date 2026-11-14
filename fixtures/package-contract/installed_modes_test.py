@@ -19,6 +19,10 @@ class MetadataPath(type(Path())):
     platform = "posix"
     mutation = ""
 
+    def lstat(self):
+        # Model no-follow reads explicitly; Path.lstat need not call stat().
+        return self.stat(follow_symlinks=False)
+
     def stat(self, *, follow_symlinks=True):
         original = os.stat(self, follow_symlinks=follow_symlinks)
         if not stat.S_ISREG(original.st_mode):
