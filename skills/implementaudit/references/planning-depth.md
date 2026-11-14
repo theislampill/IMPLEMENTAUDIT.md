@@ -129,6 +129,24 @@ risk deepens the action set automatically; request size alone never does.
 An absent or hand-wavy action-selection record is a plan-quality defect, not a
 style preference.
 
+### Conditional systems-security selection
+
+The same live factors select the conditional profile in
+`audit-playbook.md` when there is a material protected consequence, an exposed
+or untrusted capability, a changed trust, privilege, or delegation boundary,
+consequential security authority, a provenance-dependent claim,
+adaptive-adversary or common-mode risk, weak detection or recovery, or a
+consequential security, privacy, safety, availability, or usability decision.
+Record why the profile was selected or omitted and the cheapest sufficient
+evidence layer. It remains attached to the current audit-object owner, with no
+separate security mode, workflow, or planning artifact.
+
+Low-exposure reversible work inside a current proven envelope stays on the
+cheap path: record the protected consequence, one plausible-abuse or trust
+check, exact current identity, and rollback. If neither a profile trigger nor
+that cheap-path condition exists, record the omission reason and retain the
+ordinary security pressure; do not manufacture a profile.
+
 ### Verifier-plan selection
 
 For a proposed change, derive the verifier plan in this order: exact change
@@ -201,6 +219,16 @@ information rather than frequency alone. Temporary option value is retained
 only while expected information value exceeds carrying cost and an exit or
 reclassification condition remains live. Preserve sustainable recovery
 capacity instead of treating maximum utilisation as value.
+
+Material retry, recovery, or redispatch admission is conjunctive. Require
+semantic retry eligibility from the durable `FAILED_NO_EFFECT` state, a live
+deadline, queue age within policy, downstream capacity for the requested work,
+and recovery headroom for the requested work. Unknown effect state or any
+missing input refuses admission. Host/free executor slots and queue depth are
+observations, not downstream/recovery capacity or retry authority. Definitive,
+untriggered local work remains the serial cheap path and creates no retry queue.
+`CHEAP_PATH` requires canonical `NOT_STARTED`, no semantic retry eligibility,
+and zero requested work, deadline, queue-age, downstream, and recovery fields.
 
 No universal rule makes shorter feedback, lower work in progress, smaller
 batches, higher utilisation, more slack, or less slack correct. Stronger

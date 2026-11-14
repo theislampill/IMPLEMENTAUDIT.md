@@ -74,6 +74,9 @@ POINTER_KEYS = {"schema", "controller", "claim_id", "run_root_identity",
                 "projection_schema", "state_sha256", "roadmap_sha256",
                 "protected_manifest_sha256", "archive_manifest_sha256", "exact_next_action"}
 MAX_BYTES = 64 * 1024 * 1024
+# The claim owner selects the projection implementation, never caller data.
+_PROJECTION_MODULE_BYTES = 92941
+_PROJECTION_MODULE_SHA256 = "7989a08128fedabe531fc92114baff755e77e08aebea547253793b625496bb26"
 
 
 class RotationError(RuntimeError):
@@ -589,10 +592,19 @@ def managed(context):
 
 
 def projection_helper():
-    """Load the physical sibling's pure I/O boundaries, never a caller module."""
+    """Verify and execute one captured buffer from the selected physical sibling."""
+    expected_bytes = globals().get("_PROJECTION_MODULE_BYTES")
+    expected_digest = globals().get("_PROJECTION_MODULE_SHA256")
+    if (type(expected_bytes) is not int or not 0 < expected_bytes <= MAX_BYTES
+            or type(expected_digest) is not str or not SHA256.fullmatch(expected_digest)):
+        raise RotationError("projection helper source binding is invalid")
     path = Path(__file__).with_name("rotate-canonical-state.py").absolute()
-    raw = read_regular(path)
-    name = "_claim_owned_rotation_projection_" + hashlib.sha256(raw).hexdigest()
+    raw = read_regular(path, max_bytes=expected_bytes)
+    if len(raw) != expected_bytes or hashlib.sha256(raw).hexdigest() != expected_digest:
+        raise RotationError("projection helper source differs from selected owner")
+    # Equal verified bytes in another installation must retain that physical
+    # owner's __file__ and independently selected sibling inputs.
+    name = "_claim_owned_rotation_projection_" + hashlib.sha256(os.fsencode(path) + b'\0' + raw).hexdigest()
     if name not in sys.modules:
         module = types.ModuleType(name)
         module.__file__ = str(path)
