@@ -196,14 +196,16 @@
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
       "materialized_path": "skills/implementaudit/scripts/bounded_source_owner.py",
       "bytes": 83394,
-      "sha256": "bb6cfe1f4da62625cd6578f23102242ad35b0a6b1068a54da991ceec8a94da4e",
+      "sha256": "230b65727cb27f51971ee42d37efd3ff5f7514d299208d1b74d2cd04494ce688",
       "semantic_owner": "R003A/continuity",
       "mode": "100644",
       "source_preimage_sha256": null,
       "modified": true,
       "scope": "GENERIC_EXISTING_OWNER_PROJECTION_PRIVATE_SELECTORS_EXCLUDED",
-      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion.",
-      "dg08_source_receiving_preimage_sha256": "fa8af99500dfffca88d0746a52246a95dc774769d1ab19999bcb4030f8099dd6"
+      "additional_delta": "Exact current raw/native final_answer terminal phase from bounded actual public-item observation; no phase normalization; R0039 distinct owned-stdio0.153.4 source profile; existing owners and default refusals retained; no private selection or native admission; R0039 actual owned-stdio LF and source grammar; bounded held-directory child discovery and exact native relation readback DG08 source-only correction and exact dependency binding; no native admission or evidence-window expansion. DG18 live-capture consumer bound: the producer source-owner dependency read uses the existing 512 KiB code bound, as the producer hold and the claim dependency already do, because the claim-required producer template is 133273 bytes; digest, population and every other bound unchanged; no native admission.",
+      "dg08_source_receiving_preimage_sha256": "fa8af99500dfffca88d0746a52246a95dc774769d1ab19999bcb4030f8099dd6",
+      "dg18_live_capture_bound_preimage_bytes": 83394,
+      "dg18_live_capture_bound_preimage_sha256": "bb6cfe1f4da62625cd6578f23102242ad35b0a6b1068a54da991ceec8a94da4e"
     },
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",

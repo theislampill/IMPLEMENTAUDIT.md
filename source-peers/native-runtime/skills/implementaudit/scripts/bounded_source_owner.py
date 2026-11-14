@@ -929,7 +929,7 @@ def validate_live_capture_v1(selected, capture, read_pin):
     read_pin(deps['owned_stdio_loop.py'],128*1024)
     read_pin(deps['claim-run-rotation.py'],512*1024)
     read_pin(deps['bounded_source_owner.py'],128*1024)
-    read_pin(deps['compaction-source-owner-codex-app.py'],128*1024)
+    read_pin(deps['compaction-source-owner-codex-app.py'],512*1024)
     facts = capture['connection']
     require(type(facts) is dict and set(facts) == {'thread_id','source_path','thread_start','effective_config',
         'thread_start_response_sha256','thread_read_response_sha256','read_frame_ordinal','wire_prefix_sha256','wire_prefix_bytes'} and
