@@ -1,0 +1,1914 @@
+{
+  "source_identity": {
+    "source_id": "S-0fdfbeec081b868b",
+    "scientific_name": "DIRECTION_ARGUMENTS_B26_I001.json",
+    "original_bytes": 103655,
+    "original_sha256": "0fdfbeec081b868b74544b0fcb16c03c00900617624039f80fb8e3a59fdb71ad"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b26-expanded-direction-arguments/1",
+    "identity": "B26-I001",
+    "at_utc": "2026-11-12T19:06:50.990032+00:00",
+    "common_literal": {
+      "actual_native_interface": "The receiver is the actual repeated verification work in EA06, or one of EL004–010's actual admission, batch, transition, capacity, reserve or demand decisions about that work. Identify the change, configuration, behavior/claim, required checks, oracle, test data, useful window and responsible consumer. This is not an invented external tool merely because both properties can occur in software.",
+      "membership_rule": "The fourteen records below are independently authored conditional inputs. Their explicit dispositions are not computed from a Cartesian candidate list, names, successful controls, a target count or universal receipt of all receiver premises.",
+      "partial_input_rule": "Useful criterion, evidence, option, constraint or work-capacity input can be material before the complete receiver is established. A correct negative result and an already satisfied premise can be useful. No action flip is required. Complete system correctness, safety, delivered value, authority and field effects remain separate.",
+      "adequate_existing_path": "An adequate manual, direct, low-volume or existing automated method may supply the named input with no added platform or ceremony. Adequacy removes the need for extra machinery; it does not by itself establish absence of the relation. Actual nontrigger and unknown correspondence are stated separately.",
+      "regression_evidence_limit": "EA06 preserves risk-appropriate repeatable regression evidence, not a universal TDD order. Credible oracles, maintained data, relevant coverage and manageable execution are substantive. A green incomplete suite or circular oracle does not meet them. Targeted proof, manual, simulation, exploratory or independent checks remain possible at their native purposes.",
+      "cost_boundary": "Use the same change population, configuration, required evidence and horizon. Count setup, execution, test maintenance, waiting, triage, human review, recovery and displaced work where applicable. Charge a shared fixture, runner or result once. A saving produced by dropping required verification or shifting burden out of the boundary is not automatically a safe improvement.",
+      "authority": "Test-work release, deployment, repair, change to criteria and acceptance are distinct decisions. Demand integrity, a finite program pass, reserve availability and economic comparisons confer no rights.",
+      "scope_and_missingness": "Known absence of actual receiving use is a bounded nontrigger. Missing mapping, unclear test relevance, unreliable oracle or unknown compatibility stays unresolved for that instance. No unexamined row is relabeled negative and the476 prior examined unknowns are not closed by this inquiry.",
+      "source_evidence": "Current native and selected meanings support the conditional mechanisms. Newly read source metadata preserves practitioner, analytical, historical, empirical and normative roles and dependence. No fresh primary bodies, universal software effect size, genealogy edge or legal conclusion is claimed.",
+      "control_ceiling": "C22V2 is one author finite construction with nineteen assertions, two mechanisms and explicit inputs. C20/C21 are exact older recorded constructions reused as bounded examples, never rerun. No control establishes the complete population of native relations or replaces independent science review."
+    },
+    "literal_source": {
+      "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+      "bytes": 51680,
+      "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68"
+    },
+    "directions": [
+      {
+        "id": "B26-I001-D01",
+        "source": "EL-004",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "shared_object": "A defined population of behavior-change verification jobs awaiting or consuming the actual regression service.",
+        "guard": [
+          "Arrival pressure, accumulating active changes or delayed verification makes the declared regression-work boundary consequential.",
+          "The admission policy counts the real work through the stated completion boundary and makes pre-entry demand, blocked jobs and exception classes visible.",
+          "Required regression work is retained; reducing apparent WIP by disabling checks, dropping changes or hiding a pre-entry queue does not supply the claimed improvement."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/precondition_scope"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "source_contribution": "An explicit admission bound or finish-before-start release rule can limit the active verification commitments presented to the check service and expose which changes must wait or take an authorized exception.",
+        "receiving_consequence": "The feasibility and timing of EA06's repeated checks changes at its actual work queue; the policy can reduce active accumulation without claiming a universal improvement in total demand-to-result latency.",
+        "remaining_premises": [
+          "Relevant and credible checks, correct configuration and data, trustworthy oracles, and response to findings.",
+          "Adequate capacity, appropriate priorities and total waiting across the declared boundary; a smaller admitted queue alone is insufficient."
+        ],
+        "positive_witness": "A change producer can otherwise admit four test-bearing changes while one verifier completes them. A bound over production plus unfinished verification limits that declared active population while leaving pre-entry waiting visible.",
+        "stronger_claim_counterexample": "A bound of one can starve a capable downstream verifier; an immaculate queue can still run a circular oracle and miss a regression.",
+        "nontrigger": "No actual relevant verification work enters or is affected by this admission boundary, or the proposed cap controls an unrelated administrative queue.",
+        "cheap_alternative_and_cost": "For naturally sparse arrivals, an existing finish-before-start norm and a direct visible pending record may supply the bound. Count admission delay and exception handling before adding a board or scheduler.",
+        "removal_test": "Remove the proposed admission machinery while preserving required checks and total-demand accounting. If existing commitments remain adequately bounded, added machinery has no demonstrated incremental benefit; the useful existing boundary can remain.",
+        "reentry": "Reassess when job definition, arrival pressure, setup/test duration, hidden waiting, priority classes, required check portfolio or capacity changes.",
+        "controls": [
+          "C20"
+        ],
+        "finite_control_scope": "C20's recorded equal-demand producer/evaluator schedules distinguish active residence from pre-entry waiting and show starvation under an excessively restrictive cap. This is an arithmetic analogy to the named verification work, not a rerun or an empirical EA06 outcome.",
+        "direction_key": "LAW-L1::EL-004->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L1::EL-004",
+        "entry_row": [
+          "LAW-L1::EL-004->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/3"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-001",
+          "B26-NF-002",
+          "B26-NF-003",
+          "B26-NF-004",
+          "B26-NF-005"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-006",
+          "B26-NF-007",
+          "B26-NF-008",
+          "B26-NF-009"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "inputs/parent_B21_I002/research/increment_001/CONTROL_B21_C20.json",
+            "bytes": 17114,
+            "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7",
+            "kind": "EXACT_PRIOR_RECORDED_RESULT_NOT_RERUN",
+            "family_count": 1
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D02",
+        "source": "EA-06",
+        "receiver": "EL-004",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "shared_object": "The admission policy's definition of a verification job and its completion event for the actual changed behavior.",
+        "guard": [
+          "The EL004 rule releases or accounts for work whose declared completion includes EA06 verification.",
+          "The required checks, applicable configuration and result consumer are identifiable; check completion is distinguished from a passing behavior claim, repair completion and deployment permission.",
+          "A useful failed check can finish a verification task while leaving a separately visible failure or repair burden; it must not be reclassified as no work merely to improve the metric."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "source_contribution": "EA06's actual regression portfolio, credible-oracle requirement and relevant-change trigger identify the work that must be included in the release unit and the evidence event that legitimately completes its verification portion.",
+        "receiving_consequence": "EL004's observable WIP boundary and stable item definition become meaningful for this workflow. Calling a merge, queued run or disabled suite 'done' cannot silently retire unfinished required verification.",
+        "remaining_premises": [
+          "Choice of limit, total waiting, capacity, priority and exceptions remain admission-policy questions.",
+          "A credible completion definition does not establish that the current cap or work process is efficient, safe or authorized for deployment."
+        ],
+        "positive_witness": "A regression check returns a valid failure for the named revision. The verification job is recorded as evaluated, while the resulting unresolved defect remains visible under its actual repair rule rather than disappearing with the job counter.",
+        "stronger_claim_counterexample": "Accurately defined verification jobs can still be given an arbitrary limit that creates starvation or hides a large upstream backlog.",
+        "nontrigger": "The admission decision does not govern this verification work and does not consume its completion or pending-work definition.",
+        "cheap_alternative_and_cost": "One maintained change/check record can define the unit without a separate work-tracking platform. Count the maintenance and interpretation of test evidence; retain an adequate existing definition.",
+        "removal_test": "Remove the test-specific completion meaning while holding the queue tool fixed. If a queued or skipped check is now counted as completed, the admission metric has lost the actual receiver premise; replacing the tool alone cannot restore it.",
+        "reentry": "Reassess on changed required tests, new oracle/data limitations, task splitting, suppressed failures or a changed declared WIP endpoint.",
+        "controls": [
+          "C20",
+          "C22"
+        ],
+        "finite_control_scope": "C20 distinguishes returned evidence from whole qualification. C22's valid negative result and green incomplete portfolio illustrate why completion status and evidential adequacy require distinct interpretations; no all-work state machine is proved.",
+        "direction_key": "LAW-L2::EA-06->LAW-L1::EL-004",
+        "reverse_direction_key": "LAW-L1::EL-004->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L1::EL-004",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3"
+        },
+        "source_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/3"
+        },
+        "source_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-001",
+          "B26-NF-003",
+          "B26-NF-004",
+          "B26-NF-011"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "inputs/parent_B21_I002/research/increment_001/CONTROL_B21_C20.json",
+            "bytes": 17114,
+            "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7",
+            "kind": "EXACT_PRIOR_RECORDED_RESULT_NOT_RERUN",
+            "family_count": 1
+          },
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D03",
+        "source": "EL-005",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "shared_object": "The coherent change and check populations grouped for actual recurring regression verification.",
+        "guard": [
+          "Delayed regression feedback or failure-localization scope is material and batch setup/validation costs can be compared.",
+          "The compared batches preserve the same required behavioral observations and configuration correspondence; splitting does not destroy a meaningful test unit.",
+          "Internal check batches, integrated change batches and externally authorized release batches are distinguished."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "Explicit comparison of setup, repeated check work, waiting and coherent failure scope can select a regression batch that makes useful feedback available at acceptable cost instead of assuming the smallest possible batch is best.",
+        "receiving_consequence": "EA06's test cadence and feedback economics become conditional on its real workload and reusable setup; appropriate automated verification can remain worthwhile without testing every arbitrary fragment as an isolated meaningful release.",
+        "remaining_premises": [
+          "Credible oracle, relevant coverage, maintained data and interpretation are independent of the chosen batch size.",
+          "Reversibility, system acceptance and external deployment rights are not established by a smaller verification batch."
+        ],
+        "positive_witness": "With the same twelve example observations, C22's declared high setup costs favor a two-change group among the three compared sizes; after setup reduction, a single-change group has the lower declared burden.",
+        "stronger_claim_counterexample": "Testing isolated fragments of a behavior can miss an interaction that exists only in the combined configuration, even if each fragment produces rapid green feedback.",
+        "nontrigger": "No actual batch choice affects the specified repeated checks, or the compared items are unrelated work whose grouping has no receiving verification consequence.",
+        "cheap_alternative_and_cost": "Keep a larger coherent batch when fixed validation cost warrants it, while using cheaper intermediate checks. Preserve an already adequate small batch and avoid a slicing programme whose setup, maintenance or coordination costs exceed its warranted benefit.",
+        "removal_test": "Remove the proposed extra slicing while keeping all required observations and their configuration links. Compare the same population and horizon; if the larger existing batch is adequate and cheaper, retain it without denying that its economics are the relevant input.",
+        "reentry": "Reassess when fixed setup, reusable fixtures, required portfolio, coupling, feedback deadlines or exposure changes.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "The actual V2 four-revision portfolios are equal across six cost candidates. The invented cost totals44/34/38 and16/20/31 compare only those candidates; no empirical or global economic optimum follows.",
+        "direction_key": "LAW-L1::EL-005->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L1::EL-005",
+        "entry_row": [
+          "LAW-L1::EL-005->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/4"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/4"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-012",
+          "B26-NF-013",
+          "B26-NF-014",
+          "B26-NF-015",
+          "B26-NF-016"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-017"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D04",
+        "source": "EA-06",
+        "receiver": "EL-005",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "shared_object": "The actual validation work and behavioral coherence requirements entering the batch-economics comparison.",
+        "guard": [
+          "The batch decision concerns changes whose regression checks are reusable and consequential.",
+          "The checks' purpose, configuration, relevant interaction and actual setup/repeat/maintenance burdens are included at the decision's scope.",
+          "Any test result is used only for the behavior and environment it examines; a partial result can inform the comparison without qualifying the complete delivered batch."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "OPEN_QUESTIONS"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/precondition_scope"
+        ],
+        "source_contribution": "The real regression portfolio supplies validation work and coherence constraints to EL005. Reusable checks can reduce repeat cost; necessary integrated observations can set a lower meaningful unit, and observed regressions can reveal failure scope relevant to the comparison.",
+        "receiving_consequence": "A batch cost estimate can distinguish an inexpensive repeatable check from a costly required assessment, and avoid crediting a split that removes the behavioral evidence it was meant to preserve.",
+        "remaining_premises": [
+          "Setup and maintenance measurements, waiting costs, demand, coupling, recovery and applicable rights remain separately established.",
+          "Test validity and a useful observation do not prove the best batch size, complete reversibility or overall safety."
+        ],
+        "positive_witness": "The same maintained boundary examples can be evaluated on each of four revisions under any grouping; preserving those observations makes their repeat cost comparable. If an interaction requires a combined configuration, that requirement constrains the unit instead.",
+        "stronger_claim_counterexample": "A cheap green suite with no test of the changed lower boundary yields an attractive cost estimate while missing a known regression; it cannot stand for equivalent validation.",
+        "nontrigger": "The actual batch decision does not consume these checks, their validation burden or their behavioral coherence requirements.",
+        "cheap_alternative_and_cost": "At low reuse, direct manual checking or an appropriate analytic result may meet the same limited evidence need for less cost. Automating a one-off check is not required to provide a valid cost or scope input.",
+        "removal_test": "Remove the automated implementation but preserve the required evidence using an adequate alternative. If purpose, coverage and economics remain acceptable, automation is dispensable; removing the validation obligation itself would be a different comparison.",
+        "reentry": "Reassess on changed oracle, coverage, integration dependency, maintenance burden, repeat frequency or risk-relevant behavior.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "The equal portfolios, green incomplete countercase and stipulated manual5 versus automation11 comparison demonstrate limited differences in the construction, not a universal test-cost model.",
+        "direction_key": "LAW-L2::EA-06->LAW-L1::EL-005",
+        "reverse_direction_key": "LAW-L1::EL-005->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L1::EL-005",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/4"
+        },
+        "source_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/4"
+        },
+        "source_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-018",
+          "B26-NF-017"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-012",
+          "B26-NF-019",
+          "B26-NF-015",
+          "B26-NF-020"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D05",
+        "source": "EL-006",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "shared_object": "The environment/data preparation, test invocation and result interpretation transition actually needed to repeat regression checks.",
+        "guard": [
+          "Preparation, switching or repeat-check latency materially determines feasible verification frequency or cost.",
+          "The proposed change preserves correct configuration, relevant data, credible oracles and necessary checks.",
+          "All preparation, maintenance, recovery and work shifted to other people or services are counted at the same boundary."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "Separating avoidable from necessary regression setup and safely reusing preparation can lower total transition cost and make a useful repeat check feasible sooner; the comparison includes the upkeep of that reusable path.",
+        "receiving_consequence": "EA06 can retain the same credible behavioral checks at a more feasible cadence instead of treating environment rebuilding, test-data preparation or result handling as costless.",
+        "remaining_premises": [
+          "The check portfolio and oracle remain valid for the current change and environment.",
+          "An observed local time saving does not establish total economic benefit, deployment readiness, rollback capability or complete safety."
+        ],
+        "positive_witness": "A compatible reusable fixture lowers the declared setup from8 to1 while all twelve example observations remain; the cheaper same-work comparison changes the feasible batch/cadence choice.",
+        "stronger_claim_counterexample": "Deleting the previously fixed negative-input test reduces apparent work and yields a green suite while reintroducing the very regression EA06 protects against.",
+        "nontrigger": "The proposed transition optimization concerns no actual preparation or repetition step used by the identified regression work.",
+        "cheap_alternative_and_cost": "A documented direct setup remains adequate when repetition is rare or savings are immaterial. Reuse an existing safe fixture before introducing a new automation service, and count its maintenance rather than asserting every automation reduces cost.",
+        "removal_test": "Remove the proposed automation and compare complete same-purpose preparation and check cost with the direct path. If the direct path is adequate and cheaper, keep it; neither path may silently delete required checks.",
+        "reentry": "Reassess when configuration, test data, fixture compatibility, transition frequency, upkeep or transferred burden changes.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "C22 preserves all portfolios under its setup-cost change and separately exhibits the unsafe shortcut. The setup values are assumptions, not measured achieved improvements.",
+        "direction_key": "LAW-L1::EL-006->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L1::EL-006",
+        "entry_row": [
+          "LAW-L1::EL-006->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-021",
+          "B26-NF-022",
+          "B26-NF-023",
+          "B26-NF-024",
+          "B26-NF-025"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D06",
+        "source": "EA-06",
+        "receiver": "EL-006",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "shared_object": "The regression-verification step within an actual transition whose safe total cost is being changed.",
+        "guard": [
+          "The transition actually relies on repeated behavioral verification and the affected checks have a meaningful oracle/configuration relation.",
+          "Automation is considered for repeatable high-value checks, while residual exploratory, analytic or independent duties remain separately represented.",
+          "The receiver uses the actual check result or check requirement to assess preservation of the transition's intended behavior, not as an unqualified safe-release certificate."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "source_contribution": "EA06 supplies a concrete repeatable verification implementation and its validity conditions for EL006's safe-automation option. A relevant result can support or contradict one preservation premise, while the portfolio defines which checks a transition shortcut must retain.",
+        "receiving_consequence": "EL006 can distinguish lower safe repeat cost from a merely faster path that omits behavioral obligations; the same automated check shared by both mechanisms is counted once.",
+        "remaining_premises": [
+          "Total transition cost, configuration correspondence, competent maintenance, recovery and all unsupplied safety/authority conditions.",
+          "A test implementation can be useful without proving all transitions correct, and a passed check cannot certify its own oracle."
+        ],
+        "positive_witness": "The actual negative-input regression result changes the assessment of a proposed faster transition: the changed behavior has lost a previously preserved boundary, despite other checks remaining green.",
+        "stronger_claim_counterexample": "A circular oracle returns green for the defective function; automation and speed alone do not supply a valid preservation warrant.",
+        "nontrigger": "The transition does not consume this verification step or its result, and no tested behavior is among the transition's preserved functions.",
+        "cheap_alternative_and_cost": "A competent direct check, proof or appropriate simulation can cover the same limited concern when automation is not economic or feasible. Keep necessary nonautomated judgment and count test maintenance and flaky-run triage.",
+        "removal_test": "Remove the regression implementation and preserve its actual behavioral obligation using an adequate alternative. Compare the resulting total cost; removing only duplicate wrappers may save cost without losing evidence, whereas deleting the necessary observation changes the warrant.",
+        "reentry": "Reassess when tested behavior, oracle, data, transition scope, maintenance burden or evidence consumer changes.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "The actual regression, circular-oracle and deleted-check cases test the distinction between preservation evidence and faster execution. They do not prove a whole safe transition.",
+        "direction_key": "LAW-L2::EA-06->LAW-L1::EL-006",
+        "reverse_direction_key": "LAW-L1::EL-006->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L1::EL-006",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-006",
+          "B26-NF-026",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-021",
+          "B26-NF-023",
+          "B26-NF-024",
+          "B26-NF-027"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D07",
+        "source": "EL-007",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "shared_object": "A capacity plan for the forecastable portion of the actual repeated regression-execution workload.",
+        "guard": [
+          "There is an identified repeatable work class with measurable aggregate demand, feasible sequencing and flexible usable resources.",
+          "Only its demonstrably predictable execution component is levelled; novel diagnosis, changing test design and urgent failures retain explicit priorities and residual capacity/time allowances.",
+          "Cadence must respect the relevant change's useful feedback window and workload limits; scheduled time does not create test validity or permission."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "A class-specific sustainable pace and sequencing plan can reserve usable execution opportunities for repeated checks and expose overload, instead of scheduling every change or investigation to a fixed metronome.",
+        "receiving_consequence": "EA06's manageable execution-time and repeated-use requirements inform a feasible cadence; a predictable check stream need not be delayed behind an unexamined assumption that every diagnosis or human review is equally predictable.",
+        "remaining_premises": [
+          "Actual demand/predictability evidence, flexible capacity, service windows, exception authority and credible verification.",
+          "Neither a levelled calendar nor the native property supplies an empirical forecast or proves a specific workload sustainable."
+        ],
+        "positive_witness": "A known recurrent portfolio can have execution capacity planned by its real service class, while a newly discovered flaky test and its uncertain diagnosis remain in a separate residual workload with explicit priority.",
+        "stronger_claim_counterexample": "A fixed daily test quota hides failed-check investigation in unpaid overtime or defers an urgent relevant check beyond its decision window.",
+        "nontrigger": "There is no demonstrated predictable aggregate regression component to level, or the proposed schedule concerns work outside the actual verification service.",
+        "cheap_alternative_and_cost": "For low-volume or unique changes use finite-capacity planning, direct priority and event-triggered checks. An already adequate schedule need not be replaced by takt boards. Count replanning, forecast error, buffers and human triage burden.",
+        "removal_test": "Remove the levelling arrangement and retain explicit actual demand, capacity and priorities. If the existing event-driven path meets the needed windows without harmful oscillation or overburden, no additional cadence machinery is warranted.",
+        "reentry": "Reassess on changed mix, execution variability, diagnosis burden, urgency, resources or forecast error.",
+        "controls": [],
+        "finite_control_scope": "No new finite control claims to establish a real predictable demand distribution. This is a native-grounded conditional capacity-planning input, with predictability explicitly left for the actual context.",
+        "direction_key": "LAW-L1::EL-007->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L1::EL-007",
+        "entry_row": [
+          "LAW-L1::EL-007->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/6"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/6"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-028",
+          "B26-NF-029",
+          "B26-NF-030",
+          "B26-NF-031",
+          "B26-NF-032"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-006",
+          "B26-NF-007",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-017"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": []
+      },
+      {
+        "id": "B26-I001-D08",
+        "source": "EA-06",
+        "receiver": "EL-007",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "The work-class and service definition used to plan recurring regression capacity.",
+        "guard": [
+          "EL007's actual capacity plan is for the same regression checks and relevant behavior changes.",
+          "Required execution, setup, test maintenance and uncertain failure investigation are distinguished rather than counted as interchangeable commits or green badges.",
+          "Observed work data, if used, must correspond to the named configuration and service class; the criterion input can be useful before a forecast is reliable."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "OPEN_QUESTIONS"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "source_contribution": "EA06 identifies which repeated checks constitute the demand unit and which oracle/data maintenance, flaky-test triage or new exploratory investigation cannot be treated as a constant-cost execution of that unit.",
+        "receiving_consequence": "EL007's pace estimate and applicability guard can be scoped to actual repeatable work rather than a misleading count of changes. This can narrow or invalidate a proposed levelling scope without supplying a complete replacement schedule.",
+        "remaining_premises": [
+          "Aggregate arrival information, resource flexibility, sustainable workload and residual buffers still require actual evidence and decisions.",
+          "Repeatability of an executable check does not imply predictable arrivals or predictable repair effort."
+        ],
+        "positive_witness": "The same three checks run reproducibly on identified revisions, but a failure creates a diagnostic task whose duration is not given by the three-check count. The capacity plan can distinguish those two work classes.",
+        "stronger_claim_counterexample": "A stable fast suite receives an unforeseeable burst of changes and long repair work; its determinism does not establish a safe fixed demand pace.",
+        "nontrigger": "The proposed pacing decision does not consume this test-work definition or any resulting execution/maintenance burden.",
+        "cheap_alternative_and_cost": "A simple explicit inventory of required checks and unresolved investigation may suffice. If stable aggregate demand is absent, use finite-capacity priority planning; do not force a forecast from the existence of automation.",
+        "removal_test": "Remove the test-work distinctions while retaining a commit-count target. If that target now omits required repeated work or unpredictable repair, its apparent smoothness no longer addresses the native capacity question.",
+        "reentry": "Reassess on changed portfolio, test level, flaky behavior, maintenance needs, arrivals or diagnosis process.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "C22 executes known repeated checks and detects failures but models no repair duration or arrival distribution. It supports the finite execution-work distinction, not the forecast or an empirical pacing rule.",
+        "direction_key": "LAW-L2::EA-06->LAW-L1::EL-007",
+        "reverse_direction_key": "LAW-L1::EL-007->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L1::EL-007",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/6"
+        },
+        "source_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/6"
+        },
+        "source_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010",
+          "B26-NF-017"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-028",
+          "B26-NF-029",
+          "B26-NF-033",
+          "B26-NF-031"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D09",
+        "source": "EL-008",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "shared_object": "A compatible reserve or feasible recovery path protecting the actual consequential regression-check service.",
+        "guard": [
+          "Residual variability or disruption has material service or failure consequences for the identified check and useful window.",
+          "The reserve is actually capable of the required configuration, test data, oracle use and restoration path; information about a possible resource is not that resource.",
+          "Ownership, activation delay, common failures and total carrying/maintenance burden are explicit at the same horizon."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "A genuinely usable alternative environment, capacity allowance or permitted time reserve can preserve the feasibility of completing the named repeat check when its primary path is delayed or disrupted.",
+        "receiving_consequence": "The check's timely execution or explicitly acceptable waiting/recovery option changes. This supplies a service premise for EA06; it does not improve a bad oracle or establish that all intended regressions are covered.",
+        "remaining_premises": [
+          "Relevant checks, oracle validity, current data, interpretation and applicable test-work rights.",
+          "Real compatibility, activation and shared-failure assumptions need contextual evidence; the native property supplies no universal reserve size."
+        ],
+        "positive_witness": "A compatible alternate execution path is available inside the check's needed window when the primary is unavailable; the same test portfolio can be evaluated without treating a list of environments as physical capacity.",
+        "stronger_claim_counterexample": "The nominal spare shares the failed dependency or lacks the required test data, so two named runners do not create two usable verification paths.",
+        "nontrigger": "No material residual service/disruption consequence concerns this regression work, or the proposed reserve cannot participate in its execution or recovery path.",
+        "cheap_alternative_and_cost": "Permitted waiting, direct verification or a small documented recovery contingency may suffice. Keep an adequate stable path without buying a spare solely to display resilience. Count standby, data upkeep and common dependencies once.",
+        "removal_test": "Remove the proposed reserve while preserving the real required check and deadline. If the primary or allowed wait already meets the concern, added reserve lacks justified incremental benefit; if all required execution becomes infeasible, the reserve had a specific protected function.",
+        "reentry": "Reassess on changed environment, data, consequence, service window, activation time, correlated failure or reserve ownership.",
+        "controls": [
+          "C21"
+        ],
+        "finite_control_scope": "The exact prior C21 reserve construction distinguishes usable, incompatible, late and shared-outage alternatives plus stable/permitted-wait paths. Its capabilities and costs were stipulated; no EA06 installation or new reserve experiment is claimed.",
+        "direction_key": "LAW-L1::EL-008->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L1::EL-008",
+        "entry_row": [
+          "LAW-L1::EL-008->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/7"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-034",
+          "B26-NF-035",
+          "B26-NF-036",
+          "B26-NF-037",
+          "B26-NF-038"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "inputs/parent_B21_I002/research/increment_002/CONTROL_B21_C21.json",
+            "bytes": 18527,
+            "sha256": "815540bc4659cbbc8bc836c92b37f00318944692305e55eb4959b195e8883d0e",
+            "kind": "EXACT_PRIOR_RECORDED_RESULT_NOT_RERUN",
+            "family_count": 1
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D10",
+        "source": "EA-06",
+        "receiver": "EL-008",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "The compatibility and protected-function criteria for a reserve proposed to support actual regression work.",
+        "guard": [
+          "The actual reserve decision claims to protect these repeated checks or the ability to obtain their needed result.",
+          "The named check, configuration, oracle, maintained data and useful window are identified.",
+          "The regression criterion is used to assess reserve relevance or feasibility, not to claim that a generic spare has been qualified or that arbitrary reserve-management software was tested."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "source_contribution": "EA06's actual execution and evidence requirements define what the reserve must be able to preserve. A fast platform lacking the required data or meaningful oracle is not an equivalent option merely because it can run some test.",
+        "receiving_consequence": "EL008's feasibility inquiry can exclude an irrelevant or incompatible reserve and distinguish physical capacity, additional time and information that only helps choose a future path.",
+        "remaining_premises": [
+          "Actual resource compatibility, availability, failure dependence, consequence, ownership and economical sizing.",
+          "A behavioral check requirement does not demonstrate a spare's reliability or grant authority to hold it."
+        ],
+        "positive_witness": "The required configuration-specific portfolio identifies data that an alternate environment lacks. That known mismatch changes the reserve's claimed protected function before any global risk or capacity model is completed.",
+        "stronger_claim_counterexample": "Both primary and spare can run the required checks but share the same outage cause; compatibility alone does not establish resilient capacity.",
+        "nontrigger": "The reserve protects a different function and no EA06 check requirement is consumed by its compatibility or sizing decision.",
+        "cheap_alternative_and_cost": "A direct compatibility check against the current requirement can be enough; a larger monitoring platform is unnecessary. Where permitted waiting meets the requirement, a new physical spare may have no incremental value.",
+        "removal_test": "Remove the check-specific compatibility criterion while leaving the reserve inventory intact. If nominal but incapable alternatives now count as protection, the native feasible-path judgment has lost a material premise.",
+        "reentry": "Reassess on changed test purpose, configuration, data, environment, service window or recovery arrangement.",
+        "controls": [
+          "C21"
+        ],
+        "finite_control_scope": "C21 supplies the abstract compatible-versus-nominal option distinction. Current EA06 supplies the real criterion type; the construction does not establish field compatibility.",
+        "direction_key": "LAW-L2::EA-06->LAW-L1::EL-008",
+        "reverse_direction_key": "LAW-L1::EL-008->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L1::EL-008",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7"
+        },
+        "source_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/7"
+        },
+        "source_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-034",
+          "B26-NF-039",
+          "B26-NF-037",
+          "B26-NF-038"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "inputs/parent_B21_I002/research/increment_002/CONTROL_B21_C21.json",
+            "bytes": 18527,
+            "sha256": "815540bc4659cbbc8bc836c92b37f00318944692305e55eb4959b195e8883d0e",
+            "kind": "EXACT_PRIOR_RECORDED_RESULT_NOT_RERUN",
+            "family_count": 1
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D11",
+        "source": "EL-009",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "shared_object": "The actual regression-service loading policy, including its downstream result interpretation and unresolved-work boundary.",
+        "guard": [
+          "Growing queues or high activity without useful completion make the verification service's capacity allocation consequential.",
+          "Arrivals, execution, blocked/aged work and actual result use are measured within a meaningful end-to-end boundary.",
+          "Any protected headroom or reduced upstream release serves a named response need; low utilization is not an end in itself."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/current_evidence_warrant"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "Queue-aware loading can withhold work that worsens actual verification congestion or protect response capacity for a consequential current check, instead of maximizing runner busy time regardless of result availability.",
+        "receiving_consequence": "EA06's manageable execution and useful feedback conditions gain a capacity constraint tied to the real verification service; local throughput cannot be credited when it only accumulates unread or stale results downstream.",
+        "remaining_premises": [
+          "Correct workload and resource measurements, demand/variability assumptions, authority to change loading, and credible checks.",
+          "No utilization number alone establishes harm; deterministic balanced full utilization and ample stable capacity remain possible."
+        ],
+        "positive_witness": "Fast check generation overwhelms a slower actual evaluation/triage step. Accounting for that bottleneck changes the release or headroom decision, while preserving total demand and unfinished findings.",
+        "stronger_claim_counterexample": "A deterministic balanced check service runs at full utilization with no queue; forcing idle time would add cost without the claimed congestion benefit.",
+        "nontrigger": "The loading decision has no actual effect on the identified regression service, or a claimed congestion mechanism is known absent in the compared stable balanced setting.",
+        "cheap_alternative_and_cost": "Simple utilization observation with exception handling can suffice when variability is low and capacity is ample. Preserve an adequate existing loading rule; charge foregone output and reserves against actual service need, not a generic target.",
+        "removal_test": "Remove the new headroom or coordination rule while retaining queue and total-result measures. If the existing service remains adequate, added idleness is not justified; deleting the downstream boundary to make utilization look good is not an equivalent removal.",
+        "reentry": "Reassess on changed arrivals, check duration, flaky retries, result-consumer capacity, bottleneck migration or required response window.",
+        "controls": [
+          "C20"
+        ],
+        "finite_control_scope": "The prior exact producer/evaluator schedules separate busy-time and active-population effects from total waiting and starvation. The deterministic fully utilized nontrigger is retained from native EL009, not estimated by a new queue simulation.",
+        "direction_key": "LAW-L1::EL-009->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L1::EL-009",
+        "entry_row": [
+          "LAW-L1::EL-009->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/8"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-040",
+          "B26-NF-041",
+          "B26-NF-042",
+          "B26-NF-043",
+          "B26-NF-044"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-017"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "inputs/parent_B21_I002/research/increment_001/CONTROL_B21_C20.json",
+            "bytes": 17114,
+            "sha256": "b4ec05db8279af3625775ece7f047435f3a98949e058ceeb49836a40042bddd7",
+            "kind": "EXACT_PRIOR_RECORDED_RESULT_NOT_RERUN",
+            "family_count": 1
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D12",
+        "source": "EA-06",
+        "receiver": "EL-009",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "The service-demand and useful-completion definition for the actual regression loading policy.",
+        "guard": [
+          "EL009 evaluates throughput or queue capacity for these required checks and their actual result-consumer path.",
+          "Execution, rechecks, data/oracle maintenance and flaky-result triage are represented where they consume the chosen service boundary.",
+          "A known valid failure is useful evidence and can complete its evaluation event without being relabeled a passing change or a completed repair."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "OPEN_QUESTIONS"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "source_contribution": "The regression contract supplies the work and evidence meaning needed to interpret capacity: required checks are not interchangeable raw job starts, and a disabled, flaky or wrongly scoped suite cannot automatically count as useful verification throughput.",
+        "receiving_consequence": "EL009's throughput and waiting comparison can use a defensible service unit and detect apparent gains produced by omitted tests or displaced triage, while retaining valid partial and negative results.",
+        "remaining_premises": [
+          "Actual arrival/service data, capacity, variability, response rights and joint loading choices.",
+          "A proper service definition does not prove any utilization optimum or that a particular reserve reduces total cost."
+        ],
+        "positive_witness": "A speed metric rises after the negative-input check is dropped, but the resulting green suite no longer observes the required regression. EA06's known obligation changes what that loading metric can warrant.",
+        "stronger_claim_counterexample": "All required checks are valid and fast, yet their arrival burst still exceeds available capacity; valid semantics alone cannot prevent congestion.",
+        "nontrigger": "The loading decision measures another service and does not consume these regression obligations, results or resource demands.",
+        "cheap_alternative_and_cost": "A direct record of required observations, pending work and triage may be sufficient. A simpler valid portfolio can be preferable to redundant tests if its relevant evidence is preserved; test-count reduction alone is not the criterion.",
+        "removal_test": "Remove the evidence-aware unit definition while retaining a raw completed-jobs counter. If skipped or circular checks now inflate useful throughput, the receiver has lost the input. Remove duplicate reporting instead when one adequate evidence record can serve both purposes.",
+        "reentry": "Reassess on portfolio, oracle, configuration, flaky-retry, maintenance, boundary or result-consumer changes.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "C22's deleted-check and circular-oracle examples establish finite failures of a stronger raw-green-throughput inference. No whole-service productivity effect is measured.",
+        "direction_key": "LAW-L2::EA-06->LAW-L1::EL-009",
+        "reverse_direction_key": "LAW-L1::EL-009->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L1::EL-009",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8"
+        },
+        "source_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/8"
+        },
+        "source_field_factors": [
+          "B26-NF-006",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010",
+          "B26-NF-017"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-040",
+          "B26-NF-045",
+          "B26-NF-043",
+          "B26-NF-046"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D13",
+        "source": "EL-010",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "shared_object": "The relevant behavior-change event actually consumed as a request to release identified regression checks.",
+        "guard": [
+          "EA06's execute-on-relevant-change mechanism actually consumes the event to initiate check work across the time or organizational boundary.",
+          "The request's origin, revision/item identity, relevant-behavior meaning, unit, freshness and test-work decision scope matter to which work is released.",
+          "A valid pending request remains visible when test-work permission or usable capacity is absent; neither a forecast nor a deployment instruction is silently treated as that request."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "source_contribution": "EL010's demand-information contract distinguishes the actual current check request from duplicate notifications, stale revisions, unconfirmed origins, wrong units and irrelevant change signals.",
+        "receiving_consequence": "EA06 can run the identified repeated checks for the relevant current change, or preserve an explicit unresolved request, instead of silently skipping required work or manufacturing duplicate demand from notifications.",
+        "remaining_premises": [
+          "The actual behavior-to-check mapping, credible oracle, maintained data and appropriate check execution.",
+          "Test-work rights, capacity, deployment/repair rights and complete system assurance remain independent; validated demand does not supply them."
+        ],
+        "positive_witness": "A current floor-behavior change releases the negative and ordinary examples for revisionr2 once. A duplicate is retained without another job; a stale revision is held for reconciliation.",
+        "stronger_claim_counterexample": "An authentic current event is given a wrong impact map; the admitted portfolio can pass while omitting the real ceiling regression. Signal integrity alone does not supply accurate check relevance or a credible oracle.",
+        "nontrigger": "The event is purely informational and no actual verification release decision consumes it, or the event is known to concern no relevant behavioral change under a reliable scope determination.",
+        "cheap_alternative_and_cost": "An explicit directly confirmed change/check request and simple pending record can already satisfy the input. No event platform or extra reconciliation is required when origin, current revision, unit and scope are adequately clear. Such a satisfied case remains applicable; count only justified additional work.",
+        "removal_test": "Remove duplicate-notification machinery while preserving the current confirmed check demand and its owner. If the simple direct path retains adequate identity and scope, keep it. Removing the request itself and calling missing checks 'no demand' would defeat the native use.",
+        "reentry": "Reassess on change-event origin, impact mapping, revision identity, duplicate semantics, freshness, long-lead preparation, work rights or consumer changes.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "C22's ten demand cases exercise the actual change-to-check interface in the specimen. The impact map and authority are explicit assumptions, and the wrong-map counterexample limits the inference. This does not reopen EL010/EA02's separately missing ordinary behavior-evidence demand use.",
+        "direction_key": "LAW-L1::EL-010->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L1::EL-010",
+        "entry_row": [
+          "LAW-L1::EL-010->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/9"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "source_field_factors": [
+          "B26-NF-047",
+          "B26-NF-048",
+          "B26-NF-049",
+          "B26-NF-050",
+          "B26-NF-051"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-006",
+          "B26-NF-007",
+          "B26-NF-008",
+          "B26-NF-009"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      },
+      {
+        "id": "B26-I001-D14",
+        "source": "EA-06",
+        "receiver": "EL-010",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "shared_object": "The work unit and relevant-change semantics of an actual demand signal used to release regression checks.",
+        "guard": [
+          "The EL010 release decision is for EA06's actual check work, and consumes its required behavior/configuration/check correspondence.",
+          "The repeated-check contract identifies which observation is required for the relevant change; no external demand-system software or hypothetical tool test is invented.",
+          "Known correspondence can inform the signal before a run passes. A result changes request status only under the actual completion or follow-up rule; a green badge is not automatically new demand, permission or complete correctness."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "REQUALIFICATION/qualitative_evaluation_criterion"
+        ],
+        "source_contribution": "EA06's native relevant-change trigger and required-check meaning supply the unit and decision scope of the demand: which regression observations on which revision remain to be obtained. They distinguish a request to evaluate behavior from a request to deploy, and can expose an impact map that omits a required observation.",
+        "receiving_consequence": "EL010's signal interpretation can identify genuine unmet verification work and avoid equating notification count, commit count or a generic green result with the needed work unit. The contribution is a criterion/meaning input, not evidence that every event is authentic.",
+        "remaining_premises": [
+          "Origin, freshness, trustworthy current identity, forecast complement, long-lead visibility, actual demand use, work authority and usable capacity.",
+          "The regression contract and each oracle need contextual validity; a proposed map with unknown relevance is not made sound by the demand schema."
+        ],
+        "positive_witness": "The floor-change contract maps revisionr2 to negative and ordinary checks. That identified portfolio makes the release request's unit concrete and allows duplicate requests for the same unmet work to be recognized without needing a passing outcome.",
+        "stronger_claim_counterexample": "A perfectly specified required portfolio is attached to a stale or spoofed event. Correct work semantics do not prove origin, freshness or that the current change actually occurred.",
+        "nontrigger": "No receiving release decision consumes EA06's work-unit or relevant-change semantics. Ordinary regression evidence about unrelated behavior, without such demand use, is insufficient.",
+        "cheap_alternative_and_cost": "A direct agreement on the changed behavior, current revision and required checks may already supply the semantic input. Retain that adequate path without a mapping platform, and count the maintenance of whichever correspondence is actually used.",
+        "removal_test": "Remove the required-check semantics while retaining an event stream. If an event now says only 'run something' or is mistaken for deployment permission, the release decision has lost a native scope premise. Replacing an elaborate mapper with an adequate direct confirmation can preserve the premise at lower cost.",
+        "reentry": "Reassess on changed behavior, portfolio, oracle, configuration, impact map, actual receiving decision or completion semantics.",
+        "controls": [
+          "C22"
+        ],
+        "finite_control_scope": "The specimen's declared impact-to-check mapping is actually consumed by admission; the wrong-map green case shows that mapping validity remains an independent burden. C22 does not prove the corresponding interface exists for every EA06 use or for the separate EA02 unknowns.",
+        "direction_key": "LAW-L2::EA-06->LAW-L1::EL-010",
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L1::EL-010",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9"
+        },
+        "source_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/5"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/9"
+        },
+        "source_field_factors": [
+          "B26-NF-006",
+          "B26-NF-007",
+          "B26-NF-008",
+          "B26-NF-009",
+          "B26-NF-010"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-047",
+          "B26-NF-048",
+          "B26-NF-050",
+          "B26-NF-051"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": false,
+        "control_bindings": [
+          {
+            "path": "research/increment_001/CONTROL_B26_C22_V2.json",
+            "bytes": 43383,
+            "sha256": "8d5ff6417745a72d5293b6baf8e563d33efb916155624b7db7801074143c92fa",
+            "kind": "NEW_EXECUTED_FINITE_CONSTRUCTION_V2",
+            "family_count": 1,
+            "source": {
+              "path": "authoring/regression_demand_control_b26_v2.py",
+              "bytes": 11308,
+              "sha256": "5d42ca094a510d9dfa7afd8649689888e5dd8f5b232fc26516190d1a383c7444"
+            },
+            "design": {
+              "path": "authoring/B26_C22_DESIGN.json",
+              "bytes": 3283,
+              "sha256": "d0a6fdbeede886711a620504e5378b8f79c83710514dd098d30a0ecf51104899"
+            },
+            "design_addendum": {
+              "path": "authoring/B26_C22_V2_DESIGN_ADDENDUM.json",
+              "bytes": 1584,
+              "sha256": "35000ffc905c5c38fce34544da5265e1ac65dbb4e92482b377ecb88063a98f7b"
+            },
+            "actual_run": {
+              "path": "execution/CONTROL_B26_C22_RUN002/RUN_RECEIPT.json",
+              "bytes": 938,
+              "sha256": "d9e42854540e83c08af00a9b088cfc76d3bae97ba513221ba1dd8ff286d56d58"
+            },
+            "retained_original": {
+              "path": "research/increment_001/CONTROL_B26_C22.json",
+              "bytes": 17230,
+              "sha256": "07265ab8306c6e4ec25bc77fd026cc0eceeecc67dfa71a8f03575ba8690c9d42"
+            },
+            "scope_correction": {
+              "path": "execution/C22_SCOPE_OVERCLAIM_AND_SOURCE_REPAIR.json",
+              "bytes": 1449,
+              "sha256": "92bb639a94d7b8be6a2213076668f80edd083cf0301eaa2120c65d5de5c50025"
+            }
+          }
+        ]
+      }
+    ],
+    "amendments": [
+      {
+        "id": "B26-I001-A01",
+        "source": "EL-010",
+        "receiver": "EA-07",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "shared_object": "The actual mainline failure event that is consumed as a request to release immediate repair work.",
+        "guard": [
+          "The current integrated failure/repair event actually initiates or replenishes repair work across time or an organizational boundary.",
+          "Its identity, configuration, status, freshness or release authority affects that work request.",
+          "A valid unresolved need stays visible even when release authority or capacity is absent."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "CEREMONY_VS_PROPERTY"
+        ],
+        "source_contribution": "EL-010 distinguishes a current genuine repair demand from duplicate notifications, a stale failure for another configuration, forecasts and unauthorized release instructions.",
+        "receiving_consequence": "EA-07's immediate-repair input is correctly interpreted and admitted, avoiding duplicate or misdirected work and preserving the actual unresolved failure instead of reacting blindly to a badge.",
+        "remaining_premises": [
+          "Credible failure detection, actual mainline integration, competent diagnosis/repair and response capacity.",
+          "Correct authority and escalation; signal integrity alone does not heal the mainline."
+        ],
+        "positive_witness": "Two notifications refer to the same current integrated failure; reconciliation releases one repair task and retains both records without pretending two failures occurred.",
+        "stronger_claim_counterexample": "A perfectly current confirmed failure request reaches a team with no usable repair capability; accurate demand does not make repair immediate or correct.",
+        "nontrigger": "A health result is only informational and no receiving release or replenishment decision consumes it as repair-work demand. This is absence of the actual demand-use interface; adequacy of an existing direct confirmation is a separate case, not a relation nontrigger.",
+        "cheap_alternative_and_cost": "Explicit confirmation, current configuration/failure identity and a simple repair record may suffice. Count reconciliation/latency cost; no event platform is universally required.",
+        "removal_test": "Remove duplicate notification machinery while retaining the current genuine repair demand and its owner. Removing visible alerts is not a successful reduction if the unresolved failure is merely hidden.",
+        "controls": [
+          "C21:signal_trace:duplicate",
+          "C21:signal_trace:stale_configuration",
+          "C21:direct_confirmed_cheap_path",
+          "C21:information_without_capability"
+        ],
+        "evidence_anchor": "The native EA-07 requirement to repair failures immediately supplies the actual failure-to-work use. This guard does not classify every CI status as demand.",
+        "adequately_satisfied_path": "When a current, directly confirmed integrated failure request is consumed to release repair work across the actual time or team boundary, confirmation can already supply the required origin, configuration, unit, freshness and decision scope. EL010's input is applicable and adequately supplied. No additional event platform, extra reconciliation step or change in the final action is required merely to count that useful input.",
+        "missing_correspondence_case": "If it is unknown whether the health observation is consumed as a repair request, applicability of this instance remains unresolved. Absence of a demonstrated interface is not proof of a universal negative.",
+        "direction_key": "LAW-L1::EL-010->LAW-L2::EA-07",
+        "reverse_direction_key": "LAW-L2::EA-07->LAW-L1::EL-010",
+        "entry_row": [
+          "LAW-L1::EL-010->LAW-L2::EA-07",
+          "MATERIAL",
+          "DIRECT",
+          "research/increment_002/DIRECTION_ARGUMENTS_B21_I002.json#B21-I002-D11"
+        ],
+        "source_native_binding": {
+          "path": "inputs/native/lean.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9"
+        },
+        "receiver_native_binding": {
+          "path": "inputs/native/agile_native.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6"
+        },
+        "source_selected_binding": {
+          "path": "inputs/selected/lean/CLAIMS.json",
+          "bytes": 42558,
+          "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+          "pointer": "/claims/9"
+        },
+        "receiver_selected_binding": {
+          "path": "inputs/native/agile_overlay.json",
+          "bytes": 86762,
+          "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+          "pointer": "/claims/6"
+        },
+        "source_field_factors": [
+          "B26-NF-047",
+          "B26-NF-048",
+          "B26-NF-050",
+          "B26-NF-052"
+        ],
+        "receiver_field_factors": [
+          "B26-NF-053",
+          "B26-NF-054",
+          "B26-NF-055",
+          "B26-NF-056"
+        ],
+        "common_contract_ref": {
+          "path": "authoring/B26_I001_LITERAL_ARGUMENTS.json",
+          "bytes": 51680,
+          "sha256": "eff459be9bab5ef66509002cfb277050fe97a6b60cd4e703025815760c974d68",
+          "pointer": "/common_contract"
+        },
+        "amends_existing_direction": true,
+        "control_bindings": [
+          {
+            "path": "inputs/parent_B21_I002/research/increment_002/CONTROL_B21_C21.json",
+            "bytes": 18527,
+            "sha256": "815540bc4659cbbc8bc836c92b37f00318944692305e55eb4959b195e8883d0e",
+            "kind": "EXACT_PRIOR_RECORDED_RESULT_NOT_RERUN",
+            "family_count": 1
+          }
+        ],
+        "amendment_source": {
+          "path": "research/increment_001/D11_CURRENT_ARGUMENT_B26.json",
+          "bytes": 7889,
+          "sha256": "d2bc8d6ff1a7cdb5984b038b00a684f33c20e6f1ddf5602738d124f4f34c790b"
+        },
+        "original_companion": {
+          "path": "inputs/parent_B21_I002/research/increment_002/DIRECTION_ARGUMENTS_B21_I002.json",
+          "bytes": 210572,
+          "sha256": "22810816c84061f101af390d049aacfb213b198dff16b8bf5e88e77fdd84c407"
+        }
+      }
+    ],
+    "new_direction_count": 14,
+    "amendment_count": 1,
+    "new_dispositions": {
+      "MATERIAL": 14
+    },
+    "semantics_origin": "Explicit author literal judgments; the compiler only binds actual fields and serializes declared decisions.",
+    "whole_author_complete": false
+  }
+}

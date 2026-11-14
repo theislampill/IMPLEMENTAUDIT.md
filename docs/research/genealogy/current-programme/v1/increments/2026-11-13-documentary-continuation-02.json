@@ -1,0 +1,376 @@
+{
+  "schema": "implementaudit.evolved-programme-documentary-continuation.v1",
+  "increment_id": "2026-11-13-documentary-continuation-02",
+  "scope": "Exact later author, review-progress and bounded original scientific-receiving metadata; no new whole qualification or central application.",
+  "documentary_baseline_commit": "fbbd60d9049c9b889e3daac4c3a8ddd87ef8d8d0",
+  "documentary_record_created_at_utc": "2026-11-13T04:35:09.983732+00:00",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "previous_increment": "2026-11-13-documentary-successor-01.json",
+  "previous_increment_sha256": "d6ba4bcb7ea585822609853cbae55f49235efb8e88f80a49ec34936c24368e03",
+  "catalogue_units_unchanged": 32,
+  "family_membership_changed": false,
+  "new_whole_scientific_qualifications": 0,
+  "new_central_applications_observed": 0,
+  "source_capture_limits": {
+    "A_bounded_discovery_ended_at_utc": "2026-11-13T04:25:07.648Z",
+    "B_bounded_discovery_ended_at_utc": "2026-11-13 04:28:25 UTC",
+    "original_A_frontier_at_utc": "2026-11-13T04:12:08.474864+00:00",
+    "B_earlier_checkpoint_frontier_at_utc": "2026-11-13T03:14:21.719395+00:00",
+    "B_review_frontier_at_utc": "2026-11-13T04:14:27.626048+00:00",
+    "B_later_notice_updated_at_utc": "2026-11-13T04:18:58.462726+00:00",
+    "live_shared_scientific_head_observed": false,
+    "discovery_exhaustive_global_absence_proof": false
+  },
+  "SSD_S": {
+    "whole_scientific_qualification": false,
+    "new_frozen_authors": [
+      {
+        "unit_id": "SSD-S",
+        "revision": "S004",
+        "provenance": "isolated continuation",
+        "subject": {
+          "bytes": 280905,
+          "sha256": "261895c23d9e33854a5d7fa235e6de462d3e9c3b6e901f2f20b0e8006508d114"
+        },
+        "frozen_at_utc": "2026-11-13T04:03:02.763648+00:00",
+        "author_state": "WHOLE_AUTHOR_STUDY_COMPLETE_UNQUALIFIED",
+        "whole_qualification": false,
+        "root_receiving": {
+          "bytes": 10879,
+          "sha256": "b187a881a1be42500296c955dc023d3fe51120dde6b9e51dc3736a8a31cb3ec1"
+        },
+        "root_receiving_at_utc": "2026-11-13T04:04:56.717808+00:00",
+        "review_state": "RETURNING_FIDELITY_DISPATCHED_NO_CURRENT_VERDICT_IN_CAPTURE",
+        "cross_branch_selection_established": false,
+        "source_capture_boundary_utc": "2026-11-13T04:11:22.042322+00:00",
+        "root_receiving_kind": "exact_data_receiving_only_not_scientific_acceptance",
+        "author_freeze_receipt": {
+          "bytes": 968,
+          "sha256": "47db777bbfcfb4c75a60aad5eb370d93b2bbc562dc06c84e79d66903b67f16f6"
+        },
+        "later_author_readback": {
+          "bytes": 1084,
+          "sha256": "c623637b13dc6106f060d84d052195e59bca4522ac84ea9db825e0052893676b"
+        },
+        "parent_subject": {
+          "bytes": 243633,
+          "sha256": "ce862f21f26c348f9a61b5e8d3b6800dd1adead2dc12cbc498d0a8a3aeca2a80"
+        },
+        "parent_verdict": "GAP_REVISE",
+        "parent_verdict_transfers": false
+      },
+      {
+        "unit_id": "SSD-S",
+        "revision": "S004",
+        "provenance": "owner successor continuation",
+        "subject": {
+          "bytes": 300530,
+          "sha256": "89759a09aae0e266154ee263f86f5f3bd2ba5edccab823d3f8a5785310f161e0"
+        },
+        "frozen_at_utc": "2026-11-13T04:07:36.251517+00:00",
+        "author_state": "WHOLE_AUTHOR_STUDY_COMPLETE_UNQUALIFIED",
+        "whole_qualification": false,
+        "root_receiving": {
+          "bytes": 375044,
+          "sha256": "a985ad037857a0cb0e5162897c268581557817e71263f37480ca6f6090b46976"
+        },
+        "root_receiving_at_utc": "2026-11-13T04:08:35.656570+00:00",
+        "review_state": "EXACT_FINAL_FIDELITY_RELEASED_CAPTURED_STATE_REPORTS_PARTIAL_NO_CURRENT_FINAL_VERDICT",
+        "cross_branch_selection_established": false,
+        "source_capture_boundary_utc": "2026-11-13T04:16:53.624903+00:00",
+        "root_receiving_kind": "exact_data_receiving_only_not_scientific_acceptance",
+        "author_freeze_receipt": {
+          "bytes": 1624,
+          "sha256": "66999f5ae81f64fe19132c468f6126619b042ed7933e566b8f232485c648cd6f"
+        },
+        "later_author_readback": {
+          "bytes": 1026,
+          "sha256": "302962fe1c8accc4c5b0f2189f4e30b4f44713bd982a3cc2c39bb315d4e4ff03"
+        },
+        "fidelity_release_at_utc": "2026-11-13T04:09:40.965131+00:00",
+        "parent_subject": {
+          "bytes": 243633,
+          "sha256": "ce862f21f26c348f9a61b5e8d3b6800dd1adead2dc12cbc498d0a8a3aeca2a80"
+        },
+        "parent_verdict": "GAP_REVISE",
+        "parent_verdict_transfers": false
+      },
+      {
+        "unit_id": "SSD-S",
+        "revision": "original author continuation",
+        "provenance": "original author continuation",
+        "subject": {
+          "bytes": 38020,
+          "sha256": "fd9611ad0233b63f21efb724e2139da7e4bf01318a17fc80a63a55fa03989ae0"
+        },
+        "frozen_at_utc": "2026-11-13T03:38:49.004528+00:00",
+        "author_state": "COMPLETE_AUTHOR_CANDIDATE_SUBMITTED_FOR_ROOT_RECEIVING_AND_FULL_CURRENT_REVIEWS",
+        "whole_qualification": false,
+        "root_receiving": {
+          "bytes": 48612,
+          "sha256": "50c11b5332c82eeb135c0f3c6aa1b1332bd510fdf158949621322629d06dc2bd"
+        },
+        "root_receiving_at_utc": "2026-11-13T03:59:28.386982+00:00",
+        "review_state": "FULL_CURRENT_FIDELITY_ACTIVE_NO_CURRENT_FINAL_VERDICT_IN_CAPTURE",
+        "cross_branch_selection_established": false,
+        "source_capture_boundary_utc": "2026-11-13T04:12:08.474864+00:00",
+        "root_receiving_kind": "source_reported_whole_author_scientific_receiving_pending_independent_reviews",
+        "author_freeze_evidence_kind": "subject_manifest_seal_with_later_postwriter",
+        "later_author_readback": {
+          "bytes": 2861,
+          "sha256": "181b084d567b40661d585f6673a78b5e58e62a07c694575987629ae41e80886f"
+        },
+        "fidelity_dispatch_at_utc": "2026-11-13T04:05:52.520855+00:00"
+      }
+    ],
+    "same_S004_label_does_not_identify_same_subject": true,
+    "cross_branch_supersession_or_master_selection_receipt_observed": false,
+    "source_authority_adjudicated_by_C": false,
+    "preserved_S003": {
+      "subject": {
+        "bytes": 243633,
+        "sha256": "ce862f21f26c348f9a61b5e8d3b6800dd1adead2dc12cbc498d0a8a3aeca2a80"
+      },
+      "fidelity_receipt": {
+        "bytes": 7010,
+        "sha256": "1eaed6965786eea7883df8118c0ed99743d3b524b6795f58637daaefe66e0bbf"
+      },
+      "root_receiving": {
+        "bytes": 7092,
+        "sha256": "e4c2ececfe954d63ee8b46203762c394d200374acbd7b61b8c09aee82c33d2e9"
+      },
+      "verdict": "GAP_REVISE",
+      "verdict_transfers": false
+    }
+  },
+  "AMA_S": {
+    "revision": "r17_s004",
+    "scientific_state": "AUTHOR_COMPLETE_UNQUALIFIED_AWAITING_INDEPENDENT_WHOLE_REVIEWS",
+    "subject": {
+      "bytes": 53515,
+      "sha256": "84a912acff761a23bed92845ac0474ad06157e1f5c11b4fb1bfd3a35fc97c837"
+    },
+    "subject_manifest_at_utc": "2026-11-13T03:27:15.568154+00:00",
+    "author_completion": {
+      "bytes": 11887,
+      "sha256": "12b356ecef2ac0c9a14aa7fd6ed84de4eb0dc8c0d90e60f5d5e301358c106ee7"
+    },
+    "author_completion_at_utc": "2026-11-13T03:27:15.420569+00:00",
+    "author_freeze": {
+      "bytes": 2295,
+      "sha256": "5af64498baad32558f95ab090c77d3176192d313e3e553ac8b6e251575a5f42d"
+    },
+    "author_freeze_at_utc": "2026-11-13T03:27:15.712737+00:00",
+    "author_receiving": {
+      "bytes": 4004143,
+      "sha256": "1622204ff40618319945f85dbdadcf50c6f04c5688d1c1c9d3b7402de9490892"
+    },
+    "author_receiving_completed_at_utc": "2026-11-13T03:29:39.191931+00:00",
+    "author_receiving_status": "PASS_EXACT_AUTHOR_RECEIVING_NOT_SCIENTIFIC_ACCEPTANCE",
+    "fidelity_release": {
+      "bytes": 4059,
+      "sha256": "38c5b440c64cf3a62a03bb1846181b16f39f72f65fbb974a917e3f3d0df2e9e4"
+    },
+    "fidelity_released_at_utc": "2026-11-13T03:30:39.832107+00:00",
+    "whole_fidelity_at_received_boundary": "IN_PROGRESS_NO_FINAL_ACCEPTANCE_RECEIVED",
+    "final_subject_adversarial_release_at_received_boundary": false,
+    "whole_scientific_qualification": false,
+    "bounded_support": [
+      {
+        "kind": "higher_order_support",
+        "receipt": {
+          "bytes": 6032,
+          "sha256": "5b0c1ad79d0508d90f261afbd88226dbe91814f199f8c17373e286c4673bd946"
+        },
+        "sealed_at_utc": "2026-11-13T04:07:44.556517+00:00",
+        "whole_acceptance": false,
+        "qualification": false
+      },
+      {
+        "kind": "source_security_support",
+        "receipt": {
+          "bytes": 9021,
+          "sha256": "d6a3cb2d1997fe87ce239aa7691009c5783e99e55bb90a6f6c9986729bb6f0a0"
+        },
+        "sealed_at_utc": "2026-11-13T04:16:08.756072+00:00",
+        "whole_acceptance": false,
+        "qualification": false
+      }
+    ],
+    "preparation_is_not_final_review": true,
+    "preserved_r16": {
+      "subject": {
+        "bytes": 62333,
+        "sha256": "3633c868e932ca365041f9c78ce2d3d9c52fdcbefc8f3dab7bcc65760099bcd7"
+      },
+      "fidelity_receipt": {
+        "bytes": 24820,
+        "sha256": "bb2a8aa34d054b5207f64f0bc7ea40978edf2b7dd7599768912e5935762a147a"
+      },
+      "root_receiving": {
+        "bytes": 6285085,
+        "sha256": "0cb7b2d18d9959abcdbef05cdbaf37112d8b43b17332223e8bfc4c4e738aa4f0"
+      },
+      "sealed_at_utc": "2026-11-13T02:46:16.567733+00:00",
+      "verdict": "GAP_REVISE",
+      "verdict_transfers_to_r17": false
+    },
+    "older_r15_original_review_newly_recovered": false
+  },
+  "original_partial_scientific_receiving": [
+    {
+      "unit_id": "LAW-S",
+      "revision": "I013",
+      "subject": {
+        "bytes": 148612,
+        "sha256": "03126272073a128ec9cd6fad880efd07a8ee1e30fa07a55fa17eeb2005d7951e"
+      },
+      "receipt": {
+        "bytes": 23652,
+        "sha256": "73359d91eef4e0ea216560011885132a79b125f81ac294ae24ba02af29843757"
+      },
+      "received_at_utc": "2026-11-13T03:05:08.696465+00:00",
+      "status": "COMPLETE_RECEIVING_AT_DECLARED_INCREMENT_SCOPE",
+      "whole_qualification": false,
+      "B_custody_established": false
+    },
+    {
+      "unit_id": "LAW-S",
+      "revision": "I014",
+      "subject": {
+        "bytes": 160362,
+        "sha256": "476c137589259ef53930aee5a5c049674eb9e3c28574a01976eb33f37677ea1c"
+      },
+      "receipt": {
+        "bytes": 11428,
+        "sha256": "72de22e81c235be4f7e3791e1688a3befabfc1e1b09bfa2fe486ca8723c31a7a"
+      },
+      "received_at_utc": "2026-11-13T04:03:58.851849+00:00",
+      "status": "SCIENTIFICALLY_RECEIVED_AT_BOUNDED_AUTHOR_SCOPE; WHOLE_AUTHOR_CONTINUES",
+      "whole_qualification": false,
+      "B_custody_established": false
+    },
+    {
+      "unit_id": "DRF-S",
+      "revision": "I005",
+      "subject": {
+        "bytes": 10105,
+        "sha256": "1cd729b471dfeb84b914428feb54f3f818ebb569c8606e2525ab5f97268a111f"
+      },
+      "receipt": {
+        "bytes": 20697,
+        "sha256": "e2424317c829aa3704d53a1b25f56f148fe0677bf714ab9538e4030e79f72cdf"
+      },
+      "received_at_utc": "2026-11-13T03:33:41.185265+00:00",
+      "status": "RECEIVED_AT_BOUNDED_AUTHOR_SCOPE_NO_WHOLE_QUALIFICATION",
+      "whole_qualification": false,
+      "B_custody_established": false
+    }
+  ],
+  "latest_original_frozen_partial_subjects": [
+    {
+      "unit_id": "LAW-S",
+      "revision": "I017",
+      "subject": {
+        "bytes": 195382,
+        "sha256": "907ea9631dbc375c0e9b9affc1727d16617648a3457cf1de93be3f880ce527eb"
+      },
+      "subject_timestamp_utc": "2026-11-13T04:02:02.415740+00:00",
+      "subject_timestamp_kind": "freeze",
+      "byte_receiving": {
+        "bytes": 12970,
+        "sha256": "945e37e3ab2bc4727d3f1c69cdb00915d02cb4b8fa0faf2e63de5f3a6626c9c1"
+      },
+      "byte_receiving_at_utc": "2026-11-13T04:06:53.646240+00:00",
+      "scientific_receiving": "PENDING",
+      "whole_qualification": false
+    },
+    {
+      "unit_id": "DRF-S",
+      "revision": "I007",
+      "subject": {
+        "bytes": 9838,
+        "sha256": "2f66d9c7ef442e7ed6c3a23a99415d7e150d61a4b91d5f267a41dd8b8b75c70b"
+      },
+      "subject_timestamp_utc": "2026-11-13T04:04:00.277804+00:00",
+      "subject_timestamp_kind": "manifest_created",
+      "byte_receiving": {
+        "bytes": 12970,
+        "sha256": "945e37e3ab2bc4727d3f1c69cdb00915d02cb4b8fa0faf2e63de5f3a6626c9c1"
+      },
+      "byte_receiving_at_utc": "2026-11-13T04:06:53.646240+00:00",
+      "scientific_receiving": "PENDING",
+      "whole_qualification": false
+    }
+  ],
+  "original_partial_scientific_receiving_pending": {
+    "LAW_S": [
+      "I015",
+      "I016",
+      "I017"
+    ],
+    "DRF_S": [
+      "I006",
+      "I007"
+    ],
+    "source_boundary_utc": "2026-11-13T04:12:08.474864+00:00",
+    "later_active_work_is_not_another_received_frozen_subject": true
+  },
+  "LAW_DRF_B_receiving": {
+    "notice": {
+      "bytes": 14049,
+      "sha256": "83cfe505353e88240139893462d0fca9982c797c251ea4b3c4c7ded27e47ba8a"
+    },
+    "notice_updated_at_utc": "2026-11-13T04:18:58.462726+00:00",
+    "meaning": "DATA_RECEIVED_OPERATIONAL_EXCLUSION_BLOCKED_NO_CUSTODY_ACTIVATION",
+    "LAW_latest_data_revision": "I016",
+    "LAW_data_receipt": {
+      "bytes": 194311,
+      "sha256": "ab6c159ee80ce98601d52fb30e5ead6df0e5d02d427a6b4aa7093da20343c070"
+    },
+    "DRF_latest_data_revision": "I007",
+    "DRF_data_receipt": {
+      "bytes": 13027,
+      "sha256": "647a1ff8e55381c9d2434c98e2e53c252b18db8586d14e00a530eab2895c815b"
+    },
+    "owner_authorization_already_sufficient": true,
+    "scientific_custody_activated": false,
+    "scientific_adoption": false,
+    "original_writer_termination_observed": false,
+    "effective_writer_exclusion_established": false,
+    "data_receiving_is_original_partial_scientific_acceptance": false
+  },
+  "central_application": {
+    "SPR_S": "prior qualified and centrally selected outcome preserved",
+    "CSS_S_BWP_S_SSS_S": "existing local qualifications preserved; central intents staged only",
+    "staged_intent": {
+      "bytes": 21072,
+      "sha256": "6cc640ab138f15bf7aaf5c11bcbc999b998fe6515982acea4929e64a58b33872"
+    },
+    "received_selector_updated_at_utc": "2026-11-12T22:28:01.006887+00:00",
+    "captured_outcomes": {
+      "qualified_lineages": 24,
+      "qualified_syntheses": 1,
+      "selected_final_accepted_review_bindings": 50
+    },
+    "captured_outcomes_are_live_master_read": false,
+    "new_application_receipt_received": false,
+    "totals_recomputed_by_C": false,
+    "existing_qualified_identity_bindings_changed": false
+  },
+  "verification_scope": {
+    "received_native_archive_members_and_selected_original_receipt_bytes_rehashed": true,
+    "exact_subject_to_receipt_joins_checked": true,
+    "full_inherited_scientific_dependency_graphs_reconstructed_by_C": false,
+    "upstream_whole_receiving_retains_attributed_scope": true,
+    "scientific_semantic_review_or_qualification_performed_by_C": false,
+    "packaged_scientific_programs_executed_by_C": false,
+    "missing_historical_originals_replaced": false
+  },
+  "public_source_access": "permitted metadata only; protected bodies and acquisition identities remain private",
+  "source_body_publication_permission": "not established",
+  "native_implementation_credit": false,
+  "RLGWO_responsibilities_changed": false,
+  "publication_boundary": "Branch documentation only; no main merge, Pages deployment, issue action, final RLGWO or native acceptance."
+}

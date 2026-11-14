@@ -1,0 +1,109 @@
+{
+  "schema": "public-scientific-storage-review/1",
+  "scope": "Lossless storage representation for four already accepted public scientific datasets; no new scientific qualification.",
+  "original_scientific_commit": "d85bc7100ab099bece6b67df222d481937681ed7",
+  "original_scientific_tree": "3232249991ea1a2815d5bac1c6681ba5fdeba5fd",
+  "original_full_corpus_review": {
+    "disposition": "PASS",
+    "receipt_sha256": "5e890009c0e70c6fc2f25f05d0f7c92252bd8434ba52752d0fc20743556a08f9",
+    "report_sha256": "3aa448a928d8f622b80aae3789fe0fdb33539e7ce73fc53fff112529229d8af7",
+    "open_material_findings": 0
+  },
+  "storage_review": {
+    "disposition": "PASS",
+    "manifest_sha256": "656dbab67e5a5e8b24468e2a41ccf808f03e2a4664bc07db29dbd33db32cabfc",
+    "receipt_sha256": "00321760fb70ddd848ebbf542771e78e93968268ea3d64cb9414ead5c2592a98",
+    "report_sha256": "3ff5ff2ec0791e7b92fc5c2ca56b7ddf6e8146889bbf381263b5a961859bcd12",
+    "checks_passed": 109,
+    "checks_failed": 0,
+    "material_findings": 0
+  },
+  "files": [
+    {
+      "path": "docs/research/genealogy/current-programme/v1/SCIENTIFIC_DATA.md",
+      "bytes": 4034,
+      "sha256": "87e36996818f3192036c6840befa1df178ede2f45ace908ec9f39d7cd4146f58",
+      "git_blob_sha1": "9150fa6629349884877252811d38d6863f53b45c",
+      "git_mode": "100644",
+      "action": "add"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/ama/current/AMA-S-DIRECTIONS-EAOSE.json",
+      "bytes": 1401,
+      "sha256": "ac82baf55f5e2973228c5fa6355dc354622850aa073e537447fa3563769e03dc",
+      "git_blob_sha1": "e35adcb071053d05272fb7b3151f592dbc263fae",
+      "git_mode": "100644",
+      "action": "replace"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/ama/current/AMA-S-DIRECTIONS-EAOSE.json.gz",
+      "bytes": 704782,
+      "sha256": "03257806ea137464609610f5c0af2d8803bfee2dfbd41afd9025512b13231d41",
+      "git_blob_sha1": "757adbfa89b5e9b2b0662f8fc65995a7d159baed",
+      "git_mode": "100644",
+      "action": "add"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/data/relationships/directions.json",
+      "bytes": 4056,
+      "sha256": "abc75707607453cc14aaea1eb56079292f2791c9a52f3bffaba7916047713f66",
+      "git_blob_sha1": "072da05372e70578861712b95c7ebda04615003b",
+      "git_mode": "100644",
+      "action": "replace"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/data/relationships/directions.json.gz",
+      "bytes": 1527007,
+      "sha256": "e7df67c4f5f04412a627b0b91e612c7b28af141da138013f39b47a40beda7fb2",
+      "git_blob_sha1": "a8374d25d95ecf468eac54844df97213975f0bee",
+      "git_mode": "100644",
+      "action": "add"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/data/relationships/pairs.json",
+      "bytes": 5450,
+      "sha256": "d0064179f74361ca41996846c6a2472520bf022e2f9a4461c95fe82275ad1c4d",
+      "git_blob_sha1": "3c4218f2d2bfa6bef5e85863b3647a77e4134833",
+      "git_mode": "100644",
+      "action": "replace"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/bwp/current/data/relationships/pairs.json.gz",
+      "bytes": 500211,
+      "sha256": "d8fab9e692972331f79788f2c25cc0026b8a6e96889898028ad5be34cc3dadeb",
+      "git_blob_sha1": "837ae7d4860e33aea6ef08e804dc688e33fd4b1d",
+      "git_mode": "100644",
+      "action": "add"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-S-DIRECTIONS.json",
+      "bytes": 2584,
+      "sha256": "03c62b9d2a81974dc32352bc40b01a7be7bc514fa12ae676faa7cd6a2e8410ab",
+      "git_blob_sha1": "00c28c26c63d6409d539779c8bf5332cae850de6",
+      "git_mode": "100644",
+      "action": "replace"
+    },
+    {
+      "path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-S-DIRECTIONS.json.gz",
+      "bytes": 2047288,
+      "sha256": "32d613e74bc1c88955021959f80b0a61fcc67a40be5e399dc96260fc097c54fa",
+      "git_blob_sha1": "d3512f9a89b4dfb2da3654da1b92351f65daa4f7",
+      "git_mode": "100644",
+      "action": "add"
+    }
+  ],
+  "consumer_contract": "The four logical JSON paths now expose scientific-json-storage-index/1. Follow payload.href and decompress with standard gzip before applying the original scientific schema. This is an explicit storage-schema change, not direct-parser compatibility.",
+  "reading_guide": "SCIENTIFIC_DATA.md",
+  "preservation": {
+    "original_bytes": 110584419,
+    "records": 59394,
+    "gzip_bytes": 4779288,
+    "uncompressed_byte_identity": true
+  },
+  "boundaries": [
+    "Independent review covers the exact nine-file storage derivative. Final integration, CI and deployment are separate commit-bound evidence in PR #257.",
+    "Original SPR-L1 evidence limitations, central-registry staged-only status, and native implementation limits remain unchanged.",
+    "Original local source commits are retained as evidence. GitHub-created transport commits have their own metadata and must not be called the original local commits."
+  ],
+  "integration_record": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/257"
+}

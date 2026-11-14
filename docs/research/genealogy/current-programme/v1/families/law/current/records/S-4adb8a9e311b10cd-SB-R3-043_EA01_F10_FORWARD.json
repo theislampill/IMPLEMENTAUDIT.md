@@ -1,0 +1,1046 @@
+{
+  "source_identity": {
+    "source_id": "S-4adb8a9e311b10cd",
+    "scientific_name": "SB-R3-043_EA01_F10_FORWARD.json",
+    "original_bytes": 79121,
+    "original_sha256": "4adb8a9e311b10cdd53f80a8470d6fc7b9e251b3a9827fab3c029491295b7fb8"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-043",
+    "title": "EA-01_FORWARD_FEEDBACK_RISK_AND_COMMITMENT",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:48:40.331756+00:00",
+    "inquiry_family": 10,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_008.json",
+      "bytes": 2084,
+      "sha256": "82042b597cb17c68a4e79f9232ee2ec6daa967b77de7ca0614efea4eda272ed6"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY10_FIRST44_NATIVE_MEANINGS.json",
+      "bytes": 98789,
+      "sha256": "fafdc618938accf52399b4c6ede5de4b9bfaca6c74ee9a34581aec14a5cae22a"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY10_EA01_EA03_LITERAL_ARGUMENTS.json",
+      "bytes": 16236,
+      "sha256": "3e808f45c2b962c1be0c57395a0d0f0cace30473ddc53b03a079a26fac33eddd"
+    },
+    "bounded_interface_domain": [
+      "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+      "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+      "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+      "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+      "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+    ],
+    "native_common_basis": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+    "common_cost_and_alternative": [
+      "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+      "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+      "No addition is warranted solely because another named method could be introduced.",
+      "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+    ],
+    "evidence_ceiling": "Conditional root analytical arguments from exact accepted native mechanisms. No new primary-body access, empirical effect, universal cadence, independent review, new property identity or scientific qualification claimed.",
+    "common_subconditions": {
+      "P1": "Actual common question, object and receiving use.",
+      "P2": "Exact native meaning and accepted overlay.",
+      "P3": "The separately reasoned partial consequence.",
+      "P4": "Counterexample, absent guard, remaining premises, cost, alternative and reentry."
+    },
+    "inference": "The specified partial input can materially change a decision premise or warrant even when the action is confirmed. No universal cadence, symmetric equivalence, temporal chain or requirement to add a new control follows.",
+    "common_source_dependence": "Shared evidence, method ancestry, prototype or model is not independent support twice.",
+    "exceptions": [],
+    "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P001",
+        "argument": "A timely informative observation can justify revising the assumption or strengthen the warrant for retaining the present intent while the response remains possible."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P002",
+        "argument": "The relevance, timeliness and actionability criteria help select a learning activity that could resolve or narrow the actual uncertainty before commitment."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P003",
+        "argument": "A question-relevant feedback loop supplies early information about feasibility or a quality trade-off while an architectural alternative remains available."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P004",
+        "argument": "The decision-relevance, cost and action-window criteria distinguish a discriminating prototype from a polished demonstration with no receiving use."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P012",
+        "argument": "Selecting feedback by the actual decision and available response window makes validation evidence timely enough to inform the next commitment."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P021",
+        "argument": "Decision-relevant observations arriving before the commitment supply evidence for go, hold, redirect or stop, including stronger support for the existing choice."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P022",
+        "argument": "A credible feedback question and evidence schedule reveal whether the interval actually permits learning before the next dependent commitment."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P023",
+        "argument": "Question-specific feedback timing identifies where repeated or overlapping lifecycle work could provide useful learning before a dependent commitment."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P024",
+        "argument": "Expected information, actionability and acquisition cost identify whether an added feedback mechanism serves the decision or merely adds ceremony."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P025",
+        "argument": "Decision-relevant observations update forecast assumptions or reduce uncertainty without requiring an arbitrary change to the point decision."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P033",
+        "argument": "The expected decision value, timing and remaining response options provide evidence for choosing a useful feedback control."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P001",
+        "overclaim": "Frequent comments from an unrepresentative observer can change the specification without improving its basis; an unchanged final action does not show that the evidence was useless.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P002",
+        "overclaim": "A short feedback cadence that repeatedly measures an irrelevant proxy can consume attention without narrowing the uncertainty.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P003",
+        "overclaim": "Rapid user-interface feedback can leave the irreversible data-model or physical-interface risk completely unexamined.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P004",
+        "overclaim": "A prototype may generate impressive observations after the production commitment has already become irreversible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P012",
+        "overclaim": "Fast feedback from convenient internal users can be irrelevant to the affected population or delayed outcome.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P021",
+        "overclaim": "Collecting feedback after the commitment or presenting it to someone without decision rights does not make the review effective.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P022",
+        "overclaim": "Dividing a plan into small increments does not help if the first increment already fixes the costly tooling or data migration.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P023",
+        "overclaim": "Applying one short cycle to every subsystem can duplicate effort and ignore scarce tests or stable dependencies.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P024",
+        "overclaim": "Low expected information cannot authorize omission of an applicable binding evidence obligation.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P025",
+        "overclaim": "Repeatedly revising estimates from noise can manufacture precision and increase disruption without improving the forecast.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P033",
+        "overclaim": "A cheap feedback loop does not make irreversible injury, disclosure or loss reversible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-01->LAW-L3::EW-P001",
+      "LAW-L2::EA-01->LAW-L3::EW-P002",
+      "LAW-L2::EA-01->LAW-L3::EW-P003",
+      "LAW-L2::EA-01->LAW-L3::EW-P004",
+      "LAW-L2::EA-01->LAW-L3::EW-P012",
+      "LAW-L2::EA-01->LAW-L3::EW-P021",
+      "LAW-L2::EA-01->LAW-L3::EW-P022",
+      "LAW-L2::EA-01->LAW-L3::EW-P023",
+      "LAW-L2::EA-01->LAW-L3::EW-P024",
+      "LAW-L2::EA-01->LAW-L3::EW-P025",
+      "LAW-L2::EA-01->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P001",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P001",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "shared_question_or_object": "A shared operative requirement rests on a consequential uncertain assumption.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "A timely informative observation can justify revising the assumption or strengthen the warrant for retaining the present intent while the response remains possible.",
+        "receiving_consequence": "A timely informative observation can justify revising the assumption or strengthen the warrant for retaining the present intent while the response remains possible.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A timely informative observation can justify revising the assumption or strengthen the warrant for retaining the present intent while the response remains possible."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Frequent comments from an unrepresentative observer can change the specification without improving its basis; an unchanged final action does not show that the evidence was useless.",
+        "counter_control": "Frequent comments from an unrepresentative observer can change the specification without improving its basis; an unchanged final action does not show that the evidence was useless.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P001->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A shared engineering intent state",
+          "receiving_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "actual_object": "A shared operative requirement rests on a consequential uncertain assumption.",
+          "literal_bridge": "A timely informative observation can justify revising the assumption or strengthen the warrant for retaining the present intent while the response remains possible."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P002",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P002",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "shared_question_or_object": "A consequential uncertainty has a live decision and an affordable evidence opportunity.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The relevance, timeliness and actionability criteria help select a learning activity that could resolve or narrow the actual uncertainty before commitment.",
+        "receiving_consequence": "The relevance, timeliness and actionability criteria help select a learning activity that could resolve or narrow the actual uncertainty before commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The relevance, timeliness and actionability criteria help select a learning activity that could resolve or narrow the actual uncertainty before commitment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A short feedback cadence that repeatedly measures an irrelevant proxy can consume attention without narrowing the uncertainty.",
+        "counter_control": "A short feedback cadence that repeatedly measures an irrelevant proxy can consume attention without narrowing the uncertainty.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P002->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A consequential assumption in a development commitment",
+          "receiving_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "actual_object": "A consequential uncertainty has a live decision and an affordable evidence opportunity.",
+          "literal_bridge": "The relevance, timeliness and actionability criteria help select a learning activity that could resolve or narrow the actual uncertainty before commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P003",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P003",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "shared_question_or_object": "An architectural commitment depends on an uncertain coupled constraint.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "A question-relevant feedback loop supplies early information about feasibility or a quality trade-off while an architectural alternative remains available.",
+        "receiving_consequence": "A question-relevant feedback loop supplies early information about feasibility or a quality trade-off while an architectural alternative remains available.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A question-relevant feedback loop supplies early information about feasibility or a quality trade-off while an architectural alternative remains available."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Rapid user-interface feedback can leave the irreversible data-model or physical-interface risk completely unexamined.",
+        "counter_control": "Rapid user-interface feedback can leave the irreversible data-model or physical-interface risk completely unexamined.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "actual_object": "An architectural commitment depends on an uncertain coupled constraint.",
+          "literal_bridge": "A question-relevant feedback loop supplies early information about feasibility or a quality trade-off while an architectural alternative remains available."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P004",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P004",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "shared_question_or_object": "A prototype or executable model is considered for a still-open engineering decision.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The decision-relevance, cost and action-window criteria distinguish a discriminating prototype from a polished demonstration with no receiving use.",
+        "receiving_consequence": "The decision-relevance, cost and action-window criteria distinguish a discriminating prototype from a polished demonstration with no receiving use.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The decision-relevance, cost and action-window criteria distinguish a discriminating prototype from a polished demonstration with no receiving use."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A prototype may generate impressive observations after the production commitment has already become irreversible.",
+        "counter_control": "A prototype may generate impressive observations after the production commitment has already become irreversible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P004->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "actual_object": "A prototype or executable model is considered for a still-open engineering decision.",
+          "literal_bridge": "The decision-relevance, cost and action-window criteria distinguish a discriminating prototype from a polished demonstration with no receiving use."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P012",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P012",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "shared_question_or_object": "A product decision depends on uncertain fitness for the intended population and context.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Selecting feedback by the actual decision and available response window makes validation evidence timely enough to inform the next commitment.",
+        "receiving_consequence": "Selecting feedback by the actual decision and available response window makes validation evidence timely enough to inform the next commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Selecting feedback by the actual decision and available response window makes validation evidence timely enough to inform the next commitment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Fast feedback from convenient internal users can be irrelevant to the affected population or delayed outcome.",
+        "counter_control": "Fast feedback from convenient internal users can be irrelevant to the affected population or delayed outcome.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P012->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A system or concept in its intended use and operating context",
+          "receiving_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "actual_object": "A product decision depends on uncertain fitness for the intended population and context.",
+          "literal_bridge": "Selecting feedback by the actual decision and available response window makes validation evidence timely enough to inform the next commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P021",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P021",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "shared_question_or_object": "An empowered review is considering a costly commitment under uncertainty.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Decision-relevant observations arriving before the commitment supply evidence for go, hold, redirect or stop, including stronger support for the existing choice.",
+        "receiving_consequence": "Decision-relevant observations arriving before the commitment supply evidence for go, hold, redirect or stop, including stronger support for the existing choice.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Decision-relevant observations arriving before the commitment supply evidence for go, hold, redirect or stop, including stronger support for the existing choice."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Collecting feedback after the commitment or presenting it to someone without decision rights does not make the review effective.",
+        "counter_control": "Collecting feedback after the commitment or presenting it to someone without decision rights does not make the review effective.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "actual_object": "An empowered review is considering a costly commitment under uncertainty.",
+          "literal_bridge": "Decision-relevant observations arriving before the commitment supply evidence for go, hold, redirect or stop, including stronger support for the existing choice."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P022",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "shared_question_or_object": "An incremental commitment is intended to preserve an opportunity to learn.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "A credible feedback question and evidence schedule reveal whether the interval actually permits learning before the next dependent commitment.",
+        "receiving_consequence": "A credible feedback question and evidence schedule reveal whether the interval actually permits learning before the next dependent commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A credible feedback question and evidence schedule reveal whether the interval actually permits learning before the next dependent commitment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Dividing a plan into small increments does not help if the first increment already fixes the costly tooling or data migration.",
+        "counter_control": "Dividing a plan into small increments does not help if the first increment already fixes the costly tooling or data migration.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "actual_object": "An incremental commitment is intended to preserve an opportunity to learn.",
+          "literal_bridge": "A credible feedback question and evidence schedule reveal whether the interval actually permits learning before the next dependent commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P023",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P023",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22",
+          "expected_native_id": "EW-P023"
+        },
+        "shared_question_or_object": "A hierarchical system has different technical, product and assurance learning horizons.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Question-specific feedback timing identifies where repeated or overlapping lifecycle work could provide useful learning before a dependent commitment.",
+        "receiving_consequence": "Question-specific feedback timing identifies where repeated or overlapping lifecycle work could provide useful learning before a dependent commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Question-specific feedback timing identifies where repeated or overlapping lifecycle work could provide useful learning before a dependent commitment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Applying one short cycle to every subsystem can duplicate effort and ignore scarce tests or stable dependencies.",
+        "counter_control": "Applying one short cycle to every subsystem can duplicate effort and ignore scarce tests or stable dependencies.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P023->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "receiving_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "actual_object": "A hierarchical system has different technical, product and assurance learning horizons.",
+          "literal_bridge": "Question-specific feedback timing identifies where repeated or overlapping lifecycle work could provide useful learning before a dependent commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P024",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P024",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "shared_question_or_object": "A team is choosing proportionate evidence and review around an uncertain decision.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Expected information, actionability and acquisition cost identify whether an added feedback mechanism serves the decision or merely adds ceremony.",
+        "receiving_consequence": "Expected information, actionability and acquisition cost identify whether an added feedback mechanism serves the decision or merely adds ceremony.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Expected information, actionability and acquisition cost identify whether an added feedback mechanism serves the decision or merely adds ceremony."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Low expected information cannot authorize omission of an applicable binding evidence obligation.",
+        "counter_control": "Low expected information cannot authorize omission of an applicable binding evidence obligation.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P024->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "Selection of assurance activities for a context",
+          "receiving_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "actual_object": "A team is choosing proportionate evidence and review around an uncertain decision.",
+          "literal_bridge": "Expected information, actionability and acquisition cost identify whether an added feedback mechanism serves the decision or merely adds ceremony."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P025",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "shared_question_or_object": "A forecast informs a commitment that can be revised when relevant evidence arrives.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Decision-relevant observations update forecast assumptions or reduce uncertainty without requiring an arbitrary change to the point decision.",
+        "receiving_consequence": "Decision-relevant observations update forecast assumptions or reduce uncertainty without requiring an arbitrary change to the point decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Decision-relevant observations update forecast assumptions or reduce uncertainty without requiring an arbitrary change to the point decision."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Repeatedly revising estimates from noise can manufacture precision and increase disruption without improving the forecast.",
+        "counter_control": "Repeatedly revising estimates from noise can manufacture precision and increase disruption without improving the forecast.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "actual_object": "A forecast informs a commitment that can be revised when relevant evidence arrives.",
+          "literal_bridge": "Decision-relevant observations update forecast assumptions or reduce uncertainty without requiring an arbitrary change to the point decision."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L3::EW-P033",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0",
+            "expected_native_id": "AGQ-EA-01"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "shared_question_or_object": "An uncertain commitment requires a proportionate control choice.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The expected decision value, timing and remaining response options provide evidence for choosing a useful feedback control.",
+        "receiving_consequence": "The expected decision value, timing and remaining response options provide evidence for choosing a useful feedback control.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The expected decision value, timing and remaining response options provide evidence for choosing a useful feedback control."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A cheap feedback loop does not make irreversible injury, disclosure or loss reversible.",
+        "counter_control": "A cheap feedback loop does not make irreversible injury, disclosure or loss reversible.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_bearer": "A product or engineering decision with material uncertainty and an open response option.",
+          "source_criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision.",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "actual_object": "An uncertain commitment requires a proportionate control choice.",
+          "literal_bridge": "The expected decision value, timing and remaining response options provide evidence for choosing a useful feedback control."
+        }
+      }
+    ],
+    "independent_review_scope": "Full common premise, literal membership, native scope and controls require later fidelity and separate adversarial assessment."
+  }
+}

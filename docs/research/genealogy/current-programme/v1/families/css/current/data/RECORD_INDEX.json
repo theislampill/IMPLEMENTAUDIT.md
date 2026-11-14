@@ -1,0 +1,358 @@
+{
+  "family": "CSS",
+  "record_sets": [
+    {
+      "record_set": "CSS-L1-properties",
+      "path": "CSS-L1-properties.json",
+      "expanded_semantic_sha256": "91cb13e875692b820717a881307ffbee9e8f8694719551c854b9c358a880ef4f",
+      "source_bindings": [
+        {
+          "filename": "PROPOSED_CSS-L1_PROPERTY_READER.md",
+          "sha256": "23ef4f051c2a073dd375994544c3424f240746425bd22684bdf1c92507763fe8"
+        }
+      ]
+    },
+    {
+      "record_set": "CSS-L2-properties",
+      "path": "CSS-L2-properties.json",
+      "expanded_semantic_sha256": "708ffc2fd6cdcdef00d515a58e5285fccd623aa2f3f1bc1cd11723ae79c94835",
+      "source_bindings": [
+        {
+          "filename": "PROPOSED_CSS-L2_PROPERTY_READER.md",
+          "sha256": "38671f7b7363b6ab8c38d95a426b54f234cf282910722df817e913cffc5049f8"
+        }
+      ]
+    },
+    {
+      "record_set": "CSS-L3-properties",
+      "path": "CSS-L3-properties.json",
+      "expanded_semantic_sha256": "9a935ddcbb2c36743495ec12279e0b9c16f9c5fb597f8bef6db69946eef3c8e1",
+      "source_bindings": [
+        {
+          "filename": "PROPOSED_CSS-L3_PROPERTY_READER.md",
+          "sha256": "1edd0817ed9c609af1a5728e8cbc6aa24acae1985800a3ff4b0d0e477e7a0fc7"
+        }
+      ]
+    },
+    {
+      "record_set": "genealogy",
+      "path": "genealogy.json",
+      "expanded_semantic_sha256": "e7fac1baab43f414bb6a2c1a2debf5ef4a0b48ca88781027d1b88e69b73e869b",
+      "source_bindings": [
+        {
+          "filename": "CURRENT_GENEALOGY_EXCERPT_SOURCE_MAP.json",
+          "sha256": "a1a20c37a0feee8406ffdb91b969053a8b3889bc5bb591c02fe20e6524037ac7"
+        }
+      ]
+    },
+    {
+      "record_set": "ordered-directions",
+      "path": "ordered-directions.json",
+      "expanded_semantic_sha256": "61565900c8b2100e4f892f8c288cec97a277f41f8c174cc0be37181dead7d137",
+      "source_bindings": [
+        {
+          "filename": "DIRECTION_COVERAGE.jsonl",
+          "sha256": "dea9913e81e9aa1e94985ebf4a0632e52597516de3991e2085bb4e73081e6d7d"
+        }
+      ]
+    },
+    {
+      "record_set": "native_property_predicate",
+      "path": "native_property_predicate.json",
+      "expanded_semantic_sha256": "7200967aaccda1ce087c5cfe7a53b82ae7fc988100cc1c4c0de1e83c9897b41a",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "semantic_group",
+      "path": "semantic_group.json",
+      "expanded_semantic_sha256": "86ae1c6adef6c6a9b455409a8e6502ca3ea8cdc350c7b1a87b576705bbb10e46",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "relation_rule",
+      "path": "relation_rule.json",
+      "expanded_semantic_sha256": "36788278ae87f7c42e0eafbca0c9dc6e35f7910b74072426e0f5f7f81d633f3c",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "configuration",
+      "path": "configuration.json",
+      "expanded_semantic_sha256": "62e73fe449bade00ecddf75e0fd2f592dce1624a1df680a9639f0b76fd823039",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "higher_order_finding",
+      "path": "higher_order_finding.json",
+      "expanded_semantic_sha256": "b8dff46d8715d3b2ef85d21446843b23ecc9935f9e378c24b3b8b33a14caedc4",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "novelty_assessment",
+      "path": "novelty_assessment.json",
+      "expanded_semantic_sha256": "ed710bb50f8c257369774f2d893850244f21bf3a91b3e336efc00dc41977b530",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "scientific_claim",
+      "path": "scientific_claim.json",
+      "expanded_semantic_sha256": "59c13ff1398d777c49f90388c5b66e79294caca9794a4533faea2532d12b54a2",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "criticism_and_response",
+      "path": "criticism_and_response.json",
+      "expanded_semantic_sha256": "b881e82816a08b55dc6be4e38f6b4d14a7985c4d95a6058219ebede8fe77e141",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "open_question",
+      "path": "open_question.json",
+      "expanded_semantic_sha256": "498c0548c76d044fe6b9016265ff145c6686adb04336f80ddb24471ef0fb21bd",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "negative_block",
+      "path": "negative_block.json",
+      "expanded_semantic_sha256": "39d0cf4579d5dfa12e8ff4c9539feb8a125400bce48e009f8f991f7b702070b1",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "unresolved_direction",
+      "path": "unresolved_direction.json",
+      "expanded_semantic_sha256": "5d86f0db131dd9ed64dc7a77e0f87a89f56bfcff99dbac27ec89246a97170c85",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "semantic_counter_control",
+      "path": "semantic_counter_control.json",
+      "expanded_semantic_sha256": "1c4e00b6ece9b23ac462ccba3dc3f25d3b49a698c205353703d5f4e8a695b28d",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "r12_native_frame",
+      "path": "r12_native_frame.json",
+      "expanded_semantic_sha256": "a31d86a8e32e871302b864e217bc7b6bd1b42857941999ebf823cab0e282e5be",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "r12_native_direction",
+      "path": "r12_native_direction.json",
+      "expanded_semantic_sha256": "03d7ba6ce4dc85ca585b4bfbb1991ff868138dfb38e4fa8a3c08397db3600bc3",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "r12_negative_rationale",
+      "path": "r12_negative_rationale.json",
+      "expanded_semantic_sha256": "aef0477945811dbaefcfb7f6aa5d0aa1158a929fb042a79ad0be39dcbfd1c38d",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "cumulative_directional_judgment",
+      "path": "cumulative_directional_judgment.json",
+      "expanded_semantic_sha256": "65df366272b8fa85cbf48340c4e47af8089637d0d5a31770745971976613cded",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "author_self_critique",
+      "path": "author_self_critique.json",
+      "expanded_semantic_sha256": "58f8cd80e00ec8050feb22d065477fa561080528562dc0919b28d30e8eb42f68",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "author_constructed_case",
+      "path": "author_constructed_case.json",
+      "expanded_semantic_sha256": "a314232e5ab8944989500e7871384e710180fe176ba55a7191c5a90f0c92a41f",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "author_case_check",
+      "path": "author_case_check.json",
+      "expanded_semantic_sha256": "4a42e05f822e5d6cb01969d72d736ccfd28cf1be6480f9c89a6c427ebdf18ade",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "accepted_review_findings",
+      "path": "accepted_review_findings.json",
+      "expanded_semantic_sha256": "6c7d525702a7508a8b5c0bafdbb991ae34fc2c677f8657c026c14d5a6738406c",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "accepted_review_exposure",
+      "path": "accepted_review_exposure.json",
+      "expanded_semantic_sha256": "d15fe43d9c74bb5a67ba72c050f4693532f60447a8cf3dd972c9e2b193cd65b5",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "accepted_review_read_mask",
+      "path": "accepted_review_read_mask.json",
+      "expanded_semantic_sha256": "a505a7ed7db48622e0c9cf32c6994d946f7db29f60d62e60307e2d77ea26a7de",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "accepted_adversarial_evidence",
+      "path": "accepted_adversarial_evidence.json",
+      "expanded_semantic_sha256": "04e156740f63bb4e121348bb3b6b05142d9061aa429c55d1a635ac69ce99ddee",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "scope_or_history_record",
+      "path": "scope_or_history_record.json",
+      "expanded_semantic_sha256": "b4a4040095b9b4ac62128dd20a0a59d8404defa99d9918304481213e69e18a9c",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "prior_review_receipt",
+      "path": "prior_review_receipt.json",
+      "expanded_semantic_sha256": "f4d81ba8ec9e42ad7dbdbc13088225521f0337a4c99eb5b11a6aaa006ae8760a",
+      "source_bindings": [
+        {
+          "filename": "SCIENTIFIC_RECORDS.jsonl",
+          "sha256": "a1190780464ab6cd5c6de38f0804fe60888e3924b9ddea27a207fff7b41550c8"
+        }
+      ]
+    },
+    {
+      "record_set": "alternative_or_removal",
+      "path": "alternative_or_removal.json",
+      "expanded_semantic_sha256": "0a95c12373b990a65189dcf27652846aca6a727103d46f209772a5a011e15787",
+      "source_bindings": [
+        {
+          "filename": "ALTERNATIVES.jsonl",
+          "sha256": "58b6f89b6643b93310fa01f409eebb44e4cab536efb971d5283f200d5a753fbe"
+        }
+      ]
+    },
+    {
+      "record_set": "citation_identity",
+      "path": "citation_identity.json",
+      "expanded_semantic_sha256": "1bd57281e8d0e2fbf40d02456d51169f2e28af095846c562f2db60b4682030d0",
+      "source_bindings": [
+        {
+          "filename": "CITATION_IDENTITIES.jsonl",
+          "sha256": "132b67cbd721813b5e80b5eae1fbb93a404d7c56eef4c1d70d9a9b33f1943aec"
+        }
+      ]
+    }
+  ],
+  "shared_value_count": 2698
+}

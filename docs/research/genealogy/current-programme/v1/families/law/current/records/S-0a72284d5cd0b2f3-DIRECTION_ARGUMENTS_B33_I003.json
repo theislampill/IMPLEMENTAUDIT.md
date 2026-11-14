@@ -1,0 +1,1715 @@
+{
+  "source_identity": {
+    "source_id": "S-0a72284d5cd0b2f3",
+    "scientific_name": "DIRECTION_ARGUMENTS_B33_I003.json",
+    "original_bytes": 94592,
+    "original_sha256": "0a72284d5cd0b2f34e24cfef3ba5a2c5d28427f7ab433b1b1f6ab5f00eb56e85"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b33-current-factored-directed-arguments/1",
+    "identity": "B33_INCREMENT_003",
+    "literal_source": {
+      "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+      "bytes": 39053,
+      "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+    },
+    "common_contract": {
+      "population": "Only the ten explicitly mapped directions below. Shared native fields, analytical factors and control worlds do not admit any other member.",
+      "materiality": "Material includes a useful partial input, a scope constraint, invalidation of a universal claim or an actual conflict. MATERIAL does not mean the source practice is retained, beneficial or true. A final action flip and a complete receiving predicate are not required for a useful scoped contribution.",
+      "reverse": "Every reverse is separately reasoned. The rejection of a universal policy and the adverse effect of actually enforcing that policy are different arguments.",
+      "unknowns": "Unknown applicability/correspondence remains unknown. Known necessary failure can defeat its same-scoped claim while other premises remain unresolved. A failed optional sample does not refute every whole claim; a passing local sample does not prove integration or authority.",
+      "native_polarity": "P034 and P035 remain rejected/disfavoured universal claims. Their original mechanisms are used only as explicitly guarded policy conflicts or objects of invalidation. Justified staged variants, stable prior constraints and actual binding obligations remain valid.",
+      "execution_ceiling": "C25 is one new finite scheduling construction with eleven declared cases, nine actual dependent unit invocations and twenty-two assertions. The revision/repair history is fixed across policies; no repair causation, field benefit or operational permission is observed. No scientific verdict is computed by the control."
+    },
+    "directions": [
+      {
+        "id": "B33-I003-D01",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P021",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I003-F01",
+          "B33-I003-F04"
+        ],
+        "shared_object": "A named consequential commitment inquiry and the relevant actual behavior evidence it consumes.",
+        "guard": "The P021 review inquiry uses a credible EA06 result or coverage limit for a stated entrance/exit premise or residual. Overall readiness, stop authority and the final go/hold/redirect decision can remain open; a real decision consumer and scoped correspondence are required.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "Current repeatable evidence supports a technical premise, exposes a contrary condition or makes the missing discriminator explicit before the commitment. It can confirm an already reasonable choice without forcing an action change.",
+        "receiving_consequence": "The review can distinguish actual technical support from completed documents or scheduled progress. A known necessary failure remains a live input even before all other review or authority conditions are proved.",
+        "remaining_premises": "Actual commitment, criterion, configuration mapping, other risks, competent challenge and an empowered decision route. Tests do not manufacture stop power or remove sunk-cost incentives.",
+        "positive_witness": "C25 records a necessary local sample failure while another component remains unknown; that result can inform a review's stated technical premise. Its local pass in the stable scenario can instead confirm existing support. The construction itself performs no actual programme review.",
+        "stronger_claim_counterexample": "A board accepts a green nominal badge without the needed interaction, or reviews only after all irreversible commitments have been made. Automation cannot rescue absent discrimination or authority.",
+        "nontrigger": "A meeting collects the result without any actual relevant decision use, or no consequential review question exists. An existing asynchronous evidence-based decision may already realize the relation.",
+        "cheap_alternative_and_cost": "Reuse the adequate current result and a short explicit decision rationale. A meeting or extra evidence dashboard is optional; duplicate boards and test reports add latency without necessarily adding information.",
+        "removal_test": "Remove the relevant result and the review loses that support/defeater unless another adequate evidence method replaces it. Remove the meeting but retain the real evidence/authority decision and the function can survive.",
+        "reentry": "Revisit affected evidence when the commitment, criterion, artifact or decision scope changes; do not require new checks solely for a recurring calendar meeting.",
+        "controls": [
+          "known_local_failure_other_unknown",
+          "local_pass_other_unknown",
+          "adequate_current_evidence"
+        ],
+        "finite_control_scope": "Finite local truth and whole-unknown discrimination, conditionally applied to a review premise. No actual review authority or outcome measured.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P021",
+        "reverse_direction_key": "LAW-L3::EW-P021->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P021",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P021",
+            "capsule": {
+              "path": "reading/i003/native/EW-P021.json",
+              "bytes": 6859,
+              "sha256": "094a243b604a4de2fc40e163bdf60cd4a009a1aeafc7414e6c30243a812f4f91"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P021::MECHANISM",
+            "LAW-L3::EW-P021::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P021::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P021::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F01",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "c33406bf7087e8d38365fe2934a0c88044a81a933a6ef90f585ed53c7786ce2f"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "known_local_failure_other_unknown",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/known_local_failure_other_unknown",
+            "canonical_value_sha256": "8006e658e917530ef3a431b02c0276f03219b41201414b7a4b5cf61dff900c58",
+            "scope": "Finite local truth and whole-unknown discrimination, conditionally applied to a review premise. No actual review authority or outcome measured."
+          },
+          {
+            "case": "local_pass_other_unknown",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/local_pass_other_unknown",
+            "canonical_value_sha256": "a1fc8f6a50b648d776bf33b52befbfc99fa80a5a7ca0779cea8ff5d514cc621d",
+            "scope": "Finite local truth and whole-unknown discrimination, conditionally applied to a review premise. No actual review authority or outcome measured."
+          },
+          {
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_current_evidence",
+            "canonical_value_sha256": "7d072b119020cea2886c889e54f61928c0b294167c1e432f8d6e9726ce986da2",
+            "scope": "Finite local truth and whole-unknown discrimination, conditionally applied to a review premise. No actual review authority or outcome measured."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D02",
+        "source": "LAW-L3::EW-P021",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I003-F02",
+          "B33-I003-F04"
+        ],
+        "shared_object": "Regression evidence whose relevance or timing is set by a specific consequential commitment question.",
+        "guard": "The actual review inquiry identifies a relevant technical premise, residual, evidence scope or consequential decision time that is consumed in EA06 verification. A completed review or already-proved stop arrangement is unnecessary for this partial input.",
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "OPEN_QUESTIONS"
+        ],
+        "source_contribution": "The decision question can identify which behavior needs checking and by when evidence must be usable, rather than ordering tests by slide completion or a universal phase calendar.",
+        "receiving_consequence": "EA06 can choose the relevant condition and preserve its purpose and version, while recognizing where another method or unknown premise remains. Event-driven readiness does not mean every check must wait for a meeting.",
+        "remaining_premises": "Credible local oracle, achievable check, actual behavior/criterion mapping, feedback time and legitimate requirements. The review cannot make an arbitrary threshold technically correct.",
+        "positive_witness": "If the contemplated commitment depends on the current A sample before step3, C25's delayed policies withhold relevant r2 evidence. A review that identifies the actual earlier evidence need can affect the checking schedule; this is a declared conditional use, not an observed real commitment.",
+        "stronger_claim_counterexample": "A calendar gate demands the whole suite while the real irreversible action occurred earlier, or suppresses an otherwise useful local check until all unrelated documents are complete.",
+        "nontrigger": "No review criterion or actual decision timing changes the checking assessment. A colour status or board name alone supplies no regression premise.",
+        "cheap_alternative_and_cost": "Use an existing criterion and lightweight asynchronous decision where adequate; retain valid observations or analysis. Meeting queues and duplicate reporting can cost more than the information they provide.",
+        "removal_test": "Delete the actual decision question and the check can be correct yet irrelevant or late for its intended use. An equivalent concise current criterion can replace the formal review artifact.",
+        "reentry": "Reconsider the affected portfolio when the real exposure, evidence criterion or decision boundary changes, rather than on every document revision.",
+        "controls": [
+          "changing_project",
+          "stable_staged",
+          "adequate_source_equivalence"
+        ],
+        "finite_control_scope": "C25 measures declared policy timing only. It does not discover the right review deadline or establish that early evidence changed a real action.",
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P021",
+        "entry_row": [
+          "LAW-L3::EW-P021->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P021",
+            "capsule": {
+              "path": "reading/i003/native/EW-P021.json",
+              "bytes": 6859,
+              "sha256": "094a243b604a4de2fc40e163bdf60cd4a009a1aeafc7414e6c30243a812f4f91"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P021::MECHANISM",
+            "LAW-L3::EW-P021::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P021::KNOWN_FAILURE_MODES"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::OPEN_QUESTIONS"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F02",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f198d1af13bd79f4c455e2ff3d492b407fbe50b06c87726d8f2dc705abefe9e1"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "scope": "C25 measures declared policy timing only. It does not discover the right review deadline or establish that early evidence changed a real action."
+          },
+          {
+            "case": "stable_staged",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/stable_staged",
+            "canonical_value_sha256": "728dfc4f6dff1806239b97a15be9c623bc298baa05ab806cbcec402ffa9f50ec",
+            "scope": "C25 measures declared policy timing only. It does not discover the right review deadline or establish that early evidence changed a real action."
+          },
+          {
+            "case": "adequate_source_equivalence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_source_equivalence",
+            "canonical_value_sha256": "04bb49a620971942847634ea89e6cfe0677c2f5b8bb44d7adf5325fd95b103b7",
+            "scope": "C25 measures declared policy timing only. It does not discover the right review deadline or establish that early evidence changed a real action."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D03",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P023",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "REINFORCEMENT_AT_GUARD"
+        ],
+        "argument_factors": [
+          "B33-I003-F01",
+          "B33-I003-F04"
+        ],
+        "shared_object": "A particular system level or increment whose recurring verification responsibility consumes the check evidence.",
+        "guard": "P023 actually reuses or updates EA06 evidence at an identified element/increment boundary as behavior changes. Level and configuration correspondence are explicit; complete integration of all levels need not already be established.",
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "Repeatable verification supplies maintained evidence for the local responsibility across changes, with failures and limits preserved instead of counting a once-completed phase as permanent support.",
+        "receiving_consequence": "Lifecycle work can recur at the relevant increment without discarding all earlier evidence or assuming tested elements prove the integrated system. A useful local check can exist while a different element is still unresolved.",
+        "remaining_premises": "System boundaries, actual cross-level ownership, current configuration/evidence links and genuine integration conditions. Multiple green unit suites are not whole-system verification.",
+        "positive_witness": "C25 records useful A results across r1/r2/r3 while B requirements remain unknown. It expressly retains unknown system correspondence and whole premises, illustrating a partial repeated responsibility rather than a proved recursive project lifecycle.",
+        "stronger_claim_counterexample": "Each subsystem tests itself and the programme declares integration complete without the actual interface conditions; or every increment duplicates a full document stack despite unchanged evidence.",
+        "nontrigger": "There is no actual recurring/level-specific evidence use beyond a shared project label. A tiny product may realize the function through ordinary work without explicit recursive process artifacts.",
+        "cheap_alternative_and_cost": "Keep valid evidence with the smallest current element/increment mapping; use analysis to establish legitimate inheritance. Added recursion and synchronization can create rework and maintenance burden.",
+        "removal_test": "Remove the needed local result and that level loses its verification support unless another method replaces it. Remove a duplicated mini-lifecycle while retaining actual responsibilities and evidence, and the property can survive.",
+        "reentry": "Reopen affected level/increment evidence after a relevant change or invalidated correspondence; preserve unaffected results and separate integration needs.",
+        "controls": [
+          "changing_project",
+          "local_pass_other_unknown",
+          "unknown_system_correspondence"
+        ],
+        "finite_control_scope": "One finite local component plus explicit unknown other-component/system premises, not a multilevel integration experiment.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P023",
+        "reverse_direction_key": "LAW-L3::EW-P023->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P023",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P023",
+            "capsule": {
+              "path": "reading/i003/native/EW-P023.json",
+              "bytes": 6813,
+              "sha256": "e3db176d777d4620a7afc92914d4ed80aec92da5eacdaec89205525e8a8f57a4"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P023::MECHANISM",
+            "LAW-L3::EW-P023::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P023::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P023::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F01",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "c33406bf7087e8d38365fe2934a0c88044a81a933a6ef90f585ed53c7786ce2f"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "scope": "One finite local component plus explicit unknown other-component/system premises, not a multilevel integration experiment."
+          },
+          {
+            "case": "local_pass_other_unknown",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/local_pass_other_unknown",
+            "canonical_value_sha256": "a1fc8f6a50b648d776bf33b52befbfc99fa80a5a7ca0779cea8ff5d514cc621d",
+            "scope": "One finite local component plus explicit unknown other-component/system premises, not a multilevel integration experiment."
+          },
+          {
+            "case": "unknown_system_correspondence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/unknown_system_correspondence",
+            "canonical_value_sha256": "7cc87111c9ed7d9508de115fa3669c709c790944cfb77fab3f7c3de2b5ae358c",
+            "scope": "One finite local component plus explicit unknown other-component/system premises, not a multilevel integration experiment."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D04",
+        "source": "LAW-L3::EW-P023",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I003-F02",
+          "B33-I003-F04"
+        ],
+        "shared_object": "The application level, increment and evidence-inheritance boundary of a regression portfolio.",
+        "guard": "Actual lifecycle coordination supplies a relevant element/increment identity, changed responsibility or cross-level dependency used to select or interpret EA06 checks. The source must do more than relabel ordinary repetition as recursion.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.failure_witness"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "source_contribution": "The coordination identifies what changed, at which level, which evidence may be inherited and what separate system-level check or unknown remains. It prevents local green evidence from silently changing bearer.",
+        "receiving_consequence": "EA06 can check the relevant object, reuse unaffected support and avoid inferring integration from a collection of local passes. This coordination need not impose synchronized global phases.",
+        "remaining_premises": "Real dependency/impact analysis, trustworthy mapping and oracle, actual integration evidence where needed, and maintenance ownership. A recursive label does not validate an inheritance rule.",
+        "positive_witness": "C25 keeps A's r3 evidence reusable when only B's requirement status changes, while explicitly refusing whole-system support. Its exact r1-to-r3 source equivalence also illustrates a legitimate finite inheritance path separate from blind version carryover.",
+        "stronger_claim_counterexample": "Local suite results are inherited into a changed aggregate with unknown interfaces, or all elements rerun every test solely because a global phase label changed.",
+        "nontrigger": "No relevant level, candidate or dependency information reaches EA06. Ordinary small-product iteration may already supply the needed scope without extra lifecycle modelling.",
+        "cheap_alternative_and_cost": "Use existing configuration and impact knowledge with targeted checks or valid source analysis. Avoid duplicated evidence stacks and unnecessary cross-team synchronization.",
+        "removal_test": "Delete the only level/configuration mapping and a valid observation can be applied to the wrong object. An equivalent concise mapping can replace a formal recursive framework without losing the function.",
+        "reentry": "Reassess inherited evidence on actual level, interface, candidate or responsibility change; a mere new phase label is not a demonstrated invalidation.",
+        "controls": [
+          "adequate_current_evidence",
+          "adequate_source_equivalence",
+          "stale_existing_evidence",
+          "unknown_system_correspondence"
+        ],
+        "finite_control_scope": "Exact finite identity/equivalence and explicit missing system correspondence. No universal inheritance algorithm or integrated-system result.",
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P023",
+        "entry_row": [
+          "LAW-L3::EW-P023->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P023",
+            "capsule": {
+              "path": "reading/i003/native/EW-P023.json",
+              "bytes": 6813,
+              "sha256": "e3db176d777d4620a7afc92914d4ed80aec92da5eacdaec89205525e8a8f57a4"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P023::MECHANISM",
+            "LAW-L3::EW-P023::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P023::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P023::REQUALIFICATION.failure_witness"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F02",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f198d1af13bd79f4c455e2ff3d492b407fbe50b06c87726d8f2dc705abefe9e1"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_current_evidence",
+            "canonical_value_sha256": "7d072b119020cea2886c889e54f61928c0b294167c1e432f8d6e9726ce986da2",
+            "scope": "Exact finite identity/equivalence and explicit missing system correspondence. No universal inheritance algorithm or integrated-system result."
+          },
+          {
+            "case": "adequate_source_equivalence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_source_equivalence",
+            "canonical_value_sha256": "04bb49a620971942847634ea89e6cfe0677c2f5b8bb44d7adf5325fd95b103b7",
+            "scope": "Exact finite identity/equivalence and explicit missing system correspondence. No universal inheritance algorithm or integrated-system result."
+          },
+          {
+            "case": "stale_existing_evidence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/stale_existing_evidence",
+            "canonical_value_sha256": "d574e64d4e56d5e92a1fafbb0cbb1e283432794c4cab168a620f2d37b2ee2b5e",
+            "scope": "Exact finite identity/equivalence and explicit missing system correspondence. No universal inheritance algorithm or integrated-system result."
+          },
+          {
+            "case": "unknown_system_correspondence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/unknown_system_correspondence",
+            "canonical_value_sha256": "7cc87111c9ed7d9508de115fa3669c709c790944cfb77fab3f7c3de2b5ae358c",
+            "scope": "Exact finite identity/equivalence and explicit missing system correspondence. No universal inheritance algorithm or integrated-system result."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D05",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P024",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "FEEDBACK_OR_CORRECTIVE_RETURN"
+        ],
+        "argument_factors": [
+          "B33-I003-F01",
+          "B33-I003-F04"
+        ],
+        "shared_object": "An actual control-selection inquiry considering the adequacy, cost or limitation of repeatable regression evidence.",
+        "guard": "P024 consumes relevant EA06 results, omitted-condition evidence or actual acquisition/maintenance information when retaining, escalating, replacing or retiring a control. Full risk classification and tailoring authority need not already be resolved for that input to be useful.",
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "OPEN_QUESTIONS"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "source_contribution": "Observed detection or a credible coverage limit shows what the check actually contributes; actual execution burden or adequate existing evidence can inform a proportionate alternative. A result can confirm that an existing control remains appropriate.",
+        "receiving_consequence": "Tailoring can distinguish removing ceremony from deleting a needed function and can keep uncertain residuals visible. A favorable technical observation alone neither authorizes a deviation nor proves net benefit.",
+        "remaining_premises": "Actual consequence and risk, total package cost, relevant external obligations, viable substitutes and legitimate tailoring rights. A cheap green portfolio may simply omit the necessary failure condition.",
+        "positive_witness": "C25 gives an actual early r2 counterexample at the cost of more acquisitions in its selected schedule, while existing/current and exact-source-equivalence paths require no new specimen call. These are bounded inputs to a selection judgment, not a computed optimum.",
+        "stronger_claim_counterexample": "Delete the r2-sensitive check solely to reduce work and call the smaller passing portfolio proportionate; or mandate every check despite adequate existing analytic evidence and no changed premise.",
+        "nontrigger": "No actual control-selection or feedback inquiry consumes the information, or a tailoring worksheet records it without consequence. A cheap default may already realize the selection function; it is not an absent relation merely because no meeting is added.",
+        "cheap_alternative_and_cost": "Reuse observed evidence and a concise rationale; compare actual alternatives and total coordination/maintenance burden. Do not privatize mandatory obligations into a return-on-investment choice.",
+        "removal_test": "Removing the only adequacy/burden evidence leaves the selection less warranted unless another valid method supplies it. Removing an unnecessary tailoring form can preserve the function if the real rationale and duties remain.",
+        "reentry": "Revisit the choice when actual failure, scope, cost, obligation or available alternative changes, including evidence that the current control is already sufficient.",
+        "controls": [
+          "changing_project",
+          "stable_staged",
+          "adequate_current_evidence",
+          "adequate_source_equivalence"
+        ],
+        "finite_control_scope": "Actual finite acquisition counts and detection observations; no field return, calibrated risk threshold or authorization to omit a control.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P024",
+        "reverse_direction_key": "LAW-L3::EW-P024->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P024",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P024",
+            "capsule": {
+              "path": "reading/i003/native/EW-P024.json",
+              "bytes": 7158,
+              "sha256": "0563d9bae9da845c12840191635011301705e5aab95c1c754a84f518a26a7cb8"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23"
+            },
+            "selected_ref": null,
+            "selected_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-06::OPEN_QUESTIONS"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P024::MECHANISM",
+            "LAW-L3::EW-P024::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P024::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P024::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F01",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "c33406bf7087e8d38365fe2934a0c88044a81a933a6ef90f585ed53c7786ce2f"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "scope": "Actual finite acquisition counts and detection observations; no field return, calibrated risk threshold or authorization to omit a control."
+          },
+          {
+            "case": "stable_staged",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/stable_staged",
+            "canonical_value_sha256": "728dfc4f6dff1806239b97a15be9c623bc298baa05ab806cbcec402ffa9f50ec",
+            "scope": "Actual finite acquisition counts and detection observations; no field return, calibrated risk threshold or authorization to omit a control."
+          },
+          {
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_current_evidence",
+            "canonical_value_sha256": "7d072b119020cea2886c889e54f61928c0b294167c1e432f8d6e9726ce986da2",
+            "scope": "Actual finite acquisition counts and detection observations; no field return, calibrated risk threshold or authorization to omit a control."
+          },
+          {
+            "case": "adequate_source_equivalence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_source_equivalence",
+            "canonical_value_sha256": "04bb49a620971942847634ea89e6cfe0677c2f5b8bb44d7adf5325fd95b103b7",
+            "scope": "Actual finite acquisition counts and detection observations; no field return, calibrated risk threshold or authorization to omit a control."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D06",
+        "source": "LAW-L3::EW-P024",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I003-F02",
+          "B33-I003-F04"
+        ],
+        "shared_object": "Selection of regression depth, timing, method and justified alternatives for a specific change.",
+        "guard": "An actual proportional-control inquiry supplies a relevant consequence, uncertainty, coupling, reversibility, feedback or binding-obligation premise consumed in EA06 portfolio choice or interpretation. Its classification can be uncertain and explicit; no completed optimal risk model is required for a partial constraint.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "The actual context can justify a cheap existing/manual/analytic path, targeted repeated automation or additional independent assurance, while preserving necessary obligations and uncertainty about the classification.",
+        "receiving_consequence": "EA06 is applied at a defensible scope instead of being equated with every possible automated check or a mandatory TDD order. Transparent omissions and re-entry conditions remain part of the decision.",
+        "remaining_premises": "Credible local oracle and implementation, honest context/risk facts, actual duty and authority, meaningful cost/coverage comparison and monitoring for changed premises. A manipulated score is not a warranted tailoring input.",
+        "positive_witness": "C25's stable case allows a simple staged check, and its current/equivalent-source evidence can supply the same local premise without a new execution. Its missing-oracle case preserves an unscored observation instead of inventing green; actual need determines the appropriate further inquiry.",
+        "stronger_claim_counterexample": "A private risk score is used to delete a binding or necessary check, or a uniform process imposes repeated full automation on a harmless one-off operation that a valid direct check covers.",
+        "nontrigger": "Only generic proportionality language is supplied, with no actual context-sensitive consequence for these checks. A standing cheap default that truly governs the choice is already an adequate realization, not a nontrigger.",
+        "cheap_alternative_and_cost": "Apply an existing transparent default and escalation rule where adequate. Another board or bespoke scoring exercise can be more costly and less consistent than the actual check; retain valid simpler or no-change options.",
+        "removal_test": "Remove the only relevant consequence/obligation premise and the selected portfolio may over- or under-control the real risk. Equivalent existing policy or direct context reasoning can replace a formal tailoring plan.",
+        "reentry": "Reopen the affected choice when consequence, obligation, uncertainty, coupling, feedback or alternative adequacy changes, not merely because a new framework is available.",
+        "controls": [
+          "stable_staged",
+          "unknown_local_oracle",
+          "adequate_source_equivalence",
+          "failed_optional_sample_not_global_refutation"
+        ],
+        "finite_control_scope": "Finite adequacy and scope distinctions only. The control neither classifies real risk nor discovers legitimate tailoring authority.",
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P024",
+        "entry_row": [
+          "LAW-L3::EW-P024->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P024",
+            "capsule": {
+              "path": "reading/i003/native/EW-P024.json",
+              "bytes": 7158,
+              "sha256": "0563d9bae9da845c12840191635011301705e5aab95c1c754a84f518a26a7cb8"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23"
+            },
+            "selected_ref": null,
+            "selected_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P024::MECHANISM",
+            "LAW-L3::EW-P024::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P024::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P024::KNOWN_FAILURE_MODES"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F02",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "f198d1af13bd79f4c455e2ff3d492b407fbe50b06c87726d8f2dc705abefe9e1"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "stable_staged",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/stable_staged",
+            "canonical_value_sha256": "728dfc4f6dff1806239b97a15be9c623bc298baa05ab806cbcec402ffa9f50ec",
+            "scope": "Finite adequacy and scope distinctions only. The control neither classifies real risk nor discovers legitimate tailoring authority."
+          },
+          {
+            "case": "unknown_local_oracle",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/unknown_local_oracle",
+            "canonical_value_sha256": "c9d4d33efceea11c7ece4521e0c777ccae163b980277d84708d9bbeb73a422a5",
+            "scope": "Finite adequacy and scope distinctions only. The control neither classifies real risk nor discovers legitimate tailoring authority."
+          },
+          {
+            "case": "adequate_source_equivalence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_source_equivalence",
+            "canonical_value_sha256": "04bb49a620971942847634ea89e6cfe0677c2f5b8bb44d7adf5325fd95b103b7",
+            "scope": "Finite adequacy and scope distinctions only. The control neither classifies real risk nor discovers legitimate tailoring authority."
+          },
+          {
+            "case": "failed_optional_sample_not_global_refutation",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/failed_optional_sample_not_global_refutation",
+            "canonical_value_sha256": "c3ef4a31c04a927306035e53db78d88addf9d4156675e2af5c6af60e943032cf",
+            "scope": "Finite adequacy and scope distinctions only. The control neither classifies real risk nor discovers legitimate tailoring authority."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D07",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P034",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INVALIDATION"
+        ],
+        "argument_factors": [
+          "B33-I003-F03",
+          "B33-I003-F04"
+        ],
+        "shared_object": "The unqualified claim that useful development verification must await a single global testing phase.",
+        "guard": "A credible local regression observation is useful before that global phase despite its actual local prerequisites being met, and this is offered against the universal sequence claim. It is not an argument against a justified local order or every staged variant.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "ORIGINAL_FORM",
+          "MECHANISM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.quantifier"
+        ],
+        "source_contribution": "The useful early repeatable result supplies a counterexample to global phase entry as a necessary condition of meaningful verification. It preserves actual causal and commitment dependencies instead of inferring a universal order from them.",
+        "receiving_consequence": "The universal necessity claim is defeated at this witness while the selected rejection and legitimate staged alternatives remain intact. No comparative project-success claim follows.",
+        "remaining_premises": "The actual early check must be meaningful at its local scope, safe and permitted; missing system correspondence or an absent executable cannot be wished away. The local result does not prove all development phases can run concurrently.",
+        "positive_witness": "In C25 the same executable A and independent criterion expose r2's result4 versus3 at step1, before the declared TEST phase at step4. The global-phase policy waits and observes repaired r3. This establishes possible earlier information under explicit premises, not a caused repair.",
+        "stronger_claim_counterexample": "A stable known staged case yields an adequate passing check under all policies. An actual fixture, environment or commitment dependency may justify a local sequence; calling every such order harmful would exceed the witness.",
+        "nontrigger": "The rule is only a justified bounded sequence, or the early check lacks a needed local prerequisite. A check already occurring in the appropriate late stage by itself does not refute universal sequencing.",
+        "cheap_alternative_and_cost": "Keep actual dependency order and permit relevant checks when useful; use adequate existing evidence or source analysis. Extra early acquisitions can cost more and do not establish net benefit automatically.",
+        "removal_test": "Remove this particular early-evidence witness and this invalidation argument loses its example, though other native historical/analytical objections remain. Removing the universal restriction while preserving real dependencies eliminates this conflict without eliminating staging.",
+        "reentry": "Reassess a purported sequence after identifying its real dependency and the information delayed. A new warranted bounded guard does not restore universal necessity.",
+        "controls": [
+          "changing_project",
+          "stable_staged",
+          "missing_executable"
+        ],
+        "finite_control_scope": "A controlled finite information-timing counterexample to necessity, not an empirical rejection of all staged engineering.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P034",
+        "reverse_direction_key": "LAW-L3::EW-P034->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P034",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P034",
+            "capsule": {
+              "path": "reading/i003/native/EW-P034.json",
+              "bytes": 6874,
+              "sha256": "4e75cc6613bc66c75816ea980ec6bc35a3389a2a8eb782cd81d9b924916815c5"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/33"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Reject the universal sequence while preserving justified staged variants whose requirements, integration and technical risks are sufficiently understood.",
+            "native_status": "REJECTED_OR_DISFAVOURED",
+            "selected_quantifier": "REJECTION_OF_UNQUALIFIED_GENERAL_RULE_NOT_ALL_CONDITIONAL_INSTANCES"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P034::ORIGINAL_FORM",
+            "LAW-L3::EW-P034::MECHANISM",
+            "LAW-L3::EW-P034::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P034::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P034::REQUALIFICATION.quantifier"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F03",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "628434789550d4f6ea37fb9c60173649a684aebc7e309e0de3fbd759e58d1cb5"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "scope": "A controlled finite information-timing counterexample to necessity, not an empirical rejection of all staged engineering."
+          },
+          {
+            "case": "stable_staged",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/stable_staged",
+            "canonical_value_sha256": "728dfc4f6dff1806239b97a15be9c623bc298baa05ab806cbcec402ffa9f50ec",
+            "scope": "A controlled finite information-timing counterexample to necessity, not an empirical rejection of all staged engineering."
+          },
+          {
+            "case": "missing_executable",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/missing_executable",
+            "canonical_value_sha256": "5f2b92bda436c37b976859e4f6004cad2df04329521dc2e657bd6c456ca6741a",
+            "scope": "A controlled finite information-timing counterexample to necessity, not an empirical rejection of all staged engineering."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D08",
+        "source": "LAW-L3::EW-P034",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "CONFLICT_AT_SHARED_GUARD"
+        ],
+        "argument_factors": [
+          "B33-I003-F03",
+          "B33-I003-F04"
+        ],
+        "shared_object": "A useful regression observation withheld by an actually enforced global test-phase rule.",
+        "guard": "The original P034 global-phase mechanism is actually applied to defer a relevant check after behavior changes even though its local prerequisites are met and the earlier evidence matters to the receiving inquiry. The source's rejected universal status is preserved; no such enforcement is assumed in every staged system.",
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.quantifier"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "PROBLEM_IT_ADDRESSED",
+          "FAILURE_MODE_IT_TRIES_TO_PREVENT",
+          "DEPENDENCIES_OR_PRECONDITIONS"
+        ],
+        "source_contribution": "The enforced global phase condition suppresses or delays acquisition of relevant behavior evidence. This is an adverse input to the receiving verification mechanism, not support for the rejected policy.",
+        "receiving_consequence": "EA06 loses that early diagnostic opportunity or retains uncertainty longer. The evidence difference can be material without claiming that a final action, exposure or repair changed.",
+        "remaining_premises": "Actual rule enforcement, a real relevant early information need and feasible permitted checking. A resource limit or genuine physical dependency may separately justify waiting; the policy critique is not permission to ignore an actual obligation.",
+        "positive_witness": "C25's global-phase trace records acquisition withheld at steps0 through3 and first checks r3 at step4; the local policy observes r2 failure at step1 under the same exogenous history. The local policy makes three new evaluations and later reuses evidence, so the four blocked events are not four missed required executions. Final results agree; the claimed consequence is the information window alone.",
+        "stronger_claim_counterexample": "If no useful early inquiry exists or the stable staged case already has the right evidence at the right time, there is no demonstrated adverse timing effect. A local check without an executable object remains unavailable under either policy.",
+        "nontrigger": "No actual global restriction blocks the useful check, or the observed order follows a justified local dependency. The word Waterfall or a phase diagram alone is not an enforced conflict.",
+        "cheap_alternative_and_cost": "Use an authorized exception or policy revision that retains needed order while allowing the relevant evidence, or use already adequate analysis/current results. Do not replace one global mandate with mandatory constant execution.",
+        "removal_test": "Remove the binding global-phase condition while holding the local prerequisites and history fixed and the earlier acquisition becomes available. Removing an unrelated phase label changes nothing.",
+        "reentry": "Reopen when actual enforcement, local feasibility, decision timing or the cost/value of earlier information changes.",
+        "controls": [
+          "changing_project",
+          "stable_staged",
+          "adequate_current_evidence"
+        ],
+        "finite_control_scope": "Actual behavior-check scheduling in a declared model; no real institution, disobedience, defect-repair causation or field harm observed.",
+        "direction_key": "LAW-L3::EW-P034->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P034",
+        "entry_row": [
+          "LAW-L3::EW-P034->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P034",
+            "capsule": {
+              "path": "reading/i003/native/EW-P034.json",
+              "bytes": 6874,
+              "sha256": "4e75cc6613bc66c75816ea980ec6bc35a3389a2a8eb782cd81d9b924916815c5"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/33"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Reject the universal sequence while preserving justified staged variants whose requirements, integration and technical risks are sufficiently understood.",
+            "native_status": "REJECTED_OR_DISFAVOURED",
+            "selected_quantifier": "REJECTION_OF_UNQUALIFIED_GENERAL_RULE_NOT_ALL_CONDITIONAL_INSTANCES"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P034::MECHANISM",
+            "LAW-L3::EW-P034::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P034::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P034::REQUALIFICATION.quantifier"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::PROBLEM_IT_ADDRESSED",
+            "LAW-L2::EA-06::FAILURE_MODE_IT_TRIES_TO_PREVENT",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F03",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "628434789550d4f6ea37fb9c60173649a684aebc7e309e0de3fbd759e58d1cb5"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "scope": "Actual behavior-check scheduling in a declared model; no real institution, disobedience, defect-repair causation or field harm observed."
+          },
+          {
+            "case": "stable_staged",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/stable_staged",
+            "canonical_value_sha256": "728dfc4f6dff1806239b97a15be9c623bc298baa05ab806cbcec402ffa9f50ec",
+            "scope": "Actual behavior-check scheduling in a declared model; no real institution, disobedience, defect-repair causation or field harm observed."
+          },
+          {
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_current_evidence",
+            "canonical_value_sha256": "7d072b119020cea2886c889e54f61928c0b294167c1e432f8d6e9726ce986da2",
+            "scope": "Actual behavior-check scheduling in a declared model; no real institution, disobedience, defect-repair causation or field harm observed."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D09",
+        "source": "LAW-L2::EA-06",
+        "receiver": "LAW-L3::EW-P035",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INVALIDATION"
+        ],
+        "argument_factors": [
+          "B33-I003-F03",
+          "B33-I003-F04"
+        ],
+        "shared_object": "The universal demand for complete project requirements before any useful implementation/evidence work.",
+        "guard": "A meaningful local regression observation is obtained with sufficient known local intent while other project requirements remain unresolved, and it is used as a counterexample to global completeness as a universal prerequisite. Actual local and external constraints remain respected.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.quantifier"
+        ],
+        "source_contribution": "The check's valid local support or failure can exist before global completeness. It separates having a credible local oracle from knowing every user need, interface or other component requirement in advance.",
+        "receiving_consequence": "The universal prerequisite is invalidated at the stated witness, consistent with revisable known requirements and explicit unknowns. This does not establish that implementation should ignore all prior intent or that every exploratory observation is conformance evidence.",
+        "remaining_premises": "Enough local meaning and permission for the actual exploration; honest unknowns; correct evidence scope. Unknown local expected behavior yields an unscored observation rather than invented pass/fail; stable binding requirements remain real.",
+        "positive_witness": "C25 knows A(2)=3 and executes A while B requirements are unresolved. The observed r2 result4 is meaningful contrary evidence now. The complete-requirements policy defers acquisition until step3; the toy case does not claim an actual historical project's requirements state.",
+        "stronger_claim_counterexample": "When the local desired behavior itself is unknown, C25 reports an unscored observation. A mature stable interface may properly be specified before implementation. Neither case supports an unqualified global completeness gate.",
+        "nontrigger": "Only a justified stable local prerequisite is required, all relevant needs are already known, or the alleged early result has no meaningful relation to the disputed requirement. Existing EA14/P035 unknowns are not resolved by this EA06 witness.",
+        "cheap_alternative_and_cost": "Keep known stable constraints and next-decision intent, with explicit uncertainty; use the smallest credible check, source analysis or prototype needed. Avoid both fictional completeness and unconstrained perpetual exploration.",
+        "removal_test": "Remove the meaningful incomplete-project witness and this particular invalidation loses its support; native historical criticisms remain separately bounded. Removing the global completeness demand while retaining the necessary local criterion permits the useful check.",
+        "reentry": "Revisit when the actual disputed prerequisite is clarified as local or global, or when new knowledge changes the warranted exploration scope.",
+        "controls": [
+          "changing_project",
+          "unknown_local_oracle",
+          "stable_staged"
+        ],
+        "finite_control_scope": "Finite local-check counterexample under declared global uncertainty. No whole requirements discovery, field chronology or universal permission for unconstrained development.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P035",
+        "reverse_direction_key": "LAW-L3::EW-P035->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P035",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P035",
+            "capsule": {
+              "path": "reading/i003/native/EW-P035.json",
+              "bytes": 6277,
+              "sha256": "6ac70104f882c75879ae1c9ab67f2b3542163f883b1bb06b7259c483306d987a"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/34"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Reject the demand where learning requires executable work; preserve enough prior intent and constraints for safe meaningful exploration.",
+            "native_status": "REJECTED_OR_DISFAVOURED",
+            "selected_quantifier": "REJECTION_OF_UNQUALIFIED_GENERAL_RULE_NOT_ALL_CONDITIONAL_INSTANCES"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::MATURE_OR_EVOLVED_FORM"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P035::MECHANISM",
+            "LAW-L3::EW-P035::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P035::MATURE_OR_EVOLVED_FORM",
+            "LAW-L3::EW-P035::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P035::REQUALIFICATION.quantifier"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F03",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "628434789550d4f6ea37fb9c60173649a684aebc7e309e0de3fbd759e58d1cb5"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "scope": "Finite local-check counterexample under declared global uncertainty. No whole requirements discovery, field chronology or universal permission for unconstrained development."
+          },
+          {
+            "case": "unknown_local_oracle",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/unknown_local_oracle",
+            "canonical_value_sha256": "c9d4d33efceea11c7ece4521e0c777ccae163b980277d84708d9bbeb73a422a5",
+            "scope": "Finite local-check counterexample under declared global uncertainty. No whole requirements discovery, field chronology or universal permission for unconstrained development."
+          },
+          {
+            "case": "stable_staged",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/stable_staged",
+            "canonical_value_sha256": "728dfc4f6dff1806239b97a15be9c623bc298baa05ab806cbcec402ffa9f50ec",
+            "scope": "Finite local-check counterexample under declared global uncertainty. No whole requirements discovery, field chronology or universal permission for unconstrained development."
+          }
+        ]
+      },
+      {
+        "id": "B33-I003-D10",
+        "source": "LAW-L3::EW-P035",
+        "receiver": "LAW-L2::EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "CONFLICT_AT_SHARED_GUARD"
+        ],
+        "argument_factors": [
+          "B33-I003-F03",
+          "B33-I003-F04"
+        ],
+        "shared_object": "A locally meaningful regression check deferred because unrelated project requirements are not declared complete.",
+        "guard": "An actual implementation of the original P035 completeness gate withholds relevant EA06 evidence acquisition despite sufficient local intent and an executable object, and the earlier evidence has a real receiving use. The rejected rule is not assumed to govern every requirements baseline.",
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "TRIGGER_OR_CONTEXT",
+          "REQUALIFICATION.quantifier"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "PROBLEM_IT_ADDRESSED",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "source_contribution": "The global knowledge declaration becomes an extra gate on repeated local checking, delaying a potentially useful counterexample or confirmation even when missing requirements do not prevent that local observation.",
+        "receiving_consequence": "The receiver can lose relevant early evidence or face pressure to pretend global completeness. This is a guarded adverse interaction; the control does not measure dishonest declarations or project rework.",
+        "remaining_premises": "Actual gate enforcement and scope, useful local evidence, feasible and permitted execution, actual decision relevance. A valid obligation may require an authorized policy change; analytical criticism alone does not waive it.",
+        "positive_witness": "Under C25's identical history, the completeness-gated policy withholds r1/r2/r3 checks while B is unknown and acquires only at step3, after the fixed exogenous repair. The local policy's step1 failure was available earlier. Final green equality does not erase that information difference.",
+        "stronger_claim_counterexample": "A genuine local oracle or executable is missing, or stable complete requirements already exist and the gate adds no delay. Removing that real prerequisite cannot manufacture meaningful conformance checking.",
+        "nontrigger": "The baseline is revisable and permits useful scoped checks, or the requirement is a legitimate local constraint rather than a global completeness demand. Merely calling an artifact a specification establishes no conflict.",
+        "cheap_alternative_and_cost": "Use an authorized scoped path based on sufficient known intent, preserve unresolved needs and reuse adequate current or analytical evidence. Do not make repeated full-suite execution a substitute universal rule.",
+        "removal_test": "Remove the enforced global completeness condition while holding local readiness fixed and the check can occur earlier. Keep real local requirements and permissions; removing an unrelated signed document alone need not change anything.",
+        "reentry": "Reassess when the gate's scope, actual local need, known requirements, decision timing or lawful alternative changes; preserve independent EA14/P035 uncertainty.",
+        "controls": [
+          "changing_project",
+          "unknown_local_oracle",
+          "missing_executable",
+          "adequate_source_equivalence"
+        ],
+        "finite_control_scope": "One declared scheduling conflict with no actual organizational, financial, legal or deployment effect.",
+        "direction_key": "LAW-L3::EW-P035->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P035",
+        "entry_row": [
+          "LAW-L3::EW-P035->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P035",
+            "capsule": {
+              "path": "reading/i003/native/EW-P035.json",
+              "bytes": 6277,
+              "sha256": "6ac70104f882c75879ae1c9ab67f2b3542163f883b1bb06b7259c483306d987a"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/34"
+            },
+            "selected_ref": null,
+            "selected_criterion": "Reject the demand where learning requires executable work; preserve enough prior intent and constraints for safe meaningful exploration.",
+            "native_status": "REJECTED_OR_DISFAVOURED",
+            "selected_quantifier": "REJECTION_OF_UNQUALIFIED_GENERAL_RULE_NOT_ALL_CONDITIONAL_INSTANCES"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-06",
+            "capsule": {
+              "path": "reading/i003/native/EA-06.json",
+              "bytes": 5637,
+              "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/5"
+            },
+            "selected_criterion": "Maintain proportionate repeatable regression evidence when changing behavior; automate where repeatability and economics justify it.",
+            "native_status": "STRONGLY_RETAINED",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P035::MECHANISM",
+            "LAW-L3::EW-P035::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P035::TRIGGER_OR_CONTEXT",
+            "LAW-L3::EW-P035::REQUALIFICATION.quantifier"
+          ],
+          "receiver": [
+            "LAW-L2::EA-06::MECHANISM",
+            "LAW-L2::EA-06::PROBLEM_IT_ADDRESSED",
+            "LAW-L2::EA-06::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L2::EA-06::KNOWN_FAILURE_MODES"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I003-F03",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "628434789550d4f6ea37fb9c60173649a684aebc7e309e0de3fbd759e58d1cb5"
+          },
+          {
+            "factor_id": "B33-I003-F04",
+            "source": {
+              "path": "authoring/B33_I003_LITERAL_ARGUMENTS.json",
+              "bytes": 39053,
+              "sha256": "d6ebb64a66efc766cb864f31e7e166b4bba0b043c1e79ed3d9571a152bfc15e0"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2795cddc8285d3835025e96586a759db3a8a603c91fab97ea6f6b8dfa56cba76"
+          }
+        ],
+        "control_bindings": [
+          {
+            "case": "changing_project",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/changing_project",
+            "canonical_value_sha256": "fcd85f635a0c3df96392bc893c7804f4dc49e6a4deb0271b20da81a9595beac4",
+            "scope": "One declared scheduling conflict with no actual organizational, financial, legal or deployment effect."
+          },
+          {
+            "case": "unknown_local_oracle",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/unknown_local_oracle",
+            "canonical_value_sha256": "c9d4d33efceea11c7ece4521e0c777ccae163b980277d84708d9bbeb73a422a5",
+            "scope": "One declared scheduling conflict with no actual organizational, financial, legal or deployment effect."
+          },
+          {
+            "case": "missing_executable",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/missing_executable",
+            "canonical_value_sha256": "5f2b92bda436c37b976859e4f6004cad2df04329521dc2e657bd6c456ca6741a",
+            "scope": "One declared scheduling conflict with no actual organizational, financial, legal or deployment effect."
+          },
+          {
+            "case": "adequate_source_equivalence",
+            "result": {
+              "path": "research/increment_003/CONTROL_B33_C25.json",
+              "bytes": 41473,
+              "sha256": "a06cde9b18412ad9c2f034ae2c2954ade5e9c22a4f7f5c98f0eec98524f2a5e0"
+            },
+            "pointer": "/cases/adequate_source_equivalence",
+            "canonical_value_sha256": "04bb49a620971942847634ea89e6cfe0677c2f5b8bb44d7adf5325fd95b103b7",
+            "scope": "One declared scheduling conflict with no actual organizational, financial, legal or deployment effect."
+          }
+        ]
+      }
+    ],
+    "scientific_verdicts_computed": false
+  }
+}

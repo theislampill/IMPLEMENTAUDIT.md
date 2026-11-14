@@ -1,0 +1,40 @@
+{
+  "schema": "law-four-unit-documentary-review-receiving/1",
+  "dated_utc": "2026-11-13T19:32:39.437672+00:00",
+  "units": [
+    "LAW-L1",
+    "LAW-L2",
+    "LAW-L3",
+    "LAW-S"
+  ],
+  "private_four_unit_documentary_disposition": "ACCEPT_AT_DECLARED_SCOPE",
+  "scientific_qualification": "LAW-S A008; unchanged genuine qualification at 2026-11-13T17:48:14.456445Z",
+  "review_id": "LAW_DOCUMENTARY_FIDELITY_A008_R3_001",
+  "review_subject_bytes": 152670,
+  "review_subject_sha256": "43844e95af5b739dbe2e46b03a391490cc788b8a9cbb119b8f1ece0a839d71d2",
+  "review_report_sha256": "524c91d9b32c4949d0b940334dc342c2ceec08f62d10ca2e84e9adcd67687072",
+  "review_manifest_sha256": "410a89492584499b3666ccdf07f2156bf7c2fe6f6907bdae4e237f26909b6af7",
+  "final_review_receipt_sha256": "8ccdf916f8bc48b3bcade2b604d2e8ce374d0fbcc514e4df6bb946173d595b4a",
+  "separate_later_readback_sha256": "3a01b26e1eb0173322554693242685f31dabade88288805fa079f2f8821acaba",
+  "six_documentary_claims": "PASS",
+  "material_findings": 0,
+  "new_nonblocking_documentary_findings": 0,
+  "retained_scientific_nonblocking_observations": 3,
+  "review_scope": [
+    "Private accepted-A008 whole account and genealogy",
+    "Exact preservation of the three R2 constituent accounts and original public bodies",
+    "Source mapping and typed-reader identity at declared reading scope",
+    "Permitted public historical and qualification metadata projection",
+    "Exact fourth disclosure proposal remains pending",
+    "Four rough responsibility records preserve existing native owners"
+  ],
+  "reading_boundary": "Complete new documentary prose and specified scientific arguments were read; mechanical preservation of all directional rows is not semantic rereading of every original argument or primary work.",
+  "historical_notice": "Earlier provisional, review-pending and unqualified statements below remain exact dated records; this later receipt resolves the scientific and family documentary dependencies, while integration and public disclosure retain separate gates.",
+  "public_detailed_current_science": "WITHHELD",
+  "pending_source_specific_disclosures": 4,
+  "source_specific_disclosure_approved": false,
+  "full_current_public_scientific_family": false,
+  "integrated_candidate_review": "SEPARATE_REQUIRED_GATE",
+  "actual_rendering": "SEPARATE_EVIDENCE_REQUIRED",
+  "native_authority": "No new issue, final work order, implementation, merge, deployment or release authority."
+}

@@ -1,0 +1,588 @@
+{
+  "source_identity": {
+    "source_id": "S-95257d0976c98b14",
+    "scientific_name": "SB-R3-081_EA24_F12_FORWARD.json",
+    "original_bytes": 44610,
+    "original_sha256": "95257d0976c98b146af94f49d5b6d50f9ba07ae8855392cd302f1983a446f61c"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-081",
+    "title": "EA-24_FORWARD_RESPONSIBILITY_KNOWLEDGE_AND_AUTHORITY",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T02:26:46.008419+00:00",
+    "inquiry_family": 12,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_011.json",
+      "bytes": 1939,
+      "sha256": "af045a3e5335bd4ef49b7dc4fe426b7673195bdbcad9e731dc9ed5de6638809b"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY12_NATIVE_MEANINGS.json",
+      "bytes": 104023,
+      "sha256": "928650cb596b2c1d87704137d61c7e05e7adaaf3ae948c8775c39e33464217ab"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY12_COMPLETE_CORE_LITERAL_ARGUMENTS.json",
+      "bytes": 41703,
+      "sha256": "6126864a1a39073b7e15aa3f523bc870723f4dc529ddc31290a434226923e308"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY12_CONTROLS.json",
+      "bytes": 6479,
+      "sha256": "e656678df1e5f965e2e56f37071108b41792a0106b4f1e243fb7a873491df8da"
+    },
+    "bounded_interface_domain": [
+      "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+      "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+      "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+      "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+      "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+    ],
+    "native_common_basis": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements.",
+    "common_cost_and_alternative": [
+      "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+      "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+      "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+      "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+    ],
+    "evidence_ceiling": "Root literal analytical arguments from the complete selected native bodies and eight executed finite discriminators. One bounded NASA standard corroborates scoped distinctions, not universal authority requirements or causal effect sizes. No new property, field experiment, whole-synthesis completion or independent acceptance.",
+    "common_subconditions": {
+      "P1": "The literal common object and actual receiving use exist.",
+      "P2": "Both complete native meanings govern, including nontriggers and limits.",
+      "P3": "The separately reasoned partial contribution follows under its actual scope.",
+      "P4": "Residual premises, stronger-claim witnesses, alternatives and re-entry remain."
+    },
+    "inference": "The named input changes the specified receiving inquiry, capability or decision under its guard. It does not grant another role, certify a whole object, establish causal superiority or create a new implementation requirement.",
+    "common_source_dependence": "One scoped NASA primary standard; multiple retrieved passages count once. Existing selected native sources retain their evidence ceilings.",
+    "exceptions": [],
+    "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P014",
+        "argument": "Current linked evidence, configuration and traceability allow the recipient to establish which delivered item the results and exceptions concern."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P015",
+        "argument": "Authoritative current traceability can bind the claimed evidence to the certification object and preserve the change history needed by the applicable route."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P016",
+        "argument": "Traceable accessible evidence and configurations allow the reviewer to inspect the actual subject and preserve findings, responses and correction history."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P024",
+        "argument": "The current evidence chain shows which control supports which consequential decision and what maintaining it costs, informing justified simplification or retention."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P032",
+        "argument": "Linked current evidence, decision history and configuration identity let the risk actor distinguish the authorized state from later changes and re-examine the residual-risk basis."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P014",
+        "overclaim": "A perfectly traceable failing delivery still fails acceptance; the evidence custodian may not be the empowered recipient.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P015",
+        "overclaim": "A complete dossier for version1 is offered for version2; document completeness does not establish current certification credit.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P016",
+        "overclaim": "Readable, current records are all selected by the challenged party and critical evidence is withheld; access and independence remain insufficient.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P024",
+        "overclaim": "A traceability link exists for every template field but none addresses the relevant risk; complete paperwork is not adequate assurance.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P032",
+        "overclaim": "A complete risk file describes the wrong deployed configuration or an expired grant; its existence is not authority to operate.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-24->LAW-L3::EW-P014",
+      "LAW-L2::EA-24->LAW-L3::EW-P015",
+      "LAW-L2::EA-24->LAW-L3::EW-P016",
+      "LAW-L2::EA-24->LAW-L3::EW-P024",
+      "LAW-L2::EA-24->LAW-L3::EW-P032"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P014",
+        "source_native_id": "EA-24",
+        "receiving_native_id": "EW-P014",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/23",
+          "expected_native_id": "EA-24",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/23",
+            "expected_native_id": "AGQ-EA-24"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        },
+        "shared_question_or_object": "An identified delivery whose recipient requires recoverable acceptance rationale, criteria and configuration evidence.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiver": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Current linked evidence, configuration and traceability allow the recipient to establish which delivered item the results and exceptions concern.",
+        "receiving_consequence": "Current linked evidence, configuration and traceability allow the recipient to establish which delivered item the results and exceptions concern.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Current linked evidence, configuration and traceability allow the recipient to establish which delivered item the results and exceptions concern."
+        ],
+        "premises_remaining": [
+          "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A perfectly traceable failing delivery still fails acceptance; the evidence custodian may not be the empowered recipient.",
+        "counter_control": "A perfectly traceable failing delivery still fails acceptance; the evidence custodian may not be the empowered recipient.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L3::EW-P014->LAW-L2::EA-24",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiving_native_meaning": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          },
+          "actual_object": "An identified delivery whose recipient requires recoverable acceptance rationale, criteria and configuration evidence.",
+          "literal_bridge": "Current linked evidence, configuration and traceability allow the recipient to establish which delivered item the results and exceptions concern."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P015",
+        "source_native_id": "EA-24",
+        "receiving_native_id": "EW-P015",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/23",
+          "expected_native_id": "EA-24",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/23",
+            "expected_native_id": "AGQ-EA-24"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14",
+          "expected_native_id": "EW-P015"
+        },
+        "shared_question_or_object": "A real certification claim requiring evidence for its exact issuer, version and object configuration.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiver": {
+            "bearer": "A certification or regulatory credit claim",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Authoritative current traceability can bind the claimed evidence to the certification object and preserve the change history needed by the applicable route.",
+        "receiving_consequence": "Authoritative current traceability can bind the claimed evidence to the certification object and preserve the change history needed by the applicable route.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Authoritative current traceability can bind the claimed evidence to the certification object and preserve the change history needed by the applicable route."
+        ],
+        "premises_remaining": [
+          "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A complete dossier for version1 is offered for version2; document completeness does not establish current certification credit.",
+        "counter_control": "A complete dossier for version1 is offered for version2; document completeness does not establish current certification credit.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L3::EW-P015->LAW-L2::EA-24",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A certification or regulatory credit claim",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route."
+          },
+          "actual_object": "A real certification claim requiring evidence for its exact issuer, version and object configuration.",
+          "literal_bridge": "Authoritative current traceability can bind the claimed evidence to the certification object and preserve the change history needed by the applicable route."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P016",
+        "source_native_id": "EA-24",
+        "receiving_native_id": "EW-P016",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/23",
+          "expected_native_id": "EA-24",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/23",
+            "expected_native_id": "AGQ-EA-24"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15",
+          "expected_native_id": "EW-P016"
+        },
+        "shared_question_or_object": "A technical challenge arrangement whose evidence access and finding history depend on retained, current records.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiver": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Traceable accessible evidence and configurations allow the reviewer to inspect the actual subject and preserve findings, responses and correction history.",
+        "receiving_consequence": "Traceable accessible evidence and configurations allow the reviewer to inspect the actual subject and preserve findings, responses and correction history.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Traceable accessible evidence and configurations allow the reviewer to inspect the actual subject and preserve findings, responses and correction history."
+        ],
+        "premises_remaining": [
+          "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "Readable, current records are all selected by the challenged party and critical evidence is withheld; access and independence remain insufficient.",
+        "counter_control": "Readable, current records are all selected by the challenged party and critical evidence is withheld; access and independence remain insufficient.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L3::EW-P016->LAW-L2::EA-24",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged."
+          },
+          "actual_object": "A technical challenge arrangement whose evidence access and finding history depend on retained, current records.",
+          "literal_bridge": "Traceable accessible evidence and configurations allow the reviewer to inspect the actual subject and preserve findings, responses and correction history."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P024",
+        "source_native_id": "EA-24",
+        "receiving_native_id": "EW-P024",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/23",
+          "expected_native_id": "EA-24",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/23",
+            "expected_native_id": "AGQ-EA-24"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "shared_question_or_object": "A control-selection decision whose actual obligations and risks require retained evidence or whose paperwork has a measurable burden.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiver": {
+            "bearer": "Selection of assurance activities for a context",
+            "criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "The current evidence chain shows which control supports which consequential decision and what maintaining it costs, informing justified simplification or retention.",
+        "receiving_consequence": "The current evidence chain shows which control supports which consequential decision and what maintaining it costs, informing justified simplification or retention.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The current evidence chain shows which control supports which consequential decision and what maintaining it costs, informing justified simplification or retention."
+        ],
+        "premises_remaining": [
+          "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A traceability link exists for every template field but none addresses the relevant risk; complete paperwork is not adequate assurance.",
+        "counter_control": "A traceability link exists for every template field but none addresses the relevant risk; complete paperwork is not adequate assurance.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L3::EW-P024->LAW-L2::EA-24",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiving_native_meaning": {
+            "bearer": "Selection of assurance activities for a context",
+            "criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions."
+          },
+          "actual_object": "A control-selection decision whose actual obligations and risks require retained evidence or whose paperwork has a measurable burden.",
+          "literal_bridge": "The current evidence chain shows which control supports which consequential decision and what maintaining it costs, informing justified simplification or retention."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-24->LAW-L3::EW-P032",
+        "source_native_id": "EA-24",
+        "receiving_native_id": "EW-P032",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/23",
+          "expected_native_id": "EA-24",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/23",
+            "expected_native_id": "AGQ-EA-24"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        },
+        "shared_question_or_object": "An operational risk decision requiring current evidence, rationale and an identified operating configuration.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiver": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          }
+        },
+        "guard": [
+          "The literal common object, actual source mechanism, receiving decision, configuration, time and responsibility boundary are identified.",
+          "The named mechanism supplies the precise evidence, competence, continuity, constraint or authority input stated in the separately reasoned direction. Co-location or an invented auxiliary system is insufficient.",
+          "Competence, access, independent challenge, delegation, regulatory credit and risk acceptance remain distinct; one does not establish the others.",
+          "The complete receiver criterion and applicable obligations remain separate from the material partial contribution. A genuine partial input need not establish the entire receiving predicate.",
+          "Unknown applicability or correspondence stays unknown; no common-object guard is inferred merely from matching vocabulary."
+        ],
+        "source_contribution": "Linked current evidence, decision history and configuration identity let the risk actor distinguish the authorized state from later changes and re-examine the residual-risk basis.",
+        "receiving_consequence": "Linked current evidence, decision history and configuration identity let the risk actor distinguish the authorized state from later changes and re-examine the residual-risk basis.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Linked current evidence, decision history and configuration identity let the risk actor distinguish the authorized state from later changes and re-examine the residual-risk basis."
+        ],
+        "premises_remaining": [
+          "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary.",
+          "The receiver-native conditions not established by the literal partial contribution, including actual net benefit and any remaining authority or evidence."
+        ],
+        "counterexample": "A complete risk file describes the wrong deployed configuration or an expired grant; its existence is not authority to operate.",
+        "counter_control": "A complete risk file describes the wrong deployed configuration or an expired grant; its existence is not authority to operate.",
+        "nontrigger": "The stated common object or actual receiving use is known absent; if merely unknown, no negative is inferred.",
+        "specific_cost_and_alternative": [
+          "Count knowledge transfer, retained evidence, review, coordination, platform operation, consumer migration, exception handling and delayed decisions over the actual lifecycle.",
+          "Retain adequate existing controls, concise records, specialist ownership with backup, finite projects with competent handover, direct services, libraries, templates and no change as alternatives.",
+          "Authority follows the actual regime. Same-person roles or preauthorized local decisions remain possible where permitted; an actual separation requirement remains binding where applicable.",
+          "Do not count repeated shared evidence or the same common platform capacity as independent corroboration or independent savings. Actual platform net benefit and organizational comparative effects remain conditional."
+        ],
+        "reentry": "Reopen affected directions on changed responsibilities, delegation, expiry, issuer/basis, configuration, model correspondence, critical knowledge, platform consumers or costs, current evidence, source correction or counterexample. Known absence of this particular common use defeats the guarded instance, not every other possible material use; an unestablished guard is not a global negative.",
+        "reverse_direction_key": "LAW-L3::EW-P032->LAW-L2::EA-24",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A change or release requiring recoverable rationale, reproducibility, assurance or external review.",
+            "criterion": "Maintain proportionate evidence, configuration and traceability under the actual consequence, retention and authority requirements."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "actual_object": "An operational risk decision requiring current evidence, rationale and an identified operating configuration.",
+          "literal_bridge": "Linked current evidence, decision history and configuration identity let the risk actor distinguish the authorized state from later changes and re-examine the residual-risk basis."
+        }
+      }
+    ],
+    "independent_review_scope": "Every literal membership, shared premise, native correspondence, counterexample, evidence ceiling and complete study remain for fidelity and distinct adversarial review."
+  }
+}

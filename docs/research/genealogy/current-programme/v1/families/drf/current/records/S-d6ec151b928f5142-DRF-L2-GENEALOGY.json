@@ -1,0 +1,604 @@
+{
+  "source_identity": {
+    "source_id": "S-d6ec151b928f5142",
+    "scientific_name": "DRF-L2-GENEALOGY.json",
+    "original_bytes": 25583,
+    "original_sha256": "d6ec151b928f5142253354b23f8acc4ce3207f93a158e1b0a4086460f4d27072"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-l2-typed-genealogy/1",
+    "state": "AUTHOR_SOURCE_NOT_INDEPENDENTLY_QUALIFIED",
+    "scope": "Plural genealogy of the selected reliability/maintainability lineage, based on the received native corpus and the explicitly scoped fresh sources. An edge records the type and strength of documentary relation; it is not a universal causal history.",
+    "edge_types": {
+      "DOCUMENTED_PREDECESSOR": "The inspected later author explicitly identifies an earlier work or development.",
+      "DOCUMENTED_UPTAKE": "The inspected later document explicitly cites, quotes or incorporates earlier work.",
+      "DOCUMENTED_CRITICISM": "An inspected source directly challenges a named assumption or approach.",
+      "SHARED_MATHEMATICAL_STRUCTURE": "The author establishes a formal relation; historical borrowing is not thereby established.",
+      "DOMAIN_TRANSLATION": "A source explicitly moves a mechanism into a new bearer or practice; effectiveness remains separate.",
+      "CONVERGENCE_OR_ANALOGY": "Similar problems or mechanisms; direct transmission is unestablished.",
+      "UNRESOLVED_ATTRIBUTION": "Historical assertion retained with the missing or conflicting evidence stated.",
+      "DOCUMENTED_NAMED_CODIFICATION": "A later inspected source names a model family also represented by an earlier document. This does not establish direct citation or a transmission chain from that exact earlier document."
+    },
+    "strands": [
+      {
+        "id": "G-LIFE",
+        "name": "Life-data and statistical reliability",
+        "question": "Distribution of lifetime or failure over specified exposure",
+        "native_sources": [
+          "SRC-001",
+          "SRC-021",
+          "SRC-022",
+          "SRC-040",
+          "SRC-043"
+        ],
+        "fresh": [
+          "F012",
+          "F001",
+          "F002",
+          "F005"
+        ],
+        "limit": "The first page of Weibull 1951 and selected NIST methods do not establish earliest invention or every later estimator."
+      },
+      {
+        "id": "G-INSTITUTION",
+        "name": "Military and electronics reliability programmes",
+        "question": "Requirements, design, prediction, demonstration and organizational feedback",
+        "native_sources": [
+          "SRC-002",
+          "SRC-028",
+          "SRC-039"
+        ],
+        "fresh": [
+          "F022",
+          "F006",
+          "F015",
+          "F033"
+        ],
+        "limit": "AGREE is catalogue-level here; administrative validation is not field effectiveness."
+      },
+      {
+        "id": "G-MAINT",
+        "name": "Mechanical maintenance and support",
+        "question": "When intervention changes condition, consequence or restoration time",
+        "native_sources": [
+          "SRC-008",
+          "SRC-009",
+          "SRC-031",
+          "SRC-032",
+          "SRC-034"
+        ],
+        "fresh": [
+          "F023",
+          "F007"
+        ],
+        "limit": "NASA 2008 documents uptake of Nowlan–Heap, whose original report was not freshly accessed; paid current IEC body is unread."
+      },
+      {
+        "id": "G-REPAIR",
+        "name": "Repairable-systems and renewal models",
+        "question": "Recurrent failure processes, repair assumptions and time fractions",
+        "native_sources": [
+          "SRC-007",
+          "SRC-021",
+          "SRC-022",
+          "SRC-036",
+          "SRC-051"
+        ],
+        "fresh": [
+          "F013",
+          "F037"
+        ],
+        "limit": "Lindqvist's inspected scope excludes repair durations and availability; the present regenerative availability proof is separately stated."
+      },
+      {
+        "id": "G-FAILURE",
+        "name": "Failure modes and fault-tree analysis",
+        "question": "How local modes and combinations reach a named undesired consequence",
+        "native_sources": [
+          "SRC-003",
+          "SRC-004",
+          "SRC-005",
+          "SRC-079"
+        ],
+        "fresh": [
+          "F046",
+          "F044",
+          "F045",
+          "F047",
+          "F048"
+        ],
+        "limit": "Early priority is incompletely received; the current DLA 1949 anomaly is unresolved."
+      },
+      {
+        "id": "G-FT",
+        "name": "Fault-tolerant computing",
+        "question": "Protection through redundancy, acceptance, containment and alternate execution",
+        "native_sources": [
+          "SRC-011",
+          "SRC-012",
+          "SRC-014",
+          "SRC-016",
+          "SRC-020",
+          "SRC-082"
+        ],
+        "fresh": [
+          "F014",
+          "F043",
+          "F010",
+          "F026",
+          "F009",
+          "F011"
+        ],
+        "limit": "Formal proposals, one multiversion experiment and selected operating evidence are distinct warrants."
+      },
+      {
+        "id": "G-SOFTWARE",
+        "name": "Software reliability and operational profiles",
+        "question": "Activation of faults by inputs, states and use rather than physical wear",
+        "native_sources": [
+          "SRC-018",
+          "SRC-019"
+        ],
+        "fresh": [
+          "F038",
+          "F033"
+        ],
+        "limit": "The original Musa paper body was blocked; later discussion does not give original reading credit."
+      },
+      {
+        "id": "G-PHM",
+        "name": "Diagnostics, prognostics and health management",
+        "question": "Signals, uncertainty and the decision value of predicted condition",
+        "native_sources": [
+          "SRC-024",
+          "SRC-025",
+          "SRC-026",
+          "SRC-027",
+          "SRC-072",
+          "SRC-074"
+        ],
+        "fresh": [
+          "F021",
+          "F032",
+          "F020"
+        ],
+        "limit": "Current review abstracts and workshops do not establish net predictive-maintenance or automated-remediation effects."
+      },
+      {
+        "id": "G-SERVICE",
+        "name": "Service reliability, SRE and chaos practice",
+        "question": "Consumer-facing continuation and recovery under changing infrastructure",
+        "native_sources": [
+          "SRC-063",
+          "SRC-064",
+          "SRC-065",
+          "SRC-069",
+          "SRC-070"
+        ],
+        "fresh": [
+          "F024",
+          "F025",
+          "F027",
+          "F042",
+          "F017",
+          "F019"
+        ],
+        "limit": "Guidance, multivocal review and two operator incident families do not become independent intervention trials."
+      }
+    ],
+    "edges": [
+      {
+        "id": "GE01",
+        "type": "UNRESOLVED_ATTRIBUTION",
+        "from": "1949 MIL-P-1629 attribution",
+        "to": "G-FAILURE",
+        "date_or_period": "1949 attribution; owner record accessed 2026-11-11",
+        "claim": "Retain an early military FMECA attribution as unresolved, not freshly proved publication or priority.",
+        "evidence": [
+          {
+            "fresh_id": "F047",
+            "specific_locator": "DLA detail page, complete 30-line metadata",
+            "observed_relation": "Date is labelled cancellation and classification is anomalous."
+          }
+        ],
+        "limit": "No original 1949 text was received; later classroom accounts do not resolve the anomaly."
+      },
+      {
+        "id": "GE02",
+        "type": "DOCUMENTED_NAMED_CODIFICATION",
+        "from": "Weibull 1951 exposition",
+        "to": "G-LIFE",
+        "date_or_period": "1951; later NIST current web edition",
+        "claim": "Weibull-family modeling appears in the freshly inspected 1951 exposition and as a named family in the later NIST handbook. This establishes named codification, not direct uptake of that exact paper.",
+        "evidence": [
+          {
+            "fresh_id": "F012",
+            "specific_locator": "Printed p.293 first page",
+            "observed_relation": "1951 exposition of the distribution."
+          },
+          {
+            "fresh_id": "F001",
+            "specific_locator": "NIST §8.1.6 complete page",
+            "observed_relation": "Lists Weibull among lifetime distribution families."
+          }
+        ],
+        "limit": "The NIST list does not directly cite the 1951 paper in the inspected page. Earliest invention and an exact documentary transmission chain are unestablished."
+      },
+      {
+        "id": "GE03",
+        "type": "SHARED_MATHEMATICAL_STRUCTURE",
+        "from": "G-LIFE",
+        "to": "G-REPAIR",
+        "date_or_period": "Twentieth century; present reconstruction",
+        "claim": "Time-to-first-failure and recurrent-event processes share probability tools but have different estimands; repair assumptions change the process.",
+        "evidence": [
+          {
+            "fresh_id": "F013",
+            "specific_locator": "Printed pp.532–535",
+            "observed_relation": "Distinguishes perfect, minimal and imperfect repair and recurrent processes."
+          }
+        ],
+        "limit": "No claim that this scoped review is the original renewal theorem; current availability result is separately proved."
+      },
+      {
+        "id": "GE04",
+        "type": "DOCUMENTED_PREDECESSOR",
+        "from": "Horning and colleagues 1974 recovery structure",
+        "to": "Randell 1975 recovery blocks",
+        "date_or_period": "1974 → June 1975",
+        "claim": "Randell explicitly identifies the earlier structure in the development of recovery blocks.",
+        "evidence": [
+          {
+            "fresh_id": "F043",
+            "specific_locator": "Main text lines 0–653, historical description and references",
+            "observed_relation": "Names and cites the 1974 predecessor."
+          }
+        ],
+        "limit": "The predecessor's own full body was not separately read; exact contribution beyond the later account remains bounded."
+      },
+      {
+        "id": "GE05",
+        "type": "DOCUMENTED_CRITICISM",
+        "from": "Davies 1973 recovery semantics",
+        "to": "Randell 1975 recovery blocks",
+        "date_or_period": "1973 → June 1975",
+        "claim": "Randell discusses a prior recovery approach and motivates different restoration/interaction constraints.",
+        "evidence": [
+          {
+            "fresh_id": "F043",
+            "specific_locator": "Main text discussion of Davies and interacting processes",
+            "observed_relation": "Explicit comparison rather than a vocabulary-based inferred link."
+          }
+        ],
+        "limit": "No independent reconstruction of the full Davies design or performance comparison."
+      },
+      {
+        "id": "GE06",
+        "type": "DOMAIN_TRANSLATION",
+        "from": "Unreliable elementary components",
+        "to": "Formal reliable-computation constructions",
+        "date_or_period": "1952 lectures; later collected/transcribed version",
+        "claim": "von Neumann investigates structures that tolerate elementary unreliability under explicitly simplified probability assumptions.",
+        "evidence": [
+          {
+            "fresh_id": "F014",
+            "specific_locator": "Selected lines 253–324 and excerpts 873–900, 1230–1268, 2145–2168",
+            "observed_relation": "The source identifies unrealistic independence/constant-error idealizations."
+          }
+        ],
+        "limit": "A conditional construction is not deployed electronics or software effectiveness; the accessed transcription differs from the native cited edition."
+      },
+      {
+        "id": "GE07",
+        "type": "DOCUMENTED_CRITICISM",
+        "from": "Independently developed multiple versions",
+        "to": "Knight–Leveson experiment",
+        "date_or_period": "1985 report / 1986 journal work",
+        "claim": "Observed coincident failures challenge the tested independence expectation.",
+        "evidence": [
+          {
+            "fresh_id": "F010",
+            "specific_locator": "Main paper lines 0–541, printed pages 0–21",
+            "observed_relation": "27 versions of one application tested with a common input set and a reference oracle."
+          }
+        ],
+        "limit": "One application, not 27 independent studies; the result does not establish universal uselessness of diversity."
+      },
+      {
+        "id": "GE08",
+        "type": "DOCUMENTED_UPTAKE",
+        "from": "Nowlan–Heap 1978 RCM",
+        "to": "NASA facilities RCM guide",
+        "date_or_period": "1978 → September 2008",
+        "claim": "The NASA guide explicitly cites and quotes Nowlan–Heap while applying maintenance selection to facilities and collateral equipment.",
+        "evidence": [
+          {
+            "fresh_id": "F023",
+            "specific_locator": "Lines 382–516 and find excerpts 1094–1124",
+            "observed_relation": "Explicit prior-source citation and later facility-maintenance application."
+          }
+        ],
+        "limit": "Original 1978 report inaccessible through attempted routes; no aircraft pattern percentage transported as universal."
+      },
+      {
+        "id": "GE09",
+        "type": "DOCUMENTED_CRITICISM",
+        "from": "Late or duplicative FMECA practice",
+        "to": "MIL-STD-1629A requirements",
+        "date_or_period": "November 1980",
+        "claim": "The historical standard itself demands timely design relevance, tailoring and disposition of recommendations, including reasoned no action.",
+        "evidence": [
+          {
+            "fresh_id": "F046",
+            "specific_locator": "Foreword; general requirements §4.4.2, lines 0–251 and 400–680",
+            "observed_relation": "Internal criticism and a documented no-action alternative occur in the primary body."
+          }
+        ],
+        "limit": "Historical normative direction does not show universal compliance or present legal applicability; cancellation retained."
+      },
+      {
+        "id": "GE10",
+        "type": "DOCUMENTED_UPTAKE",
+        "from": "Early fault-tree work and NUREG-0492",
+        "to": "Ruijters–Stoelinga FTA survey",
+        "date_or_period": "1960s/1981 → 2014 manuscript / 2015 issue",
+        "claim": "The survey identifies early fault-tree work and later codification while separating qualitative analysis from probabilistic assumptions.",
+        "evidence": [
+          {
+            "fresh_id": "F045",
+            "specific_locator": "Lines 191–375 and 597–843",
+            "observed_relation": "Cited retrospective history and formal assumptions."
+          },
+          {
+            "fresh_id": "F044",
+            "specific_locator": "UNT catalogue metadata",
+            "observed_relation": "1981 handbook identity and training/codification purpose."
+          }
+        ],
+        "limit": "The Bell Labs priority statement is retrospective cited testimony; original early documents and handbook body were not freshly read."
+      },
+      {
+        "id": "GE11",
+        "type": "DOCUMENTED_CRITICISM",
+        "from": "Hardware-only explanations of outage",
+        "to": "Gray operating evidence",
+        "date_or_period": "1985",
+        "claim": "Gray's selected operating report makes software, administration and recovery consequential to availability.",
+        "evidence": [
+          {
+            "fresh_id": "F026",
+            "specific_locator": "All 44,196 selectable text characters; figures excluded",
+            "observed_relation": "Reported causes and implications of failures in the studied system population."
+          }
+        ],
+        "limit": "Selection, reporting and historical technology limit prevalence and transfer; this is not current service-failure incidence."
+      },
+      {
+        "id": "GE12",
+        "type": "DOCUMENTED_UPTAKE",
+        "from": "Earlier fault/error/failure and dependability terminology",
+        "to": "Avizienis–Laprie–Randell–Landwehr taxonomy",
+        "date_or_period": "1980 / 1985 / 1992 → 2004",
+        "claim": "The authors explicitly place their taxonomy in earlier terminology work and distinguish service failure, error, fault, detection and recovery.",
+        "evidence": [
+          {
+            "fresh_id": "F009",
+            "specific_locator": "Printed pp.11–15 and 23–27; Figure 16 on p.25",
+            "observed_relation": "Authors' dated genealogy and separate fault-tolerance activities."
+          }
+        ],
+        "limit": "The source is conceptual; a standardized vocabulary does not demonstrate control effectiveness."
+      },
+      {
+        "id": "GE13",
+        "type": "DOCUMENTED_UPTAKE",
+        "from": "Recovery-oriented computing",
+        "to": "2004 dependability taxonomy",
+        "date_or_period": "2002 → 2004",
+        "claim": "The taxonomy cites ROC as a related development; the Berkeley report foregrounds recovery and operational human effects.",
+        "evidence": [
+          {
+            "fresh_id": "F009",
+            "specific_locator": "Scoped taxonomy text and bibliography references in read union",
+            "observed_relation": "Explicit ROC citation."
+          },
+          {
+            "fresh_id": "F011",
+            "specific_locator": "Printed pp.1–5, lines 0–250",
+            "observed_relation": "ROC problem framing and proposed direction."
+          }
+        ],
+        "limit": "ROC later case studies were not read; shared interests do not prove all modern SRE practices descend directly from ROC."
+      },
+      {
+        "id": "GE14",
+        "type": "CONVERGENCE_OR_ANALOGY",
+        "from": "Recovery-oriented computing",
+        "to": "Modern service reliability practice",
+        "date_or_period": "2002 → 2018–2026",
+        "claim": "Both give operational restoration and cost a central role, but direct transmission to each SRE mechanism is unestablished here.",
+        "evidence": [
+          {
+            "fresh_id": "F011",
+            "specific_locator": "Printed pp.1–5",
+            "observed_relation": "Recovery framing."
+          },
+          {
+            "fresh_id": "F024",
+            "specific_locator": "Lines 0–91 and 322–394",
+            "observed_relation": "SLO consumer/measurement guidance."
+          }
+        ],
+        "limit": "Analogy only for this edge; no causal ancestry claim."
+      },
+      {
+        "id": "GE15",
+        "type": "DOCUMENTED_CRITICISM",
+        "from": "Reliability-growth curve as forecast or causal proof",
+        "to": "NRC reliability-growth assessment",
+        "date_or_period": "2015",
+        "claim": "The report distinguishes planning, assessment and prediction and limits extrapolation across environments and fixing processes.",
+        "evidence": [
+          {
+            "fresh_id": "F037",
+            "specific_locator": "Chapter 4 lines 0–166 and 345–375",
+            "observed_relation": "Model roles and process assumptions."
+          },
+          {
+            "fresh_id": "F041",
+            "specific_locator": "Chapter 6 lines 0–105",
+            "observed_relation": "Testing and programme evidence concerns."
+          }
+        ],
+        "limit": "A panel/report assessment is not fresh reanalysis of its underlying defense datasets; C13 is an independent author construction."
+      },
+      {
+        "id": "GE16",
+        "type": "DOMAIN_TRANSLATION",
+        "from": "Required service and consumer consequence",
+        "to": "SLO and error-budget decisions",
+        "date_or_period": "2018 practice guidance",
+        "claim": "Google guidance operationalizes selected service goals and budgets for change decisions.",
+        "evidence": [
+          {
+            "fresh_id": "F024",
+            "specific_locator": "Implementing SLOs lines 0–91 and 322–394",
+            "observed_relation": "Selection of user-relevant measures."
+          },
+          {
+            "fresh_id": "F025",
+            "specific_locator": "Complete 106-line example policy",
+            "observed_relation": "Explicit policy thresholds and actions as an example."
+          }
+        ],
+        "limit": "Example percentages, freeze rules and authority are not universal requirements; software reliability engineering and site reliability engineering remain distinct terms."
+      },
+      {
+        "id": "GE17",
+        "type": "DOCUMENTED_CRITICISM",
+        "from": "Chaos advocacy and heterogeneous practice",
+        "to": "Chaos multivocal review",
+        "date_or_period": "2016–April 2024 search window; 2025 online / 2026 issue",
+        "claim": "The review organizes reported practice and acknowledges selection, taxonomy and evidence limitations.",
+        "evidence": [
+          {
+            "fresh_id": "F042",
+            "specific_locator": "Front/abstract and complete §8.3 validity threats, printed pp.34–35",
+            "observed_relation": "96 heterogeneous academic/grey items; success bias and limited cost evidence."
+          },
+          {
+            "fresh_id": "F034",
+            "specific_locator": "Zenodo v1 metadata",
+            "observed_relation": "Dependent study dataset package, not a second replication."
+          }
+        ],
+        "limit": "Underlying 437 MB dataset unreceived; source count is not experiment count or demonstrated resilience benefit."
+      },
+      {
+        "id": "GE18",
+        "type": "DOMAIN_TRANSLATION",
+        "from": "Condition signals and prognostic models",
+        "to": "Maintenance decisions and AI assistance",
+        "date_or_period": "2016 online / 2019 issue → 2026 frontier",
+        "claim": "PHM reviews and AI workshops identify data, validation, drift and integration burdens in connecting prediction to intervention.",
+        "evidence": [
+          {
+            "fresh_id": "F021",
+            "specific_locator": "Introduction and conclusion/limitations read scopes",
+            "observed_relation": "PHM engineering challenges and cost/validation needs."
+          },
+          {
+            "fresh_id": "F020",
+            "specific_locator": "Lines 0–144, 639–779 and 1057–1184",
+            "observed_relation": "Workshop/literature findings and limitations."
+          },
+          {
+            "fresh_id": "F032",
+            "specific_locator": "Publisher abstract/search metadata only",
+            "observed_relation": "Current RUL review identity and abstract-level framing."
+          }
+        ],
+        "limit": "No universal predictive advantage, autonomous-remediation authority, or independent efficacy trial is established."
+      },
+      {
+        "id": "GE19",
+        "type": "DOCUMENTED_CRITICISM",
+        "from": "Nominal redundancy, change control and restore assumptions",
+        "to": "Operator incident accounts",
+        "date_or_period": "2024 and 2025 incidents",
+        "claim": "The selected reports illustrate common change paths, dependency amplification and restoration constraints.",
+        "evidence": [
+          {
+            "fresh_id": "F019",
+            "specific_locator": "Final RCA dated 6 August 2024, printed pp.1–8",
+            "observed_relation": "Specific vendor-reported content update and testing/recovery account."
+          },
+          {
+            "fresh_id": "F017",
+            "specific_locator": "Main report lines 203–274",
+            "observed_relation": "Specific AWS dependency and restoration sequence."
+          }
+        ],
+        "limit": "Two incident families, not failure-rate samples; reported corrective actions are not independently verified effects."
+      },
+      {
+        "id": "GE20",
+        "type": "SHARED_MATHEMATICAL_STRUCTURE",
+        "from": "Dependent path successes",
+        "to": "Conditional redundancy benefit",
+        "date_or_period": "Present author derivation with historical model context",
+        "claim": "P(A∪B)−P(A)=P(B∩¬A) identifies rescue benefit without statistical independence.",
+        "evidence": [
+          {
+            "fresh_id": "F003",
+            "specific_locator": "Complete NIST parallel-model page",
+            "observed_relation": "Independent product model context."
+          },
+          {
+            "fresh_id": "F010",
+            "specific_locator": "Main experimental argument",
+            "observed_relation": "A consequential challenge to independence."
+          }
+        ],
+        "limit": "The event identity and C02 are author model reasoning; actual rescue probabilities and added architectural failures remain external premises."
+      }
+    ],
+    "competing_accounts": [
+      {
+        "id": "GA01",
+        "question": "One origin or plural origins?",
+        "selected": "Plural strands and identifiable documents; no single founder adjudicated.",
+        "alternative": "A single sequence from military electronics to software to SRE.",
+        "why_not_selected": "Different bearers, questions and simultaneous mathematics; inspected sources do not establish that causal staircase."
+      },
+      {
+        "id": "GA02",
+        "question": "Was criticism and tailoring only a recent correction?",
+        "selected": "Historical FMECA already criticized late, duplicative and actionless analysis; current implementations may still fail.",
+        "alternative": "Older analysis was inherently ceremonial and only modern practice supplied feedback.",
+        "why_not_selected": "F046 foreword and section 4.4.2 directly oppose that historical caricature."
+      },
+      {
+        "id": "GA03",
+        "question": "Does shared reliability vocabulary prove descent?",
+        "selected": "Only source-documented links are causal/documentary edges; formal similarity and analogy are separately typed.",
+        "alternative": "Common terms such as recovery, availability or SRE establish intellectual transmission.",
+        "why_not_selected": "They can denote different objects; no cited source proves every claimed connection."
+      },
+      {
+        "id": "GA04",
+        "question": "Do negative dependence results defeat redundancy?",
+        "selected": "They defeat an independence assertion in the studied setting; conditional rescue remains possible.",
+        "alternative": "Dependence proves redundancy or design diversity is universally ineffective.",
+        "why_not_selected": "The general joint-event identity and C02 give a counterexample; F010 is one application experiment."
+      }
+    ],
+    "remaining_work_not_fabricated": [
+      "Original 1949 FMECA publication and priority remain unresolved; owner metadata anomaly is preserved.",
+      "AGREE, early renewal texts, Duane/Crow originals, original Nowlan–Heap and Musa bodies were not all freshly read.",
+      "Direct historical transmission from ROC to a particular modern SRE practice is not established by shared subject matter.",
+      "Publication and administrative status observations are current only to their recorded access dates; later updates require new receiving."
+    ]
+  }
+}

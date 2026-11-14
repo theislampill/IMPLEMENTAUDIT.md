@@ -1,0 +1,475 @@
+{
+  "source_identity": {
+    "source_id": "S-224863815ff7e39e",
+    "scientific_name": "AUTHOR_CLOCK_JUDGMENTS_A006.json",
+    "original_bytes": 33726,
+    "original_sha256": "224863815ff7e39e6ccb12427a6171992cfdad3415cbbb372bb11746694bcc59"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "DRF-A006-source-authored-clock-judgments/1",
+    "at_utc": "2026-11-13T14:23:27.226589+00:00",
+    "role": "EXPOSED_WHOLE_SCIENTIFIC_AUTHOR",
+    "parent": {
+      "uri": "A005/SCIENTIFIC_SUBJECT.json",
+      "bytes": 16501,
+      "sha256": "63c5b6bdb2dae037de3df7b86bc1b1f7f68b5bbacd0f6ca39c5ea57879086810",
+      "locator_kind": "WHOLE_FILE",
+      "locator": ""
+    },
+    "directions": [
+      {
+        "d_current_pointer": "/QUALIFICATIONS/3",
+        "d_current_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+        "d_facet": "D04",
+        "d_native_consumer": "Database designer, event processor, workflow author, auditor and debugger.",
+        "d_native_criterion": "Would replacing causal evidence with wall-clock order change the inference or protected invariant?",
+        "d_native_pointer": "/PROPERTIES/3",
+        "direction": "R009>D04",
+        "disposition": "MATERIAL",
+        "exact_current_profile_refs": [
+          "/properties/8/current_profiles/MISSION_RELIABILITY_PROFILE",
+          "/properties/8/current_profiles/FAILURE_PROPAGATION_PROFILE",
+          "/properties/8/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+          "/properties/8/current_profiles/RECOVERY_RESTORATION_PROFILE"
+        ],
+        "family": "R009",
+        "family_argument": "outgoing",
+        "family_controls": [
+          "C02",
+          "C04",
+          "C14"
+        ],
+        "native_cases": [
+          "C02"
+        ],
+        "native_countercontrol": "A local sequence can be enough; a total order is not a physical-cause proof and the weakest order is not necessarily cheapest.",
+        "new_property_claim": false,
+        "orientation": "R_TO_D",
+        "r_current_pointer": "/properties/8/current_claim",
+        "r_current_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845",
+        "r_native_consumer": "Admit a bounded fault-tolerance claim or choose single-component repair/manual spare/accepted downtime.",
+        "r_native_criterion": "Name the tolerated fault set, rescue cases, joint-dependence assumptions, transfer/state/capacity conditions and added failure/cost paths.",
+        "reverse": "D04>R009",
+        "reverse_assignment": "INDEPENDENT_NEW_INQUIRY",
+        "source": "R009",
+        "source_refs": {
+          "D": [
+            "S003",
+            "S013",
+            "S033",
+            "S036",
+            "S047"
+          ],
+          "R": [
+            "F003",
+            "F010",
+            "F014",
+            "F045"
+          ]
+        },
+        "specific_d_contribution": "Keep causal precedence, a chosen total order, physical time, commit order and observation order separate.",
+        "specific_d_receiving_question": "Which event-order or time interpretation changes the protected invariant or causal inference?",
+        "target": "D04",
+        "whole_receiver_proved": false,
+        "assignment": "SOURCE_GROUNDED_CONDITIONAL_PARTIAL_INPUT",
+        "source_authored_argument": {
+          "direction": "R009>D04",
+          "current": "MATERIAL",
+          "native_input": "R009 admits a same-function rescue set without requiring statistical independence, while retaining activation, selection, state, common-cause and added-loss premises.",
+          "source_to_receiver_interface": "The already described multiple-reference clock service supplies the alternate reference and selection/synchronization roles that the old D04 exception said were absent. Its consumer still requires the same physical interval and failure-response function.",
+          "guard": "Compare reference paths for the same required interval function. The alternate survives the named reference fault and is accepted by a functioning applicable selection path; local drift, communication, remaining references and response assumptions are retained.",
+          "changed_warrant": "Multiple references alone cannot earn protection credit. R009 separates a possible accepted rescue from a replicated but unusable reference or a shared selection failure. This qualifies the evidence for selecting/trusting that D04 clock-service branch, without deriving the interval theorem.",
+          "strongest_defense": "The source defers implementation details and does not prove thresholds, coverage or net improvement. That defeats those stronger conclusions. It does not make the explicitly described reference and selection architecture absent.",
+          "countercase": "An alternate with the same relevant fault, an unacceptable uncertainty interval or a broken shared selector does not rescue the required function. Choosing logical order instead is not a rescue if the consumer actually requires a physical-time interval.",
+          "nontrigger": "A sufficient local sequence, adequate existing total log, or single supported time reference with accepted outage can be the complete economical choice.",
+          "unresolved": "Actual joint fault law, selector soundness/coverage, transfer dynamics, availability and maintenance cost; no field reliability estimate or positive net benefit follows.",
+          "reason_codes": [
+            "SCIENTIFIC_ERROR",
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "reentry": "Reassess if the same-function correspondence, source architecture, bound/failure-response contract or relevant fault model changes.",
+          "author_exposure": "Same exposed continuing author; not an independent review.",
+          "probability_limit": "A nonempty possible rescue set alone does not establish positive probability or a positive net reliability increment. The contribution constrains the claimed protection and comparison; no weights are assigned to real fault worlds.",
+          "previous_A005": "EXAMINED_UNRESOLVED",
+          "authority": "Current exposed A006 author judgment; no independent acceptance or qualification."
+        },
+        "receiving_branch": "D04 physical-time interval and failure-response service, through the existing S036 reference/selection architecture; no universal redundancy requirement for all ordering questions.",
+        "historical_argument": {
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/195",
+          "canonical_record_sha256": "641b15c20138a6c3f6a6f23227496eed6f5806e50d9669d0f89dd8a147246285"
+        },
+        "exact_A005_effective_row": {
+          "path": "A005/EFFECTIVE_WHOLE_A005.json",
+          "pointer": "/R009>D04",
+          "canonical_record_sha256": "3ce185716f2c8e625c44237b438247358f111d06d4612503734fb1050d16ac38"
+        },
+        "component_argument": {
+          "path": "CLOCK_RESPONSE/AUTHOR_RESPONSE.json",
+          "pointer": "/source_authored_outgoing_proposals/0",
+          "canonical_record_sha256": "3ca4ec345968543ef3030f7ec7a3fa50f57e4967f6d227189596795827abdc66"
+        },
+        "source_capture": "CLOCK_RESPONSE/inputs/EXACT_NATIVE_AND_ARGUMENT_CAPTURE.json; exact selected D/R natives and S036 qualification retained.",
+        "primary_access": "CLOCK_RESPONSE/SOURCE_ACCESS.json; S036 §3 printedpp5–6/lines269–331; external PDF bytes not locally pinned.",
+        "reverse_current_judgment": {
+          "direction": "D04>R009",
+          "current": "MATERIAL",
+          "proposed": "MATERIAL",
+          "contribution": "D04 fixes the temporal success event of the already named redundant mission. A channel that supplies a local sequence or merely continues ticking is not an equivalent rescue of a required absolute-time interval. This criterion input is independently useful even when no outgoing redundancy result is claimed.",
+          "guard": "The R009 required function has a temporal meaning whose substitution changes the success criterion.",
+          "countercontrol": "When the mission requires only local sequence, a valid sequence can be sufficient; no physical clock is imposed.",
+          "exact_current_argument": {
+            "canonical_record_sha256": "51826b6622e46f96ed9a802e1e9be4c0656c0bdf34fbe9cd056fd6d6c6c07c56",
+            "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+            "pointer": "/directions/165"
+          },
+          "author_exposure": "Same exposed continuing author; not an independent review."
+        }
+      },
+      {
+        "d_current_pointer": "/QUALIFICATIONS/3",
+        "d_current_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+        "d_facet": "D04",
+        "d_native_consumer": "Database designer, event processor, workflow author, auditor and debugger.",
+        "d_native_criterion": "Would replacing causal evidence with wall-clock order change the inference or protected invariant?",
+        "d_native_pointer": "/PROPERTIES/3",
+        "direction": "R040>D04",
+        "disposition": "MATERIAL",
+        "exact_current_profile_refs": [
+          "/properties/39/current_profiles/FAILURE_PROPAGATION_PROFILE",
+          "/properties/39/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE"
+        ],
+        "family": "R040",
+        "family_argument": "outgoing",
+        "family_controls": [
+          "C02",
+          "C14"
+        ],
+        "native_cases": [
+          "C02",
+          "C14"
+        ],
+        "native_countercontrol": "A local sequence can be enough; a total order is not a physical-cause proof and the weakest order is not necessarily cheapest.",
+        "new_property_claim": false,
+        "orientation": "R_TO_D",
+        "r_current_pointer": "/properties/39/current_claim",
+        "r_current_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+        "r_native_consumer": "Use a diverse alternate, strengthen one implementation, improve specifications or accept the residual.",
+        "r_native_criterion": "Inspect the shared specification, input distribution, oracle, rescue set, voter/acceptance failures and ongoing configuration burden.",
+        "reverse": "D04>R040",
+        "reverse_assignment": "INDEPENDENT_NEW_INQUIRY",
+        "source": "R040",
+        "source_refs": {
+          "D": [
+            "S003",
+            "S013",
+            "S033",
+            "S036",
+            "S047"
+          ],
+          "R": [
+            "F010",
+            "F043",
+            "F014"
+          ]
+        },
+        "specific_d_contribution": "Keep causal precedence, a chosen total order, physical time, commit order and observation order separate.",
+        "specific_d_receiving_question": "Which event-order or time interpretation changes the protected invariant or causal inference?",
+        "target": "D04",
+        "whole_receiver_proved": false,
+        "assignment": "SOURCE_GROUNDED_CONDITIONAL_PARTIAL_INPUT",
+        "source_authored_argument": {
+          "direction": "R040>D04",
+          "current": "MATERIAL",
+          "native_input": "R040 explicitly includes physical and technological diversity. It qualifies targeted causal separation and residual shared specification, inputs, oracle, adjudication and maintenance burdens.",
+          "source_to_receiver_interface": "The distinct reference technologies and actual shared selection/synchronization role form the existing D04 receiving object. No newly invented diverse clock deployment is required.",
+          "guard": "Both paths address the same bound-bearing time function; the claimed advantage is restricted to named differing failure causes and a valid acceptance path. Merely distinct suppliers, labels or clock readings are insufficient.",
+          "changed_warrant": "Credit for common-mode protection is bounded by the actual causal dimensions separated. Source variety or mutual agreement does not prove absolute-time correctness or independence; shared decision and specification failures remain.",
+          "strongest_defense": "A source description does not establish exhaustive independence or success of the complete clock implementation. R040 needs neither for its qualitative restriction of a diversity claim. Native scope includes the named technological channels.",
+          "countercase": "Different reference types can share a wrong acceptance rule or fail to cover the same required function; agreement among them can then be inadequate evidence.",
+          "nontrigger": "A single adequate reference or accepted interruption may dominate additional diversity once the objective and burden are fixed.",
+          "unresolved": "Magnitude of common-mode reduction, joint error frequencies, rejection performance and overall benefit remain unknown.",
+          "reason_codes": [
+            "SCIENTIFIC_ERROR",
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "reentry": "Reassess a changed causal-diversity claim, reference function, common acceptance mechanism or contrary failure account.",
+          "author_exposure": "Same exposed continuing author; not an independent review.",
+          "dependence_limit": "Different documented failure modes are a qualitative causal distinction, not a calibrated joint distribution or a proof of statistical independence. This author input makes no universal claim of diversity superiority.",
+          "previous_A005": "EXAMINED_UNRESOLVED",
+          "authority": "Current exposed A006 author judgment; no independent acceptance or qualification."
+        },
+        "receiving_branch": "D04 physical-time interval and failure-response service, through the existing S036 reference/selection architecture; no universal redundancy requirement for all ordering questions.",
+        "historical_argument": {
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/1143",
+          "canonical_record_sha256": "6e4ee49e619b8a2d3bf109e9865bbc54418171ac7c868f2df4a26a49a3046e57"
+        },
+        "exact_A005_effective_row": {
+          "path": "A005/EFFECTIVE_WHOLE_A005.json",
+          "pointer": "/R040>D04",
+          "canonical_record_sha256": "fe9604e1215e2f2823bd20a4fc0723db4b3c1d27adcacf43985bf297628fd207"
+        },
+        "component_argument": {
+          "path": "CLOCK_RESPONSE/AUTHOR_RESPONSE.json",
+          "pointer": "/source_authored_outgoing_proposals/1",
+          "canonical_record_sha256": "f196c1045895f4bcafc931183a051abfaf8cd0ff0a30e3e7b1d2fabe543422e1"
+        },
+        "source_capture": "CLOCK_RESPONSE/inputs/EXACT_NATIVE_AND_ARGUMENT_CAPTURE.json; exact selected D/R natives and S036 qualification retained.",
+        "primary_access": "CLOCK_RESPONSE/SOURCE_ACCESS.json; S036 §3 printedpp5–6/lines269–331; external PDF bytes not locally pinned.",
+        "reverse_current_judgment": {
+          "direction": "D04>R040",
+          "current": "MATERIAL",
+          "proposed": "MATERIAL",
+          "contribution": "D04 identifies which order/time function the diverse paths must share and what constitutes agreement on the required result. This prevents correlated agreement or unlike temporal meanings from masquerading as a diverse functional success.",
+          "guard": "The R040 diverse-channel acceptance decision relies on the indicated temporal function.",
+          "countercontrol": "Agreement adequate for the actual chosen sequence need not certify physical time.",
+          "exact_current_argument": {
+            "canonical_record_sha256": "638e7f164d153623b78b7f5620152913e64b32dbff03ab4915a4b0719a06e8b1",
+            "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+            "pointer": "/directions/1111"
+          },
+          "author_exposure": "Same exposed continuing author; not an independent review."
+        }
+      },
+      {
+        "d_current_pointer": "/QUALIFICATIONS/3",
+        "d_current_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+        "d_facet": "D04",
+        "d_native_consumer": "Database designer, event processor, workflow author, auditor and debugger.",
+        "d_native_criterion": "Would replacing causal evidence with wall-clock order change the inference or protected invariant?",
+        "d_native_pointer": "/PROPERTIES/3",
+        "direction": "R051>D04",
+        "disposition": "MATERIAL",
+        "exact_current_profile_refs": [
+          "/properties/50/current_profiles/FAILURE_PROPAGATION_PROFILE",
+          "/properties/50/current_profiles/REDUNDANCY_COMMON_CAUSE_PROFILE",
+          "/properties/50/current_profiles/RELIABILITY_EVIDENCE_PROFILE"
+        ],
+        "family": "R051",
+        "family_argument": "outgoing",
+        "family_controls": [
+          "C02",
+          "C14"
+        ],
+        "native_cases": [
+          "C02"
+        ],
+        "native_countercontrol": "A local sequence can be enough; a total order is not a physical-cause proof and the weakest order is not necessarily cheapest.",
+        "new_property_claim": false,
+        "orientation": "R_TO_D",
+        "r_current_pointer": "/properties/50/current_claim",
+        "r_current_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8",
+        "r_native_consumer": "Add, simplify, isolate, improve repair or accept downtime.",
+        "r_native_criterion": "Account for both protected faults and added mechanisms, state/capacity and lifecycle cost.",
+        "reverse": "D04>R051",
+        "reverse_assignment": "INDEPENDENT_NEW_INQUIRY",
+        "source": "R051",
+        "source_refs": {
+          "D": [
+            "S003",
+            "S013",
+            "S033",
+            "S036",
+            "S047"
+          ],
+          "R": [
+            "F003",
+            "F010",
+            "F045"
+          ]
+        },
+        "specific_d_contribution": "Keep causal precedence, a chosen total order, physical time, commit order and observation order separate.",
+        "specific_d_receiving_question": "Which event-order or time interpretation changes the protected invariant or causal inference?",
+        "target": "D04",
+        "whole_receiver_proved": false,
+        "assignment": "SOURCE_GROUNDED_CONDITIONAL_PARTIAL_INPUT",
+        "source_authored_argument": {
+          "direction": "R051>D04",
+          "current": "MATERIAL",
+          "native_input": "R051 distinguishes fixed ideal OR addition from a changed architecture with voters, transfer or synchronization. Rescue can coexist with newly introduced loss and cost; dependence alone cannot make an ideal OR addition worse.",
+          "source_to_receiver_interface": "Take the described varied-reference design and analytically remove the additional reference-class capability while retaining the same required physical-time function and the remaining paths. Reintroducing that capability is the bounded addition being assessed. The restricted comparator is not asserted to satisfy every fault case, nor to be a historical deployed predecessor. This uses existing named parts; it does not invent a new clock application.",
+          "guard": "Hold the required interval and permitted failure response fixed. The added path must supply an accepted rescue for a named reference-failure case. Compare the actual polling, selection, synchronization, reference upkeep and uncertainty responsibilities that differ. A selector may already exist in the restricted design; do not charge the entire existing selector as a newly introduced serial component or assert that every extra reference adds one.",
+          "changed_warrant": "A possible rescue against one reference fault does not establish monotone improvement of the complete time service. D04’s choice/protection argument must distinguish that rescue from any actual added-loss or burden path in the stated comparison. The source names the relevant control roles but does not establish that the added reference causes harm. R051 supplies a partial evaluation/scope constraint while the sign and size of the total effect remain unknown.",
+          "strongest_defense": "There is no full implementation, failure-rate law, actual historical design transition or evaluated net increment. Those absences prevent a numerical or operational recommendation. They do not prohibit a declared analytical removal comparison of a real described architecture under the existing composition standard.",
+          "countercase": "For an ideal loss-free OR addition, the augmented success set includes the baseline success set even with dependent paths. A harmful augmentation example must name an actual added-loss interaction; correlated failures alone do not suffice. The actual source is not asserted to exhibit that harm.",
+          "nontrigger": "No redesign, extra reference or new controller is required when the existing single service or admitted outage already satisfies the consumer.",
+          "unresolved": "Whether the named enrichment improves, preserves or worsens actual whole-service reliability, availability or total cost is not established. The source does not pin all rejection/selection details.",
+          "reason_codes": [
+            "SCIENTIFIC_ERROR",
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "independent_adjudication_receiving": "CLOCK_ADJUDICATION_001 was actually written by the independent reviewer before this substantive response. Its guarded argument was critically read after the author had separately read the source and full R051 native/current/profile. Agreement does not make this component an independent review.",
+          "reentry": "Reassess if the compared parts, required function, acceptance path, added interaction or empirical cost/fault evidence changes.",
+          "author_exposure": "Same exposed continuing author; not an independent review.",
+          "finite_control_link": "FC01 preserves loss-free OR monotonicity. FC03 shows that an imperfect failover-only guard can reduce rescue without harming primary success. FC04 requires an explicitly changed common-gate architecture for its loss witness and does not attribute that topology to Spanner.",
+          "previous_A005": "EXAMINED_UNRESOLVED",
+          "authority": "Current exposed A006 author judgment; no independent acceptance or qualification."
+        },
+        "receiving_branch": "D04 physical-time interval and failure-response service, through the existing S036 reference/selection architecture; no universal redundancy requirement for all ordering questions.",
+        "historical_argument": {
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/1849",
+          "canonical_record_sha256": "f7fdec5d01e181c5b6c49b26c17411438adc7bb2e065dbf3834c40c502c6bcea"
+        },
+        "exact_A005_effective_row": {
+          "path": "A005/EFFECTIVE_WHOLE_A005.json",
+          "pointer": "/R051>D04",
+          "canonical_record_sha256": "3b7ed0ecbd197c5123e3b5defc429205237bf8ed372c698bcc4ef7c332ce7623"
+        },
+        "component_argument": {
+          "path": "CLOCK_RESPONSE/AUTHOR_RESPONSE.json",
+          "pointer": "/source_authored_outgoing_proposals/2",
+          "canonical_record_sha256": "b83b82642eaf8f6e4fe4d6418b27f00070cf28bcd4c3bd08f08fcaee4f8121c8"
+        },
+        "source_capture": "CLOCK_RESPONSE/inputs/EXACT_NATIVE_AND_ARGUMENT_CAPTURE.json; exact selected D/R natives and S036 qualification retained.",
+        "primary_access": "CLOCK_RESPONSE/SOURCE_ACCESS.json; S036 §3 printedpp5–6/lines269–331; external PDF bytes not locally pinned.",
+        "reverse_current_judgment": {
+          "direction": "D04>R051",
+          "current": "MATERIAL",
+          "proposed": "MATERIAL",
+          "contribution": "D04 holds the required temporal function and uncertainty/response contract constant across the architectural addition. Easier changed semantics cannot be reported as improved reliability for the original function.",
+          "guard": "The R051 before/after analytical comparison concerns time or ordering functionality.",
+          "countercontrol": "An explicitly accepted changed mission may be a good engineering choice, but must be reported as a changed mission rather than a same-function benefit.",
+          "exact_current_argument": {
+            "canonical_record_sha256": "db85befd91858f80a02290b88b4681cdce9df48cdc82eea3739c48076c60baf8",
+            "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+            "pointer": "/directions/1822"
+          },
+          "author_exposure": "Same exposed continuing author; not an independent review."
+        }
+      }
+    ],
+    "separately_reexamined_unchanged_outgoing": [
+      {
+        "direction": "R044>D04",
+        "current": "EXAMINED_UNRESOLVED",
+        "proposed": "EXAMINED_UNRESOLVED",
+        "native_input": "R044 is a handbook-derived reliability prediction and its external transfer, not every quantified component specification.",
+        "missing_interface": "No handbook failure-rate/MTBF quantity, technology/exposure mapping or actual prediction comparison enters the selected D04 argument. A worst-case drift specification and a bounded time interval are not that quantity.",
+        "changed_warrant": "None established for this outgoing relation at the selected scope. Preserve the investigated missing-model interface, not an absent-deployment prerequisite.",
+        "countercase": "An analytically valid interval contract or direct functional time check without a handbook reliability prediction incurs no handbook-calibration obligation.",
+        "reentry": "A particular handbook-derived quantity must be shown to enter the same clock-service reliability comparison; a partial calibration constraint could then suffice without proving the whole D04 predicate.",
+        "exact_current_argument": {
+          "canonical_record_sha256": "603700b2c8d8cb0224fbcb5968708421cea1b06df8788f4537385f566f8b8ebc",
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/1466"
+        },
+        "author_exposure": "Same exposed continuing author; not an independent review."
+      },
+      {
+        "direction": "R055>D04",
+        "current": "EXAMINED_UNRESOLVED",
+        "proposed": "EXAMINED_UNRESOLVED",
+        "native_input": "R055 requires a specified model/agent task, actual access/action scope, population, comparator, observation and postcondition.",
+        "missing_interface": "Neither the described deterministic synchronization daemon nor the admitted T1–T5 task set identifies an AI input/output for clock intervals, causal/physical order or clock-failure response. Deterministic software is not AI by relabelling.",
+        "changed_warrant": "None established for this outgoing relation. Preserve missing task correspondence; training, deployment, measured effectiveness or full theorem proof are not required merely to establish a qualitative relation.",
+        "countercase": "An adequate deterministic clock comparator can satisfy its function without an auxiliary model; inventing an AI observer solely to promote this row would breach the actual-interface standard.",
+        "reentry": "An actual source-grounded task/input/action/postcondition or claim using this time function could reopen the relation.",
+        "exact_current_argument": {
+          "path": "A004/AUTHOR_R055_JUDGMENTS_A004.json",
+          "pointer": "/directions/6",
+          "canonical_record_sha256": "ce5d3e71a9fcb5cf5fe8e6e8cd9d5f9ccbe7bea03a60a38055ff16cc1b43b20e"
+        },
+        "author_exposure": "Same exposed continuing author; not an independent review."
+      }
+    ],
+    "independently_reasoned_reverses": [
+      {
+        "direction": "D04>R009",
+        "current": "MATERIAL",
+        "proposed": "MATERIAL",
+        "contribution": "D04 fixes the temporal success event of the already named redundant mission. A channel that supplies a local sequence or merely continues ticking is not an equivalent rescue of a required absolute-time interval. This criterion input is independently useful even when no outgoing redundancy result is claimed.",
+        "guard": "The R009 required function has a temporal meaning whose substitution changes the success criterion.",
+        "countercontrol": "When the mission requires only local sequence, a valid sequence can be sufficient; no physical clock is imposed.",
+        "exact_current_argument": {
+          "canonical_record_sha256": "51826b6622e46f96ed9a802e1e9be4c0656c0bdf34fbe9cd056fd6d6c6c07c56",
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/165"
+        },
+        "author_exposure": "Same exposed continuing author; not an independent review."
+      },
+      {
+        "direction": "D04>R040",
+        "current": "MATERIAL",
+        "proposed": "MATERIAL",
+        "contribution": "D04 identifies which order/time function the diverse paths must share and what constitutes agreement on the required result. This prevents correlated agreement or unlike temporal meanings from masquerading as a diverse functional success.",
+        "guard": "The R040 diverse-channel acceptance decision relies on the indicated temporal function.",
+        "countercontrol": "Agreement adequate for the actual chosen sequence need not certify physical time.",
+        "exact_current_argument": {
+          "canonical_record_sha256": "638e7f164d153623b78b7f5620152913e64b32dbff03ab4915a4b0719a06e8b1",
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/1111"
+        },
+        "author_exposure": "Same exposed continuing author; not an independent review."
+      },
+      {
+        "direction": "D04>R051",
+        "current": "MATERIAL",
+        "proposed": "MATERIAL",
+        "contribution": "D04 holds the required temporal function and uncertainty/response contract constant across the architectural addition. Easier changed semantics cannot be reported as improved reliability for the original function.",
+        "guard": "The R051 before/after analytical comparison concerns time or ordering functionality.",
+        "countercontrol": "An explicitly accepted changed mission may be a good engineering choice, but must be reported as a changed mission rather than a same-function benefit.",
+        "exact_current_argument": {
+          "canonical_record_sha256": "db85befd91858f80a02290b88b4681cdce9df48cdc82eea3739c48076c60baf8",
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/1822"
+        },
+        "author_exposure": "Same exposed continuing author; not an independent review."
+      },
+      {
+        "direction": "D04>R044",
+        "current": "MATERIAL",
+        "proposed": "MATERIAL",
+        "contribution": "For R044 transfer into a time-dependent service claim, D04 supplies the functional/time interpretation that a generic hardware rate does not encode. A correct component arithmetic result cannot itself show that the service preserved its required clock bound, causal inference or observation interpretation.",
+        "guard": "The intended handbook transfer actually makes the temporal service claim; a narrow component comparison is left narrow.",
+        "countercontrol": "A component-only comparison may remain valid without asserting service-level temporal correctness. This incoming criterion does not manufacture an outgoing handbook quantity in S036.",
+        "exact_current_argument": {
+          "canonical_record_sha256": "5397646587800b5b66ebc37eb4e6c2421263fd53514114fd532eccd56c0cf380",
+          "path": "A003/FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+          "pointer": "/directions/1417"
+        },
+        "author_exposure": "Same exposed continuing author; not an independent review."
+      },
+      {
+        "direction": "D04>R055",
+        "current": "MATERIAL",
+        "proposed": "MATERIAL",
+        "contribution": "The already named T3 diagnostic task uses observation opportunity, diagnostic latency and action timing. D04 separates elapsed intervals from a logical timestamp or imposed log order in evaluating that task.",
+        "guard": "The actual T3 temporal criterion is used, not a hypothetical AI clock-service task.",
+        "countercontrol": "A direct adequate diagnostic result needs no additional clock model or universally mandated monitoring bundle.",
+        "exact_current_argument": {
+          "path": "A004/AUTHOR_R055_JUDGMENTS_A004.json",
+          "pointer": "/directions/7",
+          "canonical_record_sha256": "698c24a1d1aa1a02f3c00cbbe40eab63a7a1c4263a494243f777279b53f9dd32"
+        },
+        "author_exposure": "Same exposed continuing author; not an independent review."
+      }
+    ],
+    "shared_native_receiver": "D04 distinguishes causal, chosen total, physical, commit and observation order. The relevant branch is the bound-bearing physical-time reference service already admitted through S036; this is not a claim that every D04 application needs a redundant clock.",
+    "evidence_class": "Source-grounded qualitative analytical contribution. No new empirical observation, deployment trial, failure-rate estimate, algorithm proof or constituent requalification.",
+    "causal_error": "The old author accepted that qualitative architecture could suffice, but then treated deferral of most implementation detail as absence of any adequate alternate/diversity/addition architecture. The already admitted primary describes enough of that architecture for three guarded partial inputs. The error is in the actual source-owned inference, not a missing row label.",
+    "reason_classification": {
+      "primary": "SCIENTIFIC_ERROR",
+      "secondary": "ANALYTICAL_REDECOMPOSITION",
+      "new_source_access": "Fresh reading of an already selected source; no new source identity or primary-source quota.",
+      "not_claimed": [
+        "ORIGINAL_COMMISSION_FAILURE without located executed body",
+        "NEW_STANDARD_OBLIGATION",
+        "empirical validation",
+        "entire receiver proof"
+      ]
+    },
+    "actual_final_adverse": {
+      "uri": "A005_ADVERSARY/VERDICT_RECEIPT.json",
+      "bytes": 5944,
+      "sha256": "8cd976a7df6f5b87c67f757d80eacca0a1dcea58c305717990187ffc3a172b1e",
+      "locator_kind": "WHOLE_FILE",
+      "locator": ""
+    },
+    "critical_reconciliation": "The actual final adverse report was read completely. Its three guarded conclusions agree with this author after source/native examination; its accepted incremental-selector and no-probability narrowing is retained. Both earlier first ACCEPT and distinct GAP remain A005-only history.",
+    "bounded_source": "CLOCK_RESPONSE/AUTHOR_RESPONSE.json; no expansion of original primary access",
+    "independent_whole_acceptances": 0
+  }
+}

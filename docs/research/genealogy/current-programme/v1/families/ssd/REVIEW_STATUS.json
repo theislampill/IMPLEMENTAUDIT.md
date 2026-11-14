@@ -1,0 +1,66 @@
+{
+  "schema": "ssd-documentary-review-public-receiving/1",
+  "received_date_utc": "2026-11-13",
+  "original_documentary_subject": {
+    "bytes": 117766,
+    "sha256": "6ffdcd5694e8b8c031022007c6dc342f0986d21e4bfc255db6b59ef34739f9fd",
+    "verdict": "NEEDS_BOUNDED_REVISION"
+  },
+  "corrected_documentary_subject": {
+    "bytes": 119541,
+    "sha256": "2a05af2d9b09075d6845dfd2b27fe43e7ae6bc12fab0f8af698ddce50d015925",
+    "payloads": 620,
+    "verdict": "PASS_AT_DECLARED_DOCUMENTARY_SCOPE_FOR_R2"
+  },
+  "bounded_private_documentary_correction": {
+    "finding": "SSD-DOC-F01",
+    "state": "CORRECTED_IN_R2_WITH_FRESH_AFFECTED_INDEPENDENT_REVIEW",
+    "original_adverse_record_preserved": true,
+    "accepted_scientific_sources_changed": false,
+    "public_proposal_files_changed": false,
+    "unchanged_public_proposal_files": 17
+  },
+  "original_review_report": {
+    "bytes": 21371,
+    "sha256": "851f7c37085c5bb9e281b0132ba9d0b35a4325b8cf630f9d0368f9736959861b"
+  },
+  "original_review_receipt": {
+    "bytes": 7347,
+    "sha256": "8e2e192378c247bd8ed90facc549c2628c36364b74a5342de3289b8caed8a4b4"
+  },
+  "affected_review_report": {
+    "bytes": 12574,
+    "sha256": "35b1cb1b52339118ee5096b57f4a659e4cd8e8961df3f9946a6ec1196974f077"
+  },
+  "affected_review_receipt": {
+    "bytes": 7505,
+    "sha256": "69104f03b8d80d74f62b48ebe480b1119a7ae4ddaeb2cbfeb8b4993ecb3dca09"
+  },
+  "affected_read_mask": {
+    "bytes": 2555,
+    "sha256": "d2e7f2854d6ab32321820707483992d7f39ec76b380f787df18cbef5a4c83bcc"
+  },
+  "public_projection_verdict": "PASS_AT_DECLARED_HISTORICAL_AND_RECEIVING_SCOPE",
+  "whole_public_current_science": "INCOMPLETE_SOURCE_SPECIFIC_DISCLOSURE_PENDING",
+  "disclosure_decisions": {
+    "SSD-DISCLOSURE-L1": "PENDING",
+    "SSD-DISCLOSURE-L2": "PENDING",
+    "SSD-DISCLOSURE-L3": "PENDING",
+    "SSD-DISCLOSURE-S": "PENDING"
+  },
+  "visual_status": "UNVERIFIED_ENVIRONMENT_BLOCKED",
+  "publication_gates": [
+    "Exact reviewed C07 dependency composition",
+    "Independent final integration review",
+    "Programme and original genealogy controls",
+    "Portal generation, structural/link checks and regression including negative controls",
+    "Exact expected parent, complete source bodies, normal fast-forward update and post-publication readback"
+  ],
+  "scope_limits": [
+    "R1 retains its adverse disposition; this receipt accepts R2 at the explicitly reviewed documentary scope.",
+    "Unchanged evidence is inherited only through exact byte identity and the declared R1 reading scope.",
+    "Scientific qualification, central application, documentary receiving, branch publication and native acceptance remain distinct.",
+    "Protected scientific text, detailed independent review bodies and source acquisition records remain private.",
+    "This receiving metadata does not certify a later integrated repository, browser rendering, publication, native implementation or methodology closure."
+  ]
+}

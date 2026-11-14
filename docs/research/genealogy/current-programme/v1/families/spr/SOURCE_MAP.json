@@ -1,0 +1,93 @@
+{
+  "schema": "spr-public-source-map/1",
+  "source_cutoff": "2026-11-13 documentary author receiving",
+  "source_scope": "Permitted identity/custody metadata only; no protected native property field or detailed scientific argument is included.",
+  "units": [
+    {
+      "unit": "SPR-L1",
+      "name": "System Identification — canonical",
+      "historical_property_rows": 83,
+      "scientific_source_identity": {
+        "role": "RECOVERED_R4_AUTHOR_CANDIDATE_NOT_ORIGINAL_FINAL_JOIN",
+        "bytes": 1199123,
+        "sha256": "79d4948f842bad4064eae852a61d0380ec88f635f750a3a9ed8737fe4a5b17c9"
+      },
+      "qualification_scope": "Historical qualified outcome preserved; original final qualification, final-subject join and two final reviews remain unavailable.",
+      "public_scientific_body_verified": false,
+      "historical_public_property_body_verified": false,
+      "public_reader_state": "NOT_AVAILABLE_AT_THIS_DISCLOSURE_BOUNDARY",
+      "disclosure_decision": "PENDING",
+      "disclosure_id": "SPR-D1",
+      "permitted_public_sources": [
+        "../../PROGRAMME.json",
+        "../spr.md"
+      ],
+      "private_evidence_is_not_public_download": true
+    },
+    {
+      "unit": "SPR-L2",
+      "name": "Programming Language Theory",
+      "historical_property_rows": 69,
+      "scientific_source_identity": {
+        "role": "EXACT_ACCEPTED_SCIENTIFIC_SUBJECT",
+        "bytes": 51611,
+        "sha256": "423762e1d9e9e9fa2466a787672d166c49e5ad3a1da310e8a52936c8bb63f35e"
+      },
+      "qualification_scope": "Qualified at the accepted r3 scientific scope; exact final subject, qualification and two final review objects recovered.",
+      "public_scientific_body_verified": false,
+      "historical_public_property_body_verified": false,
+      "public_reader_state": "NOT_AVAILABLE_AT_THIS_DISCLOSURE_BOUNDARY",
+      "disclosure_decision": "PENDING",
+      "disclosure_id": "SPR-D2",
+      "permitted_public_sources": [
+        "../../PROGRAMME.json",
+        "../spr.md"
+      ],
+      "private_evidence_is_not_public_download": true
+    },
+    {
+      "unit": "SPR-L3",
+      "name": "Requirements Engineering",
+      "historical_property_rows": 72,
+      "scientific_source_identity": {
+        "role": "EXACT_ACCEPTED_SCIENTIFIC_SUBJECT",
+        "bytes": 51421,
+        "sha256": "fc48f0f8c45eedbb477ddd1f82d5e3b4f02849b08a0789cc40a89969e91f9417"
+      },
+      "qualification_scope": "Qualified at the accepted r2 scientific scope; exact final subject, qualification and two final review objects recovered.",
+      "public_scientific_body_verified": false,
+      "historical_public_property_body_verified": false,
+      "public_reader_state": "NOT_AVAILABLE_AT_THIS_DISCLOSURE_BOUNDARY",
+      "disclosure_decision": "PENDING",
+      "disclosure_id": "SPR-D3",
+      "permitted_public_sources": [
+        "../../PROGRAMME.json",
+        "../spr.md"
+      ],
+      "private_evidence_is_not_public_download": true
+    },
+    {
+      "unit": "SPR-S",
+      "name": "SPR synthesis",
+      "historical_property_rows": 224,
+      "scientific_source_identity": {
+        "role": "EXACT_ACCEPTED_SCIENTIFIC_SUBJECT",
+        "bytes": 16022,
+        "sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183"
+      },
+      "qualification_scope": "Scientifically qualified at the declared scope; central selection is the historical B30-I09/B38 observation. Current live central-master state remains UNKNOWN. Accepted nonmaterial erratum SPR-S-B34-E01 is retained.",
+      "public_scientific_body_verified": false,
+      "historical_public_property_body_verified": false,
+      "public_reader_state": "NOT_AVAILABLE_AT_THIS_DISCLOSURE_BOUNDARY",
+      "disclosure_decision": "PENDING",
+      "disclosure_id": "SPR-D4",
+      "permitted_public_sources": [
+        "../../PROGRAMME.json",
+        "../spr.md"
+      ],
+      "private_evidence_is_not_public_download": true
+    }
+  ],
+  "public_discovery_limit": "Bounded authenticated historical Git tree and code/branch/issue/PR searches found no published SPR scientific body. This does not prove absence everywhere.",
+  "generated_output_authoritative": false
+}

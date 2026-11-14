@@ -1,0 +1,861 @@
+{
+  "source_identity": {
+    "source_id": "S-2a69875341f4f774",
+    "scientific_name": "SB-R3-024_EL030_F8_REVERSE.json",
+    "original_bytes": 68495,
+    "original_sha256": "2a69875341f4f774119d42ceb4f44aff2780c396452539b326c47503c3049f1e"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-024",
+    "title": "EL-030_REVERSE_OPTIONS_KNOWLEDGE_AND_COMMITMENT_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:19:00.323449+00:00",
+    "inquiry_family": 8,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_006.json",
+      "bytes": 5734,
+      "sha256": "52f8b4f2d55daa5731ba8c9bbfd496fbc506e076bd1f0a1d281ad1b7c3637fbe"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal option method, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-029",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        }
+      },
+      {
+        "native_id": "EL-030",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        }
+      },
+      {
+        "native_id": "EL-032",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        }
+      },
+      {
+        "native_id": "EW-P002",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        }
+      },
+      {
+        "native_id": "EW-P003",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        }
+      },
+      {
+        "native_id": "EW-P004",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        }
+      },
+      {
+        "native_id": "EW-P021",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P024",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY8_SOURCE_INQUIRY.json",
+      "bytes": 1839,
+      "sha256": "93d9dfa37e8a10c9bd1225ffd7aa7fa08d9962301458a21c5a48996fbf265b11"
+    },
+    "native_common_basis": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title.",
+    "common_cost_and_alternative": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "An option list treated as joint feasibility.",
+      "A confirming experiment rejected because the action remains unchanged.",
+      "A prototype treated as complete product qualification.",
+      "A partial input rejected for failing the whole receiver.",
+      "Sunk expenditure treated as future benefit.",
+      "Private cost preference treated as authority to waive a binding obligation."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-030",
+        "argument": "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L1::EL-030",
+        "argument": "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-030",
+        "argument": "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-030",
+        "argument": "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-030",
+        "argument": "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L1::EL-030",
+        "argument": "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-030",
+        "argument": "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-030",
+        "argument": "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-030",
+        "overclaim": "An assigned owner does not ensure access to representative expertise or resolve a technical disagreement.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L1::EL-030",
+        "overclaim": "A system architecture cannot make an absent discipline represented or establish the currency of a knowledge repository.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-030",
+        "overclaim": "A successful test does not make every historical trade-off valid or prove that another discipline can use the result outside its conditions.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-030",
+        "overclaim": "A gate does not create technical knowledge or justify involving every discipline in every minor change.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-030",
+        "overclaim": "A staged plan does not guarantee correct trade-offs or require one permanent full-team meeting structure.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L1::EL-030",
+        "overclaim": "A prescribed role list does not establish representative participation, current knowledge or independence in practice.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-030",
+        "overclaim": "A wide uncertainty range does not resolve a technical conflict or supply accurate data from an absent function.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-030",
+        "overclaim": "A risk category does not demonstrate that a chief-engineer title resolves conflicts or that a knowledge base is current.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared models, constraints, prototypes, organizations or source works are not independent controls or benefits.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P002->LAW-L1::EL-030",
+      "LAW-L3::EW-P003->LAW-L1::EL-030",
+      "LAW-L3::EW-P004->LAW-L1::EL-030",
+      "LAW-L3::EW-P021->LAW-L1::EL-030",
+      "LAW-L3::EW-P022->LAW-L1::EL-030",
+      "LAW-L3::EW-P024->LAW-L1::EL-030",
+      "LAW-L3::EW-P025->LAW-L1::EL-030",
+      "LAW-L3::EW-P033->LAW-L1::EL-030"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-030",
+        "source_native_id": "EW-P002",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments, with expiry and promotion/retirement rules.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance."
+        },
+        "shared_question_or_object": "A consequential assumption spanning design, manufacture, service or other affected disciplines.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments, with expiry and promotion/retirement rules.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance."
+        },
+        "source_contribution": "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance.",
+        "receiving_consequence": "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "An assigned owner does not ensure access to representative expertise or resolve a technical disagreement.",
+        "counter_control": "An assigned owner does not ensure access to representative expertise or resolve a technical disagreement.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. Established routine behavior may need only normal change handling.",
+        "subcondition_evidence": {
+          "P1": "A consequential assumption spanning design, manufacture, service or other affected disciplines.",
+          "P2": {
+            "source_bearer": "A consequential assumption in a development commitment",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments, with expiry and promotion/retirement rules.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance."
+          },
+          "P3": "The named uncertainty and decision dependency identify which discipline and knowledge interface need to participate, avoiding universal attendance.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: An assigned owner does not ensure access to representative expertise or resolve a technical disagreement."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P002",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L1::EL-030",
+        "source_native_id": "EW-P003",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously reconciled with the realised system.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated."
+        },
+        "shared_question_or_object": "An architecture decision coupling several disciplines and downstream operations.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously reconciled with the realised system.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated."
+        },
+        "source_contribution": "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated.",
+        "receiving_consequence": "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A system architecture cannot make an absent discipline represented or establish the currency of a knowledge repository.",
+        "counter_control": "A system architecture cannot make an absent discipline represented or establish the currency of a knowledge repository.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. A local reversible refactor can use existing architectural knowledge.",
+        "subcondition_evidence": {
+          "P1": "An architecture decision coupling several disciplines and downstream operations.",
+          "P2": {
+            "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously reconciled with the realised system.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated."
+          },
+          "P3": "The dominant feasibility budgets and interfaces specify which disciplines and reusable knowledge are relevant and which local decisions can remain delegated.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: A system architecture cannot make an absent discipline represented or establish the currency of a knowledge repository."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P003",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-030",
+        "source_native_id": "EW-P004",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "Executable evidence is selected by risk and commitment, with clear limits on what the experiment proves and explicit promotion criteria.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision."
+        },
+        "shared_question_or_object": "An executable investigation of a cross-disciplinary risk.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "Executable evidence is selected by risk and commitment, with clear limits on what the experiment proves and explicit promotion criteria.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision."
+        },
+        "source_contribution": "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision.",
+        "receiving_consequence": "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A successful test does not make every historical trade-off valid or prove that another discipline can use the result outside its conditions.",
+        "counter_control": "A successful test does not make every historical trade-off valid or prove that another discipline can use the result outside its conditions.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. Existing adequate evidence or focused analysis may replace a new prototype.",
+        "subcondition_evidence": {
+          "P1": "An executable investigation of a cross-disciplinary risk.",
+          "P2": {
+            "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "Executable evidence is selected by risk and commitment, with clear limits on what the experiment proves and explicit promotion criteria.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision."
+          },
+          "P3": "The experiment result and its exact conditions can update reusable constraint knowledge or reveal a conflict that needs a joint decision.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: A successful test does not make every historical trade-off valid or prove that another discipline can use the result outside its conditions."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P004",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-030",
+        "source_native_id": "EW-P021",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being wrong.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor."
+        },
+        "shared_question_or_object": "A commitment decision whose evidence or consequences cross disciplinary authority.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being wrong.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor."
+        },
+        "source_contribution": "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor.",
+        "receiving_consequence": "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A gate does not create technical knowledge or justify involving every discipline in every minor change.",
+        "counter_control": "A gate does not create technical knowledge or justify involving every discipline in every minor change.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. An asynchronous documented decision may suffice where permitted.",
+        "subcondition_evidence": {
+          "P1": "A commitment decision whose evidence or consequences cross disciplinary authority.",
+          "P2": {
+            "source_bearer": "A decision that commits substantial resources or exposure",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being wrong.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor."
+          },
+          "P3": "The commitment question, decision rights and residual-risk criteria determine which conflict needs integration and which evidence must reach the responsible actor.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: A gate does not create technical knowledge or justify involving every discipline in every minor change."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P021",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-030",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged."
+        },
+        "shared_question_or_object": "A sequence of increments with coupled lifecycle constraints.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged."
+        },
+        "source_contribution": "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged.",
+        "receiving_consequence": "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A staged plan does not guarantee correct trade-offs or require one permanent full-team meeting structure.",
+        "counter_control": "A staged plan does not guarantee correct trade-offs or require one permanent full-team meeting structure.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. Stable understood delivery can justify a larger commitment without artificial increments.",
+        "subcondition_evidence": {
+          "P1": "A sequence of increments with coupled lifecycle constraints.",
+          "P2": {
+            "source_bearer": "A sequence of commitments under uncertainty",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged."
+          },
+          "P3": "The chosen separable commitments and evidence timing define when affected disciplines need to coordinate and what reusable knowledge can remain unchanged.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: A staged plan does not guarantee correct trade-offs or require one permanent full-team meeting structure."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P022",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L1::EL-030",
+        "source_native_id": "EW-P024",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory legal minima and post-outcome learning.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface."
+        },
+        "shared_question_or_object": "Selecting assurance controls around a consequential multidisciplinary interface.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory legal minima and post-outcome learning.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface."
+        },
+        "source_contribution": "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface.",
+        "receiving_consequence": "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A prescribed role list does not establish representative participation, current knowledge or independence in practice.",
+        "counter_control": "A prescribed role list does not establish representative participation, current knowledge or independence in practice.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. Existing adequate controls and no added process are legitimate.",
+        "subcondition_evidence": {
+          "P1": "Selecting assurance controls around a consequential multidisciplinary interface.",
+          "P2": {
+            "source_bearer": "Selection of assurance activities for a context",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory legal minima and post-outcome learning.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface."
+          },
+          "P3": "The permitted tailored control package identifies necessary expertise, independent challenge or cheaper peer interaction for the specific interface.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: A prescribed role list does not establish representative participation, current knowledge or independence in practice."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P024",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-030",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse."
+        },
+        "shared_question_or_object": "An estimate whose assumptions span development, manufacture, service and integration.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse."
+        },
+        "source_contribution": "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse.",
+        "receiving_consequence": "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A wide uncertainty range does not resolve a technical conflict or supply accurate data from an absent function.",
+        "counter_control": "A wide uncertainty range does not resolve a technical conflict or supply accurate data from an absent function.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. A short-horizon forecast can be adequate for bounded work.",
+        "subcondition_evidence": {
+          "P1": "An estimate whose assumptions span development, manufacture, service and integration.",
+          "P2": {
+            "source_bearer": "A forecast used for resource or commitment decisions",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse."
+          },
+          "P3": "Forecast sensitivity and commitment horizons identify which cross-functional assumptions need updating and which historical knowledge is adequate for reuse.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: A wide uncertainty range does not resolve a technical conflict or supply accurate data from an absent function."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P025",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-030",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EL-030",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified."
+        },
+        "shared_question_or_object": "Selecting controls for a change with cross-disciplinary coupling and consequences.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+          "literal_bridge": "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified."
+        },
+        "source_contribution": "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified.",
+        "receiving_consequence": "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified."
+        ],
+        "premises_remaining": [
+          "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A risk category does not demonstrate that a chief-engineer title resolves conflicts or that a knowledge base is current.",
+        "counter_control": "A risk category does not demonstrate that a chief-engineer title resolves conflicts or that a knowledge base is current.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Coordination, knowledge upkeep, stale models, meeting latency and suppressed dissent count. A small independent decision can use direct peer interaction and a concise record. Use an existing adequate preauthorized path where its actual guard holds.",
+        "subcondition_evidence": {
+          "P1": "Selecting controls for a change with cross-disciplinary coupling and consequences.",
+          "P2": {
+            "source_bearer": "A decision about assurance strength under change",
+            "receiving_bearer": "Cross-disciplinary decisions and reusable design trade-off knowledge",
+            "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+            "receiving_criterion": "Bring affected disciplines to consequential interfaces; a small independent decision does not need universal participation.",
+            "literal_bridge": "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified."
+          },
+          "P3": "The real risk dimensions and authority constraints identify where specialist or independent participation is required and where delegation remains justified.",
+          "P4": "Affected disciplines supply current constraint and trade-off knowledge at consequential interfaces; real authority and representative access remain distinct from a forum or title. Actual fulfillment of the complete Lean criterion remains separate. Control: A risk category does not demonstrate that a chief-engineer title resolves conflicts or that a knowledge base is current."
+        },
+        "reverse_direction_key": "LAW-L1::EL-030->LAW-L3::EW-P033",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

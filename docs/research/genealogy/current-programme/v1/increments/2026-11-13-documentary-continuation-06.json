@@ -1,0 +1,421 @@
+{
+  "schema": "implementaudit.evolved-programme-documentary-continuation.v1",
+  "increment_id": "2026-11-13-documentary-continuation-06",
+  "scope": "Exact AMA r18 whole-author freeze and scoped fidelity acceptance, exposed SSD S007 whole-author freeze, surviving owner S006 receipts with unavailable body, DRF author-directional completion and central intents still unapplied.",
+  "documentary_baseline_commit": "b8d83433a6f0f15467d84a697f33bfac425ebe88",
+  "documentary_record_created_at_utc": "2026-11-13T08:08:47.411711+00:00",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "previous_increment": "2026-11-13-documentary-continuation-05.json",
+  "previous_increment_sha256": "a90754ab7020c539420c68596b388ff5a31bf615c6e11e259f38b3a45e2c26b1",
+  "catalogue_units_unchanged": 32,
+  "family_membership_changed": false,
+  "new_whole_scientific_qualifications": 0,
+  "new_central_applications_observed": 0,
+  "source_capture_limits": {
+    "A_bounded_discovery_ended_at_utc": "2026-11-13T08:13:08.950Z",
+    "B_bounded_discovery_ended_at_utc": "2026-11-13T07:55:20Z",
+    "newly_discovered_does_not_mean_newly_occurred": true,
+    "live_shared_scientific_head_observed": false,
+    "discovery_exhaustive_global_absence_proof": false,
+    "receiving_scope": "Complete selected original subject manifests, receipts and controls were compared with their actual bytes. This is bounded documentary receiving, not fresh verification or scientific reading of every inherited whole-study payload.",
+    "initial_A_bounded_discovery_ended_at_utc": "2026-11-13T07:55:33.708Z",
+    "B_unchanged_source_metadata_refresh_ended_at_utc": "2026-11-13T08:13:08.950Z"
+  },
+  "AMA_S": {
+    "public_statement": "AMA r18 is a frozen corrected whole-author subject with separate root byte receiving and later exact whole-fidelity ACCEPTED_AT_DECLARED_SCOPE. A distinct adversarial review is active without a verdict at its captured checkpoint. No whole qualification or central application follows.",
+    "subject": {
+      "bytes": 82725,
+      "sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e"
+    },
+    "parent_subject": {
+      "bytes": 53515,
+      "sha256": "84a912acff761a23bed92845ac0474ad06157e1f5c11b4fb1bfd3a35fc97c837"
+    },
+    "actual_parent_final_adverse_receipt": {
+      "bytes": 21316,
+      "sha256": "5faf56de421fa4a1fd9547a441eb585b660486ad8e07e75dae09cf7ff2e3113a"
+    },
+    "status": "UNQUALIFIED_CORRECTED_WHOLE_AUTHOR_SUBJECT",
+    "scientifically_qualified": false,
+    "events": [
+      {
+        "event_kind": "AMA R18 corrected whole-author subject creation",
+        "at_utc": "2026-11-13T07:35:39.949838+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 82725,
+          "sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "AMA R18 author freeze",
+        "at_utc": "2026-11-13T07:35:40.193723+00:00",
+        "original_event_field": "/sealed_at_utc",
+        "original_pin": {
+          "bytes": 1300,
+          "sha256": "ddbfe71cb969fd0b58f5164ef87c72741fd1f34948db94085f60c321f04ce6af"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "AMA R18 author postseal verification complete",
+        "at_utc": "2026-11-13T07:35:40.437672+00:00",
+        "original_event_field": "/ended_at_utc",
+        "original_pin": {
+          "bytes": 1026,
+          "sha256": "6f005e5e0e1240dedee501f5ec16c9e7804e7e155de8071fdf33f06e3faf234e"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "AMA R18 final author handoff",
+        "at_utc": "2026-11-13T07:36:31.879789+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 5544,
+          "sha256": "043b8d9cb4830490a2624f76303e6d78480cd7dc51bf85b70ae74b1a9ac063cf"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "AMA R18 root whole-subject byte receiving",
+        "at_utc": "2026-11-13T07:37:45.355912+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 496,
+          "sha256": "755086b7e6fb252a10f75b0b8462106fe2ae4e31483446ba5a39ad6a90c020ed"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "r18 fidelity review subject recorded",
+        "at_utc": "2026-11-13T07:58:48.992317+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 9890,
+          "sha256": "9e13203d9144edd804089f686315bf75f10d3e3ecfac1fe15d035bc36a6f141b"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "r18 fidelity later readback record",
+        "at_utc": "2026-11-13T07:59:20.161378+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 67796,
+          "sha256": "0fdb5b6b5a003b150e37f748d75c7750d29597219f695a556fcfc22bd3da8d65"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "r18 final whole-fidelity verdict receipt",
+        "at_utc": "2026-11-13T07:59:20.162633+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 5640,
+          "sha256": "e117607cafb1e65a41b3f28eae6c35db97de6a83dd5f9b9e8693ea51d943345a"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "root receiving of exact r18 fidelity acceptance",
+        "at_utc": "2026-11-13T08:01:30.765085+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 87034,
+          "sha256": "f2fce68a0916c240f2e11f57719718ef255d64cdd2a7a49e80fef9973e88c228"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      },
+      {
+        "event_kind": "distinct r18 adversarial review checkpoint without a verdict",
+        "at_utc": "2026-11-13T08:11:19.539162+00:00",
+        "original_event_field": "/utc",
+        "original_pin": {
+          "bytes": 1095,
+          "sha256": "c07656c5f44eaac1f68d858b3cac55e0a30a19cf22821b772b60fcf2e8753bec"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      }
+    ],
+    "review_activity": "Exact r18 fidelity acceptance is received at declared reading/reuse/exposure scope; distinct adversary active without a verdict. No final review pair or whole qualification is received.",
+    "limits": [
+      "The r17 fidelity and adverse verdict remain on their exact parent subject; the new r18 receipt is not transferred acceptance.",
+      "Whole-fidelity acceptance is distinct from adversarial acceptance and scientific qualification.",
+      "The fidelity review is not blind and does not claim new empirical replication or fresh reading of all inherited sources.",
+      "External historical dependencies remain explicit; this intake does not claim their complete new recovery."
+    ],
+    "matching_final_independent_fidelity_received": true,
+    "matching_final_independent_adversarial_review_received": false,
+    "fidelity_receipt": {
+      "bytes": 5640,
+      "sha256": "e117607cafb1e65a41b3f28eae6c35db97de6a83dd5f9b9e8693ea51d943345a"
+    },
+    "review_subject": {
+      "bytes": 9890,
+      "sha256": "9e13203d9144edd804089f686315bf75f10d3e3ecfac1fe15d035bc36a6f141b"
+    },
+    "fidelity_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+    "review_closure": {
+      "original_receipt_creation_command_exit": "UNKNOWN",
+      "later_completed_identity_verification": {
+        "bytes": 1493,
+        "sha256": "d35db0186fb27799a504396a1d3c883e8dad723240f4ec66db1c0ecadac38ede"
+      },
+      "external_delivery_receipt": {
+        "bytes": 15609,
+        "sha256": "b3c08113c55b3dbf43ff27415d93dde13019e5dab925d98393e35ab6db480f90"
+      },
+      "scope": "The original receipt-creation terminal is not inferred from file existence. A separately completed later identity/structure check and external delivery bind the received original review; they are not an additional substantive review or scientific acceptance from hashes."
+    },
+    "adversarial_status": "ACTIVE_INDEPENDENT_REVIEW_NO_VERDICT",
+    "fidelity_exposure": {
+      "not_blind": true,
+      "prior_review_evidence_used": true,
+      "prior_acceptances_transferred": false,
+      "original_pin": {
+        "bytes": 2770,
+        "sha256": "73ad0d29cc7ee956eb287c027d181b3b7072733cc506b49f4e922cbca5cc97fa"
+      },
+      "scope": "A separately authored review with inherited-context/prior-review exposure and explicit fresh/reused reading limits; no claim of new empirical replication or fresh reading of all underlying source bodies."
+    }
+  },
+  "SSD_S": {
+    "reconciled_S007": {
+      "public_statement": "A distinct reconciled SSD S007 whole-author subject is now frozen and exactly identified. Its continuing author/controller is exposed and cannot independently accept this science. Matching independent whole fidelity and a distinct adversarial acceptance remain pending; the subject is unqualified.",
+      "subject": {
+        "bytes": 14761,
+        "sha256": "865e97f01b3bb326209df320f1024487270207927007726c396cfbd44f0ea576"
+      },
+      "status": "FROZEN_EXPOSED_AUTHOR_WHOLE_SUBJECT_PENDING_INDEPENDENT_FIDELITY_THEN_DISTINCT_ADVERSARY",
+      "author_exposure": "EXPOSED_CONTINUING_AUTHOR_AND_CONTROLLER; NOT_INDEPENDENT_REVIEWER",
+      "scientifically_qualified": false,
+      "matching_final_independent_review_received": false,
+      "events": [
+        {
+          "event_kind": "new reconciled S007 whole-author subject freeze",
+          "at_utc": "2026-11-13T07:45:01.148447+00:00",
+          "original_event_field": "/frozen_at_utc",
+          "original_pin": {
+            "bytes": 14761,
+            "sha256": "865e97f01b3bb326209df320f1024487270207927007726c396cfbd44f0ea576"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+        },
+        {
+          "event_kind": "S007 author freeze receipt",
+          "at_utc": "2026-11-13T07:45:01.148829+00:00",
+          "original_event_field": "/at_utc",
+          "original_pin": {
+            "bytes": 744,
+            "sha256": "f948d3b9bd9fcee4051aa8571721261954687991a9c3299cf60aeb7f40134f59"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+        },
+        {
+          "event_kind": "S007 later exposed-author byte readback complete",
+          "at_utc": "2026-11-13T07:45:25.602948+00:00",
+          "original_event_field": "/ended_at_utc",
+          "original_pin": {
+            "bytes": 792,
+            "sha256": "5259623b1222f37db982b79e59e5a76edfca351496e904bfb5c8a71b19f4bf4c"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+        }
+      ],
+      "review_boundary": "The captured source control still says S007 needs fresh whole fidelity; no final S007 review receipt is supplied.",
+      "limits": [
+        "The new author subject reconciles separately preserved histories; it does not transfer a review verdict between them.",
+        "The original neutral SSD body and executed prompt remain separately unlocated or unknown at their disclosed scope.",
+        "The recorded owner S006 subject is a distinct historical identity whose former whole body remains unavailable in the source capture.",
+        "Later author byte readback is not independent scientific acceptance."
+      ],
+      "later_review_preparation": {
+        "original_pin": {
+          "bytes": 3440,
+          "sha256": "164d246348f21bcdf885aff032f0e7c98d958dafbe4fae5376eb5e7611b22fd1"
+        },
+        "assignment_state": "PREPARED_NOT_YET_DISPATCHED",
+        "final_review_or_qualification_created": false,
+        "timestamp_not_supplied_by_this_record": true
+      }
+    },
+    "owner_S006_surviving_receipts": {
+      "public_statement": "Newly received surviving originals record a distinct owner S006 whole-author freeze, later readback, root data receiving and fidelity release. The later capture explicitly says its former whole subject body is unavailable. The exact recorded identity is retained as receipt evidence; this lane does not reconstruct or claim custody of that whole subject.",
+      "recorded_subject_descriptor": {
+        "declared_bytes": 361615,
+        "declared_sha256": "435aba608a1773d4210710d8506aa6057f49e84c72c332f1b42bf4ae997a77e7",
+        "subject_manifest_and_whole_body_received": false,
+        "identity_basis": "Consistent descriptors in complete surviving original receipts; the referenced subject manifest and former whole body are unavailable in this intake."
+      },
+      "parent_subject": {
+        "bytes": 329272,
+        "sha256": "36c3644b80cd9b46f04867396738550586036b8b326671e6419522d878483622"
+      },
+      "source_reported_state": "WHOLE_AUTHOR_STUDY_COMPLETE_UNQUALIFIED",
+      "review_verdict_at_recorded_release": null,
+      "scientifically_qualified": false,
+      "events": [
+        {
+          "event_kind": "owner S006 freeze time recorded in surviving original receipt",
+          "at_utc": "2026-11-13T06:30:59.870056+00:00",
+          "original_event_field": "/frozen_at_utc",
+          "original_pin": {
+            "bytes": 1079,
+            "sha256": "8a64b2ea410e39270117fd124913e279d1f17b6aeb00b7f15ef78b4fd65d8bb4"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_BEFORE_PRIOR_CAPTURE_NEWLY_DISCOVERED"
+        },
+        {
+          "event_kind": "owner S006 freeze execution completion recorded",
+          "at_utc": "2026-11-13T06:30:59.877939+00:00",
+          "original_event_field": "/manifest_completed_at_utc",
+          "original_pin": {
+            "bytes": 1079,
+            "sha256": "8a64b2ea410e39270117fd124913e279d1f17b6aeb00b7f15ef78b4fd65d8bb4"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_BEFORE_PRIOR_CAPTURE_NEWLY_DISCOVERED"
+        },
+        {
+          "event_kind": "owner S006 later byte readback recorded",
+          "at_utc": "2026-11-13T06:31:06.533234+00:00",
+          "original_event_field": "/completed_at_utc",
+          "original_pin": {
+            "bytes": 1276,
+            "sha256": "b5b8a2b32aa9ccdcdec7c04148716d250f162cb4b8c214708e4bedf0b05859e9"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_BEFORE_PRIOR_CAPTURE_NEWLY_DISCOVERED"
+        },
+        {
+          "event_kind": "owner S006 root data receiving recorded",
+          "at_utc": "2026-11-13T06:31:56.215517+00:00",
+          "original_event_field": "/ended_at_utc",
+          "original_pin": {
+            "bytes": 455841,
+            "sha256": "9f25e9d6be42635c9ecc536987ea0e77849ab08d374bba9e924ec83273e61f7e"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_BEFORE_PRIOR_CAPTURE_NEWLY_DISCOVERED"
+        },
+        {
+          "event_kind": "owner S006 closed author delivery receipt",
+          "at_utc": "2026-11-13T06:32:15.689405+00:00",
+          "original_event_field": "/at_utc",
+          "original_pin": {
+            "bytes": 2705,
+            "sha256": "4be6fb05a8fbf303ab554abe13d28c4145861501276daf1f289ce85a53edd347"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_BEFORE_PRIOR_CAPTURE_NEWLY_DISCOVERED"
+        },
+        {
+          "event_kind": "owner S006 root receiving and fidelity release",
+          "at_utc": "2026-11-13T06:38:39.157733+00:00",
+          "original_event_field": "/at_utc",
+          "original_pin": {
+            "bytes": 2548,
+            "sha256": "8bac7b7c94b6f6fd11b328eab36f8483a4253e3b7f3e62febeb2ae80873c248c"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_BEFORE_PRIOR_CAPTURE_NEWLY_DISCOVERED"
+        },
+        {
+          "event_kind": "surviving owner S006 evidence capture with whole-body loss disclosed",
+          "at_utc": "2026-11-13T07:18:14.292803+00:00",
+          "original_event_field": "/recorded_utc",
+          "original_pin": {
+            "bytes": 27137,
+            "sha256": "60ad9083b101df9d1ec1ee99a51c2cf9f8468b4a2094b72a96e22ba903a8d771"
+          },
+          "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+        }
+      ],
+      "limits": [
+        "The freeze and release occurred before the previous capture; they are newly discovered surviving evidence, not newly occurred events at upload.",
+        "Historical package preparation does not establish persistent save or recover the missing whole body.",
+        "No identity, review verdict or scientific qualification transfers from this owner S006 to exposed S007."
+      ]
+    },
+    "preserved_isolated_S006_subject": {
+      "bytes": 342420,
+      "sha256": "d8c74c0c4357d5caea91eea5fb8d2b84464081700be5bf60e3088dfe3f5cbc50"
+    },
+    "history_boundary": "The two S004 histories, separate S005 subjects, received isolated S006, receipt-described owner S006 and new exposed S007 keep their own subjects and review states. Author reconciliation is not scientific acceptance or central selection."
+  },
+  "LAW_S": {
+    "whole_author_complete_received": false,
+    "scientifically_qualified": false,
+    "status": "Later records remain partial author work, with whole report and integration pending. No new whole-subject freeze or qualification is received."
+  },
+  "DRF_S": {
+    "whole_author_complete_received": false,
+    "scientifically_qualified": false,
+    "status": "AUTHOR_DIRECTIONAL_INQUIRY_COMPLETE_WHOLE_INTEGRATION_PENDING",
+    "projection": "NOT_YET_PERFORMED",
+    "events": [
+      {
+        "event_kind": "DRF author directional inquiry completion with whole integration pending",
+        "at_utc": "2026-11-13T08:03:13.575027+00:00",
+        "original_event_field": "/utc",
+        "original_pin": {
+          "bytes": 2300,
+          "sha256": "2129d2ef4321853f6d316d84b8dd33933733081bade28203ff0eab1f41676d48"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      }
+    ],
+    "limits": "The author has completed this directional inquiry; whole projection, report/integration, final freeze and independent fidelity/adversarial review remain pending. No detailed scientific judgments or counters are published here."
+  },
+  "central_application": {
+    "public_statement": "The new A receipt preserves existing CSS-S, BWP-S and SSS-S qualifications at their declared scopes, while each existing central intent remains staged and unapplied. SPR-S remains previously selected and is not reapplied.",
+    "events": [
+      {
+        "event_kind": "A receiving of already accepted scientific records",
+        "at_utc": "2026-11-13T07:52:05.517018+00:00",
+        "original_event_field": "/at_utc",
+        "original_pin": {
+          "bytes": 24371,
+          "sha256": "1ed2d01c085bb63a25a52b4795169f81806dac1a0b0a81a38285e72d1398d36c"
+        },
+        "relative_to_prior_discovery_cutoff": "EVENT_AFTER_PRIOR_CAPTURE"
+      }
+    ],
+    "CSS_S": "EXISTING_INTENT_STAGED_NOT_APPLIED",
+    "BWP_S": "EXISTING_INTENT_STAGED_NOT_APPLIED",
+    "SSS_S": "EXISTING_INTENT_STAGED_NOT_APPLIED",
+    "SPR_S": "ALREADY_SELECTED_PRESERVE_ONCE_NO_REAPPLY",
+    "live_common_head": "NOT_VERIFIED",
+    "writer_fence": "NOT_ESTABLISHED",
+    "new_scientific_reviews_or_requalifications": 0,
+    "shared_master_mutations": 0,
+    "historical_constituent_selection_preserved": true,
+    "recovered_original_subset_is_not_the_historical_qualification_denominator": true
+  },
+  "authority_and_publication_limits": [
+    "Later source-controller allocation assertions remain attributed summaries. No separately captured original owner directive, decision time, predecessor process cessation or effective shared writer exclusion is supplied here.",
+    "Protected original science, detailed derived findings and acquisition identities remain private; exact hashes do not grant body-publication permission.",
+    "Documentary receiving and branch source publication do not establish scientific qualification, central application, native IMPLEMENTAUDIT implementation, activation, installation, release, effectiveness or Pages deployment.",
+    "The 32 conceptual scientific responsibility slots and rough future RLGWO outlines remain unchanged; no new issue or executor-ready work order is issued."
+  ],
+  "visual_qualification": "UNVERIFIED_ENVIRONMENT_BLOCKED",
+  "documentary_record_updated_at_utc": "2026-11-13T08:22:37.393374+00:00",
+  "source_control_captures": [
+    {
+      "at_utc": "2026-11-13T07:53:08.897596+00:00",
+      "original_event_field": "/at_utc",
+      "original_pin": {
+        "bytes": 7506,
+        "sha256": "7b7c44bc75928fde913ff28985a51c45370922a7a4c89dee39566694d701c238"
+      },
+      "reported_scope": "SSD and AMA whole authors frozen; AMA fresh fidelity active without a verdict; SSD needs fresh whole fidelity; LAW and DRF whole-author work remains active."
+    },
+    {
+      "at_utc": "2026-11-13T08:10:01.262057+00:00",
+      "original_event_field": "/at_utc",
+      "original_pin": {
+        "bytes": 2956,
+        "sha256": "47bb98c2384d06e5507af362856f209acb09ec64421224ddf61ecf7cfcd6035e"
+      },
+      "reported_scope": "AMA fidelity received and distinct adversary dispatched; SSD fresh fidelity commission prepared but not yet dispatched; LAW and DRF whole-author integration continues. No shared authoritative mutation or live central-head verification."
+    }
+  ]
+}

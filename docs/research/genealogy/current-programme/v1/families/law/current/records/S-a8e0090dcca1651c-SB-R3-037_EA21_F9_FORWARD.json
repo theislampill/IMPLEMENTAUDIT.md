@@ -1,0 +1,1122 @@
+{
+  "source_identity": {
+    "source_id": "S-a8e0090dcca1651c",
+    "scientific_name": "SB-R3-037_EA21_F9_FORWARD.json",
+    "original_bytes": 91346,
+    "original_sha256": "a8e0090dcca1651c9db124e1d22733d9723e029c3b31f658f560c623becd6626"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-037",
+    "title": "EA-21_FORWARD_INTEGRATION_AND_CONFIGURATION_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:40:37.543559+00:00",
+    "inquiry_family": 9,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_ORIGINAL_AGILE_ROW_AND_ACCEPTED_OVERLAY",
+      "COMPLETE_CURRENT_WATERFALL_ROW",
+      "ACTUAL_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_007.json",
+      "bytes": 12364,
+      "sha256": "bb1119a087d6b0691dd0701b81c0638beee7881f7dad2ef323548dddb8314ada"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY9_NATIVE_MEANINGS.json",
+      "bytes": 151028,
+      "sha256": "f4113277f3aa84794b7ce823b2698d69ffcb4395b3793fd8b38a3b786406afa4"
+    },
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY9_SOURCE_INQUIRY.json",
+      "bytes": 4684,
+      "sha256": "9d06a0c2d8ec095f02b6ba760a21a39560a258b8064485cc5644f590d538cb45"
+    },
+    "bounded_interface_domain": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+    "native_common_basis": "Actionable operational observations support diagnosis and owned checked correction at the actual event/configuration. More telemetry or a postmortem alone is not learning.",
+    "common_cost_and_alternative": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice.",
+    "domain_horizon_authority": "Each member exact technical decision, configuration and actual authority; no universal process order or automatic exposure.",
+    "evidence_ceiling": "Conditional analytical partial-input relation. No empirical effect estimate, complete receiver entailment, legal applicability judgment, novelty or independent acceptance.",
+    "common_subconditions": {
+      "P1": "Actual common object and used receiving concern.",
+      "P2": "Complete native meanings support the specific input.",
+      "P3": "Literal input affects a receiving premise or its interpretation.",
+      "P4": "Missing premises, cost, cheaper alternative, nontrigger and stronger-claim counterexample remain explicit."
+    },
+    "inference": "The explicit contribution is material at its stated guard even when final action is confirmed rather than changed. Corresponding mechanisms may overlap; duplicate names, reused tests and common pipelines do not create additional benefit or independence.",
+    "attempted_contrary_interfaces": [
+      "Identical test behavior treated as unique artifact identity.",
+      "A green pipeline treated as exposure authority.",
+      "An approved model treated as actual deployed state.",
+      "The same test counted as independent evidence twice.",
+      "All evidence discarded after harmless change.",
+      "All evidence carried after a changed critical premise.",
+      "A trace link treated as proof of the linked claim."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P005",
+        "argument": "Observed behavior, diagnosis and verified corrective action supply concrete operational knowledge and limitations absent from design-only records."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P006",
+        "argument": "Telemetry and incident observations supply actual event-time state information that can expose an incorrect configuration record."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P007",
+        "argument": "Observed runtime behavior and incident evidence can reveal drift, an unrecorded emergency fix or an invalid environmental assumption."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P008",
+        "argument": "The observed failure and its consequence supply actual urgency and impact evidence for selecting the change route."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P009",
+        "argument": "Observed messages, timing or unit discrepancies provide a concrete counterexample to an assumed interface contract."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P010",
+        "argument": "The incident supplies a concrete failure condition and observation that can refine an otherwise ambiguous acceptance criterion."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P011",
+        "argument": "Operational observations identify a missing test level or environment and supply a failure witness for representative integration inquiry."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P017",
+        "argument": "Identified observations and owned actions supply real operational endpoints for links that previously stopped at release."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P019",
+        "argument": "Meaningful operational failures and changes supply counterevidence or bounded corroboration for the argument assumptions."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P020",
+        "argument": "Observed events, diagnosis and action checks supply substantive evidence across the anomaly life cycle."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P030",
+        "argument": "Relevant operational evidence can reveal model drift or invalidate an assumption used by a digital engineering view."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P031",
+        "argument": "Actionable incidents and checked corrections supply feedback on behavior that pre-release checks could not completely predict."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P005",
+        "overclaim": "A large log archive without causal interpretation, ownership or retention access is not useful engineering memory.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P006",
+        "overclaim": "Behavioral similarity does not identify a binary, and an untrusted telemetry label can misattribute the event.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P007",
+        "overclaim": "A silent dashboard cannot establish full correspondence when important state is unobservable.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P008",
+        "overclaim": "An urgent incident does not automatically authorize every proposed repair or justify ignoring its external effects.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P009",
+        "overclaim": "A symptom at one endpoint does not by itself identify which party violated the contract.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P010",
+        "overclaim": "Reproducing one incident can overfit the new requirement and omit a broader hazardous mechanism.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P011",
+        "overclaim": "A production trace may be confounded or incomplete and cannot by itself reconstruct every interacting cause.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P017",
+        "overclaim": "Timestamp proximity between deployment and incident is not a validated causal trace relation.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P019",
+        "overclaim": "An absence of observed incidents cannot establish safety when exposure, detection and reporting are incomplete.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P020",
+        "overclaim": "A blameless meeting with unowned actions can preserve discussion while the actual problem remains unchanged.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P030",
+        "overclaim": "Streaming telemetry into a digital twin does not validate its semantics, causal structure or unobserved physical state.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P031",
+        "overclaim": "High-volume dashboards can repeat noise and cannot justify exposing users to an unverified severe hazard.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      }
+    ],
+    "exceptions": [],
+    "author_challenge": "Each member has a separately written contribution and stronger-claim witness; reverse meanings were reasoned separately. This code only serializes and checks the literal set.",
+    "common_source_dependence": "Shared source works, configurations, models, observers, tests and pipelines are not independent assurance.",
+    "independent_review_scope": "Later fidelity and genuinely separate adversarial assessment must examine common premise, exact membership, native scope and controls; no author acceptance here.",
+    "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction.",
+    "explicit_member_keys": [
+      "LAW-L2::EA-21->LAW-L3::EW-P005",
+      "LAW-L2::EA-21->LAW-L3::EW-P006",
+      "LAW-L2::EA-21->LAW-L3::EW-P007",
+      "LAW-L2::EA-21->LAW-L3::EW-P008",
+      "LAW-L2::EA-21->LAW-L3::EW-P009",
+      "LAW-L2::EA-21->LAW-L3::EW-P010",
+      "LAW-L2::EA-21->LAW-L3::EW-P011",
+      "LAW-L2::EA-21->LAW-L3::EW-P017",
+      "LAW-L2::EA-21->LAW-L3::EW-P019",
+      "LAW-L2::EA-21->LAW-L3::EW-P020",
+      "LAW-L2::EA-21->LAW-L3::EW-P030",
+      "LAW-L2::EA-21->LAW-L3::EW-P031"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P005",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P005",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/4",
+          "expected_native_id": "EW-P005"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+          "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form."
+        },
+        "shared_question_or_object": "A future operator or maintainer relies on lessons from an identified incident.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+          "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form.",
+          "literal_bridge": "Observed behavior, diagnosis and verified corrective action supply concrete operational knowledge and limitations absent from design-only records."
+        },
+        "source_contribution": "Observed behavior, diagnosis and verified corrective action supply concrete operational knowledge and limitations absent from design-only records.",
+        "receiving_consequence": "Observed behavior, diagnosis and verified corrective action supply concrete operational knowledge and limitations absent from design-only records.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Observed behavior, diagnosis and verified corrective action supply concrete operational knowledge and limitations absent from design-only records."
+        ],
+        "premises_remaining": [
+          "Actual accessibility, current rationale, ownership and maintained limitations remain necessary for the knowledge claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A large log archive without causal interpretation, ownership or retention access is not useful engineering memory.",
+        "counter_control": "A large log archive without causal interpretation, ownership or retention access is not useful engineering memory.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. A concise record, executable example or generated reference may beat duplicated prose.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A future operator or maintainer relies on lessons from an identified incident.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+            "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form."
+          },
+          "P3": "Observed behavior, diagnosis and verified corrective action supply concrete operational knowledge and limitations absent from design-only records.",
+          "P4": "Actual accessibility, current rationale, ownership and maintained limitations remain necessary for the knowledge claim. Stronger-claim witness: A large log archive without causal interpretation, ownership or retention access is not useful engineering memory."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P005->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P006",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P006",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/5",
+          "expected_native_id": "EW-P006"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "An item or baseline on which evidence or authority depends",
+          "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item."
+        },
+        "shared_question_or_object": "An operational event is attributed to a deployed configuration and change.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "An item or baseline on which evidence or authority depends",
+          "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item.",
+          "literal_bridge": "Telemetry and incident observations supply actual event-time state information that can expose an incorrect configuration record."
+        },
+        "source_contribution": "Telemetry and incident observations supply actual event-time state information that can expose an incorrect configuration record.",
+        "receiving_consequence": "Telemetry and incident observations supply actual event-time state information that can expose an incorrect configuration record.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Telemetry and incident observations supply actual event-time state information that can expose an incorrect configuration record."
+        ],
+        "premises_remaining": [
+          "Unique identity, recoverability, build/environment provenance and legitimate baseline authority remain separate from behavioral success.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Behavioral similarity does not identify a binary, and an untrusted telemetry label can misattribute the event.",
+        "counter_control": "Behavioral similarity does not identify a binary, and an untrusted telemetry label can misattribute the event.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. Ordinary version control plus a build manifest may suffice; a baseline is not a universal freeze.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An operational event is attributed to a deployed configuration and change.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "An item or baseline on which evidence or authority depends",
+            "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item."
+          },
+          "P3": "Telemetry and incident observations supply actual event-time state information that can expose an incorrect configuration record.",
+          "P4": "Unique identity, recoverability, build/environment provenance and legitimate baseline authority remain separate from behavioral success. Stronger-claim witness: Behavioral similarity does not identify a binary, and an untrusted telemetry label can misattribute the event."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P006->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P007",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P007",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/6",
+          "expected_native_id": "EW-P007"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "The correspondence of designed, built, tested and operated states",
+          "receiving_criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+        },
+        "shared_question_or_object": "An operational discrepancy challenges correspondence between approved and running states.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "The correspondence of designed, built, tested and operated states",
+          "receiving_criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions.",
+          "literal_bridge": "Observed runtime behavior and incident evidence can reveal drift, an unrecorded emergency fix or an invalid environmental assumption."
+        },
+        "source_contribution": "Observed runtime behavior and incident evidence can reveal drift, an unrecorded emergency fix or an invalid environmental assumption.",
+        "receiving_consequence": "Observed runtime behavior and incident evidence can reveal drift, an unrecorded emergency fix or an invalid environmental assumption.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Observed runtime behavior and incident evidence can reveal drift, an unrecorded emergency fix or an invalid environmental assumption."
+        ],
+        "premises_remaining": [
+          "Actual built/deployed observation, environmental correspondence, unknown state and authorized deviations remain explicit.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A silent dashboard cannot establish full correspondence when important state is unobservable.",
+        "counter_control": "A silent dashboard cannot establish full correspondence when important state is unobservable.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. A deployment digest can suffice for a narrow identity need; deeper physical reconciliation has a consequence-dependent cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An operational discrepancy challenges correspondence between approved and running states.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "The correspondence of designed, built, tested and operated states",
+            "receiving_criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          },
+          "P3": "Observed runtime behavior and incident evidence can reveal drift, an unrecorded emergency fix or an invalid environmental assumption.",
+          "P4": "Actual built/deployed observation, environmental correspondence, unknown state and authorized deviations remain explicit. Stronger-claim witness: A silent dashboard cannot establish full correspondence when important state is unobservable."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P007->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P008",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P008",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+        },
+        "shared_question_or_object": "Incident learning proposes a corrective change to a consequential running system.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state.",
+          "literal_bridge": "The observed failure and its consequence supply actual urgency and impact evidence for selecting the change route."
+        },
+        "source_contribution": "The observed failure and its consequence supply actual urgency and impact evidence for selecting the change route.",
+        "receiving_consequence": "The observed failure and its consequence supply actual urgency and impact evidence for selecting the change route.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The observed failure and its consequence supply actual urgency and impact evidence for selecting the change route."
+        ],
+        "premises_remaining": [
+          "Actual affected commitments, delegated authority, residual risks and emergency conditions remain to be established.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "An urgent incident does not automatically authorize every proposed repair or justify ignoring its external effects.",
+        "counter_control": "An urgent incident does not automatically authorize every proposed repair or justify ignoring its external effects.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. Preauthorized local change, targeted peer assessment and timely emergency handling can replace a universal board.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Incident learning proposes a corrective change to a consequential running system.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+          },
+          "P3": "The observed failure and its consequence supply actual urgency and impact evidence for selecting the change route.",
+          "P4": "Actual affected commitments, delegated authority, residual risks and emergency conditions remain to be established. Stronger-claim witness: An urgent incident does not automatically authorize every proposed repair or justify ignoring its external effects."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P008->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P009",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P009",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes."
+        },
+        "shared_question_or_object": "An operational incident may arise at a shared component or supplier interface.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "Observed messages, timing or unit discrepancies provide a concrete counterexample to an assumed interface contract."
+        },
+        "source_contribution": "Observed messages, timing or unit discrepancies provide a concrete counterexample to an assumed interface contract.",
+        "receiving_consequence": "Observed messages, timing or unit discrepancies provide a concrete counterexample to an assumed interface contract.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Observed messages, timing or unit discrepancies provide a concrete counterexample to an assumed interface contract."
+        ],
+        "premises_remaining": [
+          "Semantic precision, two-sided implementation, representative compatibility evidence and actual ownership remain required for the full contract claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A symptom at one endpoint does not by itself identify which party violated the contract.",
+        "counter_control": "A symptom at one endpoint does not by itself identify which party violated the contract.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. A language type or contract test may suffice; include negotiation and supported-version costs.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An operational incident may arise at a shared component or supplier interface.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "A consequential boundary between components or organizations",
+            "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes."
+          },
+          "P3": "Observed messages, timing or unit discrepancies provide a concrete counterexample to an assumed interface contract.",
+          "P4": "Semantic precision, two-sided implementation, representative compatibility evidence and actual ownership remain required for the full contract claim. Stronger-claim witness: A symptom at one endpoint does not by itself identify which party violated the contract."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P009->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P010",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P010",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A requirement proposed as a basis for verification",
+          "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive."
+        },
+        "shared_question_or_object": "An observed failure reveals a requirement that lacked a useful verification method.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A requirement proposed as a basis for verification",
+          "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+          "literal_bridge": "The incident supplies a concrete failure condition and observation that can refine an otherwise ambiguous acceptance criterion."
+        },
+        "source_contribution": "The incident supplies a concrete failure condition and observation that can refine an otherwise ambiguous acceptance criterion.",
+        "receiving_consequence": "The incident supplies a concrete failure condition and observation that can refine an otherwise ambiguous acceptance criterion.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The incident supplies a concrete failure condition and observation that can refine an otherwise ambiguous acceptance criterion."
+        ],
+        "premises_remaining": [
+          "The requirement, method, article, environment, oracle and feasible resources must match the relied-upon claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Reproducing one incident can overfit the new requirement and omit a broader hazardous mechanism.",
+        "counter_control": "Reproducing one incident can overfit the new requirement and omit a broader hazardous mechanism.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. An executable example may supply the whole plan; do not lock future discovery to an early document.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An observed failure reveals a requirement that lacked a useful verification method.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "A requirement proposed as a basis for verification",
+            "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive."
+          },
+          "P3": "The incident supplies a concrete failure condition and observation that can refine an otherwise ambiguous acceptance criterion.",
+          "P4": "The requirement, method, article, environment, oracle and feasible resources must match the relied-upon claim. Stronger-claim witness: Reproducing one incident can overfit the new requirement and omit a broader hazardous mechanism."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P010->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P011",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P011",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A realized component and its integrations",
+          "receiving_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests."
+        },
+        "shared_question_or_object": "A field failure manifests only at an operational interaction or load.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A realized component and its integrations",
+          "receiving_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests.",
+          "literal_bridge": "Operational observations identify a missing test level or environment and supply a failure witness for representative integration inquiry."
+        },
+        "source_contribution": "Operational observations identify a missing test level or environment and supply a failure witness for representative integration inquiry.",
+        "receiving_consequence": "Operational observations identify a missing test level or environment and supply a failure witness for representative integration inquiry.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Operational observations identify a missing test level or environment and supply a failure witness for representative integration inquiry."
+        ],
+        "premises_remaining": [
+          "Untested interactions, representativeness and required independence remain outside one local result.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A production trace may be confounded or incomplete and cannot by itself reconstruct every interacting cause.",
+        "counter_control": "A production trace may be confounded or incomplete and cannot by itself reconstruct every interacting cause.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. Reuse valid component evidence and add only the justified missing level; extra phases may merely duplicate cost.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A field failure manifests only at an operational interaction or load.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "A realized component and its integrations",
+            "receiving_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests."
+          },
+          "P3": "Operational observations identify a missing test level or environment and supply a failure witness for representative integration inquiry.",
+          "P4": "Untested interactions, representativeness and required independence remain outside one local result. Stronger-claim witness: A production trace may be confounded or incomplete and cannot by itself reconstruct every interacting cause."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P011->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P017",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P017",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost."
+        },
+        "shared_question_or_object": "A maintenance query connects an incident to versions, assumptions and later corrective evidence.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost.",
+          "literal_bridge": "Identified observations and owned actions supply real operational endpoints for links that previously stopped at release."
+        },
+        "source_contribution": "Identified observations and owned actions supply real operational endpoints for links that previously stopped at release.",
+        "receiving_consequence": "Identified observations and owned actions supply real operational endpoints for links that previously stopped at release.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Identified observations and owned actions supply real operational endpoints for links that previously stopped at release."
+        ],
+        "premises_remaining": [
+          "Correct semantic links, current versions, actual query use and affordable upkeep remain distinct from link existence.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Timestamp proximity between deployment and incident is not a validated causal trace relation.",
+        "counter_control": "Timestamp proximity between deployment and incident is not a validated causal trace relation.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. A focused native query may beat a universal matrix; ideal supplied traces do not establish lifecycle return.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A maintenance query connects an incident to versions, assumptions and later corrective evidence.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost."
+          },
+          "P3": "Identified observations and owned actions supply real operational endpoints for links that previously stopped at release.",
+          "P4": "Correct semantic links, current versions, actual query use and affordable upkeep remain distinct from link existence. Stronger-claim witness: Timestamp proximity between deployment and incident is not a validated causal trace relation."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P017->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P019",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P019",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "An assurance argument for a system in a specified context",
+          "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+        },
+        "shared_question_or_object": "An assurance argument must remain credible during actual operation.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "An assurance argument for a system in a specified context",
+          "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change.",
+          "literal_bridge": "Meaningful operational failures and changes supply counterevidence or bounded corroboration for the argument assumptions."
+        },
+        "source_contribution": "Meaningful operational failures and changes supply counterevidence or bounded corroboration for the argument assumptions.",
+        "receiving_consequence": "Meaningful operational failures and changes supply counterevidence or bounded corroboration for the argument assumptions.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Meaningful operational failures and changes supply counterevidence or bounded corroboration for the argument assumptions."
+        ],
+        "premises_remaining": [
+          "Coherent inference, credible current evidence, defeaters, independent challenge and residual-risk authority remain unresolved by one input.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "An absence of observed incidents cannot establish safety when exposure, detection and reporting are incomplete.",
+        "counter_control": "An absence of observed incidents cannot establish safety when exposure, detection and reporting are incomplete.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. A concise argument may suffice; avoid persuasive dossiers and double-counted common evidence.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An assurance argument must remain credible during actual operation.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "An assurance argument for a system in a specified context",
+            "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "P3": "Meaningful operational failures and changes supply counterevidence or bounded corroboration for the argument assumptions.",
+          "P4": "Coherent inference, credible current evidence, defeaters, independent challenge and residual-risk authority remain unresolved by one input. Stronger-claim witness: An absence of observed incidents cannot establish safety when exposure, detection and reporting are incomplete."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P019->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P020",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P020",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+        },
+        "shared_question_or_object": "An operational incident is followed through authorized disposition and checked correction.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations.",
+          "literal_bridge": "Observed events, diagnosis and action checks supply substantive evidence across the anomaly life cycle."
+        },
+        "source_contribution": "Observed events, diagnosis and action checks supply substantive evidence across the anomaly life cycle.",
+        "receiving_consequence": "Observed events, diagnosis and action checks supply substantive evidence across the anomaly life cycle.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Observed events, diagnosis and action checks supply substantive evidence across the anomaly life cycle."
+        ],
+        "premises_remaining": [
+          "Affected state, meaningful severity, authority, actual correction and verified residual status remain distinct.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A blameless meeting with unowned actions can preserve discussion while the actual problem remains unchanged.",
+        "counter_control": "A blameless meeting with unowned actions can preserve discussion while the actual problem remains unchanged.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. A tracked issue and relevant regression check can suffice; administrative closure is not defect closure.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An operational incident is followed through authorized disposition and checked correction.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+          },
+          "P3": "Observed events, diagnosis and action checks supply substantive evidence across the anomaly life cycle.",
+          "P4": "Affected state, meaningful severity, authority, actual correction and verified residual status remain distinct. Stronger-claim witness: A blameless meeting with unowned actions can preserve discussion while the actual problem remains unchanged."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P020->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P030",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P030",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "An authoritative engineering model or digital environment",
+          "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+        },
+        "shared_question_or_object": "A digital model is used to reason about a running system.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "An authoritative engineering model or digital environment",
+          "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it.",
+          "literal_bridge": "Relevant operational evidence can reveal model drift or invalidate an assumption used by a digital engineering view."
+        },
+        "source_contribution": "Relevant operational evidence can reveal model drift or invalidate an assumption used by a digital engineering view.",
+        "receiving_consequence": "Relevant operational evidence can reveal model drift or invalidate an assumption used by a digital engineering view.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Relevant operational evidence can reveal model drift or invalidate an assumption used by a digital engineering view."
+        ],
+        "premises_remaining": [
+          "Semantic adequacy, scoped authority, access, interoperability, validation and actual-state correspondence remain separate.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Streaming telemetry into a digital twin does not validate its semantics, causal structure or unobserved physical state.",
+        "counter_control": "Streaming telemetry into a digital twin does not validate its semantics, causal structure or unobserved physical state.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. Versioned native documents, source and tests may outperform a new platform; include migration, licensing and specialist upkeep.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A digital model is used to reason about a running system.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "An authoritative engineering model or digital environment",
+            "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+          },
+          "P3": "Relevant operational evidence can reveal model drift or invalidate an assumption used by a digital engineering view.",
+          "P4": "Semantic adequacy, scoped authority, access, interoperability, validation and actual-state correspondence remain separate. Stronger-claim witness: Streaming telemetry into a digital twin does not validate its semantics, causal structure or unobserved physical state."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P030->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-21->LAW-L3::EW-P031",
+        "source_native_id": "EA-21",
+        "receiving_native_id": "EW-P031",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/20",
+          "expected_native_id": "EA-21",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/20",
+            "expected_native_id": "AGQ-EA-21"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions."
+        },
+        "shared_question_or_object": "A recurring assurance pipeline consumes operational evidence after release.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+          "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+          "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions.",
+          "literal_bridge": "Actionable incidents and checked corrections supply feedback on behavior that pre-release checks could not completely predict."
+        },
+        "source_contribution": "Actionable incidents and checked corrections supply feedback on behavior that pre-release checks could not completely predict.",
+        "receiving_consequence": "Actionable incidents and checked corrections supply feedback on behavior that pre-release checks could not completely predict.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actionable incidents and checked corrections supply feedback on behavior that pre-release checks could not completely predict."
+        ],
+        "premises_remaining": [
+          "Credible oracles, trustworthy generation, current configuration, actual coverage, independence and authorized consumption remain distinct.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "High-volume dashboards can repeat noise and cannot justify exposing users to an unverified severe hazard.",
+        "counter_control": "High-volume dashboards can repeat noise and cannot justify exposing users to an unverified severe hazard.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Include observation, storage, privacy, interpretation and response-capacity costs; periodic inspection, service records or a small meaningful signal can suffice. Manual or periodic evidence can be adequate at low cadence; automation adds upkeep and common-mode failure risk.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A recurring assurance pipeline consumes operational evidence after release.",
+          "P2": {
+            "source_bearer": "A running service or process with meaningful observable failure modes and response responsibility.",
+            "source_proposition": "Observe consequential operational behavior and convert incidents into owned, checked changes.",
+            "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions."
+          },
+          "P3": "Actionable incidents and checked corrections supply feedback on behavior that pre-release checks could not completely predict.",
+          "P4": "Credible oracles, trustworthy generation, current configuration, actual coverage, independence and authorized consumption remain distinct. Stronger-claim witness: High-volume dashboards can repeat noise and cannot justify exposing users to an unverified severe hazard."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P031->LAW-L2::EA-21",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      }
+    ]
+  }
+}

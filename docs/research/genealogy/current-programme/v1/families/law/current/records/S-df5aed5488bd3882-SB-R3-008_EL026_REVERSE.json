@@ -1,0 +1,1436 @@
+{
+  "source_identity": {
+    "source_id": "S-df5aed5488bd3882",
+    "scientific_name": "SB-R3-008_EL026_REVERSE.json",
+    "original_bytes": 126823,
+    "original_sha256": "df5aed5488bd38829b2afefb52e11e1790e1923213d5d7577a7c1a938b0f8cd7"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-008",
+    "title": "EL-026_REVERSE_BOUNDED_NATIVE_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T22:49:27.313442+00:00",
+    "inquiry_family": 6,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "RETAINED_OWN_COMPLETE_WATERFALL_RECORD",
+      "EXACT_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_004.json",
+      "bytes": 8224,
+      "sha256": "804151a5e48e63bf2b32bdf8050ae77b92e8fdc861884598321017260859fb4c"
+    },
+    "bounded_interface_domain": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+    "domain_horizon_authority": "The exact member object, configuration, observation interval, consequence and actual authority in each literal argument; no adoption or legal applicability inference.",
+    "evidence_ceiling": "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances. Analytical native-role inference only; no empirical effect size, universal benefit, new historical descent or final scientific acceptance.",
+    "source_refs": [
+      {
+        "native_id": "EL-018",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/17",
+          "expected_native_id": "EL-018"
+        }
+      },
+      {
+        "native_id": "EL-019",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/18",
+          "expected_native_id": "EL-019"
+        }
+      },
+      {
+        "native_id": "EL-024",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        }
+      },
+      {
+        "native_id": "EL-026",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        }
+      },
+      {
+        "native_id": "EW-P010",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        }
+      },
+      {
+        "native_id": "EW-P011",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        }
+      },
+      {
+        "native_id": "EW-P012",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        }
+      },
+      {
+        "native_id": "EW-P013",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        }
+      },
+      {
+        "native_id": "EW-P014",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        }
+      },
+      {
+        "native_id": "EW-P015",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14",
+          "expected_native_id": "EW-P015"
+        }
+      },
+      {
+        "native_id": "EW-P016",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15",
+          "expected_native_id": "EW-P016"
+        }
+      },
+      {
+        "native_id": "EW-P017",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        }
+      },
+      {
+        "native_id": "EW-P018",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        }
+      },
+      {
+        "native_id": "EW-P019",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        }
+      },
+      {
+        "native_id": "EW-P020",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P031",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        }
+      },
+      {
+        "native_id": "EW-P032",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        }
+      }
+    ],
+    "common_cost_and_alternative": "Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Generic co-use or arbitrary supporting tool rejected.",
+      "Whole receiving predicate failure does not erase a materially used partial input.",
+      "Actual unknown object/scope remains unknown.",
+      "Every listed adverse control defeats the corresponding stronger whole-result inference."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L1::EL-026",
+        "argument": "An interpretable verification method supplies evidence about the specific failure-detection or restoration claim on which the maintenance policy relies."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L1::EL-026",
+        "argument": "Integration and system observations can expose common causes or restoration order that changes the warranted maintenance/recovery policy."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-026",
+        "argument": "Representative use identifies the consequential outage and recovery outcomes, constraining which maintenance policy is adequate for that use."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L1::EL-026",
+        "argument": "Qualified conditions, margins and configuration constraints delimit permissible maintenance substitutions and evidence reuse."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-026",
+        "argument": "Actual delivery criteria and allowed residuals specify which repair/support evidence the policy must provide for this item."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L1::EL-026",
+        "argument": "The actual basis constrains accepted maintenance actions, configuration changes, inspection means and authorization roles."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L1::EL-026",
+        "argument": "Competent challenge can reveal an unjustified failure model, common cause, over-maintenance burden or untested recovery assumption and narrow the policy claim."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L1::EL-026",
+        "argument": "Current meaningful trace links identify which assets and assurance claims a repair, substitution or newly discovered defect actually affects."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-026",
+        "argument": "Hazard timing, common causes and safe-state constraints identify which maintenance and restoration actions are permissible and consequential."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-026",
+        "argument": "Claim structure identifies the exact failure or recovery proposition and conditions the maintenance policy must warrant."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-026",
+        "argument": "Incident and recurrence evidence can reveal a failed maintenance assumption or repair that does not address the failure mechanism, prompting proportionate policy reassessment."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-026",
+        "argument": "Representative rehearsal and deployment conditions expose whether the maintenance policy can operate within the real recovery and staffing constraints."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-026",
+        "argument": "Versioned operational evidence and regression signals identify changed conditions requiring policy reassessment or updated restoration evidence."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-026",
+        "argument": "Actual residual criteria, controlled resources and permitted actions delimit viable maintenance or recovery choices and expose who can authorize a deferral."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L1::EL-026",
+        "overclaim": "A nominal functional check does not establish diagnosis or recovery performance after a real failure.",
+        "nontrigger": "No actual shared verification of a critical asset's failure, diagnosis, repair or recovery characteristic. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L1::EL-026",
+        "overclaim": "An aggregate uptime figure hides one critical component whose restoration repeatedly breaches the mission limit.",
+        "nontrigger": "No actual shared a critical service or asset whose failure and recovery affect the assembled system. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-026",
+        "overclaim": "A user's dislike of downtime does not establish a quantitative failure distribution or justify unlimited redundancy.",
+        "nontrigger": "No actual shared real-user or mission effects of failure, maintenance interruption and restoration. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L1::EL-026",
+        "overclaim": "An envelope declaration does not prove future maintenance quality or provide an untested restoration guarantee.",
+        "nontrigger": "No actual shared a maintained article or service configuration and the envelope in which failure/recovery evidence is credited. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-026",
+        "overclaim": "An acceptance signature does not establish the long-run failure rate or turn unsupported recovery into a tested capability.",
+        "nontrigger": "No actual shared delivery acceptance where supportability, restoration or maintained configuration is an actual criterion. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L1::EL-026",
+        "overclaim": "A requirement from another product category does not automatically govern this service policy.",
+        "nontrigger": "No actual shared an actual compliance requirement for maintenance, continued service condition or recovery evidence. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L1::EL-026",
+        "overclaim": "A separate reviewer demanding more maintenance without a consequence or failure argument does not establish a better policy.",
+        "nontrigger": "No actual shared challenge of a consequential reliability, maintenance or restoration claim. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L1::EL-026",
+        "overclaim": "A complete asset list without failure-relevant configuration links cannot establish the affected population.",
+        "nontrigger": "No actual shared a real query linking a critical asset configuration to maintenance, failure or restoration history. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-026",
+        "overclaim": "Listing maintenance as a safeguard does not provide detection coverage or a safe replacement procedure.",
+        "nontrigger": "No actual shared a hazard path involving a critical failure, unsafe degradation or restoration action. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-026",
+        "overclaim": "A logically tidy argument does not turn sparse repair history into a population reliability estimate.",
+        "nontrigger": "No actual shared an assurance claim using maintained capability or bounded recovery as a premise. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-026",
+        "overclaim": "More incidents after improved reporting do not alone prove the maintenance change made reliability worse.",
+        "nontrigger": "No actual shared an actual failure or degradation event and its maintenance/correction history. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-026",
+        "overclaim": "A nominal launch rehearsal without failure injection does not demonstrate restoration capability.",
+        "nontrigger": "No actual shared operational readiness of actual restoration capability, spares, responders and maintenance access. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-026",
+        "overclaim": "Repeated healthy-state observations do not establish performance during a rare correlated failure.",
+        "nontrigger": "No actual shared ongoing assurance of a critical asset's changing failure, degradation and recovery assumptions. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-026",
+        "overclaim": "An authorized deferral does not make the asset reliable or erase the known restoration deficit.",
+        "nontrigger": "No actual shared a residual-risk decision about maintenance deferral, replacement or limited recovery capability. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      }
+    ],
+    "author_challenge": "Complete literal positive/adverse pairs and own semantic membership inspection; no independent acceptance or model execution.",
+    "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list.",
+    "independent_review_scope": "Required later fidelity and adversarial reviews must examine common premises, exact member bridges, all contrary controls and separately authored reverse arguments. This author validation supplies no reviewer acceptance.",
+    "common_source_dependence": "Shared observations, policies, assets, actors or original sources are not multiple independent controls or benefits; common-mode failure and cost remain.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "native_common_basis": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets.",
+    "common_subconditions": {
+      "P1": "Exact shared object and actual receiving use are identified.",
+      "P2": "Both full native meanings support the explicitly authored bridge.",
+      "P3": "The contribution changes a named receiving premise or assessment at its evidence ceiling, without whole-predicate entailment.",
+      "P4": "Remaining premises, adverse control, absent-interface condition, cost, adequate alternative and reentry are explicit."
+    },
+    "inference": "At P1-P4 the literal member contribution is a material input to its receiving assessment. A no-change decision may remain justified. This rule cannot be extended by title, similarity, generic use, sampling, symmetric reversal or complete-target screening.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P010->LAW-L1::EL-026",
+      "LAW-L3::EW-P011->LAW-L1::EL-026",
+      "LAW-L3::EW-P012->LAW-L1::EL-026",
+      "LAW-L3::EW-P013->LAW-L1::EL-026",
+      "LAW-L3::EW-P014->LAW-L1::EL-026",
+      "LAW-L3::EW-P015->LAW-L1::EL-026",
+      "LAW-L3::EW-P016->LAW-L1::EL-026",
+      "LAW-L3::EW-P017->LAW-L1::EL-026",
+      "LAW-L3::EW-P018->LAW-L1::EL-026",
+      "LAW-L3::EW-P019->LAW-L1::EL-026",
+      "LAW-L3::EW-P020->LAW-L1::EL-026",
+      "LAW-L3::EW-P027->LAW-L1::EL-026",
+      "LAW-L3::EW-P031->LAW-L1::EL-026",
+      "LAW-L3::EW-P032->LAW-L1::EL-026"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L1::EL-026",
+        "source_native_id": "EW-P010",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P010": {
+            "bearer": "A requirement proposed as a basis for verification",
+            "proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+            "criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P010"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "Verification of a critical asset's failure, diagnosis, repair or recovery characteristic.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A requirement proposed as a basis for verification. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: An interpretable verification method supplies evidence about the specific failure-detection or restoration claim on which the maintenance policy relies.",
+        "source_contribution": "An interpretable verification method supplies evidence about the specific failure-detection or restoration claim on which the maintenance policy relies.",
+        "receiving_consequence": "An interpretable verification method supplies evidence about the specific failure-detection or restoration claim on which the maintenance policy relies.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An interpretable verification method supplies evidence about the specific failure-detection or restoration claim on which the maintenance policy relies."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "A nominal functional check does not establish diagnosis or recovery performance after a real failure.",
+        "nontrigger": "No actual shared verification of a critical asset's failure, diagnosis, repair or recovery characteristic. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A nominal functional check does not establish diagnosis or recovery performance after a real failure.",
+        "specific_cost_and_limit": "Use an existing focused test or observation where it answers the actual requirement. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "Verification of a critical asset's failure, diagnosis, repair or recovery characteristic.",
+          "P2": "The source native bearer is A requirement proposed as a basis for verification. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: An interpretable verification method supplies evidence about the specific failure-detection or restoration claim on which the maintenance policy relies.",
+          "P3": "An interpretable verification method supplies evidence about the specific failure-detection or restoration claim on which the maintenance policy relies.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A nominal functional check does not establish diagnosis or recovery performance after a real failure. Alternative: Use an existing focused test or observation where it answers the actual requirement."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P010",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L1::EL-026",
+        "source_native_id": "EW-P011",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P011": {
+            "bearer": "A realized component and its integrations",
+            "proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+            "criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P011"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "A critical service or asset whose failure and recovery affect the assembled system.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A realized component and its integrations. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Integration and system observations can expose common causes or restoration order that changes the warranted maintenance/recovery policy.",
+        "source_contribution": "Integration and system observations can expose common causes or restoration order that changes the warranted maintenance/recovery policy.",
+        "receiving_consequence": "Integration and system observations can expose common causes or restoration order that changes the warranted maintenance/recovery policy.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Integration and system observations can expose common causes or restoration order that changes the warranted maintenance/recovery policy."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "An aggregate uptime figure hides one critical component whose restoration repeatedly breaches the mission limit.",
+        "nontrigger": "No actual shared a critical service or asset whose failure and recovery affect the assembled system. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "An aggregate uptime figure hides one critical component whose restoration repeatedly breaches the mission limit.",
+        "specific_cost_and_limit": "Reuse valid lower-level evidence once; add only a level that supplies distinct information. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "A critical service or asset whose failure and recovery affect the assembled system.",
+          "P2": "The source native bearer is A realized component and its integrations. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Integration and system observations can expose common causes or restoration order that changes the warranted maintenance/recovery policy.",
+          "P3": "Integration and system observations can expose common causes or restoration order that changes the warranted maintenance/recovery policy.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: An aggregate uptime figure hides one critical component whose restoration repeatedly breaches the mission limit. Alternative: Reuse valid lower-level evidence once; add only a level that supplies distinct information."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P011",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-026",
+        "source_native_id": "EW-P012",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P012": {
+            "bearer": "A system or concept in its intended use and operating context",
+            "proposition": "Repeated context-validity evidence, with final claims tied to an identified configuration and intended-use envelope.",
+            "criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P012"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "Real-user or mission effects of failure, maintenance interruption and restoration.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A system or concept in its intended use and operating context. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Representative use identifies the consequential outage and recovery outcomes, constraining which maintenance policy is adequate for that use.",
+        "source_contribution": "Representative use identifies the consequential outage and recovery outcomes, constraining which maintenance policy is adequate for that use.",
+        "receiving_consequence": "Representative use identifies the consequential outage and recovery outcomes, constraining which maintenance policy is adequate for that use.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Representative use identifies the consequential outage and recovery outcomes, constraining which maintenance policy is adequate for that use."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "A user's dislike of downtime does not establish a quantitative failure distribution or justify unlimited redundancy.",
+        "nontrigger": "No actual shared real-user or mission effects of failure, maintenance interruption and restoration. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A user's dislike of downtime does not establish a quantitative failure distribution or justify unlimited redundancy.",
+        "specific_cost_and_limit": "A focused representative user/mission trial can suffice. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "Real-user or mission effects of failure, maintenance interruption and restoration.",
+          "P2": "The source native bearer is A system or concept in its intended use and operating context. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Representative use identifies the consequential outage and recovery outcomes, constraining which maintenance policy is adequate for that use.",
+          "P3": "Representative use identifies the consequential outage and recovery outcomes, constraining which maintenance policy is adequate for that use.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A user's dislike of downtime does not establish a quantitative failure distribution or justify unlimited redundancy. Alternative: A focused representative user/mission trial can suffice."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P012",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L1::EL-026",
+        "source_native_id": "EW-P013",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P013": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "proposition": "Configuration-linked evidence for a defined design envelope, with explicit assumptions, margins and change-trigger rules.",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P013"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "A maintained article or service configuration and the envelope in which failure/recovery evidence is credited.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A claimed design/type/process qualification envelope. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Qualified conditions, margins and configuration constraints delimit permissible maintenance substitutions and evidence reuse.",
+        "source_contribution": "Qualified conditions, margins and configuration constraints delimit permissible maintenance substitutions and evidence reuse.",
+        "receiving_consequence": "Qualified conditions, margins and configuration constraints delimit permissible maintenance substitutions and evidence reuse.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Qualified conditions, margins and configuration constraints delimit permissible maintenance substitutions and evidence reuse."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "An envelope declaration does not prove future maintenance quality or provide an untested restoration guarantee.",
+        "nontrigger": "No actual shared a maintained article or service configuration and the envelope in which failure/recovery evidence is credited. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "An envelope declaration does not prove future maintenance quality or provide an untested restoration guarantee.",
+        "specific_cost_and_limit": "Reuse within an unchanged warranted envelope and examine justified changed conditions. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "A maintained article or service configuration and the envelope in which failure/recovery evidence is credited.",
+          "P2": "The source native bearer is A claimed design/type/process qualification envelope. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Qualified conditions, margins and configuration constraints delimit permissible maintenance substitutions and evidence reuse.",
+          "P3": "Qualified conditions, margins and configuration constraints delimit permissible maintenance substitutions and evidence reuse.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: An envelope declaration does not prove future maintenance quality or provide an untested restoration guarantee. Alternative: Reuse within an unchanged warranted envelope and examine justified changed conditions."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P013",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-026",
+        "source_native_id": "EW-P014",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P014": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "proposition": "Explicit, configuration-specific decision by empowered authority, based on current evidence and recorded residual obligations.",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P014"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "Delivery acceptance where supportability, restoration or maintained configuration is an actual criterion.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is An acceptance decision about an identified delivery. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Actual delivery criteria and allowed residuals specify which repair/support evidence the policy must provide for this item.",
+        "source_contribution": "Actual delivery criteria and allowed residuals specify which repair/support evidence the policy must provide for this item.",
+        "receiving_consequence": "Actual delivery criteria and allowed residuals specify which repair/support evidence the policy must provide for this item.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Actual delivery criteria and allowed residuals specify which repair/support evidence the policy must provide for this item."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "An acceptance signature does not establish the long-run failure rate or turn unsupported recovery into a tested capability.",
+        "nontrigger": "No actual shared delivery acceptance where supportability, restoration or maintained configuration is an actual criterion. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "An acceptance signature does not establish the long-run failure rate or turn unsupported recovery into a tested capability.",
+        "specific_cost_and_limit": "Use the existing adequate delivery criterion and authorized actor without a new committee. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "Delivery acceptance where supportability, restoration or maintained configuration is an actual criterion.",
+          "P2": "The source native bearer is An acceptance decision about an identified delivery. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Actual delivery criteria and allowed residuals specify which repair/support evidence the policy must provide for this item.",
+          "P3": "Actual delivery criteria and allowed residuals specify which repair/support evidence the policy must provide for this item.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: An acceptance signature does not establish the long-run failure rate or turn unsupported recovery into a tested capability. Alternative: Use the existing adequate delivery criterion and authorized actor without a new committee."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P014",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L1::EL-026",
+        "source_native_id": "EW-P015",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14",
+          "expected_native_id": "EW-P015"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P015": {
+            "bearer": "A certification or regulatory credit claim",
+            "proposition": "Lifecycle-neutral engineering that satisfies a specific certification basis for identified configurations and maintains authority after change.",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P015"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "An actual compliance requirement for maintenance, continued service condition or recovery evidence.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A certification or regulatory credit claim. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: The actual basis constrains accepted maintenance actions, configuration changes, inspection means and authorization roles.",
+        "source_contribution": "The actual basis constrains accepted maintenance actions, configuration changes, inspection means and authorization roles.",
+        "receiving_consequence": "The actual basis constrains accepted maintenance actions, configuration changes, inspection means and authorization roles.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual basis constrains accepted maintenance actions, configuration changes, inspection means and authorization roles."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "A requirement from another product category does not automatically govern this service policy.",
+        "nontrigger": "No actual shared an actual compliance requirement for maintenance, continued service condition or recovery evidence. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A requirement from another product category does not automatically govern this service policy.",
+        "specific_cost_and_limit": "Use accepted existing means where permitted; invent no compliance obligation. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "An actual compliance requirement for maintenance, continued service condition or recovery evidence.",
+          "P2": "The source native bearer is A certification or regulatory credit claim. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: The actual basis constrains accepted maintenance actions, configuration changes, inspection means and authorization roles.",
+          "P3": "The actual basis constrains accepted maintenance actions, configuration changes, inspection means and authorization roles.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A requirement from another product category does not automatically govern this service policy. Alternative: Use accepted existing means where permitted; invent no compliance obligation."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P015",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L1::EL-026",
+        "source_native_id": "EW-P016",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15",
+          "expected_native_id": "EW-P016"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P016": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "proposition": "Independence is a designed property—responsibility, incentives, funding, reporting and corrective-action authority—scaled to consequence and integrated early.",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P016"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "Challenge of a consequential reliability, maintenance or restoration claim.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A technical challenge arrangement intended to counter correlated error or incentives. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Competent challenge can reveal an unjustified failure model, common cause, over-maintenance burden or untested recovery assumption and narrow the policy claim.",
+        "source_contribution": "Competent challenge can reveal an unjustified failure model, common cause, over-maintenance burden or untested recovery assumption and narrow the policy claim.",
+        "receiving_consequence": "Competent challenge can reveal an unjustified failure model, common cause, over-maintenance burden or untested recovery assumption and narrow the policy claim.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Competent challenge can reveal an unjustified failure model, common cause, over-maintenance burden or untested recovery assumption and narrow the policy claim."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "A separate reviewer demanding more maintenance without a consequence or failure argument does not establish a better policy.",
+        "nontrigger": "No actual shared challenge of a consequential reliability, maintenance or restoration claim. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A separate reviewer demanding more maintenance without a consequence or failure argument does not establish a better policy.",
+        "specific_cost_and_limit": "A competent risk-scaled peer challenge may suffice where the actual regime permits. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "Challenge of a consequential reliability, maintenance or restoration claim.",
+          "P2": "The source native bearer is A technical challenge arrangement intended to counter correlated error or incentives. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Competent challenge can reveal an unjustified failure model, common cause, over-maintenance burden or untested recovery assumption and narrow the policy claim.",
+          "P3": "Competent challenge can reveal an unjustified failure model, common cause, over-maintenance burden or untested recovery assumption and narrow the policy claim.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A separate reviewer demanding more maintenance without a consequence or failure argument does not establish a better policy. Alternative: A competent risk-scaled peer challenge may suffice where the actual regime permits."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P016",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L1::EL-026",
+        "source_native_id": "EW-P017",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P017": {
+            "bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+            "criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P017"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "A real query linking a critical asset configuration to maintenance, failure or restoration history.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A maintained relation between engineering obligations and realization/evidence. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Current meaningful trace links identify which assets and assurance claims a repair, substitution or newly discovered defect actually affects.",
+        "source_contribution": "Current meaningful trace links identify which assets and assurance claims a repair, substitution or newly discovered defect actually affects.",
+        "receiving_consequence": "Current meaningful trace links identify which assets and assurance claims a repair, substitution or newly discovered defect actually affects.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Current meaningful trace links identify which assets and assurance claims a repair, substitution or newly discovered defect actually affects."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "A complete asset list without failure-relevant configuration links cannot establish the affected population.",
+        "nontrigger": "No actual shared a real query linking a critical asset configuration to maintenance, failure or restoration history. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A complete asset list without failure-relevant configuration links cannot establish the affected population.",
+        "specific_cost_and_limit": "Maintain a small decision-relevant query instead of a comprehensive unused matrix. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "A real query linking a critical asset configuration to maintenance, failure or restoration history.",
+          "P2": "The source native bearer is A maintained relation between engineering obligations and realization/evidence. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Current meaningful trace links identify which assets and assurance claims a repair, substitution or newly discovered defect actually affects.",
+          "P3": "Current meaningful trace links identify which assets and assurance claims a repair, substitution or newly discovered defect actually affects.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A complete asset list without failure-relevant configuration links cannot establish the affected population. Alternative: Maintain a small decision-relevant query instead of a comprehensive unused matrix."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P017",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-026",
+        "source_native_id": "EW-P018",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P018": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "proposition": "Living hazard/control claims tied to actual configurations, operations, evidence and residual-risk authority.",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P018"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "A hazard path involving a critical failure, unsafe degradation or restoration action.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A system hazard and the controls claimed to manage it. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Hazard timing, common causes and safe-state constraints identify which maintenance and restoration actions are permissible and consequential.",
+        "source_contribution": "Hazard timing, common causes and safe-state constraints identify which maintenance and restoration actions are permissible and consequential.",
+        "receiving_consequence": "Hazard timing, common causes and safe-state constraints identify which maintenance and restoration actions are permissible and consequential.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Hazard timing, common causes and safe-state constraints identify which maintenance and restoration actions are permissible and consequential."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "Listing maintenance as a safeguard does not provide detection coverage or a safe replacement procedure.",
+        "nontrigger": "No actual shared a hazard path involving a critical failure, unsafe degradation or restoration action. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "Listing maintenance as a safeguard does not provide detection coverage or a safe replacement procedure.",
+        "specific_cost_and_limit": "A targeted causal-path control/test or justified low-impact screen can suffice. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "A hazard path involving a critical failure, unsafe degradation or restoration action.",
+          "P2": "The source native bearer is A system hazard and the controls claimed to manage it. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Hazard timing, common causes and safe-state constraints identify which maintenance and restoration actions are permissible and consequential.",
+          "P3": "Hazard timing, common causes and safe-state constraints identify which maintenance and restoration actions are permissible and consequential.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: Listing maintenance as a safeguard does not provide detection coverage or a safe replacement procedure. Alternative: A targeted causal-path control/test or justified low-impact screen can suffice."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P018",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-026",
+        "source_native_id": "EW-P019",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P019": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P019"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "An assurance claim using maintained capability or bounded recovery as a premise.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is An assurance argument for a system in a specified context. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Claim structure identifies the exact failure or recovery proposition and conditions the maintenance policy must warrant.",
+        "source_contribution": "Claim structure identifies the exact failure or recovery proposition and conditions the maintenance policy must warrant.",
+        "receiving_consequence": "Claim structure identifies the exact failure or recovery proposition and conditions the maintenance policy must warrant.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Claim structure identifies the exact failure or recovery proposition and conditions the maintenance policy must warrant."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "A logically tidy argument does not turn sparse repair history into a population reliability estimate.",
+        "nontrigger": "No actual shared an assurance claim using maintained capability or bounded recovery as a premise. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A logically tidy argument does not turn sparse repair history into a population reliability estimate.",
+        "specific_cost_and_limit": "Use a concise argument with real evidence; diagrams are optional. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "An assurance claim using maintained capability or bounded recovery as a premise.",
+          "P2": "The source native bearer is An assurance argument for a system in a specified context. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Claim structure identifies the exact failure or recovery proposition and conditions the maintenance policy must warrant.",
+          "P3": "Claim structure identifies the exact failure or recovery proposition and conditions the maintenance policy must warrant.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A logically tidy argument does not turn sparse repair history into a population reliability estimate. Alternative: Use a concise argument with real evidence; diagrams are optional."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P019",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-026",
+        "source_native_id": "EW-P020",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P020": {
+            "bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+            "criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P020"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "An actual failure or degradation event and its maintenance/correction history.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A known anomaly or exception affecting relied-upon evidence. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Incident and recurrence evidence can reveal a failed maintenance assumption or repair that does not address the failure mechanism, prompting proportionate policy reassessment.",
+        "source_contribution": "Incident and recurrence evidence can reveal a failed maintenance assumption or repair that does not address the failure mechanism, prompting proportionate policy reassessment.",
+        "receiving_consequence": "Incident and recurrence evidence can reveal a failed maintenance assumption or repair that does not address the failure mechanism, prompting proportionate policy reassessment.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Incident and recurrence evidence can reveal a failed maintenance assumption or repair that does not address the failure mechanism, prompting proportionate policy reassessment."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "More incidents after improved reporting do not alone prove the maintenance change made reliability worse.",
+        "nontrigger": "No actual shared an actual failure or degradation event and its maintenance/correction history. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "More incidents after improved reporting do not alone prove the maintenance change made reliability worse.",
+        "specific_cost_and_limit": "Keep one reproducible local anomaly record and verified response where adequate. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "An actual failure or degradation event and its maintenance/correction history.",
+          "P2": "The source native bearer is A known anomaly or exception affecting relied-upon evidence. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Incident and recurrence evidence can reveal a failed maintenance assumption or repair that does not address the failure mechanism, prompting proportionate policy reassessment.",
+          "P3": "Incident and recurrence evidence can reveal a failed maintenance assumption or repair that does not address the failure mechanism, prompting proportionate policy reassessment.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: More incidents after improved reporting do not alone prove the maintenance change made reliability worse. Alternative: Keep one reproducible local anomaly record and verified response where adequate."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P020",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-026",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P027": {
+            "bearer": "Transition to operation or restart",
+            "proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P027"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "Operational readiness of actual restoration capability, spares, responders and maintenance access.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is Transition to operation or restart. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Representative rehearsal and deployment conditions expose whether the maintenance policy can operate within the real recovery and staffing constraints.",
+        "source_contribution": "Representative rehearsal and deployment conditions expose whether the maintenance policy can operate within the real recovery and staffing constraints.",
+        "receiving_consequence": "Representative rehearsal and deployment conditions expose whether the maintenance policy can operate within the real recovery and staffing constraints.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Representative rehearsal and deployment conditions expose whether the maintenance policy can operate within the real recovery and staffing constraints."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "A nominal launch rehearsal without failure injection does not demonstrate restoration capability.",
+        "nontrigger": "No actual shared operational readiness of actual restoration capability, spares, responders and maintenance access. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A nominal launch rehearsal without failure injection does not demonstrate restoration capability.",
+        "specific_cost_and_limit": "A representative focused rehearsal or reversible canary can suffice. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "Operational readiness of actual restoration capability, spares, responders and maintenance access.",
+          "P2": "The source native bearer is Transition to operation or restart. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Representative rehearsal and deployment conditions expose whether the maintenance policy can operate within the real recovery and staffing constraints.",
+          "P3": "Representative rehearsal and deployment conditions expose whether the maintenance policy can operate within the real recovery and staffing constraints.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A nominal launch rehearsal without failure injection does not demonstrate restoration capability. Alternative: A representative focused rehearsal or reversible canary can suffice."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P027",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-026",
+        "source_native_id": "EW-P031",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P031": {
+            "bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+            "criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P031"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "Ongoing assurance of a critical asset's changing failure, degradation and recovery assumptions.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A pipeline producing or consuming recurring assurance evidence. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Versioned operational evidence and regression signals identify changed conditions requiring policy reassessment or updated restoration evidence.",
+        "source_contribution": "Versioned operational evidence and regression signals identify changed conditions requiring policy reassessment or updated restoration evidence.",
+        "receiving_consequence": "Versioned operational evidence and regression signals identify changed conditions requiring policy reassessment or updated restoration evidence.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Versioned operational evidence and regression signals identify changed conditions requiring policy reassessment or updated restoration evidence."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "Repeated healthy-state observations do not establish performance during a rare correlated failure.",
+        "nontrigger": "No actual shared ongoing assurance of a critical asset's changing failure, degradation and recovery assumptions. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "Repeated healthy-state observations do not establish performance during a rare correlated failure.",
+        "specific_cost_and_limit": "Reuse trustworthy current observations once and add evidence only for a real gap. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "Ongoing assurance of a critical asset's changing failure, degradation and recovery assumptions.",
+          "P2": "The source native bearer is A pipeline producing or consuming recurring assurance evidence. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Versioned operational evidence and regression signals identify changed conditions requiring policy reassessment or updated restoration evidence.",
+          "P3": "Versioned operational evidence and regression signals identify changed conditions requiring policy reassessment or updated restoration evidence.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: Repeated healthy-state observations do not establish performance during a rare correlated failure. Alternative: Reuse trustworthy current observations once and add evidence only for a real gap."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P031",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-026",
+        "source_native_id": "EW-P032",
+        "receiving_native_id": "EL-026",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P032": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "proposition": "Configuration- and context-specific authority that consumes fresh evidence, records residual risk and can stop or constrain operation.",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P032"
+          },
+          "EL-026": {
+            "bearer": "A physical asset or software service's maintenance/recovery policy",
+            "proposition": "Choose maintenance and recovery for the asset or service criticality, failure/recovery consequences and replacement economics; retain tested run-to-failure for appropriate noncritical items.",
+            "criterion": "Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-026"
+          }
+        },
+        "shared_question_or_object": "A residual-risk decision about maintenance deferral, replacement or limited recovery capability.",
+        "guard": "The receiving criterion, observed failure or valid scope condition specifies a consequence or constraint on that asset policy. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A consequential residual-risk and operational decision. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Actual residual criteria, controlled resources and permitted actions delimit viable maintenance or recovery choices and expose who can authorize a deferral.",
+        "source_contribution": "Actual residual criteria, controlled resources and permitted actions delimit viable maintenance or recovery choices and expose who can authorize a deferral.",
+        "receiving_consequence": "Actual residual criteria, controlled resources and permitted actions delimit viable maintenance or recovery choices and expose who can authorize a deferral.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Actual residual criteria, controlled resources and permitted actions delimit viable maintenance or recovery choices and expose who can authorize a deferral."
+        ],
+        "premises_remaining": [
+          "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "Sparse observations do not supply population failure estimates; maintenance does not establish arbitrary availability or safe recovery. Missing recovery does not erase a separately demonstrated reduction in exposed independent instances."
+        ],
+        "counterexample": "An authorized deferral does not make the asset reliable or erase the known restoration deficit.",
+        "nontrigger": "No actual shared a residual-risk decision about maintenance deferral, replacement or limited recovery capability. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "An authorized deferral does not make the asset reliable or erase the known restoration deficit.",
+        "specific_cost_and_limit": "Use bounded preauthorization for legitimate low-risk conditions and retain escalation for consequential exceptions. Maintenance labour and windows, downtime, spare stock, responders, configuration history, bad predictions, correlated failures, over-maintenance and single-expert dependency count. For a cheap noncritical item, run-to-failure with spares and tested replacement can be adequate.",
+        "subcondition_evidence": {
+          "P1": "A residual-risk decision about maintenance deferral, replacement or limited recovery capability.",
+          "P2": "The source native bearer is A consequential residual-risk and operational decision. The receiver criterion is Choose policy for the asset's failure/recovery consequences; low-cost replacement may be adequate for a noncritical item.. The specific native bridge is: Actual residual criteria, controlled resources and permitted actions delimit viable maintenance or recovery choices and expose who can authorize a deferral.",
+          "P3": "Actual residual criteria, controlled resources and permitted actions delimit viable maintenance or recovery choices and expose who can authorize a deferral.",
+          "P4": "EL026 chooses maintenance, diagnosis, repair and restoration policy for a critical physical asset or software service using failure/recovery consequences, resources and replacement economics. Its historical TPS equipment context does not establish direct descent of modern error budgets. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: An authorized deferral does not make the asset reliable or erase the known restoration deficit. Alternative: Use bounded preauthorization for legitimate low-risk conditions and retain escalation for consequential exceptions."
+        },
+        "reverse_direction_key": "LAW-L1::EL-026->LAW-L3::EW-P032",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      }
+    ]
+  }
+}

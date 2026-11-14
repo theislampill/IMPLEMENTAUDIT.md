@@ -1,0 +1,2534 @@
+{
+  "source_identity": {
+    "source_id": "S-c56deab888d5efce",
+    "scientific_name": "ASSURANCE_NONMATCH_INQUIRY.json",
+    "original_bytes": 170822,
+    "original_sha256": "c56deab888d5efce405e3284f7c6cb7e06a2c1391fae50413070df2ffbb5b6d3"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-assurance-nonmatch-inquiry/1",
+    "authored_source": {
+      "path": "analysis_r18/assurance_nonmatches.py",
+      "bytes": 10130,
+      "sha256": "9ce3383e699d657388394c7f0976be7915e9b2a127539dc3e1249feb3787650d"
+    },
+    "value_predicate_source": {
+      "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+      "bytes": 202376,
+      "sha256": "d4967b391f21755fb24421c638741930993a41ac1d7fc9d71a3f567de64f52a0"
+    },
+    "common": {
+      "actual_scope": "Each enumerated member is the exact native formal activity, value/predicate, semantic control and comparator already individually authored in analysis_r12 and analysis_r15. Its actual acceptance question is the stated conditional mathematical/software/model/calculation claim. No submission of that member artifact to a named framework requirement is part of this selected use.",
+      "forward": "F041 supplies the permitted evidential/procedural role of formal-method evidence under a named applicable framework. In this exact member use, no such recognition/acceptance requirement is an input to the inference, and no recognition record is offered as its evidence. Recognition therefore supplies no identified partial premise, constraint or discriminator for the actual value/predicate calculation. This is not a conclusion from failure to prove the entire native property.",
+      "reverse": "The member supplies a scientific predicate, model or computation criterion, but this selected use supplies no applicable framework edition/domain/requirement or submitted formal-evidence role. It therefore contributes no identified premise to the actual F041 recognition relation. Giving an arbitrary theorem an unprovided certification consumer would introduce a new use rather than establish this direction.",
+      "partial_input_inquiry": "The inquiry considered record reuse/communication, changed evidence, artifact identity, proof interpretation, method-selection cost, authorization and normative acceptance as well as the central theorem/calculation. Actual named reuse/change/retirement and evidence-choice roles have already been retained for D46,D51,R029,R038,R039. This complement is not assigned from nominal engineering/physical/formal categories, titles, or absence of complete system assurance.",
+      "scientific_versus_recognition_axes": "A valid local theorem or calculation can be used through ordinary review without certification paperwork. A recognized formal method can also yield a wrong intended statement or an invalid application if its scientific premises are absent. Neither fact makes recognition a needed input to every predicate. No general claim that assurance records are useless is made.",
+      "primary_scope": "F041 is read at its actual native/current guard: name applicable edition, domain and actual requirement. Own SYN009 reads the initial specified portion of FAA AC20-115D (21 July 2017), including its optional means and recognition of DO333, without paid-standard clause access. SYN010 reads the recorded public AC20-148 component-reuse passages (7 December 2004). These support the previously named framework-role examples; they do not create a certification consumer for every D/R value.",
+      "authority_scope": "Operating authorization, a stakeholder loss policy, authenticated protocol messages, valid credentials and institutional model pedigree are distinct from acceptance of submitted formal-method evidence under the F041 framework. Their appearances in native records were examined, not silently treated as framework-role matches.",
+      "reentry": "Re-enter the affected direction when a particular member artifact is actually used to discharge a named applicable assurance requirement, when a permitted evidence substitution/reuse rule changes that consumer decision, or when an actual framework-driven cost/communication/acceptance obligation is shown. Specify the edition/domain/requirement and exact value/predicate/evidence link; do not infer detailed paid clauses from metadata.",
+      "cost_alternative": "The existing adequate local theorem, direct calculation, ordinary type/test or exact retained evidence remains available. Framework paperwork has a real role and cost where the actual consumer requires it; no extra procedural gate is created for this study.",
+      "scope_limit": "These are bounded nonmatches for the explicitly selected uses, not universal noninteraction or an exhaustive census of every industry/framework. Existing five material-target interfaces and all native properties remain intact.",
+      "execution": "Own fully exposed analytical role inquiry over the previously read native records, source scopes and actual value interfaces. No new source access, compliance audit, certification assessment or scientific program execution."
+    },
+    "native_members": [
+      {
+        "id": "D01",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P01",
+          "native_pointer": "/PROPERTIES/0",
+          "current_pointer": "/QUALIFICATIONS/0",
+          "current_object_sha256": "a61034e0a67d3d356cf48c2734cf197c9f2d9934ca6dc01807db1546b9f2bcda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/0",
+          "canonical_object_sha256": "3d6acbd8252a6f28862c9c9bd53ef6b8a8dd9afeb1af86b0e5042dc832281030"
+        },
+        "actual_value_boundary": "Fault/timing/storage model record and protocol theorem inputs.",
+        "scientific_acceptance_predicate": "The admitted transition relation and theorem premises include precisely the faults and bounds credited by the protocol claim.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The claimed protocol theorem is conditional on its fault/timing/storage model; the selected evidence question is that correspondence, not approval of a recognized method for a submitted avionics objective.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D02",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P02",
+          "native_pointer": "/PROPERTIES/1",
+          "current_pointer": "/QUALIFICATIONS/1",
+          "current_object_sha256": "1749cbb5d8015f551d1a82614402b582411af42af497047b592b4fe5bbb0a9cb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/1",
+          "canonical_object_sha256": "13744e56ee5598f2c35622d2bc808d778a64fc45b94feac56489984bb4355c5f"
+        },
+        "actual_value_boundary": "Timeout/result observation, effect-history alternatives and the current fixed-intent state.",
+        "scientific_acceptance_predicate": "The observation-equivalence relation retains both relevant past-effect possibilities while the separate current-state postcondition is interpreted exactly.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D03",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P03",
+          "native_pointer": "/PROPERTIES/2",
+          "current_pointer": "/QUALIFICATIONS/2",
+          "current_object_sha256": "f2f328c6106ec9ff81a2b923dabf4d704187a13ff488097ca0cc60e8d5446221",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/2",
+          "canonical_object_sha256": "463895afe478fd87fab7b6a7a7406394ca28ae7f1fe4470ef85aa98f62d9d531"
+        },
+        "actual_value_boundary": "Finite fault-set representation, system-function Boolean and optional joint-law weights.",
+        "scientific_acceptance_predicate": "The surviving-function predicate holds for the admitted fault sets; any weighted success calculation uses the specified joint law rather than inferred independence.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D04",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P04",
+          "native_pointer": "/PROPERTIES/3",
+          "current_pointer": "/QUALIFICATIONS/3",
+          "current_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/3",
+          "canonical_object_sha256": "f6f9e2e4323cad84dfb22c27f56c518b7a959287ffaf72068d12c668f3bffba8"
+        },
+        "actual_value_boundary": "Event identities with logical/vector timestamp values or bounded-clock intervals.",
+        "scientific_acceptance_predicate": "The returned causal-order or interval judgment follows from this actual relation; integer timestamps alone do not express elapsed physical time.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D05",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P05",
+          "native_pointer": "/PROPERTIES/4",
+          "current_pointer": "/QUALIFICATIONS/4",
+          "current_object_sha256": "b994147c1a240eb101faf10bed00ebd13058e942cfbac745e83b84a5b7ae6784",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/4",
+          "canonical_object_sha256": "1ad01334960df2b312edea931c45b8bc5e127acd49d4a641ae773e87ed724df3"
+        },
+        "actual_value_boundary": "Lease/generation values, clock bounds and resource-acceptance decisions.",
+        "scientific_acceptance_predicate": "The acceptance protocol excludes the specified conflicting effective access within its real timing assumptions, with no requirement for one particular fencing design.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D06",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P06",
+          "native_pointer": "/PROPERTIES/5",
+          "current_pointer": "/QUALIFICATIONS/5",
+          "current_object_sha256": "44b1bd9790135be10e9a01fb2e8bd24f6412c080f7272c6c5919722f0c295de4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/5",
+          "canonical_object_sha256": "f83a04acb606193aa9962c2039266bb21b26b445dffd97fa5c623aa0a8d1031f"
+        },
+        "actual_value_boundary": "Session/read history and the selected version/freshness predicate.",
+        "scientific_acceptance_predicate": "Each credited read meets that particular consumer contract; later legitimate overwrites and acceptable stale reads remain admitted where the contract permits them.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D07",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P07",
+          "native_pointer": "/PROPERTIES/6",
+          "current_pointer": "/QUALIFICATIONS/6",
+          "current_object_sha256": "5d7f6cd2af22fe7a2ba1eb98dd78e87038c6a326a93f4a7fac9d4a4fd808d3dd",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/6",
+          "canonical_object_sha256": "fb882f507350f36b009425bb8cf772ea5d4aa66e841ac03275476c1921ee6916"
+        },
+        "actual_value_boundary": "Invocation/response or transaction history with operation identities.",
+        "scientific_acceptance_predicate": "This exact history satisfies the intended linearizability, serializability or isolation predicate, not another same-shaped ordering property.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D08",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P08",
+          "native_pointer": "/PROPERTIES/7",
+          "current_pointer": "/QUALIFICATIONS/7",
+          "current_object_sha256": "16f1085722e6c646d032711801e9ecb7a238c3c8d50ff70bf52f6af76d78b1b4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/7",
+          "canonical_object_sha256": "6221abc44167acd438e21f0e74e9a9c7c075a96f183d13c763d8a67f0e9673c8"
+        },
+        "actual_value_boundary": "Object states and the actual update/merge function.",
+        "scientific_acceptance_predicate": "Admitted updates and merges preserve the stated invariant as well as the separately required convergence condition.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D09",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P09",
+          "native_pointer": "/PROPERTIES/8",
+          "current_pointer": "/QUALIFICATIONS/8",
+          "current_object_sha256": "1177ec9fed3b7cefd8f9db2b2175d1f7e6d3cd372c3c262dc054adee21a88770",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/8",
+          "canonical_object_sha256": "ce08cd56ae4aead4dd172d984e6f35a90d319508e629189c582fec82a415ec29"
+        },
+        "actual_value_boundary": "Source-version/authority selection and transferred-state result.",
+        "scientific_acceptance_predicate": "The source is acceptable and the resulting state satisfies the repair objective; the representation does not establish live capacity or source truth.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D10",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P10",
+          "native_pointer": "/PROPERTIES/9",
+          "current_pointer": "/QUALIFICATIONS/9",
+          "current_object_sha256": "d5db1dda6d81cbfd03528814bad3ccce60743586bb5fdf777f7acdcbe5a7aa4b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/9",
+          "canonical_object_sha256": "3e83b3b049262d98792e3eed8bf7cc54c27e54c0b99915a6732fc18834e1bd0d"
+        },
+        "actual_value_boundary": "Finite quorum families, phase identities and selected values.",
+        "scientific_acceptance_predicate": "The required phase-specific intersection and value-selection constraints hold; well-formed sets of participants alone do not imply the protocol.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D11",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P11",
+          "native_pointer": "/PROPERTIES/10",
+          "current_pointer": "/QUALIFICATIONS/10",
+          "current_object_sha256": "fcae2bb307143f13aa0115ef9daed720593aff807738534f7fc6c5e1983c9cda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/10",
+          "canonical_object_sha256": "e2be1648523d252d22ce075f3124b9d8ac5043de99153921dd1efffa0508e95f"
+        },
+        "actual_value_boundary": "Decision/value records and finite or temporal agreement evidence.",
+        "scientific_acceptance_predicate": "The actual agreement, validity or progress proposition is the one proved; a Boolean success label does not combine these distinct obligations.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D12",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P12",
+          "native_pointer": "/PROPERTIES/11",
+          "current_pointer": "/QUALIFICATIONS/11",
+          "current_object_sha256": "d85e5cd8c157f96587e253ae6c704e07afffe1a0010f8848a99aa2d5dd400ecf",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/11",
+          "canonical_object_sha256": "235c27069f4ce0ead535aaf9440640c05a2a1aac4d323eda42acfff4d62c41ae"
+        },
+        "actual_value_boundary": "Old, transitional and new membership configurations with retained history.",
+        "scientific_acceptance_predicate": "Each admitted membership step preserves the compatible authority/history invariant, including the intermediate overlap states.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D13",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P13",
+          "native_pointer": "/PROPERTIES/12",
+          "current_pointer": "/QUALIFICATIONS/12",
+          "current_object_sha256": "953999320bf81ce68e89268759aef0ec1464ef2220979d355e153040bd937855",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/12",
+          "canonical_object_sha256": "2dbb0c9df5fbb765ee93d103797882c6607bc1a4d9df617b40c1b687c2c97d72"
+        },
+        "actual_value_boundary": "Old/new actor generations and the resource acceptance result.",
+        "scientific_acceptance_predicate": "The delayed old actor cannot perform the specified harmful accepted mutation; a token-shaped value without enforcement is insufficient.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D14",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P14",
+          "native_pointer": "/PROPERTIES/13",
+          "current_pointer": "/QUALIFICATIONS/13",
+          "current_object_sha256": "1e8a00940edfba806cfeb28441e6f6912ceff11ee44508ce0343e7cc6ba9e745",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/13",
+          "canonical_object_sha256": "fde8ce45a7112b02f55b71710fc194ee5de55dbc85b90f44765f04b8a70ac61c"
+        },
+        "actual_value_boundary": "Local transaction/writer inputs, participant set and resulting state.",
+        "scientific_acceptance_predicate": "The declared invariant is enclosed by the actual local atomic boundary; excluded participants and load/downtime claims remain outside it.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D15",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P15",
+          "native_pointer": "/PROPERTIES/14",
+          "current_pointer": "/QUALIFICATIONS/14",
+          "current_object_sha256": "c7a789605bc6914d77ad45733fd9e262c026acfae6e4380848eb53917d79e15f",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/14",
+          "canonical_object_sha256": "18c0a1c8c2886864dc05f8611d7355dd11694c0e8d20f2c04247282a07425b28"
+        },
+        "actual_value_boundary": "Invariant-valid states, independent operation results and merged state.",
+        "scientific_acceptance_predicate": "The admitted operations and merge are closed under the actual invariant, with the theorem conditions matched to this domain.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D16",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P16",
+          "native_pointer": "/PROPERTIES/15",
+          "current_pointer": "/QUALIFICATIONS/15",
+          "current_object_sha256": "c50a0ec1a7b9ea2c419a6f0eaeafe79d306cc8c552130659cb5013dd416069ea",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/15",
+          "canonical_object_sha256": "b2c7a5d5a05ef16f2c0ad05263a6235a88c5c5dd22e6812ac4f99af34bf919be"
+        },
+        "actual_value_boundary": "Operation/output relation and the selected coordination-avoidance theorem parameters.",
+        "scientific_acceptance_predicate": "The specific monotonicity, confluence, merge and delivery premises invoked by this result hold; theorem names are not interchangeable types.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D17",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P17",
+          "native_pointer": "/PROPERTIES/16",
+          "current_pointer": "/QUALIFICATIONS/16",
+          "current_object_sha256": "ef95a8f0d71b9f632d4e0372c26d9b218073cf4d41ca03d626e397266f56f1bb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/16",
+          "canonical_object_sha256": "b854bafde277bf4b88779655f4d73d2aa06451854faaa69f91862f650a59f4f5"
+        },
+        "actual_value_boundary": "Runtime state, participating effects and replay/processing result.",
+        "scientific_acceptance_predicate": "The internal result satisfies the exact enclosed processing predicate; the interface excludes unproved external business effects.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D18",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P18",
+          "native_pointer": "/PROPERTIES/17",
+          "current_pointer": "/QUALIFICATIONS/17",
+          "current_object_sha256": "310053dfd384b870975f19ce4047f94b573fa8bf915389aabd2160bbe8333b7a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/17",
+          "canonical_object_sha256": "9be1c3df67dcc2dda9241b69eacccd900bc903d170c94d2dec5bb4fcf9cdab98"
+        },
+        "actual_value_boundary": "Intent key with immutable parameters, tenant/principal and attempt identity.",
+        "scientific_acceptance_predicate": "Retries retain the same intended operation and enforce its actual lifecycle, rather than merely producing syntactically valid fresh identifiers.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D19",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P19",
+          "native_pointer": "/PROPERTIES/18",
+          "current_pointer": "/QUALIFICATIONS/18",
+          "current_object_sha256": "69b4f40496987df2930d9357d709c4be0a63554b6a460bfb87fb90ea737213c9",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/18",
+          "canonical_object_sha256": "6103b22172057e9f1a2b85dc491fcb7a2e2ca8e29833c476678dbd5aeb844d9d"
+        },
+        "actual_value_boundary": "Paired execution histories before and after repeat erasure.",
+        "scientific_acceptance_predicate": "Erasure preserves the required outcome over admitted interleavings; the predicate is stronger than isolated f(f(x))=f(x) where those interleavings matter.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D20",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P20",
+          "native_pointer": "/PROPERTIES/19",
+          "current_pointer": "/QUALIFICATIONS/19",
+          "current_object_sha256": "b22560e6ccf9206f22d0d1fa78ef41d2845cc4665de92261fc5d2da2f4a3c3fb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/19",
+          "canonical_object_sha256": "b3a07289a8147ebb5851a0ce90f0c16c59b3e5b804b75defd207e0aecad7cfc0"
+        },
+        "actual_value_boundary": "Identity evidence, expiry condition and replay-admission decision.",
+        "scientific_acceptance_predicate": "The enforced arrival/lifetime contract makes retirement safe for the admitted late-effect threat; a timer expiry value alone does not establish it.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D21",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P21",
+          "native_pointer": "/PROPERTIES/20",
+          "current_pointer": "/QUALIFICATIONS/20",
+          "current_object_sha256": "a7a93b11ded474c2174379cab5d0dc64581264a3af0c4e370c509367e5c77929",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/20",
+          "canonical_object_sha256": "9a7a55e32ccb558beac1de8674e59ec8a3bc00e1da63599c65708d649d49e25e"
+        },
+        "actual_value_boundary": "Normal/exception response and the actual consumer result type.",
+        "scientific_acceptance_predicate": "The established response guarantee implies the required local postcondition, including exactly the participating effects the consumer needs.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D22",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P22",
+          "native_pointer": "/PROPERTIES/21",
+          "current_pointer": "/QUALIFICATIONS/21",
+          "current_object_sha256": "eeca5d1cb5065d6964daffdeecb1eecca49839c28c536f825013ae04f5fb9265",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/21",
+          "canonical_object_sha256": "96756b0327658c1d03b43e13eb39b21d9c08de385df6937b8f65e61d411b46c3"
+        },
+        "actual_value_boundary": "State update, handoff/outbox record and commit result.",
+        "scientific_acceptance_predicate": "The update and handoff record share the specified atomic participants and failure semantics; the predicate does not include an unrelated sink by name.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D23",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P23",
+          "native_pointer": "/PROPERTIES/22",
+          "current_pointer": "/QUALIFICATIONS/22",
+          "current_object_sha256": "6a17ae2e8cba03411a2ac4ccc256ce3ce7c1e9dc7e2e423e7d6d1fd2ca9d4441",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/22",
+          "canonical_object_sha256": "a096b13ecb1cebf0f79cd95083d52a3735bdb2432b81330bf47bc447e5c6d255"
+        },
+        "actual_value_boundary": "Commit/abort/compensation histories and the declared residual objective.",
+        "scientific_acceptance_predicate": "The chosen architecture preserves its actual invariant and acceptable residual outcome without presuming compensation is an inverse.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D24",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P24",
+          "native_pointer": "/PROPERTIES/23",
+          "current_pointer": "/QUALIFICATIONS/23",
+          "current_object_sha256": "ae4317124fc30680e010b68a46ed8484963f9f2f8d3396f54b1bd63a5b9187f0",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/23",
+          "canonical_object_sha256": "bb71233d297ce9441246e7d9a80da17f728a96731844deaff3de58305152f44b"
+        },
+        "actual_value_boundary": "Compensator input/current state and resulting restored state.",
+        "scientific_acceptance_predicate": "The stated compensation postcondition holds under admitted failures/interleavings while irreversible prior history remains distinct.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D25",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P25",
+          "native_pointer": "/PROPERTIES/24",
+          "current_pointer": "/QUALIFICATIONS/24",
+          "current_object_sha256": "d7e9207213e88814a01f857e85ce1a902196e71cfe2420b798c7215696bc55b8",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/24",
+          "canonical_object_sha256": "a5917dc6c4913893b3bfa25aba5bea647c2c0a543b737e3fb54431e6e5068015"
+        },
+        "actual_value_boundary": "Workflow history and deterministic replay/orchestration output.",
+        "scientific_acceptance_predicate": "The internal orchestration follows that history and runtime contract; it does not assert that every external activity or current business condition is correct.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D26",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P26",
+          "native_pointer": "/PROPERTIES/25",
+          "current_pointer": "/QUALIFICATIONS/25",
+          "current_object_sha256": "1dd503ee78de60bc0e5e88b0c002a75aadfd262ae1d7823576fb439a7a95db46",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/25",
+          "canonical_object_sha256": "d292d9250549ab97fcddb8fa2dfd8be45b8875087d0e8fa13927e5ac6ed7ae71"
+        },
+        "actual_value_boundary": "Old/new attempt identities, overlapping actions and sink responses.",
+        "scientific_acceptance_predicate": "Redispatch while an old attempt may resume is harmless or controlled by the actual sink/lifecycle policy.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D27",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P27",
+          "native_pointer": "/PROPERTIES/26",
+          "current_pointer": "/QUALIFICATIONS/26",
+          "current_object_sha256": "347855de54d98f307db561e6cd3c1032a34473a71caec165997218dd1fb83e70",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/26",
+          "canonical_object_sha256": "44dff34cdc5901b6b1fe2fdd626d267196c24acecdb7afbe67d32a6fd66cbf38"
+        },
+        "actual_value_boundary": "Producer guarantee and the named consumer closure assertion.",
+        "scientific_acceptance_predicate": "The former implies precisely the latter; unknown wider facts do not invalidate a complete narrow result or become known from it.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D28",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/27",
+          "canonical_object_sha256": "6038984f9d74c15e39fd59dc0445c8b9fbab66c1c69e9e31ecf62c9236396dad"
+        },
+        "actual_value_boundary": "Versioned live history, eligible-worker set and optional migration result.",
+        "scientific_acceptance_predicate": "Every admitted history has an eligible worker or valid semantic migration; neither parser acceptance nor a universal every-build condition is substituted.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Eligible-worker/history migration is a semantic compatibility relation. The inspected NX08 history value is not a submitted reusable-software component approval; framework reuse rules require a separately specified consumer.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D29",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P29",
+          "native_pointer": "/PROPERTIES/28",
+          "current_pointer": "/QUALIFICATIONS/28",
+          "current_object_sha256": "b441a83174fb05e8a5ee201feb33e5c0f9510657af5171c2d263a5e9fc4a78e0",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/28",
+          "canonical_object_sha256": "28cfec5b3d59c5f011dae4033250b2003092bb4da49f86d0f84e115f1d2f9dcb"
+        },
+        "actual_value_boundary": "Queue occupancy/age, admitted work and overflow outcome.",
+        "scientific_acceptance_predicate": "The selected capacity, age and accepted overflow constraints hold, with drainage distinguished from bounded occupancy.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D30",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P30",
+          "native_pointer": "/PROPERTIES/29",
+          "current_pointer": "/QUALIFICATIONS/29",
+          "current_object_sha256": "6d2eb38f5dedc4e468e11082df3a61a7b640f4bc790cf6ae28dff73a8ae4d6a1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/29",
+          "canonical_object_sha256": "3c82aef64bfe40a6181f27ce61c3f80a0371b7e741406fcd97b086996a528190"
+        },
+        "actual_value_boundary": "Producer, queue, consumer and retry demand accounting.",
+        "scientific_acceptance_predicate": "The chosen flow-control relation bounds the relevant aggregate demand instead of moving or renaming hidden work.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D31",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P31",
+          "native_pointer": "/PROPERTIES/30",
+          "current_pointer": "/QUALIFICATIONS/30",
+          "current_object_sha256": "683d45369b8709e1112d04c92a321d4a057cf36e1be15834c1401eb2916bbb86",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/30",
+          "canonical_object_sha256": "9a9b33c2337b5ba8de3ff9d7780eeae60f8507f1299d64f797fd9c5fafe5b25f"
+        },
+        "actual_value_boundary": "Task eligibility/priority, allocated capacity and admitted/drop decision.",
+        "scientific_acceptance_predicate": "The declared critical work is protected within the stated capacity and accepted discard policy; priority values do not create stakeholder authority.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Choosing protected work and accepted discard consequences can require stakeholder authority. That policy authority does not identify a formal-method evidence recognition requirement.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D32",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P32",
+          "native_pointer": "/PROPERTIES/31",
+          "current_pointer": "/QUALIFICATIONS/31",
+          "current_object_sha256": "740ed6c38e9cd2fb59ffe091003e1dc290da3026428ea78533e4163ee0121780",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/31",
+          "canonical_object_sha256": "d08060f100898299fbdba6152cf0aaf20ad9c2c9f4e9653f370baceadbce7343"
+        },
+        "actual_value_boundary": "Nested call/attempt structure and its load/effect totals.",
+        "scientific_acceptance_predicate": "The end-to-end admitted work/effect bounds hold under the actual nesting; no particular budget representation is required if another valid bound suffices.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D33",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P33",
+          "native_pointer": "/PROPERTIES/32",
+          "current_pointer": "/QUALIFICATIONS/32",
+          "current_object_sha256": "a3afc9aa60f8e5c340b196a57fe234607a0e6d9d9f28540de4c277c5dd632276",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/32",
+          "canonical_object_sha256": "97db320de7dad6a3f7b3bed37d794c8bbf68488b7b6bac661325cd3176f6bcea"
+        },
+        "actual_value_boundary": "Queue/feedback state and the selected intervention outcome.",
+        "scientific_acceptance_predicate": "The actual intervention breaks the identified self-sustaining overload and meets the declared recovery criterion, not merely a non-growing backlog.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D34",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P34",
+          "native_pointer": "/PROPERTIES/33",
+          "current_pointer": "/QUALIFICATIONS/33",
+          "current_object_sha256": "efa67d0542abe88985b9e716ef0dd8204481fd2eb78210fe71582f7c0b12b45a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/33",
+          "canonical_object_sha256": "335a046e0a000609977e6ff4d6e361b170437acb73fecf2c54bb3e83651daf59"
+        },
+        "actual_value_boundary": "Protected service/resource dependency graph and failure cut.",
+        "scientific_acceptance_predicate": "The required resource path survives the admitted coupled failure; distinct process identifiers do not establish independent capacity.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D35",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P35",
+          "native_pointer": "/PROPERTIES/34",
+          "current_pointer": "/QUALIFICATIONS/34",
+          "current_object_sha256": "8a5c939b3c85ff69935255dce539be74ac98fb6343cff299e6fd85cc8609b6bc",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/34",
+          "canonical_object_sha256": "d675b43c55d1257c11ff65779b62f08f752113effc38fc023bd68f8435685cb3"
+        },
+        "actual_value_boundary": "Recorded cut with local states and send/receive event edges.",
+        "scientific_acceptance_predicate": "The cut satisfies the required causal closure under its communication model, without asserting physical simultaneity.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D36",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P36",
+          "native_pointer": "/PROPERTIES/35",
+          "current_pointer": "/QUALIFICATIONS/35",
+          "current_object_sha256": "92d036083c48f46b6d378b59e7eb8914f1626abe31dd16823bc3f6e0b4567732",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/35",
+          "canonical_object_sha256": "98cdb2418aac27aa5c686d064c26564ef5e0e5dd535317e1d570b2d14ce0087e"
+        },
+        "actual_value_boundary": "Replay/restart input, surviving primitive state and enclosed output.",
+        "scientific_acceptance_predicate": "The selected restart/replay postcondition follows under the actual durability/output primitives; software reset does not encode physical renewal.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D37",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P37",
+          "native_pointer": "/PROPERTIES/36",
+          "current_pointer": "/QUALIFICATIONS/36",
+          "current_object_sha256": "2557e498670d200c6bed857cb801eb5d8642ae2cd166689e426e1f4461a264ac",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/36",
+          "canonical_object_sha256": "55af803fa4500318b8e188a25785c469fc5c3fd45cabc3ae0c60c1b73d28473a"
+        },
+        "actual_value_boundary": "Old/new configuration, retained state and mutation-authority relation.",
+        "scientific_acceptance_predicate": "Handoff preserves the required state and compatible effective resource authority, including delayed actors or an adequate stop-and-transfer protocol.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Compatible effective mutation authority is enforced by the actual resource/protocol. It is not the normative recognition of a formal method in a certification framework.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D38",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P38",
+          "native_pointer": "/PROPERTIES/37",
+          "current_pointer": "/QUALIFICATIONS/37",
+          "current_object_sha256": "687b598503f3565f89e4c2f2e53af3341dad28e50e10bbf91756dd409fe3b0cf",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/37",
+          "canonical_object_sha256": "723310dcf0321f95f61a38fce1e4f4074946e12348958b8a86b2132198d2471c"
+        },
+        "actual_value_boundary": "Backup artifact/configuration, restore procedure and intended restored state.",
+        "scientific_acceptance_predicate": "The modeled scenario can establish its postcondition; artifact shape or a procedure proof does not assert that an actual restore has executed.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "A restore scenario distinguishes a procedure proof from an actual executed restoration and present dependencies. No approval record is an input to the selected restored-state predicate.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D39",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/38",
+          "canonical_object_sha256": "83f79b1629f2b90dcd4eb98a43cd36caab4a7e2711c3e7a873d19d36937dbd03"
+        },
+        "actual_value_boundary": "Old/new wire, state or history values and their observation maps.",
+        "scientific_acceptance_predicate": "The actual required units, identities, history and behavior are preserved by the admitted relation, not merely the outer representation.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Versioned value/history preservation is tested by the observation map, not by a reuse approval letter. A real assurance reuse consumer could add a separate role, as already analyzed for R029.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D40",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P40",
+          "native_pointer": "/PROPERTIES/39",
+          "current_pointer": "/QUALIFICATIONS/39",
+          "current_object_sha256": "41491065d969cbac234df35e004796296bf4868d51f562b9a0a8ef1197e59ddc",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/39",
+          "canonical_object_sha256": "089676d05445596e97ef1c238a3554a46b586a64aa1f32ada1fda668239b33aa"
+        },
+        "actual_value_boundary": "Configuration value, validation result and rollout-population record.",
+        "scientific_acceptance_predicate": "Value meaning and sufficient reach of the declared population both satisfy their separate predicates; agreement on an invalid value remains possible.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Configuration validity and rollout reach are scientific/application predicates. A review/approval label alone does not supply them, and no submitted formal-evidence requirement is part of this current calculation.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D41",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P41",
+          "native_pointer": "/PROPERTIES/40",
+          "current_pointer": "/QUALIFICATIONS/40",
+          "current_object_sha256": "6268305c22db235a5379e139c911025675f2923972081983d3bef2ac36f09b87",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/40",
+          "canonical_object_sha256": "c64e5402513db453e3b19d99208cf724f4e4376075876a04f9e54974009ec9e6"
+        },
+        "actual_value_boundary": "Probe event with capability, path, observer and time context.",
+        "scientific_acceptance_predicate": "The verdict means the claimed bounded capability at that path/interval, with the required currentness bridge; a green Boolean has no broader authority.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D42",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P42",
+          "native_pointer": "/PROPERTIES/41",
+          "current_pointer": "/QUALIFICATIONS/41",
+          "current_object_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/41",
+          "canonical_object_sha256": "1cceee6cd392a3f167c0b49279501eab0b8cecd6683aa89903132d817a6981c9"
+        },
+        "actual_value_boundary": "Retained telemetry event/selection/context data and aggregate result.",
+        "scientific_acceptance_predicate": "The aggregate follows from those records and the stated observation model; correctly typed counts do not prove representativeness or absence of missing events.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D43",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P43",
+          "native_pointer": "/PROPERTIES/42",
+          "current_pointer": "/QUALIFICATIONS/42",
+          "current_object_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/42",
+          "canonical_object_sha256": "729b51b57d982b12d7c85d5100183a5fb2a177e59625981c1e2ce613879ca1f7"
+        },
+        "actual_value_boundary": "Observed event/dependency graph and inferred ordering relation.",
+        "scientific_acceptance_predicate": "The returned relation follows from the actual edges and assumptions while gaps and inferred physical causes remain explicit.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D44",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P44",
+          "native_pointer": "/PROPERTIES/43",
+          "current_pointer": "/QUALIFICATIONS/43",
+          "current_object_sha256": "4c0a287611bd99a93f17f83e700e4c6b90b96cf5ae7fb1982401cde7ab50f1f1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/43",
+          "canonical_object_sha256": "2f23caafe796d22a05408fcbd24ee66497bbcec73987d2a6ac75911bebd25dc4"
+        },
+        "actual_value_boundary": "Fault/hypothesis/oracle table and the experiment verdict.",
+        "scientific_acceptance_predicate": "The exact oracle distinguishes the stated competing hypotheses under the admitted intervention, instead of returning a nondiscriminating pass.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D45",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P45",
+          "native_pointer": "/PROPERTIES/44",
+          "current_pointer": "/QUALIFICATIONS/44",
+          "current_object_sha256": "a582fab2a9b876b7dba2def590073f2ddc73a834727e9cf6391851de8ceabb9e",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/44",
+          "canonical_object_sha256": "0027a777624bedba0c8d989bcdb80d947799d1c3c4ce425a19f4340d2cdab41b"
+        },
+        "actual_value_boundary": "Local/remote capability or invariant alternatives and dependency boundary.",
+        "scientific_acceptance_predicate": "The proposed remote boundary supplies the particular needed capability or assurance in this comparison; shape-correct alternatives do not prove a global optimum.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The particular local/remote capability comparison has an adequate local/model discriminator. No actual certification obligation is included in the stated reason for the remote boundary, so one is not added as a hidden architectural cost.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D47",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P47",
+          "native_pointer": "/PROPERTIES/46",
+          "current_pointer": "/QUALIFICATIONS/46",
+          "current_object_sha256": "54fc860a1166317378ec3116b7386f0b828403cc91c2c2765778f278064525ce",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/46",
+          "canonical_object_sha256": "c36a5053ce10d8ab1d84d379eab19785e289b34dedfec731346fe4fbef045acc"
+        },
+        "actual_value_boundary": "Before/after resource and failure-boundary graph for the proposed split.",
+        "scientific_acceptance_predicate": "The split changes the stated protected capacity or propagation relation; deployment count alone does not establish the change.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D48",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P48",
+          "native_pointer": "/PROPERTIES/47",
+          "current_pointer": "/QUALIFICATIONS/47",
+          "current_object_sha256": "eddb6c8732438c182047f84599be7b6d6af545a3f9fa3a29c7068b294985519b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/47",
+          "canonical_object_sha256": "575fb9c1bdf6dbcb1399c142497cd0215a2eb739fc5f8cdb39681e89e300625b"
+        },
+        "actual_value_boundary": "Burst, queue/backlog and service-history values.",
+        "scientific_acceptance_predicate": "The finite admitted burst can be stored and drained within the accepted consequence; an integer backlog and non-growth are weaker facts.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D49",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P49",
+          "native_pointer": "/PROPERTIES/48",
+          "current_pointer": "/QUALIFICATIONS/48",
+          "current_object_sha256": "2029473cc55d54f519befd533cb19b5209065881f1bf3fb4f8378cd5177f845c",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/48",
+          "canonical_object_sha256": "a255dea2410d3f83e751904d0e2b1489d546421ff537a2237e69f989f8fd799b"
+        },
+        "actual_value_boundary": "Enclosed intent/processing history and exactly-once result.",
+        "scientific_acceptance_predicate": "The precise internal processing predicate is established without extension to excluded effects or denial of a legitimate enclosed guarantee.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D50",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P50",
+          "native_pointer": "/PROPERTIES/49",
+          "current_pointer": "/QUALIFICATIONS/49",
+          "current_object_sha256": "0455f5476c2a9001c1d6d9f2ed20e42770b6f56d0203a11aef8ae2f6d3c4cd52",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/49",
+          "canonical_object_sha256": "f0d0146915a6358a343da3d7f73dbcb853ee5da9a0939267a9244ac1c6281e66"
+        },
+        "actual_value_boundary": "Integrated lock/resource-acceptance state and stale-holder cases.",
+        "scientific_acceptance_predicate": "The actual protocol prevents the relevant harmful accepted mutation under its bounds; token representation alone is not enforcement.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D52",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P52",
+          "native_pointer": "/PROPERTIES/51",
+          "current_pointer": "/QUALIFICATIONS/51",
+          "current_object_sha256": "5b5fb064d4b42761c316c9e7890395c68b8b0ffe9b07b7e2bfe88c0fb4e1d01a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/51",
+          "canonical_object_sha256": "f1a18e193b4183d50e4db7593d859f8199013ad39921fafe1422e4133564813f"
+        },
+        "actual_value_boundary": "Authenticated messages, replica fault set and agreement/value decisions.",
+        "scientific_acceptance_predicate": "The exact agreement/validity predicate holds under the admitted arbitrary-fault budget; authentication alone does not express absence of equivocation.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Cryptographic authentication and the admitted Byzantine fault budget concern protocol semantics. They do not specify acceptance of a submitted proof by an assurance authority.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D53",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P53",
+          "native_pointer": "/PROPERTIES/52",
+          "current_pointer": "/QUALIFICATIONS/52",
+          "current_object_sha256": "c8916a7f30547092159fcb3b08f829df14ec266aab1e27328671652f10aba2d7",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/52",
+          "canonical_object_sha256": "6206e44183990c1bc72a3bff2f71b63eca627549190585b5f0dc73d82a72fcf1"
+        },
+        "actual_value_boundary": "Bounded agent protocol state with intent, effect and recovery fields.",
+        "scientific_acceptance_predicate": "The explicit protocol-fragment contract holds; the type does not contain a proved interpretation of an arbitrary open-ended task or grant authority.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The bounded agent protocol and its operating authority are separate. A framework recognizing formal methods neither grants that operating authority nor appears as a requirement of this selected control-fragment proof.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "D54",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P54",
+          "native_pointer": "/PROPERTIES/53",
+          "current_pointer": "/QUALIFICATIONS/53",
+          "current_object_sha256": "555984e854dfa089ba06bf6c6be4b298a367c23cc7f876a0068623e839f98707",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/53",
+          "canonical_object_sha256": "0fef4d82da15ca6de3a4df5840ecb490960c7873efa5fd00a4c34d9e46fcc301"
+        },
+        "actual_value_boundary": "Invariant/merge/coordination relation and stronger-service alternative.",
+        "scientific_acceptance_predicate": "The actual invariant is met by the selected mechanism; functional correctness does not assert minimum total burden from minimum coordination.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R001",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P001",
+          "native_pointer": "/properties/0/native_record",
+          "current_pointer": "/properties/0/current_claim",
+          "current_object_sha256": "860d73d5d0c8fa4791c09d55c995cf1de48c3bfb6b683fc23c6ede274d554a5a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/54",
+          "canonical_object_sha256": "0276f6303cad151dea49d828302642ca90187d6e23199b4be388ebce00dc3520"
+        },
+        "actual_value_boundary": "Required-function/mission event record and pass/fail classification.",
+        "scientific_acceptance_predicate": "The classified event is the stated required function over its actual interval, not a convenient proxy with the same Boolean shape.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R002",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P002",
+          "native_pointer": "/properties/1/native_record",
+          "current_pointer": "/properties/1/current_claim",
+          "current_object_sha256": "550b727547563a2f317ee179f1fcc8388d81e46d8d8636c3f07e4b1d642b6fcf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/55",
+          "canonical_object_sha256": "a116ac7591a5f3eb3efc2da39b85fb88ebd981c976c17bf127d293e1122fdbf1"
+        },
+        "actual_value_boundary": "Scenario partition and operational-profile weights.",
+        "scientific_acceptance_predicate": "The weights/scenario interpretation match the declared question; a list of nonnegative numbers does not establish population correspondence.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R003",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P003",
+          "native_pointer": "/properties/2/native_record",
+          "current_pointer": "/properties/2/current_claim",
+          "current_object_sha256": "b4504d7c01849fc60e4505c3e3d0d2b26c3ef6b33ac23a56425bbc0c3dafa7d9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/56",
+          "canonical_object_sha256": "f062f98d4f2e2706fd5b919c93379e3746bb97eca9eed0f7ff6ddb31644ed1cd"
+        },
+        "actual_value_boundary": "Degraded, latent, operational and failed state labels.",
+        "scientific_acceptance_predicate": "The partition distinguishes the functionally different states needed by the consumer, without treating every deviation as total failure.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R004",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P004",
+          "native_pointer": "/properties/3/native_record",
+          "current_pointer": "/properties/3/current_claim",
+          "current_object_sha256": "614e602cf3234d7cc86c3bca15155954d641534f6b04ffd0c0dfdcc74330bf1d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/57",
+          "canonical_object_sha256": "db922b9fb864af947f161062c6c2a7832847e7275202b5d1a887f37c20013dee"
+        },
+        "actual_value_boundary": "Local result and the wider consumer conjunction.",
+        "scientific_acceptance_predicate": "The local postcondition supplies its exact conjunct while the remaining interface predicates remain explicit.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R005",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P005",
+          "native_pointer": "/properties/4/native_record",
+          "current_pointer": "/properties/4/current_claim",
+          "current_object_sha256": "031c1c1eb0d3acc578d20a401a33dad54323006c40ddd5be99bfe080f4611c7f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/58",
+          "canonical_object_sha256": "d63a57e593854a71aa48a07e1d8b6c88bfe62286ac489899d68409b38ddc57e5"
+        },
+        "actual_value_boundary": "Time/demand observations, outage durations and selected estimand result.",
+        "scientific_acceptance_predicate": "The result answers that particular reliability, availability or maintainability question under its actual formula premises; no new durability estimand is inserted.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R006",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P006",
+          "native_pointer": "/properties/5/native_record",
+          "current_pointer": "/properties/5/current_claim",
+          "current_object_sha256": "e958d53163a11e5e3a7dacee11af922ece1d5d743725a84c14d1c9c866a45b08",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/59",
+          "canonical_object_sha256": "9b5e485e290db864f3db6586a88f498649d98cb80801d0d14313cbbbdfa7c6b4"
+        },
+        "actual_value_boundary": "Failure modes, combinations, propagation effects and control relation.",
+        "scientific_acceptance_predicate": "The admitted mode/effect paths are represented correctly for the analysis; a complete array shape does not establish discovery of all physical failures.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R007",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P007",
+          "native_pointer": "/properties/6/native_record",
+          "current_pointer": "/properties/6/current_claim",
+          "current_object_sha256": "982d508a0da81d6b8037f1dafcd3a17f04765bba818496668231b4f58802163a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/60",
+          "canonical_object_sha256": "858d59e4e3be8fc7742288a42b0db0b4af3e61a37f072eaa3b035c06bba7a909"
+        },
+        "actual_value_boundary": "Active/standby/detection/control-path state and surviving-function result.",
+        "scientific_acceptance_predicate": "A viable protection path remains for each admitted latent or single-point fault, rather than just a correctly typed spare count.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R008",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P008",
+          "native_pointer": "/properties/7/native_record",
+          "current_pointer": "/properties/7/current_claim",
+          "current_object_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/61",
+          "canonical_object_sha256": "407e09f5673706ef9830860f36a00c42a7bc11308362539bc0cd1851f7e06072"
+        },
+        "actual_value_boundary": "Joint fault vectors, probability weights and system-function value.",
+        "scientific_acceptance_predicate": "The calculation respects the actual joint-law constraints and function; marginal probabilities do not encode independence.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R009",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P009",
+          "native_pointer": "/properties/8/native_record",
+          "current_pointer": "/properties/8/current_claim",
+          "current_object_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/62",
+          "canonical_object_sha256": "9986638201bd8de4c60c60e35ba9ce9d86201e9c97476979a0e5a6823db8d585"
+        },
+        "actual_value_boundary": "Added path, switch/coverage state and conditional-rescue result.",
+        "scientific_acceptance_predicate": "The protection path actually rescues the required function in the stated cases, with introduced failures and costs retained.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R010",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P010",
+          "native_pointer": "/properties/9/native_record",
+          "current_pointer": "/properties/9/current_claim",
+          "current_object_sha256": "a954864da9d8eef4ba557f86103fabbe9b2c90e44d2a3d0c76325a79fea45da0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/63",
+          "canonical_object_sha256": "ca0fbeb6c54cd486e9af854ba0bdb3021396819adcc22eb33aa3d3544cb92bd1"
+        },
+        "actual_value_boundary": "Propagation graph or concrete program noninterference relation.",
+        "scientific_acceptance_predicate": "The modeled boundary prevents the specified propagation before the protected function fails within its actual capacity/domain.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R011",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/64",
+          "canonical_object_sha256": "d8ab53219f2ceb7a8fe5e1c1101f2a96826b8b1788e78e9c1dd3a3c278e45a96"
+        },
+        "actual_value_boundary": "Fault-to-observation outcomes, latency and coverage denominator.",
+        "scientific_acceptance_predicate": "The coverage calculation uses the specified fault/event population and latency; it is not positive predictive value merely because both outputs are ratios.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R012",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P012",
+          "native_pointer": "/properties/11/native_record",
+          "current_pointer": "/properties/11/current_claim",
+          "current_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/65",
+          "canonical_object_sha256": "169d4b746957b7ea8835977c99dc36cf1f1301241b2e39800c7347eaf081e0d3"
+        },
+        "actual_value_boundary": "Symptoms, candidate-cause classes and proposed observation result.",
+        "scientific_acceptance_predicate": "The observation distinguishes the causes consequential to this decision, or leaves the specified ambiguity while a sufficient remedy remains possible.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R013",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P013",
+          "native_pointer": "/properties/12/native_record",
+          "current_pointer": "/properties/12/current_claim",
+          "current_object_sha256": "6e2f6866b392ac7810543afe9e962c3e137433c350387154e32168293ed7d5b0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/66",
+          "canonical_object_sha256": "5bbd5914401c064a3e4fe45fae90fdeabefe3c39790294f210ad3dd6aec6e758"
+        },
+        "actual_value_boundary": "Confusion probabilities, feasible actions, consequences and expected losses.",
+        "scientific_acceptance_predicate": "The selected action minimizes the stated constrained comparison; a typed argmin over infeasible actions or mislabeled predictive value is insufficient.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Feasible/authorized actions and their stipulated losses determine the comparison. This operational-policy permission is not a formal-method evidence-recognition relation, and no certification submission is used in M3.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R014",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "4e6fb7a41008bb356de97ac5a68f8add48966327a7bf53f05cbf09d294bc6839",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/67",
+          "canonical_object_sha256": "7602ad3f70804cb3950d6891c5e70de43adc80365057558a27b7daa0eea3514e"
+        },
+        "actual_value_boundary": "Degraded-mode state and protected critical-function result.",
+        "scientific_acceptance_predicate": "The allowed critical function remains satisfied under the specified degradation and consumer acceptance conditions.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R015",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P015",
+          "native_pointer": "/properties/14/native_record",
+          "current_pointer": "/properties/14/current_claim",
+          "current_object_sha256": "7bc229bf7572b626a880a68bb64d0cb0b419cd0ab747f2c741e42671aeb657f8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/68",
+          "canonical_object_sha256": "c69e723caa475632575bce13ccd75591b45e6f5ba5b16ac5a65930176bbf9247"
+        },
+        "actual_value_boundary": "Stop/continue action, hazard state and resulting safe-state assertion.",
+        "scientific_acceptance_predicate": "The selected action reaches the allowed safe state for the actual hazards; an ordinary Stop constructor does not prove safety.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R016",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P016",
+          "native_pointer": "/properties/15/native_record",
+          "current_pointer": "/properties/15/current_claim",
+          "current_object_sha256": "14badd48115984148f53a3166e67c20067ad8cb26489a7540e241e74ebb49f01",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/69",
+          "canonical_object_sha256": "f0da19b88829d78b17ac7f692a44edd7b2dc414c30b07ecbba0fe28b223cd721"
+        },
+        "actual_value_boundary": "Restoration input/current state and resulting local postcondition.",
+        "scientific_acceptance_predicate": "The action establishes the declared current restoration objective, with past effects and operation permission separate.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R017",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "4fc18c827dfcc1b467cb6d52705614002636fd259ea1b55fc28dc6886c4ce541",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/70",
+          "canonical_object_sha256": "b6801117ed2b8250c67502024e9161477882b7a72f04273eb80d4e98ba5c6800"
+        },
+        "actual_value_boundary": "Restoration scenario, artifact/configuration and tested postcondition.",
+        "scientific_acceptance_predicate": "The scenario exercises the relevant postcondition and exact artifact; a scenario type does not report an unperformed execution.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R018",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P018",
+          "native_pointer": "/properties/17/native_record",
+          "current_pointer": "/properties/17/current_claim",
+          "current_object_sha256": "e43459b1f17b4a8ce11aa66a2bebaf937c296aac177201e2d06a8de5858224ff",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/71",
+          "canonical_object_sha256": "cd1c2be63c3a6a55aacbf9ce3e81a07da1d5e4f33e9a06b137e5bcdbf1a3314b"
+        },
+        "actual_value_boundary": "Restart/rollback/replay pattern state and available primitives.",
+        "scientific_acceptance_predicate": "The pattern result follows from the actual durable/output primitives rather than from the pattern name.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R019",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P019",
+          "native_pointer": "/properties/18/native_record",
+          "current_pointer": "/properties/18/current_claim",
+          "current_object_sha256": "cdc7888c27ecc76020d28bb5b0118170826eacdc4837d32cd7e6f87c0f46f6f3",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/72",
+          "canonical_object_sha256": "8cb766b992e2f3af3a3abd6d40658fa3d4d56ee461e4e63b6ec31038a6846208"
+        },
+        "actual_value_boundary": "Repair-task prerequisites, retained configuration/state and reassembly/validation order.",
+        "scientific_acceptance_predicate": "The stated task preserves/transfers required state and orders its actual prerequisites; physical access, skill and measured repair time are not obtained from a task record.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Repair-task ordering, access and retained state concern the intrinsic task/design claim. A generic maintenance or qualification document is not a specified formal-method acceptance requirement for this task model.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R020",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P020",
+          "native_pointer": "/properties/19/native_record",
+          "current_pointer": "/properties/19/current_claim",
+          "current_object_sha256": "e8aeae316d37741c8fab93c3911f1fc0ddbb5c82144df49f871a7050adaaac2a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/73",
+          "canonical_object_sha256": "c6db262089576f91b51cb7197706831d2b33563f0c8f75ba2033d56bac3c0a57"
+        },
+        "actual_value_boundary": "Support prerequisites including information/credentials, spare, skill and resource window.",
+        "scientific_acceptance_predicate": "The plan enables the named repair action under the real support constraints; preserved credential bytes do not prove validity or organizational authority.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Actual credentials, support access and operating permission are repair prerequisites. They are not evidence that a framework accepts a theorem, and the theorem cannot create their validity.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R021",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P021",
+          "native_pointer": "/properties/20/native_record",
+          "current_pointer": "/properties/20/current_claim",
+          "current_object_sha256": "311f7cbcda9544188f29e7e97e45afb7f76d95aaa8e70a05dfca9216c72d3235",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/74",
+          "canonical_object_sha256": "44aa7181f711826b77f18390339a45c8cc033bad9e594200c8050a6cdd8e6603"
+        },
+        "actual_value_boundary": "Maintenance action, intended changed state and protected unaffected resource.",
+        "scientific_acceptance_predicate": "The intended bounded change and specified preservation both hold; other physical induced faults remain outside a local state proof.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R022",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P022",
+          "native_pointer": "/properties/21/native_record",
+          "current_pointer": "/properties/21/current_claim",
+          "current_object_sha256": "43ebbe8b0ac59a6424f6af26e1168721982a90a10c80624da731d5721bf399fd",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/75",
+          "canonical_object_sha256": "4b97916231b099eda9b4b02622c6534edd201ced36a94023a9aa56276808c24f"
+        },
+        "actual_value_boundary": "Age policy, survival/renewal/cost parameters and computed policy cost.",
+        "scientific_acceptance_predicate": "The numerical comparison implements the stated model and renewal assumptions; resetting an age field is not physical replacement.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R023",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P023",
+          "native_pointer": "/properties/22/native_record",
+          "current_pointer": "/properties/22/current_claim",
+          "current_object_sha256": "e828ae7ebce0fa9097d71ae5e552c0861c991a56da1ebccd39c4c4370e10e4fe",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/76",
+          "canonical_object_sha256": "8781c9da93cd5970b38fd35f23bf4c133aa33d92ca9917ad6fd0e7b595d84850"
+        },
+        "actual_value_boundary": "Condition threshold, lead time, feasible action and loss comparison.",
+        "scientific_acceptance_predicate": "The selected action is timely and beneficial in that stipulated model, with precursor calibration and physical efficacy separate.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R024",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P024",
+          "native_pointer": "/properties/23/native_record",
+          "current_pointer": "/properties/23/current_claim",
+          "current_object_sha256": "ea72a130bb66600ae48cdda9e0994243f57b54524c5abcab663d0e392ac76610",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/77",
+          "canonical_object_sha256": "525038e10c3ec386f38feab55c42b9293651df763ae47cb8ae3145b52a30206e"
+        },
+        "actual_value_boundary": "Failure/configuration record, correction identity/status and later evidence link.",
+        "scientific_acceptance_predicate": "The intended records remain linked to the actual correction and exposure; a Closed status does not establish causal success.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R025",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P025",
+          "native_pointer": "/properties/24/native_record",
+          "current_pointer": "/properties/24/current_claim",
+          "current_object_sha256": "61449f169f2eb11cab51afa036457014ef22db350162a02c01d2f10259a87460",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/78",
+          "canonical_object_sha256": "7c6d3441063b7b1a1a4d1158371cc6bd0c4862122b7a1c08568238aacf9a753d"
+        },
+        "actual_value_boundary": "Changed mechanism/implementation, removed fault path and retained invariant.",
+        "scientific_acceptance_predicate": "The named modeled fault path is removed while the selected invariant is retained; a new version label does not establish either.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R026",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P026",
+          "native_pointer": "/properties/25/native_record",
+          "current_pointer": "/properties/25/current_claim",
+          "current_object_sha256": "d6ae20d559814da88866f094abfe91c5a713634c75544563c50d885e83f13d50",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/79",
+          "canonical_object_sha256": "305c1487c14546ab006f66eff62894c4c842f4df1ed110d40181a4f15956ec54"
+        },
+        "actual_value_boundary": "Counts, exposure/censoring inputs and numerical failure-bound output.",
+        "scientific_acceptance_predicate": "The formula follows from the actual HPP/iid/ascertainment assumptions and observations; an upper-bound-shaped number is neither zero risk nor a proof of those empirical premises.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The statistical demonstration uses the actual HPP/iid/ascertainment and observation premises. An externally required demonstration plan could introduce normative acceptance, but none is part of the supplied C06 computation or own thinning derivation.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R027",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "34c53ef9a71bd9d15c55a45bcabd2fc069dc306f249cffd8b017e49a2d025f16",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/80",
+          "canonical_object_sha256": "88f841feb34792a97f592433768a734f712b8518accf4178c816814ac87b9766"
+        },
+        "actual_value_boundary": "Mode-specific use/test rates and acceleration-factor calculation.",
+        "scientific_acceptance_predicate": "Each mode uses its justified transfer law and the aggregate retains that mixture; one common numeric factor does not preserve the two-mode calculation.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R028",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P028",
+          "native_pointer": "/properties/27/native_record",
+          "current_pointer": "/properties/27/current_claim",
+          "current_object_sha256": "418267456651f7dea158f19fdfb9a2727c5276382a7cd70bef9bced1357ea93f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/81",
+          "canonical_object_sha256": "3f35a19745cd806f1d4f329c09d9fafe4e43590c772f073420f37cceafce9ed3"
+        },
+        "actual_value_boundary": "Event/exposure/configuration records and aggregation/update output.",
+        "scientific_acceptance_predicate": "The update retains the intended strata, denominators and observation assumptions rather than silently pooling or treating missing failures as negatives.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R030",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P030",
+          "native_pointer": "/properties/29/native_record",
+          "current_pointer": "/properties/29/current_claim",
+          "current_object_sha256": "c6edae002a2ae521b442a4df04856550e4a94d8824178cc3007c8e1a74ae8ef9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/83",
+          "canonical_object_sha256": "e7eb2049893d9da8869085a00fd46e6aa2b28d182db61bca6d2ed1977330d317"
+        },
+        "actual_value_boundary": "Software input/state profile, changed behavior and resulting predicate.",
+        "scientific_acceptance_predicate": "The behavior claim holds for that actual profile and change; a type-safe program does not supply an exposure-independent failure probability.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R031",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P031",
+          "native_pointer": "/properties/30/native_record",
+          "current_pointer": "/properties/30/current_claim",
+          "current_object_sha256": "768f4d8e00ea87d8fbc4a93a02a6418df4839975ec6ca5d4a4eca8d026d86e97",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/84",
+          "canonical_object_sha256": "9736aa7c209e95e13bb68ef74dd691c96b70d2d8ab9bc9fffd8904d24e9ff479"
+        },
+        "actual_value_boundary": "Producer/consumer interface results and the selected journey conjunction.",
+        "scientific_acceptance_predicate": "The interfaces supply the claimed journey predicate or its explicit partial conjuncts without substituting a wider or infinite objective.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R032",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P032",
+          "native_pointer": "/properties/31/native_record",
+          "current_pointer": "/properties/31/current_claim",
+          "current_object_sha256": "62e3c0a445ac340783111c21f41ac1292fbc2fa7ca66744c48279f3d59a99b96",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/85",
+          "canonical_object_sha256": "3245411e20fa613c4ecb3a00dbea68af33feafd3e8795aedcf1b3fdd6a8ae182"
+        },
+        "actual_value_boundary": "SLI events, denominator/window, threshold and selected response policy.",
+        "scientific_acceptance_predicate": "The computation implements that actual measurement and policy; it does not establish every-user success, stakeholder assent or release authority.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The error-budget response may require legitimate organizational authority. No formal-evidence recognition requirement is identified by the C09 measurement/threshold or the choice of that policy.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R033",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P033",
+          "native_pointer": "/properties/32/native_record",
+          "current_pointer": "/properties/32/current_claim",
+          "current_object_sha256": "61fdcfacfd16ae0836ed8efb68acb4f661bdd04a2d28b78674a4e0a15dc14999",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/86",
+          "canonical_object_sha256": "a96af567b5af6fc12ec1d78edb5f6d65f99fbf3c62be8109e5ed631f1f3093ca"
+        },
+        "actual_value_boundary": "Probe/observer state, capability/path and observation time.",
+        "scientific_acceptance_predicate": "The observation supports the named capability with the stated time/path bridge, rather than merely certifying that the monitor returned a value.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R034",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "3761be6f2e9559e8979e109878e50e0b636a5b2646b85e6ff86e384467c658d6",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/87",
+          "canonical_object_sha256": "c68e7d5ae2e946de32b50ca70990ef068ad6286f9c42299bfc0d9616c5c213b3"
+        },
+        "actual_value_boundary": "Dependency graph, reachability/cut result or assume/guarantee interfaces.",
+        "scientific_acceptance_predicate": "The particular structural or compositional inference follows from that representation; a graph alone does not encode a joint probability law or queue dynamics.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R035",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P035",
+          "native_pointer": "/properties/34/native_record",
+          "current_pointer": "/properties/34/current_claim",
+          "current_object_sha256": "f933a618e99ee7e0295a4f2a47111ac160f2fa1887b15b181ce935478ab8ec11",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/88",
+          "canonical_object_sha256": "cd5ffbe543242c8f9aeac11af405d95e788d51cdf414680fce5349bc1da0a610"
+        },
+        "actual_value_boundary": "Injection hypothesis, fault/workload, oracle and observed outcome.",
+        "scientific_acceptance_predicate": "The oracle and injected scenario distinguish the exact protection hypothesis; a formal experiment record does not claim unperformed injection.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R036",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P036",
+          "native_pointer": "/properties/35/native_record",
+          "current_pointer": "/properties/35/current_claim",
+          "current_object_sha256": "921540cff9183aa5ce35608b2f69f33f9830d5906ffb37c3c9988a14432a7fd2",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/89",
+          "canonical_object_sha256": "5ec113eeee3fe8c77b92b63cfd7e4b04a765ccace1b69dbce7ed2afba43edd3f"
+        },
+        "actual_value_boundary": "Live arrival/retry/replay/repair workload, service and backlog state.",
+        "scientific_acceptance_predicate": "Usable capacity and actual conservation/feedback meet the required drainage/restoration condition; a spare count is not processing headroom.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R037",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P037",
+          "native_pointer": "/properties/36/native_record",
+          "current_pointer": "/properties/36/current_claim",
+          "current_object_sha256": "0f339908841f076abf1fcf7557124e07ccce64595a738ea42523db45b60bc37d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/90",
+          "canonical_object_sha256": "e286cd4248601ce9937acebe744afd0d88071284274e2cc0f7ba984c17b7682c"
+        },
+        "actual_value_boundary": "Useful observation/context resource across the selected recovery operation.",
+        "scientific_acceptance_predicate": "That actual useful observation survives and is accessible for its named question; a preserved arbitrary cell is not truthful evidence or crash durability.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R040",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P040",
+          "native_pointer": "/properties/39/native_record",
+          "current_pointer": "/properties/39/current_claim",
+          "current_object_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/93",
+          "canonical_object_sha256": "e335da70619444e8ad576788fd825832cf51e13e1fa594eef83bbbcbe49c053e"
+        },
+        "actual_value_boundary": "Shared input/specification/tool/resource dependencies of diverse mechanisms.",
+        "scientific_acceptance_predicate": "The claimed diversity changes the relevant failure mechanism; different names or brands do not prove independent errors.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R041",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "b12e1bae55d57ed5491f44fe8793836e0810516104575cea850c7949ed6c502b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/94",
+          "canonical_object_sha256": "3a1b053024ca4f9dd941a87e9b31671e6d79ee38bf507845e18a3b004b014216"
+        },
+        "actual_value_boundary": "Outage-pattern records and the particular mean/availability quantity.",
+        "scientific_acceptance_predicate": "The inference uses the actual random variable and its extra law assumptions; equal time-average availability does not encode equal outage distributions.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R042",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P042",
+          "native_pointer": "/properties/41/native_record",
+          "current_pointer": "/properties/41/current_claim",
+          "current_object_sha256": "07ae7d2dc556a6c63386ed6e60eee95bdeb2adfbbd3702ab4aa5131bc99aedd9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/95",
+          "canonical_object_sha256": "5c6bccb9713207e3c979c22f6f59b42ed7b3304472c8f9c357a73136b55c1ed0"
+        },
+        "actual_value_boundary": "Time/demand/cohort events, denominator/window and availability target.",
+        "scientific_acceptance_predicate": "The ratio answers its declared population/window question; the aggregate cannot be substituted for each subgroup or interval.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R043",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P043",
+          "native_pointer": "/properties/42/native_record",
+          "current_pointer": "/properties/42/current_claim",
+          "current_object_sha256": "030877485c80b6582c71dd6ce54d2b27a8dc8fabe42d19abc999a6f761f49ac0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/96",
+          "canonical_object_sha256": "db9ca10e4ca1343c305cc5462163800520f509d690aeb2f01c3a81aab4978edd"
+        },
+        "actual_value_boundary": "Lifetime/survival/hazard or process-rate function and computed comparison.",
+        "scientific_acceptance_predicate": "The quantity has the stated conditional or process meaning and model scope; equal numeric function types do not identify different hazard/rate notions.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R044",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P044",
+          "native_pointer": "/properties/43/native_record",
+          "current_pointer": "/properties/43/current_claim",
+          "current_object_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/97",
+          "canonical_object_sha256": "94a7e92ba4bd9ec1619fbbdce60f83df50578ab8719d26ab66846bf47fd7513f"
+        },
+        "actual_value_boundary": "Illustrative handbook-model inputs and the actual transformation result.",
+        "scientific_acceptance_predicate": "The calculation respects its stated comparison and transfer assumptions; no uninspected coefficient set or empirical validation is supplied by pedigree.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Institutional recognition of a handbook prediction model is an actual provenance/transfer issue, but it is not the F041 relation accepting formal-method evidence for a named assurance objective. The same caution about pedigree is an analogy, not a submitted-evidence interface in this inspected C07 use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R045",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P045",
+          "native_pointer": "/properties/44/native_record",
+          "current_pointer": "/properties/44/current_claim",
+          "current_object_sha256": "cff1b4b93298c10a47f7b4e63bd66ad5f9e93ddb11d6d78d4f7029f93836d237",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/98",
+          "canonical_object_sha256": "819e244bd70726807ae65dd6c4b2707f0a26d1e93b7304dc3d93f475a45719bc"
+        },
+        "actual_value_boundary": "Recorded failure-mode/effect/control content behind the worksheet.",
+        "scientific_acceptance_predicate": "The actual modeled paths and control predicates support the specified inference, rather than merely filling all required fields.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "Completing a failure-analysis worksheet can satisfy a format/process request, while substantive control content remains necessary. The selected model/worksheet question names no requirement allowing formal proof in place of another evidence activity; no such framework clause is inferred.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R046",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P046",
+          "native_pointer": "/properties/45/native_record",
+          "current_pointer": "/properties/45/current_claim",
+          "current_object_sha256": "6d151c2cc1f756d0876ebc2e1e6d6dbcbe71f25e5eb6ab6d238f57531c6735cf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/99",
+          "canonical_object_sha256": "fb9ef04a2de207bc37bee0012d3ffc3f833b27fce072b02e400f55034c41aac2"
+        },
+        "actual_value_boundary": "Backup artifact, restore dependencies/procedure and resulting-state predicate.",
+        "scientific_acceptance_predicate": "The scenario can reach the actual restoration postcondition under current dependencies; a valid backup record does not prove successful restoration.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The backup artifact and restore procedure are bound to the actual restored-state objective. No certification acceptance or reuse letter is used to establish this scenario, and the executed-restore question remains scientific/operational.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R047",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P047",
+          "native_pointer": "/properties/46/native_record",
+          "current_pointer": "/properties/46/current_claim",
+          "current_object_sha256": "7d6ccff6e1441c4ce23de05928d504f6b672efcad60eb233e4548d063bd9fee1",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/100",
+          "canonical_object_sha256": "33123d060343aebf478eafa4cb414837817168b44e71861c52060e5b4d274f2a"
+        },
+        "actual_value_boundary": "Failover scenario with state, authority, delayed actors and shared faults.",
+        "scientific_acceptance_predicate": "The exercised relation preserves the specified function/state/authority for that scenario, without universalizing one pass or labeling untested cases failures.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The failover authority relation concerns compatible effective actors and state. It does not become a formal-evidence recognition requirement simply because the word authority occurs.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R048",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P048",
+          "native_pointer": "/properties/47/native_record",
+          "current_pointer": "/properties/47/current_claim",
+          "current_object_sha256": "07b9342ca3bbaab538bf073d1bebb8a09249290015e0822b9516d1ba2a247a93",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/101",
+          "canonical_object_sha256": "f4872bf31e4bde9fc98adb2f244cf45f0f208f88460ab0ccd7b5cb4f21718a78"
+        },
+        "actual_value_boundary": "Observed event counts, exposures and the compared rates/correction mechanism.",
+        "scientific_acceptance_predicate": "The comparison retains the exposure denominator and any claimed causal bridge; counts 10 to 5 can accompany rates .01 to .05.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R049",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P049",
+          "native_pointer": "/properties/48/native_record",
+          "current_pointer": "/properties/48/current_claim",
+          "current_object_sha256": "f579ccb2f83a47ef4a3df7bc271b63d6b5defd442a4a07979981a6d8c4c2d61b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/102",
+          "canonical_object_sha256": "eaeabeadb2c4560faeddd271bd59cde3108959337c8bbcb57c95344c5e9726d7"
+        },
+        "actual_value_boundary": "Green/probe event and its bounded capability interpretation.",
+        "scientific_acceptance_predicate": "The returned signal establishes exactly the covered functional evidence, with unobserved paths, later health and authority left separate.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R050",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P050",
+          "native_pointer": "/properties/49/native_record",
+          "current_pointer": "/properties/49/current_claim",
+          "current_object_sha256": "2388c8cd320e3f9a6f894525fa12c0e0f74225cf1ed131e10c7573a8d40801f9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/103",
+          "canonical_object_sha256": "297b744b8463868be64a09aa70f52152ffbdbaf47ce29596e119003e35e43c9d"
+        },
+        "actual_value_boundary": "Chaos fault/workload/oracle record and outcome predicate.",
+        "scientific_acceptance_predicate": "The result supports the exact stated experiment claim at its admitted scope; a Pass value does not encode universal resilience.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R051",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P051",
+          "native_pointer": "/properties/50/native_record",
+          "current_pointer": "/properties/50/current_claim",
+          "current_object_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/104",
+          "canonical_object_sha256": "88c4b759e182375a3184a8dfbf1368545b804ab8f18a8a4ed0b18e9f544ba4fe"
+        },
+        "actual_value_boundary": "Redundancy/backup/switch/coverage/capacity state and system result.",
+        "scientific_acceptance_predicate": "The added path provides conditional rescue after introduced failure paths and load are included; component count alone does not establish monotonic benefit.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R052",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P052",
+          "native_pointer": "/properties/51/native_record",
+          "current_pointer": "/properties/51/current_claim",
+          "current_object_sha256": "ac830bfe71e2c6746a99e8f3a33fcc86a6cba1ca6853d8f1ed5795614ba2cb28",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/105",
+          "canonical_object_sha256": "870de665a1f9d91d57129d97a1a8b2952cfa35d8973b0383edf4370fb917600d"
+        },
+        "actual_value_boundary": "Predictive thresholds, lead times, feasible policies and loss results.",
+        "scientific_acceptance_predicate": "The winning policy follows from that constrained stipulated comparison, without inferring calibrated prediction or general field superiority.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R053",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P053",
+          "native_pointer": "/properties/52/native_record",
+          "current_pointer": "/properties/52/current_claim",
+          "current_object_sha256": "2435e1ef324d0c7ad9019b40fc9bc26ac915f3492d4a07ba6ae01b93fa44c420",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/106",
+          "canonical_object_sha256": "89eb51d525e2bf2e1c1da4095cb0630e2bbf2c5b011293969e1546e5a904753a"
+        },
+        "actual_value_boundary": "One shared U, event-count function and exact fixed-time partition weights.",
+        "scientific_acceptance_predicate": "The returned marginal/joint quantities use N(t)=floor(sqrt(t)+U) with the same U, preserving the mean/variance distinction; a mean function does not type-imply NHPP increments.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The named value/predicate is used as a conditional mathematical, model or software inference in its exact native activity. Its supplied semantic/evidence inputs and cheaper comparator include no submitted formal-evidence recognition requirement. A future framework consumer remains a separate re-entry use.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R054",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P054",
+          "native_pointer": "/properties/53/native_record",
+          "current_pointer": "/properties/53/current_claim",
+          "current_object_sha256": "e0f40b561ca50cc5f49efc8eb665d41e79240ec14709c7120b491f81cb4eb2a7",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/107",
+          "canonical_object_sha256": "0e16dde1fccf0fb8cc74fad30d9a6d88eea16b14a8e01c46325455f01cf2a407"
+        },
+        "actual_value_boundary": "Deterministic exclusion proof or statistical-bound output with its model tag.",
+        "scientific_acceptance_predicate": "The result is interpreted as its exact finite theorem or conditional demonstration, without converting either into arbitrary-world zero risk.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "A finite deterministic exclusion and a conditional statistical bound are interpreted by their own semantics. A recognized-method label supplies neither arbitrary-world zero risk nor a needed premise of these specific model claims.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      },
+      {
+        "id": "R055",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P055",
+          "native_pointer": "/properties/54/native_record",
+          "current_pointer": "/properties/54/current_claim",
+          "current_object_sha256": "7fa4765f23e3ebf1e3271b33685cc39376053ee7bec2fd4f5077f7e3694e4a5d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_value_and_predicate_inquiry": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/108",
+          "canonical_object_sha256": "f7f4fbc36c0e790066841fc58ed3148abc92607fe3dda9632dfee876877ce8b2"
+        },
+        "actual_value_boundary": "Automated diagnostic/control input, allowed action interface and bounded result.",
+        "scientific_acceptance_predicate": "The specific control/task-fragment predicate holds under its actual inputs; task fidelity, benefit under shift and authority are not manufactured by an AI-generated proof object.",
+        "recognition_requirement_in_this_exact_use": null,
+        "partial_normative_role_check": "The bounded automated-controller predicate, task fidelity and operating permission remain separate. No submitted proof-evidence consumer or framework obligation is specified for this selected model fragment.",
+        "disposition": "BOUNDED_NO_MATERIAL_RELATION"
+      }
+    ],
+    "rules": [
+      {
+        "id": "ASSURANCE-NONMATCH-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C041",
+          "native_property_id": "P041",
+          "current_statement": "Recognition of formal methods in an assurance framework defines a permitted evidential role under that framework; it does not itself establish the software theorem or operational safety.",
+          "bearer": "An assurance standard/guidance and submitted evidence",
+          "logical_class": "NORMATIVE_VERSUS_SCIENTIFIC_ROLE",
+          "quantifier_and_guard": "Name applicable edition, domain and actual requirement; distinguish public guidance, paid-standard metadata and inspected clauses.",
+          "negative_scope_and_legitimate_alternatives": "An internal low-risk theorem need not acquire certification paperwork. A valid assurance record can aid reuse and communication without being proof.",
+          "expected_consequence": "Prevent recognition from being treated as factual correctness while retaining its real procedural role.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S051",
+            "S052",
+            "S054",
+            "S113"
+          ],
+          "case_ids": [
+            "C11",
+            "C14"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary review/replay when there is no certification consumer.",
+          "cost_and_evaluation_criterion": "Include certification/qualification cost only where an actual consumer requires it.",
+          "author_disposition": "RETAIN_NEGATIVE_POPULATION",
+          "meaning_change": "Native bureaucracy boundary preserved; no detailedDO333clause compliance is asserted from metadata.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "F041 supplies the permitted evidential/procedural role of formal-method evidence under a named applicable framework. In this exact member use, no such recognition/acceptance requirement is an input to the inference, and no recognition record is offered as its evidence. Recognition therefore supplies no identified partial premise, constraint or discriminator for the actual value/predicate calculation. This is not a conclusion from failure to prove the entire native property.",
+        "exact_ordered_membership": [
+          "F041>D01",
+          "F041>D02",
+          "F041>D03",
+          "F041>D04",
+          "F041>D05",
+          "F041>D06",
+          "F041>D07",
+          "F041>D08",
+          "F041>D09",
+          "F041>D10",
+          "F041>D11",
+          "F041>D12",
+          "F041>D13",
+          "F041>D14",
+          "F041>D15",
+          "F041>D16",
+          "F041>D17",
+          "F041>D18",
+          "F041>D19",
+          "F041>D20",
+          "F041>D21",
+          "F041>D22",
+          "F041>D23",
+          "F041>D24",
+          "F041>D25",
+          "F041>D26",
+          "F041>D27",
+          "F041>D28",
+          "F041>D29",
+          "F041>D30",
+          "F041>D31",
+          "F041>D32",
+          "F041>D33",
+          "F041>D34",
+          "F041>D35",
+          "F041>D36",
+          "F041>D37",
+          "F041>D38",
+          "F041>D39",
+          "F041>D40",
+          "F041>D41",
+          "F041>D42",
+          "F041>D43",
+          "F041>D44",
+          "F041>D45",
+          "F041>D47",
+          "F041>D48",
+          "F041>D49",
+          "F041>D50",
+          "F041>D52",
+          "F041>D53",
+          "F041>D54",
+          "F041>R001",
+          "F041>R002",
+          "F041>R003",
+          "F041>R004",
+          "F041>R005",
+          "F041>R006",
+          "F041>R007",
+          "F041>R008",
+          "F041>R009",
+          "F041>R010",
+          "F041>R011",
+          "F041>R012",
+          "F041>R013",
+          "F041>R014",
+          "F041>R015",
+          "F041>R016",
+          "F041>R017",
+          "F041>R018",
+          "F041>R019",
+          "F041>R020",
+          "F041>R021",
+          "F041>R022",
+          "F041>R023",
+          "F041>R024",
+          "F041>R025",
+          "F041>R026",
+          "F041>R027",
+          "F041>R028",
+          "F041>R030",
+          "F041>R031",
+          "F041>R032",
+          "F041>R033",
+          "F041>R034",
+          "F041>R035",
+          "F041>R036",
+          "F041>R037",
+          "F041>R040",
+          "F041>R041",
+          "F041>R042",
+          "F041>R043",
+          "F041>R044",
+          "F041>R045",
+          "F041>R046",
+          "F041>R047",
+          "F041>R048",
+          "F041>R049",
+          "F041>R050",
+          "F041>R051",
+          "F041>R052",
+          "F041>R053",
+          "F041>R054",
+          "F041>R055"
+        ]
+      },
+      {
+        "id": "ASSURANCE-NONMATCH-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C041",
+          "native_property_id": "P041",
+          "current_statement": "Recognition of formal methods in an assurance framework defines a permitted evidential role under that framework; it does not itself establish the software theorem or operational safety.",
+          "bearer": "An assurance standard/guidance and submitted evidence",
+          "logical_class": "NORMATIVE_VERSUS_SCIENTIFIC_ROLE",
+          "quantifier_and_guard": "Name applicable edition, domain and actual requirement; distinguish public guidance, paid-standard metadata and inspected clauses.",
+          "negative_scope_and_legitimate_alternatives": "An internal low-risk theorem need not acquire certification paperwork. A valid assurance record can aid reuse and communication without being proof.",
+          "expected_consequence": "Prevent recognition from being treated as factual correctness while retaining its real procedural role.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S051",
+            "S052",
+            "S054",
+            "S113"
+          ],
+          "case_ids": [
+            "C11",
+            "C14"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary review/replay when there is no certification consumer.",
+          "cost_and_evaluation_criterion": "Include certification/qualification cost only where an actual consumer requires it.",
+          "author_disposition": "RETAIN_NEGATIVE_POPULATION",
+          "meaning_change": "Native bureaucracy boundary preserved; no detailedDO333clause compliance is asserted from metadata.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The member supplies a scientific predicate, model or computation criterion, but this selected use supplies no applicable framework edition/domain/requirement or submitted formal-evidence role. It therefore contributes no identified premise to the actual F041 recognition relation. Giving an arbitrary theorem an unprovided certification consumer would introduce a new use rather than establish this direction.",
+        "exact_ordered_membership": [
+          "D01>F041",
+          "D02>F041",
+          "D03>F041",
+          "D04>F041",
+          "D05>F041",
+          "D06>F041",
+          "D07>F041",
+          "D08>F041",
+          "D09>F041",
+          "D10>F041",
+          "D11>F041",
+          "D12>F041",
+          "D13>F041",
+          "D14>F041",
+          "D15>F041",
+          "D16>F041",
+          "D17>F041",
+          "D18>F041",
+          "D19>F041",
+          "D20>F041",
+          "D21>F041",
+          "D22>F041",
+          "D23>F041",
+          "D24>F041",
+          "D25>F041",
+          "D26>F041",
+          "D27>F041",
+          "D28>F041",
+          "D29>F041",
+          "D30>F041",
+          "D31>F041",
+          "D32>F041",
+          "D33>F041",
+          "D34>F041",
+          "D35>F041",
+          "D36>F041",
+          "D37>F041",
+          "D38>F041",
+          "D39>F041",
+          "D40>F041",
+          "D41>F041",
+          "D42>F041",
+          "D43>F041",
+          "D44>F041",
+          "D45>F041",
+          "D47>F041",
+          "D48>F041",
+          "D49>F041",
+          "D50>F041",
+          "D52>F041",
+          "D53>F041",
+          "D54>F041",
+          "R001>F041",
+          "R002>F041",
+          "R003>F041",
+          "R004>F041",
+          "R005>F041",
+          "R006>F041",
+          "R007>F041",
+          "R008>F041",
+          "R009>F041",
+          "R010>F041",
+          "R011>F041",
+          "R012>F041",
+          "R013>F041",
+          "R014>F041",
+          "R015>F041",
+          "R016>F041",
+          "R017>F041",
+          "R018>F041",
+          "R019>F041",
+          "R020>F041",
+          "R021>F041",
+          "R022>F041",
+          "R023>F041",
+          "R024>F041",
+          "R025>F041",
+          "R026>F041",
+          "R027>F041",
+          "R028>F041",
+          "R030>F041",
+          "R031>F041",
+          "R032>F041",
+          "R033>F041",
+          "R034>F041",
+          "R035>F041",
+          "R036>F041",
+          "R037>F041",
+          "R040>F041",
+          "R041>F041",
+          "R042>F041",
+          "R043>F041",
+          "R044>F041",
+          "R045>F041",
+          "R046>F041",
+          "R047>F041",
+          "R048>F041",
+          "R049>F041",
+          "R050>F041",
+          "R051>F041",
+          "R052>F041",
+          "R053>F041",
+          "R054>F041",
+          "R055>F041"
+        ]
+      }
+    ],
+    "retained_material_roles": {
+      "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+      "bytes": 19756,
+      "sha256": "6bf959e488d08c52ee0e6db1e3efe83dadda92d0508e6e4c9f9aacc232813133"
+    },
+    "primary_reading_scope": {
+      "path": "analysis_r12/SOURCE_INQUIRY_CONTINUED.json",
+      "bytes": 3415,
+      "sha256": "c774b6e7251c2a803365b6277647c427806f7e8eb4e0c032aef79cd4b5b9fa85"
+    },
+    "new_scientific_executions": 0
+  }
+}

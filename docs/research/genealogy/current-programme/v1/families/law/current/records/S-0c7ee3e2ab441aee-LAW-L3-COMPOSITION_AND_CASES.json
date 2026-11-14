@@ -1,0 +1,776 @@
+{
+  "source_identity": {
+    "source_id": "S-0c7ee3e2ab441aee",
+    "scientific_name": "LAW-L3-COMPOSITION_AND_CASES.json",
+    "original_bytes": 30029,
+    "original_sha256": "0c7ee3e2ab441aee7ec305bfbec8940072824f6f9e339e17280c367358803a05"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "WATERFALL_COMPOSITION_R2",
+    "configurations": [
+      {
+        "id": "K01",
+        "purpose": "Cheap reversible local or routine software work",
+        "guards": "Low relevant consequence, recoverable state, no incompatible external authority requirement.",
+        "mechanisms": [
+          "EW-P001",
+          "EW-P005",
+          "EW-P006",
+          "EW-P008",
+          "EW-P010",
+          "EW-P011",
+          "EW-P024",
+          "EW-P028",
+          "EW-P031"
+        ],
+        "dependencies": "Existing test must address the changed behavior; evidence identifies the revision.",
+        "alternatives": "One competent owner, version control and a focused test; no new control is legitimate.",
+        "omissions": "No mandatory central board, formal IVV organization, certification or exhaustive trace matrix.",
+        "cost_tension": "Added latency and upkeep can exceed plausible marginal benefit.",
+        "feedback_retirement": "Escalate when coupling, external use or persistent state changes the risk; remove unused duplicate artifacts.",
+        "evidence": "S023, S027; analytical C01."
+      },
+      {
+        "id": "K02",
+        "purpose": "Risk-driven discovery before costly commitment",
+        "guards": "Material uncertainty can be reduced by experiments, and investment remains partially deferrable.",
+        "mechanisms": [
+          "EW-P001",
+          "EW-P002",
+          "EW-P003",
+          "EW-P004",
+          "EW-P010",
+          "EW-P012",
+          "EW-P020",
+          "EW-P021",
+          "EW-P022",
+          "EW-P025",
+          "EW-P033"
+        ],
+        "dependencies": "Learning question precedes prototype selection; result changes next commitment.",
+        "alternatives": "Simulation, pilot, formal analysis or small increment; stop an infeasible concept.",
+        "omissions": "Complete requirements and full certification evidence for throwaway learning are not universally required.",
+        "cost_tension": "Experiments can consume budget, create sunk-cost attachment or accidentally become production architecture.",
+        "feedback_retirement": "Reassess risk each cycle; adopt staged work for a stable subproblem; stop experiments that cannot change a decision.",
+        "evidence": "S001, S003, S008; C02."
+      },
+      {
+        "id": "K03",
+        "purpose": "Iterative high-consequence or externally assured delivery",
+        "guards": "Known governing basis, configuration boundary, competent actors and evidence needs.",
+        "mechanisms": [
+          "EW-P001",
+          "EW-P003",
+          "EW-P004",
+          "EW-P005",
+          "EW-P006",
+          "EW-P007",
+          "EW-P008",
+          "EW-P009",
+          "EW-P010",
+          "EW-P011",
+          "EW-P012",
+          "EW-P013",
+          "EW-P014",
+          "EW-P015",
+          "EW-P016",
+          "EW-P017",
+          "EW-P018",
+          "EW-P019",
+          "EW-P020",
+          "EW-P023",
+          "EW-P024",
+          "EW-P026",
+          "EW-P027",
+          "EW-P030",
+          "EW-P031",
+          "EW-P032"
+        ],
+        "dependencies": "Evidence credit depends on identified configuration and relevant assumptions; acceptance and authority depend on their own criteria, not merely green tests.",
+        "alternatives": "Manual or automated evidence; separate or combined test runs; concise case or larger evidence structure; variable iteration cadence.",
+        "omissions": "Not every mechanism is mandatory in every assurance domain; legal minima and consequence determine selection.",
+        "cost_tension": "Stacking trace, model, safety case, separate reports and reviews can duplicate the same evidence and delay hazard remediation.",
+        "feedback_retirement": "Changed use, environment, tool qualification, interfaces or authority basis invalidates affected credit; reuse unaffected evidence only with justified correspondence.",
+        "evidence": "S022, S026, S033, S036; C03/C09."
+      },
+      {
+        "id": "K04",
+        "purpose": "Predominantly staged development for stable risks",
+        "guards": "Low requirements/user-interface/integration uncertainty for the chosen scope and substantial budget/schedule coordination risk.",
+        "mechanisms": [
+          "EW-P001",
+          "EW-P003",
+          "EW-P005",
+          "EW-P006",
+          "EW-P009",
+          "EW-P010",
+          "EW-P011",
+          "EW-P012",
+          "EW-P014",
+          "EW-P021",
+          "EW-P022",
+          "EW-P024",
+          "EW-P025",
+          "EW-P026"
+        ],
+        "dependencies": "Stability is evidenced; testability and integration planning remain necessary.",
+        "alternatives": "Risk-driven iterations for uncertain portions; staged supplier delivery can coexist with internal iteration.",
+        "omissions": "Artificially forcing discovery iterations where they cannot change a decision.",
+        "cost_tension": "Larger batches risk slow feedback; detailed coordination may be useful but must not conceal new uncertainty.",
+        "feedback_retirement": "New critical uncertainty reopens design/requirements; the sequence is not inviolable.",
+        "evidence": "S008 p.69 and S013 workflow alternatives; C04."
+      },
+      {
+        "id": "K05",
+        "purpose": "Operational migration and durable-state transition",
+        "guards": "Persistent data, distributed dependencies or service continuity are affected.",
+        "mechanisms": [
+          "EW-P005",
+          "EW-P006",
+          "EW-P007",
+          "EW-P008",
+          "EW-P009",
+          "EW-P011",
+          "EW-P014",
+          "EW-P020",
+          "EW-P024",
+          "EW-P027",
+          "EW-P028",
+          "EW-P029",
+          "EW-P032",
+          "EW-P033"
+        ],
+        "dependencies": "Recovery claim needs state and dependency scope; operational readiness includes people and contingencies.",
+        "alternatives": "Rehearsal, shadow operation, dual-write validation, exposure limits or no migration when safer; examples are options to evaluate, not universal prescriptions.",
+        "omissions": "Certification and formal IVV unless actual authority/consequence requires them.",
+        "cost_tension": "Redundancy/rehearsal cost versus irreversible loss; extra approval delay can itself sustain a vulnerability.",
+        "feedback_retirement": "Observed reconciliation or recovery failure stops expansion; changed data semantics requires re-evaluation.",
+        "evidence": "S022, S023, S036, S058; analytical C05."
+      },
+      {
+        "id": "K06",
+        "purpose": "Urgent assurance under adversarial change",
+        "guards": "Credible harm from delay and a legitimate accelerated authority route.",
+        "mechanisms": [
+          "EW-P006",
+          "EW-P008",
+          "EW-P010",
+          "EW-P011",
+          "EW-P015",
+          "EW-P016",
+          "EW-P018",
+          "EW-P020",
+          "EW-P024",
+          "EW-P027",
+          "EW-P028",
+          "EW-P031",
+          "EW-P032",
+          "EW-P033"
+        ],
+        "dependencies": "Expedited decision still binds scope, configuration, evidence and residual risk.",
+        "alternatives": "Targeted patch, containment, rollback or suspension of exposed capability.",
+        "omissions": "Routine ceremony that adds no decision-relevant evidence; binding requirements remain.",
+        "cost_tension": "Latency risk and regression risk coexist; no universal ordering is warranted.",
+        "feedback_retirement": "Monitor immediately; restore broader evidence after urgent stabilization where required; terminate exceptions at defined conditions.",
+        "evidence": "S030, S036, S063; analytical C06."
+      },
+      {
+        "id": "K07",
+        "purpose": "Versioned nuclear startup/restart readiness illustration",
+        "guards": "Actual applicability of DOE425.1F or a surviving contractual basis is established.",
+        "mechanisms": [
+          "EW-P006",
+          "EW-P007",
+          "EW-P013",
+          "EW-P014",
+          "EW-P015",
+          "EW-P016",
+          "EW-P018",
+          "EW-P020",
+          "EW-P021",
+          "EW-P024",
+          "EW-P027",
+          "EW-P032"
+        ],
+        "dependencies": "Review scope and competence precede reliance; review conclusion and startup approval are distinct.",
+        "alternatives": "Graded or segmented review and documented approved compensatory measures within the governing route.",
+        "omissions": "No universal application to all hazard categories, licensees or industries.",
+        "cost_tension": "Preparation and independent review incur cost; private cost-benefit claims cannot waive applicable obligations.",
+        "feedback_retirement": "Scope, contract, safety basis or facility-state changes reopen applicability and readiness.",
+        "evidence": "S063 §§1–4; C08."
+      }
+    ],
+    "rules": [
+      {
+        "id": "D01",
+        "kind": "EVIDENCE_DEPENDENCY",
+        "from_ids": [
+          "EW-P006",
+          "EW-P007"
+        ],
+        "to_ids": [
+          "EW-P010",
+          "EW-P011",
+          "EW-P013",
+          "EW-P014",
+          "EW-P015",
+          "EW-P019",
+          "EW-P031"
+        ],
+        "guard": "Evidence or authority attaches to a particular item or envelope.",
+        "consequence": "Identity/correspondence is a premise for transferring the result; absent identity makes that application unestablished.",
+        "counter_control": "A test can still teach something about an unidentified exploratory prototype; it cannot silently earn credit for a different release."
+      },
+      {
+        "id": "D02",
+        "kind": "PURPOSE_DISTINCTION",
+        "from_ids": [
+          "EW-P011"
+        ],
+        "to_ids": [
+          "EW-P012",
+          "EW-P014",
+          "EW-P015",
+          "EW-P032"
+        ],
+        "guard": "A verified implementation is offered as proof of intended use, acceptance or authority.",
+        "consequence": "Verification alone does not discharge stakeholder needs or empowered disposition.",
+        "counter_control": "A single test may provide evidence for both V and V if designed for both purposes; a single competent actor may hold several authorized roles."
+      },
+      {
+        "id": "D03",
+        "kind": "FEEDBACK_INVALIDATION",
+        "from_ids": [
+          "EW-P008",
+          "EW-P009",
+          "EW-P020"
+        ],
+        "to_ids": [
+          "EW-P001",
+          "EW-P006",
+          "EW-P007",
+          "EW-P013",
+          "EW-P017",
+          "EW-P019",
+          "EW-P027"
+        ],
+        "guard": "Change affects assumptions, interfaces, claims or context.",
+        "consequence": "Re-evaluate affected evidence, notify owners and retain still-valid evidence with a correspondence argument.",
+        "counter_control": "Not every change invalidates every prior artifact; exhaustive re-verification can be wasteful."
+      },
+      {
+        "id": "D04",
+        "kind": "ALTERNATIVE_CONFIGURATION",
+        "from_ids": [
+          "EW-P002",
+          "EW-P004",
+          "EW-P022",
+          "EW-P023"
+        ],
+        "to_ids": [
+          "EW-P003",
+          "EW-P021",
+          "EW-P025",
+          "EW-P034",
+          "EW-P035"
+        ],
+        "guard": "Learning risk versus coordination/schedule risk differs across scopes.",
+        "consequence": "Choose risk cycles, staged commitments or a hybrid; no universal serial composition follows.",
+        "counter_control": "Boehm’s low-uncertainty staged alternative and existing adequate local controls prevent mandatory iteration/novelty."
+      },
+      {
+        "id": "D05",
+        "kind": "CUMULATIVE_COST_CONFLICT",
+        "from_ids": [
+          "EW-P005",
+          "EW-P016",
+          "EW-P017",
+          "EW-P019",
+          "EW-P021",
+          "EW-P030",
+          "EW-P031"
+        ],
+        "to_ids": [
+          "EW-P024",
+          "EW-P033"
+        ],
+        "guard": "Several individually plausible controls are combined.",
+        "consequence": "Evaluate total evidence-production, maintenance, queue, tool and coordination burden, including duplicated sources and common-mode failure.",
+        "counter_control": "A binding independent obligation can still require a costly control; the cost rule is constrained, not a private waiver."
+      },
+      {
+        "id": "D06",
+        "kind": "AUTHORITY_CONSTRAINT",
+        "from_ids": [
+          "EW-P015",
+          "EW-P032"
+        ],
+        "to_ids": [
+          "EW-P008",
+          "EW-P024",
+          "EW-P027",
+          "EW-P033"
+        ],
+        "guard": "An applicable legal, contractual or delegated authority is involved.",
+        "consequence": "Selection and urgency must remain within the actual versioned authority and permitted exception process.",
+        "counter_control": "Where no such regime applies, importing its whole apparatus is unjustified."
+      },
+      {
+        "id": "D07",
+        "kind": "RECOVERY_BOUNDARY",
+        "from_ids": [
+          "EW-P028"
+        ],
+        "to_ids": [
+          "EW-P027",
+          "EW-P033",
+          "EW-P038"
+        ],
+        "guard": "Rollback is offered as evidence of cheap reversibility.",
+        "consequence": "Check state, elapsed exposure, external effects and recovery time separately.",
+        "counter_control": "For an isolated disposable experiment rollback may indeed be enough; do not universalize high-consequence formality."
+      }
+    ],
+    "cases": [
+      {
+        "case_id": "C01",
+        "title": "Local reversible formatting change",
+        "property_ids": [
+          "EW-P001",
+          "EW-P005",
+          "EW-P006",
+          "EW-P007",
+          "EW-P008",
+          "EW-P014",
+          "EW-P023",
+          "EW-P024",
+          "EW-P028",
+          "EW-P031",
+          "EW-P033",
+          "EW-P036",
+          "EW-P037"
+        ],
+        "configuration": "K01",
+        "configuration_ids": [
+          "K01"
+        ],
+        "positive_case": "A source-controlled local change with a relevant existing check and recoverable revision has enough identity and feedback for its modest decision.",
+        "failure_witness": "Adding a central approval queue and exhaustive matrix produces delay without a specified additional risk question.",
+        "boundary_nontrigger": "If the same file generates an externally certified display, the local-low-consequence premise fails.",
+        "counter_control": "Keep lightweight identity and the useful test; remove added ceremony, not all control.",
+        "source_basis": [
+          "S003",
+          "S023",
+          "S027"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Analytical discrimination of context and cumulative burden; no quantified productivity result."
+      },
+      {
+        "case_id": "C02",
+        "title": "Unknown operator workflow before commitment",
+        "property_ids": [
+          "EW-P001",
+          "EW-P002",
+          "EW-P003",
+          "EW-P004",
+          "EW-P010",
+          "EW-P012",
+          "EW-P021",
+          "EW-P022",
+          "EW-P023",
+          "EW-P025",
+          "EW-P034",
+          "EW-P035"
+        ],
+        "configuration": "K02",
+        "configuration_ids": [
+          "K02"
+        ],
+        "positive_case": "A pilot with intended operators reveals an interaction assumption before a large implementation commitment.",
+        "failure_witness": "A completed requirements document fails to predict the actual workflow, while the gate prevents prototyping.",
+        "boundary_nontrigger": "The prototype need not cover already understood stable infrastructure.",
+        "counter_control": "Retain prior safety constraints and enough architecture to make the experiment interpretable; unlimited improvisation is not the remedy.",
+        "source_basis": [
+          "S001",
+          "S003",
+          "S008",
+          "S016"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Historical and mechanistic support for learning, not proof any prototype improves every outcome."
+      },
+      {
+        "case_id": "C03",
+        "title": "Iterative flight-software work and certification credit",
+        "property_ids": [
+          "EW-P003",
+          "EW-P005",
+          "EW-P006",
+          "EW-P007",
+          "EW-P008",
+          "EW-P009",
+          "EW-P010",
+          "EW-P011",
+          "EW-P012",
+          "EW-P013",
+          "EW-P014",
+          "EW-P015",
+          "EW-P016",
+          "EW-P017",
+          "EW-P018",
+          "EW-P019",
+          "EW-P020",
+          "EW-P023",
+          "EW-P026",
+          "EW-P027",
+          "EW-P030",
+          "EW-P031",
+          "EW-P032"
+        ],
+        "configuration": "K03",
+        "configuration_ids": [
+          "K03"
+        ],
+        "positive_case": "Teams iterate while keeping the specific baselined artifact, evidence, trace and authorized disposition needed for the applicable certification basis.",
+        "failure_witness": "An exploratory test on a mutable build is presented as formal credit for a different release.",
+        "boundary_nontrigger": "Learning may proceed before formal credit exists; the credit requirement does not prohibit every informal iteration.",
+        "counter_control": "Keep evidence/configuration binding and applicable independence while changing cadence; educational RTCA guidance cannot waive authority.",
+        "source_basis": [
+          "S026",
+          "S022",
+          "S020"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Constructed assurance boundary, not an actual certified product or finding of compliance."
+      },
+      {
+        "case_id": "C04",
+        "title": "Stable development with staged commitments",
+        "property_ids": [
+          "EW-P001",
+          "EW-P002",
+          "EW-P003",
+          "EW-P010",
+          "EW-P011",
+          "EW-P012",
+          "EW-P013",
+          "EW-P014",
+          "EW-P021",
+          "EW-P022",
+          "EW-P023",
+          "EW-P024",
+          "EW-P025",
+          "EW-P026",
+          "EW-P034",
+          "EW-P035",
+          "EW-P038"
+        ],
+        "configuration": "K04",
+        "configuration_ids": [
+          "K04"
+        ],
+        "positive_case": "Requirements, user interaction and integration risks are demonstrably low; schedule/budget coordination dominates, making a predominantly staged plan reasonable.",
+        "failure_witness": "A new technical risk or changing user need invalidates that premise and should reopen iteration, rather than be hidden to preserve the baseline.",
+        "boundary_nontrigger": "Stability is assessed for the relevant scope, not assumed from project size or a signed contract.",
+        "counter_control": "Permit staged development under Boehm’s stated conditions while rejecting universal fixed one-pass sequencing.",
+        "source_basis": [
+          "S008",
+          "S019"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Analytical admissibility supported by source discussion; not an empirical ranking of lifecycle alternatives."
+      },
+      {
+        "case_id": "C05",
+        "title": "Data migration with a misleading rollback claim",
+        "property_ids": [
+          "EW-P006",
+          "EW-P007",
+          "EW-P008",
+          "EW-P009",
+          "EW-P011",
+          "EW-P020",
+          "EW-P027",
+          "EW-P028",
+          "EW-P029",
+          "EW-P033",
+          "EW-P038"
+        ],
+        "configuration": "K05",
+        "configuration_ids": [
+          "K05"
+        ],
+        "positive_case": "A migration plan rehearses state conversion and recovery, reconciles actual deployment, and identifies consequences that code rollback cannot reverse.",
+        "failure_witness": "The binary rolls back successfully but overwritten customer records remain lost.",
+        "boundary_nontrigger": "A disposable test database without dependent users can take a cheaper path.",
+        "counter_control": "Keep backup verification, staged exposure or a reversible data design as alternatives; a document alone does not restore state.",
+        "source_basis": [
+          "S023",
+          "S036",
+          "S048"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Finite constructed counterexample to rollback-implies-reversibility; not a universal risk formula."
+      },
+      {
+        "case_id": "C06",
+        "title": "Urgent patch with independent authority",
+        "property_ids": [
+          "EW-P008",
+          "EW-P015",
+          "EW-P016",
+          "EW-P018",
+          "EW-P019",
+          "EW-P020",
+          "EW-P024",
+          "EW-P027",
+          "EW-P028",
+          "EW-P031",
+          "EW-P032",
+          "EW-P033",
+          "EW-P037"
+        ],
+        "configuration": "K06",
+        "configuration_ids": [
+          "K06"
+        ],
+        "positive_case": "A credible exploited vulnerability invokes a preauthorized accelerated route with targeted tests, current identity and residual-risk decision.",
+        "failure_witness": "Waiting for the ordinary calendar board increases exposure; bypassing all checks can also introduce a catastrophic regression.",
+        "boundary_nontrigger": "If impact is entirely isolated and harmless the exceptional route may be unnecessary.",
+        "counter_control": "A binding authority can approve a constrained expedited route; urgency does not create legal permission by itself.",
+        "source_basis": [
+          "S027",
+          "S030",
+          "S036",
+          "S063"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Reasoned latency-versus-assurance trade-off. No target incident was observed or acted upon."
+      },
+      {
+        "case_id": "C07",
+        "title": "Good trace links, mixed task results and total cost",
+        "property_ids": [
+          "EW-P017",
+          "EW-P024",
+          "EW-P037",
+          "EW-P038"
+        ],
+        "configuration": "K01_or_K03",
+        "configuration_ids": [
+          "K01",
+          "K03"
+        ],
+        "positive_case": "Relevant current links can shorten search and improve a bounded maintenance answer.",
+        "failure_witness": "Even the inspected supplied-link experiment reports lower fully-correct performance on one task; stale or overly broad links can misdirect a maintainer.",
+        "boundary_nontrigger": "A maintainer who already knows a tiny local code area may gain little from a new matrix.",
+        "counter_control": "Retain selective usable links and check their semantics; count upkeep rather than import the experiment’s setup-only break-even estimate.",
+        "source_basis": [
+          "S041",
+          "S042"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Observed study limits inform a constructed transfer case; no new experiment or independent replication claim."
+      },
+      {
+        "case_id": "C08",
+        "title": "Nuclear startup, edition and surviving contract",
+        "property_ids": [
+          "EW-P007",
+          "EW-P013",
+          "EW-P014",
+          "EW-P015",
+          "EW-P016",
+          "EW-P018",
+          "EW-P021",
+          "EW-P022",
+          "EW-P024",
+          "EW-P025",
+          "EW-P026",
+          "EW-P027",
+          "EW-P029",
+          "EW-P032",
+          "EW-P033",
+          "EW-P036"
+        ],
+        "configuration": "K07",
+        "configuration_ids": [
+          "K07"
+        ],
+        "positive_case": "A covered HC1/2 startup uses the applicable order and approvals, graded readiness scope, competent assessment and documented exceptions.",
+        "failure_witness": "A project treats cancellation of E as erasing incorporated contractual duties, or treats F as globally applicable to all facilities.",
+        "boundary_nontrigger": "Outside the order’s applicability, another governing basis must be determined rather than importing the process by analogy.",
+        "counter_control": "Maintain jurisdiction and contract version as separate premises; economic tailoring stays inside binding requirements.",
+        "source_basis": [
+          "S063",
+          "S032"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Normative illustration, not legal advice about a specific facility or permission to start it."
+      },
+      {
+        "case_id": "C09",
+        "title": "Model, pipeline and reality disagree",
+        "property_ids": [
+          "EW-P005",
+          "EW-P006",
+          "EW-P007",
+          "EW-P009",
+          "EW-P017",
+          "EW-P019",
+          "EW-P029",
+          "EW-P030",
+          "EW-P031"
+        ],
+        "configuration": "K03_or_K05",
+        "configuration_ids": [
+          "K03",
+          "K05"
+        ],
+        "positive_case": "A maintained model and generated evidence can aid a decision when semantics, authority and actual-state reconciliation are explicit.",
+        "failure_witness": "The model and tests agree with each other while the deployed supplier component differs; internal consistency does not establish external adequacy.",
+        "boundary_nontrigger": "A simple verified configuration record may be more economical than a new model suite.",
+        "counter_control": "Compare model assumptions to actual items and use independent evidence where common-mode error matters.",
+        "source_basis": [
+          "S022",
+          "S023",
+          "S039",
+          "S036"
+        ],
+        "performed": "REASONED_CONSTRUCTED_CASE_NOT_EXECUTED_EXPERIMENT",
+        "evidence_ceiling": "Constructed failure of evidence inference; no claim all model-based engineering fails."
+      }
+    ],
+    "criticism_response_supplement": [
+      {
+        "id": "RC01",
+        "criticism": "Historic authors were sanitized into modern iterative advocates.",
+        "response": "NARROWED",
+        "finding": "Royce’s pilots and feedback coexist with strong formal documentation; Benington retrospective differs from his original staging text.",
+        "sources": [
+          "S001",
+          "S003"
+        ],
+        "consequence": "Reject both one-pass caricature and retroactive modern-method branding."
+      },
+      {
+        "id": "RC02",
+        "criticism": "Rejecting a universal lifecycle silently bans every staged development.",
+        "response": "REVISED_SCOPE",
+        "finding": "Boehm’s p.69 conditions preserve staged development as one risk-driven configuration.",
+        "sources": [
+          "S008"
+        ],
+        "consequence": "EW-P034 rejects a universal, not K04."
+      },
+      {
+        "id": "RC03",
+        "criticism": "Repeated trace publications count as independent replication or show universal task benefit.",
+        "response": "NARROWED",
+        "finding": "2012 uses supplied links, reports task interaction and excludes upkeep cost; exact2015 dataset relation unresolved.",
+        "sources": [
+          "S041",
+          "S042"
+        ],
+        "consequence": "One dependence family; conditional P017 and negative P037 retained."
+      },
+      {
+        "id": "RC04",
+        "criticism": "Absence of delayed-issue effect makes late change harmless.",
+        "response": "REJECTED_INFERENCE",
+        "finding": "TSP development effort does not measure post-delivery loss or all commitment costs.",
+        "sources": [
+          "S048"
+        ],
+        "consequence": "P038 rejects universal exponential law while P003/P028/P033 remain conditional."
+      },
+      {
+        "id": "RC05",
+        "criticism": "A standard’s date or current edition automatically authorizes present practice.",
+        "response": "REVISED_VERSION_BINDING",
+        "finding": "IEEE designation/publication dates differ; DOE successor is scoped and preserves contract commitments; draft SSDF is separate.",
+        "sources": [
+          "S020",
+          "S032",
+          "S063",
+          "S064"
+        ],
+        "consequence": "P015/P024/P027/P032 require actual applicable basis."
+      },
+      {
+        "id": "RC06",
+        "criticism": "The safety case, model or automated pipeline is itself assurance.",
+        "response": "PRESERVED_CRITICISM",
+        "finding": "MASSC warns of documentary pathology; model evidence remains limited; cATO has explicit organizational prerequisites.",
+        "sources": [
+          "S033",
+          "S036",
+          "S039"
+        ],
+        "consequence": "P019/P030/P031 demand interpretable current evidence rather than artifact existence."
+      },
+      {
+        "id": "RC07",
+        "criticism": "Risk-proportional tailoring can privately waive mandatory controls.",
+        "response": "PRESERVED_AND_MADE_EXPLICIT_IN_SUMMARY",
+        "finding": "Original P024/P033 already identify legal minima. Retain those guards and make them explicit in the top-level cost rule.",
+        "sources": [
+          "S030",
+          "S063"
+        ],
+        "consequence": "P024/P033 and overall verdict explicitly constrained."
+      },
+      {
+        "id": "RC08",
+        "criticism": "Every failed staged process can be dismissed as an inauthentic implementation.",
+        "response": "REJECTED_ESCAPE",
+        "finding": "Ericsson case studied an actual process; delayed feedback and missing baselines are both relevant adverse evidence.",
+        "sources": [
+          "S016"
+        ],
+        "consequence": "Preserve failure findings without inferring a universal ban or lifecycle causal effect."
+      }
+    ],
+    "novelty": {
+      "candidates_examined": [
+        {
+          "candidate": "Configuration-linked continuous evidence",
+          "parents": [
+            "EW-P006",
+            "EW-P007",
+            "EW-P031"
+          ],
+          "result": "SUBSUMED_BY_EXISTING_PROPERTIES_AND_D01",
+          "reason": "Binding identity to repeated evidence refines the receiving warrant; it is not a new non-subsumed property."
+        },
+        {
+          "candidate": "Authority-constrained reversibility selection",
+          "parents": [
+            "EW-P015",
+            "EW-P024",
+            "EW-P032",
+            "EW-P033"
+          ],
+          "result": "REFINED_GUARD_NOT_NEW_PROPERTY",
+          "reason": "Removing authority creates a false waiver implication, but the new result is an applicability constraint already expressible by existing rows."
+        },
+        {
+          "candidate": "Staged-with-learning choice",
+          "parents": [
+            "EW-P022",
+            "EW-P023",
+            "EW-P034"
+          ],
+          "result": "ALTERNATIVE_CONFIGURATION_NOT_NEW_PROPERTY",
+          "reason": "Conditional sequencing is represented by K02/K04 and the narrowed negative; extra identity would double-count."
+        }
+      ],
+      "new_properties_admitted": 0,
+      "no_quota": true
+    },
+    "claim": "No universal serial lifecycle or all-controls package is established.",
+    "cost_rule": "Joint configuration cost includes upkeep, latency, duplicated evidence, scarce competence/tooling and common-mode failure, constrained by applicable obligations."
+  }
+}

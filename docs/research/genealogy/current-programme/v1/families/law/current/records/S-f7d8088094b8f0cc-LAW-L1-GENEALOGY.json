@@ -1,0 +1,373 @@
+{
+  "source_identity": {
+    "source_id": "S-f7d8088094b8f0cc",
+    "scientific_name": "LAW-L1-GENEALOGY.json",
+    "original_bytes": 16214,
+    "original_sha256": "f7d8088094b8f0cc5df848bd6e747ba1d8dc407e321d6ddb51703184ce4db948"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "AUTHOR_ANALYSIS_REVIEW_PENDING",
+    "original_entries": 16,
+    "current_typed_edges": [
+      {
+        "edge_id": "G01",
+        "native_genealogy_indices": [
+          0
+        ],
+        "from": "Toyoda textile defect-stop mechanisms",
+        "to": "Toyota automobile jidoka",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "1897/1905 loom antecedents; later automotive deployment",
+        "inspected_passage": "S001 main body; S005 development chronology",
+        "sources": [
+          "S001",
+          "S005",
+          "S067"
+        ],
+        "author_finding": "The corporate history explicitly traces the automatic abnormality-stop idea from textile machinery into TPS.",
+        "confidence_or_limit": "Retrospective corporate account; does not establish modern software ancestry or neutral outcome effects.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G02",
+        "native_genealogy_indices": [
+          1
+        ],
+        "from": "Kiichiro's production-flow/JIT intentions",
+        "to": "Postwar kanban and replenishment practice",
+        "relation_type": "DESCENT",
+        "dates_or_versions": "1938 intent; wartime interruption; 1950s–1960s development",
+        "inspected_passage": "S002 main body; S003 supermarket account; S006 1977 participant exposition",
+        "sources": [
+          "S002",
+          "S003",
+          "S005",
+          "S006"
+        ],
+        "author_finding": "Intent, interrupted realization and later pull mechanisms are distinct events.",
+        "confidence_or_limit": "Do not project the entire 1977 system back into the 1938 statement.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G03A",
+        "native_genealogy_indices": [
+          2
+        ],
+        "from": "Ford suggestion system",
+        "to": "Toyota employee suggestions",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "1951",
+        "inspected_passage": "S011 TQM chronology explicitly attributes adoption of the suggestion system to Ford",
+        "sources": [
+          "S011"
+        ],
+        "author_finding": "A specific documented import survives; it is narrower than a claim that Ford supplied every Toyota flow mechanism.",
+        "confidence_or_limit": "Corporate retrospective; suggestion-system influence does not alone establish low-volume mixed-production adaptation.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G03B",
+        "native_genealogy_indices": [
+          2
+        ],
+        "from": "Ford flow and industrial-scale production",
+        "to": "Toyota mixed-production adaptation",
+        "relation_type": "DOCUMENTED_INFLUENCE_CANDIDATE_NOT_PROMOTED",
+        "dates_or_versions": "Early/mid twentieth century; exact inspected transmission incomplete",
+        "inspected_passage": "Native S004/S019 leads; only S019 abstract freshly inspected",
+        "sources": [
+          "S004",
+          "S019"
+        ],
+        "author_finding": "The broader historical relationship remains a located, examined lead with an access limit; this execution does not claim a new exact passage proving each component.",
+        "confidence_or_limit": "Additional full historical passages would be required to strengthen this edge. G03A must not stand in for that work.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G04",
+        "native_genealogy_indices": [
+          3
+        ],
+        "from": "A 1954 industry account of Lockheed's supermarket method",
+        "to": "Toyota downstream withdrawal and replenishment",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "1954 account",
+        "inspected_passage": "S003 Supermarket Method, main body",
+        "sources": [
+          "S003"
+        ],
+        "author_finding": "Toyota's archive reports the article as an influence before direct supermarket experience.",
+        "confidence_or_limit": "The familiar personal-grocery-visit story is not established as the original trigger by this passage.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G05",
+        "native_genealogy_indices": [
+          4
+        ],
+        "from": "US TWI and Japanese Ministry of Labour transmission",
+        "to": "Toyota supervisory instruction and improvement training",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "Corporate national-introduction date 1950; Kato tentatively recalls 1947–48. Toyota module dates differ across accounts in 1951–1953.",
+        "inspected_passage": "S008 early chronology rows and footnote 1; S009 five-page interview, pp. 1–3 for transmission, module sequence and P-Course replacement; pp. 4–5 for claimed training significance.",
+        "sources": [
+          "S008",
+          "S009"
+        ],
+        "author_finding": "Selective training influence is supported; exact JI/JR dates conflict and remain unresolved.",
+        "confidence_or_limit": "Corporate table: JR 1951, JI January 1952. Kato: JI December 1951, JM June 1952, JR March 1953. S009 does not specify the P-Course teaching start year. Retrospective testimony and corporate history are not reconciled.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G06",
+        "native_genealogy_indices": [
+          5
+        ],
+        "from": "Statistical quality and companywide quality traditions",
+        "to": "Toyota variation analysis and quality organization",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "SQC 1949/1950; TQC 1961; Deming prize 1965",
+        "inspected_passage": "S010 quality-control account; S011 TQM chronology; S012 PDSA institutional explanation",
+        "sources": [
+          "S010",
+          "S011",
+          "S012"
+        ],
+        "author_finding": "Quality imports and institutionalization are documented at the mechanism level.",
+        "confidence_or_limit": "Deming/PDSA shared ancestry is not direct evidence for the origins of kanban or jidoka; the inspected institutional explanation is contemporary.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G07",
+        "native_genealogy_indices": [
+          6
+        ],
+        "from": "1950 labor conflict and 1962 compact",
+        "to": "Later Toyota trust/respect doctrine",
+        "relation_type": "DESCENT_CANDIDATE_NOT_PROMOTED",
+        "dates_or_versions": "1950; 1962; Toyota Way 2001",
+        "inspected_passage": "S014 dispute; S013 compact; S015 codification",
+        "sources": [
+          "S013",
+          "S014",
+          "S015",
+          "S026",
+          "S031"
+        ],
+        "author_finding": "The chronology supplies institutional context and distinct commitments.",
+        "confidence_or_limit": "A causal transmission claim from conflict through compact to every later practice is not established merely by sequence. Worker outcomes remain a separate empirical question.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G08",
+        "native_genealogy_indices": [
+          7
+        ],
+        "from": "Supplier associations, quality support and training",
+        "to": "Supplier capability and network learning",
+        "relation_type": "DESCENT",
+        "dates_or_versions": "Associations 1939/1943; QC support 1965; TPS training 1976; Dyer/Nobeoka 2000",
+        "inspected_passage": "S069 main purchasing chronology; S038 institutional abstract",
+        "sources": [
+          "S069",
+          "S038"
+        ],
+        "author_finding": "Organized support predates later descriptions of knowledge-sharing networks.",
+        "confidence_or_limit": "A corporate chronology plus one case interpretation does not establish fair cost allocation or an isolated causal effect.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G09",
+        "native_genealogy_indices": [
+          8
+        ],
+        "from": "TPS and comparative automobile-plant research",
+        "to": "Lean production naming and generalization",
+        "relation_type": "DESCENT",
+        "dates_or_versions": "Krafcik 1988; Machine 1990",
+        "inspected_passage": "S016 sample, measures and argument; S019 abstract",
+        "sources": [
+          "S016",
+          "S017",
+          "S019",
+          "S024"
+        ],
+        "author_finding": "Krafcik's term labels an external comparative production model, not an identity with Toyota's complete institutions.",
+        "confidence_or_limit": "38-plant analysis and nonrandom comparisons; S017 book and S024 full critique not newly read. No universal-superiority result is promoted.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G10",
+        "native_genealogy_indices": [
+          9
+        ],
+        "from": "Lean production",
+        "to": "Lean Thinking enterprise principles",
+        "relation_type": "DESCENT",
+        "dates_or_versions": "1996 formulation; later 2007 Purpose/Process/People account",
+        "inspected_passage": "R008 current institutional description of named formulations",
+        "sources": [
+          "S018",
+          "R008",
+          "S023"
+        ],
+        "author_finding": "A later enterprise abstraction is documented by the institution's explicit attribution.",
+        "confidence_or_limit": "Original monograph wording is not fully rechecked; doctrine's portability is not empirical proof.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G11",
+        "native_genealogy_indices": [
+          10
+        ],
+        "from": "Toyota routines interpreted as hypotheses and learning",
+        "to": "Learning-system interpretation",
+        "relation_type": "REACTION_AND_INTERPRETATION",
+        "dates_or_versions": "Spear/Bowen 1999; later PDSA critiques and 2026 case",
+        "inspected_passage": "S020 opening only; S047 methods/discussion; S048 pp.1–2; R003 methods/limitations",
+        "sources": [
+          "S020",
+          "S047",
+          "S048",
+          "R003"
+        ],
+        "author_finding": "Later research interprets and critiques learning arrangements.",
+        "confidence_or_limit": "The detailed 1999 four-rule claim remains inherited, not freshly full-text verified. A later favorable case does not demonstrate universal resolution of worker criticisms.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G12",
+        "native_genealogy_indices": [
+          11
+        ],
+        "from": "Automotive development practice and comparative research",
+        "to": "Set-based design and integration interpretations",
+        "relation_type": "DESCENT",
+        "dates_or_versions": "1991; 1999; 2011/2020 reviews",
+        "inspected_passage": "S050 publisher principles; S051/S052 review abstracts/introduction",
+        "sources": [
+          "S049",
+          "S050",
+          "S051",
+          "S052"
+        ],
+        "author_finding": "This branch concerns design uncertainty and integration, not literal factory lot control.",
+        "confidence_or_limit": "Original comparative monograph inaccessible; set-based superiority remains conditional and weakly causally identified.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G13",
+        "native_genealogy_indices": [
+          12
+        ],
+        "from": "Selected Lean principles",
+        "to": "Poppendieck Lean software translation",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "2003 edition",
+        "inspected_passage": "S053 introduction pp. xxi–xxvii, principles versus practices",
+        "sources": [
+          "S053"
+        ],
+        "author_finding": "The authors explicitly translate principles and distinguish contextual practices.",
+        "confidence_or_limit": "Use the actual 2003 terms; author assertions of universality remain positions.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G14",
+        "native_genealogy_indices": [
+          13
+        ],
+        "from": "Pull/WIP ideas and evolutionary organizational change",
+        "to": "Anderson software Kanban",
+        "relation_type": "HYBRIDIZATION",
+        "dates_or_versions": "2010 book; later author retrospective",
+        "inspected_passage": "R007 opening describes WIP-limited pull and later expansion of five core properties",
+        "sources": [
+          "S054",
+          "R007",
+          "S055",
+          "S056"
+        ],
+        "author_finding": "The practitioner explicitly combines release control with evolutionary change.",
+        "confidence_or_limit": "The original book is not newly read and the current page's year is unverified. Observational WIP studies do not establish the historical transmission or a universal optimal limit.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G15",
+        "native_genealogy_indices": [
+          14
+        ],
+        "from": "Software-native delivery/recovery engineering and flow ideas",
+        "to": "Contemporary software delivery configurations",
+        "relation_type": "CONVERGENCE",
+        "dates_or_versions": "Continuous Delivery 2010; SPACE 2021; DORA current 2026 guide",
+        "inspected_passage": "S058 main body; S059 author abstract; S053 introduction",
+        "sources": [
+          "S053",
+          "S057",
+          "S058",
+          "S059"
+        ],
+        "author_finding": "Related functions can be combined without asserting a single direct TPS ancestry.",
+        "confidence_or_limit": "Full Continuous Delivery text and specific transmission paths are not newly verified. Telemetry, types, feature flags and error budgets are not promoted as proven descendants.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G16",
+        "native_genealogy_indices": [
+          15
+        ],
+        "from": "Disruption experience and criticism of inventory absolutism",
+        "to": "Contingent resilience proposals and corporate practices",
+        "relation_type": "REACTION",
+        "dates_or_versions": "2011 earthquake and Fujimoto; Toyota 2016; Choi et al. 2023",
+        "inspected_passage": "S035 corporate recovery; R002 transparency; R009 abstract; S040 contingent JIT discussion",
+        "sources": [
+          "S033",
+          "S035",
+          "R002",
+          "R009",
+          "S039",
+          "S040"
+        ],
+        "author_finding": "Some later analyses and practices combine flow goals with selective reserves and recoverability.",
+        "confidence_or_limit": "Not a field-wide replacement or proof that the criticism is solved. S039's direct and mediated paths differ.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G17",
+        "native_genealogy_indices": [],
+        "from": "TPS/Lean production and Koskela production thinking",
+        "to": "Last Planner construction/design control",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "Development from 1992; thesis May 2000",
+        "inspected_passage": "R011 chapter 1 section 1.4 explicitly describes the influences and change of focus; chapter 3 distinguishes should/can/will.",
+        "sources": [
+          "R010",
+          "R011"
+        ],
+        "author_finding": "A documented construction translation combines readiness of assignments with coordination of interdependent work.",
+        "confidence_or_limit": "R010 metadata only; R011 is developer-participant research. Plan reliability is not itself customer value, safety or a causal cost saving.",
+        "review_status": "PENDING"
+      },
+      {
+        "edge_id": "G18",
+        "native_genealogy_indices": [],
+        "from": "Lean manufacturing interpretation",
+        "to": "Lean Startup entrepreneurial learning",
+        "relation_type": "DOCUMENTED_INFLUENCE",
+        "dates_or_versions": "2011 book; current official methodology page",
+        "inspected_passage": "R012 publisher description explicitly names the inspiration; R013 gives the current mechanism.",
+        "sources": [
+          "R012",
+          "R013"
+        ],
+        "author_finding": "A distinct practitioner translation shifts the unit of attention to business-model/product learning and pivot decisions.",
+        "confidence_or_limit": "No complete book read or comparative startup-performance study here. Treat scientific rhetoric, Five Whys and success claims as propositions requiring evidence.",
+        "review_status": "PENDING"
+      }
+    ],
+    "vocabulary_note": "Seven standard relation families are used where warranted. Candidate-not-promoted entries preserve investigated historical context without asserting transmission; REACTION_AND_INTERPRETATION names an interpretive response, not an empirical causal claim."
+  }
+}

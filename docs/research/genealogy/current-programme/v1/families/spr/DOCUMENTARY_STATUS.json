@@ -1,0 +1,82 @@
+{
+  "schema": "spr-public-documentary-status/1",
+  "state": "INDEPENDENT_CONTENT_REVIEW_RECEIVED_EXACT_REPAIRED_PUBLIC_SCOPE",
+  "private_four_unit_account": "PASS_AT_DECLARED_DOCUMENTARY_FIDELITY_SCOPE",
+  "private_current_rows": 224,
+  "private_historical_rows": 224,
+  "public_property_rows": 0,
+  "public_whole_current_science": "INCOMPLETE_PENDING_FOUR_SOURCE_SPECIFIC_DISCLOSURE_DECISIONS",
+  "public_page_scope": "PERMITTED_IDENTITY_EXPLANATORY_METADATA_ONLY",
+  "SPR_L1_final_join": "ORIGINAL_FINAL_SUBJECT_QUALIFICATION_AND_TWO_REVIEWS_NOT_RECONSTRUCTED",
+  "accepted_erratum": "SPR-S-B34-E01_PRESERVED_UNMODIFIED",
+  "disclosure_decisions": [
+    {
+      "id": "SPR-D1",
+      "state": "PENDING"
+    },
+    {
+      "id": "SPR-D2",
+      "state": "PENDING"
+    },
+    {
+      "id": "SPR-D3",
+      "state": "PENDING"
+    },
+    {
+      "id": "SPR-D4",
+      "state": "PENDING"
+    }
+  ],
+  "native_effect": false,
+  "original_author_state": "AUTHOR_CANDIDATE_PENDING_FRESH_INDEPENDENT_DOCUMENTARY_REVIEW",
+  "received_date_utc": "2026-11-13",
+  "frozen_author_subject": {
+    "bytes": 67667,
+    "sha256": "71c94d78a0639b2130db13c997fe7cb24f0b56547a00978163250911e80336ff",
+    "payloads": 336
+  },
+  "original_public_projection": {
+    "verdict": "GAP_REVISE",
+    "files": 17,
+    "bytes": 61188,
+    "public_only_git_tree": "e9d77156eeaa6d045ed4bb5928e2c9d3701878d3"
+  },
+  "reviewed_repaired_public_projection": {
+    "verdict": "PASS_AT_DECLARED_METADATA_SCOPE",
+    "files": 17,
+    "bytes": 71587,
+    "public_only_git_tree": "c4f0e5aaad7cf0a110cbf4fcf39685d3a7f24b26",
+    "not_a_complete_repository_tree": true
+  },
+  "required_documentary_repairs": {
+    "SPR-DOC-001": "RESOLVED_IN_EXACT_REPAIRED_PAGE_AND_DATED_HISTORY",
+    "SPR-DOC-002": "RESOLVED_IN_EXACT_HISTORICAL_CENTRAL_SCOPE_WORDING"
+  },
+  "review_report": {
+    "bytes": 28857,
+    "sha256": "fed826f97a6d47bec45d0932d6eeaad5c4965186add8d1ae8676c25c5bad9b9e"
+  },
+  "review_receipt": {
+    "bytes": 5689,
+    "sha256": "653beedee1c2e3cd3c8fe1de5ad92e0a77dc287fd43848526a16d99b6aeeaca4"
+  },
+  "review_read_mask": {
+    "bytes": 36722,
+    "sha256": "4b3797af48519e1437f25f4f64eac06526f0c5eef7ae1e26149e28e0d6fd152f"
+  },
+  "visual_status": "UNVERIFIED_ENVIRONMENT_BLOCKED",
+  "live_central_master": "UNKNOWN",
+  "publication_gates": [
+    "Independent final review of combined source and subsequent receiving metadata",
+    "Programme, original genealogy and claim-boundary checks",
+    "Portal generation, structural/link checks and regression including negative controls",
+    "Exact expected-parent normal fast-forward publication and complete affected-body readback"
+  ],
+  "scope_limits": [
+    "The original public candidate retains its adverse disposition; only the exact repaired metadata projection passed.",
+    "These historical public-only trees identify reviewed file sets, not an integrated repository or this later status update.",
+    "No original final SPR-L1 subject, qualification or final review pair was reconstructed or inferred.",
+    "Detailed private science and all 448 current/historical reader records remain outside the current public scope.",
+    "Scientific qualification, central application, documentary receiving, branch publication, native implementation and visual acceptance remain separate."
+  ]
+}

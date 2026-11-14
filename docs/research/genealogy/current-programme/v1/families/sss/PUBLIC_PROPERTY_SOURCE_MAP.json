@@ -1,0 +1,3007 @@
+[
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-001",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/0",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-002",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/1",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-003",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/2",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-004",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/3",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-005",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/4",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-006",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/5",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-007",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/6",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-008",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/7",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-009",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/8",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-010",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/9",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-011",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/10",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-012",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/11",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-013",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/12",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-014",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/13",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-015",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/14",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-016",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/15",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-017",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/16",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-018",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/17",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-019",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/18",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-020",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/19",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-021",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/20",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-022",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/21",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-023",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/22",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-024",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/23",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-025",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/24",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-026",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/25",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-027",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/26",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-028",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/27",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-029",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/28",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-030",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/29",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-031",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/30",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-032",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/31",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-033",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/32",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-034",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/33",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-035",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/34",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-036",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/35",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-037",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/36",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-038",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/37",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-039",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/38",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-040",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/39",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-041",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/40",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-042",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/41",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-043",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/42",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-044",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/43",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-045",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/44",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-046",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/45",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-047",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/46",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-048",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/47",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-049",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/48",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-050",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/49",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-051",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/50",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-052",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/51",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-053",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/52",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-054",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/53",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-055",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/54",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-056",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/55",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-057",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/56",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-058",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/57",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-059",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/58",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-060",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/59",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-061",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/60",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-062",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/61",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-063",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/62",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-064",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/63",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-065",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/64",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-066",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/65",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-067",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/66",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L1",
+    "native_id": "ESA-068",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-architecture/corpus/EVOLVED_SOFTWARE_ARCHITECTURE_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "7c52daf353b3d69549208cd70bf53a351681e922",
+    "source_sha256": "ab763dbac4af464ebfdf03576bb79a29a7292574e24e5bc4a1d76a6c39f8a274",
+    "pointer": "/properties/67",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C001",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/0",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C002",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/1",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C003",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/2",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C004",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/3",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C005",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/4",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C006",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/5",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C007",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/6",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C008",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/7",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C009",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/8",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C010",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/9",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C011",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/10",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C012",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/11",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C013",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/12",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C014",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/13",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C015",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/14",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C016",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/15",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C017",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/16",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C018",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/17",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C019",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/18",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C020",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/19",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C021",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/20",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C022",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/21",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C023",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/22",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C024",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/23",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C025",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/24",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C026",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/25",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C027",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/26",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C028",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/27",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C029",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/28",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C030",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/29",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C031",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/30",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C032",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/31",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C033",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/32",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C034",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/33",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C035",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/34",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C036",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/35",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C037",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/36",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C038",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/37",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C039",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/38",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C040",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/39",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C041",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/40",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C042",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/41",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C043",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/42",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C044",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/43",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C045",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/44",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C046",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/45",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C047",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/46",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C048",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/47",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C049",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/48",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C050",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/49",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C051",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/50",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C052",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/51",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C053",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/52",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C054",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/53",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C055",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/54",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C056",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/55",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C057",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/56",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C058",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/57",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C059",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/58",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C060",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/59",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C061",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/60",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C062",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/61",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C063",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/62",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C064",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/63",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C065",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/64",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C066",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/65",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C067",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/66",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C068",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/67",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C069",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/68",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C070",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/69",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C071",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/70",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C072",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/71",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C073",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/72",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C074",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/73",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C075",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/74",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C076",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/75",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C077",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/76",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C078",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/77",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C079",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/78",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C080",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/79",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C081",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/80",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C082",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/81",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C083",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/82",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C084",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/83",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C085",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/84",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C086",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/85",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C087",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/86",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C088",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/87",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C089",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/88",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C090",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/89",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C091",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/90",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C092",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/91",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C093",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/92",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C094",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/93",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C095",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/94",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C096",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/95",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C097",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/96",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C098",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/97",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C099",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/98",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C100",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/99",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C101",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/100",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C102",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/101",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C103",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/102",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C104",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/103",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L2",
+    "native_id": "ESME-C105",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-maintenance-and-evolution/corpus/EVOLVED_SOFTWARE_MAINTENANCE_AND_EVOLUTION_CANONICAL_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "c71f2d01facb377a985500d8dca78c0a7c0c0ac0",
+    "source_sha256": "ec6b094ed0ea9940c2f18e95ae300db2dc095dce4e27f3c7e4ccdc8273a71a2a",
+    "pointer": "/properties/104",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": [
+      "INPUT_FIELD_VARIANTS",
+      "INPUT_INTAKE_SUPPLEMENTS",
+      "FAILURE_MODE_PROVENANCE"
+    ]
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-001",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/0",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-002",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/1",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-003",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/2",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-004",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/3",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-005",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/4",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-006",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/5",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-007",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/6",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-008",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/7",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-009",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/8",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-010",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/9",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-011",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/10",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-012",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/11",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-013",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/12",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-014",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/13",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-015",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/14",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-016",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/15",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-017",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/16",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-018",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/17",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-019",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/18",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-020",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/19",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-021",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/20",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-022",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/21",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-023",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/22",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-024",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/23",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-025",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/24",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-026",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/25",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-027",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/26",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-028",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/27",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-029",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/28",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-030",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/29",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-031",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/30",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-032",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/31",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-033",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/32",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-034",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/33",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-035",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/34",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-036",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/35",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-037",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/36",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-038",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/37",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-039",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/38",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-040",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/39",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-041",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/40",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-042",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/41",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-043",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/42",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-044",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/43",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-045",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/44",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-046",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/45",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-047",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/46",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-048",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/47",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-049",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/48",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-050",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/49",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-051",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/50",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-052",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/51",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-053",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/52",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-054",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/53",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-055",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/54",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-056",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/55",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-057",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/56",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-058",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/57",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-059",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/58",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-060",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/59",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-061",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/60",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  },
+  {
+    "unit_id": "SSS-L3",
+    "native_id": "ESPLE-062",
+    "public_source_path": "docs/research/genealogy/sss/evolved-software-product-line-engineering/corpus/EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json",
+    "public_commit": "cacfe97da7656b472bf4f11e50c9d106a6c3f92a",
+    "git_blob_sha1": "f004adb82aa9c58750b3333fe1df84d4d9c104d5",
+    "source_sha256": "9d03f7c999543c8034861b13f92fb72a6d10a2aeb1c76604c46484fd61e4b47e",
+    "pointer": "/properties/61",
+    "historical": true,
+    "excluded_fields_preserved_in_exact_source": []
+  }
+]

@@ -8,7 +8,7 @@ import json
 import re
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 
 # A bare RNN token is the durable Rockstar namespace.  RNN-F1, DOG-RNN-case,
@@ -38,6 +38,48 @@ COMPATIBILITY_FILES = {
     "skills/implementaudit/references/identity-namespaces.json",
     "tests/durable-identity-contract.test.sh",
 }
+# These published issue carriers are documentary references, not additions to
+# the canonical runtime namespace. The four-hex suffix/issue pairs are recorded
+# in evolved-programme-v1/OWNERSHIP_RECONCILIATION_20261113.json's
+# fresh_carrier_evidence. Keep the observed set explicit; gaps are not admitted.
+DOCUMENTARY_PUBLISHED_CARRIERS = {
+    "003B": 226, "003C": 228, "003D": 227,
+    "003F": 225, "0040": 229, "0041": 230,
+    "0043": 232, "0044": 231, "0045": 233,
+}
+HISTORICAL_DRAFT_ID = "R0042"  # unallocated historical container, not a carrier
+DOCUMENTARY_DRAFT_CONTEXTS = (
+    f"not a new {HISTORICAL_DRAFT_ID} issue.",
+    f"not a new {HISTORICAL_DRAFT_ID}.",
+    f"Old standalone {HISTORICAL_DRAFT_ID} draft is historical, not a current dependency or proposed new issue here.",
+    f"The old standalone {HISTORICAL_DRAFT_ID} draft is explicitly historical, not an issue dependency.",
+)
+
+
+def documentary_source_reference(normalized: str, line: str, match: re.Match[str]) -> bool:
+    path = PurePosixPath(normalized)
+    portal = (
+        path.parent.as_posix() == "docs/portal/pages"
+        and path.name.startswith("research-lineage-")
+        and path.suffix == ".html"
+    )
+    research = (
+        normalized.startswith("docs/research/implementaudit/evolved-programme-v1/")
+        and path.suffix in {".md", ".json"}
+    )
+    if not (portal or research):
+        return False
+    if match.group(1) in DOCUMENTARY_PUBLISHED_CARRIERS:
+        return True
+    if match.group(0) != HISTORICAL_DRAFT_ID:
+        return False
+    # Cover only this occurrence inside an existing exact historical/negative
+    # clause. A second positive assertion on the same line must still refuse.
+    for clause in DOCUMENTARY_DRAFT_CONTEXTS:
+        for context in re.finditer(re.escape(clause), line):
+            if match.start() == context.start() + clause.index(HISTORICAL_DRAFT_ID):
+                return True
+    return False
 
 
 def tracked_files(root: Path) -> list[str]:
@@ -63,6 +105,19 @@ def active_changelog(text: str) -> str:
 def explicitly_legacy(line: str) -> bool:
     lowered = line.lower()
     return "legacy alias" in lowered or "legacy spelling" in lowered or "historical" in lowered
+
+
+def captured_title_alias(normalized: str, line: str, match: re.Match[str]) -> bool:
+    if normalized != "docs/research/implementaudit/evolved-programme-v1/OWNERSHIP_RECONCILIATION_20261113.json":
+        return False
+    # Preserve the captured issue title only when its canonical/decimal pair
+    # agrees. Other fields, additional aliases and runtime text still refuse.
+    title = re.match(r'^\s*"title":\s*"R([0-9A-F]{4}) \(legacy (R[0-9]{2})\)', line)
+    return (
+        title is not None
+        and title.span(2) == match.span()
+        and int(title.group(1), 16) == int(title.group(2)[1:], 10)
+    )
 
 
 def main() -> int:
@@ -94,10 +149,16 @@ def main() -> int:
         for number, line in enumerate(scan_text.splitlines(), 1):
             if not explicitly_legacy(line):
                 for match in LEGACY_ROCKSTAR.finditer(line):
-                    failures.append(f"{normalized}:{number}: stale maintained Rockstar {match.group(0)}")
+                    if not captured_title_alias(normalized, line, match):
+                        failures.append(f"{normalized}:{number}: stale maintained Rockstar {match.group(0)}")
             for match in CANONICAL_ROCKSTAR.finditer(line):
                 ordinal = int(match.group(1), 16)
-                if ordinal > allocated_max and "unallocated" not in line.lower() and "next" not in line.lower():
+                if (
+                    ordinal > allocated_max
+                    and "unallocated" not in line.lower()
+                    and "next" not in line.lower()
+                    and not documentary_source_reference(normalized, line, match)
+                ):
                     failures.append(f"{normalized}:{number}: unallocated Rockstar presented as current {match.group(0)}")
         for pattern in LEGACY_GENERATION_PATTERNS:
             for match in pattern.finditer(scan_text):

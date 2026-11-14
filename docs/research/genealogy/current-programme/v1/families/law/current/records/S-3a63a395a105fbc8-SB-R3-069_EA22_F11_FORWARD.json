@@ -1,0 +1,948 @@
+{
+  "source_identity": {
+    "source_id": "S-3a63a395a105fbc8",
+    "scientific_name": "SB-R3-069_EA22_F11_FORWARD.json",
+    "original_bytes": 74420,
+    "original_sha256": "3a63a395a105fbc8da66a01574d93037fe519024c58d537478c25cce216eb0bb"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-069",
+    "title": "EA-22_FORWARD_CHANGE_EXPOSURE_AND_RECOVERY",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T02:08:23.473449+00:00",
+    "inquiry_family": 11,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_010.json",
+      "bytes": 1923,
+      "sha256": "a013c11f6dd82b0dfff8992948d504b8ad283424b0cb4ddd44145cc94d1b5599"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY11_NATIVE_MEANINGS.json",
+      "bytes": 109853,
+      "sha256": "8c33a36942b96e29f7debfe86266b599068b2e828d0a41c446011aa2350ed766"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY11_COMPLETE_CORE_LITERAL_ARGUMENTS.json",
+      "bytes": 52778,
+      "sha256": "9e6dd8e47bf991e72294a803acb6cb865f144922f6f446a0567f7338b7b5cf35"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY11_CONTROLS.json",
+      "bytes": 8305,
+      "sha256": "0b8aaa5f79923b9e758e18950db840244f5196979e0870ed7d6c505516d25831"
+    },
+    "bounded_interface_domain": [
+      "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+      "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+      "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+      "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+      "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+    ],
+    "native_common_basis": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate.",
+    "common_cost_and_alternative": [
+      "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+      "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+      "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+      "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+    ],
+    "evidence_ceiling": "Root analytical arguments from complete selected native bodies and seven own finite controls. Two bounded practitioner-source accesses corroborate mechanisms, not universal causal effects. No deployed experiment, new property, whole synthesis completion or independent acceptance.",
+    "common_subconditions": {
+      "P1": "The precise common object and actual receiving use exist.",
+      "P2": "The full source and receiver meanings govern, including cheap paths and rejected universal claims.",
+      "P3": "The literal separately reasoned partial consequence follows under its guard.",
+      "P4": "The stronger-claim witness, residual premises, alternatives and re-entry remain."
+    },
+    "inference": "The specifically identified partial capability, evidence or scope constraint is material to the receiving decision. This does not establish complete recovery, a universal cost curve, a deployment cadence, an authority grant or a new control requirement.",
+    "common_source_dependence": "Both new practitioner sources belong to the Google SRE ecosystem; no independent causal replication or duplicate credit. Shared artifacts and controls remain shared.",
+    "exceptions": [],
+    "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P003",
+        "argument": "The user-relevant objective, measured reliability consumption and actual stop authority specify a concrete availability constraint and trade-off for architectural alternatives, rather than a vague demand for maximum reliability."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P007",
+        "argument": "The actual SLI and budget calculation identify the functional behavior and time/population boundary that reconciliation must bind to the operating state; observed violations can expose a mismatch with approved assumptions."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P013",
+        "argument": "A defined reliability objective and credible observations supply a specific performance quantity and acceptance context that envelope evidence can address; this is a bounded service facet, not a substitute for qualification."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P018",
+        "argument": "Credible service-failure observations and an enforceable halt condition can supply limited evidence and a control response for that named pathway, while hazard severity and residual-risk authority remain separate."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P027",
+        "argument": "Measured consumption and the agreed decision rule provide one concrete condition for proceeding, slowing or pausing the cutover, including a reason to withhold an otherwise technically ready candidate."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P028",
+        "argument": "The objective and measured loss identify the available time or loss tolerance against which a proposed response can be judged, giving a concrete recovery-performance requirement."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P029",
+        "argument": "Reliability observations and the agreed change policy reveal whether patching, replacement or support capacity is needed to maintain the specific service commitment over its retained life."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P033",
+        "argument": "The objective, observed consumption and halt authority supply a concrete feedback variable for selecting or adjusting change controls within that service scope."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P038",
+        "argument": "Measured outage consumption exposes an operative failure-loss component that can differ at the same phase or remain unchanged across phases, giving a reason to evaluate real consequence rather than assume a universal curve."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P003",
+        "overclaim": "An SLO alone cannot establish a feasible redundancy design, and a permitted availability loss cannot authorize a separate safety or privacy violation.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P007",
+        "overclaim": "A good aggregate SLI does not prove that the approved binary is running, and it can conceal an adversely affected subgroup.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P013",
+        "overclaim": "Average availability cannot demonstrate extreme-environment margins or authorize a catastrophic tail event excluded from the service budget.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P018",
+        "overclaim": "A remaining ordinary error budget is not permission for injury, disclosure or another prohibited event; the SLI may omit the hazard entirely.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P027",
+        "overclaim": "Budget headroom does not establish operator readiness, migration integrity, support availability or release authority beyond the actual policy.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P028",
+        "overclaim": "An availability budget does not restore corrupted data and cannot convert an irreversible external effect into a tolerable outage.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P029",
+        "overclaim": "Meeting this month's SLO does not create future supplier support, data rights or a funded maintainer; average availability can hide obsolescence risk.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P033",
+        "overclaim": "A single aggregate budget omits coupling, detection latency, irreversible harm and binding duties; it cannot replace the multidimensional control argument.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P038",
+        "overclaim": "A budget calculation is not a general cost study and need not measure repair effort, contract unwind or rare excluded harms.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-22->LAW-L3::EW-P003",
+      "LAW-L2::EA-22->LAW-L3::EW-P007",
+      "LAW-L2::EA-22->LAW-L3::EW-P013",
+      "LAW-L2::EA-22->LAW-L3::EW-P018",
+      "LAW-L2::EA-22->LAW-L3::EW-P027",
+      "LAW-L2::EA-22->LAW-L3::EW-P028",
+      "LAW-L2::EA-22->LAW-L3::EW-P029",
+      "LAW-L2::EA-22->LAW-L3::EW-P033",
+      "LAW-L2::EA-22->LAW-L3::EW-P038"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P003",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P003",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "shared_question_or_object": "An online-service architecture must support a legitimate service objective and an identified change-risk policy.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The user-relevant objective, measured reliability consumption and actual stop authority specify a concrete availability constraint and trade-off for architectural alternatives, rather than a vague demand for maximum reliability.",
+        "receiving_consequence": "The user-relevant objective, measured reliability consumption and actual stop authority specify a concrete availability constraint and trade-off for architectural alternatives, rather than a vague demand for maximum reliability.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The user-relevant objective, measured reliability consumption and actual stop authority specify a concrete availability constraint and trade-off for architectural alternatives, rather than a vague demand for maximum reliability."
+        ],
+        "premises_remaining": [
+          "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "An SLO alone cannot establish a feasible redundancy design, and a permitted availability loss cannot authorize a separate safety or privacy violation.",
+        "counter_control": "An SLO alone cannot establish a feasible redundancy design, and a permitted availability loss cannot authorize a separate safety or privacy violation.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          },
+          "actual_object": "An online-service architecture must support a legitimate service objective and an identified change-risk policy.",
+          "literal_bridge": "The user-relevant objective, measured reliability consumption and actual stop authority specify a concrete availability constraint and trade-off for architectural alternatives, rather than a vague demand for maximum reliability."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P007",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P007",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/6",
+          "expected_native_id": "EW-P007"
+        },
+        "shared_question_or_object": "A service-reliability claim concerns a defined deployed configuration, population and observation window.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "The correspondence of designed, built, tested and operated states",
+            "criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The actual SLI and budget calculation identify the functional behavior and time/population boundary that reconciliation must bind to the operating state; observed violations can expose a mismatch with approved assumptions.",
+        "receiving_consequence": "The actual SLI and budget calculation identify the functional behavior and time/population boundary that reconciliation must bind to the operating state; observed violations can expose a mismatch with approved assumptions.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The actual SLI and budget calculation identify the functional behavior and time/population boundary that reconciliation must bind to the operating state; observed violations can expose a mismatch with approved assumptions."
+        ],
+        "premises_remaining": [
+          "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A good aggregate SLI does not prove that the approved binary is running, and it can conceal an adversely affected subgroup.",
+        "counter_control": "A good aggregate SLI does not prove that the approved binary is running, and it can conceal an adversely affected subgroup.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P007->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "The correspondence of designed, built, tested and operated states",
+            "criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          },
+          "actual_object": "A service-reliability claim concerns a defined deployed configuration, population and observation window.",
+          "literal_bridge": "The actual SLI and budget calculation identify the functional behavior and time/population boundary that reconciliation must bind to the operating state; observed violations can expose a mismatch with approved assumptions."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P013",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P013",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        },
+        "shared_question_or_object": "A service-performance requirement legitimately forms one measurable part of a stated operating envelope.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "A defined reliability objective and credible observations supply a specific performance quantity and acceptance context that envelope evidence can address; this is a bounded service facet, not a substitute for qualification.",
+        "receiving_consequence": "A defined reliability objective and credible observations supply a specific performance quantity and acceptance context that envelope evidence can address; this is a bounded service facet, not a substitute for qualification.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A defined reliability objective and credible observations supply a specific performance quantity and acceptance context that envelope evidence can address; this is a bounded service facet, not a substitute for qualification."
+        ],
+        "premises_remaining": [
+          "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Average availability cannot demonstrate extreme-environment margins or authorize a catastrophic tail event excluded from the service budget.",
+        "counter_control": "Average availability cannot demonstrate extreme-environment margins or authorize a catastrophic tail event excluded from the service budget.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P013->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          },
+          "actual_object": "A service-performance requirement legitimately forms one measurable part of a stated operating envelope.",
+          "literal_bridge": "A defined reliability objective and credible observations supply a specific performance quantity and acceptance context that envelope evidence can address; this is a bounded service facet, not a substitute for qualification."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P018",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P018",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "shared_question_or_object": "An operational hazard analysis includes an actual availability or change-exposure pathway also observed by the service policy.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Credible service-failure observations and an enforceable halt condition can supply limited evidence and a control response for that named pathway, while hazard severity and residual-risk authority remain separate.",
+        "receiving_consequence": "Credible service-failure observations and an enforceable halt condition can supply limited evidence and a control response for that named pathway, while hazard severity and residual-risk authority remain separate.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Credible service-failure observations and an enforceable halt condition can supply limited evidence and a control response for that named pathway, while hazard severity and residual-risk authority remain separate."
+        ],
+        "premises_remaining": [
+          "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A remaining ordinary error budget is not permission for injury, disclosure or another prohibited event; the SLI may omit the hazard entirely.",
+        "counter_control": "A remaining ordinary error budget is not permission for injury, disclosure or another prohibited event; the SLI may omit the hazard entirely.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P018->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "actual_object": "An operational hazard analysis includes an actual availability or change-exposure pathway also observed by the service policy.",
+          "literal_bridge": "Credible service-failure observations and an enforceable halt condition can supply limited evidence and a control response for that named pathway, while hazard severity and residual-risk authority remain separate."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P027",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P027",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "shared_question_or_object": "An actual service transition is subject to a legitimate reliability-based release or pause policy.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Measured consumption and the agreed decision rule provide one concrete condition for proceeding, slowing or pausing the cutover, including a reason to withhold an otherwise technically ready candidate.",
+        "receiving_consequence": "Measured consumption and the agreed decision rule provide one concrete condition for proceeding, slowing or pausing the cutover, including a reason to withhold an otherwise technically ready candidate.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Measured consumption and the agreed decision rule provide one concrete condition for proceeding, slowing or pausing the cutover, including a reason to withhold an otherwise technically ready candidate."
+        ],
+        "premises_remaining": [
+          "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Budget headroom does not establish operator readiness, migration integrity, support availability or release authority beyond the actual policy.",
+        "counter_control": "Budget headroom does not establish operator readiness, migration integrity, support availability or release authority beyond the actual policy.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P027->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          },
+          "actual_object": "An actual service transition is subject to a legitimate reliability-based release or pause policy.",
+          "literal_bridge": "Measured consumption and the agreed decision rule provide one concrete condition for proceeding, slowing or pausing the cutover, including a reason to withhold an otherwise technically ready candidate."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P028",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P028",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "shared_question_or_object": "A recoverable service outage consumes a legitimate service objective over a defined interval.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The objective and measured loss identify the available time or loss tolerance against which a proposed response can be judged, giving a concrete recovery-performance requirement.",
+        "receiving_consequence": "The objective and measured loss identify the available time or loss tolerance against which a proposed response can be judged, giving a concrete recovery-performance requirement.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The objective and measured loss identify the available time or loss tolerance against which a proposed response can be judged, giving a concrete recovery-performance requirement."
+        ],
+        "premises_remaining": [
+          "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "An availability budget does not restore corrupted data and cannot convert an irreversible external effect into a tolerable outage.",
+        "counter_control": "An availability budget does not restore corrupted data and cannot convert an irreversible external effect into a tolerable outage.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P028->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          },
+          "actual_object": "A recoverable service outage consumes a legitimate service objective over a defined interval.",
+          "literal_bridge": "The objective and measured loss identify the available time or loss tolerance against which a proposed response can be judged, giving a concrete recovery-performance requirement."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P029",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P029",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "shared_question_or_object": "Continuing support must keep a particular operated service within a legitimate service-level commitment.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Reliability observations and the agreed change policy reveal whether patching, replacement or support capacity is needed to maintain the specific service commitment over its retained life.",
+        "receiving_consequence": "Reliability observations and the agreed change policy reveal whether patching, replacement or support capacity is needed to maintain the specific service commitment over its retained life.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Reliability observations and the agreed change policy reveal whether patching, replacement or support capacity is needed to maintain the specific service commitment over its retained life."
+        ],
+        "premises_remaining": [
+          "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Meeting this month's SLO does not create future supplier support, data rights or a funded maintainer; average availability can hide obsolescence risk.",
+        "counter_control": "Meeting this month's SLO does not create future supplier support, data rights or a funded maintainer; average availability can hide obsolescence risk.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P029->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          },
+          "actual_object": "Continuing support must keep a particular operated service within a legitimate service-level commitment.",
+          "literal_bridge": "Reliability observations and the agreed change policy reveal whether patching, replacement or support capacity is needed to maintain the specific service commitment over its retained life."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P033",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "shared_question_or_object": "A service change has measurable availability consequences and an enforceable, legitimate release policy.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The objective, observed consumption and halt authority supply a concrete feedback variable for selecting or adjusting change controls within that service scope.",
+        "receiving_consequence": "The objective, observed consumption and halt authority supply a concrete feedback variable for selecting or adjusting change controls within that service scope.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The objective, observed consumption and halt authority supply a concrete feedback variable for selecting or adjusting change controls within that service scope."
+        ],
+        "premises_remaining": [
+          "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A single aggregate budget omits coupling, detection latency, irreversible harm and binding duties; it cannot replace the multidimensional control argument.",
+        "counter_control": "A single aggregate budget omits coupling, detection latency, irreversible harm and binding duties; it cannot replace the multidimensional control argument.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "actual_object": "A service change has measurable availability consequences and an enforceable, legitimate release policy.",
+          "literal_bridge": "The objective, observed consumption and halt authority supply a concrete feedback variable for selecting or adjusting change controls within that service scope."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-22->LAW-L3::EW-P038",
+        "source_native_id": "EA-22",
+        "receiving_native_id": "EW-P038",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/21",
+          "expected_native_id": "EA-22",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/21",
+            "expected_native_id": "AGQ-EA-22"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/37",
+          "expected_native_id": "EW-P038"
+        },
+        "shared_question_or_object": "The economic effect of an actual service change is being attributed to its calendar phase.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiver": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Measured outage consumption exposes an operative failure-loss component that can differ at the same phase or remain unchanged across phases, giving a reason to evaluate real consequence rather than assume a universal curve.",
+        "receiving_consequence": "Measured outage consumption exposes an operative failure-loss component that can differ at the same phase or remain unchanged across phases, giving a reason to evaluate real consequence rather than assume a universal curve.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Measured outage consumption exposes an operative failure-loss component that can differ at the same phase or remain unchanged across phases, giving a reason to evaluate real consequence rather than assume a universal curve."
+        ],
+        "premises_remaining": [
+          "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A budget calculation is not a general cost study and need not measure repair effort, contract unwind or rare excluded harms.",
+        "counter_control": "A budget calculation is not a general cost study and need not measure repair effort, contract unwind or rare excluded harms.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P038->LAW-L2::EA-22",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An online service with a meaningful service objective, independent observation and permitted tolerance for failure.",
+            "criterion": "Use reliability budgets only where the objective, measurement, consequences and authority make the trade-off legitimate."
+          },
+          "receiving_native_meaning": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          },
+          "actual_object": "The economic effect of an actual service change is being attributed to its calendar phase.",
+          "literal_bridge": "Measured outage consumption exposes an operative failure-loss component that can differ at the same phase or remain unchanged across phases, giving a reason to evaluate real consequence rather than assume a universal curve."
+        }
+      }
+    ],
+    "independent_review_scope": "Actual common premise, every literal membership, source and receiver meanings, cost, alternatives and controls remain subject to later whole-study fidelity and separate adversarial review."
+  }
+}

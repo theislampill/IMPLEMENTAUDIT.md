@@ -1,0 +1,728 @@
+{
+  "family": "DRF",
+  "source_count": 103,
+  "sources": [
+    {
+      "source_id": "S-b0aaba82a632617c",
+      "scientific_name": "NATIVE_INPUT_RULES.json",
+      "original_bytes": 67981,
+      "original_sha256": "b0aaba82a632617c2c95d2d266703e527060b9772f81017b6fc0dabd8e3b333c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-b0aaba82a632617c-NATIVE_INPUT_RULES.json"
+    },
+    {
+      "source_id": "S-256c38a4559e6169",
+      "scientific_name": "TRANSITION_CONTRACT_RULES.json",
+      "original_bytes": 177742,
+      "original_sha256": "256c38a4559e6169bd3538f575196a33f59c28e600ff4bbfd853420155eb5b6c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-256c38a4559e6169-TRANSITION_CONTRACT_RULES.json"
+    },
+    {
+      "source_id": "S-c7c490b044380a76",
+      "scientific_name": "TEMPORAL_STATE_INQUIRY.json",
+      "original_bytes": 271686,
+      "original_sha256": "c7c490b044380a761eb9236d65f5d17ce9935b828bd31af16dd6d2bf9143baba",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-c7c490b044380a76-TEMPORAL_STATE_INQUIRY.json"
+    },
+    {
+      "source_id": "S-6ea4b15c2edba149",
+      "scientific_name": "COMPONENT_INQUIRY.json",
+      "original_bytes": 82099,
+      "original_sha256": "6ea4b15c2edba1491cb387fb40d98e745b7acfff41b66a1e747cb120564f35f3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-6ea4b15c2edba149-COMPONENT_INQUIRY.json"
+    },
+    {
+      "source_id": "S-7358a0aca652e2e3",
+      "scientific_name": "FRAME_COMPLEMENT_INQUIRY.json",
+      "original_bytes": 140486,
+      "original_sha256": "7358a0aca652e2e38cb1b3d3d0c731b2f6cf705e383c602aca162f4c30df9618",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-7358a0aca652e2e3-FRAME_COMPLEMENT_INQUIRY.json"
+    },
+    {
+      "source_id": "S-839eff080b2bc3d9",
+      "scientific_name": "PROOF_MECHANISM_RULES.json",
+      "original_bytes": 230933,
+      "original_sha256": "839eff080b2bc3d9b1241cec0345ce0ecacd6b40f79a00a79fb7f67da49c7dec",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-839eff080b2bc3d9-PROOF_MECHANISM_RULES.json"
+    },
+    {
+      "source_id": "S-6e30c8e7bfc4b48f",
+      "scientific_name": "MODEL_SCOPE_INQUIRY.json",
+      "original_bytes": 158529,
+      "original_sha256": "6e30c8e7bfc4b48f86f5f557235c2f9bc431e056b29cbcdf6d2f2a9edcd1e2ad",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-6e30c8e7bfc4b48f-MODEL_SCOPE_INQUIRY.json"
+    },
+    {
+      "source_id": "S-8783720533aed7e4",
+      "scientific_name": "EVIDENCE_REVERSE_RULES.json",
+      "original_bytes": 92664,
+      "original_sha256": "8783720533aed7e4183a8f176fc49eab81773aa93fe6c4fbf06bb3329f55938d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-8783720533aed7e4-EVIDENCE_REVERSE_RULES.json"
+    },
+    {
+      "source_id": "S-669127fdaf1be1b3",
+      "scientific_name": "COMPUTATIONAL_INQUIRY.json",
+      "original_bytes": 184410,
+      "original_sha256": "669127fdaf1be1b309a6157a2eb934aef7a82360c9d4c9509acc497a18b1fc0d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-669127fdaf1be1b3-COMPUTATIONAL_INQUIRY.json"
+    },
+    {
+      "source_id": "S-d4967b391f21755f",
+      "scientific_name": "TYPED_EVIDENCE_INQUIRY.json",
+      "original_bytes": 202376,
+      "original_sha256": "d4967b391f21755fb24421c638741930993a41ac1d7fc9d71a3f567de64f52a0",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-d4967b391f21755f-TYPED_EVIDENCE_INQUIRY.json"
+    },
+    {
+      "source_id": "S-395eaf81fc1a22dc",
+      "scientific_name": "HISTORY_MONITOR_INQUIRY.json",
+      "original_bytes": 283263,
+      "original_sha256": "395eaf81fc1a22dc20d7411148df48d82e954c0dd3661d95d160e1452bd04002",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-395eaf81fc1a22dc-HISTORY_MONITOR_INQUIRY.json"
+    },
+    {
+      "source_id": "S-2210f67f71fea3af",
+      "scientific_name": "NATIVE_SEMANTIC_CONTROLS.json",
+      "original_bytes": 172838,
+      "original_sha256": "2210f67f71fea3afad063d330cfb913201a2cf6f96a71bb89e3953f475b2ce02",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-2210f67f71fea3af-NATIVE_SEMANTIC_CONTROLS.json"
+    },
+    {
+      "source_id": "S-c56deab888d5efce",
+      "scientific_name": "ASSURANCE_NONMATCH_INQUIRY.json",
+      "original_bytes": 170822,
+      "original_sha256": "c56deab888d5efce405e3284f7c6cb7e06a2c1391fae50413070df2ffbb5b6d3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-c56deab888d5efce-ASSURANCE_NONMATCH_INQUIRY.json"
+    },
+    {
+      "source_id": "S-7a0c4184ca82be88",
+      "scientific_name": "DR_RULES.json",
+      "original_bytes": 633154,
+      "original_sha256": "7a0c4184ca82be883e60d5ef62df715871360d9781625f0e1fcdce129789cfcd",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-7a0c4184ca82be88-DR_RULES.json"
+    },
+    {
+      "source_id": "S-c3e34796a2ff3a2d",
+      "scientific_name": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json",
+      "original_bytes": 5655080,
+      "original_sha256": "c3e34796a2ff3a2d64524ecab9fc581e2fcdd5a66c920d08c52050e9f820e1b8",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-c3e34796a2ff3a2d-FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A003.json"
+    },
+    {
+      "source_id": "S-d9c7d327a46158c8",
+      "scientific_name": "CURRENT_NATIVE_CAPSULES_A003.json",
+      "original_bytes": 1441250,
+      "original_sha256": "d9c7d327a46158c86569f003ec8f8d452bd7a15c1c45a8863e28ef18f5b7499a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-d9c7d327a46158c8-CURRENT_NATIVE_CAPSULES_A003.json"
+    },
+    {
+      "source_id": "S-7dc01cc5c35737fc",
+      "scientific_name": "AUTHOR_ARGUMENTS.json",
+      "original_bytes": 433013,
+      "original_sha256": "7dc01cc5c35737fc6b1c27622f332329f706831e12dd537f1aff09118926bd71",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-7dc01cc5c35737fc-AUTHOR_ARGUMENTS.json"
+    },
+    {
+      "source_id": "S-469f458b4c0c7e53",
+      "scientific_name": "DISTRIBUTED_FUNCTION_INQUIRY.json",
+      "original_bytes": 143751,
+      "original_sha256": "469f458b4c0c7e531f651392be95164b7a4eb47f99a98f23e83bb756bd5adfc0",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-469f458b4c0c7e53-DISTRIBUTED_FUNCTION_INQUIRY.json"
+    },
+    {
+      "source_id": "S-32762d877b180e01",
+      "scientific_name": "AUTHOR_R055_JUDGMENTS_A004.json",
+      "original_bytes": 679487,
+      "original_sha256": "32762d877b180e0154c1dcceabe0cc2cea2e7bf3d82b6b7d57f25cd9489b0f08",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-32762d877b180e01-AUTHOR_R055_JUDGMENTS_A004.json"
+    },
+    {
+      "source_id": "S-28b586884a8a2f02",
+      "scientific_name": "R055_TASK_ARCHITECTURES_A004.json",
+      "original_bytes": 18195,
+      "original_sha256": "28b586884a8a2f029b0be311b05ac7e4cf278f70f0898eafc162c19d4e673369",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-28b586884a8a2f02-R055_TASK_ARCHITECTURES_A004.json"
+    },
+    {
+      "source_id": "S-01be882d978f26e2",
+      "scientific_name": "CLOCK_FAMILY_SOURCE_A006.json",
+      "original_bytes": 29413,
+      "original_sha256": "01be882d978f26e28a70038de61a6c0295ee20febcb49eba30d5b4e80d39b27c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-01be882d978f26e2-CLOCK_FAMILY_SOURCE_A006.json"
+    },
+    {
+      "source_id": "S-d30b81371eec22d3",
+      "scientific_name": "MIGRATION_DIRECTIONS.json",
+      "original_bytes": 85438,
+      "original_sha256": "d30b81371eec22d314770abdfb02cc00e288a3d8b6ed5b37d35ac5a4555daeb3",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-d30b81371eec22d3-MIGRATION_DIRECTIONS.json"
+    },
+    {
+      "source_id": "S-3eb5d38af99afddd",
+      "scientific_name": "UNFINISHED_AUTHOR_WORK.json",
+      "original_bytes": 38906,
+      "original_sha256": "3eb5d38af99afddd9ffb2b0610ba6504ca7e55f5cd287bbce65a53f99a78b514",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-3eb5d38af99afddd-UNFINISHED_AUTHOR_WORK.json"
+    },
+    {
+      "source_id": "S-c253124ccdf9d2b0",
+      "scientific_name": "OBSERVATION_FRAME_DIRECTIONS.json",
+      "original_bytes": 12120,
+      "original_sha256": "c253124ccdf9d2b06ed5f519666ab8d2f0f6f91df1b345f571ce9c08acc550ce",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-c253124ccdf9d2b0-OBSERVATION_FRAME_DIRECTIONS.json"
+    },
+    {
+      "source_id": "S-6bf959e488d08c52",
+      "scientific_name": "ASSURANCE_ROLE_DIRECTIONS.json",
+      "original_bytes": 19756,
+      "original_sha256": "6bf959e488d08c52ee0e6db1e3efe83dadda92d0508e6e4c9f9aacc232813133",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-6bf959e488d08c52-ASSURANCE_ROLE_DIRECTIONS.json"
+    },
+    {
+      "source_id": "S-51b3676c1da64aed",
+      "scientific_name": "FORMAL_SCOPE_RULES.json",
+      "original_bytes": 50225,
+      "original_sha256": "51b3676c1da64aed790ee1d307d5c284902c98821da91425a443bcab4cfbf526",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-51b3676c1da64aed-FORMAL_SCOPE_RULES.json"
+    },
+    {
+      "source_id": "S-c6a727bbe3eb913a",
+      "scientific_name": "EVIDENCE_FORWARD_RULES.json",
+      "original_bytes": 90270,
+      "original_sha256": "c6a727bbe3eb913ad683c1985dd8307437a7c42f40df716227bfae93f45eac13",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-c6a727bbe3eb913a-EVIDENCE_FORWARD_RULES.json"
+    },
+    {
+      "source_id": "S-fd6883b60c80d0c9",
+      "scientific_name": "FORMAL_CHOICE_RULES.json",
+      "original_bytes": 17111,
+      "original_sha256": "fd6883b60c80d0c9b03fa346ec4ebe43a1d2978c9882e6381e1d880b4199f6f1",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-fd6883b60c80d0c9-FORMAL_CHOICE_RULES.json"
+    },
+    {
+      "source_id": "S-597421e7fff3cc10",
+      "scientific_name": "GENERAL_RECEIVING_RULES.json",
+      "original_bytes": 22241,
+      "original_sha256": "597421e7fff3cc102344f60036aa4e1a4bbbceb157eb0c42286ebadf4c074617",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-597421e7fff3cc10-GENERAL_RECEIVING_RULES.json"
+    },
+    {
+      "source_id": "S-208d4eabb56f4d7e",
+      "scientific_name": "AUTHOR_NATIVE_JUDGMENTS_A003.json",
+      "original_bytes": 79035,
+      "original_sha256": "208d4eabb56f4d7e8c35adc03a7daaa2561c4eba13b27fd60c8c519446dc8678",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-208d4eabb56f4d7e-AUTHOR_NATIVE_JUDGMENTS_A003.json"
+    },
+    {
+      "source_id": "S-224863815ff7e39e",
+      "scientific_name": "AUTHOR_CLOCK_JUDGMENTS_A006.json",
+      "original_bytes": 33726,
+      "original_sha256": "224863815ff7e39e6ccb12427a6171992cfdad3415cbbb372bb11746694bcc59",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-224863815ff7e39e-AUTHOR_CLOCK_JUDGMENTS_A006.json"
+    },
+    {
+      "source_id": "S-ce9faaf73c06ae6a",
+      "scientific_name": "AUTHOR_R055_JUDGMENTS_A005.json",
+      "original_bytes": 686494,
+      "original_sha256": "ce9faaf73c06ae6a8852b7287c908460f151d11d94aed51c1ccb5500e7d9f576",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-ce9faaf73c06ae6a-AUTHOR_R055_JUDGMENTS_A005.json"
+    },
+    {
+      "source_id": "S-11ee98d18764b574",
+      "scientific_name": "WHOLE_STUDY_COMPOSITION_A006.json",
+      "original_bytes": 520318,
+      "original_sha256": "11ee98d18764b574cfb8f6c2fa63000cdc867ee5f31e59833a8f46d33677df3c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-11ee98d18764b574-WHOLE_STUDY_COMPOSITION_A006.json"
+    },
+    {
+      "source_id": "S-c1b33bdfb7caee93",
+      "scientific_name": "CONTINUATION_CANDIDATE_REASSESSMENT_A006.json",
+      "original_bytes": 150306,
+      "original_sha256": "c1b33bdfb7caee93b36dd8c20f165330e65b682cbf4ed0d583d2e88226ed888e",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-c1b33bdfb7caee93-CONTINUATION_CANDIDATE_REASSESSMENT_A006.json"
+    },
+    {
+      "source_id": "S-34c9f300911f241a",
+      "scientific_name": "HISTORICAL_DISCIPLINARY_INQUIRY_A006.json",
+      "original_bytes": 47310,
+      "original_sha256": "34c9f300911f241ad22e7fabe244d6d8cebf37d57a01f695b29894ffdd5a301b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-34c9f300911f241a-HISTORICAL_DISCIPLINARY_INQUIRY_A006.json"
+    },
+    {
+      "source_id": "S-a79117720ceaf687",
+      "scientific_name": "WHOLE_UNRESOLVED_REGISTER_A006.json",
+      "original_bytes": 426979,
+      "original_sha256": "a79117720ceaf687e9fdd443c0c797bab6bea34fddfd75668047f56b9df919fd",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-a79117720ceaf687-WHOLE_UNRESOLVED_REGISTER_A006.json"
+    },
+    {
+      "source_id": "S-11657f9be07bf4e8",
+      "scientific_name": "DEPENDENT_WHOLE_REASSESSMENT_A006.json",
+      "original_bytes": 32758,
+      "original_sha256": "11657f9be07bf4e8b430b33383fd4f8f35aeecf95a6a4a11fad0d2dd0f4a006e",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-11657f9be07bf4e8-DEPENDENT_WHOLE_REASSESSMENT_A006.json"
+    },
+    {
+      "source_id": "S-34e92ac2e06610f1",
+      "scientific_name": "NATIVE_ADAPTER_A006.json",
+      "original_bytes": 173118,
+      "original_sha256": "34e92ac2e06610f112614d3d0c13d06307f0e410fd65b7cb6b2d7d45e3c2b719",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-34e92ac2e06610f1-NATIVE_ADAPTER_A006.json"
+    },
+    {
+      "source_id": "S-ff5ab3fa59c6443f",
+      "scientific_name": "EFFECTIVE_RULE_MEMBERSHIP_A006.json",
+      "original_bytes": 312413,
+      "original_sha256": "ff5ab3fa59c6443fc1e589f64ecd3933d7d1f204058175f6227af426bc3ac1b9",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-ff5ab3fa59c6443f-EFFECTIVE_RULE_MEMBERSHIP_A006.json"
+    },
+    {
+      "source_id": "S-f7cf0bf26fcc91cb",
+      "scientific_name": "REPORT.md",
+      "original_bytes": 317494,
+      "original_sha256": "f7cf0bf26fcc91cb290cd78ad4e61a26fc94180f732bfa02ca02ffae1390af63",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-f7cf0bf26fcc91cb-REPORT.md"
+    },
+    {
+      "source_id": "S-ec19bbfe941c7bd6",
+      "scientific_name": "DRF-L1-COMPOSITION.json",
+      "original_bytes": 39010,
+      "original_sha256": "ec19bbfe941c7bd6c60145f4efae7fe72d0cd50e06e6504e37efccd5eba92c19",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-ec19bbfe941c7bd6-DRF-L1-COMPOSITION.json"
+    },
+    {
+      "source_id": "S-83b09b7cb3a892f7",
+      "scientific_name": "DRF-L1-GENEALOGY.json",
+      "original_bytes": 22199,
+      "original_sha256": "83b09b7cb3a892f742f4462352240eabd56e5c1f85fbad1e9b611dbf91d43a24",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-83b09b7cb3a892f7-DRF-L1-GENEALOGY.json"
+    },
+    {
+      "source_id": "S-abe00344b43f33c6",
+      "scientific_name": "DRF-L1-STUDY.md",
+      "original_bytes": 82399,
+      "original_sha256": "abe00344b43f33c607630d06f9288ed5f47103031e1d83b43d36b6eba3bd550c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-abe00344b43f33c6-DRF-L1-STUDY.md"
+    },
+    {
+      "source_id": "S-5aa201881c05d02b",
+      "scientific_name": "DRF-L2-COMPOSITION.json",
+      "original_bytes": 50931,
+      "original_sha256": "5aa201881c05d02bce0b62d504ad8cc856091771d8751b6d89b61aeeb18d3c91",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-5aa201881c05d02b-DRF-L2-COMPOSITION.json"
+    },
+    {
+      "source_id": "S-d6ec151b928f5142",
+      "scientific_name": "DRF-L2-GENEALOGY.json",
+      "original_bytes": 25583,
+      "original_sha256": "d6ec151b928f5142253354b23f8acc4ce3207f93a158e1b0a4086460f4d27072",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-d6ec151b928f5142-DRF-L2-GENEALOGY.json"
+    },
+    {
+      "source_id": "S-734dd662fb85249e",
+      "scientific_name": "DRF-L2-REPORT.md",
+      "original_bytes": 106805,
+      "original_sha256": "734dd662fb85249eb77c95c335b901018bdafa42494861c97b7ab6d92084964a",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-734dd662fb85249e-DRF-L2-REPORT.md"
+    },
+    {
+      "source_id": "S-3a4918109a517475",
+      "scientific_name": "DRF-L2-CASES.md",
+      "original_bytes": 17882,
+      "original_sha256": "3a4918109a517475d4b018d6112b3b6ac8ad7da4724cdae749fcd681efa0fb38",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-3a4918109a517475-DRF-L2-CASES.md"
+    },
+    {
+      "source_id": "S-c226a3bf7db4e6db",
+      "scientific_name": "DRF-L3-COMPOSITION.md",
+      "original_bytes": 21411,
+      "original_sha256": "c226a3bf7db4e6dbd5a2032bddfc3ec88d4200eb3185686d358146846809e6b4",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-c226a3bf7db4e6db-DRF-L3-COMPOSITION.md"
+    },
+    {
+      "source_id": "S-9431cef0ad42c0e5",
+      "scientific_name": "DRF-L3-TIMELINE_GENEALOGY.md",
+      "original_bytes": 18940,
+      "original_sha256": "9431cef0ad42c0e595cc0100ca530ba7c896117a889837a1f25c1f0298129d56",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-9431cef0ad42c0e5-DRF-L3-TIMELINE_GENEALOGY.md"
+    },
+    {
+      "source_id": "S-362d16180dc73bb9",
+      "scientific_name": "DRF-L3-SOURCE_TABLE.json",
+      "original_bytes": 394632,
+      "original_sha256": "362d16180dc73bb9116bfe152b8ff9fbc3d4ae51677fc0d700344a80ee2e7067",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-362d16180dc73bb9-DRF-L3-SOURCE_TABLE.json"
+    },
+    {
+      "source_id": "S-d5e5aa993d91de56",
+      "scientific_name": "DRF-L3-REPORT.md",
+      "original_bytes": 99272,
+      "original_sha256": "d5e5aa993d91de56772b6ed7dc68730adf2a37a4a3c581d2baaa704a724daf57",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-d5e5aa993d91de56-DRF-L3-REPORT.md"
+    },
+    {
+      "source_id": "S-0be00f7164600b45",
+      "scientific_name": "DRF-L3-CASES.md",
+      "original_bytes": 40034,
+      "original_sha256": "0be00f7164600b45f742351f493a868e825193e25dec57730576996017e823bd",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-0be00f7164600b45-DRF-L3-CASES.md"
+    },
+    {
+      "source_id": "S-dae46726389fced9",
+      "scientific_name": "FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json",
+      "original_bytes": 4541456,
+      "original_sha256": "dae46726389fced9fb71e509cecf6dfcb0bc8c0bf3cc49be31661dd8d043192c",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-dae46726389fced9-FINAL_DIRECTIONAL_AUTHOR_ASSESSMENT_A002.json"
+    },
+    {
+      "source_id": "S-2e2d9429b2f627c1",
+      "scientific_name": "PROPERTY_LEDGER.json",
+      "original_bytes": 1023979,
+      "original_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-2e2d9429b2f627c1-PROPERTY_LEDGER.json"
+    },
+    {
+      "source_id": "S-bf28607fbb65c475",
+      "scientific_name": "CURRENT_PROPERTY_LEDGER.json",
+      "original_bytes": 2498799,
+      "original_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-bf28607fbb65c475-CURRENT_PROPERTY_LEDGER.json"
+    },
+    {
+      "source_id": "S-23c338906e3f37a2",
+      "scientific_name": "CURRENT_NATIVE_CAPSULES_A002.json",
+      "original_bytes": 1218809,
+      "original_sha256": "23c338906e3f37a22d144a52aacaf5b4a5b7d9d996a80fa3ba6b187b2772094d",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-23c338906e3f37a2-CURRENT_NATIVE_CAPSULES_A002.json"
+    },
+    {
+      "source_id": "S-479955f0262db5ac",
+      "scientific_name": "DR_NATIVE_BINDINGS.json",
+      "original_bytes": 148701,
+      "original_sha256": "479955f0262db5ac2a51463ef6aa94eb3be9b884631dd9dab50c332b12416959",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-479955f0262db5ac-DR_NATIVE_BINDINGS.json"
+    },
+    {
+      "source_id": "S-a0b385e95886e145",
+      "scientific_name": "DRF-L1-SOURCE_TABLE.json",
+      "original_bytes": 622241,
+      "original_sha256": "a0b385e95886e1455ce248eb4f6be033a7185ef2691f2caa52baa84705547a0b",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-a0b385e95886e145-DRF-L1-SOURCE_TABLE.json"
+    },
+    {
+      "source_id": "S-509a4672668f5d7b",
+      "scientific_name": "DRF-L2-CURRENT_SOURCE_TABLE.json",
+      "original_bytes": 341275,
+      "original_sha256": "509a4672668f5d7b9ed60953ecfa7eb4b8af30ca316934492e7c0244155f49ef",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-509a4672668f5d7b-DRF-L2-CURRENT_SOURCE_TABLE.json"
+    },
+    {
+      "source_id": "S-3a74dd1e1505cc2d",
+      "scientific_name": "DRF-L3-ANALYSIS_REGISTERS.json",
+      "original_bytes": 67063,
+      "original_sha256": "3a74dd1e1505cc2db5f4009a7cefde0c502a5a33e0d724048b1d894e5398e1ad",
+      "public_path": "docs/research/genealogy/current-programme/v1/families/drf/current/records/S-3a74dd1e1505cc2d-DRF-L3-ANALYSIS_REGISTERS.json"
+    },
+    {
+      "source_id": "S-f99303a20e4def33",
+      "scientific_name": "ASSIGNMENT_HISTORY_RESULTS.json",
+      "original_bytes": 11052,
+      "original_sha256": "f99303a20e4def33370b8b6ca0d4e9f5b5df77b2927c08a78029bc75453ec1f7",
+      "public_path": null
+    },
+    {
+      "source_id": "S-4993aaa304d72b56",
+      "scientific_name": "QUALIFICATION.json",
+      "original_bytes": 6367,
+      "original_sha256": "4993aaa304d72b56c83d2e57f45a5fd68edf3d31380c554d8ef97aae4abe2a14",
+      "public_path": null
+    },
+    {
+      "source_id": "S-74adf14463ab73d1",
+      "scientific_name": "CASE_RESULTS.json",
+      "original_bytes": 20081,
+      "original_sha256": "74adf14463ab73d121f5936fe195352fa7180acb5d2583287fea1fceff5292d0",
+      "public_path": null
+    },
+    {
+      "source_id": "S-af980aef2b4d6e51",
+      "scientific_name": "CORRECTION_RECORD.json",
+      "original_bytes": 18835,
+      "original_sha256": "af980aef2b4d6e51889aa77ffa41fcebabee704644359b6549db3d27ad4afee7",
+      "public_path": null
+    },
+    {
+      "source_id": "S-18fb9309de1e93eb",
+      "scientific_name": "QUALIFICATION.json",
+      "original_bytes": 6394,
+      "original_sha256": "18fb9309de1e93eb47fb9ea98510934f25c1dd1dc9adc4946fbff145b075c1a8",
+      "public_path": null
+    },
+    {
+      "source_id": "S-413b042460f89279",
+      "scientific_name": "PUBLIC_COMPARISON.md",
+      "original_bytes": 20800,
+      "original_sha256": "413b042460f892790341eff3c4f45329ebdc1963f2602d2eaaf178e789809e44",
+      "public_path": null
+    },
+    {
+      "source_id": "S-077cf6416c8b5d8b",
+      "scientific_name": "QUALIFICATION.json",
+      "original_bytes": 6617,
+      "original_sha256": "077cf6416c8b5d8b43115afe5fbe6c780f1a3b43b59a16db2f90404558c70abc",
+      "public_path": null
+    },
+    {
+      "source_id": "S-8390f4da9b43d3d1",
+      "scientific_name": "WHOLE_PROJECTION_RECEIPT_A006.json",
+      "original_bytes": 1146,
+      "original_sha256": "8390f4da9b43d3d1b76df21059e6bb1aafd1f991ba5c2e18cb376bdf705ad289",
+      "public_path": null
+    },
+    {
+      "source_id": "S-e8f2d0913301d45b",
+      "scientific_name": "CAUSAL_SCOPE_A006.json",
+      "original_bytes": 283587,
+      "original_sha256": "e8f2d0913301d45bf99636397d3e2c8ced7f5e47d4a281841129b168ab911fe5",
+      "public_path": null
+    },
+    {
+      "source_id": "S-adc647bee6e23baa",
+      "scientific_name": "ORIGINAL_STANDARD_APPLICATION_A006.json",
+      "original_bytes": 14938,
+      "original_sha256": "adc647bee6e23baaf4b2f84de6990497d1197f469e1a45f5e15ebdf4659cb5f7",
+      "public_path": null
+    },
+    {
+      "source_id": "S-b223ee7116265661",
+      "scientific_name": "SOURCE_ACCESS_A006.json",
+      "original_bytes": 4027,
+      "original_sha256": "b223ee71162656616538034be2b47da073a82b362d15f11f77d53ebac65889ea",
+      "public_path": null
+    },
+    {
+      "source_id": "S-975832a4872920fe",
+      "scientific_name": "UNKNOWN_REENTRY_HISTORY_A006.json",
+      "original_bytes": 50090,
+      "original_sha256": "975832a4872920fe9c763c1604494197fd1462524aa97e365bc2d4abdeff5bf5",
+      "public_path": null
+    },
+    {
+      "source_id": "S-aa6d4c333ba95b1a",
+      "scientific_name": "FINDINGS_AND_RESOLUTIONS.json",
+      "original_bytes": 8582,
+      "original_sha256": "aa6d4c333ba95b1afbcd7d4604f658fc381cb693875794f40777330dd082f0ca",
+      "public_path": null
+    },
+    {
+      "source_id": "S-fad4c7fe65da3985",
+      "scientific_name": "QUALIFICATION.json",
+      "original_bytes": 61264,
+      "original_sha256": "fad4c7fe65da3985114ffa46e4a581406ac7bae79a8b5b7c345a2d141050f36d",
+      "public_path": null
+    },
+    {
+      "source_id": "S-3194c9e466867b8d",
+      "scientific_name": "FIDELITY_COMPLETENESS_REVIEW_RECEIPT.json",
+      "original_bytes": 6238,
+      "original_sha256": "3194c9e466867b8db787eba6cadace00668df5dbe2d3af0838856a12043b2702",
+      "public_path": null
+    },
+    {
+      "source_id": "S-6e5100980abbaf85",
+      "scientific_name": "ADVERSARIAL_REVIEW_RECEIPT.json",
+      "original_bytes": 8052,
+      "original_sha256": "6e5100980abbaf859d1360cd754bf36b72f9108bd02ebf5e0e76ab608b4df3e9",
+      "public_path": null
+    },
+    {
+      "source_id": "S-d121f35b55ab701b",
+      "scientific_name": "REPORT.md",
+      "original_bytes": 79451,
+      "original_sha256": "d121f35b55ab701b9484d969f542bd9fca9ae705f75c7ce0a93745354d0cf449",
+      "public_path": null
+    },
+    {
+      "source_id": "S-683f6f7ebcbe3563",
+      "scientific_name": "REPORT.md",
+      "original_bytes": 78996,
+      "original_sha256": "683f6f7ebcbe35630324ab3e42037c348957151e5ced82e1a329155ba61a2813",
+      "public_path": null
+    },
+    {
+      "source_id": "S-6103e734f0cd9350",
+      "scientific_name": "FAILED_ATTEMPTS_AND_LIMITS_A006.json",
+      "original_bytes": 1809,
+      "original_sha256": "6103e734f0cd935043f08890d5d7b353a44d74bb24ffb0101abd1497c154a85d",
+      "public_path": null
+    },
+    {
+      "source_id": "S-25967a66f8198552",
+      "scientific_name": "CLAIM_REFERENCE.md",
+      "original_bytes": 74090,
+      "original_sha256": "25967a66f819855253fbbf948adfd89e20fd9e4318d53a013feee16667aa8d39",
+      "public_path": null
+    },
+    {
+      "source_id": "S-1e32122ff3a9d989",
+      "scientific_name": "SOURCE_REFERENCE.md",
+      "original_bytes": 136588,
+      "original_sha256": "1e32122ff3a9d98964fc52ff235e4d5b053e95f3931ba27e10bddd929304c9e6",
+      "public_path": null
+    },
+    {
+      "source_id": "S-8466710ad6054dca",
+      "scientific_name": "TRANSFORMATIONS.json",
+      "original_bytes": 3691818,
+      "original_sha256": "8466710ad6054dca73b44c14e183e4cdc9a1b3698c6e1292e794040ab773c41c",
+      "public_path": null
+    },
+    {
+      "source_id": "S-f943c95cc0f5de5b",
+      "scientific_name": "READ_MASK.json",
+      "original_bytes": 13161,
+      "original_sha256": "f943c95cc0f5de5baf3880301bfa3e38e092de76e3c17af552325498f182fba8",
+      "public_path": null
+    },
+    {
+      "source_id": "S-aaa62a48a7b9267b",
+      "scientific_name": "EXECUTION_MASK.json",
+      "original_bytes": 5370,
+      "original_sha256": "aaa62a48a7b9267bba7f4be2e2a0f987e9f3b8ea3417f49971a94b70a32b6f96",
+      "public_path": null
+    },
+    {
+      "source_id": "S-d260ba8d3056010a",
+      "scientific_name": "SOURCE_REFERENCE.md",
+      "original_bytes": 99589,
+      "original_sha256": "d260ba8d3056010a479735e9b5faaff49d1bcf435d0b590c60f6cd9ae79769f7",
+      "public_path": null
+    },
+    {
+      "source_id": "S-7a42fbf1d86e9a50",
+      "scientific_name": "AUDIT_INTAKE.md",
+      "original_bytes": 732781,
+      "original_sha256": "7a42fbf1d86e9a503057177ebab5b1d0e5a2f99c42d801e17eb735e026eae6c2",
+      "public_path": null
+    },
+    {
+      "source_id": "S-4512462d399634b2",
+      "scientific_name": "CRITICISM_EVOLUTION.json",
+      "original_bytes": 35816,
+      "original_sha256": "4512462d399634b2b0f0c38179b5a8f412645c7fa9b478f62867bcd7a0975b76",
+      "public_path": null
+    },
+    {
+      "source_id": "S-7c7ce3d0ac7bad93",
+      "scientific_name": "COVERAGE.json",
+      "original_bytes": 66244,
+      "original_sha256": "7c7ce3d0ac7bad93b65f96f88d706b8160ed12abd83e849750efdc88c1ea396d",
+      "public_path": null
+    },
+    {
+      "source_id": "S-c4d05230d56d4b41",
+      "scientific_name": "NATIVE_ADAPTER.json",
+      "original_bytes": 974452,
+      "original_sha256": "c4d05230d56d4b4175523aa3bbab659f101dd63345a2cbb8b76c765d707c3693",
+      "public_path": null
+    },
+    {
+      "source_id": "S-2930c366fcffb5de",
+      "scientific_name": "ANCESTRY_TRANSFORMATIONS.json",
+      "original_bytes": 1002663,
+      "original_sha256": "2930c366fcffb5de78c88352520bde55bad19540a79123eefe019022a9d4fd41",
+      "public_path": null
+    },
+    {
+      "source_id": "S-460b1f2b7104c948",
+      "scientific_name": "CLAIM_REFERENCES.md",
+      "original_bytes": 384855,
+      "original_sha256": "460b1f2b7104c948a42f89a3ef552c709d61a9912c4c739f1f8086084be33c0a",
+      "public_path": null
+    },
+    {
+      "source_id": "S-ef8b5e90ae1cf427",
+      "scientific_name": "SOURCE_REFERENCES.md",
+      "original_bytes": 271022,
+      "original_sha256": "ef8b5e90ae1cf4274e9565fda410807afb2d96f0cde2754f9b918de67136e648",
+      "public_path": null
+    },
+    {
+      "source_id": "S-4524c8c6ff833389",
+      "scientific_name": "COVERAGE.md",
+      "original_bytes": 20663,
+      "original_sha256": "4524c8c6ff833389fc7cf2b20a68b723b7627f7c524eafd7e15cbb9b74ede511",
+      "public_path": null
+    },
+    {
+      "source_id": "S-abdf256ca3709fcb",
+      "scientific_name": "PROPERTY_LEDGER.json",
+      "original_bytes": 613322,
+      "original_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172",
+      "public_path": null
+    },
+    {
+      "source_id": "S-0b7d08d6d2c87dba",
+      "scientific_name": "ADAPTER.json",
+      "original_bytes": 446673,
+      "original_sha256": "0b7d08d6d2c87dba25c310ea1118a2a83da506cf4d3a1dd3cabeb5a009713bc4",
+      "public_path": null
+    },
+    {
+      "source_id": "S-a51e01f19d4dcf62",
+      "scientific_name": "OBLIGATION_COMPARISON.md",
+      "original_bytes": 8311,
+      "original_sha256": "a51e01f19d4dcf621ae0349763221bf8da1b8a84ff85543eb6d32c2e9554852b",
+      "public_path": null
+    },
+    {
+      "source_id": "S-dc74e68b340330ad",
+      "scientific_name": "AUDIT_PROFILES.json",
+      "original_bytes": 1781200,
+      "original_sha256": "dc74e68b340330adf439224e03b13fe78f42fefb610f60c0125b24a452c492fb",
+      "public_path": null
+    },
+    {
+      "source_id": "S-19a88c6e4bcd8543",
+      "scientific_name": "CRITICISM.md",
+      "original_bytes": 13046,
+      "original_sha256": "19a88c6e4bcd85435d42a52b69c307b6a5c66ec8c3dd152d5c2c9b22371a1906",
+      "public_path": null
+    },
+    {
+      "source_id": "S-180e79ec8cea983c",
+      "scientific_name": "SELF_CRITIQUE.md",
+      "original_bytes": 7717,
+      "original_sha256": "180e79ec8cea983ca5657912436a6ba38251df951efbc7970f6127eca0e510c0",
+      "public_path": null
+    },
+    {
+      "source_id": "S-0d2a9b3aa4145692",
+      "scientific_name": "CASE_RESULTS.json",
+      "original_bytes": 38691,
+      "original_sha256": "0d2a9b3aa4145692e7713402ee5a5c0893900b9f000e5c17634e85cb1d58b6e2",
+      "public_path": null
+    },
+    {
+      "source_id": "S-be073f4151020da7",
+      "scientific_name": "run_scientific_cases.py",
+      "original_bytes": 35683,
+      "original_sha256": "be073f4151020da749e6000dbd8092c7ca70344866ff96610d76da91051d7f9d",
+      "public_path": null
+    },
+    {
+      "source_id": "S-41dd9d1049214903",
+      "scientific_name": "FINAL_SCRIPT_REVIEW.json",
+      "original_bytes": 2538,
+      "original_sha256": "41dd9d104921490303ef5b8b4bd261a5d920c55f541218ed87ea07644954e30e",
+      "public_path": null
+    },
+    {
+      "source_id": "S-e84e31939fe3d790",
+      "scientific_name": "FINAL_EXECUTION.json",
+      "original_bytes": 1238,
+      "original_sha256": "e84e31939fe3d790e1505efecc090a311cd234b4093f07e183281adbd735a214",
+      "public_path": null
+    }
+  ],
+  "scope": "Stable scientific source identities, original source hashes and complete selected public records. Runtime/access locations are not public source identities."
+}

@@ -1,0 +1,416 @@
+{
+  "source_identity": {
+    "source_id": "S-7580b900dfa6bca3",
+    "scientific_name": "LAW-L1-CRITICISM.json",
+    "original_bytes": 23672,
+    "original_sha256": "7580b900dfa6bca3ae5a4338ff3d0529803732c904033a5b7e88a1227f4e9f7b"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "AUTHOR_ANALYSIS_REVIEW_PENDING",
+    "inherited_criticism_records": 22,
+    "added_source_criticism_records": 1,
+    "records": [
+      {
+        "CRITICISM_ID": "CR-01",
+        "CRITICISM": "Lean universalism and the caricature of mass production",
+        "TARGET": "LEAN_GENERALISATION",
+        "CLASSIFICATION": "CONTEXT_MISMATCH",
+        "EVIDENCE": "Early critics disputed IMVP's economic reasoning, plant comparisons and universal-best-way claims; later genealogy and contingency work narrowed the claim.",
+        "VALID_CORE": "Cross-plant configurations can outperform alternatives under some conditions.",
+        "EVOLVED_DISPOSITION": "Reject universal superiority; retain mechanism-by-mechanism, context-bound evaluation.",
+        "SOURCES": [
+          "S017",
+          "S024",
+          "S019",
+          "S023"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-02",
+        "CRITICISM": "Tool copying without the management and capability system",
+        "TARGET": "MANAGEMENT_ADOPTION",
+        "CLASSIFICATION": "CEREMONIAL_TOOL_COPYING",
+        "EVIDENCE": "Later TPS interpretations, construct studies and implementation research find that visible tools do not constitute the system and soft practices/culture distinguish outcomes.",
+        "VALID_CORE": "Some tools are cheap implementations of real properties.",
+        "EVOLVED_DISPOSITION": "Require failure mode, mechanism, preconditions, owner and outcome; exact tool adoption has NO_GENERAL_PROPERTY.",
+        "SOURCES": [
+          "S020",
+          "S021",
+          "S022",
+          "S030"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-03",
+        "CRITICISM": "'Lean and mean' cost cutting, layoffs and trust destruction",
+        "TARGET": "MANAGEMENT_ADOPTION / LABOUR_EFFECT",
+        "CLASSIFICATION": "LABOUR_OR_SOCIO_TECHNICAL_EFFECT",
+        "EVIDENCE": "Toyota's own history records 1950 job-cut conflict; labour research links some Lean deployments to reduced autonomy, intensification and poorer well-being.",
+        "VALID_CORE": "Productivity and avoidable-cost reduction can be legitimate.",
+        "EVOLVED_DISPOSITION": "Evaluate credible employment/redeployment commitments, workload and distribution of gains where improvement asks workers to expose labor-saving opportunities. These are contextual and normative safeguards, not a demonstrated universally necessary causal package; harmful deployments remain admissible evidence.",
+        "SOURCES": [
+          "S014",
+          "S025",
+          "S026",
+          "S028",
+          "S029",
+          "S070"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-04",
+        "CRITICISM": "Worker participation rhetoric without decision authority",
+        "TARGET": "TPS_PROPERTY / MANAGEMENT_ADOPTION",
+        "CLASSIFICATION": "LABOUR_OR_SOCIO_TECHNICAL_EFFECT",
+        "EVIDENCE": "Toyota doctrine and participant accounts emphasise participation, while longitudinal and review evidence shows participation and autonomy can decline.",
+        "VALID_CORE": "Frontline knowledge and safe signalling are engineering resources.",
+        "EVOLVED_DISPOSITION": "Separate suggestion, signal, local change, cross-functional change and system-owner authority; require feedback, protection and resources.",
+        "SOURCES": [
+          "S006",
+          "S013",
+          "S015",
+          "S026",
+          "S027",
+          "S031"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-05",
+        "CRITICISM": "Coercive standardisation and deskilling",
+        "TARGET": "TPS_PROPERTY",
+        "CLASSIFICATION": "LABOUR_OR_SOCIO_TECHNICAL_EFFECT",
+        "EVIDENCE": "Standardised work can support visibility and training, but longitudinal evidence links formalisation/assembly Lean to reduced autonomy and skill use.",
+        "VALID_CORE": "An explicit current baseline enables comparison and learning.",
+        "EVOLVED_DISPOSITION": "Retain a useful baseline with proportionate exception and revision rights; treat explicit expiry/retirement as analytical safeguards when needed. Reject immutable compliance as a universal rule, without requiring every low-risk baseline to use a full governance lifecycle.",
+        "SOURCES": [
+          "S004",
+          "S020",
+          "S026",
+          "S031"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-06",
+        "CRITICISM": "Low inventory and JIT brittleness",
+        "TARGET": "TPS_PROPERTY / LEAN_GENERALISATION",
+        "CLASSIFICATION": "RESILIENCE_FAILURE",
+        "EVIDENCE": "Operations science requires buffering variability; inventory-performance can be concave; disruption cases expose tier opacity and long recovery.",
+        "VALID_CORE": "Excess inventory can hide instability and lengthen feedback.",
+        "EVOLVED_DISPOSITION": "Distinguish inventory/capacity/time buffering from information and alternate-capability enablers. Choose a feasible portfolio by criticality, lead time and turbulence; neither JIT nor stockpiling alone guarantees resilience.",
+        "SOURCES": [
+          "S032",
+          "S033",
+          "S035",
+          "R009",
+          "S039",
+          "S040"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-07",
+        "CRITICISM": "Supplier synchronisation as cost and risk transfer",
+        "TARGET": "TPS_PROPERTY / MANAGEMENT_ADOPTION",
+        "CLASSIFICATION": "RESILIENCE_FAILURE",
+        "EVIDENCE": "Toyota's network enabled knowledge sharing, but disruptions exposed multi-tier dependence; empirical work finds JIT disruption risk depends on integration and context.",
+        "VALID_CORE": "Joint capability and timely information can reduce defects and duplicated buffers.",
+        "EVOLVED_DISPOSITION": "Retain fair supplier development and multi-tier visibility; reject universal concentration, single sourcing and buyer-imposed inventory removal.",
+        "SOURCES": [
+          "S038",
+          "S035",
+          "R009",
+          "S039",
+          "S040",
+          "S069"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-08",
+        "CRITICISM": "Maximum utilisation and local efficiency worsen flow",
+        "TARGET": "LEAN_GENERALISATION / METRIC",
+        "CLASSIFICATION": "LOCAL_OPTIMISATION",
+        "EVIDENCE": "Queueing/Factory Physics distinguishes throughput from utilisation and shows variability must be buffered; local utilisation can create WIP and delay.",
+        "VALID_CORE": "Idle capacity can sometimes be avoidable cost.",
+        "EVOLVED_DISPOSITION": "Optimise end-to-end outcome and queue behaviour; govern strategic slack explicitly rather than eliminate it.",
+        "SOURCES": [
+          "S032",
+          "S033"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-09",
+        "CRITICISM": "Takt and levelling fail under high variety or unstable demand",
+        "TARGET": "TPS_PROPERTY",
+        "CLASSIFICATION": "CONTEXT_MISMATCH",
+        "EVIDENCE": "Classic levelling presumes repetitive measurable work; high-mix/low-volume research requires grouping, workload control and more adaptive planning.",
+        "VALID_CORE": "Smoothing avoidable variability and aligning capacity to demand remain useful.",
+        "EVOLVED_DISPOSITION": "Treat takt/heijunka as manufacturing-context implementations; level only the stable component and buffer residual variability.",
+        "SOURCES": [
+          "S004",
+          "S005",
+          "S034",
+          "S063",
+          "S064"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-10",
+        "CRITICISM": "Manufacturing metaphors distort discovery and knowledge work",
+        "TARGET": "LEAN_GENERALISATION / SOFTWARE_TRANSLATION",
+        "CLASSIFICATION": "CONTEXT_MISMATCH",
+        "EVIDENCE": "Product-development and software literatures show uncertain, non-linear work, heterogeneous items and architectural dependencies; set-based design may require deliberate parallelism.",
+        "VALID_CORE": "Queues, feedback delay and excessive commitment also exist in knowledge work.",
+        "EVOLVED_DISPOSITION": "Retain decision/feedback mechanisms; reject forced factory routing, task interchangeability and physical-inventory analogy.",
+        "SOURCES": [
+          "S050",
+          "S052",
+          "S053",
+          "S055",
+          "S059"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-11",
+        "CRITICISM": "Kaizen and improvement-event theatre",
+        "TARGET": "MANAGEMENT_ADOPTION",
+        "CLASSIFICATION": "IMPLEMENTATION_FAILURE",
+        "EVIDENCE": "Event studies associate outcomes with leadership, ownership and follow-up. Actual healthcare programme comparisons show why local before-after gains require concurrent comparators; they do not establish that all local gains fail to improve system outcomes.",
+        "VALID_CORE": "Protected local experimentation can solve bounded problems.",
+        "EVOLVED_DISPOSITION": "Require baseline, authority, countermeasure qualification, follow-up, economic payoff and retirement; event count is rejected.",
+        "SOURCES": [
+          "S043",
+          "S044",
+          "S060",
+          "S061"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-12",
+        "CRITICISM": "A3, Five Whys or PDCA templates substitute for causal inquiry",
+        "TARGET": "A_SPECIFIC_TOOL",
+        "CLASSIFICATION": "IMPLEMENTATION_FAILURE",
+        "EVIDENCE": "Inspected methodological criticism challenges linear causal narratives and weak controls. PDSA reporting often omitted core features; S047 did not test whether method fidelity caused better outcomes, and poor reporting alone does not establish absent practice.",
+        "VALID_CORE": "Compact reasoning and iterative testing can be valuable.",
+        "EVOLVED_DISPOSITION": "Retain evidence-bound causal models, explicit predictions and qualified countermeasures; no named template has intrinsic evidentiary force.",
+        "SOURCES": [
+          "S045",
+          "S046",
+          "S047",
+          "S048"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-13",
+        "CRITICISM": "Visual management becomes surveillance or stale reporting",
+        "TARGET": "A_SPECIFIC_TOOL / MANAGEMENT_ADOPTION",
+        "CLASSIFICATION": "METRIC_GAMING",
+        "EVIDENCE": "Worker studies show control/intensification risks; 5S and dashboard evidence is heterogeneous and implementation-dependent.",
+        "VALID_CORE": "Legible current state can lower search and response delay.",
+        "EVOLVED_DISPOSITION": "Use minimum action-linked visibility with freshness and appropriate access. Team or system-flow displays do not by themselves justify individual ranking; the personnel inference requires separate evidence.",
+        "SOURCES": [
+          "S025",
+          "S026",
+          "S066",
+          "S059"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-14",
+        "CRITICISM": "Cycle time, WIP, defects and productivity proxies are gamed",
+        "TARGET": "METRIC",
+        "CLASSIFICATION": "METRIC_GAMING",
+        "EVIDENCE": "Lean construct ambiguity and modern developer-productivity research warn that single metrics omit satisfaction, collaboration, activity quality and outcomes.",
+        "VALID_CORE": "Operational measures can expose system constraints.",
+        "EVOLVED_DISPOSITION": "Use context-sensitive diagnostic measures, stable definitions and outcome/reliability constraints. These team/system measures do not establish individual productivity or justify individual quotas by themselves.",
+        "SOURCES": [
+          "S021",
+          "S022",
+          "S058",
+          "S059"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-15",
+        "CRITICISM": "Efficiency removes slack needed for learning, maintenance and recovery",
+        "TARGET": "TPS_PROPERTY / LEAN_GENERALISATION",
+        "CLASSIFICATION": "RESILIENCE_FAILURE",
+        "EVIDENCE": "Factory Physics explicitly describes capacity buffers, including preventive-maintenance and problem-solving capacity; reliability studies show TPM contributes to performance.",
+        "VALID_CORE": "Unowned slack can become hidden delay or excess cost.",
+        "EVOLVED_DISPOSITION": "Name buffer purpose, owner, trigger and review; remove accidental queues, preserve justified slack.",
+        "SOURCES": [
+          "S032",
+          "S041",
+          "S042"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-16",
+        "CRITICISM": "Stop-the-line creates false stops, alarm fatigue or production avoidance",
+        "TARGET": "TPS_PROPERTY",
+        "CLASSIFICATION": "CONTEXT_MISMATCH / IMPLEMENTATION_FAILURE",
+        "EVIDENCE": "Toyota's fixed-position system used response windows and small buffers; stop authority depends on stability and support rather than an unconditional binary stop.",
+        "VALID_CORE": "Early containment prevents defect propagation.",
+        "EVOLVED_DISPOSITION": "Separate detect, signal, triage, contain, stop, restore and learn; calibrate thresholds and require responder capacity and non-punitive use.",
+        "SOURCES": [
+          "S004",
+          "S005",
+          "S067",
+          "S031"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-17",
+        "CRITICISM": "Respect-for-people doctrine diverges from observed practice",
+        "TARGET": "TPS_PROPERTY / LABOUR_EFFECT",
+        "CLASSIFICATION": "LABOUR_OR_SOCIO_TECHNICAL_EFFECT",
+        "EVIDENCE": "Doctrine and worker experience remain distinct. S026 and S070 report adverse associations; R003 describes a favorable learning case with managerial retrospective limits; R004 reports mixed strain/safety paths and does not establish long-term health or causal benefit.",
+        "VALID_CORE": "Mutual trust, development and safe voice can enable learning.",
+        "EVOLVED_DISPOSITION": "Treat respect claims as testable work-design conditions, not an authenticity shield or presumed benefit.",
+        "SOURCES": [
+          "S006",
+          "S013",
+          "S015",
+          "S025",
+          "S026",
+          "S028",
+          "S029",
+          "S070"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-18",
+        "CRITICISM": "Transformations decay after leadership turnover or facilitator withdrawal",
+        "TARGET": "MANAGEMENT_ADOPTION",
+        "CLASSIFICATION": "IMPLEMENTATION_FAILURE",
+        "EVIDENCE": "Kaizen sustainment and implementation studies identify management commitment, ownership, culture and follow-up as decisive; tool presence is insufficient.",
+        "VALID_CORE": "Improvement can be institutionalised.",
+        "EVOLVED_DISPOSITION": "Give each change an owner, operating evidence, review cadence, maintenance cost and retirement rule; audit persistence after attention leaves.",
+        "SOURCES": [
+          "S030",
+          "S043",
+          "S044"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-19",
+        "CRITICISM": "Local process gains are presented as customer, patient or business outcomes",
+        "TARGET": "LEAN_GENERALISATION",
+        "CLASSIFICATION": "LOCAL_OPTIMISATION",
+        "EVIDENCE": "Healthcare findings concern heterogeneous process and end outcomes. S060 misclassifies a pay-for-performance mortality study and its estimand; R006 evaluates an actual Lean programme and shows attenuation against concurrent controls. The manufacturing meta-analysis remains associative at the current access ceiling.",
+        "VALID_CORE": "Process measures can be causal intermediates.",
+        "EVOLVED_DISPOSITION": "Require an explicit outcome chain and measure adverse transfer, durability and beneficiary-level effect.",
+        "SOURCES": [
+          "S060",
+          "S061",
+          "S062"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-20",
+        "CRITICISM": "Set-based design becomes expensive parallelism",
+        "TARGET": "LEAN_PRODUCT_DEVELOPMENT_PROPERTY",
+        "CLASSIFICATION": "CONTEXT_MISMATCH",
+        "EVIDENCE": "The literature supports option-range reasoning but practical implementation and comparative causal evidence remain limited.",
+        "VALID_CORE": "Preserving alternatives can prevent premature irreversible commitment.",
+        "EVOLVED_DISPOSITION": "Trigger only when uncertainty, coupling and reversal cost justify the option portfolio; specify elimination evidence and budget.",
+        "SOURCES": [
+          "S050",
+          "S051",
+          "S052"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-21",
+        "CRITICISM": "Software Kanban is board adoption without engineering capability",
+        "TARGET": "SOFTWARE_TRANSLATION",
+        "CLASSIFICATION": "CEREMONIAL_TOOL_COPYING",
+        "EVIDENCE": "The SLR reports benefits but an early, case-heavy evidence base and organisational challenges; WIP limits alone do not create automated qualification, architecture or recovery.",
+        "VALID_CORE": "Commitment limits and workflow visibility can shorten feedback.",
+        "EVOLVED_DISPOSITION": "Combine WIP decisions with automation, observability, reliability, recovery and value evidence; board presence proves nothing.",
+        "SOURCES": [
+          "S055",
+          "S056",
+          "S057",
+          "S058",
+          "S059"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-22",
+        "CRITICISM": "Waste language hides externalities and necessary redundancy",
+        "TARGET": "LEAN_GENERALISATION",
+        "CLASSIFICATION": "CONTEXT_MISMATCH",
+        "EVIDENCE": "Waste/value definitions vary; worker, supplier, resilience and public costs may disappear under a narrow customer/cost frame.",
+        "VALID_CORE": "Avoidable non-value activity should be challenged.",
+        "EVOLVED_DISPOSITION": "Supersede universal waste elimination with outcome, constraint, risk-transfer and buffer economics.",
+        "SOURCES": [
+          "S024",
+          "S025",
+          "S032",
+          "S040",
+          "S065"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      },
+      {
+        "CRITICISM_ID": "CR-23",
+        "CRITICISM": "A critical review can misclassify exposure or estimand",
+        "TARGET": "SOURCE_AND_EVIDENCE_INFERENCE",
+        "CLASSIFICATION": "SOURCE_CORRESPONDENCE_ERROR",
+        "EVIDENCE": "S060 presents R005 as Lean evidence and labels its percentage-point mortality difference a relative risk; primary exposure and estimand disagree.",
+        "VALID_CORE": "Weak study designs and mixed domain outcomes still deserve scrutiny.",
+        "EVOLVED_DISPOSITION": "Remove that study from direct Lean mortality support, retain other findings at their own ceilings, and examine actual Lean programmes such as R006.",
+        "SOURCES": [
+          "S060",
+          "R005",
+          "R006"
+        ],
+        "response_status": "AUTHOR_RESPONSE_REVIEW_PENDING; proposed safeguards are not proof deployments resolved the criticism",
+        "current_source_access": "SOURCES.json exact records; abstract-only or inaccessible full text is not promoted"
+      }
+    ]
+  }
+}

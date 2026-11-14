@@ -1,0 +1,1461 @@
+{
+  "source_identity": {
+    "source_id": "S-6ea4b15c2edba149",
+    "scientific_name": "COMPONENT_INQUIRY.json",
+    "original_bytes": 82099,
+    "original_sha256": "6ea4b15c2edba1491cb387fb40d98e745b7acfff41b66a1e747cb120564f35f3"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-component-inquiry/1",
+    "authored_source": {
+      "path": "analysis_r19/composition_interfaces.py",
+      "bytes": 14625,
+      "sha256": "f2655fd523083dbd92f9e4ce4b98d4c74f8af319f20777f0109e868fa9703db3"
+    },
+    "native_adapter": {
+      "path": "PROPERTY_INDEX.json",
+      "bytes": 523772,
+      "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+    },
+    "value_source": {
+      "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+      "bytes": 202376,
+      "sha256": "d4967b391f21755fb24421c638741930993a41ac1d7fc9d71a3f567de64f52a0"
+    },
+    "source_code_reading": {
+      "path": "analysis_r19/REUSED_SCIENTIFIC_CODE_READING.json",
+      "bytes": 3301,
+      "sha256": "ccd8d84fad90cfaf036d0a01e17a7d21fe817455b5c56b4e8062a1b9693e8fe0"
+    },
+    "common": {
+      "F010_forward": "The named producer guarantee supplies a particular part of the next consumer precondition at this actual value/operation boundary. A valid post-to-pre implication, compatible state/exception semantics and needed preservation conditions make the composition sound. Keep the useful local guarantee when another native premise remains open.",
+      "F010_reverse": "The native consumer condition identifies the required producer postcondition and the consequential gap or sufficient match at this named handoff. It selects an exact local contract rather than requiring unrelated global closure; it does not prove the producer establishes its promise.",
+      "F012_forward": "The named component assumptions/guarantees can be composed through a sound rule at this actual interface. Mathematical/model-only composition is legitimate. If the attempted justification is circular, mutual implication is insufficient; a suitable base/step, well-founded or other valid circular rule is required.",
+      "F012_reverse": "The native function, observation/model assumptions and next consumer select the actual interface obligations and reveal any circular inference, such as using the calculated bound to justify the observation premise already assumed in that calculation. They do not establish the composition rule merely by naming dependencies.",
+      "F050_forward": "A reusable component verified for the stated producer function and guarantee could discharge exactly that interface obligation when the actual artifact/version/configuration, semantic domain and assumptions match. Existing valid evidence can be reused while conventional glue or wider mission premises remain open. No supplied Python helper is relabeled verified by this conditional relation.",
+      "F050_reverse": "The native handoff specifies the component predicate, admitted inputs and consumer boundary needed for reuse. It identifies sufficient, too-weak or already adequate stronger contracts and which changed dependencies reopen the evidence. It supplies no missing component proof or actual loaded-artifact identity.",
+      "actual_correspondence": "Each member names a producer operation/result, its real next consumer and the consequential implication or residual. These values and predicates are independently bound to the exact current native meaning and analysis_r15 interfaces. This is not generic co-use of arbitrary theorem text or a requirement that one component establish the entire receiver.",
+      "case_controls": "F/C07 retains a valid x>=0 producer whose output0 fails consumer x>0, and a guarded simultaneous-induction example alongside the false/false cyclic countermodel. D/C06 distinguishes correct atomic internal commit from an excluded external retry effect. R/C04 has a true internal restoration conjunct with missing credentials/counterparty. These executed constituent constructions are reused, not rerun.",
+      "quantitative_guard": "A numerical component needs the actual mathematical/machine-arithmetic domain, error interpretation, units and output contract. Its correctness does not establish HPP/iid, independence, renewal, sampling, stress-law or causal world assumptions. Reuse of a formula is not empirical validation.",
+      "cost_alternatives": "An ordinary type, direct exact calculation, enclosing local operation, existing contract or monolithic small model may already suffice. Count integration and contract/proof maintenance. A stronger existing abstraction may cost less than a custom weak one; no mandatory implementation or repeated proof is inferred.",
+      "execution": "Own exposed analytical handoffs. The D/R/F source programs and recorded case results are inspected at the masks in REUSED_SCIENTIFIC_CODE_READING.json and prior checkpoints. No new component, proof assistant, library verification, compiler, physical experiment or case script is executed."
+    },
+    "native_members": [
+      {
+        "id": "D01",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P01",
+          "native_pointer": "/PROPERTIES/0",
+          "current_pointer": "/QUALIFICATIONS/0",
+          "current_object_sha256": "a61034e0a67d3d356cf48c2734cf197c9f2d9934ca6dc01807db1546b9f2bcda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "A protocol component returns its conditional theorem under the declared fault/timing/storage assumptions; the application consumer must establish that its claimed behavior lies in that model. Reusing the theorem is sound without pretending it independently validates deployment correspondence.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/0",
+          "canonical_object_sha256": "3d6acbd8252a6f28862c9c9bd53ef6b8a8dd9afeb1af86b0e5042dc832281030"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D01",
+          "canonical_value_sha256": "62cc4409865f1bb0220c6100842db663f8fd3258ee5be9613e7ea5100b7e3c86"
+        }
+      },
+      {
+        "id": "D02",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P02",
+          "native_pointer": "/PROPERTIES/1",
+          "current_pointer": "/QUALIFICATIONS/1",
+          "current_object_sha256": "1749cbb5d8015f551d1a82614402b582411af42af497047b592b4fe5bbb0a9cb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The observation component returns a timeout/result with its exact coverage, and a separate local recovery operation can return a present-state postcondition. The consumer may close that current objective while retaining unknown past remote effect; neither result implies the missing history.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/1",
+          "canonical_object_sha256": "13744e56ee5598f2c35622d2bc808d778a64fc45b94feac56489984bb4355c5f"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D02",
+          "canonical_value_sha256": "044bba0a52fe84e6dfbbefc87ffdfd7bdb9419382297d253b91d9d7c55039650"
+        }
+      },
+      {
+        "id": "D03",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P03",
+          "native_pointer": "/PROPERTIES/2",
+          "current_pointer": "/QUALIFICATIONS/2",
+          "current_object_sha256": "f2f328c6106ec9ff81a2b923dabf4d704187a13ff488097ca0cc60e8d5446221",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The fault-set/system-function component establishes survival for the admitted fault set. The mission consumer needs that exact function and domain; any probabilistic use additionally needs the actual joint law, not nominal replica count.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/2",
+          "canonical_object_sha256": "463895afe478fd87fab7b6a7a7406394ca28ae7f1fe4470ef85aa98f62d9d531"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D03",
+          "canonical_value_sha256": "b6d536848353f273db95786eb5428d48337c452f24c4657e95e2ecc45fe42037"
+        }
+      },
+      {
+        "id": "D04",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P04",
+          "native_pointer": "/PROPERTIES/3",
+          "current_pointer": "/QUALIFICATIONS/3",
+          "current_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The clock/event component returns an order or interval relation under its actual update and clock assumptions. The next causal/time inference must consume that same relation, rather than using a logical timestamp as elapsed physical time.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/3",
+          "canonical_object_sha256": "f6f9e2e4323cad84dfb22c27f56c518b7a959287ffaf72068d12c668f3bffba8"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D04",
+          "canonical_value_sha256": "a068072f1fbe568d66d767bfc3c60bd9b62783a4fe09955e8f1779f63597a2da"
+        }
+      },
+      {
+        "id": "D06",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P06",
+          "native_pointer": "/PROPERTIES/5",
+          "current_pointer": "/QUALIFICATIONS/5",
+          "current_object_sha256": "44b1bd9790135be10e9a01fb2e8bd24f6412c080f7272c6c5919722f0c295de4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The read/session interface establishes the selected freshness guarantee for its returned value. The consumer compares it with its own contract; an authoritative enclosed return can be sufficient without a mandatory caller-visible certificate.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/5",
+          "canonical_object_sha256": "f83a04acb606193aa9962c2039266bb21b26b445dffd97fa5c623aa0a8d1031f"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D06",
+          "canonical_value_sha256": "a517f56b0a95c4921453f9cca056a9cc632b2e61975c6770d1cbde161afe7b93"
+        }
+      },
+      {
+        "id": "D10",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P10",
+          "native_pointer": "/PROPERTIES/9",
+          "current_pointer": "/QUALIFICATIONS/9",
+          "current_object_sha256": "d5db1dda6d81cbfd03528814bad3ccce60743586bb5fdf777f7acdcbe5a7aa4b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The quorum component returns the actual phase-specific intersection/selection fact. The next agreement step needs the compatible phase, member/value identity and protocol rule; fixed majority intersection alone does not complete reconfiguration or consensus.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/9",
+          "canonical_object_sha256": "3e83b3b049262d98792e3eed8bf7cc54c27e54c0b99915a6732fc18834e1bd0d"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D10",
+          "canonical_value_sha256": "549f50ebd403960d9cb31aea8011a830134d7be86c616d507d7573fab734c4f0"
+        }
+      },
+      {
+        "id": "D11",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P11",
+          "native_pointer": "/PROPERTIES/10",
+          "current_pointer": "/QUALIFICATIONS/10",
+          "current_object_sha256": "fcae2bb307143f13aa0115ef9daed720593aff807738534f7fc6c5e1983c9cda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "An agreement/value-validity component provides its exact safety result. The service consumer may additionally require progress and timing under separate premises; reuse of the safety component remains useful before those are discharged.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/10",
+          "canonical_object_sha256": "e2be1648523d252d22ce075f3124b9d8ac5043de99153921dd1efffa0508e95f"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D11",
+          "canonical_value_sha256": "c2f2675eb616d60b8cd5e8ab66e5f2cd65a386522baf96534f67287a47185e40"
+        }
+      },
+      {
+        "id": "D17",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P17",
+          "native_pointer": "/PROPERTIES/16",
+          "current_pointer": "/QUALIFICATIONS/16",
+          "current_object_sha256": "ef95a8f0d71b9f632d4e0372c26d9b218073cf4d41ca03d626e397266f56f1bb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The enclosed runtime commit/replay component returns its actual internal processing guarantee. A consumer needing only that enclosed state can use it; a separate external business effect requires its own interface guarantee.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/16",
+          "canonical_object_sha256": "b854bafde277bf4b88779655f4d73d2aa06451854faaa69f91862f650a59f4f5"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D17",
+          "canonical_value_sha256": "05ea1d63e85757e6b3274524a03be7e8f705f7a08b561d5dab0d9d2e4658b679"
+        }
+      },
+      {
+        "id": "D42",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P42",
+          "native_pointer": "/PROPERTIES/41",
+          "current_pointer": "/QUALIFICATIONS/41",
+          "current_object_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The event-selection/aggregation component returns counts with their record, window and sampling context. The inference consumer needs the stated observation/selection model; correct counts alone neither establish representativeness nor fill missing events.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/41",
+          "canonical_object_sha256": "1cceee6cd392a3f167c0b49279501eab0b8cecd6683aa89903132d817a6981c9"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D42",
+          "canonical_value_sha256": "252f0690f8f86ba3580b624571275699c2639675b9f2af5b6a60126619989211"
+        }
+      },
+      {
+        "id": "D43",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P43",
+          "native_pointer": "/PROPERTIES/42",
+          "current_pointer": "/QUALIFICATIONS/42",
+          "current_object_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The event-graph component returns a relation derived from specified observed edges and inference rules. The next causal/order consumer needs that exact relation and must retain its gaps; a graph result is not an independent physical root-cause explanation.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/42",
+          "canonical_object_sha256": "729b51b57d982b12d7c85d5100183a5fb2a177e59625981c1e2ce613879ca1f7"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D43",
+          "canonical_value_sha256": "7829a575570216606dd9655e4a905cb84bd6144dc9c2fc8bd3483b0313372de5"
+        }
+      },
+      {
+        "id": "D44",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P44",
+          "native_pointer": "/PROPERTIES/43",
+          "current_pointer": "/QUALIFICATIONS/43",
+          "current_object_sha256": "4c0a287611bd99a93f17f83e700e4c6b90b96cf5ae7fb1982401cde7ab50f1f1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The experiment component supplies the declared intervention/hypothesis/oracle outcome. The hypothesis consumer requires that this outcome actually distinguishes its alternatives at the admitted fault/workload scope; a nondiscriminating pass supplies no such implication.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/43",
+          "canonical_object_sha256": "2f23caafe796d22a05408fcbd24ee66497bbcec73987d2a6ac75911bebd25dc4"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D44",
+          "canonical_value_sha256": "46462192c827fda90b609da734c68471d6307d523be9af53228d7c8b40ee91ce"
+        }
+      },
+      {
+        "id": "D48",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P48",
+          "native_pointer": "/PROPERTIES/47",
+          "current_pointer": "/QUALIFICATIONS/47",
+          "current_object_sha256": "eddb6c8732438c182047f84599be7b6d6af545a3f9fa3a29c7068b294985519b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "particular_component_consumer_handoff": "The bounded queue component supplies stored-work/order/drop semantics for the admitted burst. The consumer needing drainage also requires usable service capacity and accepted deadlines/loss; queue correctness does not create throughput.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/47",
+          "canonical_object_sha256": "575fb9c1bdf6dbcb1399c142497cd0215a2eb739fc5f8cdb39681e89e300625b"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "D48",
+          "canonical_value_sha256": "a739f306537447173c412ac21e4c7000bc9becf71373319c079878299f236e2f"
+        }
+      },
+      {
+        "id": "R001",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P001",
+          "native_pointer": "/properties/0/native_record",
+          "current_pointer": "/properties/0/current_claim",
+          "current_object_sha256": "860d73d5d0c8fa4791c09d55c995cf1de48c3bfb6b683fc23c6ede274d554a5a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "A function component returns the particular local required-function predicate. The mission consumer must use that function and interval, retaining any other stated conjuncts; a verified proxy is not interchangeable with the intended mission event.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/54",
+          "canonical_object_sha256": "0276f6303cad151dea49d828302642ca90187d6e23199b4be388ebce00dc3520"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R001",
+          "canonical_value_sha256": "292a47f1aa489d560c8deb49e5a248f4b305c1a76cd33fc73601446760d1ffa5"
+        }
+      },
+      {
+        "id": "R002",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P002",
+          "native_pointer": "/properties/1/native_record",
+          "current_pointer": "/properties/1/current_claim",
+          "current_object_sha256": "550b727547563a2f317ee179f1fcc8388d81e46d8d8636c3f07e4b1d642b6fcf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The scenario/weight component returns a well-formed finite profile partition and its calculation. The application consumer requires the actual operational-profile interpretation; normalization is a useful computation condition but not a frequency estimate.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/55",
+          "canonical_object_sha256": "a116ac7591a5f3eb3efc2da39b85fb88ebd981c976c17bf127d293e1122fdbf1"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R002",
+          "canonical_value_sha256": "3130912f504376bb8632b13cc6ce8da0d62d3b85dced44f9b0326c94409151e6"
+        }
+      },
+      {
+        "id": "R003",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P003",
+          "native_pointer": "/properties/2/native_record",
+          "current_pointer": "/properties/2/current_claim",
+          "current_object_sha256": "b4504d7c01849fc60e4505c3e3d0d2b26c3ef6b33ac23a56425bbc0c3dafa7d9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The state-classification component returns the intended degraded/latent/failed distinction. The next protection or restoration consumer needs those same functional classes; a nominal-state Boolean may be a strictly weaker interface.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/56",
+          "canonical_object_sha256": "f062f98d4f2e2706fd5b919c93379e3746bb97eca9eed0f7ff6ddb31644ed1cd"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R003",
+          "canonical_value_sha256": "2bba73a48173687804ccb7dd56b4658e2995fc32219bdc6f2a68a1c4ec650399"
+        }
+      },
+      {
+        "id": "R005",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P005",
+          "native_pointer": "/properties/4/native_record",
+          "current_pointer": "/properties/4/current_claim",
+          "current_object_sha256": "031c1c1eb0d3acc578d20a401a33dad54323006c40ddd5be99bfe080f4611c7f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The estimand component returns the actual time/demand/reliability/maintainability quantity under its inputs and formula premises. The policy consumer must use that quantity, not exchange it for an outage distribution, mission survival or a new durability estimand.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/58",
+          "canonical_object_sha256": "d63a57e593854a71aa48a07e1d8b6c88bfe62286ac489899d68409b38ddc57e5"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R005",
+          "canonical_value_sha256": "c3081a6816b8945c488e041a6a22761643137bd0998a47b537dc102ae48d34f9"
+        }
+      },
+      {
+        "id": "R006",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P006",
+          "native_pointer": "/properties/5/native_record",
+          "current_pointer": "/properties/5/current_claim",
+          "current_object_sha256": "e958d53163a11e5e3a7dacee11af922ece1d5d743725a84c14d1c9c866a45b08",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The mode/effect component supplies the admitted finite propagation/control relation. The next protection claim requires that actual domain and any separately justified mode completeness; a correct table computation remains a partial input.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/59",
+          "canonical_object_sha256": "9b5e485e290db864f3db6586a88f498649d98cb80801d0d14313cbbbdfa7c6b4"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R006",
+          "canonical_value_sha256": "680a585490d30300b25d70b2175a4e26ac13264a834a3f1572229ef5d7d0d1b5"
+        }
+      },
+      {
+        "id": "R008",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P008",
+          "native_pointer": "/properties/7/native_record",
+          "current_pointer": "/properties/7/current_claim",
+          "current_object_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The joint-law component supplies nonnegative normalized weights with the stated marginal/structural constraints, and the system-function evaluator returns its weighted success. The mission consumer cannot replace that guarantee with an independence formula from marginals alone.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/61",
+          "canonical_object_sha256": "407e09f5673706ef9830860f36a00c42a7bc11308362539bc0cd1851f7e06072"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R008",
+          "canonical_value_sha256": "fde699cebbf710e1184a343baa96c97c24d0c973d0b119c9dddde833e4f2993a"
+        }
+      },
+      {
+        "id": "R011",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The detector/coverage interface supplies the actual detected-event population, latency and denominator relation. The diagnostic consumer must use that event meaning; a correct coverage calculation does not supply predictive value or restoration efficacy.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/64",
+          "canonical_object_sha256": "d8ab53219f2ceb7a8fe5e1c1101f2a96826b8b1788e78e9c1dd3a3c278e45a96"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R011",
+          "canonical_value_sha256": "0820d342de8d4b84b8962fdeae6a0401932954d72b98b8562b731bbdf974df68"
+        }
+      },
+      {
+        "id": "R012",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P012",
+          "native_pointer": "/properties/11/native_record",
+          "current_pointer": "/properties/11/current_claim",
+          "current_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The diagnostic component returns the candidate causes consistent with the observed symptoms/tests. The next action can require only an action-sufficient class rather than a unique root cause; the remedy still needs its actual state/effect preconditions.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/65",
+          "canonical_object_sha256": "169d4b746957b7ea8835977c99dc36cf1f1301241b2e39800c7347eaf081e0d3"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R012",
+          "canonical_value_sha256": "924f535c663527592d10f3ea5d6386455f890d68fe551cea99b2a25b010aee5a"
+        }
+      },
+      {
+        "id": "R013",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P013",
+          "native_pointer": "/properties/12/native_record",
+          "current_pointer": "/properties/12/current_claim",
+          "current_object_sha256": "6e2f6866b392ac7810543afe9e962c3e137433c350387154e32168293ed7d5b0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The exact M3 expected-loss component returns the weighted loss for each stipulated feasible policy. The response consumer can select the computed minimum only with the stated efficacy, cost, feasibility and timing premises; the calculator does not grant authority.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/66",
+          "canonical_object_sha256": "5bbd5914401c064a3e4fe45fae90fdeabefe3c39790294f210ad3dd6aec6e758"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R013",
+          "canonical_value_sha256": "37054eab8a9199cda937aa6170006b85699c1919471da1783f863f3e614559ee"
+        }
+      },
+      {
+        "id": "R022",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P022",
+          "native_pointer": "/properties/21/native_record",
+          "current_pointer": "/properties/21/current_claim",
+          "current_object_sha256": "43ebbe8b0ac59a6424f6af26e1168721982a90a10c80624da731d5721bf399fd",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The C05 survival/cycle-cost calculation supplies the model-specific policy cost. The maintenance consumer must establish the assumed hazard, genuine renewal, duration, induced-fault and consequence conditions; correct arithmetic is a useful partial input without those world facts.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/75",
+          "canonical_object_sha256": "4b97916231b099eda9b4b02622c6534edd201ced36a94023a9aa56276808c24f"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R022",
+          "canonical_value_sha256": "a946bbaf24ca22f3233530a87845e1db17e938fa07af9a2a2305aa9feaa98f66"
+        }
+      },
+      {
+        "id": "R023",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P023",
+          "native_pointer": "/properties/22/native_record",
+          "current_pointer": "/properties/22/current_claim",
+          "current_object_sha256": "e828ae7ebce0fa9097d71ae5e552c0861c991a56da1ebccd39c4c4370e10e4fe",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The condition/lead-time component supplies the specified precursor and available intervention window. The action component needs a feasible effective action in that window; the loss comparator consumes both rather than treating prediction as intervention.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/76",
+          "canonical_object_sha256": "8781c9da93cd5970b38fd35f23bf4c133aa33d92ca9917ad6fd0e7b595d84850"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R023",
+          "canonical_value_sha256": "382b11548a1fb20062ff4f96b3068b78ec1a9fe8f75f9beb21b44f9cb39e2b89"
+        }
+      },
+      {
+        "id": "R024",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P024",
+          "native_pointer": "/properties/23/native_record",
+          "current_pointer": "/properties/23/current_claim",
+          "current_object_sha256": "ea72a130bb66600ae48cdda9e0994243f57b54524c5abcab663d0e392ac76610",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The failure/configuration/status component preserves the actual correction/evidence linkage. The improvement consumer requires later exposure and causal support in addition; a well-linked closed record is a valid record result without being correction success.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/77",
+          "canonical_object_sha256": "525038e10c3ec386f38feab55c42b9293651df763ae47cb8ae3145b52a30206e"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R024",
+          "canonical_value_sha256": "c24afda3524084ca3cfc0d26d02b3b40022bcbf3cc4aa1636a001f00e4fd449b"
+        }
+      },
+      {
+        "id": "R026",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P026",
+          "native_pointer": "/properties/25/native_record",
+          "current_pointer": "/properties/25/current_claim",
+          "current_object_sha256": "d6ae20d559814da88866f094abfe91c5a713634c75544563c50d885e83f13d50",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The observation component supplies count/exposure/censoring records under a stated ascertainment contract; the bound calculator supplies the conditional HPP/iid result. The consumer must not use the computed bound to justify the q or process premise already assumed in producing it.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/79",
+          "canonical_object_sha256": "305c1487c14546ab006f66eff62894c4c842f4df1ed110d40181a4f15956ec54"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R026",
+          "canonical_value_sha256": "052d0ba68883e0bdd0578a6d27a9f652ac68f7185c06f6f0d03e232294e2f843"
+        }
+      },
+      {
+        "id": "R027",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "34c53ef9a71bd9d15c55a45bcabd2fc069dc306f249cffd8b017e49a2d025f16",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The per-mode mapper supplies each test/use rate relation under its own acceleration law; the aggregation component combines those rates under the stated competing-risk model. C07 shows why a single factor does not satisfy the consumer of the two-mode mixture.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/80",
+          "canonical_object_sha256": "88f841feb34792a97f592433768a734f712b8518accf4178c816814ac87b9766"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R027",
+          "canonical_value_sha256": "baef0bfc707103c70f26571436da0f8e8fe0e41a8c8384a9f3b015303af9aa28"
+        }
+      },
+      {
+        "id": "R028",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P028",
+          "native_pointer": "/properties/27/native_record",
+          "current_pointer": "/properties/27/current_claim",
+          "current_object_sha256": "418267456651f7dea158f19fdfb9a2727c5276382a7cd70bef9bced1357ea93f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The event/exposure/configuration aggregator returns the specified stratified records or update. The statistical consumer additionally requires observation and comparability assumptions; more correctly processed records do not establish those premises.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/81",
+          "canonical_object_sha256": "3f35a19745cd806f1d4f329c09d9fafe4e43590c772f073420f37cceafce9ed3"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R028",
+          "canonical_value_sha256": "9167be2994b6b7d43f3aedc1c9e4ffa9e5529ea0f1a89cbf4b5213e62d076186"
+        }
+      },
+      {
+        "id": "R035",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P035",
+          "native_pointer": "/properties/34/native_record",
+          "current_pointer": "/properties/34/current_claim",
+          "current_object_sha256": "f933a618e99ee7e0295a4f2a47111ac160f2fa1887b15b181ce935478ab8ec11",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The injection/oracle component supplies the actual bounded hypothesis-discriminating outcome. The protection consumer requires the named fault/workload and recovery criterion, with physical execution and broader field benefit separately evidenced.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/88",
+          "canonical_object_sha256": "cd5ffbe543242c8f9aeac11af405d95e788d51cdf414680fce5349bc1da0a610"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R035",
+          "canonical_value_sha256": "a3372bc31b8ec7465906b4a2679e1d4ec4c3d125a21eec2da2e6c7a9588097ec"
+        }
+      },
+      {
+        "id": "R037",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P037",
+          "native_pointer": "/properties/36/native_record",
+          "current_pointer": "/properties/36/current_claim",
+          "current_object_sha256": "0f339908841f076abf1fcf7557124e07ccce64595a738ea42523db45b60bc37d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The recovery operation supplies preservation/accessibility of the actual useful observation resource. The later inference consumer needs that observation with its original meaning and any currentness bridge; preserved arbitrary bytes or stale health labels are weaker results.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/90",
+          "canonical_object_sha256": "e286cd4248601ce9937acebe744afd0d88071284274e2cc0f7ba984c17b7682c"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R037",
+          "canonical_value_sha256": "099a400c9f305f75d74b05cbaae995f9f888e07b9a88e2022ba3f954664135f4"
+        }
+      },
+      {
+        "id": "R040",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P040",
+          "native_pointer": "/properties/39/native_record",
+          "current_pointer": "/properties/39/current_claim",
+          "current_object_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The dependency/separation component supplies a specific changed shared-input, tool or resource relation. The diversity consumer may use that mechanistic input but still needs any claimed joint-error law and deployment correspondence.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/93",
+          "canonical_object_sha256": "e335da70619444e8ad576788fd825832cf51e13e1fa594eef83bbbcbe49c053e"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R040",
+          "canonical_value_sha256": "5932c2d40eda5b7182fe611322d7e0431ee7a70170b5fb1a5f01249614af0b36"
+        }
+      },
+      {
+        "id": "R041",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "b12e1bae55d57ed5491f44fe8793836e0810516104575cea850c7949ed6c502b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The outage-data/expectation component returns the exact requested random quantity or time-average availability. A distributional or mission consumer needs additional law information; equal C01 availability does not establish equal interruption duration or survival.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/94",
+          "canonical_object_sha256": "3a1b053024ca4f9dd941a87e9b31671e6d79ee38bf507845e18a3b004b014216"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R041",
+          "canonical_value_sha256": "df67944747c9b7e6f1ebf00a0363569245d06ed4ff058f97a865fcc99fcdb255"
+        }
+      },
+      {
+        "id": "R042",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P042",
+          "native_pointer": "/properties/41/native_record",
+          "current_pointer": "/properties/41/current_claim",
+          "current_object_sha256": "07ae7d2dc556a6c63386ed6e60eee95bdeb2adfbbd3702ab4aa5131bc99aedd9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The event/cohort/window aggregation component returns its actual ratio. The consumer must use the declared population/window policy and cannot silently strengthen a passing aggregate into every-user or every-interval success.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/95",
+          "canonical_object_sha256": "5c6bccb9713207e3c979c22f6f59b42ed7b3304472c8f9c357a73136b55c1ed0"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R042",
+          "canonical_value_sha256": "8342276bc3dcb0803bf1c3b7c29f1b80e327eadc3d67a64eef63ef9bde76a4e6"
+        }
+      },
+      {
+        "id": "R043",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P043",
+          "native_pointer": "/properties/42/native_record",
+          "current_pointer": "/properties/42/current_claim",
+          "current_object_sha256": "030877485c80b6582c71dd6ce54d2b27a8dc8fabe42d19abc999a6f761f49ac0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The survival/hazard/process-rate component supplies the correctly interpreted mathematical quantity and numerical comparison. The consumer must retain its model/population domain; a correctly evaluated named curve is not a universal lifetime law.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/96",
+          "canonical_object_sha256": "db9ca10e4ca1343c305cc5462163800520f509d690aeb2f01c3a81aab4978edd"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R043",
+          "canonical_value_sha256": "c1e6c961d1132a9e4e424a24ea41634064c212636aa99c7df1d63c2a703829f9"
+        }
+      },
+      {
+        "id": "R044",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P044",
+          "native_pointer": "/properties/43/native_record",
+          "current_pointer": "/properties/43/current_claim",
+          "current_object_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The actual C07 illustrative mapper supplies its specified rate transformation. The handbook-use consumer needs the actual technology/profile/coefficient and validation premises; neither institutional pedigree nor correct calculation supplies them automatically.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/97",
+          "canonical_object_sha256": "94a7e92ba4bd9ec1619fbbdce60f83df50578ab8719d26ab66846bf47fd7513f"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R044",
+          "canonical_value_sha256": "17b0559cd7c939e177c40be5dd09dafdb4389a6b3f33a8733fa725262860cb0a"
+        }
+      },
+      {
+        "id": "R048",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P048",
+          "native_pointer": "/properties/47/native_record",
+          "current_pointer": "/properties/47/current_claim",
+          "current_object_sha256": "07b9342ca3bbaab538bf073d1bebb8a09249290015e0822b9516d1ba2a247a93",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The event/exposure component returns the actual before/after rate comparison, including C08 .01 versus .05. The corrective-action consumer needs uncertainty, configuration and causal support; falling counts alone do not meet that interface.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/101",
+          "canonical_object_sha256": "f4872bf31e4bde9fc98adb2f244cf45f0f208f88460ab0ccd7b5cb4f21718a78"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R048",
+          "canonical_value_sha256": "263083efa7a9275f0e336ba6f44d7b5a5a25ca247e620804c0dfc29e90c03460"
+        }
+      },
+      {
+        "id": "R050",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P050",
+          "native_pointer": "/properties/49/native_record",
+          "current_pointer": "/properties/49/current_claim",
+          "current_object_sha256": "2388c8cd320e3f9a6f894525fa12c0e0f74225cf1ed131e10c7573a8d40801f9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The bounded chaos execution/model component supplies its exact fault/workload/oracle result. The resilience consumer must match that scope and cannot substitute a tool-adoption or universal-resilience claim for the local result.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/103",
+          "canonical_object_sha256": "297b744b8463868be64a09aa70f52152ffbdbaf47ce29596e119003e35e43c9d"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R050",
+          "canonical_value_sha256": "0ff35a68250c6f5e7dee882ec67c92f98ad8710c150c993d9baa1770a133c7a5"
+        }
+      },
+      {
+        "id": "R052",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P052",
+          "native_pointer": "/properties/51/native_record",
+          "current_pointer": "/properties/51/current_claim",
+          "current_object_sha256": "ac830bfe71e2c6746a99e8f3a33fcc86a6cba1ca6853d8f1ed5795614ba2cb28",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The feasible-policy/loss component returns the winning stipulated predictive or alternative policy. The application consumer still needs calibrated inputs, timely effective actions and relevant costs; a conditional winner remains a valid partial result.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/105",
+          "canonical_object_sha256": "870de665a1f9d91d57129d97a1a8b2952cfa35d8973b0383edf4370fb917600d"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R052",
+          "canonical_value_sha256": "3e1bc91a546550b9a649c54efc126ed167654935c15b5f81dcbb702024f101a8"
+        }
+      },
+      {
+        "id": "R053",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P053",
+          "native_pointer": "/properties/52/native_record",
+          "current_pointer": "/properties/52/current_claim",
+          "current_object_sha256": "2435e1ef324d0c7ad9019b40fc9bc26ac915f3492d4a07ba6ae01b93fa44c420",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The fixed-time floor/partition component supplies exact marginal/joint quantities for one shared U. The process-law consumer needs the same coupling and additional increment structure; the mean alone cannot establish an NHPP. The all-time mean derivation is separate from two evaluated times.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/106",
+          "canonical_object_sha256": "89eb51d525e2bf2e1c1da4095cb0630e2bbf2c5b011293969e1546e5a904753a"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R053",
+          "canonical_value_sha256": "5e6ff5ff8c096633c97bd9355b89dbc908a00fce5ebddf230357e7e3c14c71f8"
+        }
+      },
+      {
+        "id": "R054",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P054",
+          "native_pointer": "/properties/53/native_record",
+          "current_pointer": "/properties/53/current_claim",
+          "current_object_sha256": "e0f40b561ca50cc5f49efc8eb665d41e79240ec14709c7120b491f81cb4eb2a7",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "particular_component_consumer_handoff": "The proof or statistical-bound component returns its exact deterministic model exclusion or conditional inference. The risk consumer must preserve which kind of guarantee it is; neither component contract asserts arbitrary-world zero risk.",
+        "actual_value_predicate_activity": {
+          "path": "analysis_r15/TYPED_EVIDENCE_INQUIRY.json",
+          "pointer": "/native_members/107",
+          "canonical_object_sha256": "0e16dde1fccf0fb8cc74fad30d9a6d88eea16b14a8e01c46325455f01cf2a407"
+        },
+        "argument_source": {
+          "path": "analysis_r19/composition_interfaces.py",
+          "literal_dictionary": "HANDOFFS",
+          "literal_key": "R054",
+          "canonical_value_sha256": "e447b7ce09e75d15913ede43ca64d0213ea6373152cf0555f6676a91a8425039"
+        }
+      }
+    ],
+    "rules": [
+      {
+        "id": "COMPONENT-F010-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P010",
+          "native_pointer": "/properties/9/native_record",
+          "current_pointer": "/properties/9/current_claim",
+          "current_object_sha256": "98b47f4bd5fa9f4657eb2c2bb596b5f87be21e566ffd8a1e111df82a03725dfc"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C010",
+          "native_property_id": "P010",
+          "current_statement": "Contracts support substitution and sequential composition when guarantees establish the next component's preconditions and frames preserve the facts it relies on.",
+          "bearer": "A component interface and composition step",
+          "logical_class": "CONTRACT_PROOF_RULE",
+          "quantifier_and_guard": "Check implication from provided postcondition to required precondition, compatible state/exception semantics and relevant frame conditions.",
+          "negative_scope_and_legitimate_alternatives": "A contract can make a useful local contribution without discharging every system premise. An internal trivial helper may need only its ordinary type.",
+          "expected_consequence": "Make the missing interface premise explicit instead of assuming local correctness composes automatically.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S002",
+            "S048",
+            "N004"
+          ],
+          "case_ids": [
+            "C07",
+            "C08"
+          ],
+          "nontrigger_or_cheap_path": "Use a direct integration model or ordinary tests when a contract layer adds no useful discrimination.",
+          "cost_and_evaluation_criterion": "Compare repeated interface reasoning saved with annotation and maintenance work.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native contract mechanism retained with explicit partial-contribution and compatibility tests.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "The named producer guarantee supplies a particular part of the next consumer precondition at this actual value/operation boundary. A valid post-to-pre implication, compatible state/exception semantics and needed preservation conditions make the composition sound. Keep the useful local guarantee when another native premise remains open.",
+        "exact_ordered_membership": [
+          "F010>D01",
+          "F010>D03",
+          "F010>D04",
+          "F010>D10",
+          "F010>D11",
+          "F010>D42",
+          "F010>D43",
+          "F010>D48",
+          "F010>R002",
+          "F010>R005",
+          "F010>R006",
+          "F010>R008",
+          "F010>R011",
+          "F010>R013",
+          "F010>R022",
+          "F010>R023",
+          "F010>R024",
+          "F010>R026",
+          "F010>R027",
+          "F010>R028",
+          "F010>R035",
+          "F010>R040",
+          "F010>R041",
+          "F010>R042",
+          "F010>R043",
+          "F010>R044",
+          "F010>R048",
+          "F010>R050",
+          "F010>R052",
+          "F010>R053",
+          "F010>R054"
+        ]
+      },
+      {
+        "id": "COMPONENT-F010-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P010",
+          "native_pointer": "/properties/9/native_record",
+          "current_pointer": "/properties/9/current_claim",
+          "current_object_sha256": "98b47f4bd5fa9f4657eb2c2bb596b5f87be21e566ffd8a1e111df82a03725dfc"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C010",
+          "native_property_id": "P010",
+          "current_statement": "Contracts support substitution and sequential composition when guarantees establish the next component's preconditions and frames preserve the facts it relies on.",
+          "bearer": "A component interface and composition step",
+          "logical_class": "CONTRACT_PROOF_RULE",
+          "quantifier_and_guard": "Check implication from provided postcondition to required precondition, compatible state/exception semantics and relevant frame conditions.",
+          "negative_scope_and_legitimate_alternatives": "A contract can make a useful local contribution without discharging every system premise. An internal trivial helper may need only its ordinary type.",
+          "expected_consequence": "Make the missing interface premise explicit instead of assuming local correctness composes automatically.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S002",
+            "S048",
+            "N004"
+          ],
+          "case_ids": [
+            "C07",
+            "C08"
+          ],
+          "nontrigger_or_cheap_path": "Use a direct integration model or ordinary tests when a contract layer adds no useful discrimination.",
+          "cost_and_evaluation_criterion": "Compare repeated interface reasoning saved with annotation and maintenance work.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native contract mechanism retained with explicit partial-contribution and compatibility tests.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native consumer condition identifies the required producer postcondition and the consequential gap or sufficient match at this named handoff. It selects an exact local contract rather than requiring unrelated global closure; it does not prove the producer establishes its promise.",
+        "exact_ordered_membership": [
+          "D01>F010",
+          "D03>F010",
+          "D04>F010",
+          "D10>F010",
+          "D11>F010",
+          "D42>F010",
+          "D43>F010",
+          "D48>F010",
+          "R002>F010",
+          "R005>F010",
+          "R006>F010",
+          "R008>F010",
+          "R011>F010",
+          "R013>F010",
+          "R022>F010",
+          "R023>F010",
+          "R024>F010",
+          "R026>F010",
+          "R027>F010",
+          "R028>F010",
+          "R035>F010",
+          "R040>F010",
+          "R041>F010",
+          "R042>F010",
+          "R043>F010",
+          "R044>F010",
+          "R048>F010",
+          "R050>F010",
+          "R052>F010",
+          "R053>F010",
+          "R054>F010"
+        ]
+      },
+      {
+        "id": "COMPONENT-F012-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P012",
+          "native_pointer": "/properties/11/native_record",
+          "current_pointer": "/properties/11/current_claim",
+          "current_object_sha256": "e09eadfb4dba9d8cc334c4c89c59ac968cb91e2eccb20993e4f27e86061b5da1"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C012",
+          "native_property_id": "P012",
+          "current_statement": "Assume/guarantee composition is sound when a valid composition rule discharges the interfaces; circular assumptions require a sound circular rule rather than mere mutual implication.",
+          "bearer": "A family of component specifications",
+          "logical_class": "GUARDED_COMPOSITION",
+          "quantifier_and_guard": "State compatible semantics and the rule's premises. Some valid circular rules use temporal/safety/agent or well-founded conditions; do not replace them with arbitrary cyclic assumptions.",
+          "negative_scope_and_legitimate_alternatives": "A monolithic finite proof can be simpler. Local partial guarantees remain useful when an environment premise is still open.",
+          "expected_consequence": "Accept justified modular reasoning while exposing circularity that has no independent establishment.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "N004",
+            "S002",
+            "S048"
+          ],
+          "case_ids": [
+            "C07"
+          ],
+          "nontrigger_or_cheap_path": "Use a single complete model for a tiny tightly coupled system.",
+          "cost_and_evaluation_criterion": "Weigh decomposition benefits against interface and circular-rule proof burden.",
+          "author_disposition": "QUALIFICATION",
+          "meaning_change": "Native explicit assumptions retained; blanket rejection of all circular proofs would be an unwarranted stronger interpretation.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "The named component assumptions/guarantees can be composed through a sound rule at this actual interface. Mathematical/model-only composition is legitimate. If the attempted justification is circular, mutual implication is insufficient; a suitable base/step, well-founded or other valid circular rule is required.",
+        "exact_ordered_membership": [
+          "F012>D02",
+          "F012>D04",
+          "F012>D06",
+          "F012>D42",
+          "F012>D43",
+          "F012>D44",
+          "F012>D48",
+          "F012>R001",
+          "F012>R002",
+          "F012>R003",
+          "F012>R005",
+          "F012>R011",
+          "F012>R012",
+          "F012>R013",
+          "F012>R022",
+          "F012>R023",
+          "F012>R024",
+          "F012>R026",
+          "F012>R027",
+          "F012>R028",
+          "F012>R037",
+          "F012>R041",
+          "F012>R042",
+          "F012>R043",
+          "F012>R044",
+          "F012>R048",
+          "F012>R050",
+          "F012>R052",
+          "F012>R053",
+          "F012>R054"
+        ]
+      },
+      {
+        "id": "COMPONENT-F012-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P012",
+          "native_pointer": "/properties/11/native_record",
+          "current_pointer": "/properties/11/current_claim",
+          "current_object_sha256": "e09eadfb4dba9d8cc334c4c89c59ac968cb91e2eccb20993e4f27e86061b5da1"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C012",
+          "native_property_id": "P012",
+          "current_statement": "Assume/guarantee composition is sound when a valid composition rule discharges the interfaces; circular assumptions require a sound circular rule rather than mere mutual implication.",
+          "bearer": "A family of component specifications",
+          "logical_class": "GUARDED_COMPOSITION",
+          "quantifier_and_guard": "State compatible semantics and the rule's premises. Some valid circular rules use temporal/safety/agent or well-founded conditions; do not replace them with arbitrary cyclic assumptions.",
+          "negative_scope_and_legitimate_alternatives": "A monolithic finite proof can be simpler. Local partial guarantees remain useful when an environment premise is still open.",
+          "expected_consequence": "Accept justified modular reasoning while exposing circularity that has no independent establishment.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "N004",
+            "S002",
+            "S048"
+          ],
+          "case_ids": [
+            "C07"
+          ],
+          "nontrigger_or_cheap_path": "Use a single complete model for a tiny tightly coupled system.",
+          "cost_and_evaluation_criterion": "Weigh decomposition benefits against interface and circular-rule proof burden.",
+          "author_disposition": "QUALIFICATION",
+          "meaning_change": "Native explicit assumptions retained; blanket rejection of all circular proofs would be an unwarranted stronger interpretation.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native function, observation/model assumptions and next consumer select the actual interface obligations and reveal any circular inference, such as using the calculated bound to justify the observation premise already assumed in that calculation. They do not establish the composition rule merely by naming dependencies.",
+        "exact_ordered_membership": [
+          "D02>F012",
+          "D04>F012",
+          "D06>F012",
+          "D42>F012",
+          "D43>F012",
+          "D44>F012",
+          "D48>F012",
+          "R001>F012",
+          "R002>F012",
+          "R003>F012",
+          "R005>F012",
+          "R011>F012",
+          "R012>F012",
+          "R013>F012",
+          "R022>F012",
+          "R023>F012",
+          "R024>F012",
+          "R026>F012",
+          "R027>F012",
+          "R028>F012",
+          "R037>F012",
+          "R041>F012",
+          "R042>F012",
+          "R043>F012",
+          "R044>F012",
+          "R048>F012",
+          "R050>F012",
+          "R052>F012",
+          "R053>F012",
+          "R054>F012"
+        ]
+      },
+      {
+        "id": "COMPONENT-F050-FORWARD",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P050",
+          "native_pointer": "/properties/49/native_record",
+          "current_pointer": "/properties/49/current_claim",
+          "current_object_sha256": "b1290094fdffdd7db1a82163a4d6a8212bdf624a44bf66a66f50e8e058d641b7"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C050",
+          "native_property_id": "P050",
+          "current_statement": "Verified libraries and protocols provide reusable evidence for the exact properties, versions and assumptions established; integration must preserve their required interfaces and threat models.",
+          "bearer": "A reusable verified component and its new use",
+          "logical_class": "DOMAIN_SPECIFIC_REUSE",
+          "quantifier_and_guard": "Match specification, implementation/configuration and relevant cryptographic, memory, platform and toolchain assumptions; establish only the extension actually needed.",
+          "negative_scope_and_legitimate_alternatives": "Conventional glue can remain unverified while using a sound component result. Unchanged use within established limits may need no new full proof.",
+          "expected_consequence": "Retain component assurance without promising total system security or universal physical side-channel resistance.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S093",
+            "S110",
+            "S046",
+            "N010",
+            "N011",
+            "S113"
+          ],
+          "case_ids": [
+            "C07",
+            "C11",
+            "C17"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary types/tests for rapidly changing low-risk glue; reuse an unchanged justified result.",
+          "cost_and_evaluation_criterion": "Include integration, performance, dependency changes and reuse value.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native domain-specific contribution retained; current primaryprojectinformation narrows source-C and compiler/physical-effect claims.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "FORWARD",
+        "inference": "A reusable component verified for the stated producer function and guarantee could discharge exactly that interface obligation when the actual artifact/version/configuration, semantic domain and assumptions match. Existing valid evidence can be reused while conventional glue or wider mission premises remain open. No supplied Python helper is relabeled verified by this conditional relation.",
+        "exact_ordered_membership": [
+          "F050>D01",
+          "F050>D02",
+          "F050>D03",
+          "F050>D04",
+          "F050>D17",
+          "F050>D48",
+          "F050>R001",
+          "F050>R002",
+          "F050>R003",
+          "F050>R005",
+          "F050>R011",
+          "F050>R012",
+          "F050>R013",
+          "F050>R022",
+          "F050>R023",
+          "F050>R027",
+          "F050>R028",
+          "F050>R043",
+          "F050>R050",
+          "F050>R052",
+          "F050>R053"
+        ]
+      },
+      {
+        "id": "COMPONENT-F050-REVERSE",
+        "formal_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P050",
+          "native_pointer": "/properties/49/native_record",
+          "current_pointer": "/properties/49/current_claim",
+          "current_object_sha256": "b1290094fdffdd7db1a82163a4d6a8212bdf624a44bf66a66f50e8e058d641b7"
+        },
+        "formal_current_claim": {
+          "claim_id": "DRF-C050",
+          "native_property_id": "P050",
+          "current_statement": "Verified libraries and protocols provide reusable evidence for the exact properties, versions and assumptions established; integration must preserve their required interfaces and threat models.",
+          "bearer": "A reusable verified component and its new use",
+          "logical_class": "DOMAIN_SPECIFIC_REUSE",
+          "quantifier_and_guard": "Match specification, implementation/configuration and relevant cryptographic, memory, platform and toolchain assumptions; establish only the extension actually needed.",
+          "negative_scope_and_legitimate_alternatives": "Conventional glue can remain unverified while using a sound component result. Unchanged use within established limits may need no new full proof.",
+          "expected_consequence": "Retain component assurance without promising total system security or universal physical side-channel resistance.",
+          "consumer_decision": "Decide the scope and adequacy of this formal-methods evidence for its stated consumer; no target adoption or authorization is granted.",
+          "current_support_sources": [
+            "S093",
+            "S110",
+            "S046",
+            "N010",
+            "N011",
+            "S113"
+          ],
+          "case_ids": [
+            "C07",
+            "C11",
+            "C17"
+          ],
+          "nontrigger_or_cheap_path": "Use ordinary types/tests for rapidly changing low-risk glue; reuse an unchanged justified result.",
+          "cost_and_evaluation_criterion": "Include integration, performance, dependency changes and reuse value.",
+          "author_disposition": "REAFFIRMATION_WITH_LIMITS",
+          "meaning_change": "Native domain-specific contribution retained; current primaryprojectinformation narrows source-C and compiler/physical-effect claims.",
+          "change_reason_codes": [
+            "ANALYTICAL_REDECOMPOSITION",
+            "NEW_EVIDENCE"
+          ],
+          "remaining_premises": "Apply the named method's actual logical and semantic conditions. Native precondition fields are retained verbatim beside this qualification; a case discharges only its explicitly constructed local premises.",
+          "evidence_ceiling": "Current support has the source-specific access ceiling in SOURCE_TABLE.json. Cases establish their finite constructions or stated direct deductions; no industrial effectiveness, independent replication or general optimality is inferred.",
+          "reentry": "Reassess when the proposition, semantics, use, supported feature set, dependencies or material contrary evidence changes.",
+          "review_status": "AUTHOR_ASSESSMENT_PENDING_INDEPENDENT_SCIENTIFIC_REVIEW"
+        },
+        "orientation": "REVERSE",
+        "inference": "The native handoff specifies the component predicate, admitted inputs and consumer boundary needed for reuse. It identifies sufficient, too-weak or already adequate stronger contracts and which changed dependencies reopen the evidence. It supplies no missing component proof or actual loaded-artifact identity.",
+        "exact_ordered_membership": [
+          "D01>F050",
+          "D02>F050",
+          "D03>F050",
+          "D04>F050",
+          "D17>F050",
+          "D48>F050",
+          "R001>F050",
+          "R002>F050",
+          "R003>F050",
+          "R005>F050",
+          "R011>F050",
+          "R012>F050",
+          "R013>F050",
+          "R022>F050",
+          "R023>F050",
+          "R027>F050",
+          "R028>F050",
+          "R043>F050",
+          "R050>F050",
+          "R052>F050",
+          "R053>F050"
+        ]
+      }
+    ],
+    "retained_prior_directions": [
+      "F010>D02",
+      "F010>D06",
+      "F010>D17",
+      "F010>D44",
+      "F010>R001",
+      "F010>R003",
+      "F010>R012",
+      "F010>R037",
+      "D02>F010",
+      "D06>F010",
+      "D17>F010",
+      "D44>F010",
+      "R001>F010",
+      "R003>F010",
+      "R012>F010",
+      "R037>F010",
+      "F012>D01",
+      "F012>D03",
+      "F012>D10",
+      "F012>D11",
+      "F012>D17",
+      "F012>R006",
+      "F012>R008",
+      "F012>R035",
+      "F012>R040",
+      "D01>F012",
+      "D03>F012",
+      "D10>F012",
+      "D11>F012",
+      "D17>F012",
+      "R006>F012",
+      "R008>F012",
+      "R035>F012",
+      "R040>F012",
+      "F050>D06",
+      "F050>D10",
+      "F050>D11",
+      "F050>D42",
+      "F050>D43",
+      "F050>D44",
+      "F050>R006",
+      "F050>R008",
+      "F050>R024",
+      "F050>R026",
+      "F050>R035",
+      "F050>R037",
+      "F050>R040",
+      "F050>R041",
+      "F050>R042",
+      "F050>R044",
+      "F050>R048",
+      "F050>R054",
+      "D06>F050",
+      "D10>F050",
+      "D11>F050",
+      "D42>F050",
+      "D43>F050",
+      "D44>F050",
+      "R006>F050",
+      "R008>F050",
+      "R024>F050",
+      "R026>F050",
+      "R035>F050",
+      "R037>F050",
+      "R040>F050",
+      "R041>F050",
+      "R042>F050",
+      "R044>F050",
+      "R048>F050",
+      "R054>F050"
+    ],
+    "new_scientific_executions": 0
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "scope": "ALREADY_PUBLIC_HISTORICAL_SCIENCE_AND_ALREADY_PUBLIC_CURRENT_METADATA_ONLY",
+  "sections": [
+    {
+      "unit": "BWP-L1",
+      "document": "docs/research/genealogy/current-programme/v1/families/bwp/BWP-L1.md",
+      "source": "docs/research/genealogy/bwp/evolved-business-process-management/corpus",
+      "claims": "Historical introduction, source counts, predicates, criticism, alternatives and all original property fields. Exact source pins in SOURCE_MANIFEST; every row mapping in HISTORICAL_PROPERTY_MAP."
+    },
+    {
+      "unit": "BWP-L2",
+      "document": "docs/research/genealogy/current-programme/v1/families/bwp/BWP-L2.md",
+      "source": "docs/research/genealogy/bwp/evolved-workflow-management/corpus",
+      "claims": "Historical introduction, source counts, predicates, criticism, alternatives and all original property fields. Exact source pins in SOURCE_MANIFEST; every row mapping in HISTORICAL_PROPERTY_MAP."
+    },
+    {
+      "unit": "BWP-L3",
+      "document": "docs/research/genealogy/current-programme/v1/families/bwp/BWP-L3.md",
+      "source": "docs/research/genealogy/bwp/evolved-process-mining/corpus",
+      "claims": "Historical introduction, source counts, predicates, criticism, alternatives and all original property fields. Exact source pins in SOURCE_MANIFEST; every row mapping in HISTORICAL_PROPERTY_MAP."
+    },
+    {
+      "unit": "BWP-S",
+      "document": "docs/research/genealogy/current-programme/v1/families/bwp/BWP-S.md",
+      "source": "Immutable public BWP packet at cacfe97; public R003F/R0041/R0040 issue bodies; published r0040 member and event-meaning records",
+      "claims": "Historical synthesis structure, actual public relations, original evidence/review limits and target receiving examples only. Current qualification metadata from PROGRAMME; protected current repairs are not projected."
+    }
+  ],
+  "cross_layer_rule": "No current protected manuscript or accepted native current body is an input to the public generator."
+}

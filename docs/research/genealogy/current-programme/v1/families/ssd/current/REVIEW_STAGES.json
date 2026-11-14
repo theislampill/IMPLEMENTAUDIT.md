@@ -1,0 +1,62 @@
+{
+  "schema": "historical-author-and-final-scientific-review-stages/1",
+  "interpretation": "Exact old author-workflow assertions are preserved once as historical statements. Separate later subject, qualification and final-review identities establish the accepted scientific stage at its declared scope. This record is documentary normalization, not a new scientific qualification or acceptance of every property.",
+  "historical_author_workflow": {
+    "SSD-L3-AUTHOR-ACCEPTANCE": {
+      "unit": "SSD-L3",
+      "stage": "HISTORICAL_AUTHOR_STAGE_BEFORE_LATER_FINAL_SCIENTIFIC_REVIEWS",
+      "original_field": "Acceptance",
+      "recorded_assertion": "NOT_SELF_QUALIFIED; controller-owned reviews pending.",
+      "meaning": "A statement recorded at the earlier author stage. It does not describe the later accepted scientific review state.",
+      "later_binding": "#/later_accepted_scientific_bindings/SSD-L3"
+    }
+  },
+  "later_accepted_scientific_bindings": {
+    "SSD-L3": {
+      "scientific_state": "EXISTING_QUALIFICATION_RETAINED",
+      "identities": [
+        {
+          "role": "subject",
+          "bytes": 24184,
+          "sha256": "cbecc352d720c34f7502c5219496f07777a7b79c25b9d4834ef1368a4e737e0f"
+        },
+        {
+          "role": "qualification",
+          "bytes": 7046,
+          "sha256": "71d910d5ac377ca56c11ea1aadd0ebe050319cb6e758d5a0daef7facabe9c436"
+        },
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "bytes": 10240,
+          "sha256": "64498c52533d55b6d38ff78da7d63ccfcccf7179ddd6cfe4632fbe9ae4cdf8e8"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "bytes": 19432,
+          "sha256": "c93f2c354a8699ad3e64813c2506ef4bd591aeca457fcba16abf62de66d8c5f4"
+        }
+      ],
+      "final_review_dispositions": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE"
+        }
+      ],
+      "evidence_limits": [
+        "Inherited detailed source and execution observations remain attributed; successor did not reexecute19 cases or reread13 primary works.",
+        "All primary access is at enumerated full/partial/metadata/abstract scopes; no R245 fulltext or S086/S099 full article reading.",
+        "Constructed/exposed cases are not held-out or field validation; no generic empirical superiority, complete proof census or exhaustive retraction search.",
+        "Specified workload fit, ambiguity credibility, preference legitimacy, consequence stability and total implementation benefit remain application-specific scientific uncertainties.",
+        "Historical executed prompt binding remains UNKNOWN; no general reusable full-study prompt execution qualification, target adoption, release or publication.",
+        "Local document/text/pixel/link checks plus seven actual successor page observations; full15page first-role visual scope attributed; no browser/mobile/live/user-study claim.",
+        "No root fresh scientific source retrieval, case execution, generator rerun or page-image inspection is claimed.",
+        "Machine identity and population checks do not establish semantic judgment; report reasoning and declared review scope supply the accepted evidence."
+      ],
+      "public_source_notes": "SOURCES.md#ssd-l3"
+    }
+  }
+}

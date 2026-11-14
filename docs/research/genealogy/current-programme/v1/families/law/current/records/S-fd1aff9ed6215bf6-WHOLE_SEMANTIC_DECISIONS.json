@@ -1,0 +1,458 @@
+{
+  "source_identity": {
+    "source_id": "S-fd1aff9ed6215bf6",
+    "scientific_name": "WHOLE_SEMANTIC_DECISIONS.json",
+    "original_bytes": 27244,
+    "original_sha256": "fd1aff9ed6215bf66b71a1a7e45d278c3a5231f52c7ddcb54729597f9b73394a"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-a002-whole-semantic-adjudication/1",
+    "status": "A005_CURRENT_OVERRIDE_BOUNDARIES_WITH_ATTRIBUTED_PRIOR_DECISIONS",
+    "boundary": "Prior semantic decisions remain attributed and are superseded only by the explicit A003, A004 and A005 records. The whole resolver supplies the current disposition; historical text is not a status lock.",
+    "comparison_performed": "Compared all remaining native source and receiving mechanisms, triggers, cheap paths, dependencies, failure modes, criticisms and selected bearer/criterion fields; then inspected the full source-by-member enumeration. For each direction, distinguish a named functional receiving premise from a merely imagined application, organizational co-use, broad empirical spillover, or proof of a different bearer. Material means a guarded partial contribution or a specific conflict with an operative universal rule, not proof of the whole receiving property. Unresolved means the native comparison leaves the required correspondence or causal bridge unestablished; it is not absence, irrelevance, independence or a negative scientific finding.",
+    "scope_refinements": [
+      {
+        "owner": "EL-010",
+        "remove_outputs": [
+          "measurement"
+        ],
+        "reason": "Valid actual consumption or replenishment events do not constitute a general measurement-validity method. The origin, unit and receiving use belong to a demand interface. General technical tests, product discovery, surrogate outcomes and reliability measurements may all be correct or incorrect independently of that demand event. The retained B21-I002-D09/D10 unknowns are an explicit adverse control."
+      },
+      {
+        "owner": "EL-007",
+        "remove_outputs": [
+          "capacity"
+        ],
+        "reason": "Estimating a sustainable pace and levelling predictable demand yields a schedule/forecast and workload constraint. It does not create a suitable physical reserve. Effects on a receiver needing actual resources need the allocation or capability evidence separately."
+      },
+      {
+        "owner": "EW-P025",
+        "remove_outputs": [
+          "capacity"
+        ],
+        "reason": "An outside-view estimate, range or rolling forecast is information about resources, demand and commitment. It is not an available worker, inventory item, spare machine or qualified alternate. Its uncertainty and control-economic contributions remain usable."
+      },
+      {
+        "owner": "EA-25",
+        "remove_outputs": [
+          "capacity"
+        ],
+        "reason": "Sustainable workload and explicit staffing constraints do not themselves supply additional or suitably skilled resources. A workload limit can still constrain an actual recurring receiver; no spare-capacity claim follows."
+      },
+      {
+        "owner": "EA-27",
+        "remove_outputs": [
+          "capacity"
+        ],
+        "reason": "A self-service software platform supplies a specific tool/automation capability, not arbitrary physical or response capacity. Tool suitability and its maintenance cost are distinct from a demand or reserve calculation."
+      },
+      {
+        "owner": "EL-017",
+        "remove_outputs": [
+          "authority_change"
+        ],
+        "reason": "A current best-known method and an authorized revision path record how change should occur. The method record cannot grant rights for an independent receiver. Knowledge and identity remain the outputs; independently established delegation is still required."
+      },
+      {
+        "owner": "EA-16",
+        "remove_outputs": [
+          "authority_change"
+        ],
+        "reason": "Reflection, improvement experiments and completed corrective actions do not create the permission they require. Their causal-learning and change-impact contribution remains distinct from authority."
+      },
+      {
+        "owner": "EL-027",
+        "remove_outputs": [
+          "competence"
+        ],
+        "reason": "A developed supplier's capability is an external contribution. It cannot be silently generalized to any employee's competence or an independent reviewer's skill and separation. The actual supplier capability remains available through the supplier factor."
+      },
+      {
+        "owner": "EW-P003",
+        "add_receiving_uses": [
+          "outcome"
+        ],
+        "reason": "An architectural trade study needs legitimate consequences, representative constraints and an objective for trade-offs. EL001's beneficiary/constraint/horizon input and applicable outcome evidence can alter that particular choice without prescribing Big Design Up Front or proving architecture fitness."
+      },
+      {
+        "owner": "EW-P002",
+        "add_receiving_uses": [
+          "information_state"
+        ],
+        "reason": "A revisable uncertainty state must keep assumptions, approved needs and unresolved alternatives intelligible to its actual decision maker. Current legibility can be a real input; an unrelated dashboard cannot."
+      },
+      {
+        "owner": "EW-P010",
+        "add_receiving_uses": [
+          "supplier"
+        ],
+        "reason": "Where the verification method or article is an actual external contribution, supplier capability, lead time, rights and interface conditions constrain whether the planned evaluation can be performed. This is a test-resource input, not evidence that the requirement has passed."
+      }
+    ],
+    "explicit_unknown_overrides": [
+      {
+        "sources": [
+          "EA-10",
+          "EA-14",
+          "EA-17",
+          "EA-18",
+          "EA-19",
+          "EA-20",
+          "EA-21",
+          "EA-22",
+          "EA-24",
+          "EA-27",
+          "EW-P001",
+          "EW-P002",
+          "EW-P005",
+          "EW-P006",
+          "EW-P007",
+          "EW-P014",
+          "EW-P019",
+          "EW-P020",
+          "EW-P023",
+          "EW-P030"
+        ],
+        "receivers": [
+          "EL-010"
+        ],
+        "reason": "The shared words identity, information, coordination, measurement or capacity do not identify the actual demand/replenishment event. A release candidate, requirement, acceptance act, assurance claim, delivery metric, incident record, platform or engineering model can be valid while external withdrawals are stale, manipulated or in a different unit. Conversely valid demand can coexist with failure in that other bearer. Neither coexistence proves independence or refutes a partial contribution. To admit the proposed bridge, identify the actual source datum/artifact and its native operation as a premise of this demand interface, including origin, unit, freshness and receiving use; imagining a software application of that kind is not evidence. Existing completed incoming rows are untouched."
+      },
+      {
+        "sources": [
+          "EA-10"
+        ],
+        "receivers": [
+          "EL-021"
+        ],
+        "reason": "Release-candidate identity does not identify a training method, demonstrate task competence or establish cross-coverage. The candidate could be a training subject, but that application and skill criterion are additional premises not supplied by the two native meanings. A correct candidate with an untrained responder and a skilled responder with a bad candidate are both consistent countercontexts. Identify the specific training task and actual candidate-dependent competence judgment to resolve the interface."
+      },
+      {
+        "sources": [
+          "EA-10"
+        ],
+        "receivers": [
+          "EL-022"
+        ],
+        "reason": "Technical release readiness does not supply protected participation, a reporting route, response authority or anti-retaliation conditions. An informative candidate status might be raised through such a route, but no specific participation decision consuming it is identified here. Establish the actual decision/complaint and its use, rather than treating all visible technical information as material to workforce rights."
+      },
+      {
+        "sources": [
+          "EA-10"
+        ],
+        "receivers": [
+          "EL-026"
+        ],
+        "reason": "An authoritative product release candidate is not the actual state of the production or maintenance asset. A software-controlled asset is possible, but its exact controller/asset/configuration correspondence and maintenance claim are missing. The reverse can have a real toolchain-reliability input without this reverse identity being established."
+      },
+      {
+        "sources": [
+          "EW-P014"
+        ],
+        "receivers": [
+          "EL-022",
+          "EL-023"
+        ],
+        "reason": "A recipient's contractual acceptance and responsibility transfer do not grant worker voice or settle employment/gain-sharing terms. A contract can contain such terms, but that specific clause, affected parties and enforcement relation are additional evidence. Technical acceptance can occur while those protections fail; protected employment can coexist with a rejected delivery. No legal finding is made."
+      },
+      {
+        "sources": [
+          "EW-P015"
+        ],
+        "receivers": [
+          "EL-022",
+          "EL-023"
+        ],
+        "reason": "Certification/compliance routes supply only their actually applicable obligations. No supplied native instance establishes worker participation or employment protection in this relation, and naming an external regime does not create it. An applicable clause and its relationship to the particular employment or participation decision would be needed."
+      }
+    ],
+    "manual_material_interfaces": [
+      {
+        "source": "EW-P001",
+        "receiver": "EA-10",
+        "factor": "requirements",
+        "argument": "The authoritative, revisable requirement state supplies the operative technical obligations for the exact candidate's verification/package claim. Readiness relative to a superseded or merely proposed obligation is different from readiness against the current one. This is a partial scope/criterion contribution; it neither supplies passing tests nor authorizes deployment or exposure.",
+        "guard": "The candidate actually claims the identified requirement/version; preserve proposed versus approved versus verified states.",
+        "counter": "A current approved requirement can be wrong or remain unimplemented; a candidate for a different requirement gains no readiness from it."
+      },
+      {
+        "source": "EW-P014",
+        "receiver": "EA-10",
+        "factor": "authority_acceptance",
+        "argument": "Where release-ready includes an identified delivery/transfer condition, the empowered recipient's acceptance conditions constrain what the candidate must carry and what may remain conditional. Contractual acceptance stays separate from deployment and operational exposure authority. The contribution can be a missing acceptance condition without invalidating the technical build.",
+        "guard": "An actual recipient/delivery condition applies to this candidate; do not invent a contract for ordinary internal work.",
+        "counter": "An accepted contract deliverable can be unsafe to operate; a technically ready candidate can legitimately await acceptance."
+      },
+      {
+        "source": "EW-P021",
+        "receiver": "EA-10",
+        "factor": "commitment",
+        "argument": "An evidence-bearing gate can identify the particular commitment that an otherwise reproducible candidate must not cross until the remaining conditions or decision are met. That constrains the meaning of ready-for-what while preserving continuous construction of a qualified candidate and separate release/exposure decisions.",
+        "guard": "The gate controls an actual consequential release/commitment, has real decision authority and discriminating evidence; a meeting alone does not qualify.",
+        "counter": "An unnecessary calendar gate adds delay without changing the technical claim; candidate preparation need not stop merely because release approval is pending."
+      },
+      {
+        "source": "EW-P026",
+        "receiver": "EA-10",
+        "factor": "supplier",
+        "argument": "An actual supplied component, build service, signing right or environment dependency can constrain reproducibility and the qualification of the release candidate. Its contract/version/availability is a partial readiness premise, not an inference that all candidate behavior passes or that supplier approval authorizes exposure.",
+        "guard": "Name the supplied contribution actually needed by the candidate path; a generic procurement relationship does not suffice.",
+        "counter": "An unrelated supplier obligation has no candidate effect; a perfectly delivered component can still integrate incorrectly."
+      },
+      {
+        "source": "EL-008",
+        "receiver": "EA-10",
+        "factor": "capacity",
+        "argument": "A real qualified reserve of a required build/test resource or reproducible environment can keep the candidate preparation/evidence path available when the primary is unavailable. This is an availability input to release-ready maintenance, not a claim that the candidate is correct.",
+        "guard": "The resource is actually required, suitably configured, timely and independent enough for the interruption being considered; information about a reserve is not the reserve.",
+        "counter": "An unqualified spare or a shared failed service adds no available evidence path. A cheap existing adequate service makes a new reserve unnecessary."
+      },
+      {
+        "source": "EL-021",
+        "receiver": "EA-10",
+        "factor": "competence",
+        "argument": "Task-relevant build, configuration, verification and recovery competence can remove a hidden manual-step or single-person dependency in maintaining a reproducible qualified candidate. The source's demonstrated competence is a real execution premise where that task remains human.",
+        "guard": "Identify the actual task and demonstrated capability/availability; training attendance does not pass the candidate's tests or confer release authority.",
+        "counter": "An entirely adequate automated and supported path need not add training ceremony; skilled people can still operate a false-green pipeline."
+      },
+      {
+        "source": "EL-027",
+        "receiver": "EA-10",
+        "factor": "supplier",
+        "argument": "Developing the capability of the supplier that actually provides a candidate dependency can make its versioned output, knowledge transfer or correction path usable for candidate verification. Fair risk allocation matters separately to the cost of relying on it; a focal team cannot hide that cost in unpaid supplier work.",
+        "guard": "An actual candidate dependency and consequential capability gap are identified; commodity qualification can be sufficient.",
+        "counter": "Supplier improvement in another component does not change readiness; a capable supplier does not prove integration or deployment permission."
+      },
+      {
+        "source": "EL-028",
+        "receiver": "EA-10",
+        "factor": "critical_dependency",
+        "argument": "Critical lower-tier or common-cause information can expose a supposedly reproducible candidate path's shared build, registry, signing or environment failure. The source supplies a specific dependency/availability premise and can prevent crediting nominally independent candidate paths as independent.",
+        "guard": "The identified dependency actually participates in this preparation/evidence path and matters at the needed horizon.",
+        "counter": "A comprehensive map with no consequential shared dependency adds no readiness; mapping alone does not create a substitute."
+      },
+      {
+        "source": "EL-030",
+        "receiver": "EA-10",
+        "factor": "coordination",
+        "argument": "Concurrent design of the exact software/hardware/interface contribution can supply the negotiated interface and responsibility condition needed to keep a jointly produced candidate reproducible and interpretable. It need not synchronize truly independent work or create a release train.",
+        "guard": "A real cross-disciplinary coupling changes the candidate's configuration or evidence meaning.",
+        "counter": "A standing meeting without an unresolved interface does not improve readiness; agreed interface prose can still fail integration."
+      }
+    ],
+    "unresolved_family_argument": {
+      "claim": "For the explicit remaining unmatched members, examine the proposed source output against the receiver's native mechanism and prerequisites. The source supplies the named output in its own bearer; the receiver needs the separately named item, evidence, causal claim or right. No direct receiving use, specific constraint conflict or supplied domain correspondence is established by the two selected native meanings. This is an examined inferential gap.",
+      "hypotheses": "One hypothesis is that the two mechanisms interact through an actual shared artifact, resource, stakeholder, causal mediator or obligation; the other is that they operate on distinct bearers and either can vary without changing the other's decision. Both remain consistent with the current native descriptions. Mere coexistence does not decide between them and does not negate a possible partial input.",
+      "missing_discriminator": "Identify the particular source result or condition, the receiving premise that actually consumes it, and the context in which withdrawing it or using an adequate substitute changes the warranted receiver input or constraint. If the proposed route is empirical motivation, organizational culture or a cost/benefit spillover, identify that mediating relation and evidence; neither label proximity nor a researcher's imagined application supplies it.",
+      "not_full_receiver_requirement": "This does not demand proof of the entire receiving property. A scoped premise, a limitation, legitimate same-choice confirmation or a separately bounded exposure contribution can be material. Unknown is used here because that narrower link is not identified, not because the source fails to guarantee all receiver success.",
+      "reentry": "A native grounded receiving premise or counterexample reopens the affected incidence. All original argument bodies remain preserved; no original outcome is protected from warranted correction. Use current WHOLE_PAIR_ACCOUNTING.json and the current resolver."
+    },
+    "superseded_by_A003": [
+      {
+        "original_pointer": "a002:WHOLE_SEMANTIC_DECISIONS.json#/explicit_unknown_overrides/6",
+        "original": {
+          "sources": [
+            "EL-025"
+          ],
+          "receivers": [
+            "EA-10"
+          ],
+          "reason": "Balanced system metrics and countermetrics can reveal a misleading readiness proxy, but the pair does not identify the candidate's verification criterion or the metric actually used as release-ready evidence. Generic distrust of metrics is not a technical counterexample. Bind an actual readiness metric and its false correspondence before promoting this direction."
+        },
+        "current": "A003_SCIENTIFIC_RESPONSE.json#/changes/5"
+      }
+    ],
+    "a003_override_source": "A003_SCIENTIFIC_RESPONSE.json",
+    "A004_supersession": {
+      "changed_direction_keys": [
+        "LAW-L1::EL-011->LAW-L2::EA-04",
+        "LAW-L1::EL-012->LAW-L2::EA-04",
+        "LAW-L1::EL-017->LAW-L2::EA-04",
+        "LAW-L1::EL-021->LAW-L2::EA-04",
+        "LAW-L1::EL-022->LAW-L2::EA-04",
+        "LAW-L1::EL-023->LAW-L2::EA-04",
+        "LAW-L1::EL-027->LAW-L2::EA-04",
+        "LAW-L3::EW-P001->LAW-L2::EA-04",
+        "LAW-L3::EW-P002->LAW-L2::EA-04",
+        "LAW-L3::EW-P005->LAW-L2::EA-04",
+        "LAW-L3::EW-P006->LAW-L2::EA-04",
+        "LAW-L3::EW-P008->LAW-L2::EA-04",
+        "LAW-L3::EW-P017->LAW-L2::EA-04",
+        "LAW-L3::EW-P020->LAW-L2::EA-04",
+        "LAW-L3::EW-P029->LAW-L2::EA-04",
+        "LAW-L3::EW-P032->LAW-L2::EA-04",
+        "LAW-L2::EA-04->LAW-L1::EL-013",
+        "LAW-L2::EA-04->LAW-L1::EL-017",
+        "LAW-L2::EA-04->LAW-L1::EL-019",
+        "LAW-L2::EA-04->LAW-L1::EL-020",
+        "LAW-L2::EA-04->LAW-L1::EL-021",
+        "LAW-L2::EA-04->LAW-L1::EL-022",
+        "LAW-L2::EA-04->LAW-L1::EL-023",
+        "LAW-L2::EA-04->LAW-L1::EL-027",
+        "LAW-L2::EA-04->LAW-L1::EL-031",
+        "LAW-L2::EA-04->LAW-L3::EW-P001",
+        "LAW-L2::EA-04->LAW-L3::EW-P002",
+        "LAW-L2::EA-04->LAW-L3::EW-P005",
+        "LAW-L2::EA-04->LAW-L3::EW-P006",
+        "LAW-L2::EA-04->LAW-L3::EW-P007",
+        "LAW-L2::EA-04->LAW-L3::EW-P009",
+        "LAW-L2::EA-04->LAW-L3::EW-P010",
+        "LAW-L2::EA-04->LAW-L3::EW-P011",
+        "LAW-L2::EA-04->LAW-L3::EW-P012",
+        "LAW-L2::EA-04->LAW-L3::EW-P013",
+        "LAW-L2::EA-04->LAW-L3::EW-P014",
+        "LAW-L2::EA-04->LAW-L3::EW-P015",
+        "LAW-L2::EA-04->LAW-L3::EW-P016",
+        "LAW-L2::EA-04->LAW-L3::EW-P017",
+        "LAW-L2::EA-04->LAW-L3::EW-P018",
+        "LAW-L2::EA-04->LAW-L3::EW-P019",
+        "LAW-L2::EA-04->LAW-L3::EW-P020",
+        "LAW-L2::EA-04->LAW-L3::EW-P023",
+        "LAW-L2::EA-04->LAW-L3::EW-P026",
+        "LAW-L2::EA-04->LAW-L3::EW-P027",
+        "LAW-L2::EA-04->LAW-L3::EW-P029",
+        "LAW-L2::EA-04->LAW-L3::EW-P031",
+        "LAW-L2::EA-04->LAW-L3::EW-P032",
+        "LAW-L2::EA-12->LAW-L1::EL-005",
+        "LAW-L2::EA-14->LAW-L1::EL-005",
+        "LAW-L2::EA-16->LAW-L1::EL-005",
+        "LAW-L2::EA-22->LAW-L1::EL-005",
+        "LAW-L3::EW-P001->LAW-L1::EL-005",
+        "LAW-L3::EW-P002->LAW-L1::EL-005",
+        "LAW-L3::EW-P010->LAW-L1::EL-005",
+        "LAW-L3::EW-P014->LAW-L1::EL-005",
+        "LAW-L3::EW-P015->LAW-L1::EL-005",
+        "LAW-L3::EW-P018->LAW-L1::EL-005",
+        "LAW-L3::EW-P019->LAW-L1::EL-005",
+        "LAW-L3::EW-P032->LAW-L1::EL-005",
+        "LAW-L1::EL-005->LAW-L2::EA-12",
+        "LAW-L1::EL-005->LAW-L2::EA-16",
+        "LAW-L1::EL-005->LAW-L2::EA-23",
+        "LAW-L1::EL-005->LAW-L3::EW-P001",
+        "LAW-L1::EL-005->LAW-L3::EW-P002",
+        "LAW-L1::EL-005->LAW-L3::EW-P010",
+        "LAW-L1::EL-005->LAW-L3::EW-P012",
+        "LAW-L1::EL-005->LAW-L3::EW-P013",
+        "LAW-L1::EL-005->LAW-L3::EW-P014",
+        "LAW-L1::EL-005->LAW-L3::EW-P015",
+        "LAW-L1::EL-005->LAW-L3::EW-P016",
+        "LAW-L1::EL-005->LAW-L3::EW-P018",
+        "LAW-L1::EL-005->LAW-L3::EW-P019",
+        "LAW-L1::EL-005->LAW-L3::EW-P032",
+        "LAW-L1::EL-039->LAW-L2::EA-04",
+        "LAW-L2::EA-04->LAW-L1::EL-039",
+        "LAW-L1::EL-004->LAW-L3::EW-P032",
+        "LAW-L3::EW-P032->LAW-L1::EL-004",
+        "LAW-L1::EL-004->LAW-L2::EA-11",
+        "LAW-L2::EA-11->LAW-L1::EL-004",
+        "LAW-L1::EL-004->LAW-L2::EA-15",
+        "LAW-L2::EA-15->LAW-L1::EL-004",
+        "LAW-L1::EL-036->LAW-L3::EW-P032",
+        "LAW-L3::EW-P032->LAW-L1::EL-036"
+      ],
+      "argument_source": "a004:A004_SCIENTIFIC_RESPONSE.json",
+      "unknown_selector": "UNRESOLVED_MEMBER_BINDINGS.json",
+      "historical_unknown_semantics": "At A004: all 476 bodies preserved, four outcomes corrected, 472 then-current unknown outcomes. A005 makes eight further warranted historical corrections.",
+      "defective_rationale": "Value/automation-only and role-label checks cannot override full native build/integration/exposure and operation-scope meaning. An absent implementation or nontrigger cannot refute a conditional analytical bridge. Generic usefulness or an invented model/consumer remains insufficient."
+    },
+    "A005_supersession": {
+      "changed_direction_keys": [
+        "LAW-L3::EW-P030->LAW-L2::EA-04",
+        "LAW-L2::EA-04->LAW-L3::EW-P030",
+        "LAW-L1::EL-004->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-004",
+        "LAW-L1::EL-002->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-002",
+        "LAW-L1::EL-006->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-006",
+        "LAW-L1::EL-001->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-001",
+        "LAW-L1::EL-003->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-003",
+        "LAW-L1::EL-010->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-010",
+        "LAW-L1::EL-021->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-021",
+        "LAW-L2::EA-16->LAW-L1::EL-007",
+        "LAW-L2::EA-16->LAW-L1::EL-008",
+        "LAW-L2::EA-16->LAW-L1::EL-009",
+        "LAW-L2::EA-16->LAW-L1::EL-022",
+        "LAW-L2::EA-16->LAW-L1::EL-025",
+        "LAW-L2::EA-16->LAW-L1::EL-026",
+        "LAW-L1::EL-027->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-027",
+        "LAW-L1::EL-028->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-028",
+        "LAW-L1::EL-030->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-030",
+        "LAW-L2::EA-16->LAW-L1::EL-032",
+        "LAW-L1::EL-034->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-034",
+        "LAW-L1::EL-036->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-036",
+        "LAW-L1::EL-039->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L1::EL-039",
+        "LAW-L3::EW-P002->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P002",
+        "LAW-L2::EA-16->LAW-L3::EW-P004",
+        "LAW-L3::EW-P005->LAW-L2::EA-16",
+        "LAW-L3::EW-P010->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P010",
+        "LAW-L2::EA-16->LAW-L3::EW-P011",
+        "LAW-L3::EW-P017->LAW-L2::EA-16",
+        "LAW-L3::EW-P018->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P018",
+        "LAW-L2::EA-16->LAW-L3::EW-P021",
+        "LAW-L3::EW-P022->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P022",
+        "LAW-L3::EW-P023->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P025",
+        "LAW-L3::EW-P026->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P026",
+        "LAW-L2::EA-16->LAW-L3::EW-P027",
+        "LAW-L3::EW-P028->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P028",
+        "LAW-L3::EW-P029->LAW-L2::EA-16",
+        "LAW-L2::EA-16->LAW-L3::EW-P029",
+        "LAW-L2::EA-16->LAW-L3::EW-P031",
+        "LAW-L2::EA-16->LAW-L3::EW-P033",
+        "LAW-L1::EL-011->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L1::EL-025",
+        "LAW-L1::EL-027->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L1::EL-027",
+        "LAW-L1::EL-028->LAW-L3::EW-P030",
+        "LAW-L1::EL-029->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L1::EL-029",
+        "LAW-L3::EW-P030->LAW-L1::EL-032",
+        "LAW-L1::EL-036->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L1::EL-036",
+        "LAW-L2::EA-01->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L2::EA-01",
+        "LAW-L2::EA-03->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L2::EA-03",
+        "LAW-L3::EW-P030->LAW-L2::EA-13",
+        "LAW-L3::EW-P030->LAW-L2::EA-15",
+        "LAW-L3::EW-P030->LAW-L2::EA-17",
+        "LAW-L3::EW-P030->LAW-L2::EA-22",
+        "LAW-L2::EA-25->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L2::EA-25",
+        "LAW-L3::EW-P030->LAW-L2::EA-28",
+        "LAW-L2::EA-16->LAW-L3::EW-P007",
+        "LAW-L2::EA-16->LAW-L3::EW-P012",
+        "LAW-L1::EL-008->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L1::EL-008",
+        "LAW-L1::EL-012->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L1::EL-012",
+        "LAW-L1::EL-015->LAW-L3::EW-P030",
+        "LAW-L2::EA-12->LAW-L3::EW-P030",
+        "LAW-L3::EW-P030->LAW-L2::EA-12",
+        "LAW-L3::EW-P030->LAW-L2::EA-14"
+      ],
+      "argument_source": "A005_SCIENTIFIC_RESPONSE.json",
+      "retained_unknown_source": "CAUSAL_SCOPE_REASSESSMENT.json#/retained_unknowns",
+      "cause": "Do not require a numeric batch-cost model for actual engineering representation/coherent-unit correspondence. Do not reduce process adaptation to reflection, authorization or causal discussion while omitting implemented countermeasure/state/follow-up. Do not treat an adequate no-change result as absence of a partial input.",
+      "negative_boundary": "A source still must contribute an actual native receiving premise. Generic project coexistence, arbitrary imagined model consumers, physical-resource substitution and stronger outcome/authority claims remain invalid."
+    }
+  }
+}

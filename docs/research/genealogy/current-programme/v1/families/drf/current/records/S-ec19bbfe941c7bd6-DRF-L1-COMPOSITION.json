@@ -1,0 +1,820 @@
+{
+  "source_identity": {
+    "source_id": "S-ec19bbfe941c7bd6",
+    "scientific_name": "DRF-L1-COMPOSITION.json",
+    "original_bytes": 39010,
+    "original_sha256": "ec19bbfe941c7bd6c60145f4efae7fe72d0cd50e06e6504e37efccd5eba92c19"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-l1-within-lineage-composition/1",
+    "status": "AUTHOR_ANALYSIS_AT_STATED_SCOPE; no independent review or target transfer",
+    "method": "A directional relation can supply a guarded input, change scope or constrain interpretation without proving the receiving predicate. Reverse directions below are independently evaluated. Cases are authored finite discriminators, not observed deployments. Sources provide the named mechanism and limits; joint implications are explicitly author reasoning.",
+    "relations": [
+      {
+        "id": "R01",
+        "parents": [
+          "P13",
+          "P18",
+          "P19"
+        ],
+        "shared_interface": "A protected operation that receives a writer identity, authority evidence and semantic operation identity.",
+        "sources": [
+          "S094",
+          "S095",
+          "S069",
+          "S049"
+        ],
+        "source_contribution": "Sequencer/high-water checks constrain obsolete authority; idempotent API and transactional message records constrain repeated intent.",
+        "compatible_scope": "Both hazards reach the same effect boundary, and the implementation can bind the relevant checks to that effect.",
+        "guard": "Authority evidence is valid at acceptance; semantic identity denotes the same intent and deduplication state covers the retry horizon. A later token must be installed/observed where the high-water rule relies on it.",
+        "residual_premises": [
+          "Atomicity or ordering of acceptance and effect",
+          "Durability and retention of operation records",
+          "Correct identity allocation and business semantics"
+        ],
+        "forward": {
+          "from": "P13",
+          "to": "P19",
+          "type": "PARTIAL_INPUT_FILTER",
+          "consequence": "Rejecting obsolete writers removes one class of attempts from the effect stream. It does not suppress two current authorized copies of the same intent.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P19",
+          "to": "P13",
+          "type": "PARTIAL_REPETITION_FILTER",
+          "consequence": "Duplicate suppression prevents a second protected effect for a recognized intent. A unique request from an obsolete writer can still pass; deduplication does not establish current authority.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Source-scoped protocol/API semantics plus C10 finite acceptance examples. No joint implementation verified.",
+        "nontrigger": "A single atomic local operation with no stale competing owner or harmful repetition may need neither new service.",
+        "contrary_case": "A trace ID appears in both logs but neither resource acceptance nor atomic effect handling uses it.",
+        "cases": [
+          "C02",
+          "C10",
+          "C13"
+        ],
+        "disposition": "MATERIAL_PARTIAL_RELATION_BOTH_DIRECTIONS"
+      },
+      {
+        "id": "R02",
+        "parents": [
+          "P10",
+          "P12",
+          "P07"
+        ],
+        "shared_interface": "A replicated history whose quorum votes are interpreted under a membership configuration.",
+        "sources": [
+          "S010",
+          "S011",
+          "S012",
+          "N002"
+        ],
+        "source_contribution": "View/history rules, durable accepted values, joint configurations and cross-phase intersection describe different sufficient constructions.",
+        "compatible_scope": "The consistency/history claim uses the same participants, identities and state carried by the transition protocol.",
+        "guard": "No vote is counted in an unintended configuration; state selection and transition preserve the required intersection or another proven safe construction.",
+        "residual_premises": [
+          "Stable identity and vote storage",
+          "Application validity independent of protocol agreement",
+          "Progress premises and read modes"
+        ],
+        "forward": {
+          "from": "P12",
+          "to": "P10/P07",
+          "type": "SCOPE_AND_STATE_GUARD",
+          "consequence": "A valid membership transition supplies the population and inherited state to which quorum/history reasoning can apply. It does not establish every consistency property of all reads.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P10/P07",
+          "to": "P12",
+          "type": "CONSTRAINT_ON_ACCEPTABLE_TRANSITION",
+          "consequence": "Required intersection and observable history rule out some transitions. They do not construct or authorize a transition protocol by themselves.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Inspected algorithm models and C03 arithmetic. Native P12 already allowed safe alternatives and is retained.",
+        "nontrigger": "A fixed single durable owner with no replica membership transition.",
+        "contrary_case": "Two disjoint configurations each obtain a local majority and are treated as one membership.",
+        "cases": [
+          "C03"
+        ],
+        "disposition": "MATERIAL_SCOPE_RELATION"
+      },
+      {
+        "id": "R03",
+        "parents": [
+          "P25",
+          "P27",
+          "P36"
+        ],
+        "shared_interface": "Workflow state and the result of an operation, including any external effect excluded from the state transaction.",
+        "sources": [
+          "S052",
+          "S050",
+          "S044",
+          "S054"
+        ],
+        "source_contribution": "Atomic conditional internal commits and RPC normal-return contracts supply positive enclosed guarantees; explicit external-call exclusions define the residual.",
+        "compatible_scope": "The consumer objective and the operation's atomic/recoverable boundary are identified.",
+        "guard": "The state-storage primitive meets the source model, and an external completion claim is made only when its own contract supports it.",
+        "residual_premises": [
+          "External operation identity and retention if retried",
+          "Worker eligibility and code compatibility",
+          "Interpretation of a missing response"
+        ],
+        "forward": {
+          "from": "P25",
+          "to": "P27/P36",
+          "type": "DURABLE_INTERNAL_EVIDENCE",
+          "consequence": "Recovered workflow state can establish completion of an enclosed operation and inform reconciliation. It does not decide an excluded effect merely because internal replay succeeds.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P27",
+          "to": "P25/P36",
+          "type": "EXTERNAL_RESULT_INPUT",
+          "consequence": "A valid external receipt can resolve one outcome during recovery. It cannot establish durability of the workflow log, correct replay or completion of unrelated work.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Source theorem/contract scope and C01/C06 finite histories; no external provider audited.",
+        "nontrigger": "The operation result already covers the entire consumer objective; a second observer is unnecessary.",
+        "contrary_case": "Restored internal state reissues an action that already affected an unmodeled outside counter.",
+        "cases": [
+          "C01",
+          "C06"
+        ],
+        "disposition": "MATERIAL_PARTIAL_RELATION_WITH_POSITIVE_ENCLOSED_CASE"
+      },
+      {
+        "id": "R04",
+        "parents": [
+          "P23",
+          "P24",
+          "P22"
+        ],
+        "shared_interface": "Local transactional steps and a multi-step business process that may expose intermediate effects.",
+        "sources": [
+          "S017",
+          "S018",
+          "S019",
+          "S055"
+        ],
+        "source_contribution": "Local commit/recovery and saga compensation protect different histories and business objectives.",
+        "compatible_scope": "The application permits the stated intermediate visibility and the compensating actions are available with known consequences.",
+        "guard": "Each protected step's own state transition is atomic where required; the compensator's semantic objective, failure and ownership are explicit.",
+        "residual_premises": [
+          "Noninvertible outside observations",
+          "Concurrency between compensation and later actions",
+          "Cost and availability of participants"
+        ],
+        "forward": {
+          "from": "P23/P22",
+          "to": "P24",
+          "type": "RESIDUAL_REDUCTION",
+          "consequence": "Atomic local steps remove some partial-write cases that compensation would otherwise need to interpret. They do not make an outside notification reversible.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P24",
+          "to": "P23",
+          "type": "BUSINESS_CONTRACT_ALTERNATIVE",
+          "consequence": "A dependable semantic repair path can permit decomposition instead of a wide atomic boundary. Mere compensatability does not prove that decomposition is cheaper or acceptable at the required time.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Source semantics, C07, and the inherited S055 21-state/9-counterexample model at its explicit scope.",
+        "nontrigger": "A cheap local transaction already encloses the transfer; no multi-party repair problem remains.",
+        "contrary_case": "Refunding a balance is mistaken for erasing an already delivered notification, or a failed compensator is marked complete.",
+        "cases": [
+          "C07",
+          "INHERITED-C-S055-COMPENSATION-01"
+        ],
+        "disposition": "MATERIAL_PARTIAL_RELATION_NO_UNIVERSAL_WINNER"
+      },
+      {
+        "id": "R05",
+        "parents": [
+          "P29",
+          "P32",
+          "P33",
+          "P36",
+          "P38"
+        ],
+        "shared_interface": "CPU, storage, network and queue capacity shared by foreground work, retry and recovery.",
+        "sources": [
+          "S062",
+          "S063",
+          "S066",
+          "S067",
+          "S073"
+        ],
+        "source_contribution": "Metastability and incident accounts show feedback between extra work, reduced service efficiency and recovery; retry guidance describes bounded alternatives.",
+        "compatible_scope": "Recovery and ordinary work compete for a consequential resource, or recovery changes service efficiency.",
+        "guard": "The capacity model counts duplicated, expired and catch-up work; the intended recovery objective and rejection consequences are stated.",
+        "residual_premises": [
+          "Workload and resource measurements",
+          "Priority ownership",
+          "Storage correctness and authority independent of available capacity"
+        ],
+        "forward": {
+          "from": "P29/P32/P33",
+          "to": "P36/P38",
+          "type": "PROGRESS_PRECONDITION",
+          "consequence": "Controlling admitted and repeated work can preserve capacity for recovery. It does not prove that the recovered data or external result is correct.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P36/P38",
+          "to": "P29/P33",
+          "type": "LOAD_AND_STATE_FEEDBACK",
+          "consequence": "Replay, cache refill and catch-up can reduce foreground capacity and sustain degradation; a staged recovery can reduce that load. Neither consequence is universal when resources are isolated or idle.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Mechanism-level source reports and C05 authored arithmetic, not a pooled outage rate or measured capacity margin.",
+        "nontrigger": "Offline recovery on adequate isolated resources with no consequential foreground demand.",
+        "contrary_case": "A retry policy increases recovery load after the initial transient has ended.",
+        "cases": [
+          "C05",
+          "C09"
+        ],
+        "disposition": "MATERIAL_FEEDBACK_RELATION"
+      },
+      {
+        "id": "R06",
+        "parents": [
+          "P41",
+          "P42",
+          "P43"
+        ],
+        "shared_interface": "A decision consumes an observation about a particular service, request population and time interval.",
+        "sources": [
+          "S080",
+          "S081",
+          "S082",
+          "S083",
+          "S087",
+          "S092"
+        ],
+        "source_contribution": "Sampling, partial causal reconstruction and diagnostic oracles expose useful evidence and explicit blind spots.",
+        "compatible_scope": "The observed population and currentness are relevant to the stated decision; confidence assumptions are justified where calculated.",
+        "guard": "Sampling/selection, observation delay, missing paths and oracle errors are accounted for at the consequence being decided.",
+        "residual_premises": [
+          "Future workload correspondence",
+          "Per-operation evidence if the objective requires it",
+          "Telemetry privacy, availability and observer effects"
+        ],
+        "forward": {
+          "from": "P42/P43",
+          "to": "P41",
+          "type": "DECISION_EVIDENCE",
+          "consequence": "A partial signal can support continued operation or a change at its stated threshold. It need not establish every dependency or one unsampled irreversible effect.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P41",
+          "to": "P42/P43",
+          "type": "POPULATION_AND_INTERPRETATION_CHANGE",
+          "consequence": "Routing, admission or rollout decisions change which work becomes observable; an apparent error-rate improvement can reflect selection. The control does not itself improve the observer's truthfulness.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Source-specific observation designs and C08 hypothetical sampling calculation; no production confidence estimate.",
+        "nontrigger": "An existing local result directly settles the decision, making broad tracing unnecessary.",
+        "contrary_case": "Biased samples omit the affected path, or an aggregate success rate is treated as proof of one missing receipt.",
+        "cases": [
+          "C08"
+        ],
+        "disposition": "MATERIAL_EVIDENCE_AND_INTERPRETATION_RELATION"
+      },
+      {
+        "id": "R07",
+        "parents": [
+          "P28",
+          "P39",
+          "P46",
+          "P20"
+        ],
+        "shared_interface": "Stored histories/messages and the set of worker or reader versions still eligible to consume them.",
+        "sources": [
+          "S060",
+          "N001",
+          "S057",
+          "S078",
+          "S079"
+        ],
+        "source_contribution": "Replay compatibility, pinned routing, mixed-version data and rollback sequencing identify eligibility and retirement conditions.",
+        "compatible_scope": "The changed code or schema can encounter retained data or old routed work.",
+        "guard": "Every eligible path has compatible interpretation or an explicit migration/rejection rule. Old paths and retained records are counted at retirement.",
+        "residual_premises": [
+          "Actual routing enforcement",
+          "External effects and credentials",
+          "Retention bounds, late clients and rollback plans"
+        ],
+        "forward": {
+          "from": "P39",
+          "to": "P28",
+          "type": "ELIGIBILITY_CONSTRAINT",
+          "consequence": "Evolution restricts which code may replay a history; preserving an old compatible worker can satisfy the obligation without universal build compatibility.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P28/P20",
+          "to": "P39/P46",
+          "type": "RETIREMENT_CONSTRAINT",
+          "consequence": "Retained histories and admitted late attempts constrain when old readers, workers and identity records can be removed. They do not require perpetual retention if conversion or rejection is acceptable.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Owner contracts and C06/C13 examples, not a verified rollout of a target system.",
+        "nontrigger": "No retained old data/path exists, or a planned stop and conversion is acceptable.",
+        "contrary_case": "The last compatible worker is removed while its pinned histories remain eligible.",
+        "cases": [
+          "C06",
+          "C13"
+        ],
+        "disposition": "MATERIAL_LIFECYCLE_RELATION"
+      },
+      {
+        "id": "R08",
+        "parents": [
+          "P14",
+          "P23",
+          "P13",
+          "P45"
+        ],
+        "shared_interface": "The boundary enclosing a required state transition and all consequential effects.",
+        "sources": [
+          "S017",
+          "S043",
+          "S044",
+          "S093",
+          "S094"
+        ],
+        "source_contribution": "Local atomic operations and endpoint contracts identify when a distributed obligation exists; architectural tradeoff accounts supply alternatives without universal comparative proof.",
+        "compatible_scope": "All effects that the consumer requires can actually be enclosed in the proposed local boundary.",
+        "guard": "No hidden independent authority, durable store or outside actor is assumed local merely by renaming a service.",
+        "residual_premises": [
+          "Scale and geography requirements",
+          "Administrative independence",
+          "Recovery and external input semantics"
+        ],
+        "forward": {
+          "from": "P14",
+          "to": "P23/P13/P45",
+          "type": "NONTRIGGER_BY_BOUNDARY_REMOVAL",
+          "consequence": "A valid local transaction or single owner can eliminate a particular cross-service commit or stale-owner problem.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P23/P13/P45",
+          "to": "P14",
+          "type": "ADEQUACY_CONSTRAINT",
+          "consequence": "A genuinely external effect or independent failure domain can make the proposed local simplification inadequate. This does not prove that every other component must be distributed.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Boundary reasoning with source-scoped positive contracts and C02/C07 controls; no universal architecture comparison.",
+        "nontrigger": "No consumer benefit remains for a remote boundary; retirement can be appropriate.",
+        "contrary_case": "A local database transaction is claimed to atomically include an uncooperative remote payment service.",
+        "cases": [
+          "C02",
+          "C07",
+          "C09"
+        ],
+        "disposition": "MATERIAL_SCOPE_REMOVAL_AND_ADEQUACY_RELATION"
+      },
+      {
+        "id": "R09",
+        "parents": [
+          "P04",
+          "P35",
+          "P43"
+        ],
+        "shared_interface": "Events, send/receive dependencies and a proposed global cut.",
+        "sources": [
+          "S003",
+          "S004",
+          "S048"
+        ],
+        "source_contribution": "Happened-before and consistent-state capture constrain which local states can be combined; barrier adaptation uses a specific channel model.",
+        "compatible_scope": "The cut's causal and channel dependencies are represented by the model actually being used.",
+        "guard": "A receive cannot be included without its required send; ordering and channel assumptions match the snapshot algorithm.",
+        "residual_premises": [
+          "Stored bytes remain intact",
+          "Recovery operation is correctly implemented",
+          "External output reconciliation"
+        ],
+        "forward": {
+          "from": "P04",
+          "to": "P35",
+          "type": "CONSISTENCY_CONSTRAINT",
+          "consequence": "Causal dependencies reject some combinations of local states. A valid cut need not have physically coexisted in the observed run.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P35",
+          "to": "P04/P43",
+          "type": "PARTIAL_STATE_EVIDENCE",
+          "consequence": "A valid snapshot supplies a consistent state for the specified analysis, not the full causal order of all events or an actual simultaneous wall-clock image.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Theorem scope and C11 finite permutations, not a machine verification of all snapshot implementations.",
+        "nontrigger": "A single atomic local snapshot has no interprocess channel-state problem.",
+        "contrary_case": "Adding a send-to-receive edge makes the formerly valid cut impossible under the new causal relation.",
+        "cases": [
+          "C11"
+        ],
+        "disposition": "MATERIAL_MODEL_RELATION"
+      },
+      {
+        "id": "R10",
+        "parents": [
+          "P03",
+          "P52"
+        ],
+        "shared_interface": "The participants and common causes underlying a Byzantine fault bound.",
+        "sources": [
+          "S005",
+          "S096",
+          "S075",
+          "S076"
+        ],
+        "source_contribution": "Formal cardinality bounds and PBFT's stated independence premise differ from owner incident accounts of shared configuration exposure.",
+        "compatible_scope": "The proposed correspondence argument uses replicas or identities whose joint faults matter to the bound.",
+        "guard": "The actual protocol assumptions, identities and fault threshold remain explicit; common causes are not hidden by counting replicas.",
+        "residual_premises": [
+          "Fault probabilities if a probabilistic claim is made",
+          "Key and software diversity",
+          "Authentication, scheduling and implementation correctness"
+        ],
+        "forward": {
+          "from": "P03",
+          "to": "P52",
+          "type": "CORRESPONDENCE_PREMISE",
+          "consequence": "Common-mode analysis can challenge whether the deployment respects the formal fault bound or independence premise; it does not invalidate the pure bounded model.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P52",
+          "to": "P03",
+          "type": "TOLERANCE_REQUIREMENT",
+          "consequence": "The protocol tells the deployment which arbitrary-fault patterns it must bound. It does not establish that replicas fail independently or that an operator's mistake affects only one.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "C12 finite quorum intersections plus source models and specific incident mechanisms; no measured joint failure distribution.",
+        "nontrigger": "No arbitrary-fault service objective, or a sufficient simpler local/crash model.",
+        "contrary_case": "Two equivocal identities violate the one-fault bound of the four-replica example.",
+        "cases": [
+          "C12"
+        ],
+        "disposition": "MATERIAL_MODEL_TO_CORRESPONDENCE_RELATION"
+      },
+      {
+        "id": "R11",
+        "parents": [
+          "P44",
+          "P11"
+        ],
+        "shared_interface": "A fault-testing tool is used near a consensus implementation, with no explicit conformance mapping supplied.",
+        "sources": [
+          "S006",
+          "S011",
+          "S089",
+          "S091"
+        ],
+        "source_contribution": "Proofs and fault experiments answer different questions; the inspected experiment populations and blind spots prevent an automatic transfer.",
+        "compatible_scope": "No compositional guarantee is admitted merely from co-use.",
+        "guard": "A future material testing relation would require a named implementation, theorem premise, exercised fault and oracle; none is invented here.",
+        "residual_premises": [
+          "Implementation-model correspondence",
+          "Fault-path reachability",
+          "Sound consequence oracle"
+        ],
+        "forward": {
+          "from": "P44",
+          "to": "P11",
+          "type": "REJECTED_GENERIC_CO_USE",
+          "consequence": "Running an unrelated fault tool does not prove consensus safety or termination.",
+          "whole_receiving_predicate_proved": false
+        },
+        "reverse": {
+          "from": "P11",
+          "to": "P44",
+          "type": "REJECTED_GENERIC_CO_USE",
+          "consequence": "Citing a consensus theorem does not establish an injection tool's coverage or oracle accuracy.",
+          "whole_receiving_predicate_proved": false
+        },
+        "evidence_ceiling": "Analyzed negative relation, not an empirical claim that fault testing is useless.",
+        "nontrigger": "The proposed relation is only a shared label, directory or conceivable encoding.",
+        "contrary_case": "A later specifically mapped conformance experiment could supply bounded empirical evidence; that is a different relation requiring its own evidence.",
+        "cases": [
+          "C03",
+          "C10"
+        ],
+        "disposition": "ANALYZED_NEGATIVE_GENERIC_RELATION"
+      }
+    ],
+    "configurations": [
+      {
+        "id": "K01",
+        "parents": [
+          "P14",
+          "P18",
+          "P19",
+          "P20",
+          "P22",
+          "P29",
+          "P32"
+        ],
+        "relations": [
+          "R01",
+          "R03",
+          "R08"
+        ],
+        "bearer": "One local transaction commits business state and durable outgoing intent; a worker performs a required outside action.",
+        "useful_path": "Atomic internal state/intent prevents a lost outgoing task. Stable semantic identity and an appropriate provider contract or reconciliation handle admitted duplicate dispatch. A finite admission/retry policy bounds work.",
+        "failing_premise": "Independent state and intent writes reopen a gap. An external provider that ignores the operation identity can still duplicate its effect.",
+        "simpler_adequate_path": "If the whole objective is a local durable update, the transaction already suffices and there is no outgoing-work subsystem to add.",
+        "cumulative_cost": "Intent storage, worker operations, journal retention, recovery traffic and provider reconciliation; a second observer adds cost only where the existing return contract is insufficient.",
+        "omission_or_retirement": "Omit external reconciliation when the declared operation already encloses the complete result. Retire journal records only after the admitted replay horizon or explicit old-request rejection.",
+        "parent_removal": [
+          {
+            "parent": "P22",
+            "effect": "Without atomic coupling, a crash between writes can lose intent or publish an uncommitted transition."
+          },
+          {
+            "parent": "P19",
+            "effect": "Removing an additional duplicate-suppression mechanism is harmless only if the remaining operation contract preserves the consumer objective over all admitted histories: for example one fixed assignment intent without intervening conflicting mutation, or suitable commuting idempotent operations. Ordinary assignment fails A:set(1), B:set(2), retry(A):set(1) when B supersedes A. Atomic identity/result handling protects this already-completed-A history; a correctly scoped version condition is another alternative. Duplicate recognition alone does not order A if its first arrival follows B. Repeated increments or charges also need their actual effect semantics."
+          },
+          {
+            "parent": "P13",
+            "effect": "Not a required parent: add authority protection only if an obsolete competing writer can cause a consequential action."
+          }
+        ],
+        "subsumption": "Existing P18–P22 and the explicit R01/R03 boundaries express the joint criterion; no distinct new property bearer.",
+        "new_property": "NOT_ADMITTED_NO_ADDITIONAL_IDENTITY_NEEDED",
+        "cases": [
+          "C01",
+          "C05",
+          "C10",
+          "C13",
+          "C15"
+        ],
+        "sources": [
+          "S049",
+          "S050",
+          "S052",
+          "S069"
+        ]
+      },
+      {
+        "id": "K02",
+        "parents": [
+          "P07",
+          "P08",
+          "P09",
+          "P15",
+          "P16",
+          "P20"
+        ],
+        "relations": [
+          "R02",
+          "R07"
+        ],
+        "bearer": "A replicated application with merge-compatible operations, explicit session behavior and a separate mechanism for a scarce invariant.",
+        "useful_path": "Independent monotone additions converge under the model; an invariant that cannot survive merge is protected through ownership, reservation or coordination at the relevant boundary.",
+        "failing_premise": "Admitting concurrent unreserved withdrawals can violate the balance invariant even when all replicas converge correctly.",
+        "simpler_adequate_path": "A local transaction or already available strong serial operation may be cheaper than new CRDT/escrow machinery for a low-contention workload.",
+        "cumulative_cost": "Dependency metadata, tombstones, causal waiting, reservation management, reconciliation and reclamation; weaker ordering can shift cost into application semantics.",
+        "omission_or_retirement": "Do not retain global ordering for a consumer that does not need it; do not retire deletion/reservation evidence while an admitted old state can resurrect its effect.",
+        "parent_removal": [
+          {
+            "parent": "P08/P15",
+            "effect": "Removing invariant-specific operation restrictions leaves convergence intact but can make the business state invalid."
+          },
+          {
+            "parent": "P09/P20",
+            "effect": "Without a justified repair/retention rule, old state can defeat deletion semantics or exhaust resources."
+          },
+          {
+            "parent": "P07",
+            "effect": "If no client requires recency or session guarantees, stronger observation order can be omitted; the merge/invariant contract still remains."
+          }
+        ],
+        "subsumption": "The joint contract is a conditional combination of existing consistency, semantic invariant and retention claims; CALM, invariant confluence and SEC are not merged into a new theorem.",
+        "new_property": "NOT_ADMITTED_DISTINCT_THEOREMS_RETAINED",
+        "cases": [
+          "C04",
+          "C13"
+        ],
+        "sources": [
+          "S029",
+          "S030",
+          "S031",
+          "S037",
+          "S038",
+          "S039",
+          "N003",
+          "N006"
+        ]
+      },
+      {
+        "id": "K03",
+        "parents": [
+          "P24",
+          "P25",
+          "P27",
+          "P28",
+          "P39",
+          "P46"
+        ],
+        "relations": [
+          "R03",
+          "R04",
+          "R07"
+        ],
+        "bearer": "A durable long-running workflow with pinned compatible workers and outside reservations or other effects.",
+        "useful_path": "Internal atomic history supports replay; eligible workers preserve command interpretation; external operations use their actual completion/repair contracts.",
+        "failing_premise": "Removing the last old compatible worker can strand histories. Replaying a successful external booking without an appropriate operation contract can duplicate it. A nonrefundable action may not meet a claimed compensating objective.",
+        "simpler_adequate_path": "A small local state machine with a transaction, or an explicit planned stop/migration, can suffice when continuous mixed-version execution is unnecessary.",
+        "cumulative_cost": "History retention, old worker pools, version routing, provider records, compensator ownership and exception handling.",
+        "omission_or_retirement": "Retire an old build when no eligible history or rollback path needs it, or after explicit migration/rejection. Do not keep a compensation subsystem for effects already enclosed by a transaction.",
+        "parent_removal": [
+          {
+            "parent": "P28/P39",
+            "effect": "Internal durability alone does not make incompatible replay interpretation safe."
+          },
+          {
+            "parent": "P24",
+            "effect": "If all effects are enclosed and atomic, compensation can be omitted; otherwise removal leaves the specified business repair objective unmet."
+          },
+          {
+            "parent": "P27",
+            "effect": "A workflow flag alone is insufficient only when the required effect lies outside its proven boundary; no extra receipt is required for an already enclosed result."
+          }
+        ],
+        "subsumption": "Eligible-history completion and lifecycle are already captured by P25/P27/P28/P39/P46; no universal every-build compatibility criterion is introduced.",
+        "new_property": "NOT_ADMITTED_EXISTING_CLAIMS_SUFFICE",
+        "cases": [
+          "C06",
+          "C07",
+          "C14"
+        ],
+        "sources": [
+          "S019",
+          "S052",
+          "S057",
+          "S059",
+          "S060",
+          "N001",
+          "N005"
+        ]
+      },
+      {
+        "id": "K04",
+        "parents": [
+          "P03",
+          "P09",
+          "P29",
+          "P33",
+          "P35",
+          "P36",
+          "P37",
+          "P38"
+        ],
+        "relations": [
+          "R02",
+          "R05",
+          "R09"
+        ],
+        "bearer": "A recovery attempt combines a consistent cut or log with intact storage, writer selection and resources for catch-up.",
+        "useful_path": "The cut preserves required dependencies; verified data can be replayed; the correct writer is selected and catch-up is paced to the stated service/recovery objective.",
+        "failing_premise": "A causally valid cut can still contain corrupt bytes. A former writer can remain active. Recovery traffic can consume the remaining capacity and sustain degradation.",
+        "simpler_adequate_path": "An offline local restore on isolated resources needs neither a global membership transition nor a whole distributed fencing bundle.",
+        "cumulative_cost": "Backup/log storage, integrity checks, retained versions, rehearsals, additional capacity, traffic shedding and external reconciliation.",
+        "omission_or_retirement": "Omit controls for absent competing-writer or foreground-load hazards; retire redundant copies only after their actual recovery consumer is gone and retention consequences are understood.",
+        "parent_removal": [
+          {
+            "parent": "P35",
+            "effect": "Independent local images can violate causal dependencies; actual simultaneous coexistence is not the criterion."
+          },
+          {
+            "parent": "P09",
+            "effect": "A correct snapshot algorithm does not detect arbitrary stored corruption."
+          },
+          {
+            "parent": "P29/P33",
+            "effect": "Logical recovery can be correct but fail to complete under shared resource pressure."
+          },
+          {
+            "parent": "P37",
+            "effect": "Removal is safe in a genuine single-owner offline restore, unsafe where an obsolete writer remains consequential."
+          }
+        ],
+        "subsumption": "Capacity-for-recovery is a useful joint criterion under R05, already expressed by overload and recovery claims rather than a new universal property.",
+        "new_property": "NOT_ADMITTED_RELATION_CAPTURES_JOINT_CRITERION",
+        "cases": [
+          "C02",
+          "C05",
+          "C06",
+          "C11"
+        ],
+        "sources": [
+          "S004",
+          "S048",
+          "S062",
+          "S063",
+          "S071",
+          "S073",
+          "S074",
+          "S091"
+        ]
+      },
+      {
+        "id": "K05",
+        "parents": [
+          "P21",
+          "P27",
+          "P41",
+          "P42",
+          "P43",
+          "P44"
+        ],
+        "relations": [
+          "R03",
+          "R06",
+          "R11"
+        ],
+        "bearer": "A service decision uses the least costly evidence adequate for its specific consequence.",
+        "useful_path": "A valid sampled signal can justify continuation or a capacity change; an operation-specific contract settles an individual enclosed result when required; focused experiments challenge a consequential premise.",
+        "failing_premise": "Selection bias, stale signals, missing causal paths or an approximate oracle can invalidate the inference. An aggregate cannot prove an unsampled irreversible effect.",
+        "simpler_adequate_path": "Use an existing atomic return or local readiness condition when it answers the actual question; omit a new general tracing or certificate system.",
+        "cumulative_cost": "Telemetry collection and storage, privacy exposure, observer load, diagnosis effort and test disruption; the evidence path can itself be a shared dependency.",
+        "omission_or_retirement": "Retire unused signals and controls when no decision needs them, while preserving any legally/operationally required records outside this study's unexamined target scope.",
+        "parent_removal": [
+          {
+            "parent": "P43",
+            "effect": "A simple aggregate decision need not reconstruct a full causal graph; an incident-specific causal question may need it."
+          },
+          {
+            "parent": "P42",
+            "effect": "Ignoring selection/currentness can turn a useful partial signal into an invalid certainty claim."
+          },
+          {
+            "parent": "P44",
+            "effect": "A source theorem or declared operation contract can remain valid without a new local experiment; deployment correspondence still needs its own evidence where claimed."
+          }
+        ],
+        "subsumption": "Decision-relative evidence and conditional completion are existing claims. No universal observability-completeness property is admitted.",
+        "new_property": "NOT_ADMITTED_NO_UNIVERSAL_OBSERVER_CRITERION",
+        "cases": [
+          "C08",
+          "C09",
+          "C10"
+        ],
+        "sources": [
+          "S044",
+          "S080",
+          "S081",
+          "S082",
+          "S083",
+          "S087",
+          "S092"
+        ]
+      }
+    ],
+    "new_criterion_search": [
+      {
+        "candidate": "A single coherent eligibility/retention horizon across messages, histories, schemas and identities",
+        "result": "USEFUL_JOINT_QUESTION_NOT_NEW_PROPERTY",
+        "reason": "R07 makes the interfaces material; P20/P28/P39/P46 already cover the distinct consumers. One global scalar horizon is not required where bounded paths differ."
+      },
+      {
+        "candidate": "Recovery capacity as a universal extra control",
+        "result": "CONDITIONAL_RELATION_NOT_UNIVERSAL_CONTROL",
+        "reason": "R05/K04 expose real feedback when resources are shared. Offline or isolated recovery is a nontrigger; no mandatory reserve percentage is inferred."
+      },
+      {
+        "candidate": "A combined authority/idempotency token",
+        "result": "NO_REQUIRED_NEW_ENCODING",
+        "reason": "R01/C10 establishes independent hazards. A shared token is one possible encoding, not evidence that either predicate follows from the other."
+      }
+    ],
+    "unresolved_relations": [
+      {
+        "candidate": "Composition with N007's edge checkpointing protocol",
+        "state": "EXAMINED_ACCESS_LIMITED_NOT_ADMITTED",
+        "discriminator": "Obtain the actual protocol body, identify its storage/timing/failure assumptions and map a shared operation boundary before deriving a guarantee."
+      }
+    ],
+    "unexamined_candidates": [
+      {
+        "candidate": "Arbitrary combinations of all54 properties",
+        "state": "NOT_EXAMINED_NO_CLAIM",
+        "reason": "No consequential shared interface or distinct consumer was identified beyond the recorded required and newly material relations; combinatorial co-use is not scientific composition."
+      },
+      {
+        "candidate": "Sibling-lineage or fourth-stage DRF synthesis",
+        "state": "OUT_OF_SCOPE_NOT_PERFORMED",
+        "reason": "The commission authorizes this lineage and primary scientific interfaces only."
+      }
+    ]
+  }
+}

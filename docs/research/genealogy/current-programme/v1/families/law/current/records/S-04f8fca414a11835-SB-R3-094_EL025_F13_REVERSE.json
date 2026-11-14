@@ -1,0 +1,1749 @@
+{
+  "source_identity": {
+    "source_id": "S-04f8fca414a11835",
+    "scientific_name": "SB-R3-094_EL025_F13_REVERSE.json",
+    "original_bytes": 131883,
+    "original_sha256": "04f8fca414a1183599d7c0b0e6a50986baf1fac55109ae8e730ca4fbc0d203e8"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-094",
+    "title": "EL-025_REVERSE_OUTCOME_BASELINE_SUSTAINMENT_METRICS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T03:17:50.081273+00:00",
+    "inquiry_family": 13,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      },
+      "LAW-L1": {
+        "scientific_subject": {
+          "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+          "bytes": 6227,
+          "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L1_LEAN_QUALIFICATION_v1.json",
+          "bytes": 5449,
+          "sha256": "73f39a747a60f0aaad3cd6bc06914468b231aab5ac1604ff0031e88da628f6f4"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/lean_fidelity_r2/REVIEW_RECEIPT.json",
+            "receipt_sha256": "1dd01936e4f3b7de1d8fa541d83d9c9c14f3b5994074808549e26b48b0eb86b3"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/lean_adversarial_r2/REVIEW_RECEIPT.json",
+            "receipt_sha256": "46deb266826d948cea5779ecb305497d588a5674797593775522546166263da4"
+          }
+        ],
+        "retained_advisories": [
+          {
+            "ids": [
+              "LA-001"
+            ],
+            "rule": "Read the EL-010 buffer-profile sentence with the explicit residual-variability trigger and no-universal-buffer boundary in EL-008. Its detached universal zero-buffer prohibition is not accepted.",
+            "locators": [
+              "LEAN_REQUALIFIED_LEDGER.json#/EVOLVED_LEAN_FLOW_RESILIENCE_PROFILES/7/BUFFER_ASSUMPTIONS",
+              "LEAN_REQUALIFIED_LEDGER.json#/EVOLVED_LEAN_PROPERTY_LEDGER/7"
+            ],
+            "source_level_option": "An optional local clarification requires a new subject and affected reviews; no frozen science was edited."
+          },
+          {
+            "ids": [
+              "LF-005"
+            ],
+            "rule": "Principal ceremony row 8 and its intake duplicate differ. Full EL-017/model/K03 permits a simple adequate baseline and justified no change. Partial propagation is explicit and not counted as equality.",
+            "source_level_option": "Any future wording propagation must start with the source/generator, regenerate affected carriers, and obtain affected review on new identities."
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_012.json",
+      "bytes": 1636,
+      "sha256": "64000e46b51f99164218d99e5728986d6d14db5fef789ca6c5f07bcbf0b01193"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY13_NATIVE_MEANINGS.json",
+      "bytes": 185619,
+      "sha256": "72acd03a91f6756fa0b8511619226ca6f2a1e72f99f74de4653a83a327f22552"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY13_LITERAL_ARGUMENTS.json",
+      "bytes": 42932,
+      "sha256": "9fbfd053fe9566465c76f26a01a8db7d49806cc4c3e8cd8f8c495b5c3221a532"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY13_CONTROLS.json",
+      "bytes": 5416,
+      "sha256": "70d5741a1f5922eb0eb70a1165c1ca1fe13cb08875cf514bf221a7525f7c73d2"
+    },
+    "bounded_interface_domain": [
+      "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+      "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+      "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+      "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+      "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+      "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+    ],
+    "native_common_basis": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+    "common_cost_and_alternative": [
+      "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+      "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+      "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+      "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+    ],
+    "evidence_ceiling": "Root analytical interfaces under explicit actual-use guards plus eight executed stipulated finite controls. No fresh primary-body access, universal causal gain, native-engine evaluation, new property or independent acceptance is claimed.",
+    "common_subconditions": {
+      "P1": "The particular common object and actual use exist.",
+      "P2": "Complete native meanings and qualified limitations govern.",
+      "P3": "The separately authored partial input actually changes the receiving inquiry.",
+      "P4": "Remaining premises, stronger-claim counterexamples, alternatives and re-entry stay explicit."
+    },
+    "inference": "Only the actual scoped input is supplied; source compliance never substitutes for the complete receiving criterion.",
+    "common_source_dependence": "Selected source families and shared normative/analytical origins remain correlated; no new independent primary study is claimed.",
+    "exceptions": [],
+    "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L1::EL-025",
+        "argument": "A defined actionable decision and response horizon give each proposed diagnostic measure an actual use and stop pointless measurement."
+      },
+      {
+        "direction_key": "LAW-L2::EA-02->LAW-L1::EL-025",
+        "argument": "Configuration-bound integrated behavior supplies an observed diagnostic input beyond self-reported completion."
+      },
+      {
+        "direction_key": "LAW-L2::EA-03->LAW-L1::EL-025",
+        "argument": "Risk-driven discrimination identifies consequential evidence worth measuring before dependent commitment."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L1::EL-025",
+        "argument": "A specific planning horizon and response decision provide the context in which a diagnostic metric has value."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L1::EL-025",
+        "argument": "A guarded interpretable experiment can test whether an apparent metric improvement corresponds to the intended decision effect."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L1::EL-025",
+        "argument": "Authoritative current intent identifies what the measure is meant to inform and which changed obligations alter its meaning."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-025",
+        "argument": "An explicit learning action and decision consequence can test the uncertain proxy relation instead of treating dashboard conformity as truth."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-025",
+        "argument": "A representative executable discriminator supplies operational observations that can challenge the metric’s claimed interpretation."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-025",
+        "argument": "Representative use evidence tests whether the measured indicator corresponds to the outcome the regime claims to diagnose."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-025",
+        "argument": "The actual accepted configuration, criteria and exceptions define the scope in which an acceptance-related measure may be interpreted."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-025",
+        "argument": "Hazard and control analysis identifies consequential harms and exposures that the diagnostic measurement boundary must include."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-025",
+        "argument": "Explicit claims and defeaters identify which metric assumptions matter and where contradictory evidence must remain visible."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-025",
+        "argument": "Persistent anomaly state, affected configuration and residuals supply the diagnostic denominator and adverse evidence that closure counts omit."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-025",
+        "argument": "The explicit commitment and decision criteria specify which measurements can actually change the go, redirect or stop decision."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-025",
+        "argument": "Forecast ranges, reference-class challenge and target separation expose what the measurements do and do not predict."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-025",
+        "argument": "The actual operating envelope and accepted residual conditions identify which monitored quantities are consequential."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-025",
+        "argument": "Explicit consequence, recovery and observability dimensions identify meaningful countermetrics and the decision cost of measuring them."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L1::EL-025",
+        "overclaim": "A frequently acted-upon metric can still represent the wrong beneficiary outcome.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L2::EA-02->LAW-L1::EL-025",
+        "overclaim": "An executable result remains limited to its tested environment and does not quantify all productivity.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L2::EA-03->LAW-L1::EL-025",
+        "overclaim": "Counting closed risks cannot substitute for actual exposure reduction.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L1::EL-025",
+        "overclaim": "Constant replanning can conceal failure even when the dashboard is current.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L1::EL-025",
+        "overclaim": "Stopping on a favorable noisy proxy does not establish the true delayed outcome.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L1::EL-025",
+        "overclaim": "A formally approved numerical target can still invite gaming.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-025",
+        "overclaim": "A register entry without a discriminating follow-up leaves the measurement assumption unresolved.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-025",
+        "overclaim": "A pilot can improve its own measured response while failing to transport to production.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-025",
+        "overclaim": "One successful validation instance cannot establish permanent metric validity across populations.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-025",
+        "overclaim": "An acceptance score is not a complete measure of beneficiary value or scientific adequacy.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-025",
+        "overclaim": "Counting completed hazard actions does not establish risk reduction.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-025",
+        "overclaim": "A persuasive argument cannot rehabilitate biased or strategically suppressed measurements.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-025",
+        "overclaim": "A traceable closed ticket does not prove that the causal defect was removed.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-025",
+        "overclaim": "A review score can become a target and cease to be informative even when a meeting is held.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-025",
+        "overclaim": "An accurate local throughput forecast can still conceal transferred harm or low-value output.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-025",
+        "overclaim": "A signed risk decision does not make a weak proxy a valid measure of safety.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-025",
+        "overclaim": "Adding every available metric can create burden without improving assurance.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-01->LAW-L1::EL-025",
+      "LAW-L2::EA-02->LAW-L1::EL-025",
+      "LAW-L2::EA-03->LAW-L1::EL-025",
+      "LAW-L2::EA-13->LAW-L1::EL-025",
+      "LAW-L2::EA-15->LAW-L1::EL-025",
+      "LAW-L3::EW-P001->LAW-L1::EL-025",
+      "LAW-L3::EW-P002->LAW-L1::EL-025",
+      "LAW-L3::EW-P004->LAW-L1::EL-025",
+      "LAW-L3::EW-P012->LAW-L1::EL-025",
+      "LAW-L3::EW-P014->LAW-L1::EL-025",
+      "LAW-L3::EW-P018->LAW-L1::EL-025",
+      "LAW-L3::EW-P019->LAW-L1::EL-025",
+      "LAW-L3::EW-P020->LAW-L1::EL-025",
+      "LAW-L3::EW-P021->LAW-L1::EL-025",
+      "LAW-L3::EW-P025->LAW-L1::EL-025",
+      "LAW-L3::EW-P032->LAW-L1::EL-025",
+      "LAW-L3::EW-P033->LAW-L1::EL-025"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-01->LAW-L1::EL-025",
+        "source_native_id": "EA-01",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/0",
+          "expected_native_id": "EA-01",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/0"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A feedback loop whose measured output influences a product decision",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A product or engineering decision with material uncertainty and an open response option.",
+            "criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "A defined actionable decision and response horizon give each proposed diagnostic measure an actual use and stop pointless measurement.",
+        "receiving_consequence": "A defined actionable decision and response horizon give each proposed diagnostic measure an actual use and stop pointless measurement.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A defined actionable decision and response horizon give each proposed diagnostic measure an actual use and stop pointless measurement."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A frequently acted-upon metric can still represent the wrong beneficiary outcome.",
+        "counter_control": "A frequently acted-upon metric can still represent the wrong beneficiary outcome.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L2::EA-01",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A product or engineering decision with material uncertainty and an open response option.",
+            "criterion": "A consequential uncertain decision should use evidence early enough, informative enough and actionable enough to improve that decision."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A feedback loop whose measured output influences a product decision",
+          "literal_bridge": "A defined actionable decision and response horizon give each proposed diagnostic measure an actual use and stop pointless measurement."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-02->LAW-L1::EL-025",
+        "source_native_id": "EA-02",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/1",
+          "expected_native_id": "EA-02",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/1"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "Integrated test results used as a progress or product decision measure",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A claim about behavior of an integrated software increment in a stated environment.",
+            "criterion": "Integrated executable evidence supports runtime and integration claims within the tested environment; it does not alone establish user value or safety."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Configuration-bound integrated behavior supplies an observed diagnostic input beyond self-reported completion.",
+        "receiving_consequence": "Configuration-bound integrated behavior supplies an observed diagnostic input beyond self-reported completion.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Configuration-bound integrated behavior supplies an observed diagnostic input beyond self-reported completion."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "An executable result remains limited to its tested environment and does not quantify all productivity.",
+        "counter_control": "An executable result remains limited to its tested environment and does not quantify all productivity.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L2::EA-02",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A claim about behavior of an integrated software increment in a stated environment.",
+            "criterion": "Integrated executable evidence supports runtime and integration claims within the tested environment; it does not alone establish user value or safety."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "Integrated test results used as a progress or product decision measure",
+          "literal_bridge": "Configuration-bound integrated behavior supplies an observed diagnostic input beyond self-reported completion."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-03->LAW-L1::EL-025",
+        "source_native_id": "EA-03",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A risk-priority decision based on measured progress or exposure",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+            "criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Risk-driven discrimination identifies consequential evidence worth measuring before dependent commitment.",
+        "receiving_consequence": "Risk-driven discrimination identifies consequential evidence worth measuring before dependent commitment.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Risk-driven discrimination identifies consequential evidence worth measuring before dependent commitment."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "Counting closed risks cannot substitute for actual exposure reduction.",
+        "counter_control": "Counting closed risks cannot substitute for actual exposure reduction.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L2::EA-03",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+            "criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A risk-priority decision based on measured progress or exposure",
+          "literal_bridge": "Risk-driven discrimination identifies consequential evidence worth measuring before dependent commitment."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-13->LAW-L1::EL-025",
+        "source_native_id": "EA-13",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/12",
+          "expected_native_id": "EA-13",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/12"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A planning revision triggered by measured performance",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+            "criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "A specific planning horizon and response decision provide the context in which a diagnostic metric has value.",
+        "receiving_consequence": "A specific planning horizon and response decision provide the context in which a diagnostic metric has value.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A specific planning horizon and response decision provide the context in which a diagnostic metric has value."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "Constant replanning can conceal failure even when the dashboard is current.",
+        "counter_control": "Constant replanning can conceal failure even when the dashboard is current.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L2::EA-13",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A plan where near-term evidence and longer-term dependencies, capacity or deadlines must coexist.",
+            "criterion": "Replan across distinct horizons while preserving necessary commitments and explicit change authority."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A planning revision triggered by measured performance",
+          "literal_bridge": "A specific planning horizon and response decision provide the context in which a diagnostic metric has value."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-15->LAW-L1::EL-025",
+        "source_native_id": "EA-15",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/14",
+          "expected_native_id": "EA-15",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/14"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "An authorized experiment whose decision depends on measured response",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+            "criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "A guarded interpretable experiment can test whether an apparent metric improvement corresponds to the intended decision effect.",
+        "receiving_consequence": "A guarded interpretable experiment can test whether an apparent metric improvement corresponds to the intended decision effect.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A guarded interpretable experiment can test whether an apparent metric improvement corresponds to the intended decision effect."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "Stopping on a favorable noisy proxy does not establish the true delayed outcome.",
+        "counter_control": "Stopping on a favorable noisy proxy does not establish the true delayed outcome.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L2::EA-15",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An uncertain intervention where experimentation is feasible and ethically/operationally authorized.",
+            "criterion": "Run experiments only with an interpretable comparison, proportionate exposure controls and a predeclared decision/stopping rule."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "An authorized experiment whose decision depends on measured response",
+          "literal_bridge": "A guarded interpretable experiment can test whether an apparent metric improvement corresponds to the intended decision effect."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L1::EL-025",
+        "source_native_id": "EW-P001",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A shared intent state whose success is judged by operational measures",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A shared engineering intent state",
+            "criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Authoritative current intent identifies what the measure is meant to inform and which changed obligations alter its meaning.",
+        "receiving_consequence": "Authoritative current intent identifies what the measure is meant to inform and which changed obligations alter its meaning.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Authoritative current intent identifies what the measure is meant to inform and which changed obligations alter its meaning."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A formally approved numerical target can still invite gaming.",
+        "counter_control": "A formally approved numerical target can still invite gaming.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P001",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A shared engineering intent state",
+            "criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A shared intent state whose success is judged by operational measures",
+          "literal_bridge": "Authoritative current intent identifies what the measure is meant to inform and which changed obligations alter its meaning."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-025",
+        "source_native_id": "EW-P002",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "An engineering commitment with uncertain measurement-to-outcome correspondence",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A consequential assumption in a development commitment",
+            "criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "An explicit learning action and decision consequence can test the uncertain proxy relation instead of treating dashboard conformity as truth.",
+        "receiving_consequence": "An explicit learning action and decision consequence can test the uncertain proxy relation instead of treating dashboard conformity as truth.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "An explicit learning action and decision consequence can test the uncertain proxy relation instead of treating dashboard conformity as truth."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A register entry without a discriminating follow-up leaves the measurement assumption unresolved.",
+        "counter_control": "A register entry without a discriminating follow-up leaves the measurement assumption unresolved.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P002",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A consequential assumption in a development commitment",
+            "criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "An engineering commitment with uncertain measurement-to-outcome correspondence",
+          "literal_bridge": "An explicit learning action and decision consequence can test the uncertain proxy relation instead of treating dashboard conformity as truth."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-025",
+        "source_native_id": "EW-P004",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A pilot whose measured result is offered as evidence of risk retirement",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An unresolved engineering risk amenable to executable investigation",
+            "criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "A representative executable discriminator supplies operational observations that can challenge the metric’s claimed interpretation.",
+        "receiving_consequence": "A representative executable discriminator supplies operational observations that can challenge the metric’s claimed interpretation.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A representative executable discriminator supplies operational observations that can challenge the metric’s claimed interpretation."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A pilot can improve its own measured response while failing to transport to production.",
+        "counter_control": "A pilot can improve its own measured response while failing to transport to production.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P004",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An unresolved engineering risk amenable to executable investigation",
+            "criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A pilot whose measured result is offered as evidence of risk retirement",
+          "literal_bridge": "A representative executable discriminator supplies operational observations that can challenge the metric’s claimed interpretation."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-025",
+        "source_native_id": "EW-P012",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A validation decision informed by system and beneficiary indicators",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A system or concept in its intended use and operating context",
+            "criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Representative use evidence tests whether the measured indicator corresponds to the outcome the regime claims to diagnose.",
+        "receiving_consequence": "Representative use evidence tests whether the measured indicator corresponds to the outcome the regime claims to diagnose.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Representative use evidence tests whether the measured indicator corresponds to the outcome the regime claims to diagnose."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "One successful validation instance cannot establish permanent metric validity across populations.",
+        "counter_control": "One successful validation instance cannot establish permanent metric validity across populations.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P012",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A system or concept in its intended use and operating context",
+            "criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A validation decision informed by system and beneficiary indicators",
+          "literal_bridge": "Representative use evidence tests whether the measured indicator corresponds to the outcome the regime claims to diagnose."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-025",
+        "source_native_id": "EW-P014",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "An acceptance decision that uses measured criteria",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "The actual accepted configuration, criteria and exceptions define the scope in which an acceptance-related measure may be interpreted.",
+        "receiving_consequence": "The actual accepted configuration, criteria and exceptions define the scope in which an acceptance-related measure may be interpreted.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The actual accepted configuration, criteria and exceptions define the scope in which an acceptance-related measure may be interpreted."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "An acceptance score is not a complete measure of beneficiary value or scientific adequacy.",
+        "counter_control": "An acceptance score is not a complete measure of beneficiary value or scientific adequacy.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P014",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "An acceptance decision that uses measured criteria",
+          "literal_bridge": "The actual accepted configuration, criteria and exceptions define the scope in which an acceptance-related measure may be interpreted."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-025",
+        "source_native_id": "EW-P018",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A hazard-control decision using incident, exposure or performance metrics",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Hazard and control analysis identifies consequential harms and exposures that the diagnostic measurement boundary must include.",
+        "receiving_consequence": "Hazard and control analysis identifies consequential harms and exposures that the diagnostic measurement boundary must include.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Hazard and control analysis identifies consequential harms and exposures that the diagnostic measurement boundary must include."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "Counting completed hazard actions does not establish risk reduction.",
+        "counter_control": "Counting completed hazard actions does not establish risk reduction.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P018",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A hazard-control decision using incident, exposure or performance metrics",
+          "literal_bridge": "Hazard and control analysis identifies consequential harms and exposures that the diagnostic measurement boundary must include."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-025",
+        "source_native_id": "EW-P019",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "An assurance claim relying on diagnostic measurements",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Explicit claims and defeaters identify which metric assumptions matter and where contradictory evidence must remain visible.",
+        "receiving_consequence": "Explicit claims and defeaters identify which metric assumptions matter and where contradictory evidence must remain visible.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Explicit claims and defeaters identify which metric assumptions matter and where contradictory evidence must remain visible."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A persuasive argument cannot rehabilitate biased or strategically suppressed measurements.",
+        "counter_control": "A persuasive argument cannot rehabilitate biased or strategically suppressed measurements.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P019",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "An assurance claim relying on diagnostic measurements",
+          "literal_bridge": "Explicit claims and defeaters identify which metric assumptions matter and where contradictory evidence must remain visible."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-025",
+        "source_native_id": "EW-P020",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "An anomaly system whose closure metrics guide decisions",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Persistent anomaly state, affected configuration and residuals supply the diagnostic denominator and adverse evidence that closure counts omit.",
+        "receiving_consequence": "Persistent anomaly state, affected configuration and residuals supply the diagnostic denominator and adverse evidence that closure counts omit.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Persistent anomaly state, affected configuration and residuals supply the diagnostic denominator and adverse evidence that closure counts omit."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A traceable closed ticket does not prove that the causal defect was removed.",
+        "counter_control": "A traceable closed ticket does not prove that the causal defect was removed.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P020",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "An anomaly system whose closure metrics guide decisions",
+          "literal_bridge": "Persistent anomaly state, affected configuration and residuals supply the diagnostic denominator and adverse evidence that closure counts omit."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-025",
+        "source_native_id": "EW-P021",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A consequential commitment review using progress and risk indicators",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A decision that commits substantial resources or exposure",
+            "criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "The explicit commitment and decision criteria specify which measurements can actually change the go, redirect or stop decision.",
+        "receiving_consequence": "The explicit commitment and decision criteria specify which measurements can actually change the go, redirect or stop decision.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The explicit commitment and decision criteria specify which measurements can actually change the go, redirect or stop decision."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A review score can become a target and cease to be informative even when a meeting is held.",
+        "counter_control": "A review score can become a target and cease to be informative even when a meeting is held.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P021",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A decision that commits substantial resources or exposure",
+            "criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A consequential commitment review using progress and risk indicators",
+          "literal_bridge": "The explicit commitment and decision criteria specify which measurements can actually change the go, redirect or stop decision."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-025",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A forecast drawn from performance measurements",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A forecast used for resource or commitment decisions",
+            "criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Forecast ranges, reference-class challenge and target separation expose what the measurements do and do not predict.",
+        "receiving_consequence": "Forecast ranges, reference-class challenge and target separation expose what the measurements do and do not predict.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Forecast ranges, reference-class challenge and target separation expose what the measurements do and do not predict."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "An accurate local throughput forecast can still conceal transferred harm or low-value output.",
+        "counter_control": "An accurate local throughput forecast can still conceal transferred harm or low-value output.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P025",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A forecast used for resource or commitment decisions",
+            "criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A forecast drawn from performance measurements",
+          "literal_bridge": "Forecast ranges, reference-class challenge and target separation expose what the measurements do and do not predict."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-025",
+        "source_native_id": "EW-P032",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "An operating-risk decision informed by monitoring indicators",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "The actual operating envelope and accepted residual conditions identify which monitored quantities are consequential.",
+        "receiving_consequence": "The actual operating envelope and accepted residual conditions identify which monitored quantities are consequential.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The actual operating envelope and accepted residual conditions identify which monitored quantities are consequential."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "A signed risk decision does not make a weak proxy a valid measure of safety.",
+        "counter_control": "A signed risk decision does not make a weak proxy a valid measure of safety.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P032",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "An operating-risk decision informed by monitoring indicators",
+          "literal_bridge": "The actual operating envelope and accepted residual conditions identify which monitored quantities are consequential."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-025",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EL-025",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+          "expected_native_id": "EL-025",
+          "selected_overlay": {
+            "path": "work/lean/revision_r2/subject/CLAIMS.json",
+            "bytes": 42558,
+            "sha256": "b4d057a38f166a8ad649dd2eb7a831b6d087bfaa0291b1934a93d1e13bab073c",
+            "pointer": "/claims/24"
+          }
+        },
+        "shared_question_or_object": "A decision about control strength informed by comparative risk and cost indicators",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "receiver": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          }
+        },
+        "guard": [
+          "The literal common object, actual receiving use, responsible actor, configuration or method version, time horizon and affected population are identified.",
+          "The source supplies the stated outcome criterion, method comparator, sustainment evidence or diagnostic input in the receiver actual inquiry; mere co-use, word similarity and an invented auxiliary process are insufficient.",
+          "A baseline for a work method is not silently equated to a product configuration or requirement baseline. Where a method/protocol is the common object, its actual use and correspondence must be shown.",
+          "A genuine partial contribution can be material without establishing the receiver entire criterion. Its remaining evidence, authority, competence, applicability and net-benefit obligations remain separate.",
+          "Value framing does not settle stakeholder legitimacy; measurements do not identify causal effects by themselves; explicit versions do not remove confounding; recurring benefit review does not impose universal calendar expiry.",
+          "Known absence of the actual common use defeats this guarded instance. An unestablished guard remains unknown; it is not a global finding that no material relation exists."
+        ],
+        "source_contribution": "Explicit consequence, recovery and observability dimensions identify meaningful countermetrics and the decision cost of measuring them.",
+        "receiving_consequence": "Explicit consequence, recovery and observability dimensions identify meaningful countermetrics and the decision cost of measuring them.",
+        "relation_types": [
+          "GUARDED_ACTUAL_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Explicit consequence, recovery and observability dimensions identify meaningful countermetrics and the decision cost of measuring them."
+        ],
+        "premises_remaining": [
+          "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+          "All receiver-native premises not supplied by this specific contribution remain separate, including actual effect and lawful/delegated authority where relevant."
+        ],
+        "counterexample": "Adding every available metric can create burden without improving assurance.",
+        "counter_control": "Adding every available metric can create burden without improving assurance.",
+        "nontrigger": "The literal common object or actual receiving use is known absent; mere unknown correspondence is not a global negative.",
+        "specific_cost_and_alternative": [
+          "Account for outcome observation, method maintenance and training, switching delay, monitoring and privacy, repeated reviews, downstream rework, recovery and opportunity costs in comparable units without double counting.",
+          "Retain sufficient existing methods, direct observation, short owned examples, event-triggered review, protected commitment windows, delayed follow-up, competent finite handover and justified no change as genuine alternatives.",
+          "Benefit or burden analysis does not waive a binding obligation, delegated authority, necessary safety control or required residual-risk disposition. Same-person roles remain legitimate when the actual regime permits.",
+          "The four Lean mechanisms and all receiving sources retain their qualified evidential ceilings. Neither multiple correlated metrics nor repeated shared native guidance count as independent empirical corroboration."
+        ],
+        "reentry": "Reopen the affected instance when beneficiary representation, outcome horizon, method/configuration, denominator, population, incentives, control burden, residual duty, authority, source evidence or counterexample changes. Retain all original negative forms and advisories.",
+        "reverse_direction_key": "LAW-L1::EL-025->LAW-L3::EW-P033",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A measurement regime used to make system decisions",
+            "criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome."
+          },
+          "actual_object": "A decision about control strength informed by comparative risk and cost indicators",
+          "literal_bridge": "Explicit consequence, recovery and observability dimensions identify meaningful countermetrics and the decision cost of measuring them."
+        }
+      }
+    ],
+    "independent_review_scope": "Every specific membership, guard, native correspondence, stronger-claim witness and the complete synthesis remain for fidelity and distinct adversarial review."
+  }
+}

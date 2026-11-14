@@ -1,0 +1,861 @@
+{
+  "source_identity": {
+    "source_id": "S-5c2afbdb3afaf471",
+    "scientific_name": "SB-R3-026_EL032_F8_REVERSE.json",
+    "original_bytes": 68407,
+    "original_sha256": "5c2afbdb3afaf4716d0dd8fa44e9597b916d14996fc99696f569aec85daa319c"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-026",
+    "title": "EL-032_REVERSE_OPTIONS_KNOWLEDGE_AND_COMMITMENT_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:19:00.323449+00:00",
+    "inquiry_family": 8,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_006.json",
+      "bytes": 5734,
+      "sha256": "52f8b4f2d55daa5731ba8c9bbfd496fbc506e076bd1f0a1d281ad1b7c3637fbe"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal option method, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-029",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/28",
+          "expected_native_id": "EL-029"
+        }
+      },
+      {
+        "native_id": "EL-030",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/29",
+          "expected_native_id": "EL-030"
+        }
+      },
+      {
+        "native_id": "EL-032",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        }
+      },
+      {
+        "native_id": "EW-P002",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        }
+      },
+      {
+        "native_id": "EW-P003",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        }
+      },
+      {
+        "native_id": "EW-P004",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        }
+      },
+      {
+        "native_id": "EW-P021",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P024",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY8_SOURCE_INQUIRY.json",
+      "bytes": 1839,
+      "sha256": "93d9dfa37e8a10c9bd1225ffd7aa7fa08d9962301458a21c5a48996fbf265b11"
+    },
+    "native_common_basis": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated.",
+    "common_cost_and_alternative": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "An option list treated as joint feasibility.",
+      "A confirming experiment rejected because the action remains unchanged.",
+      "A prototype treated as complete product qualification.",
+      "A partial input rejected for failing the whole receiver.",
+      "Sunk expenditure treated as future benefit.",
+      "Private cost preference treated as authority to waive a binding obligation."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-032",
+        "argument": "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L1::EL-032",
+        "argument": "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-032",
+        "argument": "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-032",
+        "argument": "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-032",
+        "argument": "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L1::EL-032",
+        "argument": "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-032",
+        "argument": "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-032",
+        "argument": "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-032",
+        "overclaim": "An open uncertainty does not itself authorize stopping a binding obligation or establish that more research is worth its cost.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L1::EL-032",
+        "overclaim": "A correct architecture study cannot grant cancellation authority or establish the complete beneficiary and transition-cost assessment.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-032",
+        "overclaim": "One favorable pilot cannot establish durable benefit or erase adverse users, rare outcomes or untested assumptions.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-032",
+        "overclaim": "An authorized actor can still make a poorly evidenced choice; a gate pass is not proof of value or fair distribution.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-032",
+        "overclaim": "Staged funding does not establish that cancellation is beneficial or that every increment must be preserved.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L1::EL-032",
+        "overclaim": "A generic proportionality label does not prove an optional control is useless or that its replacement covers the failure mode.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-032",
+        "overclaim": "A favorable point estimate does not authorize continuation of an infeasible project or establish all long-horizon benefits.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-032",
+        "overclaim": "A high-risk designation does not mean every existing control is necessary forever or that low-risk work merits elaborate cancellation.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared models, constraints, prototypes, organizations or source works are not independent controls or benefits.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P002->LAW-L1::EL-032",
+      "LAW-L3::EW-P003->LAW-L1::EL-032",
+      "LAW-L3::EW-P004->LAW-L1::EL-032",
+      "LAW-L3::EW-P021->LAW-L1::EL-032",
+      "LAW-L3::EW-P022->LAW-L1::EL-032",
+      "LAW-L3::EW-P024->LAW-L1::EL-032",
+      "LAW-L3::EW-P025->LAW-L1::EL-032",
+      "LAW-L3::EW-P033->LAW-L1::EL-032"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L1::EL-032",
+        "source_native_id": "EW-P002",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments, with expiry and promotion/retirement rules.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition."
+        },
+        "shared_question_or_object": "A continuation or retirement decision whose value hypothesis depends on an uncertain premise.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments, with expiry and promotion/retirement rules.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition."
+        },
+        "source_contribution": "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition.",
+        "receiving_consequence": "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "An open uncertainty does not itself authorize stopping a binding obligation or establish that more research is worth its cost.",
+        "counter_control": "An open uncertainty does not itself authorize stopping a binding obligation or establish that more research is worth its cost.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. Established routine behavior may need only normal change handling.",
+        "subcondition_evidence": {
+          "P1": "A continuation or retirement decision whose value hypothesis depends on an uncertain premise.",
+          "P2": {
+            "source_bearer": "A consequential assumption in a development commitment",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "An assumption/uncertainty ledger integrated with requirements, architecture, hazards and experiments, with expiry and promotion/retirement rules.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition."
+          },
+          "P3": "The uncertainty, evidence-generating action and decision horizon identify what could warrant continuation, deferral or retirement instead of sunk-cost repetition.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: An open uncertainty does not itself authorize stopping a binding obligation or establish that more research is worth its cost."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P002",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L1::EL-032",
+        "source_native_id": "EW-P003",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously reconciled with the realised system.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs."
+        },
+        "shared_question_or_object": "A portfolio commitment with a consequential architectural feasibility question.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously reconciled with the realised system.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs."
+        },
+        "source_contribution": "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs.",
+        "receiving_consequence": "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A correct architecture study cannot grant cancellation authority or establish the complete beneficiary and transition-cost assessment.",
+        "counter_control": "A correct architecture study cannot grant cancellation authority or establish the complete beneficiary and transition-cost assessment.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. A local reversible refactor can use existing architectural knowledge.",
+        "subcondition_evidence": {
+          "P1": "A portfolio commitment with a consequential architectural feasibility question.",
+          "P2": {
+            "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "Minimum sufficient architecture and constraint evidence, paired with prototypes and continuously reconciled with the realised system.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs."
+          },
+          "P3": "Actual feasibility and interface evidence changes the support for continuing, redesigning or retiring the work and exposes otherwise hidden unwind costs.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: A correct architecture study cannot grant cancellation authority or establish the complete beneficiary and transition-cost assessment."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P003",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L1::EL-032",
+        "source_native_id": "EW-P004",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "Executable evidence is selected by risk and commitment, with clear limits on what the experiment proves and explicit promotion criteria.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action."
+        },
+        "shared_question_or_object": "A value or feasibility hypothesis for work that may continue, change direction or stop.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "Executable evidence is selected by risk and commitment, with clear limits on what the experiment proves and explicit promotion criteria.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action."
+        },
+        "source_contribution": "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action.",
+        "receiving_consequence": "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "One favorable pilot cannot establish durable benefit or erase adverse users, rare outcomes or untested assumptions.",
+        "counter_control": "One favorable pilot cannot establish durable benefit or erase adverse users, rare outcomes or untested assumptions.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. Existing adequate evidence or focused analysis may replace a new prototype.",
+        "subcondition_evidence": {
+          "P1": "A value or feasibility hypothesis for work that may continue, change direction or stop.",
+          "P2": {
+            "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "Executable evidence is selected by risk and commitment, with clear limits on what the experiment proves and explicit promotion criteria.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action."
+          },
+          "P3": "Representative risk-relevant results can support stopping, redirecting or continuing with stronger warrant, including confirmation of the prior action.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: One favorable pilot cannot establish durable benefit or erase adverse users, rare outcomes or untested assumptions."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P004",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L1::EL-032",
+        "source_native_id": "EW-P021",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being wrong.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation."
+        },
+        "shared_question_or_object": "An empowered commitment review with a genuine stop or redirect option.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being wrong.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation."
+        },
+        "source_contribution": "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation.",
+        "receiving_consequence": "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "An authorized actor can still make a poorly evidenced choice; a gate pass is not proof of value or fair distribution.",
+        "counter_control": "An authorized actor can still make a poorly evidenced choice; a gate pass is not proof of value or fair distribution.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. An asynchronous documented decision may suffice where permitted.",
+        "subcondition_evidence": {
+          "P1": "An empowered commitment review with a genuine stop or redirect option.",
+          "P2": {
+            "source_bearer": "A decision that commits substantial resources or exposure",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "A commitment decision—not a lifecycle phase—whose strength matches the cost and consequence of being wrong.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation."
+          },
+          "P3": "Decision rights and actual evidence thresholds make a proposed continuation or retirement decision executable and expose an unauthorized cancellation.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: An authorized actor can still make a poorly evidenced choice; a gate pass is not proof of value or fair distribution."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P021",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-032",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive."
+        },
+        "shared_question_or_object": "A staged work program considering continuation, cancellation and option preservation.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive."
+        },
+        "source_contribution": "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive.",
+        "receiving_consequence": "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Staged funding does not establish that cancellation is beneficial or that every increment must be preserved.",
+        "counter_control": "Staged funding does not establish that cancellation is beneficial or that every increment must be preserved.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. Stable understood delivery can justify a larger commitment without artificial increments.",
+        "subcondition_evidence": {
+          "P1": "A staged work program considering continuation, cancellation and option preservation.",
+          "P2": {
+            "source_bearer": "A sequence of commitments under uncertainty",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive."
+          },
+          "P3": "Real separability and remaining commitment exposure define what can be stopped or deferred and what obligations survive.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: Staged funding does not establish that cancellation is beneficial or that every increment must be preserved."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P022",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L1::EL-032",
+        "source_native_id": "EW-P024",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory legal minima and post-outcome learning.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide."
+        },
+        "shared_question_or_object": "Retiring or retaining an assurance activity as part of a total control package.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory legal minima and post-outcome learning.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide."
+        },
+        "source_contribution": "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide.",
+        "receiving_consequence": "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A generic proportionality label does not prove an optional control is useless or that its replacement covers the failure mode.",
+        "counter_control": "A generic proportionality label does not prove an optional control is useless or that its replacement covers the failure mode.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. Existing adequate controls and no added process are legitimate.",
+        "subcondition_evidence": {
+          "P1": "Retiring or retaining an assurance activity as part of a total control package.",
+          "P2": {
+            "source_bearer": "Selection of assurance activities for a context",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "A transparent control-selection rule with cheap defaults, explicit escalation factors, mandatory legal minima and post-outcome learning.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide."
+          },
+          "P3": "The actual obligations, consequential risks and adequate alternatives determine which controls may be retired or simplified and who may decide.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: A generic proportionality label does not prove an optional control is useless or that its replacement covers the failure mode."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P024",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-032",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target."
+        },
+        "shared_question_or_object": "A portfolio continuation decision informed by future costs and benefits.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target."
+        },
+        "source_contribution": "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target.",
+        "receiving_consequence": "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A favorable point estimate does not authorize continuation of an infeasible project or establish all long-horizon benefits.",
+        "counter_control": "A favorable point estimate does not authorize continuation of an infeasible project or establish all long-horizon benefits.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. A short-horizon forecast can be adequate for bounded work.",
+        "subcondition_evidence": {
+          "P1": "A portfolio continuation decision informed by future costs and benefits.",
+          "P2": {
+            "source_bearer": "A forecast used for resource or commitment decisions",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target."
+          },
+          "P3": "Ranges, updated actuals and outside-view challenge can weaken or confirm the value case for continuation without treating a forecast as a target.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: A favorable point estimate does not authorize continuation of an infeasible project or establish all long-horizon benefits."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P025",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-032",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EL-032",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/31",
+          "expected_native_id": "EL-032"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability."
+        },
+        "shared_question_or_object": "Selecting or retiring controls where consequence and commitment can change.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+          "literal_bridge": "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability."
+        },
+        "source_contribution": "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability.",
+        "receiving_consequence": "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability."
+        ],
+        "premises_remaining": [
+          "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A high-risk designation does not mean every existing control is necessary forever or that low-risk work merits elaborate cancellation.",
+        "counter_control": "A high-risk designation does not mean every existing control is necessary forever or that low-risk work merits elaborate cancellation.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Evaluation, switching, abandoned users, lost protection and transition costs count. Cheap completion can be preferable to a formal cancellation process. Use an existing adequate preauthorized path where its actual guard holds.",
+        "subcondition_evidence": {
+          "P1": "Selecting or retiring controls where consequence and commitment can change.",
+          "P2": {
+            "source_bearer": "A decision about assurance strength under change",
+            "receiving_bearer": "A portfolio admission, continuation or retirement decision",
+            "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+            "receiving_criterion": "Compare continuation with alternatives and transition costs; cheap completion may dominate an elaborate cancellation process.",
+            "literal_bridge": "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability."
+          },
+          "P3": "Actual consequence, recovery limits, urgency and binding obligations constrain legitimate stopping or retirement and may require a protected continuing capability.",
+          "P4": "Prospective continuation, stopping and retirement compare beneficiary effects, option value, transition and external costs under actual authority; sunk costs and indirect value are not conflated. Actual fulfillment of the complete Lean criterion remains separate. Control: A high-risk designation does not mean every existing control is necessary forever or that low-risk work merits elaborate cancellation."
+        },
+        "reverse_direction_key": "LAW-L1::EL-032->LAW-L3::EW-P033",
+        "reentry": "Reopen causally affected members if the design space, constraint, model correspondence, relevant evidence, cost, deadline, authority, obligation or commitment changes. A failed common premise requires all affected members and compositions to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

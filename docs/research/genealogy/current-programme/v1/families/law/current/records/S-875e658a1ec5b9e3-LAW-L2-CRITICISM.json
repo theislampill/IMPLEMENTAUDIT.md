@@ -1,0 +1,556 @@
+{
+  "source_identity": {
+    "source_id": "S-875e658a1ec5b9e3",
+    "scientific_name": "LAW-L2-CRITICISM.json",
+    "original_bytes": 22782,
+    "original_sha256": "875e658a1ec5b9e34b86c0652cac43996b4f923ce62a09237d8782cb07457576"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "AGILE_CRITICISM_RESPONSE/1",
+    "status": "AUTHOR_PROPOSED_REVIEW_PENDING",
+    "adverse_evidence_rule": "A negative case remains evidence of what occurred under the reported implementation. Correcting terminology is not a license to exclude it from the causal question. Neither criticism nor advocacy receives causal status from seniority or commercial popularity.",
+    "criticisms": [
+      {
+        "criticism_id": "AC-01",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 927,
+          "expected_native_id": "AC-01"
+        },
+        "native_cells_verbatim": [
+          "`AC-01`",
+          "Cargo-cult Agile / Agile theatre",
+          "`IMPLEMENTATION_FAILURE`",
+          "Visible form can survive after causal mechanism disappears.",
+          "Does not show that feedback or integration themselves are useless.",
+          "Valid; ceremony receives no presumption of value."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "A label or ceremony is not evidence of the mechanism or its effects.",
+        "sources": [
+          "C01",
+          "C03",
+          "N14"
+        ],
+        "residual_or_counter_control": "A familiar practice can still be useful; the objection targets unsupported substitution of branding for evidence.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-02",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 928,
+          "expected_native_id": "AC-02"
+        },
+        "native_cells_verbatim": [
+          "`AC-02`",
+          "Scrum became synonymous with Agile",
+          "`A_SPECIFIC_METHOD`",
+          "Scrum’s management structure displaced richer technical and governance traditions.",
+          "Criticism of Scrum adoption is not criticism of every adaptive method.",
+          "Valid historical narrowing."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "Keep Manifesto values, Scrum framework conformance and engineering capability distinct.",
+        "sources": [
+          "H07",
+          "H08",
+          "H10"
+        ],
+        "residual_or_counter_control": "Scrum has legitimate boundaries; incompleteness does not make it useless.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-03",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 929,
+          "expected_native_id": "AC-03"
+        },
+        "native_cells_verbatim": [
+          "`AC-03`",
+          "Flaccid Scrum",
+          "`IMPLEMENTATION_FAILURE`",
+          "Cadence without testing, integration and refactoring can expose but not fix declining changeability.",
+          "Scrum officially calls itself incomplete.",
+          "Valid; EA-06–EA-10 are separate prerequisites."
+        ],
+        "successor_disposition": "NARROWED",
+        "response": "Technical health is a real concern; replace the assertion that EA-06–EA-10 form separate universal prerequisites with the guarded relations D01–D03.",
+        "sources": [
+          "C04",
+          "H06",
+          "H14"
+        ],
+        "residual_or_counter_control": "Fowler notes popularity can account for many Scrum-labelled failures; no causal verdict on Scrum follows.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-04",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 930,
+          "expected_native_id": "AC-04"
+        },
+        "native_cells_verbatim": [
+          "`AC-04`",
+          "Story-point and velocity gaming",
+          "`METRIC_GAMING`",
+          "Abstract local estimates become quotas and false productivity units.",
+          "A team may still use them privately as a conversation aid.",
+          "No general property; EA-17 governs."
+        ],
+        "successor_disposition": "PRESERVED_AND_EXTENDED",
+        "response": "Preserve diagnostic use and explicit denominators; include granularity changes and incentives in the interpretation.",
+        "sources": [
+          "E14",
+          "E15",
+          "N12"
+        ],
+        "residual_or_counter_control": "A narrow metric can be useful for its declared task; a portfolio can also be gamed.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-05",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 931,
+          "expected_native_id": "AC-05"
+        },
+        "native_cells_verbatim": [
+          "`AC-05`",
+          "Output replaces value",
+          "`METRIC_GAMING`",
+          "Features, tickets or deployment counts can rise while outcomes do not.",
+          "Some output measures remain useful diagnostics.",
+          "Replace target output with evidence portfolio."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "Usable increments and completed features do not alone demonstrate value for the intended people.",
+        "sources": [
+          "H10",
+          "H19",
+          "E16"
+        ],
+        "residual_or_counter_control": "An intermediate engineering output can be valid evidence for a narrower claim.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-06",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 932,
+          "expected_native_id": "AC-06"
+        },
+        "native_cells_verbatim": [
+          "`AC-06`",
+          "Local team optimisation",
+          "`SCALING`",
+          "Dependencies, platforms and architecture can dominate local speed.",
+          "Small independent teams may not require additional coordination.",
+          "EA-19 strongly retained."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "Check dependencies and whole-system consequences before equating local throughput with success.",
+        "sources": [
+          "H13",
+          "E05",
+          "N09"
+        ],
+        "residual_or_counter_control": "Do not respond by centralizing independent work without a material interface.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-07",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 933,
+          "expected_native_id": "AC-07"
+        },
+        "native_cells_verbatim": [
+          "`AC-07`",
+          "Architecture neglect",
+          "`THE_PRINCIPLE` / `IMPLEMENTATION_FAILURE`",
+          "“Emergent” can become architecture-by-accident.",
+          "Comprehensive up-front architecture is not therefore always justified.",
+          "EA-09 hybrid retained."
+        ],
+        "successor_disposition": "HISTORY_CLARIFIED",
+        "response": "Deliberate architecture coexisted with iteration in early Scrum and other schools; later architecture practices refine a plural history.",
+        "sources": [
+          "H05",
+          "N02",
+          "N04",
+          "H24"
+        ],
+        "residual_or_counter_control": "Large speculative upfront designs also impose cost; no single threshold is established.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-08",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 934,
+          "expected_native_id": "AC-08"
+        },
+        "native_cells_verbatim": [
+          "`AC-08`",
+          "Anti-documentation interpretation",
+          "`THE_PRINCIPLE`",
+          "Minimal records can destroy memory, assurance and reproducibility.",
+          "Comprehensive documentation can still be unused waste.",
+          "EA-24 risk-based replacement."
+        ],
+        "successor_disposition": "AUTHORITY_NARROWED",
+        "response": "Keep proportionate records and traceability. Separate FDA recommendations, actual legal requirements and the artifact that proves compliance.",
+        "sources": [
+          "H07",
+          "S03",
+          "N10"
+        ],
+        "residual_or_counter_control": "Documentation quantity does not show evidence correctness or matching configuration.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-09",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 935,
+          "expected_native_id": "AC-09"
+        },
+        "native_cells_verbatim": [
+          "`AC-09`",
+          "Anti-planning / strategic thrashing",
+          "`MANAGEMENT_ADOPTION`",
+          "Constant reprioritisation can destroy focus and strategic accumulation.",
+          "Fixed plans under uncertainty also fail.",
+          "EA-13 multi-horizon replacement."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "Protect useful focus while allowing authorized evidence-driven replanning across horizons.",
+        "sources": [
+          "H10",
+          "N02",
+          "H02"
+        ],
+        "residual_or_counter_control": "A fixed interval may be appropriate; continuous reprioritization is not intrinsically adaptive.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-10",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 936,
+          "expected_native_id": "AC-10"
+        },
+        "native_cells_verbatim": [
+          "`AC-10`",
+          "Product Owner bottleneck / fake customer",
+          "`A_SPECIFIC_METHOD`",
+          "One proxy can centralise ignorance and delay.",
+          "Clear decision authority remains valuable.",
+          "Direct evidence plus bounded authority."
+        ],
+        "successor_disposition": "EXTENDED",
+        "response": "Distinguish customer availability, representative evidence and authority. A proxy can have one and lack another.",
+        "sources": [
+          "N08",
+          "E05",
+          "N12",
+          "N13"
+        ],
+        "residual_or_counter_control": "The VTT case is freshly abstract-only; no staffing fraction is generalized. A single owner may fit a bounded context.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-11",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 937,
+          "expected_native_id": "AC-11"
+        },
+        "native_cells_verbatim": [
+          "`AC-11`",
+          "Scaling-framework bureaucracy",
+          "`SCALING`",
+          "Frameworks can reproduce phase gates and hierarchy in Agile language.",
+          "Scale still creates real coordination burdens.",
+          "Framework choice not property; EA-19 retained."
+        ],
+        "successor_disposition": "EVIDENCE_SCOPE_NARROWED",
+        "response": "The scaling comparison constrains claims about measured team outcomes; it does not prove organizational equivalence or eliminate coordination needs.",
+        "sources": [
+          "E05",
+          "H22",
+          "H21"
+        ],
+        "residual_or_counter_control": "Author frameworks also contain sweeping prescriptions; those require separate evidence before transfer.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-12",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 938,
+          "expected_native_id": "AC-12"
+        },
+        "native_cells_verbatim": [
+          "`AC-12`",
+          "Technical debt hidden by cadence",
+          "`IMPLEMENTATION_FAILURE`",
+          "Feature completion can rise as future changeability collapses.",
+          "Not every shortcut warrants immediate repayment.",
+          "EA-08 retained with economic boundary."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "Technical debt can undermine repeated change; structural investment must answer a specific future-change burden.",
+        "sources": [
+          "H06",
+          "C04",
+          "E10"
+        ],
+        "residual_or_counter_control": "Refactoring is not an obligatory temporal predecessor of every release.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-13",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 939,
+          "expected_native_id": "AC-13"
+        },
+        "native_cells_verbatim": [
+          "`AC-13`",
+          "Perpetual sprint pressure",
+          "`MANAGEMENT_ADOPTION`",
+          "Recurring timeboxes can become recurring emergencies.",
+          "A protected cadence can also reduce interruption.",
+          "EA-25 retained; sprint contextual."
+        ],
+        "successor_disposition": "EXTENDED_BY_ADVERSE_EVIDENCE",
+        "response": "Retain delivery pressure, workload and lost learning time as real possible consequences of Agile implementation.",
+        "sources": [
+          "E03",
+          "N06",
+          "N13"
+        ],
+        "residual_or_counter_control": "Adverse-focused selection cannot estimate prevalence or average net harm; do not dismiss the cases as inauthentic by definition.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-14",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 940,
+          "expected_native_id": "AC-14"
+        },
+        "native_cells_verbatim": [
+          "`AC-14`",
+          "Autonomy became a ticket factory",
+          "`MANAGEMENT_ADOPTION`",
+          "Teams may organise tasks locally but lack product, architecture or release authority.",
+          "Local work management still has value.",
+          "EA-18 requires real bounded authority."
+        ],
+        "successor_disposition": "PRESERVED_WITH_COUNTER_CONTROL",
+        "response": "Bound autonomy by actual authority and interfaces; examine how control is exercised and experienced.",
+        "sources": [
+          "H10",
+          "N07",
+          "N13",
+          "S01"
+        ],
+        "residual_or_counter_control": "McAvoy/Butler counters a blanket claim that collective ownership necessarily creates loafing; surveillance can have costs.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-15",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 941,
+          "expected_native_id": "AC-15"
+        },
+        "native_cells_verbatim": [
+          "`AC-15`",
+          "Shallow retrospectives",
+          "`A_SPECIFIC_CEREMONY`",
+          "Observation without authorised change is an open loop.",
+          "Informal improvement can work without a meeting.",
+          "EA-16 retained; meeting optional."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "Reflection requires an authorized change and later evidence; a repeated meeting does not prove learning.",
+        "sources": [
+          "H08",
+          "H13",
+          "H18",
+          "N13"
+        ],
+        "residual_or_counter_control": "A short event-triggered correction can suffice without a retrospective ceremony.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-16",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 942,
+          "expected_native_id": "AC-16"
+        },
+        "native_cells_verbatim": [
+          "`AC-16`",
+          "CI/CD theatre",
+          "`IMPLEMENTATION_FAILURE`",
+          "Automation can preserve false green signals or bypass failed controls.",
+          "Bad implementation does not negate frequent truthful integration.",
+          "EA-06–EA-11 require trustworthy evidence."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "A CI server or green isolated branches do not establish integrated verified behavior.",
+        "sources": [
+          "H14",
+          "E08"
+        ],
+        "residual_or_counter_control": "The refreshed CI review is abstract-only, so no detailed empirical effect is inferred from it.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-17",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 943,
+          "expected_native_id": "AC-17"
+        },
+        "native_cells_verbatim": [
+          "`AC-17`",
+          "Short feedback cannot resolve delayed outcomes",
+          "`CONTEXT_MISMATCH`",
+          "Weekly evidence cannot directly identify effects that mature over months or years.",
+          "Validated surrogates can sometimes accelerate decisions.",
+          "EA-14 admitted."
+        ],
+        "successor_disposition": "PRESERVED_WITH_SOURCE_ROLES",
+        "response": "Proxy governance remains necessary when a claim outruns the observation horizon.",
+        "sources": [
+          "E16",
+          "E17",
+          "E18"
+        ],
+        "residual_or_counter_control": "Surrogate theory, a single-firm reanalysis and separate practitioner experience are not interchangeable or independent replications.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-18",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 944,
+          "expected_native_id": "AC-18"
+        },
+        "native_cells_verbatim": [
+          "`AC-18`",
+          "Agile mismatches hardware/regulation/safety",
+          "`CONTEXT_MISMATCH`",
+          "Physical and assurance boundaries impose costly, irreversible commitments.",
+          "Adaptive work can operate below those boundaries.",
+          "Risk-based hybrid, not blanket rejection."
+        ],
+        "successor_disposition": "EXTENDED_AND_CONTESTED",
+        "response": "Use lifecycle-neutral assurance obligations and inspect actual adapted cases. Neither blanket Agile exclusion nor blanket certification compatibility follows from labels.",
+        "sources": [
+          "S01",
+          "S02",
+          "S03",
+          "N10",
+          "N11",
+          "N12"
+        ],
+        "residual_or_counter_control": "The 2025 review’s categorical upfront-order language is stronger than its pilot-heavy evidence; the two-project preprint has scope and denominator limitations.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-19",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 945,
+          "expected_native_id": "AC-19"
+        },
+        "native_cells_verbatim": [
+          "`AC-19`",
+          "Distributed communication failure",
+          "`IMPLEMENTATION_FAILURE`",
+          "Informal synchronous communication alone scales poorly across time, geography and organisations.",
+          "Co-location is not a universal requirement.",
+          "Reintroduce durable interfaces and records."
+        ],
+        "successor_disposition": "PRESERVED_WITH_LIMIT",
+        "response": "Communication must transmit needed context and decisions across actual working conditions.",
+        "sources": [
+          "H08",
+          "N03",
+          "N13"
+        ],
+        "residual_or_counter_control": "The Manifesto’s face-to-face wording is prescriptive. This review has not run a direct comparative remote-work study.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      },
+      {
+        "criticism_id": "AC-20",
+        "native": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 946,
+          "expected_native_id": "AC-20"
+        },
+        "native_cells_verbatim": [
+          "`AC-20`",
+          "Agile industrial complex",
+          "`MANAGEMENT_ADOPTION`",
+          "Certification and consulting incentives can favour reproducible ceremony over contextual engineering.",
+          "Commercial support is not inherently harmful.",
+          "No method-branded practice is admitted without mechanism evidence."
+        ],
+        "successor_disposition": "PRESERVED",
+        "response": "Treat commercialization and imposed frameworks as substantive criticism, while examining a proposed practice on its own evidence.",
+        "sources": [
+          "C01",
+          "C03",
+          "N14"
+        ],
+        "residual_or_counter_control": "Critics’ preferences and vendor claims alike are not comparative performance studies.",
+        "resolution_status": "AUTHOR_JUDGMENT_PENDING_INDEPENDENT_REVIEW"
+      }
+    ],
+    "additional_criticisms": [
+      {
+        "id": "ACQ-21",
+        "question": "Are present-day framework prescriptions themselves overgeneralized?",
+        "sources": [
+          "H22",
+          "N14",
+          "N11"
+        ],
+        "finding": "The current Team Topologies page contains categorical team-type and cadence language; the 2026 CDM review explicitly calls some combined rules provisional; the 2025 safety review makes strong upfront-order conclusions. These statements are retained as claims, not adopted as universal laws.",
+        "counter_control": "A conventional independent assurance role, high fixed qualification cost or legitimate shared specialist can defeat an unconstrained no-handoff or smallest-batch reading.",
+        "disposition": "CONTEXTUALIZE_AND_KEEP_CONTESTED"
+      }
+    ]
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "schema": "ledger-recorded-earlier-canonical-review-history/1",
+  "evidence_kind": "Historical review metadata recorded in two available property ledgers; not newly authenticated referenced review bodies.",
+  "source_populations": [
+    {
+      "population": "CURRENT",
+      "public_ledger": "SPR-L1-CURRENT-PROPERTIES.json",
+      "source_ledger_sha256": "de5bd3eafa5c6d9a83150eafba66619d933e3fa28f12a715635c5c537bc15b22",
+      "source_ledger_bytes": 13570699,
+      "occurrences": 83,
+      "original_pointer_pattern": "/properties/{0..82}/EVIDENCE_AND_UNCERTAINTY/CURRENT_CANONICAL_REVIEW_CLOSURE"
+    },
+    {
+      "population": "HISTORICAL",
+      "public_ledger": "SPR-L1-HISTORICAL-PROPERTIES.json",
+      "source_ledger_sha256": "e500b258f3d1ec8dde705c29614de8b59b2d1f3296bc1e53f1c5230a97628e01",
+      "source_ledger_bytes": 13559195,
+      "occurrences": 83,
+      "original_pointer_pattern": "/properties/{0..82}/EVIDENCE_AND_UNCERTAINTY/CURRENT_CANONICAL_REVIEW_CLOSURE"
+    }
+  ],
+  "factoring": "The same complete object occurs in all 83 rows of each source population. It is preserved once below and referenced by every corresponding public row.",
+  "recorded_history": {
+    "status": "CANONICAL_PACKET_REVIEW_COMPLETE_WITH_DECLARED_SCOPE_LIMITS",
+    "review_history": "reviews/ESI_CANONICAL_REVIEW_HISTORY.json",
+    "first_stage_acceptance": "reviews/canonical_fidelity_recheck_v3.json",
+    "second_stage_acceptance": {
+      "member_path": "reviews/canonical_adversarial_recheck_v2.json",
+      "byte_count": 44580,
+      "sha256": "6c15c3906ad9b620690fd7e0566eee3f94c68d305fd972a7b48335b906267d83"
+    },
+    "latest_accepted_subject": {
+      "member_path": "reviews/ADVERSARIAL_V2_SUBJECT.json",
+      "byte_count": 27200,
+      "sha256": "4f075b6177b67fd1561100fe1201a3d44feab394f03ce1d315ea553f9a18213e"
+    },
+    "open_repairable_findings": 0,
+    "scope": "Population-wide claim/mechanism and predicate-core review, selected full bodies and source/composition attacks, followed by targeted finding rechecks. This packet-level disposition is not a PASS for each underlying property or an audit of every field, source proof or empirical result.",
+    "historical_note": "Other inherited REVIEW_FINDINGS_AND_DISPOSITION and contributor-stage pending notes retain their original execution or author-stage meaning. This field identifies the current canonical packet review state without rewriting that history."
+  },
+  "interpretation_limits": [
+    "The status and zero-open-repairable-finding count are claims recorded by the available historical ledger at its stated review scope. This documentary correction does not freshly authenticate the named earlier review or subject objects.",
+    "The word current in the original field name and historical note refers to that earlier canonical packet. Its population/core/selected-body scope is not a PASS for each property or an audit of every source proof or empirical result.",
+    "This earlier canonical history is separate from the still-unavailable original r4 final certificate, final subject/review join, both final scientific review objects and complete r4 candidate. No missing object is recovered or substituted by this projection.",
+    "The relative member names are historical scientific identifiers, not links to newly recovered or publicly supplied review bodies."
+  ],
+  "source_notes": "SOURCES.md#spr-l1"
+}

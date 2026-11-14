@@ -1,0 +1,290 @@
+{
+  "schema": "implementaudit.cohort-c.documentary-qualified-synthesis-receiving.v1",
+  "record_id": "COHORT-C-CONTINUATION-08",
+  "prepared_at_utc": "2026-11-13T17:10:22.394557+00:00",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "prior_increment": "2026-11-13-documentary-continuation-07.json",
+  "prior_increment_sha256": "37b3df5891dbd733b53826bce23fcf01bbc34fc0a2f2a6866d45d1cd8f40d674",
+  "role": "Receive the existing DRF-S A006 qualification and its exact original scientific reviews; no new scientific qualification, requalification or central application.",
+  "new_scientific_qualifications_created_by_C": 0,
+  "new_existing_qualifications_received": 1,
+  "scientific_programme_report": {
+    "historically_qualified_constituents": 24,
+    "constituents_total": 24,
+    "qualified_syntheses": 7,
+    "syntheses_total": 8,
+    "qualified_synthesis_ids": [
+      "SPR-S",
+      "CSS-S",
+      "BWP-S",
+      "SSS-S",
+      "AMA-S",
+      "SSD-S",
+      "DRF-S"
+    ],
+    "qualified_scientific_units": 31,
+    "scientific_units_total": 32,
+    "unfinished_syntheses": [
+      "LAW-S"
+    ],
+    "historical_final_review_positions": 62,
+    "available_original_final_receipts": 60,
+    "complete_original_constituent_binding_sets": 23,
+    "available_original_constituent_final_receipts": 46,
+    "prior_qualified_row_objects_exactly_unchanged": 30,
+    "changed_programme_row_objects": [
+      "DRF-S",
+      "LAW-S"
+    ],
+    "scientific_qualification_at_utc": "2026-11-13T16:08:44.900719+00:00",
+    "independent_receiving_issued_at_utc": "2026-11-13T16:20:32.814544+00:00",
+    "later_checkpoint_at_utc": "2026-11-13T16:32:20.619646+00:00"
+  },
+  "units": [
+    {
+      "unit_id": "DRF-S",
+      "revision": "A006",
+      "scientific_status": "QUALIFIED_AT_DECLARED_SCOPE",
+      "qualification_at_utc": "2026-11-13T16:08:44.900719+00:00",
+      "scientific_subject": {
+        "bytes": 12026,
+        "sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a"
+      },
+      "qualification": {
+        "bytes": 61264,
+        "sha256": "fad4c7fe65da3985114ffa46e4a581406ac7bae79a8b5b7c345a2d141050f36d"
+      },
+      "author_frozen_at_utc": "2026-11-13T14:34:35.857711+00:00",
+      "accepted_reviews": {
+        "fidelity": {
+          "receipt": {
+            "bytes": 6238,
+            "sha256": "3194c9e466867b8db787eba6cadace00668df5dbe2d3af0838856a12043b2702"
+          },
+          "review_subject": {
+            "bytes": 9899,
+            "sha256": "3ab959220437fe336f5e5ce0c27a5417a88f35dc17ee5daab289719b92a356c0"
+          },
+          "report": {
+            "bytes": 79451,
+            "sha256": "d121f35b55ab701b9484d969f542bd9fca9ae705f75c7ce0a93745354d0cf449"
+          },
+          "reading_mask": {
+            "bytes": 17316,
+            "sha256": "bebdd87c56891397ce7b1deae245fe11189a0ab518cec81014f00cb1513ead02"
+          },
+          "later_readback": {
+            "bytes": 25612,
+            "sha256": "6093753f0b99e78b4413652337ba0e73e2053781923ed3ca159264ff67eaa85e"
+          },
+          "verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "issued_at_utc": "2026-11-13T15:07:38.824803+00:00",
+          "freeze_at_utc": "2026-11-13T15:07:32.509909+00:00",
+          "later_started_at_utc": "2026-11-13T15:07:35.363080+00:00",
+          "later_ended_at_utc": "2026-11-13T15:07:35.816748+00:00",
+          "material_findings": 0,
+          "nonblocking_findings": 2
+        },
+        "distinct_adversarial": {
+          "receipt": {
+            "bytes": 8052,
+            "sha256": "6e5100980abbaf859d1360cd754bf36b72f9108bd02ebf5e0e76ab608b4df3e9"
+          },
+          "review_subject": {
+            "bytes": 12527,
+            "sha256": "14d9b605f358c43ac88368d433428b6c4cacc6da7a9c5cbcabe18b7e7295002d"
+          },
+          "report": {
+            "bytes": 78996,
+            "sha256": "683f6f7ebcbe35630324ab3e42037c348957151e5ced82e1a329155ba61a2813"
+          },
+          "reading_mask": {
+            "bytes": 18601,
+            "sha256": "2561d5ed8bd66f3cb82990c8aab9eb770bc9a7c42f1e436123d5985b5c3a6679"
+          },
+          "later_readback": {
+            "bytes": 74799,
+            "sha256": "b4112556efd62944bc0517520cb5cf26d9dbc75b764b9692c1a1625b196aef9d"
+          },
+          "verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "issued_at_utc": "2026-11-13T15:56:50.225600+00:00",
+          "freeze_at_utc": "2026-11-13T15:56:44.120073+00:00",
+          "later_started_at_utc": "2026-11-13T15:56:46.848736+00:00",
+          "later_ended_at_utc": "2026-11-13T15:56:47.117627+00:00",
+          "material_findings": 0,
+          "nonblocking_findings": 3
+        }
+      },
+      "same_final_subject_in_qualification_and_both_reviews": true,
+      "distinct_author_and_review_contexts_verified": 4,
+      "context_roles": [
+        "whole author",
+        "additional exposed author",
+        "independent first whole fidelity reviewer",
+        "distinct whole adversarial reviewer"
+      ],
+      "both_reviewers_returning": true,
+      "blind_review_claimed": false,
+      "prior_acceptance_transferred": false,
+      "review_reading_scope": "Original reviews distinguish fresh selected reading from authenticated personal reuse. Their byte inventories do not assert fresh semantic reading of every row or every original source.",
+      "material_open_findings": 0,
+      "nonblocking_counts_are_per_review_and_overlap": true,
+      "original_standard": {
+        "version": "1.0.0",
+        "quality_dimensions": 18,
+        "readiness_dimensions": 12,
+        "changed": false,
+        "identity": {
+          "bytes": 18451,
+          "sha256": "4cf99ef9b9f82b3e00ccde6de18e0834bd2f31fb3fa50c6b98e61372097391e6"
+        }
+      },
+      "constituent_qualification_changes": 0,
+      "scientific_authorship_or_requalification_by_C": false,
+      "root_scientific_receiving": {
+        "bytes": 14098,
+        "sha256": "11b43dc85d048cd138f1b768c651cd721779f81c311862baae3fd3ac541d49af"
+      },
+      "central_selection_intent": {
+        "identity": {
+          "bytes": 6042,
+          "sha256": "93fadb3fddf268537f7d9ee323341cea8950fad5e8d7d561822296327ad91b92"
+        },
+        "state": "STAGED_ONLY_NO_SHARED_AUTHORITATIVE_WRITE",
+        "central_count_effect_before_commit": 0,
+        "authoritative_mutation": false,
+        "commit_receipt": null
+      }
+    }
+  ],
+  "independent_programme_receiving": {
+    "receipt": {
+      "bytes": 32605,
+      "sha256": "4e6a4ecdb0550960a304f1f0ff4f0cced8e2da181ced76f6dcaefd72a741fee7"
+    },
+    "report": {
+      "bytes": 31988,
+      "sha256": "1dcf3fa2b13c8b6c199726c8811b06abc8059ba78471afa3f5e1f5e6cd8a2a21"
+    },
+    "structured_32_unit_index": {
+      "bytes": 394997,
+      "sha256": "286dc4376d4a2bbb5d4603b2d6c073e088588d67e7a8165fa0c5c9257d92a17e"
+    },
+    "prior_six_qualified_index": {
+      "bytes": 370517,
+      "sha256": "b2d1cbdce52fa7bd4b196b9e9e10a3458d7f1d109a0bcfe3089770057520d296"
+    },
+    "reported_check_count": 968,
+    "reported_failure_count": 0,
+    "check_breakdown": {
+      "increment": 709,
+      "complete_delivery": 253,
+      "prior_six_retention": 6
+    },
+    "checks_are_prior_receiver_work_not_new_C08_executions": true,
+    "receiver_issued_scientific_acceptance": false,
+    "is_third_scientific_merit_gate": false
+  },
+  "receiving_scope": {
+    "fresh_documentary_check_count": 556,
+    "fresh_failure_count": 0,
+    "fresh_outer_manifest_payload_entries": 208,
+    "fresh_outer_payload_breakdown": {
+      "independent_receiving003": 109,
+      "checkpoint029": 31,
+      "qualification_A006": 68
+    },
+    "fresh_embedded_payload_entries": {
+      "author": 57,
+      "first_review": 49,
+      "distinct_review": 47,
+      "total": 153
+    },
+    "payload_entry_counts_are_not_unique_file_or_semantic_reading_counts": true,
+    "prior_root_receiving": {
+      "identity": {
+        "bytes": 25135,
+        "sha256": "cc2ac79cf0591334206944419d3dfc8f1d68be5a2c2e9afc19cc5f267db3deb0"
+      },
+      "at_utc": "2026-11-13T16:54:24.790212+00:00",
+      "reported_check_count": 236,
+      "reported_failure_count": 0,
+      "fresh_C08_execution": false
+    },
+    "prior_root_outer_verification": {
+      "identity": {
+        "bytes": 1098,
+        "sha256": "0af729b92a524befedcd3ef307aab796fbae37e01b96832ec415c8036f86f6fd"
+      },
+      "reported_payload_checks": 208,
+      "fresh_C08_execution": false
+    },
+    "own_reading": "Complete independent receiving report read; structured qualification, review, mask, chronology, gap and central-state fields inspected. Original scientific review reports and study bodies are not claimed as a new complete semantic reading by this documentary receiver.",
+    "source_programs_executed": false,
+    "prior_receiver_simulations_rerun": false,
+    "full_portal_suite_executed": false,
+    "all_scientific_tests_passed_claimed": false,
+    "independent_documentary_review_of_new_exact_bytes": "REQUIRED_SEPARATELY; original scientific verdicts do not review this continuation"
+  },
+  "original_evidence_gap": {
+    "unit_id": "SPR-L1",
+    "historical_qualification_retained": true,
+    "original_final_certificate_available": false,
+    "original_final_subject_available": false,
+    "original_final_fidelity_receipt_available": false,
+    "original_final_distinct_receipt_available": false,
+    "older_receipts_substituted": false,
+    "missing_originals_reconstructed": false
+  },
+  "unfinished_LAW": {
+    "unit_id": "LAW-S",
+    "A007_actual_final_verdict": {
+      "identity": {
+        "bytes": 5854,
+        "sha256": "1339563dcc6e4a7c7ac74e1640aa02cf79fa7207eecd1ecb1fbbb110fe911554"
+      },
+      "issued_at_utc": "2026-11-13T15:57:06.201596+00:00",
+      "disposition": "GAP_REVISE",
+      "material_findings": 1,
+      "nonblocking_findings": 2
+    },
+    "A008": "Later author checkpoint; whole integration pending, not frozen, no final acceptance or qualification received at this frontier.",
+    "qualification": null
+  },
+  "central_application": {
+    "current_live_total": null,
+    "current_live_state": "UNKNOWN",
+    "received_DRF_intent_state": "STAGED_ONLY_NO_SHARED_AUTHORITATIVE_WRITE",
+    "actual_authoritative_writes_in_received_increment": 0,
+    "actual_authoritative_writes_by_C08": 0,
+    "commit_receipt": null,
+    "current_live_head_verified": false,
+    "effective_writer_fence_established": false,
+    "older_SPR_only_snapshot_is_current_live_count": false,
+    "in_memory_intent_simulation_is_application": false
+  },
+  "retained_actual_failure_distinctions": [
+    "The first DRF review retained one failed comparison among 90,980 comparisons and a separate 63-check resolution with no failures.",
+    "The earlier root first-review receiving retained one datatype-reader failure among 133 checks and a separate five-check resolution with no failures.",
+    "The distinct reviewer retained an initial schema exception after 35,806 comparisons; a separate corrected instrument reported 96,367 comparisons with no failures.",
+    "The distinct delivery wrapper failure and its initially incorrect diagnosis remain recorded alongside separate 62-check saved-byte and 10-check receipt verifications.",
+    "An earlier combined root command terminal was not observed; later actual receipts and a separate completed delivery command remain distinct evidence.",
+    "SSD-S retains its actual derivative-summary comparison failure; successful identity checks do not convert it to a scientific pass. Earlier AMA, BWP and SSS adverse or reader/instrument history remains tied to its original records."
+  ],
+  "retained_limits": [
+    "Prior continuation07 and the initial PROGRAMME preserve their exact dated frontiers; only continuation08 receives the seventh synthesis qualification.",
+    "Qualification is at declared analytical scope. No empirical validation, operational deployment, new prompt benchmark, native implementation or original historical executed-steering authentication is established by this receiving.",
+    "Sixty-two historical review positions include only sixty available original receipts; the SPR-L1 original-final certificate, subject and two receipts remain unavailable at the received recovery scope.",
+    "Whole-family documentation and its eight-component assessment remain separate work; this increment contains metadata only.",
+    "Detailed current scientific arguments, direction bodies, source acquisition routes and private locators remain undisclosed. A source filename marked public_safe is not owner disclosure approval.",
+    "Central application, documentary receiving, Git publication, Pages deployment and native acceptance remain separate.",
+    "Actual desktop/mobile rendering remains UNVERIFIED_ENVIRONMENT_BLOCKED at the retained documentary boundary.",
+    "Inaccessible predecessor process cessation remains UNKNOWN."
+  ],
+  "family_membership_changed": false,
+  "potential_integration_responsibilities": 32,
+  "new_issues_or_RLGWO_campaign": false,
+  "native_implementation_credit": false,
+  "public_safe_metadata_only": true
+}

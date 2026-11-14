@@ -1,0 +1,359 @@
+{
+  "schema": "implementaudit.evolved-programme-documentary-continuation.v1",
+  "increment_id": "2026-11-13-documentary-continuation-04",
+  "scope": "Newly received exact SSD S005 fidelity outcomes, distinct reconciled author subject and bounded S006 partial records.",
+  "documentary_baseline_commit": "abfaf5919b0d492c331c4493675611eb85332891",
+  "documentary_record_created_at_utc": "2026-11-13T06:39:13.630027+00:00",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "previous_increment": "2026-11-13-documentary-continuation-03.json",
+  "previous_increment_sha256": "5095e32c50bc47920f89615e2bef9e8d487491661b891f8cf1f2169b9c1f1e8f",
+  "catalogue_units_unchanged": 32,
+  "family_membership_changed": false,
+  "new_whole_scientific_qualifications": 0,
+  "new_central_applications_observed": 0,
+  "source_capture_limits": {
+    "A_bounded_discovery_ended_at_utc": "2026-11-13T06:27:15.358Z",
+    "B_bounded_discovery_ended_at_utc": "2026-11-13T06:27:52Z",
+    "newly_discovered_does_not_mean_newly_occurred": true,
+    "live_shared_scientific_head_observed": false,
+    "discovery_exhaustive_global_absence_proof": false
+  },
+  "SSD_S": {
+    "newly_received_adverse_whole_fidelity": [
+      {
+        "revision": "S005",
+        "provenance": "isolated successor continuation",
+        "subject": {
+          "bytes": 311145,
+          "sha256": "5f0d278b4ea8f740fe228017d2c9cb533cf54a4a117e75be9169865033478b32"
+        },
+        "parent_subject": {
+          "bytes": 280905,
+          "sha256": "261895c23d9e33854a5d7fa235e6de462d3e9c3b6e901f2f20b0e8006508d114"
+        },
+        "parent_fidelity_receipt": {
+          "bytes": 4991,
+          "sha256": "f0987a6d7d2049885bed51078c7da633ef5c30dd648d8b18f356ffd049b12db8"
+        },
+        "parent_review_binding": "exact receipt in subject",
+        "closed_whole_fidelity": {
+          "review_subject": {
+            "bytes": 6440,
+            "sha256": "d4e041308b138da56a592983b61c29c4da7b1423f6b8439b7af6f91612b05b86"
+          },
+          "receipt": {
+            "bytes": 4296,
+            "sha256": "7e91e57600fecd1fed15fff463ca59f7aa86e2458048f6bf027c0c5dae57034f"
+          },
+          "disposition": "GAP_REVISE",
+          "scope": "Returning whole fidelity at the original declared reading and exposure scope; attributed upstream judgment.",
+          "root_receiving": {
+            "bytes": 5656,
+            "sha256": "524ffdcfd23ad12c55a0ce5ea7e79513d1566390bb416721b8788c5913c7fbb3"
+          }
+        },
+        "events": [
+          {
+            "event": "review subject frozen",
+            "at_utc": "2026-11-13T05:47:30.006097+00:00",
+            "source": {
+              "bytes": 6440,
+              "sha256": "d4e041308b138da56a592983b61c29c4da7b1423f6b8439b7af6f91612b05b86"
+            }
+          },
+          {
+            "event": "review receipt issued",
+            "at_utc": "2026-11-13T05:47:30.006428+00:00",
+            "source": {
+              "bytes": 4296,
+              "sha256": "7e91e57600fecd1fed15fff463ca59f7aa86e2458048f6bf027c0c5dae57034f"
+            }
+          },
+          {
+            "event": "later review byte checks completed",
+            "at_utc": "2026-11-13T05:47:36.094307+00:00",
+            "source": {
+              "bytes": 1613,
+              "sha256": "7aacb45c4bdf37c1241cfc493268c2ce441c913ae86d4cf8dbf70bb444c35096"
+            }
+          },
+          {
+            "event": "reviewer terminal observation recorded",
+            "at_utc": "2026-11-13T05:48:02.630543+00:00",
+            "source": {
+              "bytes": 2437,
+              "sha256": "7e3c64718c800827d59d274fa4f5edb9edd2308f02f1c048508c5e75e444eb2e"
+            }
+          },
+          {
+            "event": "root closed-review receiving recorded",
+            "at_utc": "2026-11-13T05:51:02.219690+00:00",
+            "source": {
+              "bytes": 5656,
+              "sha256": "524ffdcfd23ad12c55a0ce5ea7e79513d1566390bb416721b8788c5913c7fbb3"
+            }
+          }
+        ],
+        "whole_scientific_qualification": false,
+        "distinct_final_adversarial_acceptance_received": false,
+        "new_central_application_received": false
+      },
+      {
+        "revision": "S005",
+        "provenance": "owner successor continuation",
+        "subject": {
+          "bytes": 329272,
+          "sha256": "36c3644b80cd9b46f04867396738550586036b8b326671e6419522d878483622"
+        },
+        "parent_subject": {
+          "bytes": 300530,
+          "sha256": "89759a09aae0e266154ee263f86f5f3bd2ba5edccab823d3f8a5785310f161e0"
+        },
+        "parent_fidelity_receipt": {
+          "bytes": 4064,
+          "sha256": "f85d809462b1258366c61e1031fc58a8cac850455c20136f75dbf04671f913d2"
+        },
+        "parent_review_binding": "exact parent report identified by earlier owner fidelity receipt",
+        "closed_whole_fidelity": {
+          "review_subject": {
+            "bytes": 12286,
+            "sha256": "421993bb94e0f636d1894a9a7d477af3bab92b9a899465518716027c6dd7328b"
+          },
+          "receipt": {
+            "bytes": 4350,
+            "sha256": "0d9fa204ffb21abde565c62e32dd6400a544e5db29f5b6a360bd582f6353efa1"
+          },
+          "disposition": "GAP_REVISE",
+          "scope": "Returning whole fidelity at the original declared reading and exposure scope; attributed upstream judgment.",
+          "root_receiving": {
+            "bytes": 3664,
+            "sha256": "1d2f44c37b13f6e093b62530337e05a335c37ad442b44b1025e4669f3475ced3"
+          },
+          "independent_documentary_receipt": {
+            "bytes": 4738,
+            "sha256": "4cc415c46fed34d4170b180dc320ed55902535d783587dc0b55a9579e3414815"
+          },
+          "later_additive_data_closure_control": {
+            "bytes": 1152,
+            "sha256": "ece1a2fab85c6aa8e4ee165ffeae939ff65ee9a1e4da191ee93e703f86a27cbe"
+          }
+        },
+        "events": [
+          {
+            "event": "review subject frozen",
+            "at_utc": "2026-11-13T05:26:47.278991+00:00",
+            "source": {
+              "bytes": 12286,
+              "sha256": "421993bb94e0f636d1894a9a7d477af3bab92b9a899465518716027c6dd7328b"
+            }
+          },
+          {
+            "event": "review receipt created after completed readback",
+            "at_utc": "2026-11-13T05:26:57.599013+00:00",
+            "source": {
+              "bytes": 4350,
+              "sha256": "0d9fa204ffb21abde565c62e32dd6400a544e5db29f5b6a360bd582f6353efa1"
+            }
+          },
+          {
+            "event": "final closed-review byte readback completed",
+            "at_utc": "2026-11-13T05:26:59.998990+00:00",
+            "source": {
+              "bytes": 1358,
+              "sha256": "0f8f82d5e98e55b60bd3ffa30f83d4cc586cdd3efb415ee94ef9a6711db44c7a"
+            }
+          },
+          {
+            "event": "independent documentary byte verification completed",
+            "at_utc": "2026-11-13T05:35:57.683428+00:00",
+            "source": {
+              "bytes": 4738,
+              "sha256": "4cc415c46fed34d4170b180dc320ed55902535d783587dc0b55a9579e3414815"
+            }
+          },
+          {
+            "event": "independent documentary receipt created after observed terminal",
+            "at_utc": "2026-11-13T05:36:25.530330+00:00",
+            "source": {
+              "bytes": 4738,
+              "sha256": "4cc415c46fed34d4170b180dc320ed55902535d783587dc0b55a9579e3414815"
+            }
+          },
+          {
+            "event": "root closed-review receiving recorded",
+            "at_utc": "2026-11-13T05:37:10.603916+00:00",
+            "source": {
+              "bytes": 3664,
+              "sha256": "1d2f44c37b13f6e093b62530337e05a335c37ad442b44b1025e4669f3475ced3"
+            }
+          },
+          {
+            "event": "root additive data-closure control recorded",
+            "at_utc": "2026-11-13T05:38:25.916144+00:00",
+            "source": {
+              "bytes": 1152,
+              "sha256": "ece1a2fab85c6aa8e4ee165ffeae939ff65ee9a1e4da191ee93e703f86a27cbe"
+            }
+          }
+        ],
+        "whole_scientific_qualification": false,
+        "distinct_final_adversarial_acceptance_received": false,
+        "new_central_application_received": false,
+        "receiving_chronology_limit": "The root receipt describes detached documentary receipt sealing separately; the later additive control supplies its exact pin. No earlier digest-bound observation is inferred.",
+        "review_event_predates_previous_discovery_cutoff": true
+      }
+    ],
+    "third_distinct_frozen_S005": {
+      "current_subject": {
+        "bytes": 314300,
+        "sha256": "3cf588be9c0cd95be6a7d77f3530e65185d9c2d9aa0a6c9105b16eda6ca75bb7"
+      },
+      "parent_subject": {
+        "bytes": 300530,
+        "sha256": "89759a09aae0e266154ee263f86f5f3bd2ba5edccab823d3f8a5785310f161e0"
+      },
+      "later_parent_fidelity_receipt": {
+        "bytes": 10768,
+        "sha256": "7dc1a2304601007c057325f84c8beeeec5d218df064e765a02b3e3156c767db4"
+      },
+      "author_freeze_receipt": {
+        "bytes": 1505,
+        "sha256": "284daec0a0984a7ecb7842c400110a31c4f2ec066e1245b5b6fa7561e76fb3ff"
+      },
+      "author_later_mechanical_readback": {
+        "bytes": 364903,
+        "sha256": "2a1894bf047cf6587031f3db54defa479323ab7e1dde379b2e53048752c5c214"
+      },
+      "root_data_receiving": {
+        "bytes": 1788,
+        "sha256": "e6f3ca27ffa65bdff8ab578d972631768188e0c60411eb569183e2a8fce9ce5b"
+      },
+      "returning_fidelity_binding": {
+        "bytes": 1653,
+        "sha256": "362bd15aceadbe6975a94dc2630b4832756e7d90857dfcf5ea062713f3d11b2c"
+      },
+      "source_capture_utc": "2026-11-13T05:33:42.357722+00:00",
+      "subject_frozen_at_utc": "2026-11-13T05:28:29.881451+00:00",
+      "root_receiving_completed_at_utc": "2026-11-13T05:29:56.579447+00:00",
+      "fidelity_bound_at_utc": "2026-11-13T05:30:43.688459+00:00",
+      "author_state": "WHOLE_AUTHOR_STUDY_COMPLETE_UNQUALIFIED",
+      "current_fidelity_final_receipt_received": false,
+      "current_fidelity_status": "RETURNING_WHOLE_FIDELITY_DISPATCHED_AT_CAPTURE",
+      "distinct_adversary_dispatched_at_capture": false,
+      "whole_qualification": false,
+      "central_application": false,
+      "provenance": "reconciled successor continuation",
+      "same_author_mechanical_readback_is_independent_scientific_review": false,
+      "other_S005_verdicts_transfer": false,
+      "accepted_correction_of_parent_review_established": false,
+      "newly_received_subject_does_not_rewrite_previous_capture": true
+    },
+    "separate_exposed_author_support_assessment": {
+      "record": {
+        "bytes": 6195,
+        "sha256": "7d5db94c0f8ba5d29824115c93c32b2c9a0338ccad0984fb5afab2078adb2d6b"
+      },
+      "record_created_at_utc": "2026-11-13T05:45:16.566032+00:00",
+      "subject": {
+        "bytes": 329272,
+        "sha256": "36c3644b80cd9b46f04867396738550586036b8b326671e6419522d878483622"
+      },
+      "declared_role": "EXPOSED_AUTHOR_SUPPORT_NOT_INDEPENDENT_REVIEW",
+      "qualification_or_central_effect": false,
+      "independent_whole_review": false,
+      "verdict_transfer_to_reconciled_S005": false,
+      "later_documentary_pointer": {
+        "bytes": 1545,
+        "sha256": "02f52365e977b13d946046b7a2a8b17cfb700bc46fc9c0205356c58a4ae92802"
+      }
+    },
+    "partial_S006_records": [
+      {
+        "revision": "S006",
+        "provenance": "isolated successor continuation",
+        "parent_subject": {
+          "bytes": 311145,
+          "sha256": "5f0d278b4ea8f740fe228017d2c9cb533cf54a4a117e75be9169865033478b32"
+        },
+        "inquiry_record": {
+          "bytes": 4009,
+          "sha256": "7b2a948e21dc7ccdb4e9917967b64181bbfa3cf6c511881ecb5c9add6fa3824f"
+        },
+        "inquiry_record_created_at_utc": "2026-11-13T05:45:45.034509+00:00",
+        "status": "PARTIAL_AUTHOR_RECORDS_RECEIVED",
+        "complete_review_packet_received_at_inquiry_record": false,
+        "frozen_whole_S006_subject_received_in_capture": false,
+        "current_final_independent_verdict_received_in_capture": false,
+        "whole_scientific_qualification": false,
+        "scope_limit": "The inquiry record predates the closed S005 return. Its inquiry timestamp is not a whole-author freeze or review verdict. Captured partial leaves do not prove absence outside this source boundary."
+      },
+      {
+        "revision": "S006",
+        "provenance": "owner successor continuation",
+        "parent_subject": {
+          "bytes": 329272,
+          "sha256": "36c3644b80cd9b46f04867396738550586036b8b326671e6419522d878483622"
+        },
+        "correction_release": {
+          "bytes": 4475,
+          "sha256": "9ef73bf173e40be68732e783d1ae288fb3479b661c9f6e91129c6be1fbc8aec5"
+        },
+        "correction_released_at_utc": "2026-11-13T05:37:10.603916+00:00",
+        "partial_checkpoint": {
+          "bytes": 9245,
+          "sha256": "0a66caec78fe1c3099ccf96ad85e72a93d976553fe9bf2efa06cf168a6813436"
+        },
+        "checkpoint_closed_at_utc": "2026-11-13T06:20:36.254819+00:00",
+        "status": "PARTIAL_NOT_A_WHOLE_SUBJECT",
+        "report_closure_freeze_pending": true,
+        "frozen_whole_S006_subject_received_in_capture": false,
+        "current_final_independent_verdict_received_in_capture": false,
+        "whole_scientific_qualification": false,
+        "scope_limit": "A closed survival checkpoint preserves partial author work, not a complete whole study. Attributed mechanical progress does not supply scientific acceptance."
+      }
+    ],
+    "earlier_adverse_subjects_and_review_histories_preserved": true,
+    "current_whole_qualification": false
+  },
+  "unchanged_original_and_central_boundaries": {
+    "later_documentary_root_receiving": {
+      "bytes": 1545,
+      "sha256": "02f52365e977b13d946046b7a2a8b17cfb700bc46fc9c0205356c58a4ae92802"
+    },
+    "later_documentary_root_receiving_at_utc": "2026-11-13T06:08:46.849227+00:00",
+    "central_readiness_index": {
+      "bytes": 49654,
+      "sha256": "c502e048ddea031ef3ee9e46b228fea539c6862abde0f4dcdf74ced1e4aff1b5"
+    },
+    "readiness_index_created_at_utc": "2026-11-13T05:40:29.766176+00:00",
+    "newer_documentary_receiving_is_new_original_scientific_event": false,
+    "original_LAW_DRF_partial_scientific_receiving": "LAW I015/I016 and DRF I006 remain as previously received.",
+    "later_original_author_byte_receiving": "LAW I020 and DRF I009; scientific receiving remains pending in the received records.",
+    "shared_master_mutation": false,
+    "new_LAW_DRF_custody_release": false,
+    "captured_central_selection_unchanged_from_previous_increment": true,
+    "live_shared_head_or_effective_writer_fence_verified": false,
+    "CSS_BWP_SSS_central_intents": "staged only in received context"
+  },
+  "B_refresh": {
+    "material_documentary_delta_established": false,
+    "AMA_r17": "Selected fidelity accepted at declared scope; exact final whole adversarial receipt still pending in the captured source; unqualified.",
+    "LAW_DRF_data_receiving": "I019/I008; later I009 observation remains unsealed B receiving in the captured source.",
+    "exclusive_scientific_custody_and_adoption": "inactive in received context",
+    "existing_CSS_BWP_SSS_qualifications_preserved": true
+  },
+  "verification_scope": {
+    "selected_original_bytes_and_subject_review_receiving_joins_verified": true,
+    "full_inherited_dependency_graph_reconstructed": false,
+    "upstream_scientific_judgments_remain_attributed": true,
+    "scientific_programs_executed_by_C": false,
+    "new_scientific_review_or_qualification_by_C": false
+  },
+  "public_source_access": "Permitted generic provenance, exact scientific identity, original event kind/time and receiving/status metadata only; bodies and acquisition identities remain private.",
+  "source_body_publication_permission": false,
+  "detailed_findings_and_direction_counters_published": false,
+  "native_implementation_credit": false,
+  "RLGWO_responsibilities_changed": false,
+  "publication_boundary": "Existing C source branch only; no main merge, issue effect, native implementation or Pages deployment."
+}

@@ -1,0 +1,891 @@
+{
+  "source_identity": {
+    "source_id": "S-a8fb43e41bc08f2f",
+    "scientific_name": "SB-R3-009_EL004_F7_FORWARD.json",
+    "original_bytes": 70440,
+    "original_sha256": "a8fb43e41bc08f2f472b558680a7a2e179fd34eed07389bd5f9cfe8a8aa6dcb4"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-009",
+    "title": "EL-004_FORWARD_SUPPLIER_BUFFER_AND_CONTINUITY_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:12:24.154573+00:00",
+    "inquiry_family": 7,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_005.json",
+      "bytes": 7000,
+      "sha256": "7059b0b8192ede42bdfa0e9318bc2f31067e9c2a2413d47b5f3ca8c0c9a257a7"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal supplier rule, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-004",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        }
+      },
+      {
+        "native_id": "EL-008",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        }
+      },
+      {
+        "native_id": "EL-009",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        }
+      },
+      {
+        "native_id": "EL-010",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        }
+      },
+      {
+        "native_id": "EL-027",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        }
+      },
+      {
+        "native_id": "EL-028",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        }
+      },
+      {
+        "native_id": "EW-P009",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P026",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P028",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        }
+      },
+      {
+        "native_id": "EW-P029",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY7_SOURCE_INQUIRY.json",
+      "bytes": 3318,
+      "sha256": "8ae0f20c1d19caca960236df794b847df83ab4bef3197eeaa0fa699cb7ef2c60"
+    },
+    "native_common_basis": "A genuine admission rule bounds a declared active population; external waiting, service, option value and broad safety remain separate.",
+    "common_cost_and_alternative": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Information treated as physical capacity.",
+      "First-tier diversity treated as independent lower-tier supply.",
+      "A complete document treated as operational capability.",
+      "A partial exposure or criterion input rejected for failing the whole receiver.",
+      "Capacity, stock or staff double-counted for routine and contingency use.",
+      "Buyer savings treated as joint fair gain."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P009",
+        "argument": "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P022",
+        "argument": "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P025",
+        "argument": "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P026",
+        "argument": "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P027",
+        "argument": "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P028",
+        "argument": "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P029",
+        "argument": "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P033",
+        "argument": "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P009",
+        "overclaim": "A queue cap does not establish units, message semantics, timeout handling or two-sided compatibility; a private cap unrelated to the external contract supplies no such interface.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P022",
+        "overclaim": "A WIP cap on development tickets does not undo already authorized full tooling expenditure, establish independently useful increments or prove option value.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P025",
+        "overclaim": "Cap ten alone gives no completion date when service time and pre-entry queue are unknown; optimistic item splitting can improve the reported metric without serving demand.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P026",
+        "overclaim": "A local stop-start board cannot cancel an existing procurement obligation or make a late custom component arrive sooner.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P027",
+        "overclaim": "Only one concurrent change can still irreversibly corrupt all data; a cap supplies neither trained operators nor permission to start.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P028",
+        "overclaim": "A single admitted command can propagate irreversible harm beyond the bounded population; lower concurrency is not proven rollback capability.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P029",
+        "overclaim": "A small active queue can hide an aging pre-entry backlog or obsolete unsupported components; short displayed cycle time is not support continuity.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P033",
+        "overclaim": "One active high-consequence change can still warrant strong controls; the WIP number is not a universal risk score.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared capacity, information, organizations, tools or source works are not independent controls or benefits.",
+    "direction": "forward",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L1::EL-004->LAW-L3::EW-P009",
+      "LAW-L1::EL-004->LAW-L3::EW-P022",
+      "LAW-L1::EL-004->LAW-L3::EW-P025",
+      "LAW-L1::EL-004->LAW-L3::EW-P026",
+      "LAW-L1::EL-004->LAW-L3::EW-P027",
+      "LAW-L1::EL-004->LAW-L3::EW-P028",
+      "LAW-L1::EL-004->LAW-L3::EW-P029",
+      "LAW-L1::EL-004->LAW-L3::EW-P033"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P009",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P009",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response."
+        },
+        "shared_question_or_object": "An externally consequential service interface whose admission policy limits accepted simultaneous work.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response."
+        },
+        "source_contribution": "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response.",
+        "receiving_consequence": "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response."
+        ],
+        "premises_remaining": [
+          "Actual two-sided semantics, compatibility evidence, ownership and change handling remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A queue cap does not establish units, message semantics, timeout handling or two-sided compatibility; a private cap unrelated to the external contract supplies no such interface.",
+        "counter_control": "A queue cap does not establish units, message semantics, timeout handling or two-sided compatibility; a private cap unrelated to the external contract supplies no such interface.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. Use local types or a focused contract test when the boundary is private and low consequence.",
+        "subcondition_evidence": {
+          "P1": "An externally consequential service interface whose admission policy limits accepted simultaneous work.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "A consequential boundary between components or organizations",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+            "literal_bridge": "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response."
+          },
+          "P3": "An actual admission limit and its exception behavior supply a timing/loading condition that the shared interface contract must represent; otherwise individually compatible components can disagree about accepted work or overload response.",
+          "P4": "Actual two-sided semantics, compatibility evidence, ownership and change handling remain necessary. Control: A queue cap does not establish units, message semantics, timeout handling or two-sided compatibility; a private cap unrelated to the external contract supplies no such interface."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P009->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P022",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P022",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment."
+        },
+        "shared_question_or_object": "The same stream of active commitments and a proposed irreversible staged investment.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A sequence of commitments under uncertainty",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "literal_bridge": "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment."
+        },
+        "source_contribution": "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment.",
+        "receiving_consequence": "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment."
+        ],
+        "premises_remaining": [
+          "Separable decisions, sufficient relevant evidence, real option feasibility and commitment authority remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A WIP cap on development tickets does not undo already authorized full tooling expenditure, establish independently useful increments or prove option value.",
+        "counter_control": "A WIP cap on development tickets does not undo already authorized full tooling expenditure, establish independently useful increments or prove option value.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. Stable well-understood delivery can justify a larger commitment without artificial staging.",
+        "subcondition_evidence": {
+          "P1": "The same stream of active commitments and a proposed irreversible staged investment.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "A sequence of commitments under uncertainty",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+            "literal_bridge": "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment."
+          },
+          "P3": "A genuine release limit bounds the number of active commitments before the next relevant result, supplying a partial exposure bound to the staging decision when those items carry that commitment.",
+          "P4": "Separable decisions, sufficient relevant evidence, real option feasibility and commitment authority remain necessary. Control: A WIP cap on development tickets does not undo already authorized full tooling expenditure, establish independently useful increments or prove option value."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P022->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P025",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P025",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion."
+        },
+        "shared_question_or_object": "A forecast for delivery of the exact population governed by an admission limit.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A forecast used for resource or commitment decisions",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "literal_bridge": "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion."
+        },
+        "source_contribution": "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion.",
+        "receiving_consequence": "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion."
+        ],
+        "premises_remaining": [
+          "Comparable data, explicit ranges, honest assumptions and actual forecast updates remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Cap ten alone gives no completion date when service time and pre-entry queue are unknown; optimistic item splitting can improve the reported metric without serving demand.",
+        "counter_control": "Cap ten alone gives no completion date when service time and pre-entry queue are unknown; optimistic item splitting can improve the reported metric without serving demand.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. A short-horizon forecast from recent throughput can suffice.",
+        "subcondition_evidence": {
+          "P1": "A forecast for delivery of the exact population governed by an admission limit.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "A forecast used for resource or commitment decisions",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+            "literal_bridge": "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion."
+          },
+          "P3": "The real cap, work definition, upstream backlog and exception policy constrain the forecast model and prevent interpreting a reduced admitted-cycle-time statistic as improvement of total demand completion.",
+          "P4": "Comparable data, explicit ranges, honest assumptions and actual forecast updates remain necessary. Control: Cap ten alone gives no completion date when service time and pre-entry queue are unknown; optimistic item splitting can improve the reported metric without serving demand."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P025->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P026",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P026",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+          "literal_bridge": "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise."
+        },
+        "shared_question_or_object": "A release policy governing work with supplier lead times and cross-organization commitments.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+          "literal_bridge": "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise."
+        },
+        "source_contribution": "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise.",
+        "receiving_consequence": "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise."
+        ],
+        "premises_remaining": [
+          "Actual commercial authority, usable data rights, configuration correspondence and feasible supplier capability remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A local stop-start board cannot cancel an existing procurement obligation or make a late custom component arrive sooner.",
+        "counter_control": "A local stop-start board cannot cancel an existing procurement obligation or make a late custom component arrive sooner.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. Direct coordination and a short dependency note can suffice at a simple shared-team boundary.",
+        "subcondition_evidence": {
+          "P1": "A release policy governing work with supplier lead times and cross-organization commitments.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "Relevant commitments, interfaces, lead times and change responsibilities are visible before incompatible decisions harden.",
+            "literal_bridge": "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise."
+          },
+          "P3": "The actual release boundary and long-lead exceptions expose when supplier work may begin and which commitment would be delayed, supplying a concrete coordination premise.",
+          "P4": "Actual commercial authority, usable data rights, configuration correspondence and feasible supplier capability remain necessary. Control: A local stop-start board cannot cancel an existing procurement obligation or make a late custom component arrive sooner."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P026->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P027",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P027",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "Transition to operation or restart",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "literal_bridge": "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness."
+        },
+        "shared_question_or_object": "A cutover whose active change population is controlled by a specified admission rule.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "Transition to operation or restart",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "literal_bridge": "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness."
+        },
+        "source_contribution": "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness.",
+        "receiving_consequence": "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness."
+        ],
+        "premises_remaining": [
+          "Actual configured system, trained people, support, contingency and transition authority remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Only one concurrent change can still irreversibly corrupt all data; a cap supplies neither trained operators nor permission to start.",
+        "counter_control": "Only one concurrent change can still irreversibly corrupt all data; a cap supplies neither trained operators nor permission to start.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. Use proportionate existing readiness checks or a representative rehearsal where adequate and allowed.",
+        "subcondition_evidence": {
+          "P1": "A cutover whose active change population is controlled by a specified admission rule.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "Transition to operation or restart",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+            "literal_bridge": "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness."
+          },
+          "P3": "A demonstrated cap on concurrent relevant changes bounds one operational workload or exposed transition population, which can inform support and rehearsal readiness.",
+          "P4": "Actual configured system, trained people, support, contingency and transition authority remain necessary. Control: Only one concurrent change can still irreversibly corrupt all data; a cap supplies neither trained operators nor permission to start."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P027->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P028",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P028",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A proposed recovery claim after failure or change",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "literal_bridge": "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate."
+        },
+        "shared_question_or_object": "Recovery from failures affecting the admitted population of a specified service or migration.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A proposed recovery claim after failure or change",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "literal_bridge": "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate."
+        },
+        "source_contribution": "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate.",
+        "receiving_consequence": "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate."
+        ],
+        "premises_remaining": [
+          "Actual state coverage, accessible compatible resources, timing, ownership and correlated-failure examination remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A single admitted command can propagate irreversible harm beyond the bounded population; lower concurrency is not proven rollback capability.",
+        "counter_control": "A single admitted command can propagate irreversible harm beyond the bounded population; lower concurrency is not proven rollback capability.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. A stateless isolated disposable experiment may need only restart or deletion.",
+        "subcondition_evidence": {
+          "P1": "Recovery from failures affecting the admitted population of a specified service or migration.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "A proposed recovery claim after failure or change",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+            "literal_bridge": "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate."
+          },
+          "P3": "The number and identity of active commitments can bound the work requiring reconciliation or restoration, a partial input to the recovery estimate.",
+          "P4": "Actual state coverage, accessible compatible resources, timing, ownership and correlated-failure examination remain necessary. Control: A single admitted command can propagate irreversible harm beyond the bounded population; lower concurrency is not proven rollback capability."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P028->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P029",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P029",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A supported system over its operational life",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "literal_bridge": "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable."
+        },
+        "shared_question_or_object": "Continuing support of a fielded system where admitted maintenance commitments consume finite resources.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A supported system over its operational life",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "literal_bridge": "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable."
+        },
+        "source_contribution": "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable.",
+        "receiving_consequence": "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable."
+        ],
+        "premises_remaining": [
+          "Continuing ownership, configuration, skills, funding, rights and deliberate end-of-support decisions remain necessary.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A small active queue can hide an aging pre-entry backlog or obsolete unsupported components; short displayed cycle time is not support continuity.",
+        "counter_control": "A small active queue can hide an aging pre-entry backlog or obsolete unsupported components; short displayed cycle time is not support continuity.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. A short-lived tool may use an explicit early retirement policy.",
+        "subcondition_evidence": {
+          "P1": "Continuing support of a fielded system where admitted maintenance commitments consume finite resources.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "A supported system over its operational life",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+            "literal_bridge": "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable."
+          },
+          "P3": "An enforced active-maintenance boundary and visible backlog reveal committed support work and prevent treating unchecked additions as already supportable.",
+          "P4": "Continuing ownership, configuration, skills, funding, rights and deliberate end-of-support decisions remain necessary. Control: A small active queue can hide an aging pre-entry backlog or obsolete unsupported components; short displayed cycle time is not support continuity."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P029->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L1::EL-004->LAW-L3::EW-P033",
+        "source_native_id": "EL-004",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate."
+        },
+        "shared_question_or_object": "Selection of controls for a change whose concurrent active commitments are actually bounded.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A release/admission rule over a defined class of work items",
+          "receiving_bearer": "A decision about assurance strength under change",
+          "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+          "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "literal_bridge": "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate."
+        },
+        "source_contribution": "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate.",
+        "receiving_consequence": "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate."
+        ],
+        "premises_remaining": [
+          "All material consequence dimensions and actual applicable obligations remain necessary; no universal scoring formula is asserted.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "One active high-consequence change can still warrant strong controls; the WIP number is not a universal risk score.",
+        "counter_control": "One active high-consequence change can still warrant strong controls; the WIP number is not a universal risk score.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Admission delay, long-lead exceptions, item definition and hidden backlog count. Naturally bounded low-volume work can use finish-before-start and a brief exception note. Use existing adequate controls and bounded preauthorization where the actual regime permits.",
+        "subcondition_evidence": {
+          "P1": "Selection of controls for a change whose concurrent active commitments are actually bounded.",
+          "P2": {
+            "source_bearer": "A release/admission rule over a defined class of work items",
+            "receiving_bearer": "A decision about assurance strength under change",
+            "source_native_proposition": "Use empirical limits by work class, monitor blocked/aged work and total demand, and adapt limits with capacity, variability and service risk.",
+            "receiving_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+            "literal_bridge": "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate."
+          },
+          "P3": "A demonstrated admission bound supplies one exposure or capacity condition for proportional control selection while leaving propagation, legal obligations and recovery separate.",
+          "P4": "All material consequence dimensions and actual applicable obligations remain necessary; no universal scoring formula is asserted. Control: One active high-consequence change can still warrant strong controls; the WIP number is not a universal risk score."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L1::EL-004",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

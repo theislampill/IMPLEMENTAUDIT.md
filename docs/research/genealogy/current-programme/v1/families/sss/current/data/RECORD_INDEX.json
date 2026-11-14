@@ -1,0 +1,435 @@
+{
+  "family": "SSS",
+  "record_sets": [
+    {
+      "record_set": "SSS-L1-properties",
+      "path": "SSS-L1-properties.json",
+      "expanded_semantic_sha256": "70e25a20ca1047eccce43ea4313a00664fd7ca6d2ccf46a727c2edad60d03738",
+      "source_bindings": [
+        {
+          "filename": "SSS-L1.md",
+          "sha256": "f87db4ae4171584913d796bf028ccc21d54aa6f79109a24cd8537ffdb7e0a7d1"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L1-genealogy-1",
+      "path": "SSS-L1-genealogy-1.json",
+      "expanded_semantic_sha256": "fd1a4b8b64687c11114fa8ff5252d91ad92ee006ef05e1f8be29ff859d37192e",
+      "source_bindings": [
+        {
+          "filename": "SSS-L1.md",
+          "sha256": "43475cc570de274219ce4f45e4911c25f42888a1dedeb6f7c14f3801f2026a14"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L1-genealogy-2",
+      "path": "SSS-L1-genealogy-2.json",
+      "expanded_semantic_sha256": "b756d1a4a9a81a75c750187d907cafe0c7da8125da24f4fde4fc246745c40e56",
+      "source_bindings": [
+        {
+          "filename": "SSS-L1.md",
+          "sha256": "43475cc570de274219ce4f45e4911c25f42888a1dedeb6f7c14f3801f2026a14"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L2-properties",
+      "path": "SSS-L2-properties.json",
+      "expanded_semantic_sha256": "c6294806378824237ee2e623b60ca03fe8e1ad16c7810a58265d274fb0591002",
+      "source_bindings": [
+        {
+          "filename": "SSS-L2.md",
+          "sha256": "c573fda20ddc82498880b028c09852460ed72e0d8311b20bcf40d88a9b47465c"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L2-genealogy-1",
+      "path": "SSS-L2-genealogy-1.json",
+      "expanded_semantic_sha256": "9747c98ba39d8bdded34c2cc1d82b07ad3eb961351c4b46e0c872ae04be14698",
+      "source_bindings": [
+        {
+          "filename": "SSS-L2.md",
+          "sha256": "a88c5edd678ca2567679c9779d37e17e491a5e4c9237ca09e5da65c0b727517e"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L2-genealogy-2",
+      "path": "SSS-L2-genealogy-2.json",
+      "expanded_semantic_sha256": "233d81ab8d50ff067ba464099b74d05dc654359d60929cc7ea5b22ec90d66500",
+      "source_bindings": [
+        {
+          "filename": "SSS-L2.md",
+          "sha256": "a88c5edd678ca2567679c9779d37e17e491a5e4c9237ca09e5da65c0b727517e"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L2-genealogy-3",
+      "path": "SSS-L2-genealogy-3.json",
+      "expanded_semantic_sha256": "71b5e94caf16de89e322f4a4643663c4855c1e979bc225a56b1e72525830216c",
+      "source_bindings": [
+        {
+          "filename": "SSS-L2.md",
+          "sha256": "a88c5edd678ca2567679c9779d37e17e491a5e4c9237ca09e5da65c0b727517e"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L3-properties",
+      "path": "SSS-L3-properties.json",
+      "expanded_semantic_sha256": "bbb60d4884236dd9d7e76815d14b59739cc7f5e2a51bc836687a2891d47857b4",
+      "source_bindings": [
+        {
+          "filename": "SSS-L3.md",
+          "sha256": "07c9d3ae9d9941858fa679de32cc3ddf7751fd609130e95ac4fcf3ff0bbf7906"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L3-genealogy-1",
+      "path": "SSS-L3-genealogy-1.json",
+      "expanded_semantic_sha256": "0c452b8036b1e624bc50f1ff8c90f1ebfde2c8cf42e0bc14522a3efde2f13639",
+      "source_bindings": [
+        {
+          "filename": "SSS-L3.md",
+          "sha256": "8d581ecabc88bd3e400a6c84b9ff5351025cef4cd187fa9340836d0055534fda"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L3-genealogy-2",
+      "path": "SSS-L3-genealogy-2.json",
+      "expanded_semantic_sha256": "72abcdd83e123bc1460ae579b22bbdc75d3c486e9033d22106c069c6fe6a79af",
+      "source_bindings": [
+        {
+          "filename": "SSS-L3.md",
+          "sha256": "8d581ecabc88bd3e400a6c84b9ff5351025cef4cd187fa9340836d0055534fda"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L3-genealogy-3",
+      "path": "SSS-L3-genealogy-3.json",
+      "expanded_semantic_sha256": "6a5271440d1b0a9325cf66ac409d6ef7152c4202239253466539eaec825c6e15",
+      "source_bindings": [
+        {
+          "filename": "SSS-L3.md",
+          "sha256": "8d581ecabc88bd3e400a6c84b9ff5351025cef4cd187fa9340836d0055534fda"
+        }
+      ]
+    },
+    {
+      "record_set": "SSS-L3-genealogy-4",
+      "path": "SSS-L3-genealogy-4.json",
+      "expanded_semantic_sha256": "f617917f5fd6999741af020985bff836704192965a37231517fb4a3dd1c43526",
+      "source_bindings": [
+        {
+          "filename": "SSS-L3.md",
+          "sha256": "8d581ecabc88bd3e400a6c84b9ff5351025cef4cd187fa9340836d0055534fda"
+        }
+      ]
+    },
+    {
+      "record_set": "reader-configurations",
+      "path": "reader-configurations.json",
+      "expanded_semantic_sha256": "347e6c088fdd893a5cc37fec5463467186d33f9fff19571ad37aca196d15b9f5",
+      "source_bindings": [
+        {
+          "filename": "CONFIGURATIONS.md",
+          "sha256": "73efbc8d718b15468f829e27dc6907455343fc2d85f30319c0b511a1105287e2"
+        }
+      ]
+    },
+    {
+      "record_set": "reader-higher_order",
+      "path": "reader-higher_order.json",
+      "expanded_semantic_sha256": "102b4b97189ee2f9e4336e62e3d34309c3f6cb36550658b946712251a685847e",
+      "source_bindings": [
+        {
+          "filename": "HIGHER_ORDER.md",
+          "sha256": "0df9262fc646f889462496cce7d689975ce010cb8372963f042c218f9782f188"
+        }
+      ]
+    },
+    {
+      "record_set": "reader-novelty",
+      "path": "reader-novelty.json",
+      "expanded_semantic_sha256": "f9f66c63df5c1f528ab7b8474d2469dfc33f7007bfe60319473bf8fb9c79b8d3",
+      "source_bindings": [
+        {
+          "filename": "NOVELTY.md",
+          "sha256": "b16219e6bc09f3daa3ea6a409398d8ccc86a573035866082f11d63dec0655eeb"
+        }
+      ]
+    },
+    {
+      "record_set": "pair_account",
+      "path": "pair_account.json",
+      "expanded_semantic_sha256": "46427801ef7c971f907cdc9b2913a98c4cb107090e8484601e5a690acb6b05b9",
+      "source_bindings": [
+        {
+          "filename": "PAIR_ACCOUNT.json",
+          "sha256": "3e390542904ee900e1b877fc3e7556f0698d4c0b59d64a097146131a3cc0ab3c"
+        }
+      ]
+    },
+    {
+      "record_set": "directional_relation_index",
+      "path": "directional_relation_index.json",
+      "expanded_semantic_sha256": "de51005541343fa75bde905750a1dd37ba22c24df016b43c23973ba1617a2d4a",
+      "source_bindings": [
+        {
+          "filename": "DIRECTIONAL_RELATION_INDEX.json",
+          "sha256": "71d702ccf15b7a66e054f4b08d1126d956ed66cabf67c69c1762603f58005aa8"
+        }
+      ]
+    },
+    {
+      "record_set": "new_directional_relations",
+      "path": "new_directional_relations.json",
+      "expanded_semantic_sha256": "33fa1af217d2835318e25c2afa4cca96a780399716ce64f9132fc0dbc05c085f",
+      "source_bindings": [
+        {
+          "filename": "NEW_DIRECTIONAL_RELATIONS.json",
+          "sha256": "6bd3b8c753d062d8f9794cdaf640d1ea7713bf926d3ab1234de4a00c8cc5f28b"
+        }
+      ]
+    },
+    {
+      "record_set": "composition_model",
+      "path": "composition_model.json",
+      "expanded_semantic_sha256": "4f09ad1a134963c6604e843b898ad7981d183dcd8e54fa2188852f8bf520fc71",
+      "source_bindings": [
+        {
+          "filename": "COMPOSITION_MODEL.json",
+          "sha256": "780fe152f8d8e9965fbb7669bfd3d97153a6b6280fbd33b966dd3a806e289406"
+        }
+      ]
+    },
+    {
+      "record_set": "negative_scope_and_rules",
+      "path": "negative_scope_and_rules.json",
+      "expanded_semantic_sha256": "fd5d0bbb32769783e79f9e477cc52d4e7b964fcfaa05dcf9d09c23dd24686be2",
+      "source_bindings": [
+        {
+          "filename": "NEGATIVE_SCOPE_AND_RULES.json",
+          "sha256": "f142253208bc86c9f76bcf929b4a58d595d76648e8b0725ecef8a559fb2315c6"
+        }
+      ]
+    },
+    {
+      "record_set": "open_questions",
+      "path": "open_questions.json",
+      "expanded_semantic_sha256": "6b5432031b06dbe01fdaeaff9794798149eaf09c14166b89ee66242cf4af847a",
+      "source_bindings": [
+        {
+          "filename": "OPEN_QUESTIONS.json",
+          "sha256": "d9ae368a3a0408aaf842b8bad55620ee79e6d7e715cfb2404129c0946d64c254"
+        }
+      ]
+    },
+    {
+      "record_set": "mandatory_question_adjudication",
+      "path": "mandatory_question_adjudication.json",
+      "expanded_semantic_sha256": "be79d24b54f5881f65d35ad1de826339748908a6f914538a1a2007510abc4f76",
+      "source_bindings": [
+        {
+          "filename": "MANDATORY_QUESTION_ADJUDICATION.json",
+          "sha256": "41eff036c65fb0fbb7902b7a63269b319b9e8e38852fd2f447772de5f00d268d"
+        }
+      ]
+    },
+    {
+      "record_set": "synthesis_claims",
+      "path": "synthesis_claims.json",
+      "expanded_semantic_sha256": "b716a0f2596e12ac1afd66b5096f570525e81ac2656e1313ffb5fd1725f46f52",
+      "source_bindings": [
+        {
+          "filename": "SYNTHESIS_CLAIMS.json",
+          "sha256": "70a0ec0f694cc080f862854bf305d32119bbccd4c547a7df886fda7b83f71d5d"
+        }
+      ]
+    },
+    {
+      "record_set": "criticism_and_tensions",
+      "path": "criticism_and_tensions.json",
+      "expanded_semantic_sha256": "e23439588fc92d494af67ff786534a0e5575709dd4bdd2759ce200164b53589b",
+      "source_bindings": [
+        {
+          "filename": "CRITICISM_AND_TENSIONS.json",
+          "sha256": "e11147a0727d047b606599d1fff3ed74678d24ba932dbb83b1f0f4808af2e4bb"
+        }
+      ]
+    },
+    {
+      "record_set": "genealogy_and_corrections",
+      "path": "genealogy_and_corrections.json",
+      "expanded_semantic_sha256": "825f7c1f5b69e69f44603fb7de0f0720f96a0976ea3ea94ba1136dc57b45350b",
+      "source_bindings": [
+        {
+          "filename": "GENEALOGY_AND_CORRECTIONS.json",
+          "sha256": "9786deab9a207a12fad9657524eadf51841b06b30f9f9e2e04fbb80bdf389ec5"
+        }
+      ]
+    },
+    {
+      "record_set": "source_dependence_and_access",
+      "path": "source_dependence_and_access.json",
+      "expanded_semantic_sha256": "9325c2e429bb2be0b28f821eea90ed9f4619efd4a1e7a1b1eb01173669cceb93",
+      "source_bindings": [
+        {
+          "filename": "SOURCE_DEPENDENCE_AND_ACCESS.json",
+          "sha256": "10408c31860e3e6d8b5d6d1e8d2fa227f72ac60d552cdad91680589a1ea7002e"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_native_basis",
+      "path": "r16_native_basis.json",
+      "expanded_semantic_sha256": "e1a598d0a82a24db8c2d790a4938be16fb7169059dcaf90b21d3e2165abb314d",
+      "source_bindings": [
+        {
+          "filename": "R16_NATIVE_BASIS.json",
+          "sha256": "8b20a55b86a11dad137d2dbd06aaaef0bcc1b72f34afe0f3ae1f927d128b7929"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_native_production_rule",
+      "path": "r16_native_production_rule.json",
+      "expanded_semantic_sha256": "974204d63e9e4273337babf834ff35dc5f871f2ec054562453cb7c529ea50c0b",
+      "source_bindings": [
+        {
+          "filename": "R16_NATIVE_PRODUCTION_RULE.json",
+          "sha256": "9049d22c5583502c4c3959c46a0e01bc553a89f53ce0622b49ddc0a6692cb3bd"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_receiving_specification",
+      "path": "r16_receiving_specification.json",
+      "expanded_semantic_sha256": "faf1abfb704b4443676b6ffbb8670ef55ed1f041846b6fd838701b3ce5133a5f",
+      "source_bindings": [
+        {
+          "filename": "R16_RECEIVING_SPECIFICATION.json",
+          "sha256": "f2ac32bf923a324819a012795828a705d854202f6778912dc1b2309aca047b3f"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_c105_selection",
+      "path": "r16_c105_selection.json",
+      "expanded_semantic_sha256": "9bcbc9d03b865e8f1b47bf84be476be20700a0c2b60ae0691ebf4ed93e3821e3",
+      "source_bindings": [
+        {
+          "filename": "R16_C105_SELECTION.json",
+          "sha256": "e57b2fb0f37b8f66fa3cf9f99182ee565ab8005f13a580c5c64d6be93baa83fa"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_current_receiving_account",
+      "path": "r16_current_receiving_account.json",
+      "expanded_semantic_sha256": "58b6d9085fb149afe5d0cee6e9dce16f1ff4c1e57f9d4de1d32bd343f2236f17",
+      "source_bindings": [
+        {
+          "filename": "R16_CURRENT_RECEIVING_ACCOUNT.json",
+          "sha256": "26e7a8cc0389ffdf92d33c4524752b4ff8159a599fae221f5a82a8bfa997bfce"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_directional_owner",
+      "path": "r16_directional_owner.json",
+      "expanded_semantic_sha256": "0ec1a5b90cfae1594aba157861219428d643d6d15b605035f8c7b50f2cc26be7",
+      "source_bindings": [
+        {
+          "filename": "R16_DIRECTIONAL_OWNER.json",
+          "sha256": "a8176770e6e3892ffcc33d555b79dba25fa0a78f8edf8025096844f6f21424d8"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_integration_owner",
+      "path": "r16_integration_owner.json",
+      "expanded_semantic_sha256": "c28b54506eff43f09319253dfd1da4da6b982b4dcd1c735e977a5a0c6630e9f6",
+      "source_bindings": [
+        {
+          "filename": "R16_INTEGRATION_OWNER.json",
+          "sha256": "d175396a9a1c1e60d5fdfe36eba172c1bfa39b136a138d46669e7b52c1cbc0d0"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_return_operations",
+      "path": "r16_return_operations.json",
+      "expanded_semantic_sha256": "3c96c2ea3f1167f0552d2397b87755cee1f38398a5a2c3bf984b04954a753666",
+      "source_bindings": [
+        {
+          "filename": "R16_RETURN_OPERATIONS.json",
+          "sha256": "8e9dd9da389ca75ae52223692d9c9505ca366ddc5c58b5e2fbe676bf3a354190"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_source_cases",
+      "path": "r16_source_cases.json",
+      "expanded_semantic_sha256": "760bc3d81e04703c3fd39bd9db9e95ab152eb97ceb00b0edc44bdf882d678c06",
+      "source_bindings": [
+        {
+          "filename": "R16_SOURCE_CASES.json",
+          "sha256": "96f4bb12a312b333aace99ca83f0a0fe7b226cd361cc64cf6b68d2c87d1a1887"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_counts",
+      "path": "r16_counts.json",
+      "expanded_semantic_sha256": "54163dd77590dcbc2302c72c4eef8e4a4be2bc9f47445ff92da58108a231d7ad",
+      "source_bindings": [
+        {
+          "filename": "R16_COUNTS.json",
+          "sha256": "6e64056fec485219ae12dd38233062a68e3a3f227702dbd6f8fe52f47293cc81"
+        }
+      ]
+    },
+    {
+      "record_set": "configurations",
+      "path": "configurations.json",
+      "expanded_semantic_sha256": "f5fa5caa08d554b071eb44ffb35052f460e0246a4beb015b7f50090008621725",
+      "source_bindings": [
+        {
+          "filename": "CONFIGURATIONS.json",
+          "sha256": "dd6959da86d7b22564489a2ed78ab503bafd3dc24a6c6904ec63fd68a7ade225"
+        }
+      ]
+    },
+    {
+      "record_set": "higher_order_and_novelty",
+      "path": "higher_order_and_novelty.json",
+      "expanded_semantic_sha256": "465ed36dc283e58473230885660c044c82e69618780a36800255583840e360ae",
+      "source_bindings": [
+        {
+          "filename": "HIGHER_ORDER_AND_NOVELTY.json",
+          "sha256": "d1f86a685922216beba797eb5fb46cdbe817e6de634cfa35a4056a55604a9fc4"
+        }
+      ]
+    },
+    {
+      "record_set": "r16_novelty_reassessment",
+      "path": "r16_novelty_reassessment.json",
+      "expanded_semantic_sha256": "01c917b348201b56c77f5f9563d4ce1d09e849e04acf370154c054ef366dbca9",
+      "source_bindings": [
+        {
+          "filename": "R16_NOVELTY_REASSESSMENT.json",
+          "sha256": "de30144ad3cf8ab3093173f50ed08feabcee6720c3454baec32bf61b62e04765"
+        }
+      ]
+    }
+  ],
+  "shared_value_count": 3705
+}

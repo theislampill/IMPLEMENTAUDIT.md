@@ -1,0 +1,71 @@
+# Source, status and publication boundaries — v1
+
+## Later public scientific edition
+
+The [current research guide](CURRENT_RESEARCH.md) and [32-unit scientific map](PUBLIC_SCIENCE.json) provide the later substantive public accounts. The owner authorization of 13 November permits all 32 scientifically faithful derived explanations after exact independent fidelity and source-safety review; the [publication review record](PUBLICATION_REVIEW.json) records that separate gate. The assessment below is preserved at its earlier public/private scope. Its pending-disclosure and withheld-current-science descriptions are historical and do not override the later edition.
+
+## Preserved earlier assessment
+
+## Source classes
+
+| Source class | Exact scope | Public treatment |
+|---|---|---|
+| Original four-family corpus at `e78f7cb21af4197d490f10bc95917a4c75f748aa` | LAW/CSS/SSD/DRF; 12 lineages; 658 properties | Existing raw ZIPs, extracted bodies, source lock, manifests and property index retained unchanged. |
+| Later public repository target records | SSS/BWP/AMA constituent and embedded synthesis undertakings, each at its own commit/receipt | Link the exact public subject and state; do not relabel an older target receipt as a current scientific qualification. |
+| Current scientific cohort records | Exact frozen subjects, qualification receipts and two accepted independent review identities where actually recovered | Public-safe identifiers, typed counts, bounded status and gaps only. No private archives, raw reports, local paths, signed URLs or Library identifiers enter Git. |
+| Missing original evidence | SPR-L1 final qualification and reviews; recorded historical CSS synthesis gaps; other declared recovery gaps | Preserve historical outcome and explicit absence. No synthetic replacement or retrospective receipt. |
+| Cohort C interpretation | Documentary explanation and receiving, not scientific selection | Detailed protected-successor interpretation is privately staged. Public text is labelled metadata or linked public predecessor context. |
+
+## States that must stay separate
+
+| State | Evidence that establishes it | Does not establish |
+|---|---|---|
+| Historical research preserved | Original bytes, declared source identity and scope | Current scientific acceptance |
+| Author subject frozen | Exact subject manifest and frozen population | Accepted fidelity or adversarial review |
+| Fidelity review accepted | Its actual receipt, accepted subject and stated coverage | Adversarial acceptance or full-source rereading |
+| Adversarial review accepted | Distinct actual receipt and accepted subject | Independent empirical replication |
+| Scientific unit qualified | Actual bounded qualification and required reviews | Central selection, publication or native implementation |
+| Centrally selected by A | A’s exact selection/receiving record | C’s possession of every original byte |
+| Documentation prepared | Actual source changes | A commit or external branch readback |
+| Documentation committed on C | Exact reviewed branch commit | Main merge or hosted Pages |
+| Documentation merged | Actual main commit | Pages deployment or public readback |
+| Pages deployed | Actual deployment and observed public output | Native implementation |
+| RLGWO issued | Actual published work-order contract | Completed engineering or acceptance |
+| Native implementation completed | Exact source and relevant accepting execution evidence | Release or installation qualification |
+| Release/installation qualified | Separate artifact, host and installation evidence at declared scope | Does not establish universal host support or effectiveness |
+
+## Receiving rules
+
+The [registry](PROGRAMME.json) preserves full SHA-256 values for subjects, qualification receipts and both review receipts when present. A receipt is accepted only for its bound subject and declared scope. Descriptors without local bytes are explicitly labelled. The three B local synthesis receipts do not silently update A’s central record; the historical 24-lineage outcome is not revoked because one final packet is missing.
+
+Source identity is necessary but does not establish scientific truth, source independence, authority or public availability. Review exposure, negative findings, failed instruments, earlier adverse reviews and accepted errata remain in the private custody record. They are not rewritten by this index. A public predecessor may explain a concept, but is never substituted for the corrected current subject.
+
+## Increment policy
+
+Add a new version or a clearly versioned documentary receiving increment when a new qualified subject, actual central receipt, recovered original or publication approval changes the evidence. Recheck affected statements, source identities, private/public boundaries, the complete scientific family and overlapping branch owners. Preserve earlier objects and adverse history; do not conduct new research or alter the scientific cohorts’ registers.
+
+This layer adds no runtime mode, family executor, governance controller, package payload, mandatory worksheet or issue quota.
+
+## Dated receiving increments
+
+The [23:12:39 UTC increment](increments/2026-11-12-231239Z.md) preserves the initial registry. SSS substantive A receiving is established for the unchanged qualified subject, while central application is explicitly staged only. SSD author completion and LAW/DRF partial receiving do not establish qualification. The captured central count is not recomputed by C or presented as a live shared-head state.
+
+The [13 November successor](increments/2026-11-13-documentary-successor-01.md) records later frozen author subjects, exact adverse fidelity returns and original partial receiving, while preserving the earlier qualified outcomes. Exact selected manifest bytes are received; omitted inherited dependency graphs remain outside this receiving scope. Active reviews, data receiving and owner allocation do not establish acceptance, central application or completed operational custody.
+
+The [second 13 November continuation](increments/2026-11-13-documentary-continuation-02.md) adds exact frozen-author and bounded partial-receiving metadata. A shared revision label does not identify a shared scientific subject: two S004 manifests remain separately bound to their own receipts. Original scientific receiving, B data receiving and activated custody retain separate statuses. Current whole reviews remain unfinished; no new qualifier or central application was received.
+
+## Later review and normalization boundary — continuation 03
+
+The [third receiving increment](increments/2026-11-13-documentary-continuation-03.md) adds permitted exact review, author and receiving metadata, without publishing protected finding details or directional counters. A received fidelity acceptance remains distinct from adversarial acceptance and whole qualification; a local subject choice for review remains distinct from central selection. The new explanatory examples in SSS/BWP/AMA family records are explicitly attributed to already-public immutable repository predecessors, not to protected corrected studies. SPR descriptions remain identity/population metadata because no public immutable SPR scientific body was verified.
+
+## Subject-bound adverse receiving — continuation 04
+
+The [fourth increment](increments/2026-11-13-documentary-continuation-04.md) receives two exact S005 adverse whole-fidelity returns while separately receiving a third frozen S005 on a different parent-review context. A review verdict belongs to its exact subject; neither a shared revision label nor a shared parent transfers that verdict. Exposed author-support assessment, partial S006 checkpoint, whole-author freeze, final independent review, scientific qualification and central selection remain separate. Source event kinds are retained, including earlier events newly discovered in later custody records.
+
+## Late adverse review and author continuation — continuation 05
+
+The [fifth increment](increments/2026-11-13-documentary-continuation-05.md) distinguishes newly discovered AMA r17 and LAW I021 events from later-occurring SSD S006 and partial author work. Final adverse review, whole-author freeze, partial author adoption and scientific qualification retain separate meanings. Later A authority statements are attributed source controls; they do not supply the missing direct owner directive or its decision time, global process cessation, effective shared exclusion or central application. Earlier B receiving and transfer records remain historical evidence. All protected source-body and implementation limits continue.
+
+## Whole-author and missing-body receiving — continuation 06
+
+The [sixth increment](increments/2026-11-13-documentary-continuation-06.md) distinguishes actual r18 and S007 subject manifests and author-freeze records from the later exact r18 fidelity acceptance. That nonblind review retains its declared fresh/reused reading and exposure limits; the distinct adversary has no verdict at its captured checkpoint. DRF directional author completion remains short of whole integration and review. Surviving owner S006 receipts describe a different whole subject whose manifest and former body are unavailable: its public identity uses declared descriptor fields, not a claim of actual subject-byte custody. Author reconciliation and byte readback do not transfer review verdicts, recover missing historical originals or establish central application. The newer central receipt preserves existing qualifications and explicitly leaves the three B intents staged and unapplied.

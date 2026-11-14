@@ -101,6 +101,7 @@ assert groups["Closure"] == ["completion-semantics", "continuity-and-sidecars"]
 assert groups["Repository"] == ["repo-layout", "package-contents", "audit-trail"]
 assert groups["Research & Engineering Lineage"] == [
     "research-lineage-overview",
+    "research-programme",
     "research-lineage-lean",
     "research-lineage-agile",
     "research-lineage-waterfall",
@@ -117,6 +118,22 @@ assert groups["Research & Engineering Lineage"] == [
     "research-lineage-statistical-engineering",
     "research-lineage-systems-safety",
     "research-lineage-evolved-css",
+    "research-lineage-software-architecture",
+    "research-lineage-software-maintenance-and-evolution",
+    "research-lineage-software-product-line-engineering",
+    "research-lineage-evolved-sss",
+    "research-lineage-evolved-bwp",
+    "research-lineage-evolved-bwp-business-process-management",
+    "research-lineage-evolved-bwp-workflow-management",
+    "research-lineage-evolved-bwp-process-mining",
+    "research-lineage-evolved-ama",
+    "research-lineage-autonomous-agents",
+    "research-lineage-multi-agent-systems",
+    "research-lineage-agent-oriented-software-engineering",
+    "research-lineage-system-identification",
+    "research-lineage-programming-language-theory",
+    "research-lineage-requirements-engineering",
+    "research-lineage-evolved-spr",
     "research-lineage-s3e",
 ]
 assert groups["References"] == ["terminology", "reference-index"]
@@ -1108,6 +1125,150 @@ else
   ok "build-docs-portal.py refuses unsafe output directories"
 fi
 
+# Historical and current scientific source wording is preserved. Exact benign
+# clauses must not suppress a separate unsupported claim on the same line.
+if "${py_cmd[@]}" <<'PY'
+import json
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+
+scientific_examples = [
+    "What evidence establishes or defeats the scoped criterion: preserved obligations.",
+    "Hidden code or vendor-specific behaviour defeats validation, portability or operator understanding.",
+    "Provide an abstention path where uncertainty defeats actionability.",
+    "A counterexample with a simpler adequate workflow defeats the universal claim.",
+    "A necessary feedback loop or independent parallel activity defeats the mandatory-serial claim.",
+    "Unrepresented correlation, regime change or model-form failure defeats the recommendation.",
+    "Compromise of a shared control plane defeats many controls.",
+    "Disclosure, reverse engineering, insider knowledge or widespread deployment defeats mechanisms whose safety rests on hidden design.",
+    "Rollback defeats remediation.",
+    "Encryption defeats recovery.",
+    "Common control plane defeats independence",
+    "One fault, or one fault plus an undetected latent condition, defeats required function.",
+    "Size/checking overhead defeats distribution benefits.",
+    "A buffer or control can have protective value even if it consumes resources. This defeats a universal rule, not every concrete waste reduction.",
+    "A low-cost late text repair defeats an unrestricted exponential-cost claim.",
+    "Does rejected or delayed work reappear elsewhere at a rate that defeats the capacity bound?",
+    "A deadline of 12 separates the two timing judgments, and a deadline of 10 defeats the constructed recovery.",
+    "A single competent authorized actor can satisfy several logical conditions in a bounded model, while a binding separation requirement defeats that alternative.",
+    "A visible service boundary can still share a resource pool whose exhaustion defeats the intended isolation.",
+    "In the finite construction, the observed escape through shared capacity and control population defeats an independently stipulated common assumption about the seam.",
+]
+cases = [
+    (" ".join(scientific_examples[:13]), True),
+    ("This product defeats its competitor.", False),
+    ("What evidence establishes or defeats the scoped criterion: preserved obligations. "
+     "This product defeats its competitor.", False),
+    ("What evidence establishes or defeats the scoped criterion: preserved obligations. "
+     "This product beats every alternative.", False),
+    ("This product is better than X.", False),
+    (scientific_examples[1] + " This product defeats its competitor.", False),
+    (scientific_examples[2] + " This product defeats its competitor.", False),
+    ("This product defeats its competitor. " + scientific_examples[3], False),
+    (scientific_examples[4] + " This product beats every alternative.", False),
+]
+for scientific_example in scientific_examples[5:]:
+    cases.extend([
+        ("This product defeats its competitor. " + scientific_example, False),
+        (scientific_example + " This product beats every alternative.", False),
+        (scientific_example + " This product defeats its competitor.", False),
+        ("This product beats every alternative. " + scientific_example, False),
+    ])
+cases.extend((example, True) for example in scientific_examples[13:])
+cases.append((" ".join(scientific_examples), True))
+checks = [(text, allowed, "superiority", "html") for text, allowed in cases]
+scientific_separation = (
+    "A signed " + "release package can describe an unqualified binary; a qualified deployable candidate can rationally remain unexposed."
+)
+unsupported_signing = "This is a signed " + "release."
+for kind in ("html", "json"):
+    checks.extend([
+        (scientific_separation, True, "signing claim", kind),
+        (unsupported_signing, False, "signing claim", kind),
+        (unsupported_signing + " " + scientific_separation, False, "signing claim", kind),
+        (scientific_separation + " " + unsupported_signing, False, "signing claim", kind),
+        (scientific_separation.replace("unqualified binary", "qualified binary"), False, "signing claim", kind),
+    ])
+checks.extend([
+    ("This product defeats its competitor. " + scientific_separation, False, "superiority", "html"),
+    (scientific_separation + " This product defeats its competitor.", False, "superiority", "html"),
+])
+
+# Each newly permitted scientific clause must leave other claim classes visible,
+# in either order and in both public HTML and normalized JSON surfaces.
+unsupported_classes = (
+    (unsupported_signing, "signing claim"),
+    ("This capability is " + "PRO" + "VEN.", "verdict-class wording"),
+    ("This package supports auto-" + "install.", "auto-" + "install claim"),
+    ("Attestation " + "generated.", "attestation claim"),
+)
+for scientific_example in [*scientific_examples[13:], scientific_separation]:
+    for unsupported, reason in unsupported_classes:
+        for kind in ("html", "json"):
+            checks.extend([
+                (unsupported + " " + scientific_example, False, reason, kind),
+                (scientific_example + " " + unsupported, False, reason, kind),
+            ])
+
+# Genuine denials retain their own negative context after the scientific
+# capacity question is masked; no global negative-context rule is removed.
+for unsupported, reason in unsupported_classes:
+    denial = "Do not claim " + unsupported
+    for kind in ("html", "json"):
+        checks.extend([
+            (denial + " " + scientific_examples[15], True, reason, kind),
+            (scientific_examples[15] + " " + denial, True, reason, kind),
+        ])
+
+# Exercise the real checker with its actual source-coupled anchors. The whole
+# repository is checked elsewhere in this same suite; these language mutations
+# need not reread the entire scientific corpus for every individual case.
+source_root = Path.cwd()
+failures = []
+with tempfile.TemporaryDirectory(prefix="claim-language-") as directory:
+    fixture_root = Path(directory)
+    for relative in (
+        "scripts/check-public-claim-boundaries.sh",
+        "README.md",
+        "docs/portal/pages/research-lineage-s3e.html",
+        "docs/portal/pages/research-lineage-evolved-css.html",
+        "docs/portal/pages/reference-index.html",
+    ):
+        target = fixture_root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source_root / relative, target)
+    baseline = subprocess.run(
+        ["bash", "scripts/check-public-claim-boundaries.sh"],
+        cwd=fixture_root, capture_output=True, text=True,
+    )
+    assert baseline.returncode == 0, ("unchanged source anchors", baseline.stdout, baseline.stderr)
+    for number, (text, allowed, reason, kind) in enumerate(checks, start=1):
+        relative = ("docs/portal/pages/claim-language-case.html" if kind == "html"
+                    else "docs/research/claim-language-case.json")
+        fixture = fixture_root / relative
+        fixture.parent.mkdir(parents=True, exist_ok=True)
+        fixture.write_text("<p>" + text + "</p>\n" if kind == "html"
+                           else json.dumps({"counterexample": text}) + "\n", encoding="utf-8")
+        result = subprocess.run(
+            ["bash", "scripts/check-public-claim-boundaries.sh"],
+            cwd=fixture_root, capture_output=True, text=True,
+        )
+        if (result.returncode == 0) != allowed:
+            failures.append((number, text, result.returncode, result.stdout, result.stderr))
+        elif not allowed and (relative not in result.stderr or reason not in result.stderr):
+            failures.append((number, "wrong failure boundary", result.stderr))
+        fixture.unlink()
+assert not failures, failures
+print(f"public claim language controls: {len(checks)} passed")
+PY
+then
+  ok "public claim checker preserves scientific counterexamples and rejects separate unsupported claims"
+else
+  fail_check "public claim checker confused scientific counterexamples and unsupported claims"
+fi
+
 "${py_cmd[@]}" - "$host_claim_fixture" <<'PY'
 import sys
 from pathlib import Path
@@ -1216,6 +1377,12 @@ else
   ok "check-public-claim-boundaries.sh rejects an absolute forward-only release policy"
 fi
 rm -f "$host_claim_fixture"
+
+if "${py_cmd[@]}" scripts/check-evolved-programme-docs.py --self-test >/dev/null; then
+  ok "versioned programme preserves 32 units, source custody and non-upgrade boundaries"
+else
+  fail_check "versioned programme or its negative controls failed"
+fi
 
 if bash scripts/verify-docs-portal.sh >/dev/null; then
   ok "verify-docs-portal.sh passes generated output"

@@ -1,0 +1,31 @@
+# SSS — eight-component assessment
+
+**Public current-science family package: PARTIAL. Independent documentary content review: PASS AT DECLARED DOCUMENTARY SCOPE.** The fresh review binds the new 53-payload documentary subject; it does not inherit acceptance from unavailable predecessor author bodies. The historical account and complete retained-field property readers are accepted at their public documentary scope. Detailed current scientific interpretation is privately documented and remains subject to four source-specific disclosure decisions. [Review identity and scope](REVIEW_STATUS.json) · [Family](README.md).
+
+| Requested component | Authored and reviewable | Remaining boundary |
+|---|---|---|
+| 1. Three constituent genealogies and corrected identities | Distinct historical Architecture, Maintenance/Evolution and Product Line histories; exact historical source versions; current selected subject metadata | Current corrected interpretations and detailed edge adjudications are private. Historical prompt/execution limits remain; no new original execution binding is invented. |
+| 2. Three individually documented lineages | Three coherent public historical accounts and all 68 + 105 + 62 historical property identities with mechanisms, scope, alternatives, adverse evidence, status and exact source pointers | Current complete native records and qualification overlays are privately documented. Historical/current counts happen to match but do not imply equivalent interpretation. |
+| 3. Accepted fourth-stage synthesis findings | Exact accepted r16 identity and dual-review metadata; already-public guarded composition and bounded target examples | Detailed current directions, higher-order findings, negatives, questions, alternatives and novelty decisions remain in the private disclosure candidate. Metadata is not a substitute for those findings. |
+| 4. Coherent family composition | A real shared-change explanation connects consequential dependencies, supported obligations and realised product/configuration scope; partial inputs and independently justified reverse evidence remain distinct | Public explanation derives from historical public sources. It does not claim to expose the full protected accepted current model. |
+| 5. Four navigable Pages | Three constituent Pages and the maintained Evolved-SSS route link genealogy, accounts, historical records, sources and rough responsibilities | The maintained navigation, reference index and site metadata connect all four routes. Generated-source, link and regression checks are separate publication gates. Actual desktop/mobile rendering remains UNVERIFIED_ENVIRONMENT_BLOCKED; no deployment is claimed. |
+| 6. Four rough RLGWO responsibilities | All four existing slots map source questions, discriminators, alternatives and inspection surfaces to actual recorded owners | They are rough and not executor-ready; no new issues, identities, native defects or runtime changes are established. Issue states are snapshot observations. |
+| 7. Crosslinks and exact source routes | Per-property immutable Git source pointers, family/unit/genealogy/Pages/owner routes and permitted current identities | Protected current source routes remain private. Disclosure, if granted, must bind exact derived text and then receive public route validation. |
+| 8. Independent substantive and generated-documentation verification | Fresh independent constituent/synthesis fidelity, documentary and public-source safety review passed on the exact new subject; all 53 payloads and complete historical/current property projections were checked within the recorded read mask | The content receipt does not itself certify the later integrated tree. Final integration review, portal generation, link checks, programme/genealogy controls and regression results belong to the publication evidence. Source/link checks do not establish visual usability or new scientific qualification. |
+
+## Four pending disclosure decisions
+
+| Decision | Exact source-specific subject of the private proposal | Ceiling |
+|---|---|---|
+| SSS-D1 | Current Architecture r1 derived narrative, property interpretation, genealogy corrections, alternatives and limits | No raw archive release, new scientific acceptance, architecture adoption or runtime qualification |
+| SSS-D2 | Current canonical Maintenance/Evolution r4 derived narrative, qualified predicates, correction history and limits | No general automation capability, new authority or target acceptance |
+| SSS-D3 | Current Product Line Engineering r1 derived narrative, predicates, source/version corrections and limits | No blanket product-line mandate, deployment qualification or source-version equivalence |
+| SSS-D4 | Accepted r16 synthesis derived explanation, genuine directions, higher-order/negative/unresolved/novelty findings, alternatives and evidence ceilings | No central application, new property inference, implementation, release or historical-execution reconstruction |
+
+All four decisions are **PENDING**. The private proposals name their exact candidate files and hashes and bind them to the accepted source subjects. A scientific acceptance receipt or archive hash is not public disclosure permission.
+
+## Accepted documentary scope
+
+The independent review accepted the historical public account, complete retained-field property routing, private current explanation, distinct scientific predicates, owner mapping and source-specific disclosure boundaries. It recorded no required documentary corrections. Its explicit reading mask distinguishes complete mechanical correspondence from selective semantic reading of the larger scientific evidence. The frozen author package retains its original pending-review statements as preparation history; this receiving record reports the later independent result. Integration, generated output and publication are separately checked against the actual candidate.
+
+Whole public current-science completeness remains unavailable until the permitted current substance is actually disclosed and checked. Independent review, branch publication, generated-site validation, visual review, Pages deployment and native implementation are separate outcomes. No claim about one should be used as a proxy for another.

@@ -1,0 +1,433 @@
+{
+  "schema": "implementaudit.evolved-programme-documentary-successor.v1",
+  "increment_id": "2026-11-13-documentary-successor-01",
+  "scope": "Dated metadata receiving of later frozen author subjects, returned adverse reviews and original partial receiving; no whole scientific qualification, central application or native implementation.",
+  "initial_programme": "../PROGRAMME.json",
+  "initial_programme_sha256": "692fe69ba64eef5ee5486a5f401f5408df5c440dcdbda5a73daf9d546ccc9ebb",
+  "previous_increment": "2026-11-12-231239Z.json",
+  "source_capture_limits": {
+    "SSD_S003_subject_frozen_at_utc": "2026-11-13T02:18:21.260686+00:00",
+    "SSD_S003_author_receiving_at_utc": "2026-11-13T02:19:27.657724+00:00",
+    "B_operational_frontier_at_utc": "2026-11-13T02:22:12.416773+00:00",
+    "LAW_DRF_original_supplement_cutoff_utc": "2026-11-13T01:27:28.733541+00:00",
+    "later_dated_A_context_at_utc": "2026-11-13T02:44:40.335811+00:00",
+    "live_scientific_head_observed": false,
+    "AMA_r16_subject_manifest_at_utc": "2026-11-13T01:52:40.609414+00:00"
+  },
+  "catalogue_units_unchanged": 32,
+  "new_scientific_qualifications": 0,
+  "new_central_applications_observed": 0,
+  "family_membership_changed": false,
+  "operational_updates": [
+    {
+      "unit_id": "SSD-S",
+      "revision": "SSD-S-ISOLATED-AUTHOR-S003-001",
+      "scientific_status": "unfinished",
+      "author_state": "WHOLE_AUTHOR_STUDY_COMPLETE_UNQUALIFIED",
+      "subject": {
+        "bytes": 243633,
+        "sha256": "ce862f21f26c348f9a61b5e8d3b6800dd1adead2dc12cbc498d0a8a3aeca2a80"
+      },
+      "author_receiving": {
+        "bytes": 4998,
+        "sha256": "58a0cf68df5cbac1064dab004d7b0c8fe5acc9ac2d8ed8973d967e701b3b784f"
+      },
+      "current_subject_final_acceptance": false,
+      "independent_review_at_source_boundary": "active_and_excluded_from_frozen_capture",
+      "parent_subject": {
+        "bytes": 208204,
+        "sha256": "89afc9d49fbea7780441b5801c9c1f4332a7363e511075dda191922c0469e511"
+      },
+      "parent_fidelity_receipt": {
+        "bytes": 9505,
+        "sha256": "d6cc848497f7011e6fa9f9305f8ddd15851ce3269fc202c67a9b15346261797e"
+      },
+      "parent_fidelity_verdict": "GAP_REVISE",
+      "previous_verdict_transfers_to_new_subject": false
+    },
+    {
+      "unit_id": "AMA-S",
+      "revision": "r16_s004",
+      "scientific_status": "unfinished",
+      "author_state": "AUTHOR_COMPLETE_UNQUALIFIED_AWAITING_INDEPENDENT_WHOLE_REVIEWS",
+      "subject": {
+        "bytes": 62333,
+        "sha256": "3633c868e932ca365041f9c78ce2d3d9c52fdcbefc8f3dab7bcc65760099bcd7"
+      },
+      "author_completion": {
+        "bytes": 10583,
+        "sha256": "78dc6256b9a70930e6eaf76fe19ed33f6d1c41f6e854e6ffcde0590ce3348a0f"
+      },
+      "current_subject_final_acceptance": false,
+      "independent_review_at_source_boundary": "whole_fidelity_active_and_excluded_from_frozen_capture",
+      "parent_subject": {
+        "bytes": 140761,
+        "sha256": "5068fc84e66a2d9c9a4b0caa13e8c08d77632b775be710c9792bfceb4b5552bc"
+      },
+      "prior_adverse_review_reference": {
+        "bytes": 23296,
+        "sha256": "276c6b7171f67c546e7fb9e175d15dd2ee2cd507248f41f532ef3d7bbfd6cd7b"
+      },
+      "prior_adverse_review_receiving": "descriptor_only_in_this_increment",
+      "previous_verdict_transfers_to_new_subject": false
+    },
+    {
+      "unit_id": "LAW-S",
+      "revision": "B33_INCREMENT_010",
+      "scientific_status": "unfinished",
+      "author_state": "COHERENT_AUTHOR_INCREMENT_WHOLE_STUDY_UNFINISHED",
+      "partial_subject": {
+        "bytes": 112402,
+        "sha256": "17450b074a45e4aabcfd56272e67b0a30f2bfb30fa1469b32642ed223c6b17f3"
+      },
+      "whole_author_complete": false,
+      "latest_partial_scientific_receiving_at_source_cutoff": "PENDING",
+      "current_subject_final_acceptance": false
+    },
+    {
+      "unit_id": "DRF-S",
+      "revision": "DRF_B34_I004_DETECTION_ACTION_POLICY_SCOPE",
+      "scientific_status": "unfinished",
+      "author_state": "BOUNDED_FROZEN_AUTHOR_INCREMENT_WHOLE_STUDY_UNFINISHED",
+      "partial_subject": {
+        "bytes": 14243,
+        "sha256": "4fc96db3678e6172dd1bc9c8e2119ddd0c17e1320d7e2764d4ed51520c040d39"
+      },
+      "whole_author_complete": false,
+      "latest_partial_scientific_receiving_at_source_cutoff": "PENDING",
+      "current_subject_final_acceptance": false
+    }
+  ],
+  "preserved_qualified_subjects": [
+    {
+      "unit_id": "CSS-S",
+      "subject": {
+        "sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+        "bytes": 534025
+      },
+      "qualification": {
+        "sha256": "3b9dba6bd68ff3745afa350a03d1e4b7af2c9c2afb2011851bb76c31ed03d3e8",
+        "bytes": 16178
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "92719d1814c5e28df7b9ba4a3dbedcc4356262b09ad74fbdd66e18a86f53a6ba",
+            "bytes": 9975
+          }
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "237f73b7d4ca9570a9b784d755ff3ba6f426c03fd1246e5be36f46310f3de27c",
+            "bytes": 11932
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "BWP-S",
+      "subject": {
+        "sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+        "bytes": 46181
+      },
+      "qualification": {
+        "sha256": "df68381df01150adcc9776ab294cdd7d27d0e12102878511add089bf44b62044",
+        "bytes": 12480
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "fcecaf4f7d0cb81db4660019246ae5df6f1c958fc9f18039a68b659ae251a9c0",
+            "bytes": 9253
+          }
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "236f63bc16dcb7564770f8297e033009a0ef04493f5bb40791606ed5c258216f",
+            "bytes": 10511
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "SSS-S",
+      "subject": {
+        "sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+        "bytes": 539336
+      },
+      "qualification": {
+        "sha256": "7bd97c54fd8381420161a88c0fdee3f04b8497e59b72c41581e792eb67add217",
+        "bytes": 44920
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "5ed3a75a4392dca2e8a103dff5d182fe940b141fa7b5354afe1cb68036e4a283",
+            "bytes": 17030
+          }
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "8e993b581bcfc6a9c503be5a87dfe4490ca9fae0ff3d919f4e4635766f2230c3",
+            "bytes": 59107
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "SPR-S",
+      "subject": {
+        "sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183",
+        "bytes": 16022
+      },
+      "qualification": {
+        "sha256": "0a312bcd111cbcd5eb82eb83b219bf83a8c7d070457d56a3c2430b0bd37853e4",
+        "bytes": 12447
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "fdb5f22e7ee504b8a915d6d7719be9709f7c204e1074e3d57d213293b3174506",
+            "bytes": 9645
+          }
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "ee6a7df169718c31a980774680818af25150f3e5b55e5a4eea1bff8abbc26d31",
+            "bytes": 9305
+          }
+        }
+      ]
+    }
+  ],
+  "central_application": {
+    "CSS_S_BWP_S_SSS_S": "STAGED_ONLY_NO_SHARED_MUTATION_IN_RECEIVED_CONTEXT",
+    "new_application_receipt": null,
+    "current_authoritative_master_read": false,
+    "central_totals_recomputed_by_C": false,
+    "SPR_S": "earlier_qualified_and_centrally_selected_outcome_preserved",
+    "captured_central_count": "Earlier 24-lineage/1-synthesis/50-review-binding snapshot preserved; not recomputed or represented as a live master read."
+  },
+  "LAW_DRF_custody": {
+    "owner_allocation": "Cohort_B",
+    "A_controlled_successor_release": "recorded_in_received_context",
+    "B_scientific_custody_acceptance": "not_observed_in_received_sources",
+    "older_predecessor_process_cessation": "unknown_not_inferred"
+  },
+  "verification_scope": {
+    "selected_original_subject_manifest_bytes_rehashed": 4,
+    "original_SSD_author_receiving_and_parent_review_rehashed": true,
+    "original_AMA_author_completion_rehashed": true,
+    "preserved_accepted_synthesis_objects_rehashed": 16,
+    "recursive_prior_archive_dependencies_reconstructed_by_C": false,
+    "full_scientific_subject_payload_reconstruction_by_C": false,
+    "scientific_programs_or_reviews_executed_by_C": false,
+    "new_original_history_recovery_claim": false,
+    "later_selected_original_receipts_and_subject_manifests_rehashed": true
+  },
+  "source_access": "private_custody_metadata_only",
+  "public_body_clearance": "not_verified_do_not_publish",
+  "native_implementation_credit": false,
+  "publication_boundary": "This metadata is branch documentation. Its presence does not establish main merge, Pages deployment, source-body publication or native acceptance.",
+  "documentary_record_created_at_utc": "2026-11-13T03:05:56.020044+00:00",
+  "documentary_record_updated_at_utc": "2026-11-13T03:21:09.421255+00:00",
+  "later_closed_effects": {
+    "source_capture_limits": {
+      "A_documentary_supplement_created_at_utc": "2026-11-13T03:07:37.416540+00:00",
+      "B_documentary_supplement_created_at_utc": "2026-11-13T03:02:12.182400+00:00",
+      "live_scientific_head_observed": false
+    },
+    "returned_fidelity_reviews": [
+      {
+        "unit_id": "SSD-S",
+        "revision": "SSD-S-ISOLATED-AUTHOR-S003-001",
+        "subject": {
+          "bytes": 243633,
+          "sha256": "ce862f21f26c348f9a61b5e8d3b6800dd1adead2dc12cbc498d0a8a3aeca2a80"
+        },
+        "receipt": {
+          "bytes": 7010,
+          "sha256": "1eaed6965786eea7883df8118c0ed99743d3b524b6795f58637daaefe66e0bbf"
+        },
+        "review_frozen_at_utc": "2026-11-13T02:51:05.267823+00:00",
+        "verdict": "GAP_REVISE",
+        "whole_positive_acceptance": false,
+        "root_receiving": {
+          "bytes": 7092,
+          "sha256": "e4c2ececfe954d63ee8b46203762c394d200374acbd7b61b8c09aee82c33d2e9"
+        },
+        "root_receiving_at_utc": "2026-11-13T02:53:51.548321+00:00",
+        "scientific_status": "unfinished",
+        "later_correction_subject_frozen_in_received_sources": false
+      },
+      {
+        "unit_id": "AMA-S",
+        "revision": "r16_s004",
+        "subject": {
+          "bytes": 62333,
+          "sha256": "3633c868e932ca365041f9c78ce2d3d9c52fdcbefc8f3dab7bcc65760099bcd7"
+        },
+        "receipt": {
+          "bytes": 24820,
+          "sha256": "bb2a8aa34d054b5207f64f0bc7ea40978edf2b7dd7599768912e5935762a147a"
+        },
+        "review_sealed_at_utc": "2026-11-13T02:46:16.567733+00:00",
+        "verdict": "GAP_REVISE",
+        "whole_positive_acceptance": false,
+        "scientific_status": "unfinished",
+        "later_r17_frozen_author_observed": false,
+        "distinct_adversarial_acceptance_observed": false,
+        "root_receiving": {
+          "bytes": 6285085,
+          "sha256": "0cb7b2d18d9959abcdbef05cdbaf37112d8b43b17332223e8bfc4c4e738aa4f0"
+        },
+        "root_receiving_at_utc": "2026-11-13T02:49:14.881612+00:00",
+        "root_receiving_PASS_is_scientific_acceptance": false
+      }
+    ],
+    "original_partial_receiving": [
+      {
+        "unit_id": "DRF-S",
+        "revision": "I004",
+        "source_owner": "original_Cohort_A",
+        "subject": {
+          "bytes": 14243,
+          "sha256": "4fc96db3678e6172dd1bc9c8e2119ddd0c17e1320d7e2764d4ed51520c040d39"
+        },
+        "receipt": {
+          "bytes": 34839,
+          "sha256": "36978f7ebaa0576967b9122c8cbd90051f56b7576b83d809e960e5faade7ff34"
+        },
+        "received_at_utc": "2026-11-13T01:47:07.881486+00:00",
+        "documentary_status": "original_root_receiving_complete_at_declared_partial_scope",
+        "source_qualifiers": "Original prospective limits, adverse history and any bounded errata remain with the cited receipt.",
+        "whole_scientific_qualification": false,
+        "establishes_B_scientific_custody_acceptance": false
+      },
+      {
+        "unit_id": "DRF-S",
+        "revision": "I004_F1",
+        "source_owner": "original_Cohort_A",
+        "subject": {
+          "bytes": 4962,
+          "sha256": "d438ce87f994ab9561de923b0ac622c515d85c84340a2f9a67ef9de15cfd4eb5"
+        },
+        "receipt": {
+          "bytes": 15239,
+          "sha256": "7cf06a4c3cdf467298a38a2b4ea48d0dcbb67cae242ff726dcc907aaaead6b45"
+        },
+        "received_at_utc": "2026-11-13T01:57:10.167920+00:00",
+        "documentary_status": "original_root_receiving_complete_at_declared_partial_scope",
+        "source_qualifiers": "Original prospective limits, adverse history and any bounded errata remain with the cited receipt.",
+        "whole_scientific_qualification": false,
+        "establishes_B_scientific_custody_acceptance": false
+      },
+      {
+        "unit_id": "LAW-S",
+        "revision": "I010",
+        "source_owner": "original_Cohort_A",
+        "subject": {
+          "bytes": 112402,
+          "sha256": "17450b074a45e4aabcfd56272e67b0a30f2bfb30fa1469b32642ed223c6b17f3"
+        },
+        "receipt": {
+          "bytes": 16344,
+          "sha256": "2b9f405241ecc25bf32d8585fcacb7e3a2d3e49e1cfea0c99a4199c9980be971"
+        },
+        "received_at_utc": "2026-11-13T02:00:39.852490+00:00",
+        "documentary_status": "original_root_receiving_complete_at_declared_partial_scope",
+        "source_qualifiers": "Original prospective limits, adverse history and any bounded errata remain with the cited receipt.",
+        "whole_scientific_qualification": false,
+        "establishes_B_scientific_custody_acceptance": false
+      },
+      {
+        "unit_id": "LAW-S",
+        "revision": "I011",
+        "source_owner": "original_Cohort_A",
+        "subject": {
+          "bytes": 125168,
+          "sha256": "3516c6719d964fff22f41ad2c1a50e647595395b39ba07605cf5b858aaaf5a00"
+        },
+        "receipt": {
+          "bytes": 19886,
+          "sha256": "b5d0f5a1aa87e24c10bc3c34ef29fddc6817b055df7b30fd4ba1e12022186cbe"
+        },
+        "received_at_utc": "2026-11-13T02:10:09.727274+00:00",
+        "documentary_status": "original_root_receiving_complete_at_declared_partial_scope",
+        "source_qualifiers": "Original prospective limits, adverse history and any bounded errata remain with the cited receipt.",
+        "whole_scientific_qualification": false,
+        "establishes_B_scientific_custody_acceptance": false
+      },
+      {
+        "unit_id": "LAW-S",
+        "revision": "I012",
+        "source_owner": "original_Cohort_A",
+        "subject": {
+          "bytes": 137239,
+          "sha256": "3f4d87f4b0ef508851af23abf7b189307295e1851e4cbaad0c6d31711369801b"
+        },
+        "receipt": {
+          "bytes": 23199,
+          "sha256": "29358e15f9033d1e1d8e2a0f24447afbb36c84115bdfb94b1cfcc107a2366dc3"
+        },
+        "received_at_utc": "2026-11-13T02:16:59.838531+00:00",
+        "documentary_status": "original_root_receiving_complete_at_declared_partial_scope",
+        "source_qualifiers": "Original prospective limits, adverse history and any bounded errata remain with the cited receipt.",
+        "whole_scientific_qualification": false,
+        "establishes_B_scientific_custody_acceptance": false
+      }
+    ],
+    "latest_original_partial_subjects": [
+      {
+        "unit_id": "LAW-S",
+        "revision": "I013",
+        "source_owner": "original_Cohort_A",
+        "subject": {
+          "bytes": 148612,
+          "sha256": "03126272073a128ec9cd6fad880efd07a8ee1e30fa07a55fa17eeb2005d7951e"
+        },
+        "byte_receiving": {
+          "bytes": 15175,
+          "sha256": "945ef737c11d6bfe31432033acaad6c7fc6f59d89061254408437ec3d80fac4f"
+        },
+        "byte_receiving_at_utc": "2026-11-13T02:47:47.649119+00:00",
+        "partial_scientific_receiving_at_source_boundary": "PENDING",
+        "whole_author_complete": false,
+        "whole_scientific_qualification": false,
+        "establishes_B_scientific_custody_acceptance": false
+      },
+      {
+        "unit_id": "DRF-S",
+        "revision": "I005",
+        "source_owner": "original_Cohort_A",
+        "subject": {
+          "bytes": 10105,
+          "sha256": "1cd729b471dfeb84b914428feb54f3f818ebb569c8606e2525ab5f97268a111f"
+        },
+        "byte_receiving": {
+          "bytes": 15175,
+          "sha256": "945ef737c11d6bfe31432033acaad6c7fc6f59d89061254408437ec3d80fac4f"
+        },
+        "byte_receiving_at_utc": "2026-11-13T02:47:47.649119+00:00",
+        "partial_scientific_receiving_at_source_boundary": "PENDING",
+        "whole_author_complete": false,
+        "whole_scientific_qualification": false,
+        "establishes_B_scientific_custody_acceptance": false
+      }
+    ],
+    "earlier_boundary_review_states": "Active-review and pending-partial fields above describe their earlier fixed source boundaries. The separately dated closed effects here supersede only the corresponding operational observation.",
+    "original_SSD_attribution_boundary": "Later original-A attribution records concern a different subject. They supply no successor S003 qualification or review verdict; only the exact S003 return above supplies its own verdict.",
+    "LAW_DRF_B_mutable_custody_at_later_B_boundary": "not_activated_in_received_successor_state",
+    "central_application_changed": false,
+    "new_whole_scientific_qualifications": 0,
+    "verification_limit": "C rehashed these selected original manifest and receipt bytes in the later documentary supplements. Full scientific payload trees and larger original source archives were not reconstructed or executed by C; supplied verification reports remain attributed."
+  }
+}

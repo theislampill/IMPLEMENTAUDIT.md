@@ -1,0 +1,1437 @@
+{
+  "source_identity": {
+    "source_id": "S-28e59cbf7ccd733e",
+    "scientific_name": "LAW-L2-SOURCE_REGISTER.json",
+    "original_bytes": 87140,
+    "original_sha256": "28e59cbf7ccd733e6e6aafb465737248a632cbe7acefc9f717a6cffc2aa37a58"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "AGILE_SOURCE_REGISTER/1",
+    "source_access_date": "2026-11-10",
+    "old_cutoff": "2026-08-11",
+    "new_search_cutoff": "2026-11-10",
+    "access_rule": "Retrieved is not read. Complete-page labels describe substantive page text, not every linked work. Local PDF downloads are working material, excluded from publication payload. Provider references and observed URLs locate actual events; raw response archive preserves unsuccessful routes. No missing search strings were reconstructed.",
+    "sources": [
+      {
+        "source_id": "H01",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 70
+        },
+        "native_row_verbatim": "| `H01` | Craig Larman and Victor Basili, *Iterative and Incremental Development: A Brief History*, 2003, DOI `10.1109/MC.2003.1204375` | Scholarly history, pp. 47–56 | IID, test-first work and evolutionary delivery predate 2001. Authors say examples are representative, not exhaustive. ([craiglarman.com](https://www.craiglarman.com/wiki/downloads/misc/history-of-iterative-larman-and-basili-ieee-computer.pdf)) | Open copy |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Opening p.47; downloaded PDF, not all chronology freshly reread",
+        "fresh_roles": [
+          "HISTORICAL_SECONDARY_SYNTHESIS"
+        ],
+        "fresh_ceiling": "Useful contextual history; individual transmission edges require their own documents.",
+        "identity": "Larman & Basili, IEEE Computer 2003, DOI 10.1109/MC.2003.1204375",
+        "url": "https://www.craiglarman.com/wiki/downloads/misc/history-of-iterative-larman-and-basili-ieee-computer.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The chronology explicitly treats its examples as representative rather than exhaustive.",
+        "provider_refs": [
+          "turn8683343view4"
+        ],
+        "dependence_group": "H01"
+      },
+      {
+        "source_id": "H02",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 71
+        },
+        "native_row_verbatim": "| `H02` | Barry Boehm, *A Spiral Model of Software Development and Enhancement*, 1988, DOI `10.1109/2.59` | Primary paper, entire spiral model | Iteration can be governed by risk retirement rather than a fixed cadence. Does not contain the later Agile package. ([computer.org](https://www.computer.org/csdl/magazine/co/1988/05/r5061/13rRUwwslzm)) | Metadata/paywalled |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Model discussion PDF pp.4,8,10; risk, alternatives, reviews and stopping passages",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY",
+          "METHOD_PROPOSAL"
+        ],
+        "fresh_ceiling": "Method and case rationale, not proof of universal Agile outcomes or a calendar optimum.",
+        "identity": "Boehm 1988, A Spiral Model of Software Development and Enhancement, DOI 10.1109/2.59",
+        "url": "https://www.cs.hmc.edu/~markk/SWE_copies/boehmspiral.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Risk drives choice among development approaches and degree of specification; the model permits different process forms.",
+        "provider_refs": [
+          "turn2699336view6"
+        ],
+        "dependence_group": "H02"
+      },
+      {
+        "source_id": "H03",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 72
+        },
+        "native_row_verbatim": "| `H03` | Tom Gilb and Susannah Finzi, *Principles of Software Engineering Management*, 1988 | Primary monograph, evolutionary delivery and measurable-objective chapters | Small measurable steps, value, risk and reversal precede Agile. Book-level prescription is not independent outcome evidence. ([researchgate.net](https://www.researchgate.net/publication/225070548_Principles_of_Software_Engineering_Management)) | Partial |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "H04",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 73
+        },
+        "native_row_verbatim": "| `H04` | Hirotaka Takeuchi and Ikujiro Nonaka, *The New New Product Development Game*, January 1986, HBR product `86116` | Primary case-based article, pp. 137–146 in original issue | Overlapping phases and cross-functional self-organisation influenced Scrum. Cases primarily concerned product/hardware development and cannot establish universal team design. ([hbr.org](https://hbr.org/1986/01/the-new-new-product-development-game)) | Partial |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "H05",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 74
+        },
+        "native_row_verbatim": "| `H05` | Ken Schwaber, *SCRUM Development Process*, OOPSLA 1995 workshop; published 1997, pp. 117–134 | Primary method description | Early empirical Scrum management. It is not a complete technical engineering system. ([scrum.org](https://www.scrum.org/resources/scrum-development-process)) | Official locator |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Official Scrum.org locator; PDF p.1; §§4.1–4.2, PDF pp.9–13",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY",
+          "METHOD_DEFINITION"
+        ],
+        "fresh_ceiling": "The filename is not evidence that these bytes are the unchanged 1995 workshop paper; prescriptions do not establish efficacy.",
+        "identity": "Schwaber, SCRUM Development Process, workshop 1995; received paper updated 5 April 1996; later published 1997",
+        "url": "https://scrumorg-website-prod.s3.amazonaws.com/drupal/2016-09/Scrum%20OOPSLA%201995.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The received version names earlier influences and distinguishes pregame architecture/planning, iterative development and release closure.",
+        "provider_refs": [
+          "turn8683343view3",
+          "turn4962930view2",
+          "turn8000938view5",
+          "turn8000938view6"
+        ],
+        "dependence_group": "H05"
+      },
+      {
+        "source_id": "H06",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 75
+        },
+        "native_row_verbatim": "| `H06` | Kent Beck, *Embracing Change with Extreme Programming*, 1999, DOI `10.1109/2.796139` | Primary method paper | XP tied adaptation to testing, integration, design and collaboration. Initial project conditions were narrower than later enterprise claims. ([computer.org](https://www.computer.org/csdl/magazine/co/1999/10/rx070/13rRUEgs2Pl)) | Metadata/paywalled |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Printed pp.70–73, practice descriptions and Roots of XP",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY",
+          "METHOD_PROPOSAL"
+        ],
+        "fresh_ceiling": "Author exposition and experience; interdependence is not a universal serial prerequisite theorem.",
+        "identity": "Beck 1999, Embracing Change with Extreme Programming, DOI 10.1109/2.796139",
+        "url": "https://www.cs.kent.edu/~jmaletic/cs63902/Papers/Beck99.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Testing, integration, refactoring and collaborative practices reinforce each other; named roots include Scrum, Gilb and Boehm.",
+        "provider_refs": [
+          "turn4962930view1"
+        ],
+        "dependence_group": "H06"
+      },
+      {
+        "source_id": "H07",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 76
+        },
+        "native_row_verbatim": "| `H07` | Seventeen authors, *Manifesto for Agile Software Development*, 2001 | Primary declaration, complete text | Four comparative values; right-hand items retain value. Not a lifecycle or causal study. ([agilemanifesto.org](https://agilemanifesto.org/)) | Open |",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED",
+        "fresh_inspection": "Complete declaration",
+        "fresh_roles": [
+          "PRIMARY_DECLARATION"
+        ],
+        "fresh_ceiling": "No lifecycle specification or comparative empirical result.",
+        "identity": "Manifesto for Agile Software Development, 2001",
+        "url": "https://agilemanifesto.org/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The values are comparative; the items on both sides retain value.",
+        "provider_refs": [
+          "turn3346758view0"
+        ],
+        "dependence_group": "H07"
+      },
+      {
+        "source_id": "H08",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 77
+        },
+        "native_row_verbatim": "| `H08` | Seventeen authors, *Principles behind the Agile Manifesto*, 2001 | Primary declaration, twelve principles | Frequent delivery, technical excellence, sustainable pace and reflection. Does not prescribe Scrum ceremonies. ([agilemanifesto.org](https://agilemanifesto.org/principles.html)) | Open |",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED",
+        "fresh_inspection": "All twelve principles",
+        "fresh_roles": [
+          "PRIMARY_DECLARATION"
+        ],
+        "fresh_ceiling": "A declared principle is neither observed practice nor a guarantee of worker or product outcomes.",
+        "identity": "Principles behind the Agile Manifesto, 2001",
+        "url": "https://agilemanifesto.org/principles.html",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Frequent delivery, technical excellence, sustainable pace and reflection coexist in the declaration.",
+        "provider_refs": [
+          "turn3346758view1"
+        ],
+        "dependence_group": "H08"
+      },
+      {
+        "source_id": "H09",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 78
+        },
+        "native_row_verbatim": "| `H09` | Jim Highsmith, *History: The Agile Manifesto*, 2001 | Participant history, complete page | Snowbird represented XP, Scrum, DSDM, Crystal, FDD, ASD and related methods. Participant perspective, not independent historiography. ([agilemanifesto.org](https://agilemanifesto.org/history.html)) | Open |",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED",
+        "fresh_inspection": "Complete substantive page",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY_PARTICIPANT"
+        ],
+        "fresh_ceiling": "Coalition participation is not descent from a later manifesto; participant account is not independent historiography.",
+        "identity": "Highsmith, History: The Agile Manifesto, participant account",
+        "url": "https://agilemanifesto.org/history.html",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The 2001 meeting joined several established method communities, including XP, Scrum, DSDM, ASD, Crystal and FDD.",
+        "provider_refs": [
+          "turn3346758view2"
+        ],
+        "dependence_group": "H09"
+      },
+      {
+        "source_id": "H10",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 79
+        },
+        "native_row_verbatim": "| `H10` | Ken Schwaber and Jeff Sutherland, *The Scrum Guide*, November 2020 | Official current definition, pp. 3–12 | Scrum is purposefully incomplete; inspection without adaptation is pointless; increments must be usable and verified. Story points, velocity and two-week sprints are not required. ([scrumguides.org](https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-US.pdf)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Purpose; empiricism; team; Sprint Planning; Product/Sprint Goals, Increment and Definition of Done; pp.1–5,8,11–12 selected passages",
+        "fresh_roles": [
+          "METHOD_DEFINITION"
+        ],
+        "fresh_ceiling": "Conformance to this named framework differs from universal necessity. It supplies no component-effect estimate.",
+        "identity": "Schwaber & Sutherland, Scrum Guide, November 2020; official current-version locator checked",
+        "url": "https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-US.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Scrum defines a deliberately incomplete framework, usable verified increments and explicit commitments; its review is not a release gate.",
+        "provider_refs": [
+          "turn3346758search0",
+          "turn8683343view0",
+          "turn8683343view1",
+          "turn8683343view2"
+        ],
+        "dependence_group": "H10"
+      },
+      {
+        "source_id": "H11",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 80
+        },
+        "native_row_verbatim": "| `H11` | Agile Alliance, *What is Extreme Programming?*, current | Authoritative method summary, practices and applicability sections | XP is unusually specific about software engineering and its practices are interdependent. Applicability remains contextual. ([agilealliance.org](https://agilealliance.org/glossary/xp/)) | Open |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "H12",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 81
+        },
+        "native_row_verbatim": "| `H12` | Mary and Tom Poppendieck, *Lean Software Development: An Agile Toolkit*, 2003 | Primary practitioner monograph, official publisher description | Lean principles entered software through a hybrid, not solely through Manifesto lineage. Method claims remain practitioner-derived. ([informit.com](https://www.informit.com/store/lean-software-development-an-agile-toolkit-an-agile-9780133812930)) | Partial |",
+        "fresh_access_status": "PUBLISHER_DESCRIPTION_AND_CONTENTS_ONLY",
+        "fresh_inspection": "Publisher description and contents, especially origins of Lean thinking and software adaptation",
+        "fresh_roles": [
+          "PRIMARY_PUBLISHER_METHOD_DESCRIPTION"
+        ],
+        "fresh_ceiling": "Partial access establishes the declared hybrid; publisher promises are not comparative outcome evidence.",
+        "identity": "Mary & Tom Poppendieck, Lean Software Development: An Agile Toolkit, first edition8 May 2003",
+        "url": "https://www.informit.com/store/lean-software-development-an-agile-toolkit-an-agile-9780133812930",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The book explicitly presents adaptation of Lean principles into software/Agile practice.",
+        "provider_refs": [
+          "turn4907241view0"
+        ],
+        "dependence_group": "H12"
+      },
+      {
+        "source_id": "H13",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 82
+        },
+        "native_row_verbatim": "| `H13` | Coleman et al., *The Kanban Guide*, version 2025.5 | Official current guide, Definition of Workflow and Flow Metrics | Explicit WIP control, cycle time, work-item age, throughput and probabilistic SLEs. Metrics remain meaningless unless used for decisions. ([kanbanguides.org](https://kanbanguides.org/the-kanban-guide/)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Definition, theory, Definition of Workflow, active management, improvement, metrics, history and 2025 changes",
+        "fresh_roles": [
+          "METHOD_DEFINITION",
+          "HISTORICAL_PARTICIPANT_SUMMARY"
+        ],
+        "fresh_ceiling": "Guide prescriptions and retrospective origin account, not causal evidence for every WIP limit or a universal batch of one.",
+        "identity": "The Kanban Guide, May 2025",
+        "url": "https://kanbanguides.org/the-kanban-guide/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Explicit workflow boundaries and WIP control accompany four flow measures; improvement need not await a scheduled meeting.",
+        "provider_refs": [
+          "turn2747280view2",
+          "turn3543139view3"
+        ],
+        "dependence_group": "H13"
+      },
+      {
+        "source_id": "H14",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 83
+        },
+        "native_row_verbatim": "| `H14` | Martin Fowler, *Continuous Integration*, 2006, updated | Original practitioner synthesis, practices and prerequisites | Real CI means frequent mainline integration, automation and immediate repair—not merely owning a CI server. Practitioner source, not causal trial. ([martinfowler.com](https://martinfowler.com/articles/continuousIntegration.html)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Self-testing build and benefits, lines 238–251 and 436–473 in provider extraction",
+        "fresh_roles": [
+          "PRACTITIONER_METHOD_SYNTHESIS"
+        ],
+        "fresh_ceiling": "A definitional/enabling relation is not proof that every release requires CI or previous refactoring.",
+        "identity": "Fowler, Continuous Integration, original 2006, living article received 2026-11-10",
+        "url": "https://martinfowler.com/articles/continuousIntegration.html",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "This CI formulation requires self-testing; TDD is not required. Automation remains incomplete evidence about defects.",
+        "provider_refs": [
+          "turn5988221view5"
+        ],
+        "dependence_group": "H14"
+      },
+      {
+        "source_id": "H15",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 84
+        },
+        "native_row_verbatim": "| `H15` | Jez Humble et al., *Continuous Delivery* and *Principles*, current; original monograph 2010 | Authoritative current practice source, principles and small-batch sections | Release-ready state, quality built in, small batches and automation. It explicitly identifies fixed handoff cost as the economic cause of large batches. ([continuousdelivery.com](https://continuousdelivery.com/)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Five principles and small-batch fixed-handoff-cost discussion, especially line 23",
+        "fresh_roles": [
+          "PRACTITIONER_METHOD_SYNTHESIS"
+        ],
+        "fresh_ceiling": "No universal economic optimum or proof that continuous deployment suits all exposure contexts.",
+        "identity": "Continuous Delivery, Principles, living practitioner source",
+        "url": "https://continuousdelivery.com/principles/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Small batches require attention to fixed handoff costs and the economics of the delivery process.",
+        "provider_refs": [
+          "turn6248921view4",
+          "turn5988221view6"
+        ],
+        "dependence_group": "H15"
+      },
+      {
+        "source_id": "H16",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 85
+        },
+        "native_row_verbatim": "| `H16` | Patrick Debois, Agile infrastructure work, 2008; John Allspaw and Paul Hammond, *10+ Deploys per Day*, 2009 | Primary practitioner history and presentation | DevOps reacted to development/operations separation through shared responsibility and automation. Not a controlled comparison. ([jedi.be](https://jedi.be/blog/)) | Open |",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED_FOR_DEBOIS_COMPONENT",
+        "fresh_inspection": "Complete substantive 2008 post, provider lines 10–12",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY_PARTICIPANT"
+        ],
+        "fresh_ceiling": "Supports this documented contribution; does not alone establish the complete DevOps origin or every claim in native compositeH16.",
+        "identity": "Patrick Debois, Agile Infrastructure and Operations: How Infragile Are You?,23 July 2008; native H16 also groups a 2009 talk not freshly inspected",
+        "url": "https://jedi.be/blog/2008/agile-infrastructure-and-operations-how-infragile-are-you/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Debois explicitly seeks to extend Agile attention beyond development into infrastructure and operations.",
+        "provider_refs": [
+          "turn6604871view0"
+        ],
+        "dependence_group": "H16"
+      },
+      {
+        "source_id": "H17",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 86
+        },
+        "native_row_verbatim": "| `H17` | Betsy Beyer et al., *Site Reliability Engineering*, “Embracing Risk”, 2016 | Primary practitioner monograph, error-budget section | SLOs and error budgets provide a concrete speed–reliability control and require authority to stop releases. Primarily online-service experience. ([sre.google](https://sre.google/sre-book/embracing-risk/)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Error-budget section, provider lines 183–205",
+        "fresh_roles": [
+          "PRACTITIONER_OPERATIONAL_ACCOUNT"
+        ],
+        "fresh_ceiling": "Service experience; does not confer permission to trade away safety or other independently binding constraints.",
+        "identity": "SRE book, Embracing Risk, 2016",
+        "url": "https://sre.google/sre-book/embracing-risk/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Release pace is linked to a service objective, measured budget and authority to slow or halt releases.",
+        "provider_refs": [
+          "turn6637176view9"
+        ],
+        "dependence_group": "H17"
+      },
+      {
+        "source_id": "H18",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 87
+        },
+        "native_row_verbatim": "| `H18` | Betsy Beyer et al., *Site Reliability Engineering*, “Postmortem Culture”, 2016 | Primary practitioner monograph, complete chapter | Incident learning requires blameless causal analysis and tracked action. A meeting alone does not create learning. ([sre.google](https://sre.google/sre-book/postmortem-culture/)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Action-item passage around provider line 103 only freshly inspected",
+        "fresh_roles": [
+          "PRACTITIONER_OPERATIONAL_ACCOUNT"
+        ],
+        "fresh_ceiling": "Entire chapter was not freshly read. Broader original blameless-culture account remains inherited.",
+        "identity": "SRE book, Postmortem Culture, 2016",
+        "url": "https://sre.google/sre-book/postmortem-culture/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Follow-up actions matter to incident learning.",
+        "provider_refs": [
+          "turn6637176view10"
+        ],
+        "dependence_group": "H18"
+      },
+      {
+        "source_id": "H19",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 88
+        },
+        "native_row_verbatim": "| `H19` | Teresa Torres, *Everyone Can Do Continuous Discovery—Even You!*, current formulation | Original practitioner source, “What Is Discovery?” | Direct recurring customer research in pursuit of an outcome. Weekly cadence is an implementation prescription, not a universal engineering constant. ([producttalk.org](https://www.producttalk.org/getting-started-with-discovery/?srsltid=AfmBOoqTiIu-TV_zrwhxZotGBYWGJU1KqeEXQvurS9n_px1crqpYhYjr)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "What Is Discovery? definition and weekly-touchpoint passage",
+        "fresh_roles": [
+          "PRACTITIONER_METHOD_PROPOSAL"
+        ],
+        "fresh_ceiling": "Weekly frequency is a prescription, not a validated general constant or proof of representativeness.",
+        "identity": "Torres, Everyone Can Do Continuous Discovery—Even You!, 2 August 2023",
+        "url": "https://www.producttalk.org/getting-started-with-discovery/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The author prescribes recurring customer contact toward an outcome.",
+        "provider_refs": [
+          "turn2699336view11"
+        ],
+        "dependence_group": "H19"
+      },
+      {
+        "source_id": "H20",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 89
+        },
+        "native_row_verbatim": "| `H20` | Sriram Narayan, *Products Over Projects*, 2017 | Practitioner synthesis, product-mode definition and benefits | Durable outcome ownership and alignment with business and architecture boundaries. Comparative causal evidence remains sparse. ([martinfowler.com](https://martinfowler.com/articles/products-over-projects.html)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Product-mode definition and funding comparison, provider lines 134–151",
+        "fresh_roles": [
+          "PRACTITIONER_ORGANIZATIONAL_PROPOSAL"
+        ],
+        "fresh_ceiling": "No inspected controlled comparison establishes superiority over a well-specified project-to-service handover.",
+        "identity": "Narayan, Products Over Projects, 2017",
+        "url": "https://martinfowler.com/articles/products-over-projects.html",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Product mode funds a continuing team with periodic review rather than only a fixed delivery scope.",
+        "provider_refs": [
+          "turn7698955view7"
+        ],
+        "dependence_group": "H20"
+      },
+      {
+        "source_id": "H21",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 90
+        },
+        "native_row_verbatim": "| `H21` | CNCF TAG App Delivery, *Platforms White Paper*, current | Authoritative industry white paper, attributes and challenges | Self-service platforms can reduce duplicated infrastructure work and cognitive load; top-down mandated platforms can create resistance. ([tag-app-delivery.cncf.io](https://tag-app-delivery.cncf.io/whitepapers/platforms/)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Introduction, attributes and challenges, provider lines 70–74,90–96",
+        "fresh_roles": [
+          "INDUSTRY_PRACTICE_PROPOSAL",
+          "HISTORICAL_ACKNOWLEDGMENT"
+        ],
+        "fresh_ceiling": "Practitioner design rationale; realized net benefit requires measuring platform costs and consumers.",
+        "identity": "CNCF TAG App Delivery, Platforms White Paper, living edition",
+        "url": "https://tag-app-delivery.cncf.io/whitepapers/platforms/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The text acknowledges DevOps inspiration and describes user-facing platforms intended to reduce duplicated effort and cognitive burden.",
+        "provider_refs": [
+          "turn4571104view4",
+          "turn4681997view6",
+          "turn2699336view10"
+        ],
+        "dependence_group": "H21"
+      },
+      {
+        "source_id": "H22",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 91
+        },
+        "native_row_verbatim": "| `H22` | Matthew Skelton and Manuel Pais, *Team Topologies: Key Concepts*, current | Original/current method source, team types, interaction modes and cognitive load | Bounded team responsibilities and explicit interactions address flow at team-of-teams scale. Independent comparative evidence is limited. ([teamtopologies.com](https://teamtopologies.com/key-concepts)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Definition, four team types, three interaction modes and core-ideas section",
+        "fresh_roles": [
+          "PRIMARY_METHOD_DEFINITION"
+        ],
+        "fresh_ceiling": "Design patterns and commercial author claims, not independent comparative proof of organizational effectiveness.",
+        "identity": "Skelton/Pais, Team Topologies key concepts, living method page",
+        "url": "https://teamtopologies.com/key-concepts",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The method distinguishes stream-aligned, enabling, complicated-subsystem and platform roles with different interaction modes.",
+        "provider_refs": [
+          "turn4907241view1",
+          "turn6604871view4"
+        ],
+        "dependence_group": "H22"
+      },
+      {
+        "source_id": "H23",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 92
+        },
+        "native_row_verbatim": "| `H23` | Neal Ford, Rebecca Parsons, Patrick Kua and Pramod Sadalage, *Building Evolutionary Architectures*, second edition | Original practitioner monograph, fitness-function description | Automated fitness functions permit selected architectural qualities to evolve under continuous evaluation. Does not eliminate deliberate architecture. ([thoughtworks.com](https://www.thoughtworks.com/en-us/insights/books/building-evolutionaryarchitectures-second-edition)) | Partial |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "H24",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 93
+        },
+        "native_row_verbatim": "| `H24` | Rick Kazman et al., *The Architecture Tradeoff Analysis Method*, 1998, `CMU/SEI-98-TR-008` | Authoritative technical report, method | Architecture requires explicit quality-attribute trade-off and risk analysis. It supplies no universal trigger threshold. ([sei.cmu.edu](https://www.sei.cmu.edu/library/the-architecture-tradeoff-analysis-method/)) | Open |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "§3, printed pp.5–8 / PDF pp.15–18",
+        "fresh_roles": [
+          "PRIMARY_TECHNICAL_METHOD"
+        ],
+        "fresh_ceiling": "Analysis method, not a validated universal architecture-investment threshold.",
+        "identity": "Kazman et al., ATAM, CMU/SEI-98-TR-008, 1998",
+        "url": "https://www.sei.cmu.edu/documents/1186/1998_005_001_16646.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Scenario and quality-attribute trade-off analysis is iterative; the report explicitly relates the method to spiral development.",
+        "provider_refs": [
+          "turn2699336view7"
+        ],
+        "dependence_group": "H24"
+      },
+      {
+        "source_id": "H25",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 94
+        },
+        "native_row_verbatim": "| `H25` | Robert Nord et al., *Integrating ATAM with CBAM*, 2003, DOI `10.1184/R1/6574613.v1` | Authoritative technical note, pp. 1–23 | Adds cost, benefit and roadmap economics to technical architecture analysis. Estimates themselves can be uncertain. ([sei.cmu.edu](https://www.sei.cmu.edu/library/integrating-the-architecture-tradeoff-analysis-method-atam-with-the-cost-benefit-analysis-method-cbam/)) | Open |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "H26",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 95
+        },
+        "native_row_verbatim": "| `H26` | ISO/IEC/IEEE 42010:2022, *Architecture Description* | International standard | Architecture descriptions serve communication, evaluation and conformity needs. A standard does not prescribe how much architecture every context needs. ([standards.ieee.org](https://standards.ieee.org/ieee/42010/6846/)) | Metadata/paywalled |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E01",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 101
+        },
+        "native_row_verbatim": "| `E01` | Tore Dybå and Torgeir Dingsøyr, *Empirical Studies of Agile Software Development: A Systematic Review*, 2008, DOI `10.1016/j.infsof.2008.01.006` | 36 retained empirical studies from 1,996 publications; promising but methodologically weak whole-method evidence. ([ouci.dntb.gov.ua](https://ouci.dntb.gov.ua/en/works/96ODOe07/)) | Search ends in 2005. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E02",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 102
+        },
+        "native_row_verbatim": "| `E02` | Pedro Serrador and Jeffrey Pinto, *Does Agile Work?*, 2015, DOI `10.1016/j.ijproman.2015.01.006` | Positive association with efficiency and stakeholder satisfaction across 1,002 projects. ([pure.psu.edu](https://pure.psu.edu/en/publications/does-agile-work-a-quantitative-analysis-of-agile-project-success/)) | Observational and dependent on reported Agile use. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E03",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 103
+        },
+        "native_row_verbatim": "| `E03` | Jan Koch, Ivana Drazic and Carsten Schermuly, *The Affective, Behavioural and Cognitive Outcomes of Agile Project Management*, 2023, DOI `10.1111/joop.12429` | Preregistered meta-analysis, 41 studies and 73,825 participants; positive associations. ([researchgate.net](https://www.researchgate.net/publication/368720215_The_affective_behavioural_and_cognitive_outcomes_of_agile_project_management_A_preliminary_meta-analysis)) | Ninety per cent cross-sectional; no causal inference; probable publication effects. ([researchgate.net](https://www.researchgate.net/publication/368720215_The_affective_behavioural_and_cognitive_outcomes_of_agile_project_management_A_preliminary_meta-analysis)) |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Included studies p.690; outcomes table pp.692–693; limitations pp.698–700",
+        "fresh_roles": [
+          "EMPIRICAL_META_ANALYSIS"
+        ],
+        "fresh_ceiling": "Self-report, sparse prospective/objective outcomes and possible publication effects constrain attribution; component-level mechanisms are not identified. Do not sum overlapping outcome participant counts.",
+        "identity": "Koch, Drazic & Schermuly, 2023, DOI 10.1111/joop.12429",
+        "url": "https://bpspsychub.onlinelibrary.wiley.com/doi/epdf/10.1111/joop.12429",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Forty-one studies in forty records mix largely cross-sectional designs. Outcome-specific heterogeneity is high, and organizational-commitment uncertainty includes zero. The authors reject causal interpretation.",
+        "provider_refs": [
+          "turn9339900view7",
+          "turn9339900view6",
+          "turn6248921view7"
+        ],
+        "dependence_group": "APM_META_INCLUDES_SERRADOR_PINTO_2015"
+      },
+      {
+        "source_id": "E04",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 104
+        },
+        "native_row_verbatim": "| `E04` | Kim van Oorschot, Kishore Sengupta and Luk Van Wassenhove, *Under Pressure*, 2018, DOI `10.1177/8756972818802714` | System-dynamics model finds both very long and monthly cycles can amplify schedule pressure. ([journals.sagepub.com](https://journals.sagepub.com/doi/abs/10.1177/8756972818802714)) | Simulation assumptions do not establish a universal optimum. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E05",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 105
+        },
+        "native_row_verbatim": "| `E05` | Christiaan Verwijs and Daniel Russo, *Do Agile Scaling Approaches Make a Difference?*, 2024, DOI `10.1007/s10664-024-10481-5` | 4,013 teams; scaling approach had negligible practical effect after controls. ([link.springer.com](https://link.springer.com/article/10.1007/s10664-024-10481-5)) | Cross-sectional, self-selected survey; not organisation-level financial evidence. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Abstract; §3.2 participants; regression results; discussion and §5.6 limitations",
+        "fresh_roles": [
+          "EMPIRICAL_CROSS_SECTIONAL_SURVEY"
+        ],
+        "fresh_ceiling": "Self-selection, rating bias, uneven framework samples, team-level measures and absent longitudinal switching comparison prevent causal or organizational-equivalence claims.",
+        "identity": "Verwijs & Russo, 2024, DOI 10.1007/s10664-024-10481-5",
+        "url": "https://link.springer.com/article/10.1007/s10664-024-10481-5",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Member surveys from 4,013 teams and stakeholder responses for 529 teams show small practical framework differences on the measured team outcomes after specified controls.",
+        "provider_refs": [
+          "turn6248921view8",
+          "turn6525816view2",
+          "turn6525816view1",
+          "turn9339900view9"
+        ],
+        "dependence_group": "E05"
+      },
+      {
+        "source_id": "E06",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 106
+        },
+        "native_row_verbatim": "| `E06` | Kim Dikert, Maria Paasivaara and Casper Lassenius, *Challenges and Success Factors for Large-Scale Agile Transformations*, 2016, DOI `10.1016/j.jss.2016.06.013` | 52 publications and 42 cases identify coordination and organisational burdens. ([research.aalto.fi](https://research.aalto.fi/en/publications/challenges-and-success-factors-for-large-scale-agile-transformati/)) | Almost 90% were experience reports. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E07",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 107
+        },
+        "native_row_verbatim": "| `E07` | Rashidah Kasauli et al., *Requirements Engineering Challenges and Practices in Large-Scale Agile System Development*, 2021, DOI `10.1016/j.jss.2020.110851` | Seven large software/hardware system cases find requirements, value, traceability and V&V gaps not fully covered by scaling frameworks. ([sciencedirect.com](https://www.sciencedirect.com/science/article/pii/S0164121220302417)) | Case-study generalisation is limited. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E08",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 108
+        },
+        "native_row_verbatim": "| `E08` | Eliezio Soares et al., *The Effects of Continuous Integration on Software Development*, 2022, DOI `10.1007/s10664-021-10114-1` | Systematic review of 101 empirical studies reports positive and negative CI effects. ([link.springer.com](https://link.springer.com/article/10.1007/s10664-021-10114-1)) | Heterogeneous CI definitions and study quality. |",
+        "fresh_access_status": "ABSTRACT_ONLY",
+        "fresh_inspection": "Publisher abstract only",
+        "fresh_roles": [
+          "EMPIRICAL_REVIEW_ABSTRACT"
+        ],
+        "fresh_ceiling": "Detailed design and estimates not freshly checked; cannot independently corroborate each CI payoff.",
+        "identity": "Soares et al., CI systematic review, 2022, DOI 10.1007/s10664-021-10114-1",
+        "url": "https://link.springer.com/article/10.1007/s10664-021-10114-1",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The abstract reports 101 included empirical studies and both benefits and technical/process costs.",
+        "provider_refs": [
+          "turn3902440view1"
+        ],
+        "dependence_group": "E08"
+      },
+      {
+        "source_id": "E09",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 109
+        },
+        "native_row_verbatim": "| `E09` | Fiorella Zampetti et al., *An Empirical Characterization of Bad Practices in Continuous Integration*, 2020, DOI `10.1007/s10664-019-09785-8` | Thirteen expert interviews, more than 2,300 developer posts and a 26-person validation survey produced 79 CI bad-practice categories. ([ifi.uzh.ch](https://www.ifi.uzh.ch/seal/people/vassallo/ZampettiEMSE2019.pdf)) | Does not estimate universal prevalence. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E10",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 110
+        },
+        "native_row_verbatim": "| `E10` | Yahya Rafique and Vojislav Mišić, *The Effects of Test-Driven Development on External Quality and Productivity*, 2013, DOI `10.1109/TSE.2012.28` | Meta-analysis finds context, task size and experience affect TDD results; quality effects are more consistent than productivity effects. ([raidoninc.com](https://raidoninc.com/assets/research/tddMetaAnalysis.pdf)) | Study heterogeneity and academic/industrial differences. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Abstract; selection; §VII threats; §IX conclusions, printed pp.20–22 selected passages",
+        "fresh_roles": [
+          "EMPIRICAL_META_ANALYSIS"
+        ],
+        "fresh_ceiling": "Missing standardized data, differing metrics and fidelity, short development horizons and sparse industrial comparisons limit a universal TDD sequence claim.",
+        "identity": "Rafique & Misic, 2013, DOI 10.1109/TSE.2012.28; author-posted preprint",
+        "url": "https://raidoninc.com/assets/research/tddMetaAnalysis.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The synthesis of 27 studies reports a small quality improvement and inconclusive productivity results, with comparator/test-effort differences.",
+        "provider_refs": [
+          "turn8515389view6",
+          "turn7698955view10"
+        ],
+        "dependence_group": "TDD_PRIMARY_STUDIES_REUSED_BY_REVIEWS"
+      },
+      {
+        "source_id": "E11",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 111
+        },
+        "native_row_verbatim": "| `E11` | Jo Hannay et al., *The Effectiveness of Pair Programming: A Meta-Analysis*, 2009, DOI `10.1016/j.infsof.2009.02.001` | Pairing trades time, quality and task characteristics rather than dominating universally. ([researchgate.net](https://www.researchgate.net/publication/222408325_The_effectiveness_of_pair_programming_A_meta-analysis)) | Diverse tasks and experience levels. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Abstract; §2 selection/extraction; §§3.4–3.5 bias/moderation; §5 conclusion",
+        "fresh_roles": [
+          "EMPIRICAL_META_ANALYSIS"
+        ],
+        "fresh_ceiling": "High between-study variation; no aggregate study-quality assessment; potential publication bias and sparse moderator evidence. Pairing is not automatically the cheapest knowledge-resilience control.",
+        "identity": "Hannay, Dybå, Arisholm & Sjøberg, 2009, DOI 10.1016/j.infsof.2009.02.001",
+        "url": "https://www.ic.unicamp.br/~wainer/outros/systrev/30.pdf",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Eighteen experiments support a trade-off among quality, duration and person-effort rather than uniform pairing benefit.",
+        "provider_refs": [
+          "turn6637176view6"
+        ],
+        "dependence_group": "PAIR_PROGRAMMING_PRIMARY_EXPERIMENTS"
+      },
+      {
+        "source_id": "E12",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 112
+        },
+        "native_row_verbatim": "| `E12` | Fiorella Zampetti et al., *Continuous Integration and Delivery Practices for Cyber-Physical Systems*, 2023, DOI `10.1145/3571854` | Ten organisations in eight domains plus 55-professional validation; hybrid continuous/periodic builds, simulation and HiL. ([digitalcollection.zhaw.ch](https://digitalcollection.zhaw.ch/items/a9ec28d1-4e39-42d9-803a-5b3611588960)) | Interview-based and domain-specific. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E13",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 113
+        },
+        "native_row_verbatim": "| `E13` | Chakkrit Tantithamthavorn et al., *Story Points Changes in Agile Iterative Development*, 2022, DOI `10.1007/s10664-022-10192-9` | 19,349 work items; about 10% changed points, often after scope/information changes. ([link.springer.com](https://link.springer.com/article/10.1007/s10664-022-10192-9)) | Seven open-source projects. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "E14",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 114
+        },
+        "native_row_verbatim": "| `E14` | DORA, *Software Delivery Performance Metrics*, updated 2026 | Throughput and instability measures plus explicit warnings against targets, competition and dissimilar comparisons. ([dora.dev](https://dora.dev/guides/dora-metrics/)) | Primarily observational and software-service oriented. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Current metric definitions and Common Pitfalls section",
+        "fresh_roles": [
+          "PRACTITIONER_MEASUREMENT_GUIDANCE"
+        ],
+        "fresh_ceiling": "The guide itself is not an independent causal Agile trial; measurement definitions and research association must be distinguished.",
+        "identity": "DORA, software delivery performance metrics, living guide received 2026-11-10",
+        "url": "https://dora.dev/guides/dora-metrics/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The current guide uses five metrics and warns about targets and competition.",
+        "provider_refs": [
+          "turn4681997view5",
+          "turn2699336view9"
+        ],
+        "dependence_group": "E14"
+      },
+      {
+        "source_id": "E15",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 115
+        },
+        "native_row_verbatim": "| `E15` | Nicole Forsgren et al., *The SPACE of Developer Productivity*, 2021 | Productivity cannot be represented by one metric or dimension. ([microsoft.com](https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/)) | Framework guides measurement; it does not settle all causal relationships. |",
+        "fresh_access_status": "ABSTRACT_ONLY",
+        "fresh_inspection": "Complete abstract; linked full publisher article inaccessible",
+        "fresh_roles": [
+          "MEASUREMENT_FRAMEWORK_ABSTRACT"
+        ],
+        "fresh_ceiling": "Framework recommendation, not a measured effect of implementing all dimensions.",
+        "identity": "Forsgren et al., SPACE, 2021, Microsoft Research author publication page",
+        "url": "https://www.microsoft.com/en-us/research/publication/the-space-of-developer-productivity-theres-more-to-it-than-you-think/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Developer productivity is multidimensional in the authors’ proposed framework.",
+        "provider_refs": [
+          "turn4571104view3",
+          "turn8515389view5"
+        ],
+        "dependence_group": "E15"
+      },
+      {
+        "source_id": "E16",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 116
+        },
+        "native_row_verbatim": "| `E16` | Vickie Zhang et al., *Evaluating the Surrogate Index Using 200 A/B Tests at Netflix*, arXiv `2311.11922v2`, 2024 | Compares 14-day surrogate decisions with day-63 effects across 1,098 arms. ([arxiv.org](https://arxiv.org/html/2311.11922v2)) | Netflix setting and imperfect launch-decision recall. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "§§1–3 including setting, model, decision comparison and throughput assumptions",
+        "fresh_roles": [
+          "EMPIRICAL_SINGLE_FIRM_REANALYSIS",
+          "FORMAL_ASSUMPTION_DESCRIPTION"
+        ],
+        "fresh_ceiling": "One product space and model family. Extra-experiment benefits assume usable capacity, additive effects and low marginal cost; neither generic long-term validity nor a universal short cadence follows.",
+        "identity": "Zhang et al., Evaluating the Surrogate Index…, arXiv:2311.11922v2, 30 January 2024",
+        "url": "https://arxiv.org/html/2311.11922v2",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The Netflix analysis compares 14-day surrogate decisions with day-63 effects across 200 personalization tests; high overall agreement coexists with imperfect launch-decision precision/recall.",
+        "provider_refs": [
+          "turn2747280view4",
+          "turn3543139view4"
+        ],
+        "dependence_group": "NETFLIX_200_TESTS"
+      },
+      {
+        "source_id": "E17",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 117
+        },
+        "native_row_verbatim": "| `E17` | Pavel Dmitriev et al., *Pitfalls of Long-Term Online Controlled Experiments*, 2016 | Long experiments face survivorship, selection, cookie-stability and trend problems. ([microsoft.com](https://www.microsoft.com/en-us/research/publication/pitfalls-of-long-term-online-controlled-experiments/)) | Online experimentation setting. |",
+        "fresh_access_status": "ABSTRACT_ONLY",
+        "fresh_inspection": "Author abstract and examples, provider lines 11–13",
+        "fresh_roles": [
+          "PRACTITIONER_EMPIRICAL_ACCOUNT_ABSTRACT"
+        ],
+        "fresh_ceiling": "Detailed long-experiment bias mechanisms remain inherited until full paper inspected; this abstract supports the proxy warning only.",
+        "identity": "Dmitriev et al., Pitfalls of Long-Term Online Controlled Experiments, 2016",
+        "url": "https://www.microsoft.com/en-us/research/publication/pitfalls-of-long-term-online-controlled-experiments/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Short-run metric movement can oppose longer-term user value.",
+        "provider_refs": [
+          "turn7698955view3"
+        ],
+        "dependence_group": "E17"
+      },
+      {
+        "source_id": "E18",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 118
+        },
+        "native_row_verbatim": "| `E18` | Susan Athey, Raj Chetty, Guido Imbens and Hyungseung Kang, *The Surrogate Index*, 2025 | Short proxies identify long-term effects only under stated surrogacy assumptions and validation. ([restud.com](https://www.restud.com/the-surrogate-index-combining-short-term-proxies-to-estimate-long-term-treatment-effects-more-rapidly-and-precisely/)) | Assumption violations introduce bias. |",
+        "fresh_access_status": "PUBLISHER_SUMMARY_ONLY",
+        "fresh_inspection": "Publisher summary of assumptions, bias and job-training application, provider lines 27–28",
+        "fresh_roles": [
+          "FORMAL_CAUSAL_INFERENCE_SUMMARY",
+          "EMPIRICAL_APPLICATION_SUMMARY"
+        ],
+        "fresh_ceiling": "Proof and complete premise set not independently inspected; no theorem is transferred into an Agile predicate. Not a second independent Netflix study.",
+        "identity": "Athey, Chetty, Imbens & Kang, The Surrogate Index, Review of Economic Studies, 2025",
+        "url": "https://www.restud.com/the-surrogate-index-combining-short-term-proxies-to-estimate-long-term-treatment-effects-more-rapidly-and-precisely/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The work relates surrogacy to causal assumptions and studies bias when they fail.",
+        "provider_refs": [
+          "turn7698955view1"
+        ],
+        "dependence_group": "SURROGACY_THEORY_REFERENCED_BY_NETFLIX"
+      },
+      {
+        "source_id": "S01",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 124
+        },
+        "native_row_verbatim": "| `S01` | NASA, *NPR 7150.2D Software Engineering Requirements*, effective 2022–2027 | Chapter 1.1.4 says no specific lifecycle model is required; later requirements retain architecture, risk, test, configuration, records and assurance obligations. ([nodis3.gsfc.nasa.gov](https://nodis3.gsfc.nasa.gov/displayDir.cfm?Internal_ID=N_PR_7150_002D_&page_name=Chapter1)) | NASA-specific consequence profile. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Chapter 1 §§1.1.1–1.1.5, especially 1.1.4; current official locator",
+        "fresh_roles": [
+          "NORMATIVE_NASA_SCOPE"
+        ],
+        "fresh_ceiling": "Exact applicability and later obligation clauses must be resolved for a real NASA project; this record does not certify any project or re-read the whole directive.",
+        "identity": "NASA NPR 7150.2D, effective 8 March 2022–8 March 2027",
+        "url": "https://nodis3.gsfc.nasa.gov/displayDir.cfm?Internal_ID=N_PR_7150_002D_&page_name=Chapter1",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The directive does not require a particular lifecycle model.",
+        "provider_refs": [
+          "turn6248921view0",
+          "turn5988221view3"
+        ],
+        "dependence_group": "S01"
+      },
+      {
+        "source_id": "S02",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 125
+        },
+        "native_row_verbatim": "| `S02` | NIST, *SP 800-218 Secure Software Development Framework v1.1*, 2022, DOI `10.6028/NIST.SP.800-218` | Security practices are integrated into every SDLC because most lifecycle models omit sufficient security detail. ([csrc.nist.gov](https://csrc.nist.gov/pubs/sp/800/218/final)) | High-level practices require tailoring. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Official publication status; PDF executive summary, introduction pp.1–2 and ordering note p.4",
+        "fresh_roles": [
+          "NORMATIVE_RECOMMENDATION"
+        ],
+        "fresh_ceiling": "High-level recommendations neither prove implementation nor prescribe one lifecycle. Draft1.2 is not silently substituted for final1.1.",
+        "identity": "NIST SP800-218 SSDF v1.1 final, 3 February 2022; v1.2 December 2025 initial public draft separately identified",
+        "url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "SSDF practices integrate with existing SDLCs and require risk/context tailoring. Listed order is not implementation order.",
+        "provider_refs": [
+          "turn6248921view1",
+          "turn6248921view2",
+          "turn7698955view11"
+        ],
+        "dependence_group": "S02"
+      },
+      {
+        "source_id": "S03",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 126
+        },
+        "native_row_verbatim": "| `S03` | FDA, *Content of Premarket Submissions for Device Software Functions*, June 2023 | Introduction and risk-based documentation sections require safety/effectiveness evidence generated through development, verification and validation. ([fda.gov](https://www.fda.gov/media/153781/download)) | Nonbinding guidance within regulated device context. |",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Introduction pp.1–2; scope p.6; documentation-level §V; design/configuration/testing §VI selected passages, especially pp.23–26",
+        "fresh_roles": [
+          "NORMATIVE_NONBINDING_GUIDANCE"
+        ],
+        "fresh_ceiling": "Distinguish guidance recommendations from underlying law. Its historic QSR references must not be quoted as the unchanged 2026 legal text; seeN10. No device approval is assessed.",
+        "identity": "FDA, Content of Premarket Submissions for Device Software Functions, June 2023 final guidance",
+        "url": "https://www.fda.gov/media/153781/download",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The guidance recommends risk-based submission evidence and expressly does not prescribe a software lifecycle. Alternative approaches may satisfy applicable requirements.",
+        "provider_refs": [
+          "turn8000938search7"
+        ],
+        "dependence_group": "S03"
+      },
+      {
+        "source_id": "S04",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 127
+        },
+        "native_row_verbatim": "| `S04` | NASA, *Independent Verification and Validation Overview*, current | IV&V provides independent technical, managerial and financial assessment throughout the lifecycle. ([nasa.gov](https://www.nasa.gov/ivv-overview/)) | Independence intensity is risk-tailored. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "C01",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 133
+        },
+        "native_row_verbatim": "| `C01` | Dave Thomas, *Agile Is Dead (Long Live Agility)*, 2014 | Commercial noun and method branding became detached from small-step feedback and adjustment. ([pragdave.me](https://pragdave.me/thoughts/active/2014-03-04-time-to-kill-agile.html)) | Retrospective argument, not prevalence study. |",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED",
+        "fresh_inspection": "Complete substantive article",
+        "fresh_roles": [
+          "PRIMARY_PRACTITIONER_CRITICISM"
+        ],
+        "fresh_ceiling": "Rhetorical broad claims about the industry are testimony, not prevalence estimates or proof that all formal processes are waste.",
+        "identity": "Dave Thomas, Agile Is Dead (Long Live Agility), 4 March 2014",
+        "url": "https://pragdave.me/thoughts/active/2014-03-04-time-to-kill-agile.html",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The author criticizes commercialization and loss of meaning while advocating adaptive practice.",
+        "provider_refs": [
+          "turn1800571view2"
+        ],
+        "dependence_group": "C01"
+      },
+      {
+        "source_id": "C02",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 134
+        },
+        "native_row_verbatim": "| `C02` | Andy Hunt, *The Failure of Agile*, 2015 | Organisations converted “inspect and adapt” into invariant rules and failed to adapt the methods themselves. ([toolshed.com](https://toolshed.com/2015/05/the-failure-of-agile.html)) | Practitioner interpretation. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "C03",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 135
+        },
+        "native_row_verbatim": "| `C03` | Ron Jeffries, *Developers Should Abandon Agile*, 2018 | Poor corporate Agile can increase interference, pressure and defects; retain technical disciplines rather than brands. ([ronjeffries.com](https://ronjeffries.com/articles/018-01ff/abandon-1/)) | Practitioner testimony. |",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED",
+        "fresh_inspection": "Complete substantive article",
+        "fresh_roles": [
+          "PRIMARY_PRACTITIONER_CRITICISM"
+        ],
+        "fresh_ceiling": "The response favors XP-style practice; its stronger cadence prescriptions remain claims to examine, not established universal laws.",
+        "identity": "Ron Jeffries, Developers Should Abandon Agile, 10 May 2018",
+        "url": "https://ronjeffries.com/articles/018-01ff/abandon-1/",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "The critique emphasizes imposed process, developer pressure and neglected technical capability.",
+        "provider_refs": [
+          "turn1800571view3"
+        ],
+        "dependence_group": "C03"
+      },
+      {
+        "source_id": "C04",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 136
+        },
+        "native_row_verbatim": "| `C04` | Martin Fowler, *Flaccid Scrum*, 2009 | Scrum ceremonies without XP-like engineering allow code deterioration and declining delivery. ([martinfowler.com](https://martinfowler.com/bliki/FlaccidScrum.html)) | Anecdotal pattern report. |",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED",
+        "fresh_inspection": "Complete substantive article, provider lines 76–91",
+        "fresh_roles": [
+          "PRIMARY_PRACTITIONER_CRITICISM"
+        ],
+        "fresh_ceiling": "Anecdotal diagnosis does not identify a causal effect of Scrum or prove every XP practice necessary.",
+        "identity": "Martin Fowler, Flaccid Scrum, 29 January 2009",
+        "url": "https://martinfowler.com/bliki/FlaccidScrum.html",
+        "access_date_utc": "2026-11-10",
+        "supported_paraphrase": "Management practices can coexist with decaying technical quality; Fowler explicitly notes popularity can explain many Scrum-labelled cases.",
+        "provider_refs": [
+          "turn1800571view1"
+        ],
+        "dependence_group": "C04"
+      },
+      {
+        "source_id": "C05",
+        "native_source_locator": {
+          "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+          "member": "EVOLVED_AGILE_FROZEN_REPORT.md",
+          "line": 137
+        },
+        "native_row_verbatim": "| `C05` | Martin Fowler, *Agile Software Guide*, updated 2019 | Semantic diffusion, imposed process, neglected technical excellence and project organisation are principal internal criticisms. ([martinfowler.com](https://martinfowler.com/agile.html)) | Practitioner synthesis. |",
+        "fresh_access_status": "NOT_REACCESSED_NATIVE_RECORD_PRESERVED",
+        "fresh_inspection": null,
+        "fresh_roles": [],
+        "fresh_ceiling": "Inherited source assertion only; not newly certified by this review.",
+        "provider_refs": []
+      },
+      {
+        "source_id": "N01",
+        "native_source_locator": null,
+        "identity": "Basili & Turner, Iterative Enhancement: A Practical Technique for Software Development, IEEE TSE 1975, DOI 10.1109/TSE.1975.6312870",
+        "url": "https://www.cs.umd.edu/users/basili/publications/journals/J04.pdf",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Printed pp. 390–391 visually inspected from local rendered pages; scanned source text extraction empty",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY",
+          "EMPIRICAL_CASE_DESCRIPTION"
+        ],
+        "supported_paraphrase": "A working subset and changeable project-control list support repeated implementation, analysis and enhancement.",
+        "fresh_ceiling": "Compiler-development setting. Establishes pre 2001 practice, not direct documentary transmission to every later school or comparative efficacy.",
+        "provider_refs": [
+          "turn4962930view0"
+        ],
+        "dependence_group": "N01"
+      },
+      {
+        "source_id": "N02",
+        "native_source_locator": null,
+        "identity": "DSDM Agile Project Framework Handbook, first printing June 2014, ISBN9780954483296",
+        "url": "https://www.agilebusiness.org/wp-content/uploads/2026/05/DSDM-Agile-Project-Framework-Handbook.pdf",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Copyright/title; §4 principles; §6.2–6.9 process; §15.4.2 nonfunctional requirements; §16.5 planning",
+        "fresh_roles": [
+          "METHOD_DEFINITION"
+        ],
+        "supported_paraphrase": "Foundations, iterative development, deployment and multiple planning horizons coexist in this version.",
+        "fresh_ceiling": "The 2026 download-directory date is not the edition date. Claimed success in the foreword is not independent effectiveness evidence.",
+        "provider_refs": [
+          "turn2747280view1",
+          "turn6248921view5",
+          "turn6248921view6"
+        ],
+        "dependence_group": "N02"
+      },
+      {
+        "source_id": "N03",
+        "native_source_locator": null,
+        "identity": "Alistair Cockburn interview, InfoQ, September 2010, part2",
+        "url": "https://www.infoq.com/news/2010/09/cockburn-interview-part2/",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Author statements on Crystal family, size/criticality and Crystal Clear, provider lines 189–213",
+        "fresh_roles": [
+          "PRIMARY_AUTHOR_METHOD_ACCOUNT"
+        ],
+        "supported_paraphrase": "Crystal is presented as a family whose form changes with team size and consequence, not one universal team recipe.",
+        "fresh_ceiling": "Author explanation; tailoring by criticality alone is not demonstration of safety fitness.",
+        "provider_refs": [
+          "turn5988221view1",
+          "turn8515389view8"
+        ],
+        "dependence_group": "N03"
+      },
+      {
+        "source_id": "N04",
+        "native_source_locator": null,
+        "identity": "Stephen Palmer & John M. Felsing, A Practical Guide to Feature-Driven Development, Pearson 2002",
+        "url": "https://www.informit.com/store/practical-guide-to-feature-driven-development-9780130676153",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "PUBLISHER_DESCRIPTION_AND_CONTENTS_ONLY",
+        "fresh_inspection": "Publisher bibliographic record, description and contents, provider lines 28–72",
+        "fresh_roles": [
+          "PRIMARY_PUBLISHER_METHOD_DESCRIPTION"
+        ],
+        "supported_paraphrase": "FDD combines an overall model and feature planning with iterative design/build and explicit ownership/inspection practices.",
+        "fresh_ceiling": "Full monograph not accessed;1999 chapter attempted but failed. No detailed origin case or effectiveness result inferred from sales language.",
+        "provider_refs": [
+          "turn6637176view1",
+          "turn4681997view4"
+        ],
+        "dependence_group": "N04"
+      },
+      {
+        "source_id": "N05",
+        "native_source_locator": null,
+        "identity": "Jim Highsmith, Adaptive Software Development, Dorset House 2000",
+        "url": "https://dorsethouse.com/features/excerpts/exasd.html",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "AUTHORIZED_EXCERPT_AND_CONTENTS",
+        "fresh_inspection": "Authorized preface/chapter 1 excerpt; publisher contents chapters 2–6 and 9–11",
+        "fresh_roles": [
+          "PRIMARY_AUTHOR_EXCERPT",
+          "METHOD_DESCRIPTION"
+        ],
+        "supported_paraphrase": "ASD organizes adaptive work around speculation, collaboration and learning; mission, plans and cycle reviews remain explicit topics.",
+        "fresh_ceiling": "Partial book access. Complexity metaphors and intended benefits are not validated software-performance laws.",
+        "provider_refs": [
+          "turn7698955view6",
+          "turn3543139view0"
+        ],
+        "dependence_group": "N05"
+      },
+      {
+        "source_id": "N06",
+        "native_source_locator": null,
+        "identity": "Annosi, Magnusson, Martini & Appio, Social Conduct, Learning and Innovation,2016, DOI 10.1111/caim.12172",
+        "url": "https://onlinelibrary.wiley.com/doi/abs/10.1111/caim.12172",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "ABSTRACT_ONLY",
+        "fresh_inspection": "Publisher abstract only; public institutional preprint attempts 403; epdf unavailable",
+        "fresh_roles": [
+          "EMPIRICAL_ABDUCTIVE_STUDY_ABSTRACT"
+        ],
+        "supported_paraphrase": "The authors report pressure associated with Agile implementation constraining learning and innovation, mediated by control arrangements.",
+        "fresh_ceiling": "Design details and full evidence not inspected. Treat as a material adverse lead and reported finding, not a population causal estimate.",
+        "provider_refs": [
+          "turn5527888view0"
+        ],
+        "dependence_group": "ANNOSI_ORGANIZATIONAL_CASES"
+      },
+      {
+        "source_id": "N07",
+        "native_source_locator": null,
+        "identity": "McAvoy & Butler, The Dilution of Effort in Self-Evaluating Development Teams: Agile Loafing, EJISE12(2),2009",
+        "url": "https://academic-publishing.org/index.php/ejise/article/download/289/252",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Abstract; §3 research approach; §5 conclusions, printed pp.144–149 selected passages",
+        "fresh_roles": [
+          "EMPIRICAL_PARTICIPANT_OBSERVATION"
+        ],
+        "supported_paraphrase": "Two teams produced findings contrary to the initial expectation of Agile social loafing; collective ownership/evaluation could reduce it.",
+        "fresh_ceiling": "Researchers participated in the teams; small purposive cases and reactivity. Supports rejecting an automatic autonomy-causes-loafing claim, not universal benefit.",
+        "provider_refs": [
+          "turn2747280view3"
+        ],
+        "dependence_group": "N07"
+      },
+      {
+        "source_id": "N08",
+        "native_source_locator": null,
+        "identity": "Koskela & Abrahamsson, On-Site Customer in an XP Project: Empirical Results from a Case Study, 2004",
+        "url": "https://cris.vtt.fi/en/publications/on-site-customer-in-an-xp-project-empirical-results-from-a-case-s/",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "ABSTRACT_ONLY",
+        "fresh_inspection": "Institutional abstract lines 15–18 and bibliographic metadata, rechecked in the final access call; attempted primary full paper inaccessible",
+        "fresh_roles": [
+          "EMPIRICAL_CASE_ABSTRACT"
+        ],
+        "supported_paraphrase": "Customer-role demand and possible false confidence are reported in the case.",
+        "fresh_ceiling": "Cannot infer a universal staffing fraction, representative access or causal customer-effect estimate.",
+        "provider_refs": [
+          "turn8000938view1",
+          "turn2699336view4",
+          "turn5981820view0"
+        ],
+        "dependence_group": "N08"
+      },
+      {
+        "source_id": "N09",
+        "native_source_locator": null,
+        "identity": "Fawzy, Tahir, Galster & Liang,2025, DOI 10.1007/s10664-025-10630-4",
+        "url": "https://link.springer.com/article/10.1007/s10664-025-10630-4",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "§4.1 survey; §4 results summary; §5 discussion; §6 validity",
+        "fresh_roles": [
+          "EMPIRICAL_REVIEW_AND_PURPOSIVE_SURVEY"
+        ],
+        "supported_paraphrase": "Thirty-two practitioner responses identify persistent integration, quality, collection and analysis concerns in data-intensive Agile work.",
+        "fresh_ceiling": "Purposive network recruitment, country/role imbalance and small sample; proposed remedies were not experimentally validated.",
+        "provider_refs": [
+          "turn7698955view8",
+          "turn2747280view0"
+        ],
+        "dependence_group": "N09"
+      },
+      {
+        "source_id": "N10",
+        "native_source_locator": null,
+        "identity": "FDA QMSR official overview, updated2 February 2026",
+        "url": "https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Effective-date update, introduction and applicability",
+        "fresh_roles": [
+          "CURRENT_NORMATIVE_AUTHORITY_LOCATOR"
+        ],
+        "supported_paraphrase": "The QMSR took effect2 February 2026 and incorporates ISO13485:2016 by reference within its stated device-manufacturer scope.",
+        "fresh_ceiling": "Overview establishes edition/applicability warning only. No complete interpretation of the incorporated standard or device-specific legal conclusion is supplied.",
+        "provider_refs": [
+          "turn5527888view1"
+        ],
+        "dependence_group": "N10"
+      },
+      {
+        "source_id": "N11",
+        "native_source_locator": null,
+        "identity": "Maqsood, Choma, Guerra & Bondavalli,2025, DOI 10.1049/sfw2/5227350",
+        "url": "https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/sfw2/5227350",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "§2 search/selection; §4 validity; §5 conclusion",
+        "fresh_roles": [
+          "EMPIRICAL_SYSTEMATIC_REVIEW"
+        ],
+        "supported_paraphrase": "Seventy-two selected studies motivate assurance-aware adaptations; the authors acknowledge pilot-heavy and context-limited evidence.",
+        "fresh_ceiling": "Its categorical conclusion that all requirements/planning precede a project exceeds what these inspected observational/pilot sources alone can establish. No mandatory universal order is adopted here.",
+        "provider_refs": [
+          "turn2494454view2",
+          "turn5172771view1"
+        ],
+        "dependence_group": "SCS_REVIEW_REUSES_PRIOR_CASE_LITERATURE"
+      },
+      {
+        "source_id": "N12",
+        "native_source_locator": null,
+        "identity": "Malik Muhammad Umer, arXiv:2511.14215v1,2025; corresponding 2026 journal item located but full publication inaccessible",
+        "url": "https://arxiv.org/pdf/2511.14215v1",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Abstract; §6.1 adaptations; §8.1.1–8.1.8 limitations; §9 conclusion",
+        "fresh_roles": [
+          "EMPIRICAL_TWO_PROJECT_COMPARISON_PREPRINT"
+        ],
+        "supported_paraphrase": "The report combines iterative work with independent verification, traceability and certification roles in maintenance of an existing avionics subsystem.",
+        "fresh_ceiling": "Unrandomized same-organization comparison; differing requirement granularity can change normalized metrics. Confidentiality limits certification verification. Large reported gains are not adopted as a causal forecast; journal/preprint equivalence unverified.",
+        "provider_refs": [
+          "turn1734883academia25",
+          "turn1734883search1"
+        ],
+        "dependence_group": "UMER_TWO_PROJECTS_PREPRINT_AND_2026_PUBLICATION"
+      },
+      {
+        "source_id": "N14",
+        "native_source_locator": null,
+        "identity": "Makkass, Laghouaouta & Anwar, Computers 2026, DOI 10.3390/computers15090619",
+        "url": "https://www.mdpi.com/2073-431X/15/9/619",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Abstract; §2.1–2.5; §4.4; §5 limitations; §6",
+        "fresh_roles": [
+          "CONCEPTUAL_INTEGRATIVE_REVIEW"
+        ],
+        "supported_paraphrase": "The authors explicitly label their combined ownership/inquiry mechanism and strict WIP rule provisional, with no new empirical dataset.",
+        "fresh_ceiling": "Retrospectively reconstructed search accounting and single-primary coding further constrain inference. A recent framework name is not proof of resolving longstanding criticisms.",
+        "provider_refs": [
+          "turn6972504view2",
+          "turn5172771view0"
+        ],
+        "dependence_group": "N14"
+      },
+      {
+        "source_id": "N15",
+        "native_source_locator": null,
+        "identity": "Serrador & Adel A. Zadeh,2026 addendum DOI 10.1080/10429247.2026.2712187 to 2025 article DOI 10.1080/10429247.2025.2516480",
+        "url": "https://doi.org/10.1080/10429247.2026.2712187",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "INDEXED_NOTICE_TEXT_SEEN_DIRECT_ACCESS_FAILED",
+        "fresh_inspection": "Indexed notice text seen; direct publisher article access 403",
+        "fresh_roles": [
+          "DEPENDENCE_LEAD_ONLY"
+        ],
+        "supported_paraphrase": "Indexed notice says the later analysis reuses the Serrador/Pinto 2015 underlying data.",
+        "fresh_ceiling": "Do not count as independent replication. Full notice and 2025 analysis not inspected; this is a dependence alert, not an accepted new effect result.",
+        "provider_refs": [
+          "turn4681997search2",
+          "turn9339900view0"
+        ],
+        "dependence_group": "SERRADOR_PINTO_2015_DATA_REUSE_LEAD"
+      },
+      {
+        "source_id": "N13",
+        "native_source_locator": null,
+        "identity": "Jan-Niklas Meckenstock, JSS211(2024)111966, DOI 10.1016/j.jss.2024.111966; institutional version of record",
+        "url": "https://extern.fis.uni-bamberg.de/files/54f9d3a9-1a72-4f44-bb76-99144980ca42/fisba105428.pdf",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "§3.1–3.3 search/selection; iterative-pressure and learning passages; §5.4 limitations; Appendix B dependence check",
+        "fresh_roles": [
+          "EMPIRICAL_QUALITATIVE_SYSTEMATIC_REVIEW"
+        ],
+        "supported_paraphrase": "The 70-paper adverse-focused synthesis links delivery pressure, customer problems and coordination costs to worker/product difficulties.",
+        "fresh_ceiling": "Issue-oriented selection cannot estimate overall prevalence or net Agile benefit. Single-coder interpretation and reused primary studies constrain independence; includes Annosi 2016, so those are not two independent datasets.",
+        "provider_refs": [
+          "turn6858718search0",
+          "turn6858718search8"
+        ],
+        "dependence_group": "ADVERSE_REVIEW_INCLUDES_ANNOSI_2016"
+      },
+      {
+        "source_id": "N16",
+        "native_source_locator": null,
+        "identity": "Jez Humble, Continuous Delivery,2 February 2010, and Continuous Delivery vs Continuous Deployment,13 August 2010",
+        "url": "https://continuousdelivery.com/2010/02/continuous-delivery/",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "COMPLETE_PAGE_TEXT_INSPECTED",
+        "fresh_inspection": "Complete substantive two posts; second URL https://continuousdelivery.com/2010/08/continuous-delivery-vs-continuous-deployment/",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY",
+          "METHOD_DEFINITION"
+        ],
+        "supported_paraphrase": "The author names Manifesto inspiration, earlier pipeline development and delivery collaboration; distinguishes readiness from releasing every change.",
+        "fresh_ceiling": "Documentary influence and method intent, not proof that tests establish business value or all claimed deployment benefits.",
+        "provider_refs": [
+          "turn6604871view1",
+          "turn6604871view2"
+        ],
+        "dependence_group": "N16"
+      },
+      {
+        "source_id": "N17",
+        "native_source_locator": null,
+        "identity": "Benjamin Treynor Sloss, SRE book Introduction,2016",
+        "url": "https://sre.google/sre-book/introduction/",
+        "access_date_utc": "2026-11-10",
+        "fresh_access_status": "SELECTED_SECTIONS_INSPECTED",
+        "fresh_inspection": "Service-management tension and origin account, provider lines 72–88",
+        "fresh_roles": [
+          "HISTORICAL_PRIMARY_PARTICIPANT"
+        ],
+        "supported_paraphrase": "The author dates his Google production-team assignment to 2003 and explains its software-engineering approach to operations.",
+        "fresh_ceiling": "Participant origin account; the 2016 publication date is not the invention date and does not prove absence of all Agile influence.",
+        "provider_refs": [
+          "turn6604871view3"
+        ],
+        "dependence_group": "N17"
+      }
+    ]
+  }
+}

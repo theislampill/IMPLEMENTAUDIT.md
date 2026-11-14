@@ -1,0 +1,765 @@
+{
+  "schema": "css-public-owner-evidence-map.v1",
+  "candidate_source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+  "main_predecessor": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+  "active_source_commit": "ed2c060daa41b6b88c1d49b325a3aa920088aed8",
+  "public_package_destination": "docs/research/genealogy/current-programme/v1/families/css/",
+  "new_work_orders_authorized": false,
+  "executor_ready": false,
+  "registry_policy": "Preserve existing RLGWO_REGISTRY.json snapshot and owner IDs; append scoped documentation rather than replacing historical observations. Four scientific responsibility lanes map many-to-many to existing owners.",
+  "units": {
+    "CSS-L1": {
+      "existing_carrier": "R002A/#194",
+      "state": "closed",
+      "terminal_receipt": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/194#issuecomment-5312867827",
+      "original_property_rows": 62,
+      "current_scientific_metadata_selected": 63,
+      "retained_historical_limits": [
+        "ECSE-50 UNRESOLVED",
+        "R001B/R0020 NO_SOURCE_DELTA unless focused predicate fails",
+        "No universal performance, takeover or synergy claim"
+      ],
+      "candidate_questions": [
+        "Current receiver state and pending-effect discrimination",
+        "Actual intervention capability/time/control",
+        "Authority separation and independent informational contribution"
+      ],
+      "current_residual": "Unproven; reconcile active R0033/current consumer before proposing any new delta",
+      "native_owner_routes": [
+        "R000D",
+        "R000F",
+        "R0014",
+        "R001B",
+        "R001D",
+        "R001F",
+        "R0020",
+        "R0022",
+        "R0023",
+        "R0024",
+        "R0028",
+        "R0029",
+        "R002A",
+        "R0033"
+      ]
+    },
+    "CSS-L2": {
+      "existing_carrier": "R002B/#195",
+      "state": "closed",
+      "terminal_receipt": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/195#issuecomment-5312877164",
+      "original_property_rows": 65,
+      "current_scientific_metadata_selected": 65,
+      "retained_historical_limits": [
+        "Original P030/P032/P036/P049 partial predicates remain history alongside later v0.4 terminal acceptance",
+        "22 historical discrimination cases not a fresh current suite",
+        "No cross-repository or generic statistical activation credit"
+      ],
+      "candidate_questions": [
+        "Decision-linked measurement and independent unit",
+        "Coupled candidate/evaluator attribution",
+        "Equivalence margins, sequential information value and context transfer"
+      ],
+      "current_residual": "Unproven; adequate existing coverage and no-change are valid outcomes",
+      "native_owner_routes": [
+        "R0006",
+        "R000A",
+        "R000C",
+        "R000D",
+        "R000E",
+        "R000F",
+        "R001D",
+        "R001F",
+        "R0020",
+        "R0022",
+        "R0023",
+        "R0024",
+        "R0028",
+        "R002B"
+      ]
+    },
+    "CSS-L3": {
+      "existing_carrier": "R002C/#196",
+      "state": "open",
+      "terminal_census": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/196#issuecomment-5312877705",
+      "original_property_rows": 68,
+      "current_scientific_metadata_selected": 68,
+      "historical_implementation_axis": {
+        "accepted_native_owner": 13,
+        "accepted_native_negative_boundary": 3,
+        "partial_native_components": 48,
+        "lineage_residual_or_negative_control": 4
+      },
+      "retained_historical_limits": [
+        "12 ALREADY_STRICTLY_STRONGER and31 STRONGER_BY_NATIVE_COMPOSITION do not overwrite implementation-state axis",
+        "Original final-package ordinary installed activation",
+        "Later authentic effect isolation, erroneous-boundary and recovery acceptance",
+        "Original caseB GAP-REVISE and readiness NONVERDICT preserved in active source"
+      ],
+      "candidate_questions": [
+        "Credible loss and enforceable constraint",
+        "State-confirmed containment and authorised recovery",
+        "Exact affected ordinary/installed/current receiving evidence"
+      ],
+      "current_residual": "Existing acceptance obligations remain with R002C and PR251/PR255; do not create a new CSS Safety work order",
+      "native_owner_routes": [
+        "R000F",
+        "R001D",
+        "R001F",
+        "R0022",
+        "R0023",
+        "R0024",
+        "R0028",
+        "R0029",
+        "R002C"
+      ]
+    },
+    "CSS-S": {
+      "existing_carrier": "Embedded R002A/R002B/R002C receipt and native owner composition; no fourth CSS issue",
+      "state": "no_separate_issue",
+      "historical_semantic_receipt": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/195",
+      "original_property_rows_reused": 195,
+      "current_scientific_metadata_selected": 196,
+      "historical_edge_counts": {
+        "cognitive_statistical_union": 272,
+        "cognitive_safety_union": 315,
+        "statistical_safety_union": 328,
+        "total": 915,
+        "reciprocal": 184,
+        "intentional_directional_asymmetry": 731,
+        "unadjudicated": 0
+      },
+      "retained_historical_limits": [
+        "Counts are historical typed topology, not current science/native proof",
+        "Original historical synthesis/prompt unlocated in current public metadata",
+        "Current CSS-S locally qualified; central application unobserved",
+        "Only cleared scientific subject/reviews support later accepted interpretation"
+      ],
+      "candidate_questions": [
+        "Common claim/context/configuration/consumer",
+        "Supported directions and useful partial contributions",
+        "Shared-evidence deduplication and simpler alternatives"
+      ],
+      "current_residual": "Unproven; no new fourth owner or one-cell-per-slot assumption",
+      "native_owner_routes": [
+        "R0006",
+        "R000A",
+        "R000C",
+        "R000D",
+        "R000E",
+        "R000F",
+        "R0014",
+        "R001B",
+        "R001D",
+        "R001F",
+        "R0020",
+        "R0022",
+        "R0023",
+        "R0024",
+        "R0028",
+        "R0029",
+        "R002A",
+        "R002B",
+        "R002C",
+        "R0033"
+      ]
+    }
+  },
+  "owners": [
+    {
+      "owner_id": "R0006",
+      "existing_issue_number": 79,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/79",
+      "role": "Population completeness, attempted units, denominator and discrimination witness",
+      "scientific_responsibilities": [
+        "CSS-L2",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/audit-playbook.md",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "scripts/check-census-discipline.sh",
+        "tests/census-discipline.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/audit-playbook.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/repo-state-comparison.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/scripts/check-census-discipline.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/census-discipline.test.sh"
+      ],
+      "evidence_ceiling": "A mechanical population or census is not representative sampling, independent replication or causal validity."
+    },
+    {
+      "owner_id": "R000A",
+      "existing_issue_number": 83,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/83",
+      "role": "Unit/batch independence and proportionality",
+      "scientific_responsibilities": [
+        "CSS-L2",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/phase-design.md",
+        "skills/implementaudit/references/lean-operating-discipline.md"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/phase-design.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/lean-operating-discipline.md"
+      ],
+      "evidence_ceiling": "Native work-unit independence does not by itself satisfy Statistical P030 assignment or P032 experimental units."
+    },
+    {
+      "owner_id": "R000C",
+      "existing_issue_number": 85,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/85",
+      "role": "Acceptance predicate, instrument fitness and liveness",
+      "scientific_responsibilities": [
+        "CSS-L2",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/phase-design.md",
+        "scripts/check-acceptance-instrument-discipline.sh",
+        "fixtures/acceptance-instrument-discipline/cases.json",
+        "tests/acceptance-instrument-discipline.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/phase-design.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/scripts/check-acceptance-instrument-discipline.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/fixtures/acceptance-instrument-discipline/cases.json",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/acceptance-instrument-discipline.test.sh"
+      ],
+      "evidence_ceiling": "Seven current S3E-W01 fixtures classify supplied Boolean predicates; no real-world construct validity or installed use follows."
+    },
+    {
+      "owner_id": "R000D",
+      "existing_issue_number": 86,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/86",
+      "role": "Reviewer independence and transport integrity",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/phase-design.md",
+        "skills/implementaudit/references/child-agents.md"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/phase-design.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/child-agents.md"
+      ],
+      "evidence_ceiling": "Structural reviewer separation and experimental-unit independence are different predicates."
+    },
+    {
+      "owner_id": "R000E",
+      "existing_issue_number": 87,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/87",
+      "role": "Evidence identity and anchor calibration",
+      "scientific_responsibilities": [
+        "CSS-L2",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "tests/evidence-anchoring.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/repo-state-comparison.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/evidence-anchoring.test.sh"
+      ],
+      "evidence_ceiling": "Identity and calibration do not establish validity of the target construct or downstream decision."
+    },
+    {
+      "owner_id": "R000F",
+      "existing_issue_number": 88,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/88",
+      "role": "Independent current external-state and achieved-effect readback",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/scripts/check-closure-surface.sh",
+        "tests/closure-surface-contract.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/repo-state-comparison.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/scripts/check-closure-surface.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/closure-surface-contract.test.sh"
+      ],
+      "evidence_ceiling": "The w03-state-only branch checks retained owner text. Source/contract checks do not prove an actual asynchronous world effect."
+    },
+    {
+      "owner_id": "R0014",
+      "existing_issue_number": 93,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/93",
+      "role": "Mechanism-centred retrospective and process-history inspection",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/audit-playbook.md",
+        "skills/implementaudit/references/routing.md"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/audit-playbook.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/routing.md"
+      ],
+      "evidence_ceiling": "Coordination/near-miss learning remains an inquiry; no universal causal or effectiveness attribution."
+    },
+    {
+      "owner_id": "R001B",
+      "existing_issue_number": 101,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/101",
+      "role": "Derived-view freshness, scope, nonauthority and no-sidecar path",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/sidecars.md",
+        "skills/implementaudit/references/routing.md",
+        "tests/sidecars.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/sidecars.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/routing.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/sidecars.test.sh"
+      ],
+      "evidence_ceiling": "#194 explicitly retained NO_SOURCE_DELTA unless the focused current predicate fails; derived orientation is not live authority."
+    },
+    {
+      "owner_id": "R001D",
+      "existing_issue_number": 155,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/155",
+      "role": "Truthful public capability projection and material topic disposition",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/audit-playbook.md",
+        "docs/portal/site.json",
+        "docs/portal/pages/research-lineage-evolved-css.html",
+        "tests/docs-portal.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/audit-playbook.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/docs/portal/site.json",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/docs/portal/pages/research-lineage-evolved-css.html",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/docs-portal.test.sh"
+      ],
+      "evidence_ceiling": "Final public claim scope is evidence-bound; donor site union or source existence is not current native acceptance."
+    },
+    {
+      "owner_id": "R001F",
+      "existing_issue_number": 158,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/158",
+      "role": "Receiver-reconstructible work order, handoff and continuation",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/issue-ready-work-orders.md",
+        "skills/implementaudit/references/plan-lifecycle.md",
+        "skills/implementaudit/templates/PROTOCOL.md",
+        "skills/implementaudit/scripts/check-handoff-packet.sh",
+        "fixtures/issue-ready-work-orders/cases.json",
+        "tests/issue-ready-work-orders.test.sh",
+        "tests/handoff-packet-contract.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/issue-ready-work-orders.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/plan-lifecycle.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/templates/PROTOCOL.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/scripts/check-handoff-packet.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/fixtures/issue-ready-work-orders/cases.json",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/issue-ready-work-orders.test.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/handoff-packet-contract.test.sh"
+      ],
+      "evidence_ceiling": "Accessible content, receiver verification and actual acceptance are separate; these outlines remain rough and allocate no work order."
+    },
+    {
+      "owner_id": "R0020",
+      "existing_issue_number": 160,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/160",
+      "role": "Same-family state-space/model repair after the existing convergence trigger",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/convergence-mode.md",
+        "tests/convergence-mode-contract.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/convergence-mode.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/convergence-mode-contract.test.sh"
+      ],
+      "evidence_ceiling": "#194 proof-only/no-source-delta route is preserved. One-off deterministic repair does not trigger universal convergence work."
+    },
+    {
+      "owner_id": "R0022",
+      "existing_issue_number": 163,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/163",
+      "role": "Live consumer, proportional control, cost, feedback, cheap path and retirement",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "fixtures/audit-action-selection/engineering-value-cases.json",
+        "scripts/check-action-selection-contract.sh",
+        "tests/action-selection-contract.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/planning-depth.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/lean-operating-discipline.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/fixtures/audit-action-selection/engineering-value-cases.json",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/scripts/check-action-selection-contract.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/action-selection-contract.test.sh"
+      ],
+      "evidence_ceiling": "Existing source is often sufficient or stronger; actual actor/effect/rare consequence must be evaluated, not inferred from labels."
+    },
+    {
+      "owner_id": "R0023",
+      "existing_issue_number": 164,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/164",
+      "role": "Evaluator/proxy integrity, attribution and preservation of failed witnesses",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/phase-design.md",
+        "skills/implementaudit/references/lean-operating-discipline.md",
+        "fixtures/acceptance-instrument-discipline/cases.json",
+        "scripts/check-acceptance-instrument-discipline.sh",
+        "tests/acceptance-instrument-discipline.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/phase-design.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/lean-operating-discipline.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/fixtures/acceptance-instrument-discipline/cases.json",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/scripts/check-acceptance-instrument-discipline.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/acceptance-instrument-discipline.test.sh"
+      ],
+      "evidence_ceiling": "Product repair with unchanged evaluator remains ordinary. An old/new matrix or independent instrument is not universal scientific validation."
+    },
+    {
+      "owner_id": "R0024",
+      "existing_issue_number": 167,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/167",
+      "role": "Observation-bounded mutation and verified post-state",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/scripts/apply-observed-mutation.sh",
+        "tests/observation-bound-mutation-integrity.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/repo-state-comparison.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/scripts/apply-observed-mutation.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/observation-bound-mutation-integrity.test.sh"
+      ],
+      "evidence_ceiling": "Portable and protocol-cooperating source controls do not authenticate external grants or prove arbitrary-writer security/native authority."
+    },
+    {
+      "owner_id": "R0028",
+      "existing_issue_number": 189,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/189",
+      "role": "Conditional epistemic separation and independently informative judgement",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L2",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/child-agents.md",
+        "skills/implementaudit/references/phase-design.md",
+        "tests/action-selection-contract.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/planning-depth.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/child-agents.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/phase-design.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/action-selection-contract.test.sh"
+      ],
+      "evidence_ceiling": "Reviewer/agent count is not informational independence; shared authoritative facts/hazards remain available."
+    },
+    {
+      "owner_id": "R0029",
+      "existing_issue_number": 190,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/190",
+      "role": "Capability-fit delegation, intervention time/context and least-cost sufficient capability",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/child-agents.md",
+        "tests/action-selection-contract.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/planning-depth.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/child-agents.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/action-selection-contract.test.sh"
+      ],
+      "evidence_ceiling": "Nominal availability or authority does not prove competence, state access, time, controls or stop/recovery feasibility."
+    },
+    {
+      "owner_id": "R002A",
+      "existing_issue_number": 194,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/194",
+      "role": "Historical Cognitive Systems Engineering lineage custody and residual; authority amendment",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "docs/research/genealogy/css/evolved-cognitive-systems-engineering/README.md",
+        "skills/implementaudit/references/repo-state-comparison.md",
+        "skills/implementaudit/references/issue-ready-work-orders.md"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/docs/research/genealogy/css/evolved-cognitive-systems-engineering/README.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/repo-state-comparison.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/issue-ready-work-orders.md"
+      ],
+      "evidence_ceiling": "Closed exact-v0.4 receipt is retained; neither new scientific63 nor current native route is automatically qualified."
+    },
+    {
+      "owner_id": "R002B",
+      "existing_issue_number": 195,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/195",
+      "role": "Historical Statistical Engineering lineage custody, measurement/variation/stopping and embedded CSS semantic receipt",
+      "scientific_responsibilities": [
+        "CSS-L2",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "docs/research/genealogy/css/evolved-statistical-engineering/README.md",
+        "skills/implementaudit/references/phase-design.md"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/docs/research/genealogy/css/evolved-statistical-engineering/README.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/phase-design.md"
+      ],
+      "evidence_ceiling": "Closed exact-v0.4 receipt is retained; original partials and later terminal acceptance are distinct from present residual assessment."
+    },
+    {
+      "owner_id": "R002C",
+      "existing_issue_number": 196,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/196",
+      "role": "Historical Safety lineage custody, loss/hazard/control envelope and original installed/native acceptance",
+      "scientific_responsibilities": [
+        "CSS-L3",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "docs/research/genealogy/css/evolved-systems-safety/README.md",
+        "skills/implementaudit/references/planning-depth.md",
+        "skills/implementaudit/references/phase-design.md",
+        "skills/implementaudit/references/terminology-integration.md",
+        "scripts/check-terminology-integration.sh",
+        "tests/terminology-integration.test.sh",
+        "tests/action-selection-contract.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/docs/research/genealogy/css/evolved-systems-safety/README.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/planning-depth.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/phase-design.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/terminology-integration.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/scripts/check-terminology-integration.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/terminology-integration.test.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/action-selection-contract.test.sh"
+      ],
+      "evidence_ceiling": "Open; accepted source/corpus/helper scope and later local results do not close original all68 or installed/native predicates."
+    },
+    {
+      "owner_id": "R0033",
+      "existing_issue_number": 207,
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207",
+      "role": "Governor/child authority, selected route, bounded cognition, return and receiving",
+      "scientific_responsibilities": [
+        "CSS-L1",
+        "CSS-S"
+      ],
+      "actual_C_source_paths": [
+        "skills/implementaudit/SKILL.md",
+        "skills/implementaudit/references/continuity.md",
+        "skills/implementaudit/references/transcript-contract.md",
+        "skills/implementaudit/scripts/resolve-internal-skill.py",
+        "skills/audit-state/SKILL.md",
+        "skills/audit-assess/SKILL.md",
+        "skills/audit-implement/SKILL.md",
+        "skills/audit-andon/SKILL.md",
+        "tests/internal-skill-routing.test.sh",
+        "tests/internal-skill-topology.test.sh"
+      ],
+      "source_commit": "22dfa6efec0dc5532b0a37f0de5bd92b3686db7f",
+      "source_urls": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/SKILL.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/continuity.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/references/transcript-contract.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/implementaudit/scripts/resolve-internal-skill.py",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/audit-state/SKILL.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/audit-assess/SKILL.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/audit-implement/SKILL.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/skills/audit-andon/SKILL.md",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/internal-skill-routing.test.sh",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/22dfa6efec0dc5532b0a37f0de5bd92b3686db7f/tests/internal-skill-topology.test.sh"
+      ],
+      "evidence_ceiling": "Open with superseding four-child and later compaction/physical-occurrence amendments. Ordinary analysis, source read, path/digest or generic event is not authentic native LOAD/USE/RETURN/acceptance/consumption."
+    }
+  ],
+  "live_PR_snapshots": [
+    {
+      "number": 203,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/203",
+      "title": "S³E: synthesize triggered acceptance state (CSS fold-in)",
+      "state": "closed",
+      "draft": false,
+      "merged": true,
+      "head_sha": "cf2ca048d7a7fd29bdc534af7b7a711777f349bd",
+      "base_sha": "e7a733be10338a398d0112454088ae3dc2b56f60",
+      "updated_at": "2026-08-13T08:07:38Z"
+    },
+    {
+      "number": 206,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/206",
+      "title": "v0.4.0.0 final composition: State Synthesis Substrate Engineering",
+      "state": "closed",
+      "draft": false,
+      "merged": true,
+      "head_sha": "71a7101ade904f5482cbc25c5154e1eadea0c7be",
+      "base_sha": "6cf952f60e49a1292edb922e42a45ae5b1de9efe",
+      "updated_at": "2026-08-16T18:26:26Z"
+    },
+    {
+      "number": 224,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/224",
+      "title": "Checkpoint unreleased IMPLEMENTAUDIT source and preserve research custody",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "e6b43a40e844cb02fa2839f6e3fce892e885c9e6",
+      "base_sha": "83d565d6d8b1820c3f20abf888177c88d957a409",
+      "updated_at": "2026-10-19T17:10:43Z"
+    },
+    {
+      "number": 251,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/251",
+      "title": "Integrate R002C, R002D, R002E and R0030 through existing owners",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "92f7f388654c159a99e0f3db9b7e369304e90310",
+      "base_sha": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "updated_at": "2026-10-25T18:50:29Z"
+    },
+    {
+      "number": 254,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/254",
+      "title": "R003F + R0041: qualify original EBPM, EWM and embedded BWP continuation",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "0358c6b2dc5d16df50713911ed5b58a390864065",
+      "base_sha": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "updated_at": "2026-10-25T18:40:52Z"
+    },
+    {
+      "number": 255,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255",
+      "title": "Combine active RLGWO source with custody and lifecycle repairs (draft)",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head_sha": "ed2c060daa41b6b88c1d49b325a3aa920088aed8",
+      "base_sha": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "updated_at": "2026-11-13T02:11:37Z"
+    }
+  ],
+  "source_specific_disclosure_limits": {
+    "public_historical_ledgers_reports_intakes": "Already-public historical source only. Preserve exact original rows/statuses/source limits; do not represent it as corrected current scientific subject. Packet source IDs are local; 90+110+116 is not global uniqueness.",
+    "public_historical_absorption_baseline": "Retained pre-implementation historical occurrence. Original owner spellings and dispositions preserved; not current defect list or complete current implementation certificate. Do not project old private logical run paths as accessible sources.",
+    "current_public_programme_metadata": "Counts, identity and received-status boundary only. SHA256 identity is not accessible full content and not clearance to disclose protected scientific bodies or acquisition identifiers.",
+    "live_issue_bodies_and_comments": "Existing engineering specifications/history, bounded terminal receipts and superseding amendments. Reacquire before execution; a specification is not an implementation result. Preserve original bodies.",
+    "PR224": "Noncanonical source custody, not canonical source adoption, native qualification or release. No automatic donor site union adoption.",
+    "PR251_PR255": "Active shared engineering scopes; ordinary/source/fixture/local/portable results remain at their exact consumer/subject. Original R002C and other work orders retain separate acceptance; protected UNKNOWN is not replayed.",
+    "PR254": "BWP preparation/receiving and original owner responsibilities remain separate; no CSS scientific/native acceptance or ownership transfer.",
+    "proposed_examples": "Clearly marked illustrations of already-public predicates; not new empirical cases, accepted successor scientific results or current product defect demonstrations."
+  },
+  "public_claim_corrections": [
+    {
+      "surface": "all four historical Pages",
+      "risk": "Unqualified translated/can-now/controls-prevented language can be mistaken for current native effectiveness",
+      "proposed_correction": "Name historical v0.4 receipt, state present source/fixture scope, link separate current scientific lane; no new native efficacy claim"
+    },
+    {
+      "surface": "Safety Page",
+      "risk": "Accepted crosswalk phrasing can hide open R002C installed/native acceptance",
+      "proposed_correction": "Keep accepted corpus/source/helper work and live open carrier explicit; preserve later local positives, original caseB GAP and readiness NONVERDICT"
+    },
+    {
+      "surface": "R002A owner paths",
+      "risk": "Original planned cognitive-command fixture cited as present",
+      "proposed_correction": "It is absent on C. Use actual repo-state-comparison effect clause and closure-surface-contract --w03-state-only, qualified as text/contract evidence"
+    },
+    {
+      "surface": "Statistical partial rows",
+      "risk": "Old partials treated as current defects or erased by generic final receipt",
+      "proposed_correction": "Preserve original P030/P032/P036/P049 partial semantics and separately cite bounded terminal receipt; fresh current question remains unproven"
+    },
+    {
+      "surface": "CSS-S synthesis",
+      "risk": "915 relations or three closed/accepted component assertions treated as accepted new synthesis or whole native closure",
+      "proposed_correction": "Historical195/915 typed topology separate from current196 scientific study; R002C open; no fourth work order"
+    }
+  ],
+  "documentary_role": "ordinary documentary author/proposer; no cold-review or acceptance authority"
+}

@@ -1,0 +1,490 @@
+{
+  "source_identity": {
+    "source_id": "S-bfa1db636d0ed980",
+    "scientific_name": "HISTORICAL_COMPARISON_AND_CHANGE_MAP.json",
+    "original_bytes": 18464,
+    "original_sha256": "bfa1db636d0ed9809e9876dcec0d5cdf6b4c4a7753d298f493c06dc9d9434c10"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-a002-history-change/1",
+    "historical_slots": {
+      "neutral_body": {
+        "state": "NOT_LOCATED_IN_RECORDED_BOUNDED_DISCOVERY",
+        "identity": null
+      },
+      "executed_prompt": {
+        "state": "NOT_LOCATED_IN_RECORDED_BOUNDED_DISCOVERY",
+        "identity": null
+      },
+      "execution_binding": {
+        "state": "NOT_LOCATED_IN_RECORDED_BOUNDED_DISCOVERY",
+        "identity": null
+      },
+      "continuations": {
+        "state": "NOT_LOCATED_IN_RECORDED_BOUNDED_DISCOVERY",
+        "identity": null
+      },
+      "original_reviews": {
+        "state": "NOT_LOCATED_IN_RECORDED_BOUNDED_DISCOVERY",
+        "identity": null
+      },
+      "matrix_and_generation_rules": {
+        "state": "NOT_LOCATED_IN_RECORDED_BOUNDED_DISCOVERY",
+        "identity": null
+      }
+    },
+    "new_search_by_A002": "Read exact discovery/authority and surviving source evidence; no assertion of exhaustive external recovery search.",
+    "discovery_evidence": [
+      "current_inputs/contracts/EXECUTION_BINDING.json#/historical_gate",
+      "current_inputs/contracts/ORIGINAL_AND_NEW_OBLIGATIONS.md",
+      "SOURCE_RECEIVING.json"
+    ],
+    "historical_requalification_state": "BLOCKED_INPUT",
+    "unit_outcome": null,
+    "programme_unit_completion": false,
+    "qualified_synthesis_increment": 0,
+    "comparison_rule": "New-neutral baseline and 38 actual later checkpoints are preserved as new-study history, never as the missing original neutral synthesis. Original-contract breach needs actual bound instruction; scientific error needs an actual proposition.",
+    "changes": [
+      {
+        "scope": "B10",
+        "reason_codes": [
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "meaning": "1100 direction rederivations have their genuine new B10 identity; missing original Family15/B05 maps remain missing.",
+        "preservation": "All exact checkpoint files and cumulative map retained in ancestor closure."
+      },
+      {
+        "scope": "B21/B26",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "DOCUMENTATION_REPAIR"
+        ],
+        "meaning": "Retain actual demand-use amendment, EL010↔EA02 unknowns, C22 overclaim/V2 repair, C23 analytical alternative and B26 D11 clarification with D12 unchanged. No blanket replay or new empirical evidence.",
+        "preservation": "Exact reports, arguments, old/new controls and receipts in ancestor closure."
+      },
+      {
+        "scope": "B30",
+        "reason_codes": [
+          "DOCUMENTATION_REPAIR"
+        ],
+        "meaning": "Retain D03 useful partial-input guard and original/V2 source-carrier history.",
+        "preservation": "Exact B30 I001 subject and all inventoried old/V2 files."
+      },
+      {
+        "scope": "B33",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "DOCUMENTATION_REPAIR"
+        ],
+        "meaning": "Retain S055 wrong identity and correction, S041/S042 dependence clarification, H14 date correction, I021 identity/prefix failure and repair, C29 and all adverse history.",
+        "preservation": "I021 raw and complete ancestor closure; later actual effects remain separately observed."
+      },
+      {
+        "scope": "A001 I022 to A002",
+        "reason_codes": [
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "meaning": "Adopt ten completed guarded author judgments with full source and Page assessment; no fresh experiment or independent acceptance.",
+        "preservation": "I022_ADOPTION.json and raw source packet."
+      },
+      {
+        "scope": "A002 frontier",
+        "reason_codes": [
+          "ANALYTICAL_REDECOMPOSITION"
+        ],
+        "meaning": "Complete 36 EA09/Lean directions and remaining3700 whole directions, configuration/criticism/novelty reasoning; preserve all inherited476 unknowns.",
+        "preservation": "Current argument/coverage files and checkpoint002 initial whole draft."
+      },
+      {
+        "scope": "A002 amendment003",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR"
+        ],
+        "meaning": "Correct two false-negative native exposure-interface judgments; all7406 other projection rows unchanged.",
+        "preservation": "WHOLE_DIRECTIONAL_AMENDMENT_003.json and DIRECTIONAL_AMENDMENT_003_CHECK.json."
+      }
+    ],
+    "original_new_obligations": "Every historical obligation/discharge remains UNKNOWN until actual body/contract/binding is recovered; the complete present obligation table is preserved in current_inputs/contracts/ORIGINAL_AND_NEW_OBLIGATIONS.md. No ORIGINAL_COMMISSION_FAILURE is asserted.",
+    "predecessor_cessation": "UNKNOWN",
+    "authority": "Cohort A current owner-authorized isolated author continuation; old A→B transfer superseded, B new-work authority withdrawn; no termination invented.",
+    "A003_successor": {
+      "predecessor": {
+        "address": "a002:AUTHOR_SUBJECT.json",
+        "bytes": 28147,
+        "sha256": "9f4c02202f014835d24f827680dc07086e3b5a7c3c237cdb1e32819c78f0973e",
+        "physical": {
+          "layer": "a002",
+          "member": "AUTHOR_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "adverse_review": {
+        "address": "fidelity:REVIEW_SUBJECT.json",
+        "bytes": 6031,
+        "sha256": "e601b9cc1da9093e25331231c93cfdedfd18f87989576c95bdec3c03047d2ace",
+        "physical": {
+          "layer": "fidelity",
+          "member": "REVIEW_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "response": "A003_SCIENTIFIC_RESPONSE.json",
+      "reason_codes": [
+        "SCIENTIFIC_ERROR",
+        "ANALYTICAL_REDECOMPOSITION",
+        "DOCUMENTATION_REPAIR"
+      ],
+      "historical_original_contract_failure": false,
+      "current_projection": {
+        "address": "a003:WHOLE_PAIR_ACCOUNTING.json",
+        "bytes": 1057415,
+        "sha256": "b674265fb374ba0bb4b1186c0370df257c24ef9adb3f56dd7dfad328189b7179",
+        "physical": {
+          "layer": "a003",
+          "member": "WHOLE_PAIR_ACCOUNTING.json"
+        },
+        "json_pointer": ""
+      },
+      "seven_current_direction_changes": [
+        "LAW-L1::EL-001->LAW-L2::EA-04",
+        "LAW-L1::EL-015->LAW-L2::EA-04",
+        "LAW-L1::EL-025->LAW-L2::EA-04",
+        "LAW-L1::EL-025->LAW-L2::EA-10",
+        "LAW-L2::EA-04->LAW-L1::EL-015",
+        "LAW-L2::EA-04->LAW-L1::EL-025",
+        "LAW-L2::EA-10->LAW-L1::EL-025"
+      ],
+      "older_transfer_history": "Preserved exactly in A002 and its raw/ancestor closure. No inaccessible older A/B cessation inferred."
+    },
+    "A004_successor": {
+      "predecessor": {
+        "address": "a003:AUTHOR_SUBJECT.json",
+        "bytes": 13723,
+        "sha256": "3b771ab01a2be6f2a5045619282226ff957eb252dfd3571108d6933ded1a2e72",
+        "physical": {
+          "layer": "a003",
+          "member": "AUTHOR_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "adverse_review": {
+        "address": "a003fidelity:REVIEW_SUBJECT.json",
+        "bytes": 4933,
+        "sha256": "95ae4173880de2e4dd383ae8f0a079221a2f82f49627fc9f8ec52e4a9a096bf8",
+        "physical": {
+          "layer": "a003fidelity",
+          "member": "REVIEW_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "response": "A004_SCIENTIFIC_RESPONSE.json",
+      "current_projection": {
+        "address": "a004:WHOLE_PAIR_ACCOUNTING.json",
+        "bytes": 1055321,
+        "sha256": "7e1150d324057206aee73bdb4d0e3780548e32610182e6f2449ce6fa70c8c123",
+        "physical": {
+          "layer": "a004",
+          "member": "WHOLE_PAIR_ACCOUNTING.json"
+        },
+        "json_pointer": ""
+      },
+      "reason_codes": [
+        "SCIENTIFIC_ERROR",
+        "ANALYTICAL_REDECOMPOSITION",
+        "DOCUMENTATION_REPAIR"
+      ],
+      "current_changes": [
+        "LAW-L1::EL-011->LAW-L2::EA-04",
+        "LAW-L1::EL-012->LAW-L2::EA-04",
+        "LAW-L1::EL-017->LAW-L2::EA-04",
+        "LAW-L1::EL-021->LAW-L2::EA-04",
+        "LAW-L1::EL-022->LAW-L2::EA-04",
+        "LAW-L1::EL-023->LAW-L2::EA-04",
+        "LAW-L1::EL-027->LAW-L2::EA-04",
+        "LAW-L3::EW-P001->LAW-L2::EA-04",
+        "LAW-L3::EW-P002->LAW-L2::EA-04",
+        "LAW-L3::EW-P005->LAW-L2::EA-04",
+        "LAW-L3::EW-P006->LAW-L2::EA-04",
+        "LAW-L3::EW-P008->LAW-L2::EA-04",
+        "LAW-L3::EW-P017->LAW-L2::EA-04",
+        "LAW-L3::EW-P020->LAW-L2::EA-04",
+        "LAW-L3::EW-P029->LAW-L2::EA-04",
+        "LAW-L3::EW-P032->LAW-L2::EA-04",
+        "LAW-L2::EA-04->LAW-L1::EL-013",
+        "LAW-L2::EA-04->LAW-L1::EL-017",
+        "LAW-L2::EA-04->LAW-L1::EL-019",
+        "LAW-L2::EA-04->LAW-L1::EL-020",
+        "LAW-L2::EA-04->LAW-L1::EL-021",
+        "LAW-L2::EA-04->LAW-L1::EL-022",
+        "LAW-L2::EA-04->LAW-L1::EL-023",
+        "LAW-L2::EA-04->LAW-L1::EL-027",
+        "LAW-L2::EA-04->LAW-L1::EL-031",
+        "LAW-L2::EA-04->LAW-L3::EW-P001",
+        "LAW-L2::EA-04->LAW-L3::EW-P002",
+        "LAW-L2::EA-04->LAW-L3::EW-P005",
+        "LAW-L2::EA-04->LAW-L3::EW-P006",
+        "LAW-L2::EA-04->LAW-L3::EW-P007",
+        "LAW-L2::EA-04->LAW-L3::EW-P009",
+        "LAW-L2::EA-04->LAW-L3::EW-P010",
+        "LAW-L2::EA-04->LAW-L3::EW-P011",
+        "LAW-L2::EA-04->LAW-L3::EW-P012",
+        "LAW-L2::EA-04->LAW-L3::EW-P013",
+        "LAW-L2::EA-04->LAW-L3::EW-P014",
+        "LAW-L2::EA-04->LAW-L3::EW-P015",
+        "LAW-L2::EA-04->LAW-L3::EW-P016",
+        "LAW-L2::EA-04->LAW-L3::EW-P017",
+        "LAW-L2::EA-04->LAW-L3::EW-P018",
+        "LAW-L2::EA-04->LAW-L3::EW-P019",
+        "LAW-L2::EA-04->LAW-L3::EW-P020",
+        "LAW-L2::EA-04->LAW-L3::EW-P023",
+        "LAW-L2::EA-04->LAW-L3::EW-P026",
+        "LAW-L2::EA-04->LAW-L3::EW-P027",
+        "LAW-L2::EA-04->LAW-L3::EW-P029",
+        "LAW-L2::EA-04->LAW-L3::EW-P031",
+        "LAW-L2::EA-04->LAW-L3::EW-P032",
+        "LAW-L2::EA-12->LAW-L1::EL-005",
+        "LAW-L2::EA-14->LAW-L1::EL-005",
+        "LAW-L2::EA-16->LAW-L1::EL-005",
+        "LAW-L2::EA-22->LAW-L1::EL-005",
+        "LAW-L3::EW-P001->LAW-L1::EL-005",
+        "LAW-L3::EW-P002->LAW-L1::EL-005",
+        "LAW-L3::EW-P010->LAW-L1::EL-005",
+        "LAW-L3::EW-P014->LAW-L1::EL-005",
+        "LAW-L3::EW-P015->LAW-L1::EL-005",
+        "LAW-L3::EW-P018->LAW-L1::EL-005",
+        "LAW-L3::EW-P019->LAW-L1::EL-005",
+        "LAW-L3::EW-P032->LAW-L1::EL-005",
+        "LAW-L1::EL-005->LAW-L2::EA-12",
+        "LAW-L1::EL-005->LAW-L2::EA-16",
+        "LAW-L1::EL-005->LAW-L2::EA-23",
+        "LAW-L1::EL-005->LAW-L3::EW-P001",
+        "LAW-L1::EL-005->LAW-L3::EW-P002",
+        "LAW-L1::EL-005->LAW-L3::EW-P010",
+        "LAW-L1::EL-005->LAW-L3::EW-P012",
+        "LAW-L1::EL-005->LAW-L3::EW-P013",
+        "LAW-L1::EL-005->LAW-L3::EW-P014",
+        "LAW-L1::EL-005->LAW-L3::EW-P015",
+        "LAW-L1::EL-005->LAW-L3::EW-P016",
+        "LAW-L1::EL-005->LAW-L3::EW-P018",
+        "LAW-L1::EL-005->LAW-L3::EW-P019",
+        "LAW-L1::EL-005->LAW-L3::EW-P032",
+        "LAW-L1::EL-039->LAW-L2::EA-04",
+        "LAW-L2::EA-04->LAW-L1::EL-039",
+        "LAW-L1::EL-004->LAW-L3::EW-P032",
+        "LAW-L3::EW-P032->LAW-L1::EL-004",
+        "LAW-L1::EL-004->LAW-L2::EA-11",
+        "LAW-L2::EA-11->LAW-L1::EL-004",
+        "LAW-L1::EL-004->LAW-L2::EA-15",
+        "LAW-L2::EA-15->LAW-L1::EL-004",
+        "LAW-L1::EL-036->LAW-L3::EW-P032",
+        "LAW-L3::EW-P032->LAW-L1::EL-036"
+      ],
+      "all_original_unknown_arguments_preserved": 476,
+      "original_unknown_current_outcomes_retained": 472,
+      "historical_outcome": null,
+      "historical_increment": 0,
+      "current_scope_reconciliation": {
+        "address": "a004:history/CURRENT_OWNER_SCOPE_RECONCILIATION_001.json",
+        "bytes": 6063,
+        "sha256": "b6b6e5dc5cb0c056e6f05f786d28a0eab783ca038850d4452513abebaa80f7ef",
+        "physical": {
+          "layer": "a004",
+          "member": "history/CURRENT_OWNER_SCOPE_RECONCILIATION_001.json"
+        },
+        "json_pointer": ""
+      },
+      "current_commission_interpretation": "The current owner commissions completion and genuine current-successor qualification under the original standard. That scope is distinct from blocked missing-original authentication/comparison/requalification. Root alone determines qualification after both independent reviews of the same frozen final subject.",
+      "no_historical_contract_rewrite": true,
+      "no_earlier_acceptance_transfer": true
+    },
+    "A005_successor": {
+      "parent_author": {
+        "address": "a004:AUTHOR_SUBJECT.json",
+        "bytes": 16118,
+        "sha256": "60d0e94450b83f50cf5e1e7676c18aecd508c612e8e8a2b33135d73554cd3fd7",
+        "physical": {
+          "layer": "a004",
+          "member": "AUTHOR_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "closed_adverse_review": {
+        "address": "a004fidelity:REVIEW_SUBJECT.json",
+        "bytes": 6166,
+        "sha256": "71306087b5f26e5acbab7633229b9a37922192a2ea0bc205ee8579c645a3c2b2",
+        "physical": {
+          "layer": "a004fidelity",
+          "member": "REVIEW_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "current_scope_reconciliation": {
+        "address": "a005:history/CURRENT_OWNER_SCOPE_RECONCILIATION_001.json",
+        "bytes": 6063,
+        "sha256": "b6b6e5dc5cb0c056e6f05f786d28a0eab783ca038850d4452513abebaa80f7ef",
+        "physical": {
+          "layer": "a005",
+          "member": "history/CURRENT_OWNER_SCOPE_RECONCILIATION_001.json"
+        },
+        "json_pointer": ""
+      },
+      "new_current_changes": 90,
+      "historical_reentries": 8,
+      "original_unknown_bodies_preserved": 476,
+      "current_original_unknowns": 464,
+      "reason_codes": [
+        "SCIENTIFIC_ERROR",
+        "ANALYTICAL_REDECOMPOSITION",
+        "DOCUMENTATION_REPAIR"
+      ],
+      "historical_original_state": "BLOCKED_INPUT",
+      "historical_outcome": null,
+      "historical_increment": 0,
+      "current_successor_state": "COMPLETE_EXPOSED_AUTHOR_SUBJECT_INDEPENDENT_REVIEWS_PENDING",
+      "current_increment_authority": "ROOT_ONLY_AFTER_REAL_REQUIRED_REVIEWS; AUTHOR_CLAIMS_NONE"
+    },
+    "A006_successor": {
+      "predecessor": {
+        "address": "a005:AUTHOR_SUBJECT.json",
+        "bytes": 16937,
+        "sha256": "5155c306e2c8020fc7be2fd5c1ca13413aee4a0c1d00094feeb14d1edfa8d7a1",
+        "physical": {
+          "layer": "a005",
+          "member": "AUTHOR_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "adverse_review": {
+        "address": "a005fidelity:REVIEW_SUBJECT.json",
+        "bytes": 12319,
+        "sha256": "9610d9a5bbae3f2c404a3cc0aaee10bec4f4780dec17c3e987b883839b2b23d3",
+        "physical": {
+          "layer": "a005fidelity",
+          "member": "REVIEW_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "response": "A006_SCIENTIFIC_RESPONSE.json",
+      "current_projection": {
+        "address": "a006:WHOLE_PAIR_ACCOUNTING.json",
+        "bytes": 1052166,
+        "sha256": "6cd26bbe21ab724c93d08457fb06c57e826b19a5f4d36892f18aac9af9952eba",
+        "physical": {
+          "layer": "a006",
+          "member": "WHOLE_PAIR_ACCOUNTING.json"
+        },
+        "json_pointer": ""
+      },
+      "changed_direction_count": 46,
+      "reasons": [
+        "SCIENTIFIC_ERROR",
+        "ANALYTICAL_REDECOMPOSITION",
+        "DOCUMENTATION_REPAIR"
+      ],
+      "historical_original_contract_failure": false,
+      "recovery_record": "work/ENVIRONMENT_LOSS_RECOVERY_001.json",
+      "meaning": "Native validation/check/default and actual error-context/upkeep functions supply partial receiving premises; adequate substitutes do not erase that function. All prior valid science and actual old bodies remain."
+    },
+    "A007_successor": {
+      "predecessor": {
+        "address": "a006:AUTHOR_SUBJECT.json",
+        "bytes": 17802,
+        "sha256": "8c9659162e424a15ffaed9c6f4efd65164404a1f774762393435099cb8ada553",
+        "physical": {
+          "layer": "a006",
+          "member": "AUTHOR_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "first_fidelity": {
+        "address": "a006fidelity:REVIEW_SUBJECT.json",
+        "bytes": 7815,
+        "sha256": "1c7014afa177617c83eb9ad998fcacfd079d94710ae0b9af32884b817b9d2c4f",
+        "physical": {
+          "layer": "a006fidelity",
+          "member": "REVIEW_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "distinct_adverse": {
+        "address": "a006adversary:REVIEW_SUBJECT.json",
+        "bytes": 10717,
+        "sha256": "21a40f540b780be0c084ee740f3d501fa8fa55ebd624ffe9e8718b2184872cbc",
+        "physical": {
+          "layer": "a006adversary",
+          "member": "REVIEW_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "response": "A007_SCIENTIFIC_RESPONSE.json",
+      "current_projection": {
+        "address": "a007:WHOLE_PAIR_ACCOUNTING.json",
+        "bytes": 1047795,
+        "sha256": "4e2806dabc7446d753168f90387f8f02d26abf5d643fee736b2856c8eea2b0db",
+        "physical": {
+          "layer": "a007",
+          "member": "WHOLE_PAIR_ACCOUNTING.json"
+        },
+        "json_pointer": ""
+      },
+      "changed_direction_count": 181,
+      "frontier_changes": 167,
+      "historical_reentries": 14,
+      "reasons": [
+        "SCIENTIFIC_ERROR",
+        "ANALYTICAL_REDECOMPOSITION",
+        "DOCUMENTATION_REPAIR"
+      ],
+      "meaning": "Native observation, decision-useful evidence and diagnostic meaning supply specific bounded inputs. Preserve old bodies and original universal rejections while correcting current membership.",
+      "historical_original_contract_failure": false
+    },
+    "A008_successor": {
+      "commission": {
+        "address": "COMMISSION_RECEIVED.json",
+        "bytes": 7359,
+        "sha256": "a4ff7918c29086a7fd4c859d964d3ba3efb9691535f3a734fb4baae52492054e",
+        "physical": {
+          "path": "COMMISSION_RECEIVED.json"
+        },
+        "json_pointer": ""
+      },
+      "parent": {
+        "address": "a007:AUTHOR_SUBJECT.json",
+        "bytes": 24060,
+        "sha256": "49964330292faac5d6e10a83190a9c19c52d9f7fc517e222aef9162507a2a8cb",
+        "physical": {
+          "layer": "a007",
+          "member": "AUTHOR_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "actual_adverse_review": {
+        "address": "a007fidelity:REVIEW_SUBJECT.json",
+        "bytes": 13284,
+        "sha256": "22c66518f384c27d21d952bb868e1e0e46fd157bbe1a578de1b1070ed553690f",
+        "physical": {
+          "layer": "a007fidelity",
+          "member": "REVIEW_SUBJECT.json"
+        },
+        "json_pointer": ""
+      },
+      "actual_final_verdict": {
+        "address": "a007fidelity:delivery/FINAL_VERDICT.json",
+        "bytes": 5854,
+        "sha256": "1339563dcc6e4a7c7ac74e1640aa02cf79fa7207eecd1ecb1fbbb110fe911554",
+        "physical": {
+          "layer": "a007fidelity",
+          "member": "delivery/FINAL_VERDICT.json"
+        },
+        "json_pointer": ""
+      },
+      "change": "90nativepartialauthority/evidence/constraint/capability corrections,4retainedanchorU174priorMpreserved,whole7configuration5candidate reconsideration.11newexplicitcandidate3uses; noirreducibleidentity.",
+      "historical_body": "NOT_LOCATED",
+      "historical_executed_contract": "NOT_LOCATED",
+      "historical_outcome": null,
+      "historical_increment": 0,
+      "current_owner_scope": "New contemporaneous successor research and later root-owned neutral qualification after genuine sequential reviews. No missing historical authentication fabricated."
+    }
+  }
+}

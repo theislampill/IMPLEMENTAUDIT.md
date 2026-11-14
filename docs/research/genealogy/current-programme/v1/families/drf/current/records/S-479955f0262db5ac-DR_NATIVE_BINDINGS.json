@@ -1,0 +1,2630 @@
+{
+  "source_identity": {
+    "source_id": "S-479955f0262db5ac",
+    "scientific_name": "DR_NATIVE_BINDINGS.json",
+    "original_bytes": 148701,
+    "original_sha256": "479955f0262db5ac2a51463ef6aa94eb3be9b884631dd9dab50c332b12416959"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-native-semantic-aliases/1",
+    "properties": {
+      "D01": {
+        "id": "D01",
+        "lineage": "D",
+        "native_id": "P01",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/0",
+        "current_pointer": "/QUALIFICATIONS/0",
+        "current_object_sha256": "a61034e0a67d3d356cf48c2734cf197c9f2d9934ca6dc01807db1546b9f2bcda",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/0/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Apply a particular distributed guarantee at its declared model and deployment boundary.",
+          "premises": "Fault, process, network, storage, timing, membership and recovery semantics; implementation correspondence.",
+          "boundary": "A pure conditional protocol theorem needs no operating deployment or estimated failure probability."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D02": {
+        "id": "D02",
+        "lineage": "D",
+        "native_id": "P02",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/1",
+        "current_pointer": "/QUALIFICATIONS/1",
+        "current_object_sha256": "1749cbb5d8015f551d1a82614402b582411af42af497047b592b4fe5bbb0a9cb",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/1/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret whether an attempted remote effect occurred after an absent response, or choose a sufficient current recovery action.",
+          "premises": "Observation projection, positive response contract, effect boundary, required historical versus current predicate.",
+          "boundary": "A repaired objective does not identify the historical event; an enclosed authoritative response may settle its own predicate."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D03": {
+        "id": "D03",
+        "lineage": "D",
+        "native_id": "P03",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/2",
+        "current_pointer": "/QUALIFICATIONS/2",
+        "current_object_sha256": "f2f328c6106ec9ff81a2b923dabf4d704187a13ff488097ca0cc60e8d5446221",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/2/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Judge whether the protocol and its recovery paths tolerate the actual shared failure exposure.",
+          "premises": "Failure sets, effective replica identities, common causes, joint exposure and surviving observation/control/repair paths.",
+          "boundary": "Cardinality tolerance does not estimate a joint law; dependence does not eliminate every possible redundancy benefit."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D04": {
+        "id": "D04",
+        "lineage": "D",
+        "native_id": "P04",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/3",
+        "current_pointer": "/QUALIFICATIONS/3",
+        "current_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/3/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use the correct order or time relation for a state or history inference.",
+          "premises": "Causal precedence, imposed order, real elapsed time, commit and observation semantics, clock bounds.",
+          "boundary": "An imposed timestamp order does not itself establish causality, duration, completeness or present state."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D05": {
+        "id": "D05",
+        "lineage": "D",
+        "native_id": "P05",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/4",
+        "current_pointer": "/QUALIFICATIONS/4",
+        "current_object_sha256": "b994147c1a240eb101faf10bed00ebd13058e942cfbac745e83b84a5b7ae6784",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/4/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Establish nonoverlapping effective access under the particular clock/lease or generation protocol.",
+          "premises": "Drift, pause and delay bounds; persistent write-through behavior; holder approval/expiry; resource token installation.",
+          "boundary": "A cache waiting protocol and an arbitrarily paused external writer are different cases; generation fencing is not mandatory everywhere."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D06": {
+        "id": "D06",
+        "lineage": "D",
+        "native_id": "P06",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/5",
+        "current_pointer": "/QUALIFICATIONS/5",
+        "current_object_sha256": "44b1bd9790135be10e9a01fb2e8bd24f6412c080f7272c6c5919722f0c295de4",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/5/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Decide which read or session observation is acceptable to this consumer.",
+          "premises": "Session history, allowed later overwrites, replica routing, staleness contract and available authoritative observations.",
+          "boundary": "A healthy replica or timestamp is not a freshness theorem; deliberately stale service can be adequate."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D07": {
+        "id": "D07",
+        "lineage": "D",
+        "native_id": "P07",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/6",
+        "current_pointer": "/QUALIFICATIONS/6",
+        "current_object_sha256": "5d7f6cd2af22fe7a2ba1eb98dd78e87038c6a326a93f4a7fac9d4a4fd808d3dd",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/6/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Match an operation or transaction consistency contract to the actual application invariant.",
+          "premises": "Allowed histories/anomalies, single versus multiple object boundaries, checker visibility and required real-time order.",
+          "boundary": "One finite passing history is not all executions; serializability, linearizability and isolation are distinct."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D08": {
+        "id": "D08",
+        "lineage": "D",
+        "native_id": "P08",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/7",
+        "current_pointer": "/QUALIFICATIONS/7",
+        "current_object_sha256": "16f1085722e6c646d032711801e9ecb7a238c3c8d50ff70bf52f6af76d78b1b4",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/7/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Decide whether admitted merges preserve the required application state as well as convergence.",
+          "premises": "Initial/reachable states, updates, conflict rule, delivery assumptions, retained tombstones/dependencies and invariant.",
+          "boundary": "A convergence proof remains useful when a stronger business invariant fails; algebraic labels are not interchangeable."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D09": {
+        "id": "D09",
+        "lineage": "D",
+        "native_id": "P09",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/8",
+        "current_pointer": "/QUALIFICATIONS/8",
+        "current_object_sha256": "1177ec9fed3b7cefd8f9db2b2175d1f7e6d3cd372c3c262dc054adee21a88770",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/8/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Select a safe repair source and transfer path without destroying useful service.",
+          "premises": "Semantic authority/currentness of source state, corruption model, contact assumptions and usable catch-up capacity.",
+          "boundary": "Equality and checksums do not identify correct state; convergence supplies no universal repair deadline."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D10": {
+        "id": "D10",
+        "lineage": "D",
+        "native_id": "P10",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/9",
+        "current_pointer": "/QUALIFICATIONS/9",
+        "current_object_sha256": "d5db1dda6d81cbfd03528814bad3ccce60743586bb5fdf777f7acdcbe5a7aa4b",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/9/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Establish the protocol-specific intersection and retained-state obligations for decisions.",
+          "premises": "Configuration identity, weighted or phase-specific quorum families, state-selection rules and preserved history.",
+          "boundary": "A majority of an inappropriate configuration or intersection alone is not a consensus/freshness proof."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D11": {
+        "id": "D11",
+        "lineage": "D",
+        "native_id": "P11",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/10",
+        "current_pointer": "/QUALIFICATIONS/10",
+        "current_object_sha256": "fcae2bb307143f13aa0115ef9daed720593aff807738534f7fc6c5e1983c9cda",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/10/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Separate agreement safety, eventual decision and application validity under the selected consensus model.",
+          "premises": "Admitted crashes, deterministic/randomized process model, delivery/scheduler assumptions and value validity.",
+          "boundary": "A long finite wait is not an FLP infinite execution; losing progress does not erase a valid safety theorem."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D12": {
+        "id": "D12",
+        "lineage": "D",
+        "native_id": "P12",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/11",
+        "current_pointer": "/QUALIFICATIONS/11",
+        "current_object_sha256": "d85e5cd8c157f96587e253ae6c704e07afffe1a0010f8848a99aa2d5dd400ecf",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/11/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Preserve authorized compatible state across membership changes.",
+          "premises": "Old/new decision sets, configuration transfer, accepted history, recovery behavior and failed-transition stopping.",
+          "boundary": "Reachability is not authority; fixed membership or offline replacement can remove this transition."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D13": {
+        "id": "D13",
+        "lineage": "D",
+        "native_id": "P13",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/12",
+        "current_pointer": "/QUALIFICATIONS/12",
+        "current_object_sha256": "953999320bf81ce68e89268759aef0ec1464ef2220979d355e153040bd937855",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/12/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Prevent or make harmless a delayed former actor at the protected mutation boundary.",
+          "premises": "Actual sink acceptance, effective generation ordering, overlap semantics and remaining duplicate effects.",
+          "boundary": "Lock grant/expiry does not physically stop an actor; harmless overlap and local serialization are valid alternatives."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D14": {
+        "id": "D14",
+        "lineage": "D",
+        "native_id": "P14",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/13",
+        "current_pointer": "/QUALIFICATIONS/13",
+        "current_object_sha256": "1e8a00940edfba806cfeb28441e6f6912ceff11ee44508ce0343e7cc6ba9e745",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/13/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose whether a local writer/transaction already encloses the required invariant adequately.",
+          "premises": "Invariant boundary, capacity, downtime tolerance, remote failover authority and concrete benefit of distribution.",
+          "boundary": "A local design is not universally optimal; a remote failover path still requires a distributed argument."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D15": {
+        "id": "D15",
+        "lineage": "D",
+        "native_id": "P15",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/14",
+        "current_pointer": "/QUALIFICATIONS/14",
+        "current_object_sha256": "c7a789605bc6914d77ad45733fd9e262c026acfae6e4380848eb53917d79e15f",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/14/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Prevent jointly invalid states from independently admitted operations.",
+          "premises": "Reachable invariant-valid states, admitted transactions, merge semantics, conflict closure and consumer authority to weaken requirements.",
+          "boundary": "Nonconfluence does not uniquely select global consensus; compensation does not forbid atomic commit."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D16": {
+        "id": "D16",
+        "lineage": "D",
+        "native_id": "P16",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/15",
+        "current_pointer": "/QUALIFICATIONS/15",
+        "current_object_sha256": "c50a0ec1a7b9ea2c419a6f0eaeafe79d306cc8c552130659cb5013dd416069ea",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/15/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use a valid coordination-avoidance result for its actual operation and output domain.",
+          "premises": "CALM confluence, invariant-confluence or SEC premises; delivery, merge, ownership and reclamation semantics.",
+          "boundary": "Communication and particular closure decisions may remain; convergence does not compose into every application guarantee."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D17": {
+        "id": "D17",
+        "lineage": "D",
+        "native_id": "P17",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/16",
+        "current_pointer": "/QUALIFICATIONS/16",
+        "current_object_sha256": "ef95a8f0d71b9f632d4e0372c26d9b218073cf4d41ca03d626e397266f56f1bb",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/16/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Credit delivery, processing or effects at the boundary actually enclosed by a runtime contract.",
+          "premises": "Primitives, redelivery, state/effect participation, crash/recovery model and consumer history requirement.",
+          "boundary": "A useful internal exactly-once result neither closes excluded effects nor needs a duplicate independent closure for included ones."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D18": {
+        "id": "D18",
+        "lineage": "D",
+        "native_id": "P18",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/17",
+        "current_pointer": "/QUALIFICATIONS/17",
+        "current_object_sha256": "310053dfd384b870975f19ce4047f94b573fa8bf915389aabd2160bbe8333b7a",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/17/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Recognize the same intended operation at the endpoint that performs its effect.",
+          "premises": "Business versus attempt/message identity, parameters/tenant, durable enforcement, retention and restoration.",
+          "boundary": "Equal arguments can be distinct purchases; a correlation ID has no effect-suppression semantics by itself."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D19": {
+        "id": "D19",
+        "lineage": "D",
+        "native_id": "P19",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/18",
+        "current_pointer": "/QUALIFICATIONS/18",
+        "current_object_sha256": "69b4f40496987df2930d9357d709c4be0a63554b6a460bfb87fb90ea737213c9",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/18/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Establish duplicate safety across admitted effect/interleaving and restart histories.",
+          "premises": "Operation identity and objective; atomic effect/result boundary; journal behavior; concurrent superseding intents.",
+          "boundary": "Self-idempotence does not protect a later distinct update, and recognizing a completed operation does not order its first late arrival."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D20": {
+        "id": "D20",
+        "lineage": "D",
+        "native_id": "P20",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/19",
+        "current_pointer": "/QUALIFICATIONS/19",
+        "current_object_sha256": "b22560e6ccf9206f22d0d1fa78ef41d2845cc4665de92261fc5d2da2f4a3c3fb",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/19/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Dispose of old operations safely when distinguishing evidence has finite retention.",
+          "premises": "Allowed retry/delivery/replay/restore/rejoin horizon, retained identity state and accepted rejection/completion policy.",
+          "boundary": "A timeout does not prove messages vanished; infinite retention is unnecessary for a bounded accepted contract."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D21": {
+        "id": "D21",
+        "lineage": "D",
+        "native_id": "P21",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/20",
+        "current_pointer": "/QUALIFICATIONS/20",
+        "current_object_sha256": "a7a93b11ded474c2174379cab5d0dc64581264a3af0c4e370c509367e5c77929",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/20/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret exactly what a response establishes for the requested consumer postcondition.",
+          "premises": "Identity of operation, response contract, durability/effect boundary and failure envelope.",
+          "boundary": "Queue acceptance need not be recipient action; an adequate enclosed return needs no universal second observer."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D22": {
+        "id": "D22",
+        "lineage": "D",
+        "native_id": "P22",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/21",
+        "current_pointer": "/QUALIFICATIONS/21",
+        "current_object_sha256": "eeca5d1cb5065d6964daffdeecb1eecca49839c28c536f825013ae04f5fb9265",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/21/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Close the state/message gap at a genuine atomic handoff boundary.",
+          "premises": "Transaction participants, durable record and recovery behavior, external sink participation and post-boundary duplication.",
+          "boundary": "An outbox name proves neither semantic validity nor arbitrary external exactly-once effects."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D23": {
+        "id": "D23",
+        "lineage": "D",
+        "native_id": "P23",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/22",
+        "current_pointer": "/QUALIFICATIONS/22",
+        "current_object_sha256": "6a17ae2e8cba03411a2ac4ccc256ce3ce7c1e9dc7e2e423e7d6d1fd2ca9d4441",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/22/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose atomic commitment, compensation or another adequate recovery architecture.",
+          "premises": "Required invariant before observation, participating state, recovery/network assumptions, residuals and total lifecycle cost.",
+          "boundary": "A compensator does not establish saga adequacy or cheapness; nonblocking results retain their actual failure-detector/network assumptions."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D24": {
+        "id": "D24",
+        "lineage": "D",
+        "native_id": "P24",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/23",
+        "current_pointer": "/QUALIFICATIONS/23",
+        "current_object_sha256": "ae4317124fc30680e010b68a46ed8484963f9f2f8d3396f54b1bd63a5b9187f0",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/23/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Determine what a compensating action restores and what remains after it.",
+          "premises": "Compensator preconditions, failure behavior, observation/interleaving, irreversible consequences and declared objective.",
+          "boundary": "Compensation need not be an inverse; a refund or internal replay theorem need not undo the whole history."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D25": {
+        "id": "D25",
+        "lineage": "D",
+        "native_id": "P25",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/24",
+        "current_pointer": "/QUALIFICATIONS/24",
+        "current_object_sha256": "d7e9207213e88814a01f857e85ce1a902196e71cfe2420b798c7215696bc55b8",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/24/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Recover the orchestration state that a durable-workflow result actually covers.",
+          "premises": "Storage primitives, deterministic orchestration, worker behavior, retained history and excluded external effects.",
+          "boundary": "Internal observational uniqueness is useful but does not establish external validity, uniqueness or present state."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D26": {
+        "id": "D26",
+        "lineage": "D",
+        "native_id": "P26",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/25",
+        "current_pointer": "/QUALIFICATIONS/25",
+        "current_object_sha256": "1dd503ee78de60bc0e5e88b0c002a75aadfd262ae1d7823576fb439a7a95db46",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/25/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Make redispatch safe or acceptably harmful while an earlier attempt can resume.",
+          "premises": "Old and new effect reachability, worker cancellation participation, operation consequence and integrated exclusion/duplication contract.",
+          "boundary": "Lease expiry does not stop the old worker; compensation is not a universal duplicate-safety argument."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D27": {
+        "id": "D27",
+        "lineage": "D",
+        "native_id": "P27",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/26",
+        "current_pointer": "/QUALIFICATIONS/26",
+        "current_object_sha256": "347855de54d98f307db561e6cd3c1032a34473a71caec165997218dd1fb83e70",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/26/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Decide whether available evidence closes the actual consumer objective.",
+          "premises": "Required postcondition, observation boundary, partial/unknown state and sufficient current evidence.",
+          "boundary": "A complete internal result may be incomplete for a different consumer; omniscience is not required."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D28": {
+        "id": "D28",
+        "lineage": "D",
+        "native_id": "P28",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/27",
+        "current_pointer": "/QUALIFICATIONS/27",
+        "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/27/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Keep every live history executable or validly migratable during version coexistence and retirement.",
+          "premises": "History-worker eligibility, routing/pinning, worker lifetime, schemas/dependencies and migration validity.",
+          "boundary": "Every build need not replay every history; old determinism does not prove new-code compatibility."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D29": {
+        "id": "D29",
+        "lineage": "D",
+        "native_id": "P29",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/28",
+        "current_pointer": "/QUALIFICATIONS/28",
+        "current_object_sha256": "b441a83174fb05e8a5ee201feb33e5c0f9510657af5171c2d263a5e9fc4a78e0",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/28/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Admit, retain, reject or age work according to useful service and finite capacity.",
+          "premises": "Arrival/service behavior over the relevant interval, queue bound, work age, overflow and consumer consequences.",
+          "boundary": "Bounded occupancy is not drainage; not every item needs a calibrated deadline probability."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D30": {
+        "id": "D30",
+        "lineage": "D",
+        "native_id": "P30",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/29",
+        "current_pointer": "/QUALIFICATIONS/29",
+        "current_object_sha256": "6d2eb38f5dedc4e468e11082df3a61a7b640f4bc790cf6ae28dff73a8ae4d6a1",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/29/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Prevent overload control from relocating demand into hidden queues or retry paths.",
+          "premises": "Actual demand topology, admission boundary, stale/lost feedback, producer cooperation and accepted rejection.",
+          "boundary": "A signal need not reach every origin; an adequate local drop can retain upstream wasted-work cost."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D31": {
+        "id": "D31",
+        "lineage": "D",
+        "native_id": "P31",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/30",
+        "current_pointer": "/QUALIFICATIONS/30",
+        "current_object_sha256": "683d45369b8709e1112d04c92a321d4a057cf36e1be15834c1401eb2916bbb86",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/30/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Protect selected useful work when available capacity cannot serve all demand.",
+          "premises": "Critical service set, eligible population, resource assumptions, degraded/rejected consequence and accountable priority choice.",
+          "boundary": "Admission creates no capacity and technical policy does not choose business values by itself."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D32": {
+        "id": "D32",
+        "lineage": "D",
+        "native_id": "P32",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/31",
+        "current_pointer": "/QUALIFICATIONS/31",
+        "current_object_sha256": "740ed6c38e9cd2fb59ffe091003e1dc290da3026428ea78533e4163ee0121780",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/31/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose retries that remain useful without multiplying harmful effects or load.",
+          "premises": "Failure/response ambiguity, operation duplicate safety, call structure, nested attempt bounds and usable capacity.",
+          "boundary": "A single shared budget representation is not mandatory; safe reads need no business journal."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D33": {
+        "id": "D33",
+        "lineage": "D",
+        "native_id": "P33",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/32",
+        "current_pointer": "/QUALIFICATIONS/32",
+        "current_object_sha256": "a3afc9aa60f8e5c340b196a57fe234607a0e6d9d9f28540de4c277c5dd632276",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/32/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Identify and break feedback that prevents recovery after the original trigger ends.",
+          "premises": "Effective capacity, retries/cache misses/repair burden, retained state and feedback response to intervention.",
+          "boundary": "A transient latency spike is not necessarily metastability; no single knob guarantees escape."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D34": {
+        "id": "D34",
+        "lineage": "D",
+        "native_id": "P34",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/33",
+        "current_pointer": "/QUALIFICATIONS/33",
+        "current_object_sha256": "efa67d0542abe88985b9e716ef0dd8204481fd2eb78210fe71582f7c0b12b45a",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/33/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Isolate the resource/failure coupling that threatens a protected service.",
+          "premises": "Actual bottleneck, shared fallback/control paths, degraded function, recovery load and stranded spare capacity.",
+          "boundary": "Distinct process names are not isolation; excluded dependencies may fail without invalidating a valid degraded function."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D35": {
+        "id": "D35",
+        "lineage": "D",
+        "native_id": "P35",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/34",
+        "current_pointer": "/QUALIFICATIONS/34",
+        "current_object_sha256": "8a5c939b3c85ff69935255dce539be74ac98fb6343cff299e6fd85cc8609b6bc",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/34/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Construct a causally consistent recovery cut under the communication model.",
+          "premises": "Send/receive dependencies, channel/topology assumptions, recorded in-flight state and recovery sufficiency.",
+          "boundary": "Cut states need not have coexisted in actual order; internal consistency does not include unmodeled external effects."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D36": {
+        "id": "D36",
+        "lineage": "D",
+        "native_id": "P36",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/35",
+        "current_pointer": "/QUALIFICATIONS/35",
+        "current_object_sha256": "92d036083c48f46b6d378b59e7eb8914f1626abe31dd16823bc3f6e0b4567732",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/35/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Credit restored enclosed state while preserving distinct unresolved external effects.",
+          "premises": "Input logs, code, storage and identity survival, output commit and actual required recovery boundary.",
+          "boundary": "Valid internal restoration is neither invalidated by excluded effects nor proof of their restoration."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D37": {
+        "id": "D37",
+        "lineage": "D",
+        "native_id": "P37",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/36",
+        "current_pointer": "/QUALIFICATIONS/36",
+        "current_object_sha256": "2557e498670d200c6bed857cb801eb5d8642ae2cd166689e426e1f4461a264ac",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/36/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Handoff mutation without incompatible old/new state or authority.",
+          "premises": "Configuration/history correspondence, effective exclusion or bounded-time alternative, sink behavior and retained state.",
+          "boundary": "Election/reachability alone is insufficient; lost volatile majority can remove progress rather than recover state."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D38": {
+        "id": "D38",
+        "lineage": "D",
+        "native_id": "P38",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/37",
+        "current_pointer": "/QUALIFICATIONS/37",
+        "current_object_sha256": "687b598503f3565f89e4c2f2e53af3341dad28e50e10bbf91756dd409fe3b0cf",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/37/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Judge whether the required state can be restored from the selected backup scenario.",
+          "premises": "Artifact/tool/permission/environment/workload correspondence, loss/time objective, actually observed recovery steps and residuals.",
+          "boundary": "Backup success is not restore evidence; a scenario rehearsal is not a universal recovery theorem."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D39": {
+        "id": "D39",
+        "lineage": "D",
+        "native_id": "P39",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/38",
+        "current_pointer": "/QUALIFICATIONS/38",
+        "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/38/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Preserve semantics for the old/new interactions actually admitted during evolution.",
+          "premises": "Wire/state interpretation, producer-consumer and history-worker compatibility, rollback data and cutover routing.",
+          "boundary": "Parsing success is not semantic compatibility; disallowed build/history pairs need no interoperability proof."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D40": {
+        "id": "D40",
+        "lineage": "D",
+        "native_id": "P40",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/39",
+        "current_pointer": "/QUALIFICATIONS/39",
+        "current_object_sha256": "41491065d969cbac234df35e004796296bf4868d51f562b9a0a8ef1197e59ddc",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/39/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret configuration-change completion for the intended population and mixed states.",
+          "premises": "Accepted intent versus propagation, value validity, staged population, versions and service consequences.",
+          "boundary": "A globally equal bad value is still bad; every change need not synchronously reach every node."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D41": {
+        "id": "D41",
+        "lineage": "D",
+        "native_id": "P41",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/40",
+        "current_pointer": "/QUALIFICATIONS/40",
+        "current_object_sha256": "6268305c22db235a5379e139c911025675f2923972081983d3bef2ac36f09b87",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/40/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use readiness evidence for a particular capability, path and interval.",
+          "premises": "Probe coverage, observation time, routing/credentials/control dependencies and permitted degraded capability.",
+          "boundary": "Aggregate green is not every operation; no perfect topology inventory or all-dependency health is universally required."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D42": {
+        "id": "D42",
+        "lineage": "D",
+        "native_id": "P42",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/41",
+        "current_pointer": "/QUALIFICATIONS/41",
+        "current_object_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/41/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Infer an event or aggregate from partial distributed telemetry.",
+          "premises": "Sampling, selection, loss, delay, missingness, inference denominator and consequence of uncertainty.",
+          "boundary": "Missing telemetry is not failure; complete-looking records do not establish completeness, and a bounded sample can suffice."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D43": {
+        "id": "D43",
+        "lineage": "D",
+        "native_id": "P43",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/42",
+        "current_pointer": "/QUALIFICATIONS/42",
+        "current_object_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/42/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Reconstruct justified causal/order information without promoting correlation to the wrong conclusion.",
+          "premises": "Observed edges, inference assumptions, concurrency, clock semantics and missing paths.",
+          "boundary": "Happens-before is not every physical cause, authority or current truth; incomplete traces can still diagnose."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D44": {
+        "id": "D44",
+        "lineage": "D",
+        "native_id": "P44",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/43",
+        "current_pointer": "/QUALIFICATIONS/43",
+        "current_object_sha256": "4c0a287611bd99a93f17f83e700e4c6b90b96cf5ae7fb1982401cde7ab50f1f1",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/43/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Design and interpret a fault experiment that can discriminate a consequential claim.",
+          "premises": "Fault/workload model, injection reach, detecting oracle, build/population selection and recovery observations.",
+          "boundary": "A passing selected experiment is not universal resilience or comparative effectiveness; static or small local checks can suffice."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D45": {
+        "id": "D45",
+        "lineage": "D",
+        "native_id": "P45",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/44",
+        "current_pointer": "/QUALIFICATIONS/44",
+        "current_object_sha256": "a582fab2a9b876b7dba2def590073f2ddc73a834727e9cf6391851de8ceabb9e",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/44/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Compare the consumer benefit of a remote boundary with its complete obligations.",
+          "premises": "Actual deployment/organizational constraints, coordination, latency, partial failures, recovery and adequate local comparator.",
+          "boundary": "A qualitative comparison is not a universal optimum or evidence that every existing boundary is defective."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D46": {
+        "id": "D46",
+        "lineage": "D",
+        "native_id": "P46",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/45",
+        "current_pointer": "/QUALIFICATIONS/45",
+        "current_object_sha256": "1f17fddbdc3d5b7092d1d148fb9337b1fdc827c6e268b344ec1642512c815085",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/45/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Remove or retain a mechanism while preserving residual consumers and obligations.",
+          "premises": "Replay/backup/audit/old-version dependencies, surviving shared consumers, migration and removal-versus-carrying cost.",
+          "boundary": "No current foreground caller does not imply no remaining consumer; retirement need not be cheaper."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D47": {
+        "id": "D47",
+        "lineage": "D",
+        "native_id": "P47",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/46",
+        "current_pointer": "/QUALIFICATIONS/46",
+        "current_object_sha256": "54fc860a1166317378ec3116b7386f0b828403cc91c2c2765778f278064525ce",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/46/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Judge whether a service split actually changes scaling, deployment or containment.",
+          "premises": "Real resource/ownership boundaries, cross-service invariants, common control and network dependency costs.",
+          "boundary": "Microservices and monoliths are neither universal resilience winners; practitioner rationale is not causal population evidence."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D48": {
+        "id": "D48",
+        "lineage": "D",
+        "native_id": "P48",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/47",
+        "current_pointer": "/QUALIFICATIONS/47",
+        "current_object_sha256": "eddb6c8732438c182047f84599be7b6d6af545a3f9fa3a29c7068b294985519b",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/47/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use a queue for finite buffering without claiming it supplies sustained throughput.",
+          "premises": "Finite burst, remaining service capacity, accepted drain time/consequences and sustained arrival rate.",
+          "boundary": "Retaining/quarantining work is not processing it; sustained excess arrival grows backlog or loss."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D49": {
+        "id": "D49",
+        "lineage": "D",
+        "native_id": "P49",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/48",
+        "current_pointer": "/QUALIFICATIONS/48",
+        "current_object_sha256": "2029473cc55d54f519befd533cb19b5209065881f1bf3fb4f8378cd5177f845c",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/48/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Separate a valid enclosed exactly-once result from excluded business effects.",
+          "premises": "Actual primitive/failure model, replay/seek/version boundaries and business effect participation.",
+          "boundary": "The universal extension fails without making every exactly-once result impossible or useless."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D50": {
+        "id": "D50",
+        "lineage": "D",
+        "native_id": "P50",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/49",
+        "current_pointer": "/QUALIFICATIONS/49",
+        "current_object_sha256": "0455f5476c2a9001c1d6d9f2ed20e42770b6f56d0203a11aef8ae2f6d3c4cd52",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/49/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Judge stale-holder safety from the integrated lock and mutation protocol.",
+          "premises": "Expiry, pause, delay and resource acceptance/enforcement, with valid bounded-clock alternatives.",
+          "boundary": "A bare token need not protect the sink; efficiency-only approximate locks can have a legitimate weaker objective."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D51": {
+        "id": "D51",
+        "lineage": "D",
+        "native_id": "P51",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/50",
+        "current_pointer": "/QUALIFICATIONS/50",
+        "current_object_sha256": "f1302119c554710f4bc8df4332f6a1f16608765f3c55dd4ec480fbe85b46a90d",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/50/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Distinguish property evidence from a tool/ritual while preserving useful abstraction reuse.",
+          "premises": "Version, assumptions, consumer scope, evidence changed by substitution and amortized expertise/cost.",
+          "boundary": "Administrative form is not automatic ceremony; consumers need not reprove stable infrastructure on every call."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D52": {
+        "id": "D52",
+        "lineage": "D",
+        "native_id": "P52",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/51",
+        "current_pointer": "/QUALIFICATIONS/51",
+        "current_object_sha256": "5b5fb064d4b42761c316c9e7890395c68b8b0ffe9b07b7e2bfe88c0fb4e1d01a",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/51/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Apply the exact Byzantine protocol fault, identity and authentication model.",
+          "premises": "Arbitrary faults, replica identities, authentication, fault budget, timing, recovery and any explicit probability premises.",
+          "boundary": "Authentication does not forbid equivocation; agreement need not mean valid content; benchmark speed is not outage evidence."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D53": {
+        "id": "D53",
+        "lineage": "D",
+        "native_id": "P53",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/52",
+        "current_pointer": "/QUALIFICATIONS/52",
+        "current_object_sha256": "c8916a7f30547092159fcb3b08f829df14ec266aab1e27328671652f10aba2d7",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/52/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Separate agent execution-protocol guarantees from semantic task correctness.",
+          "premises": "Agent/model/tool/task identities, retries, durable/versioned context, external effects, fault triggers and oracle population.",
+          "boundary": "Seeds or reimplementations are not independent deployments; workflow closure does not solve arbitrary agent meaning."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "D54": {
+        "id": "D54",
+        "lineage": "D",
+        "native_id": "P54",
+        "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+        "native_pointer": "/PROPERTIES/53",
+        "current_pointer": "/QUALIFICATIONS/53",
+        "current_object_sha256": "555984e854dfa089ba06bf6c6be4b298a367c23cc7f876a0068623e839f98707",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/53/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose sufficient coordination or an adequate existing stronger service by total cost.",
+          "premises": "Operation/merge/output semantics, invariant preservation, shared-infrastructure amortization and consumer constraint.",
+          "boundary": "Weakest semantics and no coordination are not universal engineering objectives."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R001": {
+        "id": "R001",
+        "lineage": "R",
+        "native_id": "ERM-P001",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/0/native_record",
+        "current_pointer": "/properties/0/current_claim",
+        "current_object_sha256": "860d73d5d0c8fa4791c09d55c995cf1de48c3bfb6b683fc23c6ede274d554a5a",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/54/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Define the interpretable success/failure estimand for the required function.",
+          "premises": "Consumer, event, mission/demand interval, allowed degraded state and external function correspondence.",
+          "boundary": "A written definition does not cause reliability or supply authority to choose the threshold."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R002": {
+        "id": "R002",
+        "lineage": "R",
+        "native_id": "ERM-P002",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/1/native_record",
+        "current_pointer": "/properties/1/current_claim",
+        "current_object_sha256": "550b727547563a2f317ee179f1fcc8388d81e46d8d8636c3f07e4b1d642b6fcf",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/55/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Relate evidence and design to the actual distribution of demands and consequential scenarios.",
+          "premises": "Inputs, load/state/environment, usage weights, rare consequences, representativeness and changed profiles.",
+          "boundary": "Frequent behavior does not exhaust normative importance; a few bounding scenarios may be adequate."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R003": {
+        "id": "R003",
+        "lineage": "R",
+        "native_id": "ERM-P003",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/2/native_record",
+        "current_pointer": "/properties/2/current_claim",
+        "current_object_sha256": "b4504d7c01849fc60e4505c3e3d0d2b26c3ef6b33ac23a56425bbc0c3dafa7d9",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/56/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Represent partial, intermittent, latent and degraded functional states when they change the decision.",
+          "premises": "Required function, state partition, transition/exposure and allowed degradation.",
+          "boundary": "A binary state is valid for a genuinely binary objective; extra state detail without discrimination adds no benefit."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R004": {
+        "id": "R004",
+        "lineage": "R",
+        "native_id": "ERM-P004",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/3/native_record",
+        "current_pointer": "/properties/3/current_claim",
+        "current_object_sha256": "614e602cf3234d7cc86c3bca15155954d641534f6b04ffd0c0dfdcc74330bf1d",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/57/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Preserve local restoration or reliability credit while identifying wider unmet function.",
+          "premises": "Local postcondition, claim/consumer boundary, actual interfaces, external dependencies and attribution.",
+          "boundary": "Local success need not prove every external dependency; causal attribution is not organizational blame."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R005": {
+        "id": "R005",
+        "lineage": "R",
+        "native_id": "ERM-P005",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/4/native_record",
+        "current_pointer": "/properties/4/current_claim",
+        "current_object_sha256": "031c1c1eb0d3acc578d20a401a33dad54323006c40ddd5be99bfe080f4611c7f",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/58/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use mission reliability, availability, maintainability and restoration delay for their different estimands.",
+          "premises": "Time versus demand event, regenerative failure/repair process, delay overlap and required mission interval.",
+          "boundary": "One scalar or unqualified MTBF/MTTR formula cannot replace the underlying model; the regenerative availability ratio need not assume exponential cycles."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R006": {
+        "id": "R006",
+        "lineage": "R",
+        "native_id": "ERM-P006",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/5/native_record",
+        "current_pointer": "/properties/5/current_claim",
+        "current_object_sha256": "e958d53163a11e5e3a7dacee11af922ece1d5d743725a84c14d1c9c866a45b08",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/59/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use failure analysis to expose relevant mechanisms and consequences rather than complete a form.",
+          "premises": "Failure mode, local/system effect, dependencies, detection, action and scenario coverage.",
+          "boundary": "A table or FMEA completion label is not exhaustive discovery or corrective efficacy."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R007": {
+        "id": "R007",
+        "lineage": "R",
+        "native_id": "ERM-P007",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/6/native_record",
+        "current_pointer": "/properties/6/current_claim",
+        "current_object_sha256": "982d508a0da81d6b8037f1dafcd3a17f04765bba818496668231b4f58802163a",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/60/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Find latent and single-point vulnerabilities that defeat the required protection path.",
+          "premises": "Actual active/standby paths, dormant failures, tests/diagnosis and shared control/repair support.",
+          "boundary": "Component count and nominal redundancy do not show that a viable path survives."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R008": {
+        "id": "R008",
+        "lineage": "R",
+        "native_id": "ERM-P008",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/7/native_record",
+        "current_pointer": "/properties/7/current_claim",
+        "current_object_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/61/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Model dependence among the channels whose failure affects the function.",
+          "premises": "Joint failures, common mechanisms, conditional exposure, marginals and uncertainty.",
+          "boundary": "Marginals alone do not identify system probability; missing dependence is not proof of perfect cofailure."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R009": {
+        "id": "R009",
+        "lineage": "R",
+        "native_id": "ERM-P009",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/8/native_record",
+        "current_pointer": "/properties/8/current_claim",
+        "current_object_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/62/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Assess redundancy from conditional rescue of the function and the costs it adds.",
+          "premises": "Detection, switching, surviving capacity/state/authority, coverage, dependence and added failures.",
+          "boundary": "More copies do not establish monotonic benefit; a deterministic budget can be useful without a joint probability estimate."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R010": {
+        "id": "R010",
+        "lineage": "R",
+        "native_id": "ERM-P010",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/9/native_record",
+        "current_pointer": "/properties/9/current_claim",
+        "current_object_sha256": "a954864da9d8eef4ba557f86103fabbe9b2c90e44d2a3d0c76325a79fea45da0",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/63/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Contain a failure before it defeats the protected function.",
+          "premises": "Propagation paths, genuine resource/authority boundaries, fallback and residual degraded service.",
+          "boundary": "A software/module boundary need not isolate the actual coupling; complete dependency health is not always needed."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R011": {
+        "id": "R011",
+        "lineage": "R",
+        "native_id": "ERM-P011",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/10/native_record",
+        "current_pointer": "/properties/10/current_claim",
+        "current_object_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/64/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret detection coverage for the named fault population and observation process.",
+          "premises": "Fault labels, exercised conditions, latency, denominator, missed events and observer behavior.",
+          "boundary": "One successful detector example or aggregate green cannot prove universal coverage."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R012": {
+        "id": "R012",
+        "lineage": "R",
+        "native_id": "ERM-P012",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/11/native_record",
+        "current_pointer": "/properties/11/current_claim",
+        "current_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/65/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use symptoms to narrow causes without treating ambiguous observations as unique diagnosis.",
+          "premises": "Observation equivalence, causal alternatives, missing evidence and a discriminating follow-up action.",
+          "boundary": "A useful partial diagnosis need not find every root cause; action can be adequate before history is fully known."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R013": {
+        "id": "R013",
+        "lineage": "R",
+        "native_id": "ERM-P013",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/12/native_record",
+        "current_pointer": "/properties/12/current_claim",
+        "current_object_sha256": "6e2f6866b392ac7810543afe9e962c3e137433c350387154e32168293ed7d5b0",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/66/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose a diagnostic or alarm response by error consequences and feasible actions.",
+          "premises": "True event/observation labels, sensitivity versus predictive value, prevalence, false actions, delay, capacity and intervention effect.",
+          "boundary": "A perfect event monitor need not perfectly classify current target health; an equation needs valid inputs and grants no authority."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R014": {
+        "id": "R014",
+        "lineage": "R",
+        "native_id": "ERM-P014",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/13/native_record",
+        "current_pointer": "/properties/13/current_claim",
+        "current_object_sha256": "4e6fb7a41008bb356de97ac5a68f8add48966327a7bf53f05cbf09d294bc6839",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/67/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose an allowed degraded function rather than require full service or total shutdown.",
+          "premises": "Protected tasks, reduced capacity/quality, transition, consequence and return path.",
+          "boundary": "Degradation is acceptable only relative to the consumer requirement; a healthy excluded dependency is unnecessary."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R015": {
+        "id": "R015",
+        "lineage": "R",
+        "native_id": "ERM-P015",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/14/native_record",
+        "current_pointer": "/properties/14/current_claim",
+        "current_object_sha256": "7bc229bf7572b626a880a68bb64d0cb0b419cd0ab747f2c741e42671aeb657f8",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/68/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose safe stopping, safe operation or a fail-operational response for the actual hazard.",
+          "premises": "Required safety/function, reachable states, timing, authority, available path and consequence of stopping.",
+          "boundary": "Fail-stop is not universally safe; resilience and continued operation are not universally desirable."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R016": {
+        "id": "R016",
+        "lineage": "R",
+        "native_id": "ERM-P016",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/15/native_record",
+        "current_pointer": "/properties/15/current_claim",
+        "current_object_sha256": "14badd48115984148f53a3166e67c20067ad8cb26489a7540e241e74ebb49f01",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/69/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Establish the declared restoration postcondition at its actual function boundary.",
+          "premises": "Current state, repair/recovery action, external dependencies, usable capacity, delay and authorization.",
+          "boundary": "A valid internal reset can close an internal objective while historical effects or wider service remain unknown."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R017": {
+        "id": "R017",
+        "lineage": "R",
+        "native_id": "ERM-P017",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/16/native_record",
+        "current_pointer": "/properties/16/current_claim",
+        "current_object_sha256": "4fc18c827dfcc1b467cb6d52705614002636fd259ea1b55fc28dc6886c4ce541",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/70/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Judge actual restoration evidence rather than backup/job/rehearsal labels.",
+          "premises": "Tested artifact/configuration, scenario, observed postcondition, environment, loss/time objective and residual.",
+          "boundary": "One successful scenario is useful without being a universal recoverability proof or mandatory periodic ritual."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R018": {
+        "id": "R018",
+        "lineage": "R",
+        "native_id": "ERM-P018",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/17/native_record",
+        "current_pointer": "/properties/17/current_claim",
+        "current_object_sha256": "e43459b1f17b4a8ce11aa66a2bebaf937c296aac177201e2d06a8de5858224ff",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/71/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Identify the concrete primitives that make the proposed recovery path valid.",
+          "premises": "Durable state, restart/rollback boundaries, state source, external effects, authority and failure assumptions.",
+          "boundary": "Naming a recovery pattern or framework does not supply its premises; a simple local reset may suffice."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R019": {
+        "id": "R019",
+        "lineage": "R",
+        "native_id": "ERM-P019",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/18/native_record",
+        "current_pointer": "/properties/18/current_claim",
+        "current_object_sha256": "cdc7888c27ecc76020d28bb5b0118170826eacdc4837d32cd7e6f87c0f46f6f3",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/72/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Design diagnosis, access, repair and validation while distinguishing intrinsic maintainability from actual supported restoration.",
+          "premises": "Task sequence, accessibility, modularity, configuration, environment, skill, tools and reassembly/verification.",
+          "boundary": "A procedure does not establish human competence; modularity can add interfaces and need not reduce total downtime."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R020": {
+        "id": "R020",
+        "lineage": "R",
+        "native_id": "ERM-P020",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/19/native_record",
+        "current_pointer": "/properties/19/current_claim",
+        "current_object_sha256": "e8aeae316d37741c8fab93c3911f1fc0ddbb5c82144df49f871a7050adaaac2a",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/73/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Ensure a repair plan has the parts, personnel, tools and support it actually needs.",
+          "premises": "Logistics lead time, inventory, skill availability, external support and task-specific prerequisites.",
+          "boundary": "Support logistics is distinct from live service capacity and cannot supply recovery headroom by label."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R021": {
+        "id": "R021",
+        "lineage": "R",
+        "native_id": "ERM-P021",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/20/native_record",
+        "current_pointer": "/properties/20/current_claim",
+        "current_object_sha256": "311f7cbcda9544188f29e7e97e45afb7f76d95aaa8e70a05dfca9216c72d3235",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/74/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Account for faults and disruption introduced by maintenance itself.",
+          "premises": "Task effect, human/automation error, configuration/state change, verification, frequency and consequence.",
+          "boundary": "More intervention is not automatically safer; avoiding all maintenance is not a universal alternative."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R022": {
+        "id": "R022",
+        "lineage": "R",
+        "native_id": "ERM-P022",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/21/native_record",
+        "current_pointer": "/properties/21/current_claim",
+        "current_object_sha256": "43ebbe8b0ac59a6424f6af26e1168721982a90a10c80624da731d5721bf399fd",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/75/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Compare an age-replacement policy using a defensible hazard/exposure and task-effect model.",
+          "premises": "Age, hazard shape, physical renewal, downtime, induced faults, costs and comparator.",
+          "boundary": "A software counter reset is not physical renewal; memoryless positive-cost planned replacement can add cost without reducing intensity."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R023": {
+        "id": "R023",
+        "lineage": "R",
+        "native_id": "ERM-P023",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/22/native_record",
+        "current_pointer": "/properties/22/current_claim",
+        "current_object_sha256": "e828ae7ebce0fa9097d71ae5e552c0861c991a56da1ebccd39c4c4370e10e4fe",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/76/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Translate a condition/RUL prediction into a timely feasible beneficial maintenance decision.",
+          "premises": "Precursor, labels/censoring, calibration/horizon, drift, action efficacy, resource lead time and comparator.",
+          "boundary": "Prediction score alone is not policy utility; a bounded exploratory trial can be useful without proving universal superiority."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R024": {
+        "id": "R024",
+        "lineage": "R",
+        "native_id": "ERM-P024",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/23/native_record",
+        "current_pointer": "/properties/23/current_claim",
+        "current_object_sha256": "ea72a130bb66600ae48cdda9e0994243f57b54524c5abcab663d0e392ac76610",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/77/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use feedback and corrective action to learn from failures at the appropriate scope.",
+          "premises": "Event/configuration/exposure, causal hypothesis, chosen correction, observed result and updated knowledge.",
+          "boundary": "A closed ticket, repeated reporting or more data is not demonstrated causal improvement."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R025": {
+        "id": "R025",
+        "lineage": "R",
+        "native_id": "ERM-P025",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/24/native_record",
+        "current_pointer": "/properties/24/current_claim",
+        "current_object_sha256": "61449f169f2eb11cab51afa036457014ef22db350162a02c01d2f10259a87460",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/78/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Distinguish a plausible correction from an intervention that addresses the relevant failure.",
+          "premises": "Mechanism, applied change, configuration, opportunity for recurrence, unintended effects and follow-up evidence.",
+          "boundary": "A local useful action need not identify every root cause; no recurrence without exposure is weak evidence."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R026": {
+        "id": "R026",
+        "lineage": "R",
+        "native_id": "ERM-P026",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/25/native_record",
+        "current_pointer": "/properties/25/current_claim",
+        "current_object_sha256": "d6ae20d559814da88866f094abfe91c5a713634c75544563c50d885e83f13d50",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/79/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Translate finite failure observations into a conditional probabilistic bound.",
+          "premises": "Failure ascertainment, denominator/exposure, iid Bernoulli or HPP model, dependence, censoring, configuration and decision threshold.",
+          "boundary": "Zero observed failures is not zero risk; a deterministic theorem has a different evidence scope."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R027": {
+        "id": "R027",
+        "lineage": "R",
+        "native_id": "ERM-P027",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/26/native_record",
+        "current_pointer": "/properties/26/current_claim",
+        "current_object_sha256": "34c53ef9a71bd9d15c55a45bcabd2fc069dc306f249cffd8b017e49a2d025f16",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/80/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Transfer accelerated stress evidence through a justified mode-specific model.",
+          "premises": "Stress-life/process mapping, physical mechanisms, competing modes, stress range, observation and parameter uncertainty.",
+          "boundary": "Same nominal mechanism or harsher stress alone is insufficient; HALT limits do not directly establish use lifetime."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R028": {
+        "id": "R028",
+        "lineage": "R",
+        "native_id": "ERM-P028",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/27/native_record",
+        "current_pointer": "/properties/27/current_claim",
+        "current_object_sha256": "418267456651f7dea158f19fdfb9a2727c5276382a7cd70bef9bced1357ea93f",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/81/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Update reliability claims from field observations without hiding selection or missingness.",
+          "premises": "Event/exposure/configuration identity, reporting, censoring, profile strata, model discrepancy and transfer.",
+          "boundary": "More data or frequent updates do not automatically reduce bias; continuous monitoring is not mandatory."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R029": {
+        "id": "R029",
+        "lineage": "R",
+        "native_id": "ERM-P029",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/28/native_record",
+        "current_pointer": "/properties/28/current_claim",
+        "current_object_sha256": "70bcff03d9c3f1949eceb3a70b7ff61b7907187849669392bc2c1bd2cb7e4338",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/82/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Keep active reliability evidence aligned with changed claim-relevant configuration and use.",
+          "premises": "Hardware/software/data/environment/support/procedure identity, changed premise and affected conclusion.",
+          "boundary": "An arbitrary expiry date or universal full retest is not required for an unchanged premise."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R030": {
+        "id": "R030",
+        "lineage": "R",
+        "native_id": "ERM-P030",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/29/native_record",
+        "current_pointer": "/properties/29/current_claim",
+        "current_object_sha256": "c6edae002a2ae521b442a4df04856550e4a94d8824178cc3007c8e1a74ae8ef9",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/83/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Assess software reliability through operational inputs, faults and change rather than literal physical wear.",
+          "premises": "Input/profile, state, deterministic or stochastic failure behavior, repair/change and actual service function.",
+          "boundary": "A life-distribution analogy or hardware wear-out curve is not automatically a software mechanism."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R031": {
+        "id": "R031",
+        "lineage": "R",
+        "native_id": "ERM-P031",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/30/native_record",
+        "current_pointer": "/properties/30/current_claim",
+        "current_object_sha256": "768f4d8e00ea87d8fbc4a93a02a6418df4839975ec6ca5d4a4eca8d026d86e97",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/84/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Judge the consumer journey rather than only a component or local request success.",
+          "premises": "Required outcome, path/interface dependencies, partial success, user population and observation boundary.",
+          "boundary": "A valid local result remains valid; no universal infinite end-to-end boundary is demanded."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R032": {
+        "id": "R032",
+        "lineage": "R",
+        "native_id": "ERM-P032",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/31/native_record",
+        "current_pointer": "/properties/31/current_claim",
+        "current_object_sha256": "62e3c0a445ac340783111c21f41ac1292fbc2fa7ca66744c48279f3d59a99b96",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/85/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use service objectives and error-budget policy for their chosen function and decision.",
+          "premises": "SLI event/denominator/window, threshold, consequence, remaining budget and authorized response.",
+          "boundary": "An SLO is a decision policy rather than a universal natural constant or proof of all user success."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R033": {
+        "id": "R033",
+        "lineage": "R",
+        "native_id": "ERM-P033",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/32/native_record",
+        "current_pointer": "/properties/32/current_claim",
+        "current_object_sha256": "61fdcfacfd16ae0836ed8efb68acb4f661bdd04a2d28b78674a4e0a15dc14999",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/86/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret a probe as evidence about the capability/path it actually exercises.",
+          "premises": "Probe function, timing, observer/dependency failure, missingness and response role.",
+          "boundary": "Green or liveness alone does not establish every dependency or current business function."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R034": {
+        "id": "R034",
+        "lineage": "R",
+        "native_id": "ERM-P034",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/33/native_record",
+        "current_pointer": "/properties/33/current_claim",
+        "current_object_sha256": "3761be6f2e9559e8979e109878e50e0b636a5b2646b85e6ff86e384467c658d6",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/87/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use dependency structure to expose claim-relevant coupling and recovery paths.",
+          "premises": "Real function/control/observation/support edges, shared resources, propagation and dynamic behavior.",
+          "boundary": "A dependency graph alone supplies neither a joint probability law nor a queue/recovery dynamics theorem."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R035": {
+        "id": "R035",
+        "lineage": "R",
+        "native_id": "ERM-P035",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/34/native_record",
+        "current_pointer": "/properties/34/current_claim",
+        "current_object_sha256": "f933a618e99ee7e0295a4f2a47111ac160f2fa1887b15b181ce935478ab8ec11",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/88/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret injection and resilience experiments at their actual hypothesis and exercised scope.",
+          "premises": "Fault/workload/configuration, injection reach, oracle, observation, recovery burden and baseline.",
+          "boundary": "Tool adoption or a passing run is not universal resilience or a causal comparative effect."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R036": {
+        "id": "R036",
+        "lineage": "R",
+        "native_id": "ERM-P036",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/35/native_record",
+        "current_pointer": "/properties/35/current_claim",
+        "current_object_sha256": "921540cff9183aa5ce35608b2f69f33f9830d5906ffb37c3c9988a14432a7fd2",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/89/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Restore useful service under actual live capacity and competing demand.",
+          "premises": "Usable headroom, arrival/service, retries/replay/restart/repair, bottlenecks, priorities and consumer consequences.",
+          "boundary": "Parts logistics is not live capacity; bounded queue occupancy is not drainage or mission success."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R037": {
+        "id": "R037",
+        "lineage": "R",
+        "native_id": "ERM-P037",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/36/native_record",
+        "current_pointer": "/properties/36/current_claim",
+        "current_object_sha256": "0f339908841f076abf1fcf7557124e07ccce64595a738ea42523db45b60bc37d",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/90/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Preserve useful observations that can discriminate a later causal, state or correction question.",
+          "premises": "Named question, signal coverage, integrity/clock assumptions, survival under the target failure, retention/access constraints and cost.",
+          "boundary": "Observation is not itself diagnosis or protection; complete logging, an independent telemetry stack or delayed restoration pending full diagnosis is not universally required."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R038": {
+        "id": "R038",
+        "lineage": "R",
+        "native_id": "ERM-P038",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/37/native_record",
+        "current_pointer": "/properties/37/current_claim",
+        "current_object_sha256": "f05d6e9a997e0d04152338eeda64f571af916541ea82a70ab404b7a75285e004",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/91/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Choose the least burdensome adequate discriminator or mechanism for the live uncertainty.",
+          "premises": "Actual required predicate, materially different worlds, consequence, applicable obligations and existing evidence.",
+          "boundary": "Cheapness does not excuse a known unmet requirement; qualitative or direct deterministic claims need no invented probability."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R039": {
+        "id": "R039",
+        "lineage": "R",
+        "native_id": "ERM-P039",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/38/native_record",
+        "current_pointer": "/properties/38/current_claim",
+        "current_object_sha256": "e7cfbb33edebeeb00991d665cd30c38b24afa24da36fbe510e6018d923e639e5",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/92/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Retire obsolete control/evidence use while preserving surviving obligations and historical knowledge.",
+          "premises": "Current consumer, changed premise, residual dependency, removal risk and carrying cost.",
+          "boundary": "A dormant valid result need not be destroyed; arbitrary recurring ceremony is not current usefulness."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R040": {
+        "id": "R040",
+        "lineage": "R",
+        "native_id": "ERM-P040",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/39/native_record",
+        "current_pointer": "/properties/39/current_claim",
+        "current_object_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/93/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Assess diversity from actual different failure mechanisms rather than implementation labels.",
+          "premises": "Shared specification, toolchain, inputs, teams, dependencies, joint failures and integration costs.",
+          "boundary": "Different implementations can fail together; imperfect dependence need not erase every rescue benefit."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R041": {
+        "id": "R041",
+        "lineage": "R",
+        "native_id": "ERM-P041",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/40/native_record",
+        "current_pointer": "/properties/40/current_claim",
+        "current_object_sha256": "b12e1bae55d57ed5491f44fe8793836e0810516104575cea850c7949ed6c502b",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/94/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use a mean for its actual random quantity without promoting it to all reliability behavior.",
+          "premises": "Population, time basis, finite mean, censoring, distribution/model and requested mission consequence.",
+          "boundary": "Means need no universal exponential law; particular probability formulas require their own assumptions."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R042": {
+        "id": "R042",
+        "lineage": "R",
+        "native_id": "ERM-P042",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/41/native_record",
+        "current_pointer": "/properties/41/current_claim",
+        "current_object_sha256": "07ae7d2dc556a6c63386ed6e60eee95bdeb2adfbbd3702ab4aa5131bc99aedd9",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/95/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret an availability/nines figure at the required service and observation scope.",
+          "premises": "Time/demand denominator, window, excluded users/events, outage pattern and consumer consequence.",
+          "boundary": "A high aggregate percentage is not every mission or all user journeys."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R043": {
+        "id": "R043",
+        "lineage": "R",
+        "native_id": "ERM-P043",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/42/native_record",
+        "current_pointer": "/properties/42/current_claim",
+        "current_object_sha256": "030877485c80b6582c71dd6ce54d2b27a8dc8fabe42d19abc999a6f761f49ac0",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/96/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use a hazard shape as a scoped model rather than a universal ageing law.",
+          "premises": "Population/mechanism, age/exposure, hazard versus density/rate, censoring, mixture and covariates.",
+          "boundary": "Rejecting universal bathtub shape does not prove age irrelevant or scheduled maintenance always wasteful."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R044": {
+        "id": "R044",
+        "lineage": "R",
+        "native_id": "ERM-P044",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/43/native_record",
+        "current_pointer": "/properties/43/current_claim",
+        "current_object_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/97/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Use a handbook prediction within its provenance and transfer limits.",
+          "premises": "Era/technology/environment, model/data assumptions, comparison objective and actual field validation.",
+          "boundary": "Active institutional status does not prove accuracy; a bounded comparative screening use can remain useful."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R045": {
+        "id": "R045",
+        "lineage": "R",
+        "native_id": "ERM-P045",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/44/native_record",
+        "current_pointer": "/properties/44/current_claim",
+        "current_object_sha256": "cff1b4b93298c10a47f7b4e63bd66ad5f9e93ddb11d6d78d4f7029f93836d237",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/98/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Judge actual failure-analysis content and correction rather than completed FMEA paperwork.",
+          "premises": "Relevant modes/effects, actual dependence and omissions, detection/action and evidence of correction.",
+          "boundary": "Rejection of the completion proxy does not reject useful bounded FMEA."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R046": {
+        "id": "R046",
+        "lineage": "R",
+        "native_id": "ERM-P046",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/45/native_record",
+        "current_pointer": "/properties/45/current_claim",
+        "current_object_sha256": "6d151c2cc1f756d0876ebc2e1e6d6dbcbe71f25e5eb6ab6d238f57531c6735cf",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/99/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Separate successful backup creation from demonstrated restoration of the required function.",
+          "premises": "Recoverable artifact, tools/permissions/configuration, tested scenario, actual postcondition and external residual.",
+          "boundary": "A backup remains useful evidence of its own narrow event; restore adequacy is a distinct question."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R047": {
+        "id": "R047",
+        "lineage": "R",
+        "native_id": "ERM-P047",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/46/native_record",
+        "current_pointer": "/properties/46/current_claim",
+        "current_object_sha256": "7d6ccff6e1441c4ce23de05928d504f6b672efcad60eb233e4548d063bd9fee1",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/100/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Scope one failover observation to the actual state/authority/failure scenario.",
+          "premises": "Selected transition, old/new state, shared failures, surviving control/capacity and exercised consequence.",
+          "boundary": "One successful scenario does not cover all failures; untested does not automatically mean failed."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R048": {
+        "id": "R048",
+        "lineage": "R",
+        "native_id": "ERM-P048",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/47/native_record",
+        "current_pointer": "/properties/47/current_claim",
+        "current_object_sha256": "07b9342ca3bbaab538bf073d1bebb8a09249290015e0822b9516d1ba2a247a93",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/101/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret failure counts using exposure, observation and actual corrective mechanisms.",
+          "premises": "Denominator, reporting/censoring, changed population/configuration and causal intervention.",
+          "boundary": "Fewer counts can coexist with a worse rate; neither a trend nor ticket volume proves improvement."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R049": {
+        "id": "R049",
+        "lineage": "R",
+        "native_id": "ERM-P049",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/48/native_record",
+        "current_pointer": "/properties/48/current_claim",
+        "current_object_sha256": "f579ccb2f83a47ef4a3df7bc271b63d6b5defd442a4a07979981a6d8c4c2d61b",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/102/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Preserve the partial usefulness of a green dashboard while rejecting an unobserved global conclusion.",
+          "premises": "Signal definition, coverage, currentness, missing paths, observer dependence and required consumer function.",
+          "boundary": "Aggregate green is not universal health; useful bounded continuation need not await omniscience."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R050": {
+        "id": "R050",
+        "lineage": "R",
+        "native_id": "ERM-P050",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/49/native_record",
+        "current_pointer": "/properties/49/current_claim",
+        "current_object_sha256": "2388c8cd320e3f9a6f894525fa12c0e0f74225cf1ed131e10c7573a8d40801f9",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/103/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Retain the bounded evidential value of chaos while rejecting universal resilience by ritual.",
+          "premises": "Fault/workload/oracle/configuration, selected population, failure/recovery observations and actual decision.",
+          "boundary": "Passing injection or adopting a tool is not every fault, every workload or comparative superiority."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R051": {
+        "id": "R051",
+        "lineage": "R",
+        "native_id": "ERM-P051",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/50/native_record",
+        "current_pointer": "/properties/50/current_claim",
+        "current_object_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/104/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Compare added redundancy by conditional rescue and complete added costs.",
+          "premises": "Coverage, dependence, surviving function/capacity, switching/authority and new shared failure paths.",
+          "boundary": "Monotonic benefit is rejected; conditional useful redundancy remains valid."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R052": {
+        "id": "R052",
+        "lineage": "R",
+        "native_id": "ERM-P052",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/51/native_record",
+        "current_pointer": "/properties/51/current_claim",
+        "current_object_sha256": "ac830bfe71e2c6746a99e8f3a33fcc86a6cba1ca6853d8f1ed5795614ba2cb28",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/105/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Compare predictive-maintenance policy utility with feasible simpler policies.",
+          "premises": "Precursor, labels/calibration, intervention opportunity, full cost, drift, uncertainty and causal/selection limits.",
+          "boundary": "Universal superiority and a universal prospective-trial requirement are both rejected."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R053": {
+        "id": "R053",
+        "lineage": "R",
+        "native_id": "ERM-P053",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/52/native_record",
+        "current_pointer": "/properties/52/current_claim",
+        "current_object_sha256": "2435e1ef324d0c7ad9019b40fc9bc26ac915f3492d4a07ba6ae01b93fa44c420",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/106/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Separate a fitted growth curve from a stochastic-process law or causal correction.",
+          "premises": "Exposure, observation, fixing/configuration process, independent increments where asserted and future regime.",
+          "boundary": "A mean curve does not establish NHPP; slope alone does not prove design improvement."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R054": {
+        "id": "R054",
+        "lineage": "R",
+        "native_id": "ERM-P054",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/53/native_record",
+        "current_pointer": "/properties/53/current_claim",
+        "current_object_sha256": "e0f40b561ca50cc5f49efc8eb665d41e79240ec14709c7120b491f81cb4eb2a7",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/107/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Interpret finite demonstration or assurance without pretending it establishes zero risk.",
+          "premises": "Claim scope, failure model, finite exposure, uncertainty, consequence and accepted decision threshold.",
+          "boundary": "A deterministic theorem may exclude a failure in its model; that is not empirical proof of arbitrary-world zero risk."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      },
+      "R055": {
+        "id": "R055",
+        "lineage": "R",
+        "native_id": "ERM-P055",
+        "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+        "native_pointer": "/properties/54/native_record",
+        "current_pointer": "/properties/54/current_claim",
+        "current_object_sha256": "7fa4765f23e3ebf1e3271b33685cc39376053ee7bec2fd4f5077f7e3694e4a5d",
+        "exact_current_object_alias": {
+          "carrier": "PROPERTY_INDEX.json",
+          "pointer": "/properties/108/current_claim",
+          "carrier_identity": {
+            "path": "PROPERTY_INDEX.json",
+            "bytes": 523772,
+            "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+          }
+        },
+        "receiving_use": {
+          "question": "Separate AI maintenance or automation capability from demonstrated deployed reliability utility.",
+          "premises": "Actual model/task/data/system, oracle, shift, action feasibility, comparison and operational evidence.",
+          "boundary": "AI label, benchmark success or repeated seeds do not establish universal reliability benefit."
+        },
+        "reading": "Complete native/current/profile/evidence meanings at checkpoint002/005 masks; these exact authored lenses were re-inspected during the D/R rule inquiry. The full current object, not the lens alone, retains authority."
+      }
+    }
+  }
+}

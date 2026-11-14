@@ -1,0 +1,1196 @@
+{
+  "source_identity": {
+    "source_id": "S-b3664cfc394e091d",
+    "scientific_name": "A003_SCIENTIFIC_RESPONSE.json",
+    "original_bytes": 89057,
+    "original_sha256": "b3664cfc394e091d5650eb932d8b79f51077f861976bdc316b615a365d3aaad3"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-a003-scientific-response/1",
+    "status": "AUTHOR_RESPONSE_READY_FOR_WHOLE_REVIEW_NOT_ACCEPTANCE",
+    "finding": "LAW-A002-FID-001",
+    "finding_disposition": "AUTHOR_CORRECTION_PROPOSED_FOR_EXTERNAL_RECHECK",
+    "secondary_lead": "LAW-A002-OBS-001 analytically established at the explicit required-check denominator guard",
+    "predecessor": {
+      "address": "a002:AUTHOR_SUBJECT.json",
+      "bytes": 28147,
+      "sha256": "9f4c02202f014835d24f827680dc07086e3b5a7c3c237cdb1e32819c78f0973e",
+      "json_pointer": "",
+      "physical": {
+        "outer": "history/LAW_A002_WHOLE_AUTHOR_DELIVERY.zip",
+        "member": "AUTHOR_SUBJECT.json"
+      }
+    },
+    "adverse_review": {
+      "address": "fidelity:REVIEW_SUBJECT.json",
+      "bytes": 6031,
+      "sha256": "e601b9cc1da9093e25331231c93cfdedfd18f87989576c95bdec3c03047d2ace",
+      "json_pointer": "",
+      "physical": {
+        "outer": "history/LAW_A002_FIDELITY_REVIEW_001.zip",
+        "member": "REVIEW_SUBJECT.json"
+      }
+    },
+    "no_new_standard": true,
+    "historical_original_commission_failure": false,
+    "causal_scope": "Actual EA-04 receiving omissions; 61 new incoming uses and 20 unresolved members assessed for that omission, seven tag leads inspected, affected direct reverses and the explicit EL-025/EA-10 lead separately reasoned. No population error-rate inference or global generic-family reclassification. Unaffected historical semantic assessments remain attributed to A002.",
+    "decision_source": "The seven explicit native analytical records below are the source of projection changes. Tags are navigational only; no output/receiver intersection assigns dispositions in the A003 projector.",
+    "changes": [
+      {
+        "id": "A003-D001",
+        "direction_key": "LAW-L1::EL-001->LAW-L2::EA-04",
+        "source": "EL-001",
+        "receiver": "EA-04",
+        "previous_disposition": "EXAMINED_UNRESOLVED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "native": {
+          "source": {
+            "native_id": "EL-001",
+            "file": "current_inputs/inputs/native/lean.json",
+            "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+            "json_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/0",
+            "selected_fields": {
+              "PROPERTY_NAME": "Outcome and value definition with named beneficiary, constraints and time horizon",
+              "MECHANISM": "Name the beneficiary and desired outcome; state safety, labour, resilience and externality constraints; choose a time horizon; test whether work changes the outcome.",
+              "TRIGGER_OR_CONTEXT": "Multiple plausible outputs compete, resources are material, or local efficiency could displace customer/system value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "For trivial, reversible work, record a one-sentence purpose and acceptance condition rather than create a value-stream artefact.",
+              "DEPENDENCIES_OR_PRECONDITIONS": "Legitimate beneficiary representation; outcome observability; explicit non-negotiable constraints; authority to stop low-value work.",
+              "KNOWN_FAILURE_MODES": "Customer rhetoric masks managerial cost goals; one stakeholder's value harms another; short-horizon metrics; unmeasurable outcomes; retrospective rationalisation.",
+              "IMPORTANT_CRITICISMS": "Lean literature specifies waste more richly than value; customer language can ignore workers, suppliers, public risk and long-term resilience.",
+              "MATURE_OR_EVOLVED_FORM": "Use an explicit value hypothesis with beneficiary, outcome, constraints, evidence threshold, review date and abandonment rule.",
+              "CURRENT_STATUS": "STRONGLY_RETAINED",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": "How should value be aggregated when customers, workers, suppliers and public safety conflict?",
+              "REQUALIFICATION": {
+                "property_id": "EL-001",
+                "bearer": "A decision about an output or intervention and its affected beneficiaries",
+                "scientific_origin": "Normative/analytical outcome framing informed by Lean value doctrine",
+                "current_evidence_warrant": "S010/S011 and R008 establish doctrine; heterogeneous domain findings do not prove that a value-statement format causes benefit. S060 is narrowed by R005.",
+                "incremental_control_cost": "Time to identify affected parties and observe outcomes; expensive measurement can exceed trivial work's value.",
+                "qualitative_evaluation_criterion": "State whose outcome is sought and which constraints cannot be traded away; leave effects unknown when only throughput is measured.",
+                "case_ids": [
+                  "C05",
+                  "C11"
+                ],
+                "additional_current_sources": [
+                  "R008",
+                  "R005",
+                  "R006"
+                ],
+                "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+                "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+                "qualification_state": "REVIEW_PENDING",
+                "native_key": {
+                  "archive_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+                  "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+                  "locator": "#/EVOLVED_LEAN_PROPERTY_LEDGER/0",
+                  "native_id": "EL-001"
+                },
+                "status_semantics": "CURRENT_STATUS and EVIDENCE_STRENGTH retain native qualitative labels. They are not new independent qualification or numeric confidence.",
+                "source_role_rule": "Historical, normative, empirical, analytical and practitioner roles remain distinct; see exact current access in SOURCES.json. A list headed PRIMARY_SOURCES does not turn doctrine into an empirical trial.",
+                "original_predicate_status": "NOT_EXPRESSED_IN_NATIVE_RECORD"
+              }
+            }
+          },
+          "receiver": {
+            "native_id": "EA-04",
+            "file": "current_inputs/inputs/native/agile_native.yaml",
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+            "selected_fields": {
+              "PROPERTY_NAME": "Economically small incremental batches",
+              "MECHANISM": "Reduce the unit of build, integration or exposure until marginal learning/reversal benefit no longer exceeds transaction and qualification cost.",
+              "TRIGGER_OR_CONTEXT": "Queueing, changing requirements, expensive integration failure or high reversal value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "Where fabrication, mobilisation or certification has irreducible setup cost, batch the expensive boundary while keeping upstream evidence smaller.",
+              "DEPENDENCIES_OR_PRECONDITIONS": [
+                "modularity",
+                "automation or reduced handoff cost",
+                "coherent value slicing"
+              ],
+              "KNOWN_FAILURE_MODES": [
+                "fragmented non-value slices",
+                "transaction-cost explosion",
+                "micro-release overhead",
+                "qualification repeated without benefit"
+              ],
+              "IMPORTANT_CRITICISMS": "Small batches are not intrinsically cheap and may not correspond to a useful or qualifiable increment.",
+              "MATURE_OR_EVOLVED_FORM": "Use the smallest coherent batch justified by total economics and consequence.",
+              "CURRENT_STATUS": "CONTEXT_DEPENDENT",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": [
+                "Quantitative batch optima under certification, hardware and field-test cost remain domain-specific."
+              ]
+            },
+            "overlay": {
+              "source_file": "current_inputs/inputs/native/agile_overlay.json",
+              "source_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "json_pointer": "/claims/3",
+              "record": {
+                "claim_id": "AGQ-EA-04",
+                "canonical_key": "LAW-L2::EA-04",
+                "native": {
+                  "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+                  "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+                  "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+                  "expected_native_id": "EA-04",
+                  "native_id_field": "PROPERTY_ID"
+                },
+                "native_status_verbatim": "CONTEXT_DEPENDENT",
+                "native_evidence_strength_verbatim": "MODERATE_CONVERGENT",
+                "claim_work_status": "EXAMINED_AT_STATED_SCOPE",
+                "claim_status": "PROPOSED_CONDITIONAL_SUCCESSOR_OVERLAY",
+                "review_status": "TWO_SEQUENTIAL_REVIEWS_PENDING",
+                "assessment_kind": "PRESERVE_WITH_SOURCE_CEILING",
+                "change_reason_codes": [
+                  "NEW_STANDARD_OBLIGATION"
+                ],
+                "proposition": "Choose batch boundaries by total cost, feedback value and exposure consequences; smaller is not always better.",
+                "bearer": "A development, integration, qualification or release boundary with measurable setup, delay and risk costs.",
+                "intended_decision": "Whether, and by which proportionate mechanism, to apply this property in the stated context. This is not a finding about a repository.",
+                "premises_and_original_detail": {
+                  "native_fields": [
+                    "TRIGGER_OR_CONTEXT",
+                    "NON_TRIGGER_OR_CHEAP_PATH",
+                    "DEPENDENCIES_OR_PRECONDITIONS",
+                    "KNOWN_FAILURE_MODES",
+                    "IMPORTANT_CRITICISMS",
+                    "OPEN_QUESTIONS"
+                  ],
+                  "interpretation": "Preserve as contextual mechanism conditions; apply dependency typing in COMPOSITION.json before treating any item as universally necessary."
+                },
+                "fresh_support": [
+                  "H15",
+                  "H02",
+                  "N12"
+                ],
+                "evidence_ceiling": "Economic reasoning and practice accounts support a trade-off, not a measured universal batch size.",
+                "constructed_examples": {
+                  "positive": "Keep code integration small while aggregating an expensive shared qualification event.",
+                  "failure_witness": "Repeat a costly physical qualification for each harmless intermediate edit without decision benefit.",
+                  "boundary_nontrigger": "Where setup is negligible and errors cheap to detect, very small changes can be sensible.",
+                  "counter_control": "The constructed setup-cost example in COMPOSITION shows why batch-of-one can cost more.",
+                  "status": "AUTHOR_CONSTRUCTED_LOGICAL_CHALLENGES_NOT_FIELD_STUDIES"
+                },
+                "simpler_path_and_cost": "Change the fixed-cost boundary or aggregate it; do not force one cadence across all work.",
+                "invalidation_and_reentry": "Reopen on a reliable counterexample within the stated guard, a source/version correction, newly accessible material changing the mechanism warrant, or a proposed target outside the bearer and authority assumptions.",
+                "predicate_status": "NO_EXECUTABLE_BOOLEAN_PROPOSED; qualitative and empirical judgments remain typed prose."
+              }
+            }
+          }
+        },
+        "specific_interface": "Beneficiary-value coherence and admissibility of the same candidate batch",
+        "joint_guard": "The candidate build, integration or exposure unit is being treated as a coherent unit of value for the named beneficiaries and horizon; its safety, labour, resilience or externality constraints apply to that choice.",
+        "source_contribution": "EL-001 identifies whose outcome matters, the horizon and constraints that cannot be exchanged for throughput. These are criteria for whether a proposed slice is coherent and admissible, an explicit EA-04 native dependency.",
+        "receiving_consequence": "The batch comparison can exclude a fragment that has no usable outcome alone, or cannot meet a required constraint, before comparing setup, qualification, learning and reversal. The chosen batch can remain unchanged when the existing criterion was already adequate.",
+        "premises_remaining_open": "Legitimate representation, actual benefit, outcome observability, every setup/qualification cost, usable feedback, recovery and authority to expose remain separate. The source does not settle stakeholder conflicts or prove net advantage.",
+        "positive_reasoned_case": "Two equally sized transaction slices differ: one produces an independently usable beneficiary result under the stated constraint; the other produces only an unusable fragment or externalises a consequence beyond the horizon. The value criterion distinguishes them even if item count does not.",
+        "failure_witness": "A delivery count is called value while essential protective work is left out of each small slice. Counting items alone cannot justify coherence.",
+        "nontrigger": "An unrelated beneficiary statement, slogan or unsupported stakeholder claim is not an input to this batch decision.",
+        "adequate_alternative": "An existing concise purpose and acceptance condition may already supply the whole needed input; no workshop, new artifact or changed action is required. This is satisfied applicability, not a relation nontrigger.",
+        "cost_and_distribution": "Include interpretation and measurement effort and harms shifted to workers, suppliers or future users; do not scalarise nontradeable constraints.",
+        "independent_reverse_key": "LAW-L2::EA-04->LAW-L1::EL-001",
+        "evidence_class": "CONDITIONAL_NATIVE_ANALYTICAL_DERIVATION; reasoned examples, no field execution, no new measured effect",
+        "reentry": "Changed beneficiaries, horizon, constraints, slice semantics or a counterexample within this same-decision guard reopens the relation.",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ]
+      },
+      {
+        "id": "A003-D002",
+        "direction_key": "LAW-L1::EL-015->LAW-L2::EA-04",
+        "source": "EL-015",
+        "receiver": "EA-04",
+        "previous_disposition": "EXAMINED_UNRESOLVED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "native": {
+          "source": {
+            "native_id": "EL-015",
+            "file": "current_inputs/inputs/native/lean.json",
+            "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+            "json_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/14",
+            "selected_fields": {
+              "PROPERTY_NAME": "Jidoka/autonomation: automate routine operation while reserving human exception judgement",
+              "MECHANISM": "Automate stable routine execution and detection; stop or hand off uncertain/abnormal cases with context to a competent human.",
+              "TRIGGER_OR_CONTEXT": "Routine is stable enough to automate, abnormalities are detectable, and human attention is scarce or high-value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "Keep manual work where volume is low, judgement dominates or automation cannot fail safely.",
+              "DEPENDENCIES_OR_PRECONDITIONS": "Reliable detection; safe state; human response capacity; understandable handoff; maintenance; workload monitoring.",
+              "KNOWN_FAILURE_MODES": "Automation bias; deskilling; opaque models; alert overload; unsafe autonomous continuation; humans left with only rare hard cases.",
+              "IMPORTANT_CRITICISMS": "Automation may be justified as labour reduction and can worsen surveillance, pace or job quality; 'human touch' rhetoric is not sufficient.",
+              "MATURE_OR_EVOLVED_FORM": "Automate only stable, testable routine work; make uncertainty and abnormality explicit; preserve human competence and safe fallback.",
+              "CURRENT_STATUS": "CONTEXT_DEPENDENT",
+              "EVIDENCE_STRENGTH": "HIGH_HISTORICAL_MODERATE_TRANSFER",
+              "OPEN_QUESTIONS": "How should organisations preserve human competence when automation makes intervention rare but consequential?",
+              "REQUALIFICATION": {
+                "property_id": "EL-015",
+                "bearer": "An automation/human exception arrangement",
+                "scientific_origin": "Jidoka history plus explicit modern automation analogy",
+                "current_evidence_warrant": "S001/S067 support automatic abnormality stoppage. Human-on-the-loop effectiveness is not established by those historical examples.",
+                "incremental_control_cost": "Human training and readiness, handoff load, automation maintenance.",
+                "qualitative_evaluation_criterion": "Bound the routine task and abnormal handoff; show competent response is available, rather than assuming human presence guarantees recovery.",
+                "case_ids": [
+                  "C04",
+                  "C06"
+                ],
+                "additional_current_sources": [],
+                "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+                "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+                "qualification_state": "REVIEW_PENDING",
+                "native_key": {
+                  "archive_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+                  "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+                  "locator": "#/EVOLVED_LEAN_PROPERTY_LEDGER/14",
+                  "native_id": "EL-015"
+                },
+                "status_semantics": "CURRENT_STATUS and EVIDENCE_STRENGTH retain native qualitative labels. They are not new independent qualification or numeric confidence.",
+                "source_role_rule": "Historical, normative, empirical, analytical and practitioner roles remain distinct; see exact current access in SOURCES.json. A list headed PRIMARY_SOURCES does not turn doctrine into an empirical trial.",
+                "original_predicate_status": "NOT_EXPRESSED_IN_NATIVE_RECORD"
+              }
+            }
+          },
+          "receiver": {
+            "native_id": "EA-04",
+            "file": "current_inputs/inputs/native/agile_native.yaml",
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+            "selected_fields": {
+              "PROPERTY_NAME": "Economically small incremental batches",
+              "MECHANISM": "Reduce the unit of build, integration or exposure until marginal learning/reversal benefit no longer exceeds transaction and qualification cost.",
+              "TRIGGER_OR_CONTEXT": "Queueing, changing requirements, expensive integration failure or high reversal value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "Where fabrication, mobilisation or certification has irreducible setup cost, batch the expensive boundary while keeping upstream evidence smaller.",
+              "DEPENDENCIES_OR_PRECONDITIONS": [
+                "modularity",
+                "automation or reduced handoff cost",
+                "coherent value slicing"
+              ],
+              "KNOWN_FAILURE_MODES": [
+                "fragmented non-value slices",
+                "transaction-cost explosion",
+                "micro-release overhead",
+                "qualification repeated without benefit"
+              ],
+              "IMPORTANT_CRITICISMS": "Small batches are not intrinsically cheap and may not correspond to a useful or qualifiable increment.",
+              "MATURE_OR_EVOLVED_FORM": "Use the smallest coherent batch justified by total economics and consequence.",
+              "CURRENT_STATUS": "CONTEXT_DEPENDENT",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": [
+                "Quantitative batch optima under certification, hardware and field-test cost remain domain-specific."
+              ]
+            },
+            "overlay": {
+              "source_file": "current_inputs/inputs/native/agile_overlay.json",
+              "source_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "json_pointer": "/claims/3",
+              "record": {
+                "claim_id": "AGQ-EA-04",
+                "canonical_key": "LAW-L2::EA-04",
+                "native": {
+                  "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+                  "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+                  "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+                  "expected_native_id": "EA-04",
+                  "native_id_field": "PROPERTY_ID"
+                },
+                "native_status_verbatim": "CONTEXT_DEPENDENT",
+                "native_evidence_strength_verbatim": "MODERATE_CONVERGENT",
+                "claim_work_status": "EXAMINED_AT_STATED_SCOPE",
+                "claim_status": "PROPOSED_CONDITIONAL_SUCCESSOR_OVERLAY",
+                "review_status": "TWO_SEQUENTIAL_REVIEWS_PENDING",
+                "assessment_kind": "PRESERVE_WITH_SOURCE_CEILING",
+                "change_reason_codes": [
+                  "NEW_STANDARD_OBLIGATION"
+                ],
+                "proposition": "Choose batch boundaries by total cost, feedback value and exposure consequences; smaller is not always better.",
+                "bearer": "A development, integration, qualification or release boundary with measurable setup, delay and risk costs.",
+                "intended_decision": "Whether, and by which proportionate mechanism, to apply this property in the stated context. This is not a finding about a repository.",
+                "premises_and_original_detail": {
+                  "native_fields": [
+                    "TRIGGER_OR_CONTEXT",
+                    "NON_TRIGGER_OR_CHEAP_PATH",
+                    "DEPENDENCIES_OR_PRECONDITIONS",
+                    "KNOWN_FAILURE_MODES",
+                    "IMPORTANT_CRITICISMS",
+                    "OPEN_QUESTIONS"
+                  ],
+                  "interpretation": "Preserve as contextual mechanism conditions; apply dependency typing in COMPOSITION.json before treating any item as universally necessary."
+                },
+                "fresh_support": [
+                  "H15",
+                  "H02",
+                  "N12"
+                ],
+                "evidence_ceiling": "Economic reasoning and practice accounts support a trade-off, not a measured universal batch size.",
+                "constructed_examples": {
+                  "positive": "Keep code integration small while aggregating an expensive shared qualification event.",
+                  "failure_witness": "Repeat a costly physical qualification for each harmless intermediate edit without decision benefit.",
+                  "boundary_nontrigger": "Where setup is negligible and errors cheap to detect, very small changes can be sensible.",
+                  "counter_control": "The constructed setup-cost example in COMPOSITION shows why batch-of-one can cost more.",
+                  "status": "AUTHOR_CONSTRUCTED_LOGICAL_CHALLENGES_NOT_FIELD_STUDIES"
+                },
+                "simpler_path_and_cost": "Change the fixed-cost boundary or aggregate it; do not force one cadence across all work.",
+                "invalidation_and_reentry": "Reopen on a reliable counterexample within the stated guard, a source/version correction, newly accessible material changing the mechanism warrant, or a proposed target outside the bearer and authority assumptions.",
+                "predicate_status": "NO_EXECUTABLE_BOOLEAN_PROPOSED; qualitative and empirical judgments remain typed prose."
+              }
+            }
+          }
+        },
+        "specific_interface": "Routine automation and safe exception cost at the actual repeated batch boundary",
+        "joint_guard": "The stable, testable routine execution/detection task is an actual build, integration or exposure-boundary operation whose repeated setup or handoff contributes to the batch choice. Safe stopping and competent human exception handling are feasible at their stated scope.",
+        "source_contribution": "EL-015 supplies or qualifies the enabling automation/human-exception arrangement that EA-04 explicitly requires as automation or reduced handoff cost. Its upkeep and response load also constrain the premise of cheap repetition.",
+        "receiving_consequence": "The feasible and economical batch alternatives change when that routine path and its real maintenance/exception cost are admitted or withdrawn. A larger batch may still win the total comparison; that outcome does not erase the input.",
+        "premises_remaining_open": "No guarantee of lower total cost, stable work everywhere, coherent value, successful qualification, safe exposure or complete recovery follows. Similarity is not a historical descent claim.",
+        "positive_reasoned_case": "The same repeatable integration operation has observable failure and an available safe human handoff. Its per-boundary work can be repeated without constant human watching, while exceptional cases retain a competent response.",
+        "failure_witness": "An opaque pipeline continues after an abnormality or generates more exception work than humans can safely handle. Nominal automation then fails to supply the claimed enabling condition.",
+        "nontrigger": "An unrelated automated office task or judgment-dominated unstable operation provides no such routine batch input.",
+        "adequate_alternative": "Competent manual work may remain adequate at low volume; use existing safe automation when already sufficient. No obligation to automate is created.",
+        "cost_and_distribution": "Count maintenance, training, monitoring, handoff, exception response and workload transfer over the common horizon, including any concentrated rare-task cognitive burden.",
+        "independent_reverse_key": "LAW-L2::EA-04->LAW-L1::EL-015",
+        "evidence_class": "CONDITIONAL_NATIVE_ANALYTICAL_DERIVATION; reasoned examples, no field execution, no new measured effect",
+        "reentry": "Reopen if routine stability, detection, safe state, response capacity or the operation-to-batch correspondence changes.",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ]
+      },
+      {
+        "id": "A003-D003",
+        "direction_key": "LAW-L1::EL-025->LAW-L2::EA-04",
+        "source": "EL-025",
+        "receiver": "EA-04",
+        "previous_disposition": "EXAMINED_UNRESOLVED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "native": {
+          "source": {
+            "native_id": "EL-025",
+            "file": "current_inputs/inputs/native/lean.json",
+            "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+            "json_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+            "selected_fields": {
+              "PROPERTY_NAME": "Whole-system optimisation and proxy/metric governance",
+              "MECHANISM": "Use a balanced causal measurement set; define system boundary and countermetrics; avoid individual competition; audit gaming and revise definitions.",
+              "TRIGGER_OR_CONTEXT": "Metrics affect incentives or decisions across interacting components.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "For a small team with direct outcome visibility, use a few narrative/quantitative checks rather than a dashboard programme.",
+              "DEPENDENCIES_OR_PRECONDITIONS": "Outcome model; stable metric definitions; cross-boundary data; qualitative challenge; no punishment for adverse signals.",
+              "KNOWN_FAILURE_MODES": "Dashboard proliferation; composite-score opacity; denominator manipulation; item splitting; suppressed incidents; cross-context ranking; measurement burden.",
+              "IMPORTANT_CRITICISMS": "Lean measures are frequently used for labour control; DORA and SPACE explicitly warn against single metrics and inappropriate comparisons.",
+              "MATURE_OR_EVOLVED_FORM": "Treat metrics as revisable evidence, not targets or truth; pair throughput with quality, outcome, resilience and human effects.",
+              "CURRENT_STATUS": "USEFUL_BUT_EASILY_GAMED",
+              "EVIDENCE_STRENGTH": "HIGH_CONVERGENT",
+              "OPEN_QUESTIONS": "How can metric gaming be detected before it materially distorts the work?",
+              "REQUALIFICATION": {
+                "property_id": "EL-025",
+                "bearer": "A measurement regime used to make system decisions",
+                "scientific_origin": "Analytical proxy governance; historical and modern metric critique",
+                "current_evidence_warrant": "S011 records removal of suggestion-count targets. Current S058 is guidance and S059 a framework; neither metric conformity nor balanced dashboards prove beneficiary value.",
+                "incremental_control_cost": "Data maintenance, countermetrics, privacy and gaming audits.",
+                "qualitative_evaluation_criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+                "case_ids": [
+                  "C01",
+                  "C05",
+                  "C10"
+                ],
+                "additional_current_sources": [
+                  "R006"
+                ],
+                "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+                "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+                "qualification_state": "REVIEW_PENDING",
+                "native_key": {
+                  "archive_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+                  "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+                  "locator": "#/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+                  "native_id": "EL-025"
+                },
+                "status_semantics": "CURRENT_STATUS and EVIDENCE_STRENGTH retain native qualitative labels. They are not new independent qualification or numeric confidence.",
+                "source_role_rule": "Historical, normative, empirical, analytical and practitioner roles remain distinct; see exact current access in SOURCES.json. A list headed PRIMARY_SOURCES does not turn doctrine into an empirical trial.",
+                "original_predicate_status": "NOT_EXPRESSED_IN_NATIVE_RECORD"
+              }
+            }
+          },
+          "receiver": {
+            "native_id": "EA-04",
+            "file": "current_inputs/inputs/native/agile_native.yaml",
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+            "selected_fields": {
+              "PROPERTY_NAME": "Economically small incremental batches",
+              "MECHANISM": "Reduce the unit of build, integration or exposure until marginal learning/reversal benefit no longer exceeds transaction and qualification cost.",
+              "TRIGGER_OR_CONTEXT": "Queueing, changing requirements, expensive integration failure or high reversal value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "Where fabrication, mobilisation or certification has irreducible setup cost, batch the expensive boundary while keeping upstream evidence smaller.",
+              "DEPENDENCIES_OR_PRECONDITIONS": [
+                "modularity",
+                "automation or reduced handoff cost",
+                "coherent value slicing"
+              ],
+              "KNOWN_FAILURE_MODES": [
+                "fragmented non-value slices",
+                "transaction-cost explosion",
+                "micro-release overhead",
+                "qualification repeated without benefit"
+              ],
+              "IMPORTANT_CRITICISMS": "Small batches are not intrinsically cheap and may not correspond to a useful or qualifiable increment.",
+              "MATURE_OR_EVOLVED_FORM": "Use the smallest coherent batch justified by total economics and consequence.",
+              "CURRENT_STATUS": "CONTEXT_DEPENDENT",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": [
+                "Quantitative batch optima under certification, hardware and field-test cost remain domain-specific."
+              ]
+            },
+            "overlay": {
+              "source_file": "current_inputs/inputs/native/agile_overlay.json",
+              "source_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "json_pointer": "/claims/3",
+              "record": {
+                "claim_id": "AGQ-EA-04",
+                "canonical_key": "LAW-L2::EA-04",
+                "native": {
+                  "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+                  "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+                  "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+                  "expected_native_id": "EA-04",
+                  "native_id_field": "PROPERTY_ID"
+                },
+                "native_status_verbatim": "CONTEXT_DEPENDENT",
+                "native_evidence_strength_verbatim": "MODERATE_CONVERGENT",
+                "claim_work_status": "EXAMINED_AT_STATED_SCOPE",
+                "claim_status": "PROPOSED_CONDITIONAL_SUCCESSOR_OVERLAY",
+                "review_status": "TWO_SEQUENTIAL_REVIEWS_PENDING",
+                "assessment_kind": "PRESERVE_WITH_SOURCE_CEILING",
+                "change_reason_codes": [
+                  "NEW_STANDARD_OBLIGATION"
+                ],
+                "proposition": "Choose batch boundaries by total cost, feedback value and exposure consequences; smaller is not always better.",
+                "bearer": "A development, integration, qualification or release boundary with measurable setup, delay and risk costs.",
+                "intended_decision": "Whether, and by which proportionate mechanism, to apply this property in the stated context. This is not a finding about a repository.",
+                "premises_and_original_detail": {
+                  "native_fields": [
+                    "TRIGGER_OR_CONTEXT",
+                    "NON_TRIGGER_OR_CHEAP_PATH",
+                    "DEPENDENCIES_OR_PRECONDITIONS",
+                    "KNOWN_FAILURE_MODES",
+                    "IMPORTANT_CRITICISMS",
+                    "OPEN_QUESTIONS"
+                  ],
+                  "interpretation": "Preserve as contextual mechanism conditions; apply dependency typing in COMPOSITION.json before treating any item as universally necessary."
+                },
+                "fresh_support": [
+                  "H15",
+                  "H02",
+                  "N12"
+                ],
+                "evidence_ceiling": "Economic reasoning and practice accounts support a trade-off, not a measured universal batch size.",
+                "constructed_examples": {
+                  "positive": "Keep code integration small while aggregating an expensive shared qualification event.",
+                  "failure_witness": "Repeat a costly physical qualification for each harmless intermediate edit without decision benefit.",
+                  "boundary_nontrigger": "Where setup is negligible and errors cheap to detect, very small changes can be sensible.",
+                  "counter_control": "The constructed setup-cost example in COMPOSITION shows why batch-of-one can cost more.",
+                  "status": "AUTHOR_CONSTRUCTED_LOGICAL_CHALLENGES_NOT_FIELD_STUDIES"
+                },
+                "simpler_path_and_cost": "Change the fixed-cost boundary or aggregate it; do not force one cadence across all work.",
+                "invalidation_and_reentry": "Reopen on a reliable counterexample within the stated guard, a source/version correction, newly accessible material changing the mechanism warrant, or a proposed target outside the bearer and authority assumptions.",
+                "predicate_status": "NO_EXECUTABLE_BOOLEAN_PROPOSED; qualitative and empirical judgments remain typed prose."
+              }
+            }
+          }
+        },
+        "specific_interface": "Comparable value units and complete cost boundary for the same batch comparison",
+        "joint_guard": "The batch choice relies on throughput, cycle time, defect or cost indicators whose item/unit definition, boundary or denominator may change when work is split or handed off.",
+        "source_contribution": "EL-025 explicitly examines denominator manipulation, item splitting, hidden queues and transferred harm. Its stable comparison boundary and countermetrics qualify whether small counted units are coherent value slices and whether the alleged total-cost/feedback comparison measures the same work.",
+        "receiving_consequence": "EA-04 can reject an apparent improvement caused solely by splitting an unchanged deliverable into more counted tickets or omitting upstream wait/qualification work. This establishes an interpretation constraint, not a calculation of the optimal batch.",
+        "premises_remaining_open": "Actual outcome value, causal effects, complete prices and quantities, legitimate constraints, safe exposure and qualification remain open. Balanced dashboards alone prove none of them.",
+        "positive_reasoned_case": "The same usable deliverable is recorded as one item before and four fragments after. A raw completed-item rate rises without additional usable delivery. Keeping the functional unit fixed and counting all four fragments together prevents that apparent gain from justifying the smaller batch.",
+        "failure_witness": "A metric denominator silently drops failed or waiting items, so local cycle time improves while the same complete batch costs more or finishes no earlier.",
+        "nontrigger": "An unrelated workforce metric or generic statement that metrics can be gamed has no established batch consequence.",
+        "adequate_alternative": "Directly visible work and a few stable narrative/quantitative checks can already preserve the comparison; a dashboard programme is unnecessary.",
+        "cost_and_distribution": "Include data maintenance, privacy, challenge and measurement cost; do not let the countermetric machinery exceed the material decision.",
+        "independent_reverse_key": "LAW-L2::EA-04->LAW-L1::EL-025",
+        "evidence_class": "CONDITIONAL_NATIVE_ANALYTICAL_DERIVATION; reasoned examples, no field execution, no new measured effect",
+        "reentry": "Reopen on a genuinely changed deliverable/benefit, a justified new denominator with an explicit crosswalk, or evidence that the suspect metric does not inform this batch decision.",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ]
+      },
+      {
+        "id": "A003-D004",
+        "direction_key": "LAW-L2::EA-04->LAW-L1::EL-015",
+        "source": "EA-04",
+        "receiver": "EL-015",
+        "previous_disposition": "EXAMINED_UNRESOLVED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "native": {
+          "source": {
+            "native_id": "EA-04",
+            "file": "current_inputs/inputs/native/agile_native.yaml",
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+            "selected_fields": {
+              "PROPERTY_NAME": "Economically small incremental batches",
+              "MECHANISM": "Reduce the unit of build, integration or exposure until marginal learning/reversal benefit no longer exceeds transaction and qualification cost.",
+              "TRIGGER_OR_CONTEXT": "Queueing, changing requirements, expensive integration failure or high reversal value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "Where fabrication, mobilisation or certification has irreducible setup cost, batch the expensive boundary while keeping upstream evidence smaller.",
+              "DEPENDENCIES_OR_PRECONDITIONS": [
+                "modularity",
+                "automation or reduced handoff cost",
+                "coherent value slicing"
+              ],
+              "KNOWN_FAILURE_MODES": [
+                "fragmented non-value slices",
+                "transaction-cost explosion",
+                "micro-release overhead",
+                "qualification repeated without benefit"
+              ],
+              "IMPORTANT_CRITICISMS": "Small batches are not intrinsically cheap and may not correspond to a useful or qualifiable increment.",
+              "MATURE_OR_EVOLVED_FORM": "Use the smallest coherent batch justified by total economics and consequence.",
+              "CURRENT_STATUS": "CONTEXT_DEPENDENT",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": [
+                "Quantitative batch optima under certification, hardware and field-test cost remain domain-specific."
+              ]
+            },
+            "overlay": {
+              "source_file": "current_inputs/inputs/native/agile_overlay.json",
+              "source_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "json_pointer": "/claims/3",
+              "record": {
+                "claim_id": "AGQ-EA-04",
+                "canonical_key": "LAW-L2::EA-04",
+                "native": {
+                  "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+                  "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+                  "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+                  "expected_native_id": "EA-04",
+                  "native_id_field": "PROPERTY_ID"
+                },
+                "native_status_verbatim": "CONTEXT_DEPENDENT",
+                "native_evidence_strength_verbatim": "MODERATE_CONVERGENT",
+                "claim_work_status": "EXAMINED_AT_STATED_SCOPE",
+                "claim_status": "PROPOSED_CONDITIONAL_SUCCESSOR_OVERLAY",
+                "review_status": "TWO_SEQUENTIAL_REVIEWS_PENDING",
+                "assessment_kind": "PRESERVE_WITH_SOURCE_CEILING",
+                "change_reason_codes": [
+                  "NEW_STANDARD_OBLIGATION"
+                ],
+                "proposition": "Choose batch boundaries by total cost, feedback value and exposure consequences; smaller is not always better.",
+                "bearer": "A development, integration, qualification or release boundary with measurable setup, delay and risk costs.",
+                "intended_decision": "Whether, and by which proportionate mechanism, to apply this property in the stated context. This is not a finding about a repository.",
+                "premises_and_original_detail": {
+                  "native_fields": [
+                    "TRIGGER_OR_CONTEXT",
+                    "NON_TRIGGER_OR_CHEAP_PATH",
+                    "DEPENDENCIES_OR_PRECONDITIONS",
+                    "KNOWN_FAILURE_MODES",
+                    "IMPORTANT_CRITICISMS",
+                    "OPEN_QUESTIONS"
+                  ],
+                  "interpretation": "Preserve as contextual mechanism conditions; apply dependency typing in COMPOSITION.json before treating any item as universally necessary."
+                },
+                "fresh_support": [
+                  "H15",
+                  "H02",
+                  "N12"
+                ],
+                "evidence_ceiling": "Economic reasoning and practice accounts support a trade-off, not a measured universal batch size.",
+                "constructed_examples": {
+                  "positive": "Keep code integration small while aggregating an expensive shared qualification event.",
+                  "failure_witness": "Repeat a costly physical qualification for each harmless intermediate edit without decision benefit.",
+                  "boundary_nontrigger": "Where setup is negligible and errors cheap to detect, very small changes can be sensible.",
+                  "counter_control": "The constructed setup-cost example in COMPOSITION shows why batch-of-one can cost more.",
+                  "status": "AUTHOR_CONSTRUCTED_LOGICAL_CHALLENGES_NOT_FIELD_STUDIES"
+                },
+                "simpler_path_and_cost": "Change the fixed-cost boundary or aggregate it; do not force one cadence across all work.",
+                "invalidation_and_reentry": "Reopen on a reliable counterexample within the stated guard, a source/version correction, newly accessible material changing the mechanism warrant, or a proposed target outside the bearer and authority assumptions.",
+                "predicate_status": "NO_EXECUTABLE_BOOLEAN_PROPOSED; qualitative and empirical judgments remain typed prose."
+              }
+            }
+          },
+          "receiver": {
+            "native_id": "EL-015",
+            "file": "current_inputs/inputs/native/lean.json",
+            "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+            "json_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/14",
+            "selected_fields": {
+              "PROPERTY_NAME": "Jidoka/autonomation: automate routine operation while reserving human exception judgement",
+              "MECHANISM": "Automate stable routine execution and detection; stop or hand off uncertain/abnormal cases with context to a competent human.",
+              "TRIGGER_OR_CONTEXT": "Routine is stable enough to automate, abnormalities are detectable, and human attention is scarce or high-value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "Keep manual work where volume is low, judgement dominates or automation cannot fail safely.",
+              "DEPENDENCIES_OR_PRECONDITIONS": "Reliable detection; safe state; human response capacity; understandable handoff; maintenance; workload monitoring.",
+              "KNOWN_FAILURE_MODES": "Automation bias; deskilling; opaque models; alert overload; unsafe autonomous continuation; humans left with only rare hard cases.",
+              "IMPORTANT_CRITICISMS": "Automation may be justified as labour reduction and can worsen surveillance, pace or job quality; 'human touch' rhetoric is not sufficient.",
+              "MATURE_OR_EVOLVED_FORM": "Automate only stable, testable routine work; make uncertainty and abnormality explicit; preserve human competence and safe fallback.",
+              "CURRENT_STATUS": "CONTEXT_DEPENDENT",
+              "EVIDENCE_STRENGTH": "HIGH_HISTORICAL_MODERATE_TRANSFER",
+              "OPEN_QUESTIONS": "How should organisations preserve human competence when automation makes intervention rare but consequential?",
+              "REQUALIFICATION": {
+                "property_id": "EL-015",
+                "bearer": "An automation/human exception arrangement",
+                "scientific_origin": "Jidoka history plus explicit modern automation analogy",
+                "current_evidence_warrant": "S001/S067 support automatic abnormality stoppage. Human-on-the-loop effectiveness is not established by those historical examples.",
+                "incremental_control_cost": "Human training and readiness, handoff load, automation maintenance.",
+                "qualitative_evaluation_criterion": "Bound the routine task and abnormal handoff; show competent response is available, rather than assuming human presence guarantees recovery.",
+                "case_ids": [
+                  "C04",
+                  "C06"
+                ],
+                "additional_current_sources": [],
+                "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+                "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+                "qualification_state": "REVIEW_PENDING",
+                "native_key": {
+                  "archive_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+                  "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+                  "locator": "#/EVOLVED_LEAN_PROPERTY_LEDGER/14",
+                  "native_id": "EL-015"
+                },
+                "status_semantics": "CURRENT_STATUS and EVIDENCE_STRENGTH retain native qualitative labels. They are not new independent qualification or numeric confidence.",
+                "source_role_rule": "Historical, normative, empirical, analytical and practitioner roles remain distinct; see exact current access in SOURCES.json. A list headed PRIMARY_SOURCES does not turn doctrine into an empirical trial.",
+                "original_predicate_status": "NOT_EXPRESSED_IN_NATIVE_RECORD"
+              }
+            }
+          }
+        },
+        "specific_interface": "Chosen routine boundary and repetition demand qualify the automation/human allocation",
+        "joint_guard": "The EL-015 arrangement performs the same recurring operation partitioned by EA-04; a change in batch boundary changes the number or frequency of routine invocations or human exception opportunities over a stated workload/horizon.",
+        "source_contribution": "EA-04 identifies the actual batch unit, repetition/setup boundary and economic trade-off. This specifies what is to be automated and how often its routine/exception arrangement must operate, rather than treating automation as a cost-free capability.",
+        "receiving_consequence": "The EL-015 design must be assessed for that workload: repeated small invocations can increase fixed handoff/monitoring demand, while aggregating the expensive boundary can make a competent manual or existing automated arrangement adequate. This is a workload and allocation input, not the forward enabling contribution repeated backwards.",
+        "premises_remaining_open": "Batch size does not itself make the task stable, errors detectable, stopping safe, humans competent or available, nor does it establish actual exception rates or lower cost.",
+        "positive_reasoned_case": "Hold total work and the routine operation fixed. Splitting one invocation into several creates several fixed setup/monitoring occasions when those occur per invocation. The human allocation must use that boundary rather than an obsolete one-invocation assumption.",
+        "failure_witness": "A design calls the routine safely automated while budgeting human support for one invocation even though the adopted batch policy invokes the same support-boundary repeatedly.",
+        "nontrigger": "A different independent task or a continuous routine unaffected by the chosen batch does not inherit this repetition requirement.",
+        "adequate_alternative": "Keep a larger costly boundary, use a sufficient manual path at low volume, or retain existing automation that already covers the workload. No prescribed size or new system follows.",
+        "cost_and_distribution": "Fixed per-invocation burden is an explicitly stipulated analytical condition, not a measured exception rate or universal linear cost model.",
+        "independent_reverse_key": "LAW-L1::EL-015->LAW-L2::EA-04",
+        "evidence_class": "CONDITIONAL_NATIVE_ANALYTICAL_DERIVATION; reasoned examples, no field execution, no new measured effect",
+        "reentry": "Reopen if automation removes that fixed boundary, exception opportunities do not track the chosen unit, or actual workload/support evidence differs.",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ]
+      },
+      {
+        "id": "A003-D005",
+        "direction_key": "LAW-L2::EA-04->LAW-L1::EL-025",
+        "source": "EA-04",
+        "receiver": "EL-025",
+        "previous_disposition": "EXAMINED_UNRESOLVED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "native": {
+          "source": {
+            "native_id": "EA-04",
+            "file": "current_inputs/inputs/native/agile_native.yaml",
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+            "selected_fields": {
+              "PROPERTY_NAME": "Economically small incremental batches",
+              "MECHANISM": "Reduce the unit of build, integration or exposure until marginal learning/reversal benefit no longer exceeds transaction and qualification cost.",
+              "TRIGGER_OR_CONTEXT": "Queueing, changing requirements, expensive integration failure or high reversal value.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "Where fabrication, mobilisation or certification has irreducible setup cost, batch the expensive boundary while keeping upstream evidence smaller.",
+              "DEPENDENCIES_OR_PRECONDITIONS": [
+                "modularity",
+                "automation or reduced handoff cost",
+                "coherent value slicing"
+              ],
+              "KNOWN_FAILURE_MODES": [
+                "fragmented non-value slices",
+                "transaction-cost explosion",
+                "micro-release overhead",
+                "qualification repeated without benefit"
+              ],
+              "IMPORTANT_CRITICISMS": "Small batches are not intrinsically cheap and may not correspond to a useful or qualifiable increment.",
+              "MATURE_OR_EVOLVED_FORM": "Use the smallest coherent batch justified by total economics and consequence.",
+              "CURRENT_STATUS": "CONTEXT_DEPENDENT",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": [
+                "Quantitative batch optima under certification, hardware and field-test cost remain domain-specific."
+              ]
+            },
+            "overlay": {
+              "source_file": "current_inputs/inputs/native/agile_overlay.json",
+              "source_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "json_pointer": "/claims/3",
+              "record": {
+                "claim_id": "AGQ-EA-04",
+                "canonical_key": "LAW-L2::EA-04",
+                "native": {
+                  "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+                  "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+                  "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/3",
+                  "expected_native_id": "EA-04",
+                  "native_id_field": "PROPERTY_ID"
+                },
+                "native_status_verbatim": "CONTEXT_DEPENDENT",
+                "native_evidence_strength_verbatim": "MODERATE_CONVERGENT",
+                "claim_work_status": "EXAMINED_AT_STATED_SCOPE",
+                "claim_status": "PROPOSED_CONDITIONAL_SUCCESSOR_OVERLAY",
+                "review_status": "TWO_SEQUENTIAL_REVIEWS_PENDING",
+                "assessment_kind": "PRESERVE_WITH_SOURCE_CEILING",
+                "change_reason_codes": [
+                  "NEW_STANDARD_OBLIGATION"
+                ],
+                "proposition": "Choose batch boundaries by total cost, feedback value and exposure consequences; smaller is not always better.",
+                "bearer": "A development, integration, qualification or release boundary with measurable setup, delay and risk costs.",
+                "intended_decision": "Whether, and by which proportionate mechanism, to apply this property in the stated context. This is not a finding about a repository.",
+                "premises_and_original_detail": {
+                  "native_fields": [
+                    "TRIGGER_OR_CONTEXT",
+                    "NON_TRIGGER_OR_CHEAP_PATH",
+                    "DEPENDENCIES_OR_PRECONDITIONS",
+                    "KNOWN_FAILURE_MODES",
+                    "IMPORTANT_CRITICISMS",
+                    "OPEN_QUESTIONS"
+                  ],
+                  "interpretation": "Preserve as contextual mechanism conditions; apply dependency typing in COMPOSITION.json before treating any item as universally necessary."
+                },
+                "fresh_support": [
+                  "H15",
+                  "H02",
+                  "N12"
+                ],
+                "evidence_ceiling": "Economic reasoning and practice accounts support a trade-off, not a measured universal batch size.",
+                "constructed_examples": {
+                  "positive": "Keep code integration small while aggregating an expensive shared qualification event.",
+                  "failure_witness": "Repeat a costly physical qualification for each harmless intermediate edit without decision benefit.",
+                  "boundary_nontrigger": "Where setup is negligible and errors cheap to detect, very small changes can be sensible.",
+                  "counter_control": "The constructed setup-cost example in COMPOSITION shows why batch-of-one can cost more.",
+                  "status": "AUTHOR_CONSTRUCTED_LOGICAL_CHALLENGES_NOT_FIELD_STUDIES"
+                },
+                "simpler_path_and_cost": "Change the fixed-cost boundary or aggregate it; do not force one cadence across all work.",
+                "invalidation_and_reentry": "Reopen on a reliable counterexample within the stated guard, a source/version correction, newly accessible material changing the mechanism warrant, or a proposed target outside the bearer and authority assumptions.",
+                "predicate_status": "NO_EXECUTABLE_BOOLEAN_PROPOSED; qualitative and empirical judgments remain typed prose."
+              }
+            }
+          },
+          "receiver": {
+            "native_id": "EL-025",
+            "file": "current_inputs/inputs/native/lean.json",
+            "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+            "json_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+            "selected_fields": {
+              "PROPERTY_NAME": "Whole-system optimisation and proxy/metric governance",
+              "MECHANISM": "Use a balanced causal measurement set; define system boundary and countermetrics; avoid individual competition; audit gaming and revise definitions.",
+              "TRIGGER_OR_CONTEXT": "Metrics affect incentives or decisions across interacting components.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "For a small team with direct outcome visibility, use a few narrative/quantitative checks rather than a dashboard programme.",
+              "DEPENDENCIES_OR_PRECONDITIONS": "Outcome model; stable metric definitions; cross-boundary data; qualitative challenge; no punishment for adverse signals.",
+              "KNOWN_FAILURE_MODES": "Dashboard proliferation; composite-score opacity; denominator manipulation; item splitting; suppressed incidents; cross-context ranking; measurement burden.",
+              "IMPORTANT_CRITICISMS": "Lean measures are frequently used for labour control; DORA and SPACE explicitly warn against single metrics and inappropriate comparisons.",
+              "MATURE_OR_EVOLVED_FORM": "Treat metrics as revisable evidence, not targets or truth; pair throughput with quality, outcome, resilience and human effects.",
+              "CURRENT_STATUS": "USEFUL_BUT_EASILY_GAMED",
+              "EVIDENCE_STRENGTH": "HIGH_CONVERGENT",
+              "OPEN_QUESTIONS": "How can metric gaming be detected before it materially distorts the work?",
+              "REQUALIFICATION": {
+                "property_id": "EL-025",
+                "bearer": "A measurement regime used to make system decisions",
+                "scientific_origin": "Analytical proxy governance; historical and modern metric critique",
+                "current_evidence_warrant": "S011 records removal of suggestion-count targets. Current S058 is guidance and S059 a framework; neither metric conformity nor balanced dashboards prove beneficiary value.",
+                "incremental_control_cost": "Data maintenance, countermetrics, privacy and gaming audits.",
+                "qualitative_evaluation_criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+                "case_ids": [
+                  "C01",
+                  "C05",
+                  "C10"
+                ],
+                "additional_current_sources": [
+                  "R006"
+                ],
+                "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+                "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+                "qualification_state": "REVIEW_PENDING",
+                "native_key": {
+                  "archive_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+                  "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+                  "locator": "#/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+                  "native_id": "EL-025"
+                },
+                "status_semantics": "CURRENT_STATUS and EVIDENCE_STRENGTH retain native qualitative labels. They are not new independent qualification or numeric confidence.",
+                "source_role_rule": "Historical, normative, empirical, analytical and practitioner roles remain distinct; see exact current access in SOURCES.json. A list headed PRIMARY_SOURCES does not turn doctrine into an empirical trial.",
+                "original_predicate_status": "NOT_EXPRESSED_IN_NATIVE_RECORD"
+              }
+            }
+          }
+        },
+        "specific_interface": "Economic batch and coherent-value unit define the measurement denominator",
+        "joint_guard": "The measurement regime compares performance of the same development/integration/release work whose batch boundary or coherent unit is being selected; a unit conversion is necessary to compare like work.",
+        "source_contribution": "EA-04 separates a coherent increment from story/sprint labels and identifies which boundary incurs setup, qualification and exposure consequences. That concrete unit and boundary are inputs to EL-025 stable denominators and cross-boundary accounting.",
+        "receiving_consequence": "The metric definition can distinguish counted fragments from comparable useful increments, and can include repeated boundary costs rather than reward label splitting. This is the source of the denominator semantics, separate from EL-025 auditing their validity.",
+        "premises_remaining_open": "Choosing a batch does not validate the metric, prove beneficiary value, remove gaming, supply every cost, or establish workforce outcomes.",
+        "positive_reasoned_case": "When one useful deliverable is partitioned into four technical increments, the measurement record retains both technical-invocation count and completed useful-deliverable count instead of silently treating them as interchangeable.",
+        "failure_witness": "A throughput chart silently carries its old item label across a changed batching policy and ranks unlike work as if the denominator were stable.",
+        "nontrigger": "A measurement regime for an unrelated process or an unchanged unit with no relevant boundary difference gets no new criterion from this batch choice.",
+        "adequate_alternative": "A short unit definition and explicit conversion table, or direct observation in a small team, may already suffice; no new metric programme is required.",
+        "cost_and_distribution": "Keep acquisition and maintenance proportional; a technically precise unit is still not a legitimate scalar aggregation of all welfare or risk.",
+        "independent_reverse_key": "LAW-L1::EL-025->LAW-L2::EA-04",
+        "evidence_class": "CONDITIONAL_NATIVE_ANALYTICAL_DERIVATION; reasoned examples, no field execution, no new measured effect",
+        "reentry": "Reopen when the underlying work changes, the units become noncomparable, or the indicator is not actually used for a batch-sensitive decision.",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ]
+      },
+      {
+        "id": "A003-D006",
+        "direction_key": "LAW-L1::EL-025->LAW-L2::EA-10",
+        "source": "EL-025",
+        "receiver": "EA-10",
+        "previous_disposition": "EXAMINED_UNRESOLVED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "native": {
+          "source": {
+            "native_id": "EL-025",
+            "file": "current_inputs/inputs/native/lean.json",
+            "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+            "json_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+            "selected_fields": {
+              "PROPERTY_NAME": "Whole-system optimisation and proxy/metric governance",
+              "MECHANISM": "Use a balanced causal measurement set; define system boundary and countermetrics; avoid individual competition; audit gaming and revise definitions.",
+              "TRIGGER_OR_CONTEXT": "Metrics affect incentives or decisions across interacting components.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "For a small team with direct outcome visibility, use a few narrative/quantitative checks rather than a dashboard programme.",
+              "DEPENDENCIES_OR_PRECONDITIONS": "Outcome model; stable metric definitions; cross-boundary data; qualitative challenge; no punishment for adverse signals.",
+              "KNOWN_FAILURE_MODES": "Dashboard proliferation; composite-score opacity; denominator manipulation; item splitting; suppressed incidents; cross-context ranking; measurement burden.",
+              "IMPORTANT_CRITICISMS": "Lean measures are frequently used for labour control; DORA and SPACE explicitly warn against single metrics and inappropriate comparisons.",
+              "MATURE_OR_EVOLVED_FORM": "Treat metrics as revisable evidence, not targets or truth; pair throughput with quality, outcome, resilience and human effects.",
+              "CURRENT_STATUS": "USEFUL_BUT_EASILY_GAMED",
+              "EVIDENCE_STRENGTH": "HIGH_CONVERGENT",
+              "OPEN_QUESTIONS": "How can metric gaming be detected before it materially distorts the work?",
+              "REQUALIFICATION": {
+                "property_id": "EL-025",
+                "bearer": "A measurement regime used to make system decisions",
+                "scientific_origin": "Analytical proxy governance; historical and modern metric critique",
+                "current_evidence_warrant": "S011 records removal of suggestion-count targets. Current S058 is guidance and S059 a framework; neither metric conformity nor balanced dashboards prove beneficiary value.",
+                "incremental_control_cost": "Data maintenance, countermetrics, privacy and gaming audits.",
+                "qualitative_evaluation_criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+                "case_ids": [
+                  "C01",
+                  "C05",
+                  "C10"
+                ],
+                "additional_current_sources": [
+                  "R006"
+                ],
+                "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+                "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+                "qualification_state": "REVIEW_PENDING",
+                "native_key": {
+                  "archive_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+                  "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+                  "locator": "#/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+                  "native_id": "EL-025"
+                },
+                "status_semantics": "CURRENT_STATUS and EVIDENCE_STRENGTH retain native qualitative labels. They are not new independent qualification or numeric confidence.",
+                "source_role_rule": "Historical, normative, empirical, analytical and practitioner roles remain distinct; see exact current access in SOURCES.json. A list headed PRIMARY_SOURCES does not turn doctrine into an empirical trial.",
+                "original_predicate_status": "NOT_EXPRESSED_IN_NATIVE_RECORD"
+              }
+            }
+          },
+          "receiver": {
+            "native_id": "EA-10",
+            "file": "current_inputs/inputs/native/agile_native.yaml",
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+            "selected_fields": {
+              "PROPERTY_NAME": "Release-ready state with deployment and release decoupled",
+              "MECHANISM": "Continuously build, verify and package an authoritative candidate while making exposure a separate authorised decision.",
+              "TRIGGER_OR_CONTEXT": "Software can be reproduced and staged more frequently than it should be exposed.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "For hardware or regulated releases, maintain reproducible qualified candidates without pretending physical release is continuous.",
+              "DEPENDENCIES_OR_PRECONDITIONS": [
+                "EA-06",
+                "EA-07",
+                "environment/configuration control",
+                "deployment automation"
+              ],
+              "KNOWN_FAILURE_MODES": [
+                "false green pipeline",
+                "environment mismatch",
+                "manual hidden steps",
+                "database incompatibility"
+              ],
+              "IMPORTANT_CRITICISMS": "Automation can rapidly propagate insufficiently verified change.",
+              "MATURE_OR_EVOLVED_FORM": "Continuously prove release readiness; expose only under appropriate authority and risk.",
+              "CURRENT_STATUS": "STRONGLY_RETAINED",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": [
+                "How much of release readiness can be automated in high-assurance systems?"
+              ]
+            },
+            "overlay": {
+              "source_file": "current_inputs/inputs/native/agile_overlay.json",
+              "source_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "json_pointer": "/claims/9",
+              "record": {
+                "claim_id": "AGQ-EA-10",
+                "canonical_key": "LAW-L2::EA-10",
+                "native": {
+                  "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+                  "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+                  "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+                  "expected_native_id": "EA-10",
+                  "native_id_field": "PROPERTY_ID"
+                },
+                "native_status_verbatim": "STRONGLY_RETAINED",
+                "native_evidence_strength_verbatim": "MODERATE_CONVERGENT",
+                "claim_work_status": "EXAMINED_AT_STATED_SCOPE",
+                "claim_status": "PROPOSED_CONDITIONAL_SUCCESSOR_OVERLAY",
+                "review_status": "TWO_SEQUENTIAL_REVIEWS_PENDING",
+                "assessment_kind": "REPAIR_UNIVERSAL_ORDER_USE",
+                "change_reason_codes": [
+                  "SCIENTIFIC_ERROR",
+                  "NEW_STANDARD_OBLIGATION"
+                ],
+                "proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+                "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+                "intended_decision": "Whether, and by which proportionate mechanism, to apply this property in the stated context. This is not a finding about a repository.",
+                "premises_and_original_detail": {
+                  "native_fields": [
+                    "TRIGGER_OR_CONTEXT",
+                    "NON_TRIGGER_OR_CHEAP_PATH",
+                    "DEPENDENCIES_OR_PRECONDITIONS",
+                    "KNOWN_FAILURE_MODES",
+                    "IMPORTANT_CRITICISMS",
+                    "OPEN_QUESTIONS"
+                  ],
+                  "interpretation": "Preserve as contextual mechanism conditions; apply dependency typing in COMPOSITION.json before treating any item as universally necessary."
+                },
+                "fresh_support": [
+                  "H10",
+                  "H15",
+                  "S03",
+                  "N12"
+                ],
+                "evidence_ceiling": "Definitions and assurance reasoning; deployability alone neither obligates release nor certifies safety.",
+                "constructed_examples": {
+                  "positive": "A verified increment is held until an external qualification condition is satisfied.",
+                  "failure_witness": "Passing a build automatically exposes unqualified behavior to users.",
+                  "boundary_nontrigger": "A disposable prototype can be useful without production readiness if its use is explicitly bounded.",
+                  "counter_control": "A single verified release may be appropriate without continuous deployment or a prior refactoring chain.",
+                  "status": "AUTHOR_CONSTRUCTED_LOGICAL_CHALLENGES_NOT_FIELD_STUDIES"
+                },
+                "simpler_path_and_cost": "Use an explicit readiness checklist tied to consequences and a separate release decision.",
+                "invalidation_and_reentry": "Reopen on a reliable counterexample within the stated guard, a source/version correction, newly accessible material changing the mechanism warrant, or a proposed target outside the bearer and authority assumptions.",
+                "predicate_status": "NO_EXECUTABLE_BOOLEAN_PROPOSED; qualitative and empirical judgments remain typed prose."
+              }
+            }
+          }
+        },
+        "specific_interface": "Validity of an actual release-readiness summary tied to the candidate verification criterion",
+        "joint_guard": "The authoritative candidate readiness claim uses a summary over an identified set of required checks for that same candidate/configuration. Excluding failed, skipped or unexecuted required checks would change the denominator without changing the claimed criterion.",
+        "source_contribution": "EL-025 supplies denominator/boundary stability and an anti-gaming check on the evidence summary. EA-10 explicitly includes the false-green-pipeline failure and requires verification of an authoritative candidate. These native concerns meet at this exact summary-to-criterion correspondence.",
+        "receiving_consequence": "A green status based only on the passing subset cannot warrant the original all-required-checks readiness claim. The candidate can be held for the omitted evidence, or the narrower technical claim can be stated honestly; this does not grant or deny all release permission.",
+        "premises_remaining_open": "It supplies no missing test result, completeness theorem, correct oracle, environment correspondence, safety or exposure authority. A valid denominator can still summarise bad checks.",
+        "positive_reasoned_case": "The stipulated required set is {a,b}; a passed and b failed or was not executed. Reporting 1/1 after dropping b changes the tested predicate. Restoring the required-set denominator exposes the unsupported green claim. This is a finite reasoned counterexample, not an executed pipeline or empirical failure rate.",
+        "failure_witness": "All displayed checks pass because the indicator silently omitted the required failed check. Generic green does not establish readiness against the original candidate criterion.",
+        "nontrigger": "An unrelated aggregate productivity dashboard or generic distrust of metrics is not candidate-verification evidence. A consciously narrower claim that does not assert b is assessed on its stated scope.",
+        "adequate_alternative": "A direct check list of required outcomes with candidate identity can suffice; an existing honest summary already satisfies this input.",
+        "cost_and_distribution": "Cost is maintaining criterion membership and provenance. Do not add a large dashboard or duplicate tests when direct evidence is adequate.",
+        "independent_reverse_key": "LAW-L2::EA-10->LAW-L1::EL-025",
+        "evidence_class": "CONDITIONAL_NATIVE_ANALYTICAL_DERIVATION; reasoned examples, no field execution, no new measured effect",
+        "reentry": "Reopen if the operative criterion genuinely changes, an omitted item was never required, the summary was not relied on, or configuration/oracle evidence invalidates the stated correspondence.",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ]
+      },
+      {
+        "id": "A003-D007",
+        "direction_key": "LAW-L2::EA-10->LAW-L1::EL-025",
+        "source": "EA-10",
+        "receiver": "EL-025",
+        "previous_disposition": "EXAMINED_UNRESOLVED",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "native": {
+          "source": {
+            "native_id": "EA-10",
+            "file": "current_inputs/inputs/native/agile_native.yaml",
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+            "selected_fields": {
+              "PROPERTY_NAME": "Release-ready state with deployment and release decoupled",
+              "MECHANISM": "Continuously build, verify and package an authoritative candidate while making exposure a separate authorised decision.",
+              "TRIGGER_OR_CONTEXT": "Software can be reproduced and staged more frequently than it should be exposed.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "For hardware or regulated releases, maintain reproducible qualified candidates without pretending physical release is continuous.",
+              "DEPENDENCIES_OR_PRECONDITIONS": [
+                "EA-06",
+                "EA-07",
+                "environment/configuration control",
+                "deployment automation"
+              ],
+              "KNOWN_FAILURE_MODES": [
+                "false green pipeline",
+                "environment mismatch",
+                "manual hidden steps",
+                "database incompatibility"
+              ],
+              "IMPORTANT_CRITICISMS": "Automation can rapidly propagate insufficiently verified change.",
+              "MATURE_OR_EVOLVED_FORM": "Continuously prove release readiness; expose only under appropriate authority and risk.",
+              "CURRENT_STATUS": "STRONGLY_RETAINED",
+              "EVIDENCE_STRENGTH": "MODERATE_CONVERGENT",
+              "OPEN_QUESTIONS": [
+                "How much of release readiness can be automated in high-assurance systems?"
+              ]
+            },
+            "overlay": {
+              "source_file": "current_inputs/inputs/native/agile_overlay.json",
+              "source_sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "json_pointer": "/claims/9",
+              "record": {
+                "claim_id": "AGQ-EA-10",
+                "canonical_key": "LAW-L2::EA-10",
+                "native": {
+                  "archive_sha256": "7c874aa6ea355b65ae826fe8cad21953d48ae575396647246ef198c25f7188a0",
+                  "member": "EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+                  "json_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/9",
+                  "expected_native_id": "EA-10",
+                  "native_id_field": "PROPERTY_ID"
+                },
+                "native_status_verbatim": "STRONGLY_RETAINED",
+                "native_evidence_strength_verbatim": "MODERATE_CONVERGENT",
+                "claim_work_status": "EXAMINED_AT_STATED_SCOPE",
+                "claim_status": "PROPOSED_CONDITIONAL_SUCCESSOR_OVERLAY",
+                "review_status": "TWO_SEQUENTIAL_REVIEWS_PENDING",
+                "assessment_kind": "REPAIR_UNIVERSAL_ORDER_USE",
+                "change_reason_codes": [
+                  "SCIENTIFIC_ERROR",
+                  "NEW_STANDARD_OBLIGATION"
+                ],
+                "proposition": "Keep release readiness visible while separating integration, deployment and authorized exposure decisions.",
+                "bearer": "A candidate release whose technical state and exposure authorization are distinct concerns.",
+                "intended_decision": "Whether, and by which proportionate mechanism, to apply this property in the stated context. This is not a finding about a repository.",
+                "premises_and_original_detail": {
+                  "native_fields": [
+                    "TRIGGER_OR_CONTEXT",
+                    "NON_TRIGGER_OR_CHEAP_PATH",
+                    "DEPENDENCIES_OR_PRECONDITIONS",
+                    "KNOWN_FAILURE_MODES",
+                    "IMPORTANT_CRITICISMS",
+                    "OPEN_QUESTIONS"
+                  ],
+                  "interpretation": "Preserve as contextual mechanism conditions; apply dependency typing in COMPOSITION.json before treating any item as universally necessary."
+                },
+                "fresh_support": [
+                  "H10",
+                  "H15",
+                  "S03",
+                  "N12"
+                ],
+                "evidence_ceiling": "Definitions and assurance reasoning; deployability alone neither obligates release nor certifies safety.",
+                "constructed_examples": {
+                  "positive": "A verified increment is held until an external qualification condition is satisfied.",
+                  "failure_witness": "Passing a build automatically exposes unqualified behavior to users.",
+                  "boundary_nontrigger": "A disposable prototype can be useful without production readiness if its use is explicitly bounded.",
+                  "counter_control": "A single verified release may be appropriate without continuous deployment or a prior refactoring chain.",
+                  "status": "AUTHOR_CONSTRUCTED_LOGICAL_CHALLENGES_NOT_FIELD_STUDIES"
+                },
+                "simpler_path_and_cost": "Use an explicit readiness checklist tied to consequences and a separate release decision.",
+                "invalidation_and_reentry": "Reopen on a reliable counterexample within the stated guard, a source/version correction, newly accessible material changing the mechanism warrant, or a proposed target outside the bearer and authority assumptions.",
+                "predicate_status": "NO_EXECUTABLE_BOOLEAN_PROPOSED; qualitative and empirical judgments remain typed prose."
+              }
+            }
+          },
+          "receiver": {
+            "native_id": "EL-025",
+            "file": "current_inputs/inputs/native/lean.json",
+            "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+            "json_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+            "selected_fields": {
+              "PROPERTY_NAME": "Whole-system optimisation and proxy/metric governance",
+              "MECHANISM": "Use a balanced causal measurement set; define system boundary and countermetrics; avoid individual competition; audit gaming and revise definitions.",
+              "TRIGGER_OR_CONTEXT": "Metrics affect incentives or decisions across interacting components.",
+              "NON_TRIGGER_OR_CHEAP_PATH": "For a small team with direct outcome visibility, use a few narrative/quantitative checks rather than a dashboard programme.",
+              "DEPENDENCIES_OR_PRECONDITIONS": "Outcome model; stable metric definitions; cross-boundary data; qualitative challenge; no punishment for adverse signals.",
+              "KNOWN_FAILURE_MODES": "Dashboard proliferation; composite-score opacity; denominator manipulation; item splitting; suppressed incidents; cross-context ranking; measurement burden.",
+              "IMPORTANT_CRITICISMS": "Lean measures are frequently used for labour control; DORA and SPACE explicitly warn against single metrics and inappropriate comparisons.",
+              "MATURE_OR_EVOLVED_FORM": "Treat metrics as revisable evidence, not targets or truth; pair throughput with quality, outcome, resilience and human effects.",
+              "CURRENT_STATUS": "USEFUL_BUT_EASILY_GAMED",
+              "EVIDENCE_STRENGTH": "HIGH_CONVERGENT",
+              "OPEN_QUESTIONS": "How can metric gaming be detected before it materially distorts the work?",
+              "REQUALIFICATION": {
+                "property_id": "EL-025",
+                "bearer": "A measurement regime used to make system decisions",
+                "scientific_origin": "Analytical proxy governance; historical and modern metric critique",
+                "current_evidence_warrant": "S011 records removal of suggestion-count targets. Current S058 is guidance and S059 a framework; neither metric conformity nor balanced dashboards prove beneficiary value.",
+                "incremental_control_cost": "Data maintenance, countermetrics, privacy and gaming audits.",
+                "qualitative_evaluation_criterion": "Keep denominators and boundaries stable enough for comparison; examine transferred harm and the intended outcome.",
+                "case_ids": [
+                  "C01",
+                  "C05",
+                  "C10"
+                ],
+                "additional_current_sources": [
+                  "R006"
+                ],
+                "author_disposition": "RETAIN_CONDITIONAL_CANDIDATE_REVIEW_PENDING",
+                "predicate_status": "NOT_EXPRESSED_AS_EXECUTABLE_UNIVERSAL; qualitative author criterion only",
+                "qualification_state": "REVIEW_PENDING",
+                "native_key": {
+                  "archive_sha256": "98ef23e0c8f1de7a19af979a2771d9aa9da2baa836cd91c49c948cb8bedcef3a",
+                  "member": "EVOLVED_LEAN_PROPERTY_LEDGER.json",
+                  "locator": "#/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+                  "native_id": "EL-025"
+                },
+                "status_semantics": "CURRENT_STATUS and EVIDENCE_STRENGTH retain native qualitative labels. They are not new independent qualification or numeric confidence.",
+                "source_role_rule": "Historical, normative, empirical, analytical and practitioner roles remain distinct; see exact current access in SOURCES.json. A list headed PRIMARY_SOURCES does not turn doctrine into an empirical trial.",
+                "original_predicate_status": "NOT_EXPRESSED_IN_NATIVE_RECORD"
+              }
+            }
+          }
+        },
+        "specific_interface": "Authoritative candidate/check identity supplies the referent of a readiness metric",
+        "joint_guard": "EL-025 is governing the release-readiness measurement just described, and the measured observation is the native EA-10 candidate verification/package state, not an external demand event or a worker-rights claim.",
+        "source_contribution": "EA-10 provides the identified candidate and its technical-versus-exposure distinction. Its verification state specifies what the readiness indicator refers to; candidate change, environment mismatch and unperformed checks cannot be hidden by aggregating unlike objects.",
+        "receiving_consequence": "The measurement regime can keep the referent and claim boundary stable: technically prepared candidate, permitted deployment and authorized exposure are separate fields. It can prevent a metric from counting a new candidate as if old checks or operational permission automatically carry over.",
+        "premises_remaining_open": "An authoritative candidate is not automatically verified, and its existence does not validate measurement, legitimate incentives, outcome benefit or release permission. The metric still needs the actual check/criterion correspondence.",
+        "positive_reasoned_case": "Two candidates have different configurations. A passing result attached to one cannot be counted as the other candidate being ready merely because the pipeline badge has the same name.",
+        "failure_witness": "The metric combines package construction, successful verification and business exposure as one readiness count and thereby conceals the native distinct states.",
+        "nontrigger": "Generic organization-wide productivity or staffing measures do not acquire a source from any candidate merely existing.",
+        "adequate_alternative": "A direct candidate ID with required-check states and separate authorization information may already be sufficient; no new aggregate score is required.",
+        "cost_and_distribution": "Preserve provenance at the needed granularity and avoid duplicate evidence collection; this is not a measured gain in delivery effectiveness.",
+        "independent_reverse_key": "LAW-L1::EL-025->LAW-L2::EA-10",
+        "evidence_class": "CONDITIONAL_NATIVE_ANALYTICAL_DERIVATION; reasoned examples, no field execution, no new measured effect",
+        "reentry": "Reopen if the metric is not about that candidate, actual configuration correspondence fails, or the defined readiness claim changes.",
+        "reason_codes": [
+          "SCIENTIFIC_ERROR",
+          "ANALYTICAL_REDECOMPOSITION"
+        ]
+      }
+    ],
+    "role_repair": {
+      "owner": "EA-04",
+      "add_receiving_uses": [
+        "outcome",
+        "automation",
+        "measurement"
+      ],
+      "receiving_meaning": "Coherent beneficiary-value slicing and a comparable unit; suitable routine automation or reduced handoff cost with maintenance and safe exception burden; total economics, relevant feedback and consequence. These are conditional inputs and may already be adequately supplied. Outcome meaning does not prove benefit; automation does not prove cheapness; a valid metric does not prove its oracle.",
+      "role_tags_are_not_dispositions": true,
+      "existing_native_record_unchanged": true
+    },
+    "authority": "Author-only isolated new-neutral successor; no implementation, publication, qualification, new standard, central write or GitHub mutation. Older inaccessible A/B predecessor cessation remains unknown."
+  }
+}

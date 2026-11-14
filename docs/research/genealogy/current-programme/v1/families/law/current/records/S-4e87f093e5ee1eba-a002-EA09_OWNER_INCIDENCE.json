@@ -1,0 +1,410 @@
+{
+  "source_identity": {
+    "source_id": "S-4e87f093e5ee1eba",
+    "scientific_name": "a002-EA09_OWNER_INCIDENCE.json",
+    "original_bytes": 22182,
+    "original_sha256": "4e87f093e5ee1ebad5c52d8781195a62e564ad66c79960b9e19f7cad0239a714"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "identity": "A002-EA09-LEAN-MEMBERS",
+    "members": [
+      {
+        "id": "A002-EA09-EL-001-L2A",
+        "direction_key": "LAW-L1::EL-001->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-001",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/0",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-001-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-001",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-001",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/0",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-002-L2A",
+        "direction_key": "LAW-L1::EL-002->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-002",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/1",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-002-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-002",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-002",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/1",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-003-L2A",
+        "direction_key": "LAW-L1::EL-003->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-003",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-003-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-003",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-003",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-004-L2A",
+        "direction_key": "LAW-L1::EL-004->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-004",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-004-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-004",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-004",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-005-L2A",
+        "direction_key": "LAW-L1::EL-005->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-005",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/4",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-005-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-005",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-005",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/4",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-006-L2A",
+        "direction_key": "LAW-L1::EL-006->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-006",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/5",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-006-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-006",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-006",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/5",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-007-L2A",
+        "direction_key": "LAW-L1::EL-007->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-007",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/6",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-007-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-007",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-007",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/6",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-008-L2A",
+        "direction_key": "LAW-L1::EL-008->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-008",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-008-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-008",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-008",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-009-L2A",
+        "direction_key": "LAW-L1::EL-009->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-009",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-009-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-009",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-009",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-010-L2A",
+        "direction_key": "LAW-L1::EL-010->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-010",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-010-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-010",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-010",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-021-L2A",
+        "direction_key": "LAW-L1::EL-021->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-021",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/20",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-021-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-021",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-021",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/20",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-022-L2A",
+        "direction_key": "LAW-L1::EL-022->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-022",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/21",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-022-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-022",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-022",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/21",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-023-L2A",
+        "direction_key": "LAW-L1::EL-023->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-023",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/22",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-023-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-023",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-023",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/22",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-024-L2A",
+        "direction_key": "LAW-L1::EL-024->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-024",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-024-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-024",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-024",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-025-L2A",
+        "direction_key": "LAW-L1::EL-025->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-025",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-025-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-025",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-025",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/24",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-026-L2A",
+        "direction_key": "LAW-L1::EL-026->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-026",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-026-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-026",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-026",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-027-L2A",
+        "direction_key": "LAW-L1::EL-027->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-027",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-027-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-027",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-027",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-028-L2A",
+        "direction_key": "LAW-L1::EL-028->LAW-L2::EA-09",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-028",
+        "argument_role": "lean_to_architecture",
+        "source_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+        "receiving_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific lean_to_architecture argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      },
+      {
+        "id": "A002-EA09-EL-028-A2L",
+        "direction_key": "LAW-L2::EA-09->LAW-L1::EL-028",
+        "rule": "A002-EA09-LEAN",
+        "pair_member": "EL-028",
+        "argument_role": "architecture_to_lean",
+        "source_native_pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/8",
+        "receiving_native_pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+        "field_mask": "Complete selected native record and EA09 selected overlay",
+        "owner_incidence": "The pair-specific architecture_to_lean argument and its separately stated guard/counter-control supply this member. No title-derived admission."
+      }
+    ]
+  }
+}

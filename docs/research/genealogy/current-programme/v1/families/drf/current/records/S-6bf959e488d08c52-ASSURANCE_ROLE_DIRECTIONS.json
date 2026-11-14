@@ -1,0 +1,331 @@
+{
+  "source_identity": {
+    "source_id": "S-6bf959e488d08c52",
+    "scientific_name": "ASSURANCE_ROLE_DIRECTIONS.json",
+    "original_bytes": 19756,
+    "original_sha256": "6bf959e488d08c52ee0e6db1e3efe83dadda92d0508e6e4c9f9aacc232813133"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-assurance-role-directions/1",
+    "common": {
+      "shared_object": "A formal evidence item considered for a named assurance or reusable-component role, and the separate scientific claim supported by that item. The examined examples are FAA AC20-115D(21July2017) recognition of DO333(13December2011) and AC20-148(7December2004) reusable-component evidence. No target is declared subject to either guidance.",
+      "source_fact_scope": "The public guidance is a recognized optional means within its stated aviation domain. The2017 text recognizes the supplement within an assurance process. The2004 text distinguishes component acceptance, bounded reuse, integration and changed-component acceptance. Paid DO333 clauses were not read or used to claim compliance.",
+      "scientific_distinction": "Recognition/credit and the truth of a mathematical or operational claim are different variables. A formal result can remain valid while its recognized reuse status changes. A recognition record can be useful evidence of a permitted role without proving the theorem or wider system function.",
+      "guard": "The actual decision concerns this evidence item within the named framework and its declared domain/edition/role. Establish which objective, component, configuration and assumptions the item addresses. If no such consumer exists, ordinary review/replay can be enough; do not manufacture certification paperwork.",
+      "contrary_control": "AC20-148 permits unchanged reuse within its accepted limitations, so a blanket repeat-everything rule is wrong. Its changed-component rule distinguishes recognized status from scientific truth: an independently proved semantic equivalence would not itself rewrite the acceptance letter. Conversely, a letter does not derive the software theorem.",
+      "effect_authority_boundary": "These are source-based distinctions about evidence use, not a finding of current compliance, safety, adoption, target applicability or permission to change a real control.",
+      "cost_alternative": "Retain inexpensive unchanged evidence where adequate. Count qualification, communication and upkeep only for an actual framework consumer. A short impact note, ordinary theorem replay or dormant archive can remain the proportionate engineering option outside a required submission role.",
+      "reentry": "Changed framework/edition, actual submission purpose, recognized configuration or usage domain, scientific premise, retained consumer or contrary source changes reopen the corresponding direction.",
+      "source_refs": [
+        "SYN009",
+        "SYN010"
+      ],
+      "evidence_ceiling": "Own selected public-guidance reading and qualified F041/native member meanings. No certification project, paid-standard inspection, regulatory determination, measured comparative benefit or independent validation."
+    },
+    "authored_arguments": {
+      "path": "analysis_r12/assurance_role_interfaces.py",
+      "bytes": 6432,
+      "sha256": "9707bfbd8f7230086ffb1d935e87c2d5c9c29fda6e726ac834c41ff128cf7b03"
+    },
+    "own_primary_reading": {
+      "path": "analysis_r12/SOURCE_INQUIRY_CONTINUED.json",
+      "bytes": 3415,
+      "sha256": "c774b6e7251c2a803365b6277647c427806f7e8eb4e0c032aef79cd4b5b9fa85"
+    },
+    "rows": [
+      {
+        "direction": "F041>D46",
+        "pair": "D46|F041",
+        "reverse": "D46>F041",
+        "source": "F041",
+        "target": "D46",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "NORMATIVE_EVIDENCE_ROLE_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P46",
+          "native_pointer": "/PROPERTIES/45",
+          "current_pointer": "/QUALIFICATIONS/45",
+          "current_object_sha256": "1f17fddbdc3d5b7092d1d148fb9337b1fdc827c6e268b344ec1642512c815085",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_receiving_evidence_role": "Retirement of an active formal-evidence/control item while preserving actual residual consumers.",
+        "source_contribution_and_receiving_change": "The named framework can supply a real remaining evidence consumer even when runtime callers are absent. That distinguishes a removable duplicate execution from an evidence item still needed for accepted reuse; the mathematical result can be archived without being declared false.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D46>F041",
+        "pair": "D46|F041",
+        "reverse": "F041>D46",
+        "source": "D46",
+        "target": "F041",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "EVIDENCE_CHOICE_OR_LIFECYCLE_CRITERION",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P46",
+          "native_pointer": "/PROPERTIES/45",
+          "current_pointer": "/QUALIFICATIONS/45",
+          "current_object_sha256": "1f17fddbdc3d5b7092d1d148fb9337b1fdc827c6e268b344ec1642512c815085",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "actual_receiving_evidence_role": "Retirement of an active formal-evidence/control item while preserving actual residual consumers.",
+        "source_contribution_and_receiving_change": "The retirement inquiry identifies the item, the actual remaining user and the protection/evidence lost by deletion. That limits F041 participation to an actual submission or reuse obligation and rejects a permanent paperwork programme justified only by a label.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F041>D51",
+        "pair": "D51|F041",
+        "reverse": "D51>F041",
+        "source": "F041",
+        "target": "D51",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "NORMATIVE_EVIDENCE_ROLE_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "target_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P51",
+          "native_pointer": "/PROPERTIES/50",
+          "current_pointer": "/QUALIFICATIONS/50",
+          "current_object_sha256": "f1302119c554710f4bc8df4332f6a1f16608765f3c55dd4ec480fbe85b46a90d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "actual_receiving_evidence_role": "Distinguishing a useful formal artifact or trusted abstraction from infrastructure ceremony.",
+        "source_contribution_and_receiving_change": "Recognition supplies an actual procedural evidential role and can justify retaining a record. The same fact does not prove the artifact's theorem or system function; thus useful assurance communication and unsupported correctness marketing receive different evaluations.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "D51>F041",
+        "pair": "D51|F041",
+        "reverse": "F041>D51",
+        "source": "D51",
+        "target": "F041",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "EVIDENCE_CHOICE_OR_LIFECYCLE_CRITERION",
+        "source_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P51",
+          "native_pointer": "/PROPERTIES/50",
+          "current_pointer": "/QUALIFICATIONS/50",
+          "current_object_sha256": "f1302119c554710f4bc8df4332f6a1f16608765f3c55dd4ec480fbe85b46a90d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "actual_receiving_evidence_role": "Distinguishing a useful formal artifact or trusted abstraction from infrastructure ceremony.",
+        "source_contribution_and_receiving_change": "The actual consumer discriminator identifies which assurance record communicates an objective/configuration/assumption and which extra artifact changes no warranted choice. This preserves legitimate framework evidence while challenging volume or branding as proof.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F041>R029",
+        "pair": "F041|R029",
+        "reverse": "R029>F041",
+        "source": "F041",
+        "target": "R029",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "NORMATIVE_EVIDENCE_ROLE_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "target_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P029",
+          "native_pointer": "/properties/28/native_record",
+          "current_pointer": "/properties/28/current_claim",
+          "current_object_sha256": "70bcff03d9c3f1949eceb3a70b7ff61b7907187849669392bc2c1bd2cb7e4338",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_receiving_evidence_role": "Inheritance of a claim-evidence relation across component/configuration changes.",
+        "source_contribution_and_receiving_change": "The2004 reusable-component example separates inherited scientific support from recognized reuse status. Changed-component acceptance requirements can remain even when some theorem premises survive; unchanged reuse under accepted limits can avoid redundant work. This changes which kind of currentness is being claimed.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "R029>F041",
+        "pair": "F041|R029",
+        "reverse": "F041>R029",
+        "source": "R029",
+        "target": "F041",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "EVIDENCE_CHOICE_OR_LIFECYCLE_CRITERION",
+        "source_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P029",
+          "native_pointer": "/properties/28/native_record",
+          "current_pointer": "/properties/28/current_claim",
+          "current_object_sha256": "70bcff03d9c3f1949eceb3a70b7ff61b7907187849669392bc2c1bd2cb7e4338",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "actual_receiving_evidence_role": "Inheritance of a claim-evidence relation across component/configuration changes.",
+        "source_contribution_and_receiving_change": "The actual changed-premise analysis identifies which scientific claims and dependencies survive or need renewed evidence, independently of the administrative status. It gives the framework submission a concrete impact argument without assuming that identical bytes or age settle either kind of currentness.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F041>R038",
+        "pair": "F041|R038",
+        "reverse": "R038>F041",
+        "source": "F041",
+        "target": "R038",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "NORMATIVE_EVIDENCE_ROLE_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "target_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P038",
+          "native_pointer": "/properties/37/native_record",
+          "current_pointer": "/properties/37/current_claim",
+          "current_object_sha256": "f05d6e9a997e0d04152338eeda64f571af916541ea82a70ab404b7a75285e004",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_receiving_evidence_role": "Choosing an adequate evidence path while preserving applicable obligations.",
+        "source_contribution_and_receiving_change": "An optional assurance means is not a universal command to create a certification workflow. Where the specified means is actually selected and applicable, its evidence role can be a real constraint on an otherwise cheap engineering choice. Recognition alone still does not establish adequacy of the scientific discriminator.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "F041>R039",
+        "pair": "F041|R039",
+        "reverse": "R039>F041",
+        "source": "F041",
+        "target": "R039",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "NORMATIVE_EVIDENCE_ROLE_INPUT",
+        "source_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "target_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P039",
+          "native_pointer": "/properties/38/native_record",
+          "current_pointer": "/properties/38/current_claim",
+          "current_object_sha256": "e7cfbb33edebeeb00991d665cd30c38b24afa24da36fbe510e6018d923e639e5",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "actual_receiving_evidence_role": "Removing, replacing, archiving or keeping a reliability evidence/control duty.",
+        "source_contribution_and_receiving_change": "The framework example gives a concrete kind of latent evidence obligation that can survive recent non-use, and a conditional reuse route that avoids gratuitous recertification. The decision distinguishes retiring active work, keeping a record and withdrawing an unsupported scientific claim.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      },
+      {
+        "direction": "R039>F041",
+        "pair": "F041|R039",
+        "reverse": "F041>R039",
+        "source": "R039",
+        "target": "F041",
+        "disposition": "MATERIAL",
+        "assignment_kind": "DIRECT",
+        "relation_type": "EVIDENCE_CHOICE_OR_LIFECYCLE_CRITERION",
+        "source_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P039",
+          "native_pointer": "/properties/38/native_record",
+          "current_pointer": "/properties/38/current_claim",
+          "current_object_sha256": "e7cfbb33edebeeb00991d665cd30c38b24afa24da36fbe510e6018d923e639e5",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "target_binding": {
+          "carrier": "work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "native_id": "P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+          "carrier_sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "actual_receiving_evidence_role": "Removing, replacing, archiving or keeping a reliability evidence/control duty.",
+        "source_contribution_and_receiving_change": "The native removal criterion makes the actual residual consumer, lost evidence and transition cost explicit before claiming that framework records are obsolete. It does not impose a standing certification consumer when none exists.",
+        "common_exact_alias": {
+          "path": "analysis_r12/ASSURANCE_ROLE_DIRECTIONS.json",
+          "pointer": "/common"
+        }
+      }
+    ],
+    "retained_prior": [
+      "R038>F041"
+    ],
+    "unassigned_complement": "All other F041 directions remain UNEXAMINED unless previously assigned. No absence is inferred from an unlocated target framework or from the particular candidate range."
+  }
+}

@@ -1,0 +1,948 @@
+{
+  "source_identity": {
+    "source_id": "S-dc78970ab5776792",
+    "scientific_name": "SB-R3-065_EA11_F11_FORWARD.json",
+    "original_bytes": 73997,
+    "original_sha256": "dc78970ab5776792f40c3910c3d0d68950f50db2af0992760d50de48ed588256"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-065",
+    "title": "EA-11_FORWARD_CHANGE_EXPOSURE_AND_RECOVERY",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-12T02:08:23.473449+00:00",
+    "inquiry_family": 11,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_010.json",
+      "bytes": 1923,
+      "sha256": "a013c11f6dd82b0dfff8992948d504b8ad283424b0cb4ddd44145cc94d1b5599"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY11_NATIVE_MEANINGS.json",
+      "bytes": 109853,
+      "sha256": "8c33a36942b96e29f7debfe86266b599068b2e828d0a41c446011aa2350ed766"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY11_COMPLETE_CORE_LITERAL_ARGUMENTS.json",
+      "bytes": 52778,
+      "sha256": "9e6dd8e47bf991e72294a803acb6cb865f144922f6f446a0567f7338b7b5cf35"
+    },
+    "finite_controls": {
+      "path": "research/CONSTRUCTED_FAMILY11_CONTROLS.json",
+      "bytes": 8305,
+      "sha256": "0b8aaa5f79923b9e758e18950db840244f5196979e0870ed7d6c505516d25831"
+    },
+    "bounded_interface_domain": [
+      "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+      "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+      "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+      "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+      "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+    ],
+    "native_common_basis": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm.",
+    "common_cost_and_alternative": [
+      "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+      "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+      "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+      "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+    ],
+    "evidence_ceiling": "Root analytical arguments from complete selected native bodies and seven own finite controls. Two bounded practitioner-source accesses corroborate mechanisms, not universal causal effects. No deployed experiment, new property, whole synthesis completion or independent acceptance.",
+    "common_subconditions": {
+      "P1": "The precise common object and actual receiving use exist.",
+      "P2": "The full source and receiver meanings govern, including cheap paths and rejected universal claims.",
+      "P3": "The literal separately reasoned partial consequence follows under its guard.",
+      "P4": "The stronger-claim witness, residual premises, alternatives and re-entry remain."
+    },
+    "inference": "The specifically identified partial capability, evidence or scope constraint is material to the receiving decision. This does not establish complete recovery, a universal cost curve, a deployment cadence, an authority grant or a new control requirement.",
+    "common_source_dependence": "Both new practitioner sources belong to the Google SRE ecosystem; no independent causal replication or duplicate credit. Shared artifacts and controls remain shared.",
+    "exceptions": [],
+    "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P003",
+        "argument": "Staged exposure with relevant observations yields evidence about the realized interface or quality trade-off under the pilot conditions, limiting the population initially exposed to an architecture defect."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P007",
+        "argument": "The explicit staged-exposure configuration identifies which realized states should be observed and compared, and its observations can expose discrepancies in the deployed behavior during reconciliation."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P013",
+        "argument": "Bounded exposure and observed results can challenge a nominal qualification assumption or supply limited in-envelope evidence without exposing the full population. Its contribution remains useful even if it cannot establish the complete envelope."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P018",
+        "argument": "A justified bounded cohort, stop condition and tested containment path can reduce the number or duration of exposures along that pathway even when an individual irreversible effect cannot be undone."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P027",
+        "argument": "A rehearsed staged rollout supplies a concrete transition sequence, bounded exposure and a place to inspect conditions before expanding; it can reduce the scale of a failed cutover."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P028",
+        "argument": "Staging and practiced disable/revert operations provide a concrete recovery branch and limit additional exposure while it is invoked; containment may be valuable without restoring every past effect."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P029",
+        "argument": "Guarded rollout waves and recovery observations support continuing maintenance across identified fleet versions while limiting the population affected by a faulty update."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P033",
+        "argument": "Bounded exposure and tested response supply actual dimensions for consequence and recovery analysis; a smaller credible loss exposure can justify a particular control choice without establishing complete reversibility."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P038",
+        "argument": "A bounded rollout can change the failure-exposure and recovery components of a late change while leaving edit effort unchanged, demonstrating why a single phase-based cost variable misses operative mechanisms."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P003",
+        "overclaim": "A small successful pilot may miss rare load, shared-state effects or a future physical constraint; prohibited live harm cannot be justified as architectural learning.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P007",
+        "overclaim": "A rollout plan saying five percent was exposed does not prove actual traffic assignment or the identity of the code and configuration those requests encountered.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P013",
+        "overclaim": "A small ordinary-load cohort cannot demonstrate extreme-temperature, rare-event or durability margins; absence of a failure is not comprehensive qualification.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P018",
+        "overclaim": "A single prohibited injury or disclosure is not made acceptable by a small cohort; delayed or common-mode hazards may escape the stop signal.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P027",
+        "overclaim": "A feature flag alone does not ensure support staffing, migration-data integrity or authority to proceed beyond the current stage.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P028",
+        "overclaim": "Disabling a feature does not reverse a corrupted shared database, dispatched payment or disclosure. A canary and fallback can share the same failing dependency.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P029",
+        "overclaim": "Staged updates cannot create spare parts, source rights or compatibility for an obsolete unsupported device; some physical updates cannot be rolled back.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P033",
+        "overclaim": "A small cohort with irreversible catastrophic consequences or unobservable delayed harm can still require strong pre-exposure controls.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P038",
+        "overclaim": "Reducing expected affected users is not a proof that every late rollout is cheap; irreversible side effects and delayed detection may dominate.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L2::EA-11->LAW-L3::EW-P003",
+      "LAW-L2::EA-11->LAW-L3::EW-P007",
+      "LAW-L2::EA-11->LAW-L3::EW-P013",
+      "LAW-L2::EA-11->LAW-L3::EW-P018",
+      "LAW-L2::EA-11->LAW-L3::EW-P027",
+      "LAW-L2::EA-11->LAW-L3::EW-P028",
+      "LAW-L2::EA-11->LAW-L3::EW-P029",
+      "LAW-L2::EA-11->LAW-L3::EW-P033",
+      "LAW-L2::EA-11->LAW-L3::EW-P038"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P003",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P003",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "shared_question_or_object": "A permissible bounded deployment or pilot can discriminate a specific architectural assumption before wider commitment.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Staged exposure with relevant observations yields evidence about the realized interface or quality trade-off under the pilot conditions, limiting the population initially exposed to an architecture defect.",
+        "receiving_consequence": "Staged exposure with relevant observations yields evidence about the realized interface or quality trade-off under the pilot conditions, limiting the population initially exposed to an architecture defect.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Staged exposure with relevant observations yields evidence about the realized interface or quality trade-off under the pilot conditions, limiting the population initially exposed to an architecture defect."
+        ],
+        "premises_remaining": [
+          "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A small successful pilot may miss rare load, shared-state effects or a future physical constraint; prohibited live harm cannot be justified as architectural learning.",
+        "counter_control": "A small successful pilot may miss rare load, shared-state effects or a future physical constraint; prohibited live harm cannot be justified as architectural learning.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P003->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+            "criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment."
+          },
+          "actual_object": "A permissible bounded deployment or pilot can discriminate a specific architectural assumption before wider commitment.",
+          "literal_bridge": "Staged exposure with relevant observations yields evidence about the realized interface or quality trade-off under the pilot conditions, limiting the population initially exposed to an architecture defect."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P007",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P007",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/6",
+          "expected_native_id": "EW-P007"
+        },
+        "shared_question_or_object": "A rollout has different versions, flags or states in its actual canary and control populations.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "The correspondence of designed, built, tested and operated states",
+            "criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "The explicit staged-exposure configuration identifies which realized states should be observed and compared, and its observations can expose discrepancies in the deployed behavior during reconciliation.",
+        "receiving_consequence": "The explicit staged-exposure configuration identifies which realized states should be observed and compared, and its observations can expose discrepancies in the deployed behavior during reconciliation.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "The explicit staged-exposure configuration identifies which realized states should be observed and compared, and its observations can expose discrepancies in the deployed behavior during reconciliation."
+        ],
+        "premises_remaining": [
+          "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A rollout plan saying five percent was exposed does not prove actual traffic assignment or the identity of the code and configuration those requests encountered.",
+        "counter_control": "A rollout plan saying five percent was exposed does not prove actual traffic assignment or the identity of the code and configuration those requests encountered.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P007->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "The correspondence of designed, built, tested and operated states",
+            "criterion": "A consequential delivery or use can establish whether its actual configuration and environment match the evidence and approved assumptions."
+          },
+          "actual_object": "A rollout has different versions, flags or states in its actual canary and control populations.",
+          "literal_bridge": "The explicit staged-exposure configuration identifies which realized states should be observed and compared, and its observations can expose discrepancies in the deployed behavior during reconciliation."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P013",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P013",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        },
+        "shared_question_or_object": "An allowed pilot operates within a stated qualification envelope and yields relevant operating evidence.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Bounded exposure and observed results can challenge a nominal qualification assumption or supply limited in-envelope evidence without exposing the full population. Its contribution remains useful even if it cannot establish the complete envelope.",
+        "receiving_consequence": "Bounded exposure and observed results can challenge a nominal qualification assumption or supply limited in-envelope evidence without exposing the full population. Its contribution remains useful even if it cannot establish the complete envelope.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Bounded exposure and observed results can challenge a nominal qualification assumption or supply limited in-envelope evidence without exposing the full population. Its contribution remains useful even if it cannot establish the complete envelope."
+        ],
+        "premises_remaining": [
+          "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A small ordinary-load cohort cannot demonstrate extreme-temperature, rare-event or durability margins; absence of a failure is not comprehensive qualification.",
+        "counter_control": "A small ordinary-load cohort cannot demonstrate extreme-temperature, rare-event or durability margins; absence of a failure is not comprehensive qualification.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P013->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation."
+          },
+          "actual_object": "An allowed pilot operates within a stated qualification envelope and yields relevant operating evidence.",
+          "literal_bridge": "Bounded exposure and observed results can challenge a nominal qualification assumption or supply limited in-envelope evidence without exposing the full population. Its contribution remains useful even if it cannot establish the complete envelope."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P018",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P018",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "shared_question_or_object": "A proposed rollout has a named hazard pathway whose exposure or duration can actually be limited.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "A justified bounded cohort, stop condition and tested containment path can reduce the number or duration of exposures along that pathway even when an individual irreversible effect cannot be undone.",
+        "receiving_consequence": "A justified bounded cohort, stop condition and tested containment path can reduce the number or duration of exposures along that pathway even when an individual irreversible effect cannot be undone.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A justified bounded cohort, stop condition and tested containment path can reduce the number or duration of exposures along that pathway even when an individual irreversible effect cannot be undone."
+        ],
+        "premises_remaining": [
+          "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A single prohibited injury or disclosure is not made acceptable by a small cohort; delayed or common-mode hazards may escape the stop signal.",
+        "counter_control": "A single prohibited injury or disclosure is not made acceptable by a small cohort; delayed or common-mode hazards may escape the stop signal.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P018->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes."
+          },
+          "actual_object": "A proposed rollout has a named hazard pathway whose exposure or duration can actually be limited.",
+          "literal_bridge": "A justified bounded cohort, stop condition and tested containment path can reduce the number or duration of exposures along that pathway even when an individual irreversible effect cannot be undone."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P027",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P027",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "shared_question_or_object": "An operational transition can proceed in actual migration waves or staged service exposure.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "A rehearsed staged rollout supplies a concrete transition sequence, bounded exposure and a place to inspect conditions before expanding; it can reduce the scale of a failed cutover.",
+        "receiving_consequence": "A rehearsed staged rollout supplies a concrete transition sequence, bounded exposure and a place to inspect conditions before expanding; it can reduce the scale of a failed cutover.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A rehearsed staged rollout supplies a concrete transition sequence, bounded exposure and a place to inspect conditions before expanding; it can reduce the scale of a failed cutover."
+        ],
+        "premises_remaining": [
+          "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A feature flag alone does not ensure support staffing, migration-data integrity or authority to proceed beyond the current stage.",
+        "counter_control": "A feature flag alone does not ensure support staffing, migration-data integrity or authority to proceed beyond the current stage.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P027->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "Transition to operation or restart",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition."
+          },
+          "actual_object": "An operational transition can proceed in actual migration waves or staged service exposure.",
+          "literal_bridge": "A rehearsed staged rollout supplies a concrete transition sequence, bounded exposure and a place to inspect conditions before expanding; it can reduce the scale of a failed cutover."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P028",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P028",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "shared_question_or_object": "The rollout's proposed rollback or containment path must operate on the current state within a required time.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Staging and practiced disable/revert operations provide a concrete recovery branch and limit additional exposure while it is invoked; containment may be valuable without restoring every past effect.",
+        "receiving_consequence": "Staging and practiced disable/revert operations provide a concrete recovery branch and limit additional exposure while it is invoked; containment may be valuable without restoring every past effect.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Staging and practiced disable/revert operations provide a concrete recovery branch and limit additional exposure while it is invoked; containment may be valuable without restoring every past effect."
+        ],
+        "premises_remaining": [
+          "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Disabling a feature does not reverse a corrupted shared database, dispatched payment or disclosure. A canary and fallback can share the same failing dependency.",
+        "counter_control": "Disabling a feature does not reverse a corrupted shared database, dispatched payment or disclosure. A canary and fallback can share the same failing dependency.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P028->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A proposed recovery claim after failure or change",
+            "criterion": "The recovery mechanism covers relevant state, dependencies and harm pathways and is credible within the needed time."
+          },
+          "actual_object": "The rollout's proposed rollback or containment path must operate on the current state within a required time.",
+          "literal_bridge": "Staging and practiced disable/revert operations provide a concrete recovery branch and limit additional exposure while it is invoked; containment may be valuable without restoring every past effect."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P029",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P029",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "shared_question_or_object": "An actually supported fleet or service needs patches and replacements without an uncontrolled all-at-once transition.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Guarded rollout waves and recovery observations support continuing maintenance across identified fleet versions while limiting the population affected by a faulty update.",
+        "receiving_consequence": "Guarded rollout waves and recovery observations support continuing maintenance across identified fleet versions while limiting the population affected by a faulty update.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Guarded rollout waves and recovery observations support continuing maintenance across identified fleet versions while limiting the population affected by a faulty update."
+        ],
+        "premises_remaining": [
+          "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Staged updates cannot create spare parts, source rights or compatibility for an obsolete unsupported device; some physical updates cannot be rolled back.",
+        "counter_control": "Staged updates cannot create spare parts, source rights or compatibility for an obsolete unsupported device; some physical updates cannot be rolled back.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P029->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A supported system over its operational life",
+            "criterion": "Maintenance, skills, spares, software currency and end-of-support dependencies are planned and updated as the system ages."
+          },
+          "actual_object": "An actually supported fleet or service needs patches and replacements without an uncontrolled all-at-once transition.",
+          "literal_bridge": "Guarded rollout waves and recovery observations support continuing maintenance across identified fleet versions while limiting the population affected by a faulty update."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P033",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P033",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "shared_question_or_object": "Control strength depends on a concrete change's exposure, observation delay and available response.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "Bounded exposure and tested response supply actual dimensions for consequence and recovery analysis; a smaller credible loss exposure can justify a particular control choice without establishing complete reversibility.",
+        "receiving_consequence": "Bounded exposure and tested response supply actual dimensions for consequence and recovery analysis; a smaller credible loss exposure can justify a particular control choice without establishing complete reversibility.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "Bounded exposure and tested response supply actual dimensions for consequence and recovery analysis; a smaller credible loss exposure can justify a particular control choice without establishing complete reversibility."
+        ],
+        "premises_remaining": [
+          "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "A small cohort with irreversible catastrophic consequences or unobservable delayed harm can still require strong pre-exposure controls.",
+        "counter_control": "A small cohort with irreversible catastrophic consequences or unobservable delayed harm can still require strong pre-exposure controls.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P033->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "A decision about assurance strength under change",
+            "criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints."
+          },
+          "actual_object": "Control strength depends on a concrete change's exposure, observation delay and available response.",
+          "literal_bridge": "Bounded exposure and tested response supply actual dimensions for consequence and recovery analysis; a smaller credible loss exposure can justify a particular control choice without establishing complete reversibility."
+        }
+      },
+      {
+        "direction_key": "LAW-L2::EA-11->LAW-L3::EW-P038",
+        "source_native_id": "EA-11",
+        "receiving_native_id": "EW-P038",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/10",
+          "expected_native_id": "EA-11",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/10",
+            "expected_native_id": "AGQ-EA-11"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/37",
+          "expected_native_id": "EW-P038"
+        },
+        "shared_question_or_object": "A universal late-change curve is invoked for a software rollout with controllable exposure.",
+        "native_meanings_and_bearers": {
+          "source": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiver": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          }
+        },
+        "guard": [
+          "An actual artifact, state, configuration, population, time horizon and receiving decision are identified as specified in the literal common-object field.",
+          "The exact native source mechanism contributes the named evidence, constraint, capability or interpretation to that receiving use. Generic possible co-use is insufficient.",
+          "Edit effort, propagation, commitment unwinding and failure/recovery losses remain separate; a partial reduction is material without establishing complete reversibility.",
+          "Authority, representative evidence, hidden state, shared failure domains, response capability and binding constraints remain separate premises.",
+          "Unknown correspondence remains unknown; a low-consequence cheap path and an adequate existing mechanism remain eligible."
+        ],
+        "source_contribution": "A bounded rollout can change the failure-exposure and recovery components of a late change while leaving edit effort unchanged, demonstrating why a single phase-based cost variable misses operative mechanisms.",
+        "receiving_consequence": "A bounded rollout can change the failure-exposure and recovery components of a late change while leaving edit effort unchanged, demonstrating why a single phase-based cost variable misses operative mechanisms.",
+        "relation_types": [
+          "GUARDED_MECHANISM_OR_EVIDENCE_INPUT",
+          "SCOPE_OR_INTERPRETATION_CONSTRAINT"
+        ],
+        "premises_supplied": [
+          "A bounded rollout can change the failure-exposure and recovery components of a late change while leaving edit effort unchanged, demonstrating why a single phase-based cost variable misses operative mechanisms."
+        ],
+        "premises_remaining": [
+          "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss.",
+          "All receiver-native scope, authority and evidence conditions beyond the literal partial contribution; actual net benefit remains to be established."
+        ],
+        "counterexample": "Reducing expected affected users is not a proof that every late rollout is cheap; irreversible side effects and delayed detection may dominate.",
+        "counter_control": "Reducing expected affected users is not a proof that every late rollout is cheap; irreversible side effects and delayed detection may dominate.",
+        "nontrigger": "The specified actual shared object, mechanism or receiving use is known absent. If it is merely unestablished, retain that uncertainty rather than declaring no relationship.",
+        "specific_cost_and_alternative": [
+          "Account for structural work, requalification, telemetry, isolation, rehearsal, backup, coexistence, maintenance and delayed beneficial change; do not count the same shared capacity twice.",
+          "Compare existing verified seams, a manual controlled release, targeted checks, simulation, a qualified pilot, roll-forward repair, replacement and deliberate retirement as applicable.",
+          "A frozen stage, infrequent release or no change may be adequate; no universal deployment cadence or additional approver follows.",
+          "Binding constraints and explicitly nontradeable harms limit the choice set independently of ordinary service-budget economics."
+        ],
+        "reentry": "Reopen the affected literal direction if configuration, state, population, timing, coupling, exposure, recovery evidence, source version, receiving use, support horizon or authority changes. A failed guard does not establish a global negative; reverse and transitive claims require separate inquiry.",
+        "reverse_direction_key": "LAW-L3::EW-P038->LAW-L2::EA-11",
+        "member_to_common_premise": {
+          "source_native_meaning": {
+            "bearer": "A deployable change with observable outcomes, bounded exposure and a feasible response.",
+            "criterion": "Use staged exposure and recovery where these reduce consequence; establish limits where rollback cannot undo harm."
+          },
+          "receiving_native_meaning": {
+            "bearer": "The universal exponential relationship between later change and cost",
+            "criterion": "Reject a universal exponential law; distinguish development repair effort from propagation, unwinding commitments and failure/recovery loss."
+          },
+          "actual_object": "A universal late-change curve is invoked for a software rollout with controllable exposure.",
+          "literal_bridge": "A bounded rollout can change the failure-exposure and recovery components of a late change while leaving edit effort unchanged, demonstrating why a single phase-based cost variable misses operative mechanisms."
+        }
+      }
+    ],
+    "independent_review_scope": "Actual common premise, every literal membership, source and receiver meanings, cost, alternatives and controls remain subject to later whole-study fidelity and separate adversarial review."
+  }
+}

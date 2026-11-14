@@ -1,0 +1,50 @@
+{
+  "source_identity": {
+    "source_id": "S-bd54f901903eb314",
+    "scientific_name": "WHOLE_SEMANTIC_REFINEMENT_002.json",
+    "original_bytes": 4047,
+    "original_sha256": "bd54f901903eb314138de48ad8faf85caa0e03115feb3794e6c9ff95cd3ead35"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "status": "AUTHOR_SEMANTIC_REFINEMENT_BEFORE_ANY_WHOLE_PROJECTION",
+    "reason": "A second reading of the explicit member enumeration exposed two different uses of economic language. A batch, setup, feedback or platform has its own costs; that does not make it a general economic appraisal of every other control. Conversely every selected positive owner explicitly carries a cheap path and application/control burden, so a genuine improvement/portfolio/lifecycle economic appraisal has an actual receiving use when that owner's optional implementation is the very work being appraised. This is a correction of the navigation map, not a new duty to perform a cost programme.",
+    "remove_general_economic_outputs": [
+      "EL-005",
+      "EL-006",
+      "EA-01",
+      "EA-04",
+      "EA-27"
+    ],
+    "general_economic_sources": [
+      "EL-020",
+      "EL-032",
+      "EA-28",
+      "EW-P024",
+      "EW-P033",
+      "EW-P025"
+    ],
+    "receiving_scope": "For all positive owners in the refined index, control_economics denotes only the actual selection, maintenance, simplification or retirement of that owner's implementation, using its exact native cheap path and selected incremental/total-cost field. A cost estimate for a different activity has no receiving use. Source economics may recommend retaining the existing method or completing the minimum binding function. It cannot waive a nontradeable obligation, give authority, prove the control works or imply a numeric optimum.",
+    "additional_explicit_interfaces": [
+      {
+        "source": "EL-009",
+        "receiver": "EA-10",
+        "factor": "capacity",
+        "argument": "Actual headroom in the build/test resource used to maintain the reproducible candidate can prevent its evidence path being unavailable under variable work. This is the same resource-availability premise, not a technical passing claim. The loading policy must produce suitable timely capacity rather than merely report utilization.",
+        "guard": "The identified resource and queue actually constrain the candidate preparation/evidence path; include pre-entry backlog and independent work.",
+        "counter": "A utilization target for another resource supplies no readiness; steady predictable work may legitimately operate at high utilization."
+      },
+      {
+        "source": "EL-024",
+        "receiver": "EA-10",
+        "factor": "capacity",
+        "argument": "Actual system-level ownership and delivered resources can remove a cross-boundary obstacle in the candidate build/configuration/verification path. This is a specific execution premise, not proof that allocated funds turn into capability or that leadership can approve exposure without the real right.",
+        "guard": "Name the candidate's actual missing resource/interface owner and establish that the intervention delivers that needed function.",
+        "counter": "A budget entry or leadership meeting without the required capability changes no readiness; a sound candidate still needs its other evidence."
+      }
+    ],
+    "negative_control": "The structurally plausible EA10->EL010 identity match stays examined unresolved. Extending genuine economic appraisal to an explicitly cost-bearing implementation does not repair that different object/measurement mismatch.",
+    "initial_transport_failures": "The first assemble_whole_analysis.py run expected a nonexistent Agile overlay native-id field and stopped before writing native evidence. After exact nested native.expected_native_id/canonical_key binding was repaired, the second run found the projection uses directions, not rows. It had written only derived evidence/index files and no scientific projection. Both failures are retained in this record; no predecessor program was rerun. The third run produced the first unprojected 1730M/1970U author table, now superseded by this explicitly reasoned refinement.",
+    "forecast_economic_scope": "A relevant outside-view forecast can qualify the cost/range of an actual optional implementation; it still does not create capacity or forecast the cost of an unrelated control."
+  }
+}

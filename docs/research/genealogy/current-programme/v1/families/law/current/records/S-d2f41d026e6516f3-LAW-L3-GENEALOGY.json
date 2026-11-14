@@ -1,0 +1,321 @@
+{
+  "source_identity": {
+    "source_id": "S-d2f41d026e6516f3",
+    "scientific_name": "LAW-L3-GENEALOGY.json",
+    "original_bytes": 13872,
+    "original_sha256": "d2f41d026e6516f34602612684951fa6957cedc3dcde3f9f04bc3efc42a9b9f4"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "WATERFALL_TYPED_GENEALOGY_R2",
+    "edges": [
+      {
+        "edge_id": "GE01",
+        "source": "Royce1970",
+        "target": "BellThayer1976",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "dates": "1970 → 1976",
+        "sources": [
+          "S004"
+        ],
+        "inspected_passage": "§II p.62 explicitly names Royce and describes the waterfall concept.",
+        "status": "SUPPORTED_AT_NAMED_PASSAGE",
+        "ceiling": "Does not establish every textbook or procurement descendant."
+      },
+      {
+        "edge_id": "GE02",
+        "source": "Royce1970",
+        "target": "BoehmSpiral1988",
+        "relation": "DOCUMENTED_INFLUENCE",
+        "dates": "1970 → 1988",
+        "sources": [
+          "S008"
+        ],
+        "inspected_passage": "p.63 discusses Royce feedback and do-it-twice strategy and cites his paper.",
+        "status": "SUPPORTED_AT_NAMED_PASSAGE",
+        "ceiling": "A cited antecedent does not make every spiral mechanism a Royce invention."
+      },
+      {
+        "edge_id": "GE03",
+        "source": "DocumentDrivenWaterfall",
+        "target": "BoehmSpiral1988",
+        "relation": "REACTION",
+        "dates": "1988 account of preceding models",
+        "sources": [
+          "S008"
+        ],
+        "inspected_passage": "pp.63–65 contrasts document-driven completion with risk-driven choice.",
+        "status": "SUPPORTED_AT_NAMED_PASSAGE",
+        "ceiling": "Spiral retains staged development as a conditional option; no absolute replacement."
+      },
+      {
+        "edge_id": "GE04",
+        "source": "VModellXT",
+        "target": "VModellXTBund2.4",
+        "relation": "DESCENT",
+        "dates": "Generic XT → federal variant, version2.4",
+        "sources": [
+          "S013"
+        ],
+        "inspected_passage": "Official Bund introduction and B.1.4 identify government-specific framework and tailoring.",
+        "status": "SUPPORTED_AT_NAMED_PASSAGE",
+        "ceiling": "Does not establish descent from Royce, Rook or Forsberg–Mooz."
+      },
+      {
+        "edge_id": "GE05",
+        "source": "AerospaceObjectives",
+        "target": "IterativeAerospaceDelivery",
+        "relation": "HYBRIDIZATION",
+        "dates": "FTP1050Rev3, 2024",
+        "sources": [
+          "S026"
+        ],
+        "inspected_passage": "§§3–4 explain Agile principles with retained certification objectives and baselines.",
+        "status": "SUPPORTED_PRESCRIPTIVE_HYBRID",
+        "ceiling": "Educational compatibility argument, not observed performance or regulatory permission."
+      },
+      {
+        "edge_id": "GE06",
+        "source": "RiskManagementAuthorization",
+        "target": "DevSecOpsContinuousAuthorization",
+        "relation": "HYBRIDIZATION",
+        "dates": "DoD guide1.0 March2024",
+        "sources": [
+          "S036"
+        ],
+        "inspected_passage": "pp.1–3 joins RMF monitoring/authorization with software-factory practices.",
+        "status": "SUPPORTED_PRESCRIPTIVE_HYBRID",
+        "ceiling": "Authorization boundaries remain; does not prove actual continuous security."
+      },
+      {
+        "edge_id": "GE07",
+        "source": "VAndVChartFamily",
+        "target": "SystemsEngineeringVeeFamily",
+        "relation": "ANALOGY",
+        "dates": "1979/1986 versus1991/1995 accounts",
+        "sources": [
+          "S005",
+          "S010",
+          "S011",
+          "S012"
+        ],
+        "inspected_passage": "Distinct original source descriptions; 1995 official abstract newly checked.",
+        "status": "BOUNDED_COMPARISON",
+        "ceiling": "Paired definition/evaluation geometry is not proof of a common invention/transmission."
+      },
+      {
+        "edge_id": "GE08",
+        "source": "MultiDimensionRailChangeAssessment",
+        "target": "WaterfallR2ControlSelection",
+        "relation": "CONVERGENCE",
+        "dates": "EU2013/2015 and analyst2026",
+        "sources": [
+          "S030"
+        ],
+        "inspected_passage": "Article4 lists several significance dimensions including reversibility.",
+        "status": "CONSTRUCTED_ANALYTICAL_COMPARISON",
+        "ceiling": "An analytical convergence; no claim that rail law descends from this research or all plan-driven practices."
+      },
+      {
+        "edge_id": "GE09",
+        "source": "Benington1956ProductionAccount",
+        "target": "Benington1983Retrospective",
+        "relation": "DESCENT",
+        "dates": "1956 → 1983",
+        "sources": [
+          "S001"
+        ],
+        "inspected_passage": "Reprint identifies original presentation and separately labels retrospective foreword.",
+        "status": "SUPPORTED_DOCUMENT_RELATION",
+        "ceiling": "Retrospective prototype/cost estimates cannot be backdated into the 1956 text."
+      },
+      {
+        "edge_id": "GE10",
+        "source": "DocumentCentricSafetyCaseFailure",
+        "target": "MASSCIssue3ArgumentGuidance",
+        "relation": "REACTION",
+        "dates": "Nimrod criticism → issue3 account2023",
+        "sources": [
+          "S033"
+        ],
+        "inspected_passage": "Ch1 context expressly identifies documentary/operator-involvement failure; Ch2–3 emphasizes argument and context.",
+        "status": "SUPPORTED_SELF_REPORTED_RESPONSE",
+        "ceiling": "A documented institutional response does not establish that the underlying failures were eliminated."
+      }
+    ],
+    "predecessor_aggregated_arrows": [
+      {
+        "predecessor_edge": [
+          "G1",
+          "G2"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G1",
+          "G4"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G1",
+          "G5"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G1",
+          "G6"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G1",
+          "G9"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G2",
+          "G3"
+        ],
+        "selected_disposition": "NARROWED_TO_DOCUMENTED_EDGE_GE01",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G2",
+          "G4"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G3",
+          "G4"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G4",
+          "G6"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G4",
+          "G7"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G4",
+          "G8"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G5",
+          "G8"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G5",
+          "G9"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G6",
+          "G8"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G6",
+          "G9"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G7",
+          "G8"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G8",
+          "G10"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G8",
+          "G9"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      },
+      {
+        "predecessor_edge": [
+          "G9",
+          "G10"
+        ],
+        "selected_disposition": "NOT_PROMOTED_AS_DOCUMENTED_TRANSMISSION",
+        "reason": "Node-level thematic association is preserved; a precise documentary transmission for this aggregated arrow was not established by the located passages.",
+        "reentry": "Inspect a dated source naming actual uptake at these endpoints; distinguish analogy, reaction and descent."
+      }
+    ],
+    "rule": "Thematic families retained in native carrier; empty parent arrays prevent unsupported transmission from being treated as established. New precise edges do not claim exhaustive genealogy."
+  }
+}

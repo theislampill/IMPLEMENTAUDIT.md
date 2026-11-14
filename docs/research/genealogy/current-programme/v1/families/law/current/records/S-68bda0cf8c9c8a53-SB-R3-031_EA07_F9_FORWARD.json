@@ -1,0 +1,958 @@
+{
+  "source_identity": {
+    "source_id": "S-68bda0cf8c9c8a53",
+    "scientific_name": "SB-R3-031_EA07_F9_FORWARD.json",
+    "original_bytes": 79941,
+    "original_sha256": "68bda0cf8c9c8a536a20dec8bbdbe48a1c6689e75d96e01110b04fdf4896d342"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-031",
+    "title": "EA-07_FORWARD_INTEGRATION_AND_CONFIGURATION_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:40:37.543559+00:00",
+    "inquiry_family": 9,
+    "disposition": "MATERIAL",
+    "direction": "forward",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_ORIGINAL_AGILE_ROW_AND_ACCEPTED_OVERLAY",
+      "COMPLETE_CURRENT_WATERFALL_ROW",
+      "ACTUAL_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_007.json",
+      "bytes": 12364,
+      "sha256": "bb1119a087d6b0691dd0701b81c0638beee7881f7dad2ef323548dddb8314ada"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY9_NATIVE_MEANINGS.json",
+      "bytes": 151028,
+      "sha256": "f4113277f3aa84794b7ce823b2698d69ffcb4395b3793fd8b38a3b786406afa4"
+    },
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY9_SOURCE_INQUIRY.json",
+      "bytes": 4684,
+      "sha256": "9d06a0c2d8ec095f02b6ba760a21a39560a258b8064485cc5644f590d538cb45"
+    },
+    "bounded_interface_domain": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+    "native_common_basis": "Real integration combines interacting contributions into an identified shared state and gives truthful health feedback. A server or branch badge alone does not perform integration.",
+    "common_cost_and_alternative": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform.",
+    "domain_horizon_authority": "Each member exact technical decision, configuration and actual authority; no universal process order or automatic exposure.",
+    "evidence_ceiling": "Conditional analytical partial-input relation. No empirical effect estimate, complete receiver entailment, legal applicability judgment, novelty or independent acceptance.",
+    "common_subconditions": {
+      "P1": "Actual common object and used receiving concern.",
+      "P2": "Complete native meanings support the specific input.",
+      "P3": "Literal input affects a receiving premise or its interpretation.",
+      "P4": "Missing premises, cost, cheaper alternative, nontrigger and stronger-claim counterexample remain explicit."
+    },
+    "inference": "The explicit contribution is material at its stated guard even when final action is confirmed rather than changed. Corresponding mechanisms may overlap; duplicate names, reused tests and common pipelines do not create additional benefit or independence.",
+    "attempted_contrary_interfaces": [
+      "Identical test behavior treated as unique artifact identity.",
+      "A green pipeline treated as exposure authority.",
+      "An approved model treated as actual deployed state.",
+      "The same test counted as independent evidence twice.",
+      "All evidence discarded after harmless change.",
+      "All evidence carried after a changed critical premise.",
+      "A trace link treated as proof of the linked claim."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P005",
+        "argument": "A reproducible mainline build and visible integration failures provide a current executable reference for maintained engineering knowledge."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P006",
+        "argument": "The verified mainline gives configuration accounting an actual integrated candidate and a meaningful health state rather than unrelated branch badges."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P008",
+        "argument": "Early integration and explicit failures provide impact evidence before more dependent work accumulates on incompatible assumptions."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P009",
+        "argument": "Frequent real combination exercises compatibility and exposes semantic disagreement while the responsible changes are still localizable."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P010",
+        "argument": "A reproducible integrated candidate enables early execution of proposed acceptance methods and exposes missing fixtures or impossible criteria."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P017",
+        "argument": "Identified mainline commits, build inputs and integration outcomes supply concrete endpoints for trace relations across interacting work."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P019",
+        "argument": "Actual integration outcomes provide current evidence or defeaters for the compatibility subclaim and reveal when a previously cited candidate has changed."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P020",
+        "argument": "A promptly identified failing integration and its responsible changes provide a bounded anomaly witness and a repair-validation opportunity."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P030",
+        "argument": "A reproducible mainline and its actual combined behavior supply a current executable realization to compare with model or schema claims."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P031",
+        "argument": "The actually combined mainline supplies the shared candidate and credible integration result that separate branch automation lacks."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P005",
+        "overclaim": "The mainline alone may omit why a compatibility decision was made and cannot preserve knowledge in a forgotten build environment.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P006",
+        "overclaim": "A mutable branch name alone does not uniquely identify the integrated binary or authorize its release.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P008",
+        "overclaim": "Merging quickly cannot authorize a shared-interface break or bypass an applicable independent check.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P009",
+        "overclaim": "Repeatedly building branches separately does not test the shared interface, even when every branch remains green.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P010",
+        "overclaim": "A convenient existing build can bias the test plan toward what is easy rather than what the consequential requirement demands.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P017",
+        "overclaim": "Commit messages alone can be inaccurate and may not explain which requirement an integration result actually addresses.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P019",
+        "overclaim": "A healthy mainline does not establish security, safety or independence of assurance.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P020",
+        "overclaim": "Reverting a change can restore the mainline while leaving the desired functionality or underlying cause unresolved.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P030",
+        "overclaim": "A single repository can still contain mutually inconsistent generated views, models and deployment artifacts.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P031",
+        "overclaim": "A CI service on long-lived branches can automate checks without meeting the real-integration claim.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      }
+    ],
+    "exceptions": [],
+    "author_challenge": "Each member has a separately written contribution and stronger-claim witness; reverse meanings were reasoned separately. This code only serializes and checks the literal set.",
+    "common_source_dependence": "Shared source works, configurations, models, observers, tests and pipelines are not independent assurance.",
+    "independent_review_scope": "Later fidelity and genuinely separate adversarial assessment must examine common premise, exact membership, native scope and controls; no author acceptance here.",
+    "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction.",
+    "explicit_member_keys": [
+      "LAW-L2::EA-07->LAW-L3::EW-P005",
+      "LAW-L2::EA-07->LAW-L3::EW-P006",
+      "LAW-L2::EA-07->LAW-L3::EW-P008",
+      "LAW-L2::EA-07->LAW-L3::EW-P009",
+      "LAW-L2::EA-07->LAW-L3::EW-P010",
+      "LAW-L2::EA-07->LAW-L3::EW-P017",
+      "LAW-L2::EA-07->LAW-L3::EW-P019",
+      "LAW-L2::EA-07->LAW-L3::EW-P020",
+      "LAW-L2::EA-07->LAW-L3::EW-P030",
+      "LAW-L2::EA-07->LAW-L3::EW-P031"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P005",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P005",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/4",
+          "expected_native_id": "EW-P005"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+          "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form."
+        },
+        "shared_question_or_object": "A maintainer needs to recover the current integrated mainline and its known health.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+          "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form.",
+          "literal_bridge": "A reproducible mainline build and visible integration failures provide a current executable reference for maintained engineering knowledge."
+        },
+        "source_contribution": "A reproducible mainline build and visible integration failures provide a current executable reference for maintained engineering knowledge.",
+        "receiving_consequence": "A reproducible mainline build and visible integration failures provide a current executable reference for maintained engineering knowledge.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A reproducible mainline build and visible integration failures provide a current executable reference for maintained engineering knowledge."
+        ],
+        "premises_remaining": [
+          "Actual accessibility, current rationale, ownership and maintained limitations remain necessary for the knowledge claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "The mainline alone may omit why a compatibility decision was made and cannot preserve knowledge in a forgotten build environment.",
+        "counter_control": "The mainline alone may omit why a compatibility decision was made and cannot preserve knowledge in a forgotten build environment.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. A concise record, executable example or generated reference may beat duplicated prose.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A maintainer needs to recover the current integrated mainline and its known health.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "Engineering knowledge needed beyond its immediate author",
+            "receiving_criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form."
+          },
+          "P3": "A reproducible mainline build and visible integration failures provide a current executable reference for maintained engineering knowledge.",
+          "P4": "Actual accessibility, current rationale, ownership and maintained limitations remain necessary for the knowledge claim. Stronger-claim witness: The mainline alone may omit why a compatibility decision was made and cannot preserve knowledge in a forgotten build environment."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P005->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P006",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P006",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/5",
+          "expected_native_id": "EW-P006"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "An item or baseline on which evidence or authority depends",
+          "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item."
+        },
+        "shared_question_or_object": "Interacting contributions are merged into one authoritative integrated state.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "An item or baseline on which evidence or authority depends",
+          "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item.",
+          "literal_bridge": "The verified mainline gives configuration accounting an actual integrated candidate and a meaningful health state rather than unrelated branch badges."
+        },
+        "source_contribution": "The verified mainline gives configuration accounting an actual integrated candidate and a meaningful health state rather than unrelated branch badges.",
+        "receiving_consequence": "The verified mainline gives configuration accounting an actual integrated candidate and a meaningful health state rather than unrelated branch badges.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The verified mainline gives configuration accounting an actual integrated candidate and a meaningful health state rather than unrelated branch badges."
+        ],
+        "premises_remaining": [
+          "Unique identity, recoverability, build/environment provenance and legitimate baseline authority remain separate from behavioral success.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A mutable branch name alone does not uniquely identify the integrated binary or authorize its release.",
+        "counter_control": "A mutable branch name alone does not uniquely identify the integrated binary or authorize its release.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. Ordinary version control plus a build manifest may suffice; a baseline is not a universal freeze.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Interacting contributions are merged into one authoritative integrated state.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "An item or baseline on which evidence or authority depends",
+            "receiving_criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item."
+          },
+          "P3": "The verified mainline gives configuration accounting an actual integrated candidate and a meaningful health state rather than unrelated branch badges.",
+          "P4": "Unique identity, recoverability, build/environment provenance and legitimate baseline authority remain separate from behavioral success. Stronger-claim witness: A mutable branch name alone does not uniquely identify the integrated binary or authorize its release."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P006->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P008",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P008",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+        },
+        "shared_question_or_object": "A consequential change reaches a shared mainline with affected external commitments.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+          "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state.",
+          "literal_bridge": "Early integration and explicit failures provide impact evidence before more dependent work accumulates on incompatible assumptions."
+        },
+        "source_contribution": "Early integration and explicit failures provide impact evidence before more dependent work accumulates on incompatible assumptions.",
+        "receiving_consequence": "Early integration and explicit failures provide impact evidence before more dependent work accumulates on incompatible assumptions.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Early integration and explicit failures provide impact evidence before more dependent work accumulates on incompatible assumptions."
+        ],
+        "premises_remaining": [
+          "Actual affected commitments, delegated authority, residual risks and emergency conditions remain to be established.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Merging quickly cannot authorize a shared-interface break or bypass an applicable independent check.",
+        "counter_control": "Merging quickly cannot authorize a shared-interface break or bypass an applicable independent check.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. Preauthorized local change, targeted peer assessment and timely emergency handling can replace a universal board.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A consequential change reaches a shared mainline with affected external commitments.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "receiving_criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state."
+          },
+          "P3": "Early integration and explicit failures provide impact evidence before more dependent work accumulates on incompatible assumptions.",
+          "P4": "Actual affected commitments, delegated authority, residual risks and emergency conditions remain to be established. Stronger-claim witness: Merging quickly cannot authorize a shared-interface break or bypass an applicable independent check."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P008->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P009",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P009",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes."
+        },
+        "shared_question_or_object": "Several teams integrate changes at an independently released interface.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A consequential boundary between components or organizations",
+          "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+          "literal_bridge": "Frequent real combination exercises compatibility and exposes semantic disagreement while the responsible changes are still localizable."
+        },
+        "source_contribution": "Frequent real combination exercises compatibility and exposes semantic disagreement while the responsible changes are still localizable.",
+        "receiving_consequence": "Frequent real combination exercises compatibility and exposes semantic disagreement while the responsible changes are still localizable.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Frequent real combination exercises compatibility and exposes semantic disagreement while the responsible changes are still localizable."
+        ],
+        "premises_remaining": [
+          "Semantic precision, two-sided implementation, representative compatibility evidence and actual ownership remain required for the full contract claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Repeatedly building branches separately does not test the shared interface, even when every branch remains green.",
+        "counter_control": "Repeatedly building branches separately does not test the shared interface, even when every branch remains green.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. A language type or contract test may suffice; include negotiation and supported-version costs.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Several teams integrate changes at an independently released interface.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "A consequential boundary between components or organizations",
+            "receiving_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes."
+          },
+          "P3": "Frequent real combination exercises compatibility and exposes semantic disagreement while the responsible changes are still localizable.",
+          "P4": "Semantic precision, two-sided implementation, representative compatibility evidence and actual ownership remain required for the full contract claim. Stronger-claim witness: Repeatedly building branches separately does not test the shared interface, even when every branch remains green."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P009->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P010",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P010",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A requirement proposed as a basis for verification",
+          "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive."
+        },
+        "shared_question_or_object": "An interacting behavior requirement must remain evaluable during continued integration.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A requirement proposed as a basis for verification",
+          "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+          "literal_bridge": "A reproducible integrated candidate enables early execution of proposed acceptance methods and exposes missing fixtures or impossible criteria."
+        },
+        "source_contribution": "A reproducible integrated candidate enables early execution of proposed acceptance methods and exposes missing fixtures or impossible criteria.",
+        "receiving_consequence": "A reproducible integrated candidate enables early execution of proposed acceptance methods and exposes missing fixtures or impossible criteria.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A reproducible integrated candidate enables early execution of proposed acceptance methods and exposes missing fixtures or impossible criteria."
+        ],
+        "premises_remaining": [
+          "The requirement, method, article, environment, oracle and feasible resources must match the relied-upon claim.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A convenient existing build can bias the test plan toward what is easy rather than what the consequential requirement demands.",
+        "counter_control": "A convenient existing build can bias the test plan toward what is easy rather than what the consequential requirement demands.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. An executable example may supply the whole plan; do not lock future discovery to an early document.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An interacting behavior requirement must remain evaluable during continued integration.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "A requirement proposed as a basis for verification",
+            "receiving_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive."
+          },
+          "P3": "A reproducible integrated candidate enables early execution of proposed acceptance methods and exposes missing fixtures or impossible criteria.",
+          "P4": "The requirement, method, article, environment, oracle and feasible resources must match the relied-upon claim. Stronger-claim witness: A convenient existing build can bias the test plan toward what is easy rather than what the consequential requirement demands."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P010->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P017",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P017",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost."
+        },
+        "shared_question_or_object": "An impact query asks which integrated change and evidence support a claim.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+          "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost.",
+          "literal_bridge": "Identified mainline commits, build inputs and integration outcomes supply concrete endpoints for trace relations across interacting work."
+        },
+        "source_contribution": "Identified mainline commits, build inputs and integration outcomes supply concrete endpoints for trace relations across interacting work.",
+        "receiving_consequence": "Identified mainline commits, build inputs and integration outcomes supply concrete endpoints for trace relations across interacting work.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Identified mainline commits, build inputs and integration outcomes supply concrete endpoints for trace relations across interacting work."
+        ],
+        "premises_remaining": [
+          "Correct semantic links, current versions, actual query use and affordable upkeep remain distinct from link existence.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Commit messages alone can be inaccurate and may not explain which requirement an integration result actually addresses.",
+        "counter_control": "Commit messages alone can be inaccurate and may not explain which requirement an integration result actually addresses.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. A focused native query may beat a universal matrix; ideal supplied traces do not establish lifecycle return.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An impact query asks which integrated change and evidence support a claim.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "receiving_criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost."
+          },
+          "P3": "Identified mainline commits, build inputs and integration outcomes supply concrete endpoints for trace relations across interacting work.",
+          "P4": "Correct semantic links, current versions, actual query use and affordable upkeep remain distinct from link existence. Stronger-claim witness: Commit messages alone can be inaccurate and may not explain which requirement an integration result actually addresses."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P017->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P019",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P019",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "An assurance argument for a system in a specified context",
+          "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+        },
+        "shared_question_or_object": "An assurance subclaim depends on the continued compatibility of a changing mainline.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "An assurance argument for a system in a specified context",
+          "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change.",
+          "literal_bridge": "Actual integration outcomes provide current evidence or defeaters for the compatibility subclaim and reveal when a previously cited candidate has changed."
+        },
+        "source_contribution": "Actual integration outcomes provide current evidence or defeaters for the compatibility subclaim and reveal when a previously cited candidate has changed.",
+        "receiving_consequence": "Actual integration outcomes provide current evidence or defeaters for the compatibility subclaim and reveal when a previously cited candidate has changed.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual integration outcomes provide current evidence or defeaters for the compatibility subclaim and reveal when a previously cited candidate has changed."
+        ],
+        "premises_remaining": [
+          "Coherent inference, credible current evidence, defeaters, independent challenge and residual-risk authority remain unresolved by one input.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A healthy mainline does not establish security, safety or independence of assurance.",
+        "counter_control": "A healthy mainline does not establish security, safety or independence of assurance.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. A concise argument may suffice; avoid persuasive dossiers and double-counted common evidence.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "An assurance subclaim depends on the continued compatibility of a changing mainline.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "An assurance argument for a system in a specified context",
+            "receiving_criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change."
+          },
+          "P3": "Actual integration outcomes provide current evidence or defeaters for the compatibility subclaim and reveal when a previously cited candidate has changed.",
+          "P4": "Coherent inference, credible current evidence, defeaters, independent challenge and residual-risk authority remain unresolved by one input. Stronger-claim witness: A healthy mainline does not establish security, safety or independence of assurance."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P019->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P020",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P020",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+        },
+        "shared_question_or_object": "A mainline integration failure has a responsible correction and later verification.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations.",
+          "literal_bridge": "A promptly identified failing integration and its responsible changes provide a bounded anomaly witness and a repair-validation opportunity."
+        },
+        "source_contribution": "A promptly identified failing integration and its responsible changes provide a bounded anomaly witness and a repair-validation opportunity.",
+        "receiving_consequence": "A promptly identified failing integration and its responsible changes provide a bounded anomaly witness and a repair-validation opportunity.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A promptly identified failing integration and its responsible changes provide a bounded anomaly witness and a repair-validation opportunity."
+        ],
+        "premises_remaining": [
+          "Affected state, meaningful severity, authority, actual correction and verified residual status remain distinct.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Reverting a change can restore the mainline while leaving the desired functionality or underlying cause unresolved.",
+        "counter_control": "Reverting a change can restore the mainline while leaving the desired functionality or underlying cause unresolved.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. A tracked issue and relevant regression check can suffice; administrative closure is not defect closure.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A mainline integration failure has a responsible correction and later verification.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "receiving_criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations."
+          },
+          "P3": "A promptly identified failing integration and its responsible changes provide a bounded anomaly witness and a repair-validation opportunity.",
+          "P4": "Affected state, meaningful severity, authority, actual correction and verified residual status remain distinct. Stronger-claim witness: Reverting a change can restore the mainline while leaving the desired functionality or underlying cause unresolved."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P020->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P030",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P030",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "An authoritative engineering model or digital environment",
+          "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+        },
+        "shared_question_or_object": "A governed engineering environment consumes the shared integrated software state.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "An authoritative engineering model or digital environment",
+          "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it.",
+          "literal_bridge": "A reproducible mainline and its actual combined behavior supply a current executable realization to compare with model or schema claims."
+        },
+        "source_contribution": "A reproducible mainline and its actual combined behavior supply a current executable realization to compare with model or schema claims.",
+        "receiving_consequence": "A reproducible mainline and its actual combined behavior supply a current executable realization to compare with model or schema claims.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A reproducible mainline and its actual combined behavior supply a current executable realization to compare with model or schema claims."
+        ],
+        "premises_remaining": [
+          "Semantic adequacy, scoped authority, access, interoperability, validation and actual-state correspondence remain separate.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A single repository can still contain mutually inconsistent generated views, models and deployment artifacts.",
+        "counter_control": "A single repository can still contain mutually inconsistent generated views, models and deployment artifacts.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. Versioned native documents, source and tests may outperform a new platform; include migration, licensing and specialist upkeep.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A governed engineering environment consumes the shared integrated software state.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "An authoritative engineering model or digital environment",
+            "receiving_criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it."
+          },
+          "P3": "A reproducible mainline and its actual combined behavior supply a current executable realization to compare with model or schema claims.",
+          "P4": "Semantic adequacy, scoped authority, access, interoperability, validation and actual-state correspondence remain separate. Stronger-claim witness: A single repository can still contain mutually inconsistent generated views, models and deployment artifacts."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P030->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L2::EA-07->LAW-L3::EW-P031",
+        "source_native_id": "EA-07",
+        "receiving_native_id": "EW-P031",
+        "source_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/6",
+          "expected_native_id": "EA-07",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/6",
+            "expected_native_id": "AGQ-EA-07"
+          }
+        },
+        "receiver_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions."
+        },
+        "shared_question_or_object": "A recurring evidence pipeline claims to evaluate an integrated software candidate.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+          "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+          "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions.",
+          "literal_bridge": "The actually combined mainline supplies the shared candidate and credible integration result that separate branch automation lacks."
+        },
+        "source_contribution": "The actually combined mainline supplies the shared candidate and credible integration result that separate branch automation lacks.",
+        "receiving_consequence": "The actually combined mainline supplies the shared candidate and credible integration result that separate branch automation lacks.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actually combined mainline supplies the shared candidate and credible integration result that separate branch automation lacks."
+        ],
+        "premises_remaining": [
+          "Credible oracles, trustworthy generation, current configuration, actual coverage, independence and authorized consumption remain distinct.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A CI service on long-lived branches can automate checks without meeting the real-integration claim.",
+        "counter_control": "A CI service on long-lived branches can automate checks without meeting the real-integration claim.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Use dependency-sensitive cadence and a simple reproducible build where adequate; include integration, environment and delayed-feedback costs without requiring a particular platform. Manual or periodic evidence can be adequate at low cadence; automation adds upkeep and common-mode failure risk.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A recurring evidence pipeline claims to evaluate an integrated software candidate.",
+          "P2": {
+            "source_bearer": "Multiple interacting changes or contributors whose delayed integration would accumulate uncertainty.",
+            "source_proposition": "Integrate relevant changes frequently enough to expose interaction failures, with a reproducible verification and repair practice.",
+            "receiving_bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "receiving_criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions."
+          },
+          "P3": "The actually combined mainline supplies the shared candidate and credible integration result that separate branch automation lacks.",
+          "P4": "Credible oracles, trustworthy generation, current configuration, actual coverage, independence and authorized consumption remain distinct. Stronger-claim witness: A CI service on long-lived branches can automate checks without meeting the real-integration claim."
+        },
+        "reverse_direction_key": "LAW-L3::EW-P031->LAW-L2::EA-07",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      }
+    ]
+  }
+}

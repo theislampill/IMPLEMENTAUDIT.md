@@ -1,0 +1,1289 @@
+{
+  "source_identity": {
+    "source_id": "S-c66925ca1fe8dc09",
+    "scientific_name": "SB-R3-006_EL024_REVERSE.json",
+    "original_bytes": 111230,
+    "original_sha256": "c66925ca1fe8dc096d25c95b5a6013ff1b47b85697f708f328d618d34a9670f3"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-006",
+    "title": "EL-024_REVERSE_BOUNDED_NATIVE_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T22:49:27.313442+00:00",
+    "inquiry_family": 6,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "RETAINED_OWN_COMPLETE_WATERFALL_RECORD",
+      "EXACT_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_004.json",
+      "bytes": 8224,
+      "sha256": "804151a5e48e63bf2b32bdf8050ae77b92e8fdc861884598321017260859fb4c"
+    },
+    "bounded_interface_domain": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+    "domain_horizon_authority": "The exact member object, configuration, observation interval, consequence and actual authority in each literal argument; no adoption or legal applicability inference.",
+    "evidence_ceiling": "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced. Analytical native-role inference only; no empirical effect size, universal benefit, new historical descent or final scientific acceptance.",
+    "source_refs": [
+      {
+        "native_id": "EL-018",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/17",
+          "expected_native_id": "EL-018"
+        }
+      },
+      {
+        "native_id": "EL-019",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/18",
+          "expected_native_id": "EL-019"
+        }
+      },
+      {
+        "native_id": "EL-024",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        }
+      },
+      {
+        "native_id": "EL-026",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/25",
+          "expected_native_id": "EL-026"
+        }
+      },
+      {
+        "native_id": "EW-P010",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        }
+      },
+      {
+        "native_id": "EW-P011",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        }
+      },
+      {
+        "native_id": "EW-P012",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        }
+      },
+      {
+        "native_id": "EW-P013",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        }
+      },
+      {
+        "native_id": "EW-P014",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        }
+      },
+      {
+        "native_id": "EW-P015",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14",
+          "expected_native_id": "EW-P015"
+        }
+      },
+      {
+        "native_id": "EW-P016",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15",
+          "expected_native_id": "EW-P016"
+        }
+      },
+      {
+        "native_id": "EW-P017",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        }
+      },
+      {
+        "native_id": "EW-P018",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        }
+      },
+      {
+        "native_id": "EW-P019",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        }
+      },
+      {
+        "native_id": "EW-P020",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P031",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        }
+      },
+      {
+        "native_id": "EW-P032",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        }
+      }
+    ],
+    "common_cost_and_alternative": "Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+    "exceptions": [
+      {
+        "direction_key": "LAW-L3::EW-P017->LAW-L1::EL-024",
+        "treatment": "Already assigned exact prior argument; preserved unchanged, excluded from this rule membership.",
+        "assignment": [
+          "LAW-L3::EW-P017->LAW-L1::EL-024",
+          "MATERIAL",
+          "DIRECT",
+          "research/DIRECT_JUDGMENTS.json#DJ-0710"
+        ]
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-024",
+        "treatment": "Already assigned exact prior argument; preserved unchanged, excluded from this rule membership.",
+        "assignment": [
+          "LAW-L3::EW-P020->LAW-L1::EL-024",
+          "MATERIAL",
+          "DIRECT",
+          "research/DIRECT_JUDGMENTS.json#DJ-0712"
+        ]
+      }
+    ],
+    "attempted_contrary_interfaces": [
+      "Generic co-use or arbitrary supporting tool rejected.",
+      "Whole receiving predicate failure does not erase a materially used partial input.",
+      "Actual unknown object/scope remains unknown.",
+      "Every listed adverse control defeats the corresponding stronger whole-result inference."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L1::EL-024",
+        "argument": "The concrete method and evidence burden identify which missing resource or policy decision needs a system owner rather than repeated local effort."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L1::EL-024",
+        "argument": "Distinct integration evidence identifies the shared condition and responsibility boundary requiring system-level action or explicit residual disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-024",
+        "argument": "Representative user and outcome evidence identifies whether a management-controlled condition is implicated and what response must be evaluated."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L1::EL-024",
+        "argument": "The envelope, margin and representative-article requirements identify the concrete resource and scope decisions that an accountable owner must address."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-024",
+        "argument": "Actual acceptance criteria, authority and waiver boundaries identify who can decide the residual and which conditions management can legitimately change."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L1::EL-024",
+        "argument": "The real applicable basis specifies constraints on resources, independence and decision authority that governance must accommodate."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L1::EL-024",
+        "argument": "An independent finding about blocked access, coerced conclusions or unresolved structural risk supplies a concrete escalation for the actor controlling that condition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-024",
+        "argument": "The hazard analysis identifies the consequential control condition and authority needed, making responsibility allocation specific rather than symbolic."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-024",
+        "argument": "The assurance argument identifies which organizational premise must be evidenced and which claims lose support when the owner cannot act."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-024",
+        "argument": "Rehearsal and readiness evidence specify the missing support or authority and the condition for a bounded go/no-go response."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-024",
+        "argument": "Versioned exception and outcome history identifies persistent conditions and whether management response actually changed them."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-024",
+        "argument": "The actual residual criteria, decision scope and escalation limits delimit which management actor is competent to decide and which conditions require another authority."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L1::EL-024",
+        "overclaim": "A demanded test does not prove the resource is worth buying or that management approval makes its results valid.",
+        "nontrigger": "No actual shared a verification method that depends on resources or policy outside the local team's control. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L1::EL-024",
+        "overclaim": "A system test failure does not by itself prove management caused it or identify the correct policy change.",
+        "nontrigger": "No actual shared cross-boundary ownership of a real integration evidence gap or shared failure. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-024",
+        "overclaim": "An unhappy user account alone does not establish a structural cause or justify a specific governance redesign.",
+        "nontrigger": "No actual shared a validation result requiring a resource, incentive or policy change outside user-facing teams. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L1::EL-024",
+        "overclaim": "Management commitment cannot substitute for missing evidence outside the tested envelope.",
+        "nontrigger": "No actual shared qualification evidence or operating limits requiring cross-boundary resources and controlled configuration. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-024",
+        "overclaim": "An internal manager cannot waive a customer's binding acceptance condition without the required authority.",
+        "nontrigger": "No actual shared a delivery acceptance exception governed by resources, policy or authority outside the local delivery actor. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L1::EL-024",
+        "overclaim": "Calling a manager the compliance sponsor is not evidence that the substantive requirement is met.",
+        "nontrigger": "No actual shared an actual applicable compliance obligation requiring organizational resources or protected roles. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L1::EL-024",
+        "overclaim": "An unsupported critic's preference does not obligate management to make an unrelated expensive change.",
+        "nontrigger": "No actual shared a technically consequential challenge whose access, independence or escalation protection depends on management. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-024",
+        "overclaim": "A hazard table assigning a manager does not demonstrate the proposed control is effective.",
+        "nontrigger": "No actual shared a hazard control requiring authority over a shared resource, incentive or operating policy. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-024",
+        "overclaim": "A box labelled management accountability is not evidence of real response capability.",
+        "nontrigger": "No actual shared an assurance premise whose truth depends on a maintained organizational capability or response. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-024",
+        "overclaim": "A readiness board's approval cannot itself make a nonexistent recovery resource available.",
+        "nontrigger": "No actual shared a readiness condition involving shared support, staffing, recovery access or deployment authority. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-024",
+        "overclaim": "A falling exception count under suppressed reporting does not demonstrate successful ownership.",
+        "nontrigger": "No actual shared an ongoing assurance exception requiring a cross-boundary policy or resource response. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-024",
+        "overclaim": "Holding authority is neither evidence of low risk nor permission to accept a prohibited residual.",
+        "nontrigger": "No actual shared an actual residual-risk decision and the actor controlling the relevant condition. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative."
+      }
+    ],
+    "author_challenge": "Complete literal positive/adverse pairs and own semantic membership inspection; no independent acceptance or model execution.",
+    "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list.",
+    "independent_review_scope": "Required later fidelity and adversarial reviews must examine common premises, exact member bridges, all contrary controls and separately authored reverse arguments. This author validation supplies no reviewer acceptance.",
+    "common_source_dependence": "Shared observations, policies, assets, actors or original sources are not multiple independent controls or benefits; common-mode failure and cost remain.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "native_common_basis": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective.",
+    "common_subconditions": {
+      "P1": "Exact shared object and actual receiving use are identified.",
+      "P2": "Both full native meanings support the explicitly authored bridge.",
+      "P3": "The contribution changes a named receiving premise or assessment at its evidence ceiling, without whole-predicate entailment.",
+      "P4": "Remaining premises, adverse control, absent-interface condition, cost, adequate alternative and reentry are explicit."
+    },
+    "inference": "At P1-P4 the literal member contribution is a material input to its receiving assessment. A no-change decision may remain justified. This rule cannot be extended by title, similarity, generic use, sampling, symmetric reversal or complete-target screening.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P010->LAW-L1::EL-024",
+      "LAW-L3::EW-P011->LAW-L1::EL-024",
+      "LAW-L3::EW-P012->LAW-L1::EL-024",
+      "LAW-L3::EW-P013->LAW-L1::EL-024",
+      "LAW-L3::EW-P014->LAW-L1::EL-024",
+      "LAW-L3::EW-P015->LAW-L1::EL-024",
+      "LAW-L3::EW-P016->LAW-L1::EL-024",
+      "LAW-L3::EW-P018->LAW-L1::EL-024",
+      "LAW-L3::EW-P019->LAW-L1::EL-024",
+      "LAW-L3::EW-P027->LAW-L1::EL-024",
+      "LAW-L3::EW-P031->LAW-L1::EL-024",
+      "LAW-L3::EW-P032->LAW-L1::EL-024"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P010->LAW-L1::EL-024",
+        "source_native_id": "EW-P010",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9",
+          "expected_native_id": "EW-P010"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P010": {
+            "bearer": "A requirement proposed as a basis for verification",
+            "proposition": "Risk-proportional verification design integrated with requirements and architecture, with automated evidence where appropriate.",
+            "criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P010"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "A verification method that depends on resources or policy outside the local team's control.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A requirement proposed as a basis for verification. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The concrete method and evidence burden identify which missing resource or policy decision needs a system owner rather than repeated local effort.",
+        "source_contribution": "The concrete method and evidence burden identify which missing resource or policy decision needs a system owner rather than repeated local effort.",
+        "receiving_consequence": "The concrete method and evidence burden identify which missing resource or policy decision needs a system owner rather than repeated local effort.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The concrete method and evidence burden identify which missing resource or policy decision needs a system owner rather than repeated local effort."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "A demanded test does not prove the resource is worth buying or that management approval makes its results valid.",
+        "nontrigger": "No actual shared a verification method that depends on resources or policy outside the local team's control. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A demanded test does not prove the resource is worth buying or that management approval makes its results valid.",
+        "specific_cost_and_limit": "Use an existing focused test or observation where it answers the actual requirement. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "A verification method that depends on resources or policy outside the local team's control.",
+          "P2": "The source native bearer is A requirement proposed as a basis for verification. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The concrete method and evidence burden identify which missing resource or policy decision needs a system owner rather than repeated local effort.",
+          "P3": "The concrete method and evidence burden identify which missing resource or policy decision needs a system owner rather than repeated local effort.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A demanded test does not prove the resource is worth buying or that management approval makes its results valid. Alternative: Use an existing focused test or observation where it answers the actual requirement."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P010",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P011->LAW-L1::EL-024",
+        "source_native_id": "EW-P011",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10",
+          "expected_native_id": "EW-P011"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P011": {
+            "bearer": "A realized component and its integrations",
+            "proposition": "Layered evidence selected by failure observability, with fast lower-level feedback and periodic higher-fidelity integration.",
+            "criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P011"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "Cross-boundary ownership of a real integration evidence gap or shared failure.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A realized component and its integrations. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Distinct integration evidence identifies the shared condition and responsibility boundary requiring system-level action or explicit residual disposition.",
+        "source_contribution": "Distinct integration evidence identifies the shared condition and responsibility boundary requiring system-level action or explicit residual disposition.",
+        "receiving_consequence": "Distinct integration evidence identifies the shared condition and responsibility boundary requiring system-level action or explicit residual disposition.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Distinct integration evidence identifies the shared condition and responsibility boundary requiring system-level action or explicit residual disposition."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "A system test failure does not by itself prove management caused it or identify the correct policy change.",
+        "nontrigger": "No actual shared cross-boundary ownership of a real integration evidence gap or shared failure. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A system test failure does not by itself prove management caused it or identify the correct policy change.",
+        "specific_cost_and_limit": "Reuse valid lower-level evidence once; add only a level that supplies distinct information. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "Cross-boundary ownership of a real integration evidence gap or shared failure.",
+          "P2": "The source native bearer is A realized component and its integrations. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Distinct integration evidence identifies the shared condition and responsibility boundary requiring system-level action or explicit residual disposition.",
+          "P3": "Distinct integration evidence identifies the shared condition and responsibility boundary requiring system-level action or explicit residual disposition.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A system test failure does not by itself prove management caused it or identify the correct policy change. Alternative: Reuse valid lower-level evidence once; add only a level that supplies distinct information."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P011",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L1::EL-024",
+        "source_native_id": "EW-P012",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P012": {
+            "bearer": "A system or concept in its intended use and operating context",
+            "proposition": "Repeated context-validity evidence, with final claims tied to an identified configuration and intended-use envelope.",
+            "criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P012"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "A validation result requiring a resource, incentive or policy change outside user-facing teams.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A system or concept in its intended use and operating context. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Representative user and outcome evidence identifies whether a management-controlled condition is implicated and what response must be evaluated.",
+        "source_contribution": "Representative user and outcome evidence identifies whether a management-controlled condition is implicated and what response must be evaluated.",
+        "receiving_consequence": "Representative user and outcome evidence identifies whether a management-controlled condition is implicated and what response must be evaluated.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Representative user and outcome evidence identifies whether a management-controlled condition is implicated and what response must be evaluated."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "An unhappy user account alone does not establish a structural cause or justify a specific governance redesign.",
+        "nontrigger": "No actual shared a validation result requiring a resource, incentive or policy change outside user-facing teams. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "An unhappy user account alone does not establish a structural cause or justify a specific governance redesign.",
+        "specific_cost_and_limit": "A focused representative user/mission trial can suffice. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "A validation result requiring a resource, incentive or policy change outside user-facing teams.",
+          "P2": "The source native bearer is A system or concept in its intended use and operating context. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Representative user and outcome evidence identifies whether a management-controlled condition is implicated and what response must be evaluated.",
+          "P3": "Representative user and outcome evidence identifies whether a management-controlled condition is implicated and what response must be evaluated.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: An unhappy user account alone does not establish a structural cause or justify a specific governance redesign. Alternative: A focused representative user/mission trial can suffice."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P012",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P013->LAW-L1::EL-024",
+        "source_native_id": "EW-P013",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12",
+          "expected_native_id": "EW-P013"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P013": {
+            "bearer": "A claimed design/type/process qualification envelope",
+            "proposition": "Configuration-linked evidence for a defined design envelope, with explicit assumptions, margins and change-trigger rules.",
+            "criterion": "The evidence supports the stated environmental, load and margin envelope, and a changed envelope triggers re-evaluation.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P013"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "Qualification evidence or operating limits requiring cross-boundary resources and controlled configuration.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A claimed design/type/process qualification envelope. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The envelope, margin and representative-article requirements identify the concrete resource and scope decisions that an accountable owner must address.",
+        "source_contribution": "The envelope, margin and representative-article requirements identify the concrete resource and scope decisions that an accountable owner must address.",
+        "receiving_consequence": "The envelope, margin and representative-article requirements identify the concrete resource and scope decisions that an accountable owner must address.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The envelope, margin and representative-article requirements identify the concrete resource and scope decisions that an accountable owner must address."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "Management commitment cannot substitute for missing evidence outside the tested envelope.",
+        "nontrigger": "No actual shared qualification evidence or operating limits requiring cross-boundary resources and controlled configuration. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "Management commitment cannot substitute for missing evidence outside the tested envelope.",
+        "specific_cost_and_limit": "Reuse within an unchanged warranted envelope and examine justified changed conditions. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "Qualification evidence or operating limits requiring cross-boundary resources and controlled configuration.",
+          "P2": "The source native bearer is A claimed design/type/process qualification envelope. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The envelope, margin and representative-article requirements identify the concrete resource and scope decisions that an accountable owner must address.",
+          "P3": "The envelope, margin and representative-article requirements identify the concrete resource and scope decisions that an accountable owner must address.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: Management commitment cannot substitute for missing evidence outside the tested envelope. Alternative: Reuse within an unchanged warranted envelope and examine justified changed conditions."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P013",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P014->LAW-L1::EL-024",
+        "source_native_id": "EW-P014",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13",
+          "expected_native_id": "EW-P014"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P014": {
+            "bearer": "An acceptance decision about an identified delivery",
+            "proposition": "Explicit, configuration-specific decision by empowered authority, based on current evidence and recorded residual obligations.",
+            "criterion": "The empowered recipient assesses applicable criteria, evidence and exceptions for the delivered item and records the disposition.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P014"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "A delivery acceptance exception governed by resources, policy or authority outside the local delivery actor.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is An acceptance decision about an identified delivery. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Actual acceptance criteria, authority and waiver boundaries identify who can decide the residual and which conditions management can legitimately change.",
+        "source_contribution": "Actual acceptance criteria, authority and waiver boundaries identify who can decide the residual and which conditions management can legitimately change.",
+        "receiving_consequence": "Actual acceptance criteria, authority and waiver boundaries identify who can decide the residual and which conditions management can legitimately change.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Actual acceptance criteria, authority and waiver boundaries identify who can decide the residual and which conditions management can legitimately change."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "An internal manager cannot waive a customer's binding acceptance condition without the required authority.",
+        "nontrigger": "No actual shared a delivery acceptance exception governed by resources, policy or authority outside the local delivery actor. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "An internal manager cannot waive a customer's binding acceptance condition without the required authority.",
+        "specific_cost_and_limit": "Use the existing adequate delivery criterion and authorized actor without a new committee. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "A delivery acceptance exception governed by resources, policy or authority outside the local delivery actor.",
+          "P2": "The source native bearer is An acceptance decision about an identified delivery. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Actual acceptance criteria, authority and waiver boundaries identify who can decide the residual and which conditions management can legitimately change.",
+          "P3": "Actual acceptance criteria, authority and waiver boundaries identify who can decide the residual and which conditions management can legitimately change.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: An internal manager cannot waive a customer's binding acceptance condition without the required authority. Alternative: Use the existing adequate delivery criterion and authorized actor without a new committee."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P014",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P015->LAW-L1::EL-024",
+        "source_native_id": "EW-P015",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/14",
+          "expected_native_id": "EW-P015"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P015": {
+            "bearer": "A certification or regulatory credit claim",
+            "proposition": "Lifecycle-neutral engineering that satisfies a specific certification basis for identified configurations and maintains authority after change.",
+            "criterion": "Issuer, jurisdiction, applicable version, object/configuration and evidence basis are explicit, and changes are handled by the applicable route.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P015"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "An actual applicable compliance obligation requiring organizational resources or protected roles.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A certification or regulatory credit claim. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The real applicable basis specifies constraints on resources, independence and decision authority that governance must accommodate.",
+        "source_contribution": "The real applicable basis specifies constraints on resources, independence and decision authority that governance must accommodate.",
+        "receiving_consequence": "The real applicable basis specifies constraints on resources, independence and decision authority that governance must accommodate.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The real applicable basis specifies constraints on resources, independence and decision authority that governance must accommodate."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "Calling a manager the compliance sponsor is not evidence that the substantive requirement is met.",
+        "nontrigger": "No actual shared an actual applicable compliance obligation requiring organizational resources or protected roles. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "Calling a manager the compliance sponsor is not evidence that the substantive requirement is met.",
+        "specific_cost_and_limit": "Use accepted existing means where permitted; invent no compliance obligation. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "An actual applicable compliance obligation requiring organizational resources or protected roles.",
+          "P2": "The source native bearer is A certification or regulatory credit claim. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The real applicable basis specifies constraints on resources, independence and decision authority that governance must accommodate.",
+          "P3": "The real applicable basis specifies constraints on resources, independence and decision authority that governance must accommodate.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: Calling a manager the compliance sponsor is not evidence that the substantive requirement is met. Alternative: Use accepted existing means where permitted; invent no compliance obligation."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P015",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P016->LAW-L1::EL-024",
+        "source_native_id": "EW-P016",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/15",
+          "expected_native_id": "EW-P016"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P016": {
+            "bearer": "A technical challenge arrangement intended to counter correlated error or incentives",
+            "proposition": "Independence is a designed property—responsibility, incentives, funding, reporting and corrective-action authority—scaled to consequence and integrated early.",
+            "criterion": "Its competence, access, relevant independence and disposition authority are sufficient for the risks being challenged.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P016"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "A technically consequential challenge whose access, independence or escalation protection depends on management.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A technical challenge arrangement intended to counter correlated error or incentives. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: An independent finding about blocked access, coerced conclusions or unresolved structural risk supplies a concrete escalation for the actor controlling that condition.",
+        "source_contribution": "An independent finding about blocked access, coerced conclusions or unresolved structural risk supplies a concrete escalation for the actor controlling that condition.",
+        "receiving_consequence": "An independent finding about blocked access, coerced conclusions or unresolved structural risk supplies a concrete escalation for the actor controlling that condition.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "An independent finding about blocked access, coerced conclusions or unresolved structural risk supplies a concrete escalation for the actor controlling that condition."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "An unsupported critic's preference does not obligate management to make an unrelated expensive change.",
+        "nontrigger": "No actual shared a technically consequential challenge whose access, independence or escalation protection depends on management. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "An unsupported critic's preference does not obligate management to make an unrelated expensive change.",
+        "specific_cost_and_limit": "A competent risk-scaled peer challenge may suffice where the actual regime permits. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "A technically consequential challenge whose access, independence or escalation protection depends on management.",
+          "P2": "The source native bearer is A technical challenge arrangement intended to counter correlated error or incentives. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: An independent finding about blocked access, coerced conclusions or unresolved structural risk supplies a concrete escalation for the actor controlling that condition.",
+          "P3": "An independent finding about blocked access, coerced conclusions or unresolved structural risk supplies a concrete escalation for the actor controlling that condition.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: An unsupported critic's preference does not obligate management to make an unrelated expensive change. Alternative: A competent risk-scaled peer challenge may suffice where the actual regime permits."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P016",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P018->LAW-L1::EL-024",
+        "source_native_id": "EW-P018",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/17",
+          "expected_native_id": "EW-P018"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P018": {
+            "bearer": "A system hazard and the controls claimed to manage it",
+            "proposition": "Living hazard/control claims tied to actual configurations, operations, evidence and residual-risk authority.",
+            "criterion": "Credible hazards, context, control owners, evidence and residual risk remain connected across consequential changes.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P018"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "A hazard control requiring authority over a shared resource, incentive or operating policy.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A system hazard and the controls claimed to manage it. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The hazard analysis identifies the consequential control condition and authority needed, making responsibility allocation specific rather than symbolic.",
+        "source_contribution": "The hazard analysis identifies the consequential control condition and authority needed, making responsibility allocation specific rather than symbolic.",
+        "receiving_consequence": "The hazard analysis identifies the consequential control condition and authority needed, making responsibility allocation specific rather than symbolic.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The hazard analysis identifies the consequential control condition and authority needed, making responsibility allocation specific rather than symbolic."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "A hazard table assigning a manager does not demonstrate the proposed control is effective.",
+        "nontrigger": "No actual shared a hazard control requiring authority over a shared resource, incentive or operating policy. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A hazard table assigning a manager does not demonstrate the proposed control is effective.",
+        "specific_cost_and_limit": "A targeted causal-path control/test or justified low-impact screen can suffice. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "A hazard control requiring authority over a shared resource, incentive or operating policy.",
+          "P2": "The source native bearer is A system hazard and the controls claimed to manage it. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The hazard analysis identifies the consequential control condition and authority needed, making responsibility allocation specific rather than symbolic.",
+          "P3": "The hazard analysis identifies the consequential control condition and authority needed, making responsibility allocation specific rather than symbolic.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A hazard table assigning a manager does not demonstrate the proposed control is effective. Alternative: A targeted causal-path control/test or justified low-impact screen can suffice."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P018",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P019->LAW-L1::EL-024",
+        "source_native_id": "EW-P019",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/18",
+          "expected_native_id": "EW-P019"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P019": {
+            "bearer": "An assurance argument for a system in a specified context",
+            "proposition": "Use structured argument only where it changes risk decisions, expose assumptions/defeaters, and distinguish the case from its report.",
+            "criterion": "Claims, reasoning and current evidence make the residual risk judgment contestable and support responsible decisions through change.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P019"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "An assurance premise whose truth depends on a maintained organizational capability or response.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is An assurance argument for a system in a specified context. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The assurance argument identifies which organizational premise must be evidenced and which claims lose support when the owner cannot act.",
+        "source_contribution": "The assurance argument identifies which organizational premise must be evidenced and which claims lose support when the owner cannot act.",
+        "receiving_consequence": "The assurance argument identifies which organizational premise must be evidenced and which claims lose support when the owner cannot act.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The assurance argument identifies which organizational premise must be evidenced and which claims lose support when the owner cannot act."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "A box labelled management accountability is not evidence of real response capability.",
+        "nontrigger": "No actual shared an assurance premise whose truth depends on a maintained organizational capability or response. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A box labelled management accountability is not evidence of real response capability.",
+        "specific_cost_and_limit": "Use a concise argument with real evidence; diagrams are optional. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "An assurance premise whose truth depends on a maintained organizational capability or response.",
+          "P2": "The source native bearer is An assurance argument for a system in a specified context. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The assurance argument identifies which organizational premise must be evidenced and which claims lose support when the owner cannot act.",
+          "P3": "The assurance argument identifies which organizational premise must be evidenced and which claims lose support when the owner cannot act.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A box labelled management accountability is not evidence of real response capability. Alternative: Use a concise argument with real evidence; diagrams are optional."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P019",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-024",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P027": {
+            "bearer": "Transition to operation or restart",
+            "proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+            "criterion": "Evidence addresses the identified operative system, people, procedures, support and contingency arrangements required for the transition.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P027"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "A readiness condition involving shared support, staffing, recovery access or deployment authority.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is Transition to operation or restart. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Rehearsal and readiness evidence specify the missing support or authority and the condition for a bounded go/no-go response.",
+        "source_contribution": "Rehearsal and readiness evidence specify the missing support or authority and the condition for a bounded go/no-go response.",
+        "receiving_consequence": "Rehearsal and readiness evidence specify the missing support or authority and the condition for a bounded go/no-go response.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Rehearsal and readiness evidence specify the missing support or authority and the condition for a bounded go/no-go response."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "A readiness board's approval cannot itself make a nonexistent recovery resource available.",
+        "nontrigger": "No actual shared a readiness condition involving shared support, staffing, recovery access or deployment authority. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A readiness board's approval cannot itself make a nonexistent recovery resource available.",
+        "specific_cost_and_limit": "A representative focused rehearsal or reversible canary can suffice. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "A readiness condition involving shared support, staffing, recovery access or deployment authority.",
+          "P2": "The source native bearer is Transition to operation or restart. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Rehearsal and readiness evidence specify the missing support or authority and the condition for a bounded go/no-go response.",
+          "P3": "Rehearsal and readiness evidence specify the missing support or authority and the condition for a bounded go/no-go response.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A readiness board's approval cannot itself make a nonexistent recovery resource available. Alternative: A representative focused rehearsal or reversible canary can suffice."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P027",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L1::EL-024",
+        "source_native_id": "EW-P031",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P031": {
+            "bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+            "criterion": "Its outputs are configuration-linked, interpretable, trustworthy and consumed by appropriate technical and operational decisions.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P031"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "An ongoing assurance exception requiring a cross-boundary policy or resource response.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A pipeline producing or consuming recurring assurance evidence. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Versioned exception and outcome history identifies persistent conditions and whether management response actually changed them.",
+        "source_contribution": "Versioned exception and outcome history identifies persistent conditions and whether management response actually changed them.",
+        "receiving_consequence": "Versioned exception and outcome history identifies persistent conditions and whether management response actually changed them.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Versioned exception and outcome history identifies persistent conditions and whether management response actually changed them."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "A falling exception count under suppressed reporting does not demonstrate successful ownership.",
+        "nontrigger": "No actual shared an ongoing assurance exception requiring a cross-boundary policy or resource response. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "A falling exception count under suppressed reporting does not demonstrate successful ownership.",
+        "specific_cost_and_limit": "Reuse trustworthy current observations once and add evidence only for a real gap. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "An ongoing assurance exception requiring a cross-boundary policy or resource response.",
+          "P2": "The source native bearer is A pipeline producing or consuming recurring assurance evidence. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: Versioned exception and outcome history identifies persistent conditions and whether management response actually changed them.",
+          "P3": "Versioned exception and outcome history identifies persistent conditions and whether management response actually changed them.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: A falling exception count under suppressed reporting does not demonstrate successful ownership. Alternative: Reuse trustworthy current observations once and add evidence only for a real gap."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P031",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P032->LAW-L1::EL-024",
+        "source_native_id": "EW-P032",
+        "receiving_native_id": "EL-024",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/31",
+          "expected_native_id": "EW-P032"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/23",
+          "expected_native_id": "EL-024"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P032": {
+            "bearer": "A consequential residual-risk and operational decision",
+            "proposition": "Configuration- and context-specific authority that consumes fresh evidence, records residual risk and can stop or constrain operation.",
+            "criterion": "An appropriately empowered actor accepts or rejects the stated residual risk with current evidence and a defined operating boundary.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P032"
+          },
+          "EL-024": {
+            "bearer": "Management decisions controlling resources, incentives and cross-boundary causes",
+            "proposition": "Assign consequential system conditions and escalations to actors able to change resources, incentives or cross-boundary causes, with proportionate accountable response.",
+            "criterion": "Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-024"
+          }
+        },
+        "shared_question_or_object": "An actual residual-risk decision and the actor controlling the relevant condition.",
+        "guard": "The exact receiving obligation, evidence or unresolved condition identifies a particular management decision or authority boundary and can change its assessment. The named object, configuration, relevant time/population and actual receiving use are identified. Similar language, possible encoding, organizational co-use or an arbitrary tool does not establish a bridge. Unknown applicability remains unknown. A supported partial premise can be material while the whole receiving predicate remains unestablished.",
+        "member_to_common_premise": "The source native bearer is A consequential residual-risk and operational decision. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The actual residual criteria, decision scope and escalation limits delimit which management actor is competent to decide and which conditions require another authority.",
+        "source_contribution": "The actual residual criteria, decision scope and escalation limits delimit which management actor is competent to decide and which conditions require another authority.",
+        "receiving_consequence": "The actual residual criteria, decision scope and escalation limits delimit which management actor is competent to decide and which conditions require another authority.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual residual criteria, decision scope and escalation limits delimit which management actor is competent to decide and which conditions require another authority."
+        ],
+        "premises_remaining": [
+          "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution.",
+          "No unfalsifiable leadership-commitment explanation, automatic structural causation or assumption that permission proves safety is introduced."
+        ],
+        "counterexample": "Holding authority is neither evidence of low risk nor permission to accept a prohibited residual.",
+        "nontrigger": "No actual shared an actual residual-risk decision and the actor controlling the relevant condition. or no use of the named native evidence, condition or decision. Unknown interface is not an established negative.",
+        "counter_control": "Holding authority is neither evidence of low risk nor permission to accept a prohibited residual.",
+        "specific_cost_and_limit": "Use bounded preauthorization for legitimate low-risk conditions and retain escalation for consequential exceptions. Management attention, response capacity, delayed escalation, resource allocation, conflicting incentives, labour effects and opportunity costs count. Keep a bounded local issue delegated with a clear threshold; no new board or management layer follows automatically.",
+        "subcondition_evidence": {
+          "P1": "An actual residual-risk decision and the actor controlling the relevant condition.",
+          "P2": "The source native bearer is A consequential residual-risk and operational decision. The receiver criterion is Assign problems to actors able to change the relevant condition; do not blame an operator for unavailable structural authority.. The specific native bridge is: The actual residual criteria, decision scope and escalation limits delimit which management actor is competent to decide and which conditions require another authority.",
+          "P3": "The actual residual criteria, decision scope and escalation limits delimit which management actor is competent to decide and which conditions require another authority.",
+          "P4": "EL024 aligns responsibility with the actor who can change a relevant resource, incentive, policy or cross-boundary cause. Bounded local work can remain delegated. Authority/resource capacity is distinct from technical truth. Historical supervisory practice and associations do not prove every governance design effective. Complete fulfillment of the receiving native criterion and evidence for each remaining premise are separate from this partial contribution. Adverse control: Holding authority is neither evidence of low risk nor permission to accept a prohibited residual. Alternative: Use bounded preauthorization for legitimate low-risk conditions and retain escalation for consequential exceptions."
+        },
+        "reverse_direction_key": "LAW-L1::EL-024->LAW-L3::EW-P032",
+        "reentry": "Reopen affected members and dependent compositions if the object, configuration, population, actual evidence, causal hypothesis, authority, capacity, operating conditions, criticality, permitted action or adequate cheaper alternative changes. A failed common premise requires reviewing every affected exact member; do not infer automatic reverses, transitivity or applicability outside this list."
+      }
+    ]
+  }
+}

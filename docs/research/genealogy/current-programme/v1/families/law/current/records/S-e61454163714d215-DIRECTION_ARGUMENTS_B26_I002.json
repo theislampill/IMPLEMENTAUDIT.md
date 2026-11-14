@@ -1,0 +1,808 @@
+{
+  "source_identity": {
+    "source_id": "S-e61454163714d215",
+    "scientific_name": "DIRECTION_ARGUMENTS_B26_I002.json",
+    "original_bytes": 46974,
+    "original_sha256": "e61454163714d215e791476b53a05faa0efffdef232b4d639c4d60ef14c6e662"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b26-explicit-directions/2",
+    "identity": "B26-I002",
+    "at_utc": "2026-11-12T19:29:44.062980+00:00",
+    "common_literal": {
+      "actual_native_interface": "EA06 supplies or selects a maintained behavioral regression observation. EW-P013 consumes evidence for a defined design/type envelope; EW-P012 consumes evidence for identified intended use and operating context; EW-P014 consumes evidence for a configuration-specific acceptance decision. Each receiving use and criterion must actually be identified. The properties are not linked merely because all mention evidence.",
+      "distinct_purposes": "Nominal conformance, qualification envelope, intended-use fitness and empowered acceptance remain distinct. An observation may serve more than one purpose with a separate correspondence argument; it is one observation, not independent replication.",
+      "partial_input": "An applicable result, criterion or interpretation constraint can be material before the whole receiver is established. A known failed necessary condition can contradict the same-scoped claim while unsampled conditions remain unknown. A useful positive observation does not by itself prove a whole envelope or operational fitness. No final action change is required.",
+      "authority": "Evidence production, assessment, waiver, acceptance, certification and operational permission are distinct. An accepted exception does not change observed behavior or make a failed technical premise true. Actual nonwaivable duties are not removed by the hypothetical control policy.",
+      "cheap_path": "Existing current evidence, valid analysis/similarity, targeted manual or user observations, and an adequately authorized same actor may suffice at their guards. Reusing adequate evidence is applicable support without another campaign. A genuinely absent receiving purpose is a nontrigger; missing correspondence is unknown.",
+      "source_and_control_ceiling": "Current complete native meanings and selected criteria support these conditional interfaces. C23 is one finite abstract software construction with five actual observations and declared criteria/authority inputs, not a physical qualification or user study. Source metadata records preserve existing access and evidence roles; no fresh primary body or new normative applicability is claimed.",
+      "composition_cost": "Use the same candidate, purpose, configuration, envelope and horizon. Charge shared execution and evidence handling once; retain distinct analysis, representation, independence, maintenance, authority and residual-disposition burdens. Do not exchange a required purpose for a cheaper but irrelevant check.",
+      "unknown_preservation": "All476 prior examined unknowns remain unchanged. Unexamined rows outside these six explicit arguments remain unexamined. No outcome is inferred from the candidate query or finite control passing."
+    },
+    "literal_source": {
+      "path": "authoring/B26_I002_LITERAL_ARGUMENTS.json",
+      "bytes": 27651,
+      "sha256": "7d03d45a2d5b80ca043f15214e46089725cd5afeb3bbcbeef3661fb44caf8cfc"
+    },
+    "native_factors": {
+      "path": "research/increment_002/NATIVE_FACTORS_B26_I002.json",
+      "bytes": 16327,
+      "sha256": "e8a4b05ae97649809d4d27ec38047e471fc394d2251174ea8a3344019e95d505"
+    },
+    "directions": [
+      {
+        "id": "B26-I002-D01",
+        "source": "EA-06",
+        "receiver": "EW-P013",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "A named behavioral or performance condition of a changed design within the actual qualification envelope and on the identified representative configuration.",
+        "guard": [
+          "The actual design/type has a defined envelope or margin purpose; ordinary reversible feature work does not acquire a qualification programme merely by using tests.",
+          "A maintained regression observation actually exercises a named condition relevant to that envelope, with a credible oracle and a justified configuration/environment correspondence for this limited use.",
+          "The observation is consumed as support, contrary evidence or a reason for bounded requalification; it need not establish every other envelope condition."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "HOW_THE_PROPERTY_EVOLVED",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION/qualitative_criterion"
+        ],
+        "source_contribution": "A configuration-linked repeat observation supplies evidence about the actual exercised envelope condition, or demonstrates a known failed necessary condition after a relevant change. Valid repeat evidence can be retained when the condition and configuration correspondence remain justified.",
+        "receiving_consequence": "The qualification assessment can support that limited condition, reject an overbroad nominal-to-envelope inference, or identify a specific remaining requalification need. A cold-mode failure can contradict an all-required-modes claim even when another mode remains unobserved.",
+        "remaining_premises": [
+          "Coverage and margins for other relevant conditions, representative articles, validated models, calibrated equipment where relevant and anomaly disposition.",
+          "Justification for transfer across design/type, environment or configuration change; required independence and applicable qualification/acceptance authority.",
+          "Passing a finite selected portfolio does not establish an unbounded physical envelope or all intended use."
+        ],
+        "positive_witness": "A repeated response check on the current candidate supplies the result for one required mode. In C23, the nominal observation is useful but leaves cold/hot unknown; a known cold failure contradicts the declared finite all-mode bound while hot remains unknown.",
+        "stronger_claim_counterexample": "All nominal tests are green while a required extreme-mode response fails. A qualified old configuration's result is also inapplicable to a changed candidate unless its transfer is justified; identity alone or test quantity cannot repair the missing correspondence.",
+        "nontrigger": "There is no actual qualification-envelope purpose, or the check addresses a known unrelated behavior with no bearing on any condition being qualified. Unknown representativeness is unresolved, not a demonstrated nontrigger or proof of adequacy.",
+        "cheap_alternative_and_cost": "Retain adequate unchanged configuration-linked evidence; supplement only an actual affected condition. Valid analysis, similarity, inspection or a targeted manual experiment may be sufficient and cheaper than repeated destructive or full-system campaigns. Required correspondence and anomaly handling remain.",
+        "removal_test": "Remove the proposed extra automated run while retaining its existing adequate observation or justified analytic substitute. If the actual condition remains supported, the new run is unnecessary. Removing all evidence for the named necessary condition changes the qualification warrant.",
+        "reentry": "Reassess on envelope/margin change, design drift, invalidated model or environment assumptions, changed oracle or data, a contrary observation, or a changed basis for crediting old evidence.",
+        "controls": [
+          "C23"
+        ],
+        "finite_control_scope": "C23 nominal-only, known-cold-failure, finite-envelope, changed-envelope, wrong-candidate and unchanged-reuse cases distinguish partial evidence and scoped contradiction. Its named modes and logical ticks do not establish a physical qualification claim.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P013",
+        "reverse_direction_key": "LAW-L3::EW-P013->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P013",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EA-06.json",
+            "bytes": 5637,
+            "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+          },
+          "native_ref": {
+            "path": "inputs/native/agile_native.yaml",
+            "bytes": 96057,
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+          },
+          "selected_ref": {
+            "path": "inputs/native/agile_overlay.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5"
+          }
+        },
+        "source_field_factors": [
+          "B26-I002-NF001",
+          "B26-I002-NF002",
+          "B26-I002-NF003",
+          "B26-I002-NF004"
+        ],
+        "receiver_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EW-P013.json",
+            "bytes": 9740,
+            "sha256": "1534ac788a375442b5b5d79395c34efff4364fa4f8973568b1846e2a736b805d"
+          },
+          "native_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12"
+          },
+          "selected_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12/REQUALIFICATION"
+          }
+        },
+        "receiver_field_factors": [
+          "B26-I002-NF005",
+          "B26-I002-NF006",
+          "B26-I002-NF007",
+          "B26-I002-NF008",
+          "B26-I002-NF009"
+        ],
+        "control_bindings": [
+          {
+            "path": "research/increment_002/CONTROL_B26_C23.json",
+            "bytes": 22983,
+            "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+          },
+          {
+            "path": "authoring/B26_C23_DESIGN.json",
+            "bytes": 2701,
+            "sha256": "832725c7fc47dec4db44bbdb36b80b323cd0dbc7184c628df2f400e82bc0ad55"
+          },
+          {
+            "path": "authoring/qualification_distinction_control_b26.py",
+            "bytes": 12321,
+            "sha256": "6e5d36e9fc9e0897d19b76ad9a95781116a28a500988e1aedea3b9a872535645"
+          },
+          {
+            "path": "execution/CONTROL_B26_C23_RUN001/RUN_RECEIPT.json",
+            "bytes": 948,
+            "sha256": "1fca86632be11c6fd84846ee3b54f936fc8dff03b4da9b98e891abab6c8caad1"
+          }
+        ]
+      },
+      {
+        "id": "B26-I002-D02",
+        "source": "EW-P013",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "Selection and interpretation of regression checks for a change that may affect an actual design envelope or margin premise.",
+        "guard": [
+          "The real product has a named envelope, margin or change-trigger requirement relevant to the changed behavior.",
+          "The receiving regression portfolio or its evidence claim is being chosen, interpreted or reused for that actual purpose.",
+          "The envelope supplies a needed coverage/interpretation criterion even before full qualification has been demonstrated."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION/qualitative_criterion",
+          "REQUALIFICATION/cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "The actual envelope, margin and invalidation assumptions identify relevant modes, configuration coverage and a condition under which an old green observation cannot support the new claim.",
+        "receiving_consequence": "EA06 can select a targeted boundary check, keep a justified unchanged observation, or narrow an unsupported assurance claim. The criterion can reveal a missing check without requiring the entire qualification programme to be complete first.",
+        "remaining_premises": [
+          "Correct change-impact mapping, credible oracle, testable implementation, maintained data and manageable execution economics.",
+          "Actual environment/model correspondence and the adequacy of any proposed physical or analytic test method.",
+          "Whether a full campaign, targeted new observation or valid existing evidence is sufficient for the particular changed premise."
+        ],
+        "positive_witness": "A regression suite covers nominal response while the actual envelope also includes a cold mode. The missing mode is relevant because of the stated envelope, not because a general rule demands more tests. An added envelope mode remains an explicit new evidence need.",
+        "stronger_claim_counterexample": "A document labels an environment qualified, but the test article is unrepresentative or the oracle ignores the required margin. Copying the label into a test checklist neither fixes the test nor proves actual qualification.",
+        "nontrigger": "No relevant envelope or margin premise is involved in the actual change/use, and an already justified ordinary behavior check covers the complete current concern. A separate qualification ceremony is not created merely by retaining regression evidence.",
+        "cheap_alternative_and_cost": "Use a proportionate impact argument and current existing evidence where it remains valid. Add the least costly relevant boundary observation or analysis for the actual missing premise; scarce facilities and destructive tests are not automatic requirements for every change.",
+        "removal_test": "Remove the envelope criterion while holding the green nominal result fixed. If that result is now extrapolated to unobserved required conditions, the receiving interpretation lost a material constraint. Removing a redundant qualification document can preserve the criterion through an adequate current record.",
+        "reentry": "Reopen on changed operating range, margin, representative configuration, allowed model credit, qualification invalidation assumptions or evidence reuse basis.",
+        "controls": [
+          "C23"
+        ],
+        "finite_control_scope": "C23 changes declared mode coverage while holding actual observations fixed; it demonstrates the criterion's selection/interpretation role. It does not discover the correct real-world envelope or dictate a qualification schedule.",
+        "direction_key": "LAW-L3::EW-P013->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P013",
+        "entry_row": [
+          "LAW-L3::EW-P013->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EW-P013.json",
+            "bytes": 9740,
+            "sha256": "1534ac788a375442b5b5d79395c34efff4364fa4f8973568b1846e2a736b805d"
+          },
+          "native_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12"
+          },
+          "selected_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/12/REQUALIFICATION"
+          }
+        },
+        "source_field_factors": [
+          "B26-I002-NF005",
+          "B26-I002-NF006",
+          "B26-I002-NF010",
+          "B26-I002-NF008",
+          "B26-I002-NF009",
+          "B26-I002-NF011"
+        ],
+        "receiver_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EA-06.json",
+            "bytes": 5637,
+            "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+          },
+          "native_ref": {
+            "path": "inputs/native/agile_native.yaml",
+            "bytes": 96057,
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+          },
+          "selected_ref": {
+            "path": "inputs/native/agile_overlay.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5"
+          }
+        },
+        "receiver_field_factors": [
+          "B26-I002-NF001",
+          "B26-I002-NF003",
+          "B26-I002-NF004",
+          "B26-I002-NF012"
+        ],
+        "control_bindings": [
+          {
+            "path": "research/increment_002/CONTROL_B26_C23.json",
+            "bytes": 22983,
+            "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+          },
+          {
+            "path": "authoring/B26_C23_DESIGN.json",
+            "bytes": 2701,
+            "sha256": "832725c7fc47dec4db44bbdb36b80b323cd0dbc7184c628df2f400e82bc0ad55"
+          },
+          {
+            "path": "authoring/qualification_distinction_control_b26.py",
+            "bytes": 12321,
+            "sha256": "6e5d36e9fc9e0897d19b76ad9a95781116a28a500988e1aedea3b9a872535645"
+          },
+          {
+            "path": "execution/CONTROL_B26_C23_RUN001/RUN_RECEIPT.json",
+            "bytes": 948,
+            "sha256": "1fca86632be11c6fd84846ee3b54f936fc8dff03b4da9b98e891abab6c8caad1"
+          }
+        ]
+      },
+      {
+        "id": "B26-I002-D03",
+        "source": "EA-06",
+        "receiver": "EW-P012",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "A specific repeated behavior or performance observation bearing on an actual stakeholder, mission or workflow condition in the intended-use assessment.",
+        "guard": [
+          "The validation inquiry names an actual use condition or necessary outcome to which the exercised behavior is relevant.",
+          "The candidate, behavior and relevant context correspond sufficiently for this limited observation to inform that condition; a proxy or unknown bridge is not silently treated as representative.",
+          "The observation can support or contradict one use premise before all other human, environmental or mission evidence is known."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION/qualitative_criterion",
+          "REQUALIFICATION/failure_witness"
+        ],
+        "source_contribution": "A credible repeat observation supplies a bounded fact about how the identified system behaves under a relevant use condition. A known latency, response or interaction failure may defeat a necessary operational premise even when the written nominal specification is met.",
+        "receiving_consequence": "The intended-use inquiry can retain that partial support, identify a concrete mismatch or target the remaining representative evaluation. It need not wait for every stakeholder question before recognizing a known failure, and it cannot infer whole fitness from a conformance badge.",
+        "remaining_premises": [
+          "Real stakeholder needs, representative users/missions/workflows and context, outcome measures and permission to revise inadequate requirements.",
+          "Unobserved human and environmental interactions, the validity of the oracle for the actual purpose and configuration correspondence.",
+          "A bounded software observation is not itself a complete user trial or operational validation."
+        ],
+        "positive_witness": "An actual use requires a response within a stricter window than the nominal design limit. A current repeat observation that exceeds that necessary window is contrary input to fitness even while it passes the looser design criterion.",
+        "stronger_claim_counterexample": "A suite faithfully verifies an audible-output command while the actual operator cannot perceive it in the operating environment. Correct conformance evidence remains narrow; proxy-user sign-off or a script does not establish the missing human/context link.",
+        "nontrigger": "The repeated check is known to be unrelated to any current intended-use condition or outcome under consideration. If the actual need or context bridge is unknown, the application remains unresolved rather than being declared fit or irrelevant.",
+        "cheap_alternative_and_cost": "Reuse a trustworthy relevant observation rather than run a separate identical test solely under a validation label. A proportionate representative user trial, telemetry or operational simulation may supply the missing question with no added automation; inaccessible users and unrealistic proxies remain costs and assumptions.",
+        "removal_test": "Remove the repeated implementation but preserve the actual use-condition observation through an adequate direct trial or analysis. The useful premise may remain. Removing the observation and replacing it with a generic passed-specification badge loses its intended-use warrant.",
+        "reentry": "Reassess on changed stakeholders, workflow, use environment, timing/outcome requirement, integration behavior, proxy assumptions or evidence that the written requirement is the wrong operational criterion.",
+        "controls": [
+          "C23"
+        ],
+        "finite_control_scope": "C23's stricter-actual-use case holds one observation fixed and applies a distinct declared necessary-use criterion. Actual user needs and representativeness are stipulated inputs, not discovered or empirically validated by the finite program.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P012",
+        "reverse_direction_key": "LAW-L3::EW-P012->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P012",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EA-06.json",
+            "bytes": 5637,
+            "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+          },
+          "native_ref": {
+            "path": "inputs/native/agile_native.yaml",
+            "bytes": 96057,
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+          },
+          "selected_ref": {
+            "path": "inputs/native/agile_overlay.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5"
+          }
+        },
+        "source_field_factors": [
+          "B26-I002-NF001",
+          "B26-I002-NF003",
+          "B26-I002-NF004",
+          "B26-I002-NF013"
+        ],
+        "receiver_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EW-P012.json",
+            "bytes": 9702,
+            "sha256": "4227544463436f68a4159c689493df639e2009be2c170544c434192cb819197f"
+          },
+          "native_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11"
+          },
+          "selected_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11/REQUALIFICATION"
+          }
+        },
+        "receiver_field_factors": [
+          "B26-I002-NF014",
+          "B26-I002-NF015",
+          "B26-I002-NF016",
+          "B26-I002-NF017",
+          "B26-I002-NF018"
+        ],
+        "control_bindings": [
+          {
+            "path": "research/increment_002/CONTROL_B26_C23.json",
+            "bytes": 22983,
+            "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+          },
+          {
+            "path": "authoring/B26_C23_DESIGN.json",
+            "bytes": 2701,
+            "sha256": "832725c7fc47dec4db44bbdb36b80b323cd0dbc7184c628df2f400e82bc0ad55"
+          },
+          {
+            "path": "authoring/qualification_distinction_control_b26.py",
+            "bytes": 12321,
+            "sha256": "6e5d36e9fc9e0897d19b76ad9a95781116a28a500988e1aedea3b9a872535645"
+          },
+          {
+            "path": "execution/CONTROL_B26_C23_RUN001/RUN_RECEIPT.json",
+            "bytes": 948,
+            "sha256": "1fca86632be11c6fd84846ee3b54f936fc8dff03b4da9b98e891abab6c8caad1"
+          }
+        ]
+      },
+      {
+        "id": "B26-I002-D04",
+        "source": "EW-P012",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "The behavior, environment and outcome meaning used to choose a regression observation or judge its relevance to the actual intended purpose.",
+        "guard": [
+          "An actual intended-use condition or workflow constraint bears on behavior the regression portfolio can observe or on the limit of its claim.",
+          "The receiving test/oracle/coverage choice or interpretation consumes that condition; it is not merely a generic statement that users matter.",
+          "The intended-use premise can supply or challenge a criterion before either the full validation or regression result is complete."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION/qualitative_criterion"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "The actual stakeholder/use condition identifies a relevant observable behavior, threshold, environment or missing human interaction and can show why a specification-conformant oracle is insufficient for the claimed purpose.",
+        "receiving_consequence": "EA06 can target an appropriate regression observation, narrow a result's assurance meaning or keep a separate representative evaluation where automation cannot address the purpose. This is a criterion/coverage input, not a new test result or a requirement to automate user judgment.",
+        "remaining_premises": [
+          "The real relevance and legitimacy of the asserted use criterion, including conflicting stakeholder goals and representative context.",
+          "Testability, credible oracles, maintained data and actual execution; repeated programmable observation may not be the cheapest or adequate method for a human-purpose question.",
+          "Authority to change requirements or acceptance obligations remains separate from learning that a criterion is inadequate."
+        ],
+        "positive_witness": "A defined operational response window is stricter than the nominal requirement. The new criterion exposes the regression suite's narrower meaning before a new test is added; an unknown use threshold remains unknown rather than being inferred from what already passes.",
+        "stronger_claim_counterexample": "A proxy stakeholder asks for a convenient local preference and it is copied into the oracle as universal system value. Automation makes the preference repeatable, not justified; real operators may still be unable to use the system.",
+        "nontrigger": "The known current use question has no bearing on any programmable behavior, context or assurance claim the regression portfolio addresses. Mere coexistence of a user study and an unrelated automated check is insufficient. Unknown relevance remains unresolved.",
+        "cheap_alternative_and_cost": "A concise current use example and targeted human observation can supply the criterion or limit. Preserve adequate existing checks and avoid forcing exploratory or social judgment into a brittle automated oracle; count maintenance and representative-access effort.",
+        "removal_test": "Remove the actual use criterion while retaining the old green suite. If the suite is now claimed to establish operational fitness solely because the specification passes, the interpretation lost a material constraint. A separate lengthy validation ceremony is dispensable when an adequate direct use inquiry preserves it.",
+        "reentry": "Reopen when the purpose, operator population, workflow, outcome measure, environmental correspondence or conflict among stakeholder aims changes.",
+        "controls": [
+          "C23"
+        ],
+        "finite_control_scope": "C23's different-purpose thresholds and unknown-criterion/bridge cases expose selection and interpretation boundaries. The control does not establish stakeholder legitimacy or observational representativeness.",
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P012",
+        "entry_row": [
+          "LAW-L3::EW-P012->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EW-P012.json",
+            "bytes": 9702,
+            "sha256": "4227544463436f68a4159c689493df639e2009be2c170544c434192cb819197f"
+          },
+          "native_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11"
+          },
+          "selected_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11/REQUALIFICATION"
+          }
+        },
+        "source_field_factors": [
+          "B26-I002-NF014",
+          "B26-I002-NF015",
+          "B26-I002-NF019",
+          "B26-I002-NF016",
+          "B26-I002-NF017"
+        ],
+        "receiver_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EA-06.json",
+            "bytes": 5637,
+            "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+          },
+          "native_ref": {
+            "path": "inputs/native/agile_native.yaml",
+            "bytes": 96057,
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+          },
+          "selected_ref": {
+            "path": "inputs/native/agile_overlay.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5"
+          }
+        },
+        "receiver_field_factors": [
+          "B26-I002-NF001",
+          "B26-I002-NF003",
+          "B26-I002-NF004",
+          "B26-I002-NF012"
+        ],
+        "control_bindings": [
+          {
+            "path": "research/increment_002/CONTROL_B26_C23.json",
+            "bytes": 22983,
+            "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+          },
+          {
+            "path": "authoring/B26_C23_DESIGN.json",
+            "bytes": 2701,
+            "sha256": "832725c7fc47dec4db44bbdb36b80b323cd0dbc7184c628df2f400e82bc0ad55"
+          },
+          {
+            "path": "authoring/qualification_distinction_control_b26.py",
+            "bytes": 12321,
+            "sha256": "6e5d36e9fc9e0897d19b76ad9a95781116a28a500988e1aedea3b9a872535645"
+          },
+          {
+            "path": "execution/CONTROL_B26_C23_RUN001/RUN_RECEIPT.json",
+            "bytes": 948,
+            "sha256": "1fca86632be11c6fd84846ee3b54f936fc8dff03b4da9b98e891abab6c8caad1"
+          }
+        ]
+      },
+      {
+        "id": "B26-I002-D05",
+        "source": "EA-06",
+        "receiver": "EW-P014",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "A specified behavioral evidence condition for acceptance of the exact identified delivery or configuration.",
+        "guard": [
+          "An actual acceptance decision consumes a named regression or behavioral-check condition; the observation is not a generic badge unrelated to the agreed criteria.",
+          "The result is relevant, credible and bound to the delivery being assessed; changed criteria and exceptions remain explicit.",
+          "The result may inform the decision before all acceptance conditions or authority are settled; evidence alone does not perform the transfer."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION/qualitative_criterion"
+        ],
+        "source_contribution": "The current behavioral observation supplies the actual criterion's evidence input, including a known failure or an explicitly bounded partial result. An already adequate observation can be reused instead of repeated for an acceptance ceremony.",
+        "receiving_consequence": "The acceptance owner can identify a met, failed or unresolved evidence condition and preserve required residual or exception disposition. This is material information even if other open conditions leave the final decision unchanged.",
+        "remaining_premises": [
+          "Empowered recipient and applicable authority, agreement on criteria, exact delivery identity, every other required verification/validation condition, exceptions and transition of responsibility.",
+          "Required independence, trusted provenance and any nonwaivable external condition; no test pass grants them.",
+          "Acceptance is a decision about obligations and an identified state, not proof of engineering truth, fitness or certification."
+        ],
+        "positive_witness": "A current observation satisfies one agreed response criterion and is retained in the acceptance record. A failed required condition is visible even before other evidence arrives; an authorized exception, if actually allowed, records a known residual rather than changing that observation.",
+        "stronger_claim_counterexample": "A test engineer with green results declares contractual acceptance without delegated authority, or the green result belongs to another candidate. The observation cannot create authority or transfer its identity to the delivered item.",
+        "nontrigger": "No actual acceptance/transfer decision uses this result, or the check is known to be irrelevant to all applicable acceptance criteria. Unknown evidence binding or criterion applicability remains unresolved.",
+        "cheap_alternative_and_cost": "Reuse trustworthy current evidence and an adequate direct authorized decision. The same competent actor can own several roles in a simple setting where separation is not required. A targeted manual or analytic check may supply the condition if admissible; no duplicate committee or repeat run is justified solely by labels.",
+        "removal_test": "Remove the duplicate acceptance test while preserving a current admissible observation and its scope/provenance. If the criterion remains supported, the duplicate adds no identified warrant. Removing all relevant evidence while keeping a signature loses the actual premise.",
+        "reentry": "Reassess when delivery identity, agreed criteria, recipient authority, evidence admissibility, required independence, exception rules or transition responsibilities change.",
+        "controls": [
+          "C23"
+        ],
+        "finite_control_scope": "C23's seven acceptance cases separate green evidence, same-actor authority, known failure, explicit hypothetical waiver, identity mismatch, partial evidence and absent transfer. They execute no real approval or waiver and establish no external policy.",
+        "direction_key": "LAW-L2::EA-06->LAW-L3::EW-P014",
+        "reverse_direction_key": "LAW-L3::EW-P014->LAW-L2::EA-06",
+        "entry_row": [
+          "LAW-L2::EA-06->LAW-L3::EW-P014",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EA-06.json",
+            "bytes": 5637,
+            "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+          },
+          "native_ref": {
+            "path": "inputs/native/agile_native.yaml",
+            "bytes": 96057,
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+          },
+          "selected_ref": {
+            "path": "inputs/native/agile_overlay.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5"
+          }
+        },
+        "source_field_factors": [
+          "B26-I002-NF001",
+          "B26-I002-NF003",
+          "B26-I002-NF004",
+          "B26-I002-NF012"
+        ],
+        "receiver_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EW-P014.json",
+            "bytes": 9691,
+            "sha256": "295638c885b77041a10dcdb456dbf25920c6f183caecb12295b7766010d43421"
+          },
+          "native_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13"
+          },
+          "selected_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13/REQUALIFICATION"
+          }
+        },
+        "receiver_field_factors": [
+          "B26-I002-NF020",
+          "B26-I002-NF021",
+          "B26-I002-NF022",
+          "B26-I002-NF023",
+          "B26-I002-NF024"
+        ],
+        "control_bindings": [
+          {
+            "path": "research/increment_002/CONTROL_B26_C23.json",
+            "bytes": 22983,
+            "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+          },
+          {
+            "path": "authoring/B26_C23_DESIGN.json",
+            "bytes": 2701,
+            "sha256": "832725c7fc47dec4db44bbdb36b80b323cd0dbc7184c628df2f400e82bc0ad55"
+          },
+          {
+            "path": "authoring/qualification_distinction_control_b26.py",
+            "bytes": 12321,
+            "sha256": "6e5d36e9fc9e0897d19b76ad9a95781116a28a500988e1aedea3b9a872535645"
+          },
+          {
+            "path": "execution/CONTROL_B26_C23_RUN001/RUN_RECEIPT.json",
+            "bytes": 948,
+            "sha256": "1fca86632be11c6fd84846ee3b54f936fc8dff03b4da9b98e891abab6c8caad1"
+          }
+        ]
+      },
+      {
+        "id": "B26-I002-D06",
+        "source": "EW-P014",
+        "receiver": "EA-06",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INTERPRETATION_QUALIFIER",
+          "INPUT_TO_DECISION"
+        ],
+        "shared_object": "The acceptance-purpose criterion, delivery identity and admissibility scope of a regression observation being designed or reused.",
+        "guard": [
+          "The actual receiving regression evidence will be used for a named acceptance purpose on a particular delivery.",
+          "The acceptance criteria, configuration, provenance requirement or authorized residual disposition bears on what observation must be obtained or how its result is described.",
+          "This criterion/interpretation input can be useful before the full acceptance decision is complete; the direction does not require prior acceptance as proof of test validity."
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "IMPORTANT_CRITICISMS",
+          "REQUALIFICATION/qualitative_criterion",
+          "REQUALIFICATION/cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "MATURE_OR_EVOLVED_FORM"
+        ],
+        "source_contribution": "The actual acceptance contract identifies the criterion and deliverable for which repeat evidence is sought, and constrains its provenance, residual reporting and permitted decision use. It distinguishes a behavioral result from a completed authorized transfer.",
+        "receiving_consequence": "EA06 can choose or preserve relevant checks for that exact criterion and avoid presenting a green badge or a waived failure as complete acceptance. A known bad or incomplete criterion can remain technically challenged rather than being made true by authority.",
+        "remaining_premises": [
+          "Technical relevance and credibility of the criterion/oracle, testable behavior, current data and actual execution.",
+          "Actual authority and admissibility, all remaining acceptance conditions and any required independent judgment.",
+          "Agreement or waiver changes the governing obligation only within its legitimate scope; it does not change observed behavior or prove fitness."
+        ],
+        "positive_witness": "An agreed response condition tied to a named delivery determines what repeat observation must be recorded. If a permitted residual is accepted, the test still reports its observed failure; a direct authorized owner record may preserve the distinction without a separate ceremony.",
+        "stronger_claim_counterexample": "Acceptance criteria are weakened retrospectively to force a deadline, and the green criterion is presented as evidence that the system meets its original technical need. The changed obligation is not a repaired behavior or a justified oracle for that original claim.",
+        "nontrigger": "The repeated check has no actual acceptance-purpose use or affected criterion/provenance claim. A local disposable experiment does not inherit a contractual approval workflow merely because an organization has one elsewhere.",
+        "cheap_alternative_and_cost": "A concise identified criterion, current observation and competent authorized decision can suffice. Avoid duplicate approval records and repeated identical tests, while preserving any actual separation, admissibility and residual-disposition duties.",
+        "removal_test": "Remove the acceptance-purpose meaning while keeping the raw test result. If it is now called an authorized transfer or attached to another delivery, the interpretation lost its native constraint. Removing a redundant signature form can retain the same current criterion and legitimate decision meaning.",
+        "reentry": "Reopen on changed criteria, recipient/authority, delivery state, evidence/provenance requirements, waiver scope or claims that formal acceptance establishes engineering truth.",
+        "controls": [
+          "C23"
+        ],
+        "finite_control_scope": "C23 holds observations fixed while changing declared authority, acceptance purpose and residual handling. The local policy is an input; its successful execution neither establishes real authority nor justifies changing actual external duties.",
+        "direction_key": "LAW-L3::EW-P014->LAW-L2::EA-06",
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P014",
+        "entry_row": [
+          "LAW-L3::EW-P014->LAW-L2::EA-06",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "source_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EW-P014.json",
+            "bytes": 9691,
+            "sha256": "295638c885b77041a10dcdb456dbf25920c6f183caecb12295b7766010d43421"
+          },
+          "native_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13"
+          },
+          "selected_ref": {
+            "path": "inputs/native/waterfall.yaml",
+            "bytes": 444967,
+            "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+            "pointer": "/EVOLVED_WATERFALL/PROPERTIES/13/REQUALIFICATION"
+          }
+        },
+        "source_field_factors": [
+          "B26-I002-NF020",
+          "B26-I002-NF021",
+          "B26-I002-NF022",
+          "B26-I002-NF025",
+          "B26-I002-NF024",
+          "B26-I002-NF026"
+        ],
+        "receiver_native_binding": {
+          "capsule": {
+            "path": "reading/i002/native/EA-06.json",
+            "bytes": 5637,
+            "sha256": "360f13e9bb7ece09976324bba868250dec239fcf961b38bd873e489eb2f5e5d9"
+          },
+          "native_ref": {
+            "path": "inputs/native/agile_native.yaml",
+            "bytes": 96057,
+            "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+            "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5"
+          },
+          "selected_ref": {
+            "path": "inputs/native/agile_overlay.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5"
+          }
+        },
+        "receiver_field_factors": [
+          "B26-I002-NF001",
+          "B26-I002-NF003",
+          "B26-I002-NF004",
+          "B26-I002-NF012"
+        ],
+        "control_bindings": [
+          {
+            "path": "research/increment_002/CONTROL_B26_C23.json",
+            "bytes": 22983,
+            "sha256": "fb16b6c65462821f9290170c89fb2c7fe2e998801d53b8e14b0a7963fede1fa4"
+          },
+          {
+            "path": "authoring/B26_C23_DESIGN.json",
+            "bytes": 2701,
+            "sha256": "832725c7fc47dec4db44bbdb36b80b323cd0dbc7184c628df2f400e82bc0ad55"
+          },
+          {
+            "path": "authoring/qualification_distinction_control_b26.py",
+            "bytes": 12321,
+            "sha256": "6e5d36e9fc9e0897d19b76ad9a95781116a28a500988e1aedea3b9a872535645"
+          },
+          {
+            "path": "execution/CONTROL_B26_C23_RUN001/RUN_RECEIPT.json",
+            "bytes": 948,
+            "sha256": "1fca86632be11c6fd84846ee3b54f936fc8dff03b4da9b98e891abab6c8caad1"
+          }
+        ]
+      }
+    ],
+    "new_direction_count": 6,
+    "disposition_origin": "Literal current author judgments only; no classifier or control-derived admission.",
+    "whole_author_complete": false
+  }
+}

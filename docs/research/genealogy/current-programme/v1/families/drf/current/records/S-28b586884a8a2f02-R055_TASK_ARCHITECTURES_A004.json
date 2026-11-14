@@ -1,0 +1,297 @@
+{
+  "source_identity": {
+    "source_id": "S-28b586884a8a2f02",
+    "scientific_name": "R055_TASK_ARCHITECTURES_A004.json",
+    "original_bytes": 18195,
+    "original_sha256": "28b586884a8a2f029b0be311b05ac7e4cf278f70f0898eafc162c19d4e673369"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "DRF-A004-actual-task-architectures/1",
+    "interpretation": "Source-grounded qualitative analytical interfaces; task existence and comparator meaning are not model efficacy or a deployment claim. T5 is a native evaluation branch, not an AI assistant.",
+    "tasks": {
+      "T1": {
+        "name": "Existing agent planning, validation and semantic compensation",
+        "native_warrant": "D24/D53 and qualified S097 SagaLLM expressly concern persistent agent state, task dependencies, compensating actions, separate validation agents and cancellation/refund policies. This is the object being evaluated, not an invented AI operator for a different protocol.",
+        "input": "The selected task, persisted planning/progress state, dependency and prior tool-result records, and the applicable cancellation/refund policy. Their accuracy and completeness are separate premises.",
+        "proposed_action_or_observation": "A model-generated plan or compensating tool action, and a validator judgment about that action/result. A restored context or validator approval is an observation at its own boundary.",
+        "failure_population": "Wrong semantic plan or compensation; interrupted or repeated tool operation; reply loss; policy refusal; shared model/data error in planner and validator. This is a qualitative population, not a calibrated frequency law.",
+        "permitted_consequence": "Only the specified tool action within its actual authority. No validator title authorizes a refund, erases an external effect or ensures independent errors.",
+        "postcondition": "Distinguish restored internal planning/progress state from the particular required booking/cancellation/refund outcome. Each external policy, prior observation and residual effect remains explicit.",
+        "comparator": "The same stated objective under an adequate conventional workflow, deterministic domain rule, direct authoritative result or supported manual compensation. No comparative field benefit is assumed.",
+        "unknowns": "Model error, semantic correctness, external-policy satisfaction, task/population transfer, action integration, authority and total cost. No new model execution, training, industrial deployment or efficacy estimate is claimed.",
+        "source_refs": [
+          "D24",
+          "D53",
+          "D:S097",
+          "R055"
+        ],
+        "id": "T1",
+        "evidence_bindings": [
+          {
+            "native_id": "D24",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/23",
+            "current_pointer": "/QUALIFICATIONS/23"
+          },
+          {
+            "native_id": "D53",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/52",
+            "current_pointer": "/QUALIFICATIONS/52"
+          },
+          {
+            "uri": "campaign_current/work/drf_distributed_systems/revisions/r2/science/SOURCE_TABLE.json",
+            "bytes": 622241,
+            "sha256": "a0b385e95886e1455ce248eb4f6be033a7185ef2691f2caa52baa84705547a0b",
+            "locator_kind": "WHOLE_FILE",
+            "locator": "",
+            "source_id": "S097",
+            "source_pointer": "/SOURCES/96",
+            "qualification_pointer": "/SOURCE_QUALIFICATIONS/96",
+            "source_record_canonical_sha256": "d7a7ea78b0f9e29a0808abe3a5f67db0e1f5075ac958e7f6024fb302606382a0",
+            "qualification_canonical_sha256": "eb1d1160b04963f8a1c9967ba581cc427bd8fdd85855aed856b33a5fea71894b"
+          },
+          {
+            "native_id": "R055",
+            "carrier": {
+              "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+              "bytes": 2498799,
+              "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+            },
+            "native_pointer": "/properties/54/native_record",
+            "current_pointer": "/properties/54/current_claim"
+          }
+        ]
+      },
+      "T2": {
+        "name": "Existing agent fault-response experiment",
+        "native_warrant": "D44/D53 and qualified S098 AgentChaos identify an actual agent/model/tool task and observable responses to triggered HTTP-response faults. The injection machinery is not relabelled as an AI system.",
+        "input": "A named benchmark task, model and tool-response stream under the actual selected HTTP-fault configuration; actual triggering and oracle eligibility condition the observation.",
+        "proposed_action_or_observation": "The agent next response, tool call, retry or final answer; the selected task oracle and call/resource observations evaluate that behavior.",
+        "failure_population": "The source selected 65 HTTP-response fault configurations, five implemented patterns, seven benchmarks and four model choices. Trigger-conditioned cases are not all possible semantic, physical, security or deployment failures.",
+        "permitted_consequence": "Only the behavior exercised by the selected harness and tool scope. A benchmark result grants no production action authority.",
+        "postcondition": "The specified task-oracle result and observed retry/tool-call work under that configuration; no all-task resilience or general architecture ranking follows.",
+        "comparator": "An explicitly corresponding task/control condition. A deterministic or manual alternative can be considered for an adoption decision, but this author has no measured such comparison and invents none.",
+        "unknowns": "Oracle coverage, untriggered population, implementation sensitivity, cross-task transfer, general error/performance and net field benefit. Repeated seeds are not independent implementation replications.",
+        "source_refs": [
+          "D44",
+          "D53",
+          "D:S098",
+          "R055"
+        ],
+        "id": "T2",
+        "evidence_bindings": [
+          {
+            "native_id": "D44",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/43",
+            "current_pointer": "/QUALIFICATIONS/43"
+          },
+          {
+            "native_id": "D53",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/52",
+            "current_pointer": "/QUALIFICATIONS/52"
+          },
+          {
+            "uri": "campaign_current/work/drf_distributed_systems/revisions/r2/science/SOURCE_TABLE.json",
+            "bytes": 622241,
+            "sha256": "a0b385e95886e1455ce248eb4f6be033a7185ef2691f2caa52baa84705547a0b",
+            "locator_kind": "WHOLE_FILE",
+            "locator": "",
+            "source_id": "S098",
+            "source_pointer": "/SOURCES/97",
+            "qualification_pointer": "/SOURCE_QUALIFICATIONS/97",
+            "source_record_canonical_sha256": "75d0a9a399e5b7bbe6bedfad7954d13d776e5773f4e34ef01ad7bebc52d7390e",
+            "qualification_canonical_sha256": "cc09cfd344efb4932bee6a2852cc94bf3e18494014ae569ff93848aa1c504bf0"
+          },
+          {
+            "native_id": "R055",
+            "carrier": {
+              "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+              "bytes": 2498799,
+              "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+            },
+            "native_pointer": "/properties/54/native_record",
+            "current_pointer": "/properties/54/current_claim"
+          }
+        ]
+      },
+      "T3": {
+        "name": "Native function-diagnostic task with explicit observation and decision boundary",
+        "native_warrant": "R055 current diagnostic profile already names function outputs, timing, state, dependency signals, target faults, misses/false alarms and latency. D41/D42 specify the capability/path/interval and observation-selection objects consumed here. The analytical task is diagnosis of that same function, not an unspecified AI role.",
+        "input": "Reported output/state/dependency observations for capability c on path p during interval I. The analytical countercase distinguishes evidence of a successful read from the required write/refund capability; observations outside p or I are not silently substituted.",
+        "proposed_action_or_observation": "A model-assisted classification that the stated capability is usable or that its stated failure is present; optionally a candidate response under separately specified authority. No response must be automated.",
+        "failure_population": "Failure of that capability within the observation opportunity, plus model misclassification and observation loss/delay/shared instrumentation. Label and ascertainment validity remain open.",
+        "permitted_consequence": "Use the classification only to justify or withhold the named capability judgment, or to propose the stated response. A diagnostic label does not itself change service state.",
+        "postcondition": "The consumer-required capability or response condition, compared with the actual observation; a green process, past success or high model score alone does not establish it.",
+        "comparator": "A direct authoritative functional check, adequate deterministic threshold/rule or supported manual interpretation of the same observations. Symbolic error and cost values are allowed; none is asserted measured.",
+        "unknowns": "Population/task match, labels, missingness, delay, model errors, action effects and net cost. This explicit qualitative analytical architecture is not a claim that a readiness model was deployed or tested.",
+        "source_refs": [
+          "R055",
+          "D41",
+          "D42"
+        ],
+        "id": "T3",
+        "evidence_bindings": [
+          {
+            "native_id": "R055",
+            "carrier": {
+              "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+              "bytes": 2498799,
+              "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+            },
+            "native_pointer": "/properties/54/native_record",
+            "current_pointer": "/properties/54/current_claim"
+          },
+          {
+            "native_id": "D41",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/40",
+            "current_pointer": "/QUALIFICATIONS/40"
+          },
+          {
+            "native_id": "D42",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/41",
+            "current_pointer": "/QUALIFICATIONS/41"
+          }
+        ]
+      },
+      "T4": {
+        "name": "Native bounded control contract separated from learned semantic quality",
+        "native_warrant": "R055 current claim explicitly separates the diagnostic/action mechanism from its actual action authority and underlying required function. The inspected F010/F026 routes concern that bounded control component, not proof of learned field usefulness.",
+        "input": "The selected task result or candidate action, its actual allowed action set and the specified interface state/precondition.",
+        "proposed_action_or_observation": "A bounded control transition returning a proposal or an allowed action result; exceptions and effects are part of the contract.",
+        "failure_population": "Interface/state/frame violations or unsupported program behavior are different from an incorrect learned recommendation.",
+        "permitted_consequence": "Only the declared interface contract and the actual permission relation. Proving a contract does not grant permission.",
+        "postcondition": "The named finite control/decision predicate under compatible state, exception and frame semantics; semantic task accuracy and field utility remain outside unless separately established.",
+        "comparator": "A direct integration check, ordinary tests, an adequate existing contract or a narrower supported analyzer result.",
+        "unknowns": "Actual implementation correspondence, model quality, field cost and any omitted external behavior. This is a methodological contrast, not a new deployed gate or universal review bundle.",
+        "source_refs": [
+          "R055",
+          "F010",
+          "F026"
+        ],
+        "id": "T4",
+        "evidence_bindings": [
+          {
+            "native_id": "R055",
+            "carrier": {
+              "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+              "bytes": 2498799,
+              "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+            },
+            "native_pointer": "/properties/54/native_record",
+            "current_pointer": "/properties/54/current_claim"
+          },
+          {
+            "native_id": "F010",
+            "carrier": {
+              "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+              "bytes": 613322,
+              "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+            },
+            "native_pointer": "/properties/9/native_record",
+            "current_pointer": "/properties/9/current_claim"
+          },
+          {
+            "native_id": "F026",
+            "carrier": {
+              "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+              "bytes": 613322,
+              "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+            },
+            "native_pointer": "/properties/25/native_record",
+            "current_pointer": "/properties/25/current_claim"
+          }
+        ]
+      },
+      "T5": {
+        "name": "Native recovery and retirement evaluation of the AI mechanism itself",
+        "native_warrant": "R055 current recovery profile explicitly names checkpoints/replicas/backups/rebuild sources and function postconditions. Its cost/retirement field permits removing unsupported automation while retaining useful bounded signals. These are native receiver branches; no AI retirement assistant is posited.",
+        "input": "The recovered state and its declared enclosure, or the list of remaining consumers/dependencies of an automation component and its evidence/state.",
+        "proposed_action_or_observation": "An evaluator judges restoration or removal of that mechanism. This evaluator need not be AI; the AI mechanism is the object of the native R055 criterion.",
+        "failure_population": "Internal restore with external residuals; removal while old readers, histories, backups or dependent users still require a state or evidence path.",
+        "permitted_consequence": "A bounded restoration or retirement judgment with actual action permission kept separate.",
+        "postcondition": "The specified restored function or preservation of the remaining consumer obligations after removing an unnecessary automation path.",
+        "comparator": "Retain a useful bounded signal, restore only the required state, keep a cheaper supported mechanism or remove only an actually unnecessary component.",
+        "unknowns": "Actual residual consumers, effects, recovery evidence, authority and cost. Native existence of this branch does not establish an outgoing AI assistance task in D46.",
+        "source_refs": [
+          "R055",
+          "D36",
+          "D38",
+          "D46"
+        ],
+        "id": "T5",
+        "evidence_bindings": [
+          {
+            "native_id": "R055",
+            "carrier": {
+              "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+              "bytes": 2498799,
+              "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+            },
+            "native_pointer": "/properties/54/native_record",
+            "current_pointer": "/properties/54/current_claim"
+          },
+          {
+            "native_id": "D36",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/35",
+            "current_pointer": "/QUALIFICATIONS/35"
+          },
+          {
+            "native_id": "D38",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/37",
+            "current_pointer": "/QUALIFICATIONS/37"
+          },
+          {
+            "native_id": "D46",
+            "carrier": {
+              "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+              "bytes": 1023979,
+              "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+            },
+            "native_pointer": "/PROPERTIES/45",
+            "current_pointer": "/QUALIFICATIONS/45"
+          }
+        ]
+      }
+    }
+  }
+}

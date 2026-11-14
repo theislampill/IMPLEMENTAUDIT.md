@@ -1,0 +1,2898 @@
+{
+  "source_identity": {
+    "source_id": "S-34e92ac2e06610f1",
+    "scientific_name": "NATIVE_ADAPTER_A006.json",
+    "original_bytes": 173118,
+    "original_sha256": "34e92ac2e06610f112614d3d0c13d06307f0e410fd65b7cb6b2d7d45e3c2b719"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "DRF-A002-exact-native-adapter/1",
+    "population": {
+      "D": 54,
+      "R": 55,
+      "F": 50,
+      "total": 159
+    },
+    "key_rule": "Exact selected constituent subject + carrier + native pointer and checked native ID. D/R/F aliases name a selected population once; original ancestors are not additional selected rows.",
+    "selected_subjects": {
+      "path": "campaign_current/work/drf_synthesis_prompt_author/EXECUTION_BINDING.json",
+      "bytes": 24371,
+      "sha256": "0fbe8e8702bfc04844f01836032c5f58280c262263d409237939372b494acc18"
+    },
+    "original_index": {
+      "path": "campaign_current/work/drf_synthesis/revisions/new_neutral_r1_a/PROPERTY_INDEX.json",
+      "bytes": 523772,
+      "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+    },
+    "properties": [
+      {
+        "canonical_id": "D01",
+        "lineage": "D",
+        "native_id": "P01",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/0",
+        "current_pointer": "/QUALIFICATIONS/0",
+        "native_record_canonical_sha256": "20551275cdd92214a104733c6bcbc6b67a67312c498ece7c9eed13bb2759a86d",
+        "current_claim_canonical_sha256": "a61034e0a67d3d356cf48c2734cf197c9f2d9934ca6dc01807db1546b9f2bcda",
+        "native_status": "FAILURE_MODEL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D02",
+        "lineage": "D",
+        "native_id": "P02",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/1",
+        "current_pointer": "/QUALIFICATIONS/1",
+        "native_record_canonical_sha256": "f9599e0cd5b1645031269336f54909aad5a1f635e9f3a0d44b9492f31eddf22c",
+        "current_claim_canonical_sha256": "1749cbb5d8015f551d1a82614402b582411af42af497047b592b4fe5bbb0a9cb",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D03",
+        "lineage": "D",
+        "native_id": "P03",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/2",
+        "current_pointer": "/QUALIFICATIONS/2",
+        "native_record_canonical_sha256": "66445520925eb35f1c2b2ea639fc0b6b95a4c3ee8346f37b0da72bd164bab722",
+        "current_claim_canonical_sha256": "f2f328c6106ec9ff81a2b923dabf4d704187a13ff488097ca0cc60e8d5446221",
+        "native_status": "FAILURE_MODEL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D04",
+        "lineage": "D",
+        "native_id": "P04",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/3",
+        "current_pointer": "/QUALIFICATIONS/3",
+        "native_record_canonical_sha256": "18aa901f0c00ff622f6e73a06a1163fd5ccfdbb725f39aab63d9abbf2b865e1a",
+        "current_claim_canonical_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+        "native_status": "CAUSALITY_CURRENTNESS_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D05",
+        "lineage": "D",
+        "native_id": "P05",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/4",
+        "current_pointer": "/QUALIFICATIONS/4",
+        "native_record_canonical_sha256": "771da3ac5423aa79235777559642cb183b2474a41853bf8db3fa892da84e1551",
+        "current_claim_canonical_sha256": "b994147c1a240eb101faf10bed00ebd13058e942cfbac745e83b84a5b7ae6784",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D06",
+        "lineage": "D",
+        "native_id": "P06",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/5",
+        "current_pointer": "/QUALIFICATIONS/5",
+        "native_record_canonical_sha256": "70c2d0f97988f8182985ce9553f7dbb1a0ed70c818c67de0c58f36c76e56345a",
+        "current_claim_canonical_sha256": "44b1bd9790135be10e9a01fb2e8bd24f6412c080f7272c6c5919722f0c295de4",
+        "native_status": "CAUSALITY_CURRENTNESS_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D07",
+        "lineage": "D",
+        "native_id": "P07",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/6",
+        "current_pointer": "/QUALIFICATIONS/6",
+        "native_record_canonical_sha256": "6143825a803348bc7be8c500ffcef5a031cee4ad0e0152d3d64c280ba2d9ca7d",
+        "current_claim_canonical_sha256": "5d7f6cd2af22fe7a2ba1eb98dd78e87038c6a326a93f4a7fac9d4a4fd808d3dd",
+        "native_status": "REPLICATION_CONSISTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D08",
+        "lineage": "D",
+        "native_id": "P08",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/7",
+        "current_pointer": "/QUALIFICATIONS/7",
+        "native_record_canonical_sha256": "e439d816b5854e5fab35b1f2a4f203db0e66f7b555f5e46b68abe4dd957b3762",
+        "current_claim_canonical_sha256": "16f1085722e6c646d032711801e9ecb7a238c3c8d50ff70bf52f6af76d78b1b4",
+        "native_status": "REPLICATION_CONSISTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D09",
+        "lineage": "D",
+        "native_id": "P09",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/8",
+        "current_pointer": "/QUALIFICATIONS/8",
+        "native_record_canonical_sha256": "fc11187b76126f892c2218bbc3a38c73c0625bfcf8a15a3115587b4a3ed603cf",
+        "current_claim_canonical_sha256": "1177ec9fed3b7cefd8f9db2b2175d1f7e6d3cd372c3c262dc054adee21a88770",
+        "native_status": "REPLICATION_CONSISTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D10",
+        "lineage": "D",
+        "native_id": "P10",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/9",
+        "current_pointer": "/QUALIFICATIONS/9",
+        "native_record_canonical_sha256": "4b9c791408225298fa5e06e0e8d9ab0beff881ff25cd5ebf1bde888d1db44b62",
+        "current_claim_canonical_sha256": "d5db1dda6d81cbfd03528814bad3ccce60743586bb5fdf777f7acdcbe5a7aa4b",
+        "native_status": "CONSENSUS_AUTHORITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D11",
+        "lineage": "D",
+        "native_id": "P11",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/10",
+        "current_pointer": "/QUALIFICATIONS/10",
+        "native_record_canonical_sha256": "9ddfbf83e143a5b86e98f417338b2e9b2e989f607000338dda2b78bcc629b676",
+        "current_claim_canonical_sha256": "fcae2bb307143f13aa0115ef9daed720593aff807738534f7fc6c5e1983c9cda",
+        "native_status": "CONSENSUS_AUTHORITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D12",
+        "lineage": "D",
+        "native_id": "P12",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/11",
+        "current_pointer": "/QUALIFICATIONS/11",
+        "native_record_canonical_sha256": "038cc6c25a30ddf0696cea5dc04c1d360ea7bca0bbee08522940035ab62f2bbe",
+        "current_claim_canonical_sha256": "d85e5cd8c157f96587e253ae6c704e07afffe1a0010f8848a99aa2d5dd400ecf",
+        "native_status": "CONSENSUS_AUTHORITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D13",
+        "lineage": "D",
+        "native_id": "P13",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/12",
+        "current_pointer": "/QUALIFICATIONS/12",
+        "native_record_canonical_sha256": "078791f7c40bcaabf73d2f8f0cb3c840bb89fb3d5ec0f6ac9482ec32ef970309",
+        "current_claim_canonical_sha256": "953999320bf81ce68e89268759aef0ec1464ef2220979d355e153040bd937855",
+        "native_status": "CONSENSUS_AUTHORITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D14",
+        "lineage": "D",
+        "native_id": "P14",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/13",
+        "current_pointer": "/QUALIFICATIONS/13",
+        "native_record_canonical_sha256": "30d15ba73494c02c3995dd1e995fa998bd4f1f74e78cb518974e79f7b14fa4a6",
+        "current_claim_canonical_sha256": "1e8a00940edfba806cfeb28441e6f6912ceff11ee44508ce0343e7cc6ba9e745",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D15",
+        "lineage": "D",
+        "native_id": "P15",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/14",
+        "current_pointer": "/QUALIFICATIONS/14",
+        "native_record_canonical_sha256": "895a51f13a9f8b0a23355931332ac39a44944aebab56bc03d19352f8b7ef1578",
+        "current_claim_canonical_sha256": "c7a789605bc6914d77ad45733fd9e262c026acfae6e4380848eb53917d79e15f",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D16",
+        "lineage": "D",
+        "native_id": "P16",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/15",
+        "current_pointer": "/QUALIFICATIONS/15",
+        "native_record_canonical_sha256": "dfd814f7d29d20ee5ba4fdae13fc8b7ea16b77b5510502106a762c4d9c7984e8",
+        "current_claim_canonical_sha256": "c50a0ec1a7b9ea2c419a6f0eaeafe79d306cc8c552130659cb5013dd416069ea",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D17",
+        "lineage": "D",
+        "native_id": "P17",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/16",
+        "current_pointer": "/QUALIFICATIONS/16",
+        "native_record_canonical_sha256": "b2c340616f1d2ce211815fb12ada212908366f4e503eee13d1d9007d7a6d82a2",
+        "current_claim_canonical_sha256": "ef95a8f0d71b9f632d4e0372c26d9b218073cf4d41ca03d626e397266f56f1bb",
+        "native_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D18",
+        "lineage": "D",
+        "native_id": "P18",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/17",
+        "current_pointer": "/QUALIFICATIONS/17",
+        "native_record_canonical_sha256": "ec27a7c3eb1c0f1c53a85cb81f761b96473ba95f7e8a4644cd641c0def2bf94b",
+        "current_claim_canonical_sha256": "310053dfd384b870975f19ce4047f94b573fa8bf915389aabd2160bbe8333b7a",
+        "native_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D19",
+        "lineage": "D",
+        "native_id": "P19",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/18",
+        "current_pointer": "/QUALIFICATIONS/18",
+        "native_record_canonical_sha256": "4ad819a81c6c49045ab1981c7145fc6b4fb4653b20ba7df527b1a982900664e6",
+        "current_claim_canonical_sha256": "69b4f40496987df2930d9357d709c4be0a63554b6a460bfb87fb90ea737213c9",
+        "native_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D20",
+        "lineage": "D",
+        "native_id": "P20",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/19",
+        "current_pointer": "/QUALIFICATIONS/19",
+        "native_record_canonical_sha256": "c2674455908008a27e7b9d4dcda9752d42865884bbdf4e58a1ecf302818545c6",
+        "current_claim_canonical_sha256": "b22560e6ccf9206f22d0d1fa78ef41d2845cc4665de92261fc5d2da2f4a3c3fb",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D21",
+        "lineage": "D",
+        "native_id": "P21",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/20",
+        "current_pointer": "/QUALIFICATIONS/20",
+        "native_record_canonical_sha256": "feab2a91f2d8e3cfd49189f4220c1c104811d17e88a069cd541b384ebbdf92dc",
+        "current_claim_canonical_sha256": "a7a93b11ded474c2174379cab5d0dc64581264a3af0c4e370c509367e5c77929",
+        "native_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D22",
+        "lineage": "D",
+        "native_id": "P22",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/21",
+        "current_pointer": "/QUALIFICATIONS/21",
+        "native_record_canonical_sha256": "6a10713e294b19960bbe818d7a54e3d9149f0a1d6ffd8aeee9956d941cb1ab08",
+        "current_claim_canonical_sha256": "eeca5d1cb5065d6964daffdeecb1eecca49839c28c536f825013ae04f5fb9265",
+        "native_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D23",
+        "lineage": "D",
+        "native_id": "P23",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/22",
+        "current_pointer": "/QUALIFICATIONS/22",
+        "native_record_canonical_sha256": "f388710e9f4bd3706888556a63b19d4de8de5d2f634ee2a4e011080e1bd7d5a9",
+        "current_claim_canonical_sha256": "6a17ae2e8cba03411a2ac4ccc256ce3ce7c1e9dc7e2e423e7d6d1fd2ca9d4441",
+        "native_status": "TRANSACTION_COMPENSATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D24",
+        "lineage": "D",
+        "native_id": "P24",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/23",
+        "current_pointer": "/QUALIFICATIONS/23",
+        "native_record_canonical_sha256": "b605ac2ec8bab23f679bcdffe222113f4c7f3983ed506733b8e0bc2b45bfa398",
+        "current_claim_canonical_sha256": "ae4317124fc30680e010b68a46ed8484963f9f2f8d3396f54b1bd63a5b9187f0",
+        "native_status": "TRANSACTION_COMPENSATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D25",
+        "lineage": "D",
+        "native_id": "P25",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/24",
+        "current_pointer": "/QUALIFICATIONS/24",
+        "native_record_canonical_sha256": "3df61f73aceadc8e8000828d0765b9ee856acf0875aaa962e83c766fda21c53f",
+        "current_claim_canonical_sha256": "d7e9207213e88814a01f857e85ce1a902196e71cfe2420b798c7215696bc55b8",
+        "native_status": "WORKFLOW_STATE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D26",
+        "lineage": "D",
+        "native_id": "P26",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/25",
+        "current_pointer": "/QUALIFICATIONS/25",
+        "native_record_canonical_sha256": "13675cbdb91b08fc2bbe9e4b0b4c9c1b70e072a45ca3be1162bc6e484462c452",
+        "current_claim_canonical_sha256": "1dd503ee78de60bc0e5e88b0c002a75aadfd262ae1d7823576fb439a7a95db46",
+        "native_status": "WORKFLOW_STATE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D27",
+        "lineage": "D",
+        "native_id": "P27",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/26",
+        "current_pointer": "/QUALIFICATIONS/26",
+        "native_record_canonical_sha256": "a2efdbd6e7b13920a8f640ee3362ab19ae45b60ad08c53b40e023e13976cc31e",
+        "current_claim_canonical_sha256": "347855de54d98f307db561e6cd3c1032a34473a71caec165997218dd1fb83e70",
+        "native_status": "WORKFLOW_STATE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D28",
+        "lineage": "D",
+        "native_id": "P28",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/27",
+        "current_pointer": "/QUALIFICATIONS/27",
+        "native_record_canonical_sha256": "c5622330fef65d577ab5b0823134a580b845cc5b9fbe1b8301bd6be7e3abbc42",
+        "current_claim_canonical_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D29",
+        "lineage": "D",
+        "native_id": "P29",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/28",
+        "current_pointer": "/QUALIFICATIONS/28",
+        "native_record_canonical_sha256": "e67589697e9597404416683758add8e669822690be4b01bfe53eac3abc530673",
+        "current_claim_canonical_sha256": "b441a83174fb05e8a5ee201feb33e5c0f9510657af5171c2d263a5e9fc4a78e0",
+        "native_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D30",
+        "lineage": "D",
+        "native_id": "P30",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/29",
+        "current_pointer": "/QUALIFICATIONS/29",
+        "native_record_canonical_sha256": "a8f3a3f93343b21d38831b5ace4d7f816dda51a6bbac111a021a92a798868739",
+        "current_claim_canonical_sha256": "6d2eb38f5dedc4e468e11082df3a61a7b640f4bc790cf6ae28dff73a8ae4d6a1",
+        "native_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D31",
+        "lineage": "D",
+        "native_id": "P31",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/30",
+        "current_pointer": "/QUALIFICATIONS/30",
+        "native_record_canonical_sha256": "5b5fa44fb16debbe4a61b29bf899e765a2a58f5a876994540287ba143b882357",
+        "current_claim_canonical_sha256": "683d45369b8709e1112d04c92a321d4a057cf36e1be15834c1401eb2916bbb86",
+        "native_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D32",
+        "lineage": "D",
+        "native_id": "P32",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/31",
+        "current_pointer": "/QUALIFICATIONS/31",
+        "native_record_canonical_sha256": "91701def6ad39cddcf5dea9f150618d3b3fea44e535223d55432900f0b1c9664",
+        "current_claim_canonical_sha256": "740ed6c38e9cd2fb59ffe091003e1dc290da3026428ea78533e4163ee0121780",
+        "native_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D33",
+        "lineage": "D",
+        "native_id": "P33",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/32",
+        "current_pointer": "/QUALIFICATIONS/32",
+        "native_record_canonical_sha256": "cdfc2a11127d0d74011b6816a16e18c1812453e9b27d71a822baee25df9f9128",
+        "current_claim_canonical_sha256": "a3afc9aa60f8e5c340b196a57fe234607a0e6d9d9f28540de4c277c5dd632276",
+        "native_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D34",
+        "lineage": "D",
+        "native_id": "P34",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/33",
+        "current_pointer": "/QUALIFICATIONS/33",
+        "native_record_canonical_sha256": "1b40d50862887509a8af059ae9239e7b6d512e467dd24478c7ab28e232b91fc5",
+        "current_claim_canonical_sha256": "efa67d0542abe88985b9e716ef0dd8204481fd2eb78210fe71582f7c0b12b45a",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D35",
+        "lineage": "D",
+        "native_id": "P35",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/34",
+        "current_pointer": "/QUALIFICATIONS/34",
+        "native_record_canonical_sha256": "aa316242c05ee809f197d74e05237a2b9c8df9fce8d969095ddf840f5d9356ec",
+        "current_claim_canonical_sha256": "8a5c939b3c85ff69935255dce539be74ac98fb6343cff299e6fd85cc8609b6bc",
+        "native_status": "RECOVERY_RECONSTITUTION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D36",
+        "lineage": "D",
+        "native_id": "P36",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/35",
+        "current_pointer": "/QUALIFICATIONS/35",
+        "native_record_canonical_sha256": "5c71c561ac10c85da94d119be21599b3e46d764b23f2073b77d673d512787ca9",
+        "current_claim_canonical_sha256": "92d036083c48f46b6d378b59e7eb8914f1626abe31dd16823bc3f6e0b4567732",
+        "native_status": "RECOVERY_RECONSTITUTION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D37",
+        "lineage": "D",
+        "native_id": "P37",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/36",
+        "current_pointer": "/QUALIFICATIONS/36",
+        "native_record_canonical_sha256": "27e08962e6bac6e191e266f02f91d9511b6fd37370e22889340bdc6df921f872",
+        "current_claim_canonical_sha256": "2557e498670d200c6bed857cb801eb5d8642ae2cd166689e426e1f4461a264ac",
+        "native_status": "RECOVERY_RECONSTITUTION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D38",
+        "lineage": "D",
+        "native_id": "P38",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/37",
+        "current_pointer": "/QUALIFICATIONS/37",
+        "native_record_canonical_sha256": "7e904522cb077e4260251f912cbfd0b021335d66cf41989136f0a98a4227b6cb",
+        "current_claim_canonical_sha256": "687b598503f3565f89e4c2f2e53af3341dad28e50e10bbf91756dd409fe3b0cf",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D39",
+        "lineage": "D",
+        "native_id": "P39",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/38",
+        "current_pointer": "/QUALIFICATIONS/38",
+        "native_record_canonical_sha256": "be54a9521a087fc6f53b33dd82cf8b42a3b043f24d76bab5a3a6f4e3d3059290",
+        "current_claim_canonical_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D40",
+        "lineage": "D",
+        "native_id": "P40",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/39",
+        "current_pointer": "/QUALIFICATIONS/39",
+        "native_record_canonical_sha256": "9e234477cc71c247c7e917035b70dd6669cf3ab1532b5abfa7eeacbefb0b14a9",
+        "current_claim_canonical_sha256": "41491065d969cbac234df35e004796296bf4868d51f562b9a0a8ef1197e59ddc",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D41",
+        "lineage": "D",
+        "native_id": "P41",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/40",
+        "current_pointer": "/QUALIFICATIONS/40",
+        "native_record_canonical_sha256": "a86e7c59dfad9b0b1f3f3bd49d57727e952608f0e34adf88bc206bf40b13302f",
+        "current_claim_canonical_sha256": "6268305c22db235a5379e139c911025675f2923972081983d3bef2ac36f09b87",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D42",
+        "lineage": "D",
+        "native_id": "P42",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/41",
+        "current_pointer": "/QUALIFICATIONS/41",
+        "native_record_canonical_sha256": "f986234a64b17fe70c25426e8de1b16a47f37340653d65c914e454ab88a4497e",
+        "current_claim_canonical_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d",
+        "native_status": "USEFUL_BUT_EASILY_GAMED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D43",
+        "lineage": "D",
+        "native_id": "P43",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/42",
+        "current_pointer": "/QUALIFICATIONS/42",
+        "native_record_canonical_sha256": "0e8a99d41680a5e9edf169c854462e5c768a1394ecc06e30f7e6d7f400aeadf7",
+        "current_claim_canonical_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D44",
+        "lineage": "D",
+        "native_id": "P44",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/43",
+        "current_pointer": "/QUALIFICATIONS/43",
+        "native_record_canonical_sha256": "9f6d8b03d62d1f352e888de52c2cecb2cc7826c071a21280c7d398c83f781998",
+        "current_claim_canonical_sha256": "4c0a287611bd99a93f17f83e700e4c6b90b96cf5ae7fb1982401cde7ab50f1f1",
+        "native_status": "USEFUL_BUT_EASILY_BUREAUCRATISED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D45",
+        "lineage": "D",
+        "native_id": "P45",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/44",
+        "current_pointer": "/QUALIFICATIONS/44",
+        "native_record_canonical_sha256": "105736f04a960f0397c65d3252c656f327b9e89866efb86eedc1d2b8958a763a",
+        "current_claim_canonical_sha256": "a582fab2a9b876b7dba2def590073f2ddc73a834727e9cf6391851de8ceabb9e",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D46",
+        "lineage": "D",
+        "native_id": "P46",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/45",
+        "current_pointer": "/QUALIFICATIONS/45",
+        "native_record_canonical_sha256": "43c26076c74ec1674a278a300697119c387914aea14ba00d998fcbfa3f07dbf0",
+        "current_claim_canonical_sha256": "1f17fddbdc3d5b7092d1d148fb9337b1fdc827c6e268b344ec1642512c815085",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D47",
+        "lineage": "D",
+        "native_id": "P47",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/46",
+        "current_pointer": "/QUALIFICATIONS/46",
+        "native_record_canonical_sha256": "bbbda9eb2e5366bfd24144c84b46d5e69d67e3aeb1f911137987116f7f64b79a",
+        "current_claim_canonical_sha256": "54fc860a1166317378ec3116b7386f0b828403cc91c2c2765778f278064525ce",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D48",
+        "lineage": "D",
+        "native_id": "P48",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/47",
+        "current_pointer": "/QUALIFICATIONS/47",
+        "native_record_canonical_sha256": "cc436ceed6430f7b05580faa2d4b9ba0110db228d812bc618ba447920cfd507a",
+        "current_claim_canonical_sha256": "eddb6c8732438c182047f84599be7b6d6af545a3f9fa3a29c7068b294985519b",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D49",
+        "lineage": "D",
+        "native_id": "P49",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/48",
+        "current_pointer": "/QUALIFICATIONS/48",
+        "native_record_canonical_sha256": "3bf4f2faa84047b9d5cea2acb8deef8e78743c43b491e0851b417cc5e21cad8b",
+        "current_claim_canonical_sha256": "2029473cc55d54f519befd533cb19b5209065881f1bf3fb4f8378cd5177f845c",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D50",
+        "lineage": "D",
+        "native_id": "P50",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/49",
+        "current_pointer": "/QUALIFICATIONS/49",
+        "native_record_canonical_sha256": "c9ceff39dac3e52eec486a3a401d750e13c35b1bc0557940841d4dbea879da10",
+        "current_claim_canonical_sha256": "0455f5476c2a9001c1d6d9f2ed20e42770b6f56d0203a11aef8ae2f6d3c4cd52",
+        "native_status": "SUPERSEDED_BY_STRONGER_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D51",
+        "lineage": "D",
+        "native_id": "P51",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/50",
+        "current_pointer": "/QUALIFICATIONS/50",
+        "native_record_canonical_sha256": "3d3a85b58ee861f7eade896c22958bd2d82c4a02f90a81ee96eb0abf061184c5",
+        "current_claim_canonical_sha256": "f1302119c554710f4bc8df4332f6a1f16608765f3c55dd4ec480fbe85b46a90d",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D52",
+        "lineage": "D",
+        "native_id": "P52",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/51",
+        "current_pointer": "/QUALIFICATIONS/51",
+        "native_record_canonical_sha256": "30099fef54df0e5133ce3b5bc3941cde6f79db03dfad79aeeb1096e99359b763",
+        "current_claim_canonical_sha256": "5b5fb064d4b42761c316c9e7890395c68b8b0ffe9b07b7e2bfe88c0fb4e1d01a",
+        "native_status": "DOMAIN_SPECIFIC",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D53",
+        "lineage": "D",
+        "native_id": "P53",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/52",
+        "current_pointer": "/QUALIFICATIONS/52",
+        "native_record_canonical_sha256": "d71f0deb6ba2f620f5649400d9cec75b890d7039c98baa18314514d8ce488f58",
+        "current_claim_canonical_sha256": "c8916a7f30547092159fcb3b08f829df14ec266aab1e27328671652f10aba2d7",
+        "native_status": "UNRESOLVED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "D54",
+        "lineage": "D",
+        "native_id": "P54",
+        "carrier": {
+          "path": "campaign_current/work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "bytes": 1023979,
+          "sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "native_pointer": "/PROPERTIES/53",
+        "current_pointer": "/QUALIFICATIONS/53",
+        "native_record_canonical_sha256": "9eb8b54bb9b8035b27cf9f2de1f01b9911943419b48895b2b98e1d340d1b4ee7",
+        "current_claim_canonical_sha256": "555984e854dfa089ba06bf6c6be4b298a367c23cc7f876a0068623e839f98707",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R001",
+        "lineage": "R",
+        "native_id": "ERM-P001",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/0/native_record",
+        "current_pointer": "/properties/0/current_claim",
+        "native_record_canonical_sha256": "29a7ad9c06b0ff5e63f055d4c4fb22b2d5fa07593f3f047352fd57ef07c52f2e",
+        "current_claim_canonical_sha256": "860d73d5d0c8fa4791c09d55c995cf1de48c3bfb6b683fc23c6ede274d554a5a",
+        "native_status": "MISSION_RELIABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R002",
+        "lineage": "R",
+        "native_id": "ERM-P002",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/1/native_record",
+        "current_pointer": "/properties/1/current_claim",
+        "native_record_canonical_sha256": "230f305535497bc34e5bebde5f13055641f25c52ced12f01509577b5918a0013",
+        "current_claim_canonical_sha256": "550b727547563a2f317ee179f1fcc8388d81e46d8d8636c3f07e4b1d642b6fcf",
+        "native_status": "MISSION_RELIABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R003",
+        "lineage": "R",
+        "native_id": "ERM-P003",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/2/native_record",
+        "current_pointer": "/properties/2/current_claim",
+        "native_record_canonical_sha256": "2a493b762d91a224e3269638a68607843da9f28a680207766eb0239eabb5b89f",
+        "current_claim_canonical_sha256": "b4504d7c01849fc60e4505c3e3d0d2b26c3ef6b33ac23a56425bbc0c3dafa7d9",
+        "native_status": "MISSION_RELIABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R004",
+        "lineage": "R",
+        "native_id": "ERM-P004",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/3/native_record",
+        "current_pointer": "/properties/3/current_claim",
+        "native_record_canonical_sha256": "86e49887b368c05bf6c9e71627c958eff0a23a90b60247c3508aff1b1c3bdeda",
+        "current_claim_canonical_sha256": "614e602cf3234d7cc86c3bca15155954d641534f6b04ffd0c0dfdcc74330bf1d",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R005",
+        "lineage": "R",
+        "native_id": "ERM-P005",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/4/native_record",
+        "current_pointer": "/properties/4/current_claim",
+        "native_record_canonical_sha256": "61174d053338ec9cc4eb876a3a4fb98a31822a5650c49886c72dc04ce3668a73",
+        "current_claim_canonical_sha256": "031c1c1eb0d3acc578d20a401a33dad54323006c40ddd5be99bfe080f4611c7f",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R006",
+        "lineage": "R",
+        "native_id": "ERM-P006",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/5/native_record",
+        "current_pointer": "/properties/5/current_claim",
+        "native_record_canonical_sha256": "39bd510e4dab3f21ddaf3f81f5bc4a75247d548090ba221abbc2fc902191a6aa",
+        "current_claim_canonical_sha256": "e958d53163a11e5e3a7dacee11af922ece1d5d743725a84c14d1c9c866a45b08",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R007",
+        "lineage": "R",
+        "native_id": "ERM-P007",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/6/native_record",
+        "current_pointer": "/properties/6/current_claim",
+        "native_record_canonical_sha256": "7905171a42a0954a04a066c131a434d9947cad7cff5333b58c1a4c0b3cc29c37",
+        "current_claim_canonical_sha256": "982d508a0da81d6b8037f1dafcd3a17f04765bba818496668231b4f58802163a",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R008",
+        "lineage": "R",
+        "native_id": "ERM-P008",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/7/native_record",
+        "current_pointer": "/properties/7/current_claim",
+        "native_record_canonical_sha256": "dafecfc35f7466f6341f6e95ab4f3fd99c411174d9179f9eb9d6741c4cb78605",
+        "current_claim_canonical_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835",
+        "native_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R009",
+        "lineage": "R",
+        "native_id": "ERM-P009",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/8/native_record",
+        "current_pointer": "/properties/8/current_claim",
+        "native_record_canonical_sha256": "2e9403a9efa4e92d00589c805a377cd087617fa495528ac64440c9a46255958e",
+        "current_claim_canonical_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845",
+        "native_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R010",
+        "lineage": "R",
+        "native_id": "ERM-P010",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/9/native_record",
+        "current_pointer": "/properties/9/current_claim",
+        "native_record_canonical_sha256": "a44fec4c663c3cdc4f4283e65fb79db8beaa53b0fa51b7c62cc867679c4d3eaf",
+        "current_claim_canonical_sha256": "a954864da9d8eef4ba557f86103fabbe9b2c90e44d2a3d0c76325a79fea45da0",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R011",
+        "lineage": "R",
+        "native_id": "ERM-P011",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/10/native_record",
+        "current_pointer": "/properties/10/current_claim",
+        "native_record_canonical_sha256": "d4cba1412759aa7ab5b0b681b95126f5a4028387d63c510db4b2d6659b524aac",
+        "current_claim_canonical_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8",
+        "native_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R012",
+        "lineage": "R",
+        "native_id": "ERM-P012",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/11/native_record",
+        "current_pointer": "/properties/11/current_claim",
+        "native_record_canonical_sha256": "9d116fbee8ae8d148784aa29cee49c23016c9680b7617348f5423598168d4fba",
+        "current_claim_canonical_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462",
+        "native_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R013",
+        "lineage": "R",
+        "native_id": "ERM-P013",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/12/native_record",
+        "current_pointer": "/properties/12/current_claim",
+        "native_record_canonical_sha256": "2b840f17bd53740448cdc5fbe59bf0b382c87f54f4e38ebf5e8af2f5b701e859",
+        "current_claim_canonical_sha256": "6e2f6866b392ac7810543afe9e962c3e137433c350387154e32168293ed7d5b0",
+        "native_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R014",
+        "lineage": "R",
+        "native_id": "ERM-P014",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/13/native_record",
+        "current_pointer": "/properties/13/current_claim",
+        "native_record_canonical_sha256": "ae232964d096cf063acf73249323949b9a9c97f9e4691a563989f930857f878b",
+        "current_claim_canonical_sha256": "4e6fb7a41008bb356de97ac5a68f8add48966327a7bf53f05cbf09d294bc6839",
+        "native_status": "MISSION_RELIABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R015",
+        "lineage": "R",
+        "native_id": "ERM-P015",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/14/native_record",
+        "current_pointer": "/properties/14/current_claim",
+        "native_record_canonical_sha256": "b72b3e37b80a8cd4935fbcd7525d5b8f536f4521190bc936739eeb4744b618ac",
+        "current_claim_canonical_sha256": "7bc229bf7572b626a880a68bb64d0cb0b419cd0ab747f2c741e42671aeb657f8",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R016",
+        "lineage": "R",
+        "native_id": "ERM-P016",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/15/native_record",
+        "current_pointer": "/properties/15/current_claim",
+        "native_record_canonical_sha256": "f3cdeb7f3f1b0392a3d0d69746ea44ee59a4050cd1f29b0b7e58a79f0a32f6e7",
+        "current_claim_canonical_sha256": "14badd48115984148f53a3166e67c20067ad8cb26489a7540e241e74ebb49f01",
+        "native_status": "RECOVERY_RESTORATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R017",
+        "lineage": "R",
+        "native_id": "ERM-P017",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/16/native_record",
+        "current_pointer": "/properties/16/current_claim",
+        "native_record_canonical_sha256": "49bd7a4a28331807d15f9ad4a9249a8fadb42cb0c9e80f3a7fe9bf7342cb2b0c",
+        "current_claim_canonical_sha256": "4fc18c827dfcc1b467cb6d52705614002636fd259ea1b55fc28dc6886c4ce541",
+        "native_status": "RECOVERY_RESTORATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R018",
+        "lineage": "R",
+        "native_id": "ERM-P018",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/17/native_record",
+        "current_pointer": "/properties/17/current_claim",
+        "native_record_canonical_sha256": "ca6a31d68d1b8f54a2b834d407e55555ac78d079d40247c35386b53ba9a417a8",
+        "current_claim_canonical_sha256": "e43459b1f17b4a8ce11aa66a2bebaf937c296aac177201e2d06a8de5858224ff",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R019",
+        "lineage": "R",
+        "native_id": "ERM-P019",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/18/native_record",
+        "current_pointer": "/properties/18/current_claim",
+        "native_record_canonical_sha256": "ecb740e16c2cc840cdeb12761e9e3dff31f8ab1b7f4d5309956f65934f860689",
+        "current_claim_canonical_sha256": "cdc7888c27ecc76020d28bb5b0118170826eacdc4837d32cd7e6f87c0f46f6f3",
+        "native_status": "MAINTAINABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R020",
+        "lineage": "R",
+        "native_id": "ERM-P020",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/19/native_record",
+        "current_pointer": "/properties/19/current_claim",
+        "native_record_canonical_sha256": "eda47320b8b06ac2b951cb6003601e821b79e3d45db531420414827ecc54ae58",
+        "current_claim_canonical_sha256": "e8aeae316d37741c8fab93c3911f1fc0ddbb5c82144df49f871a7050adaaac2a",
+        "native_status": "MAINTAINABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R021",
+        "lineage": "R",
+        "native_id": "ERM-P021",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/20/native_record",
+        "current_pointer": "/properties/20/current_claim",
+        "native_record_canonical_sha256": "b511d385cf505515c0d838cdbb6e1be69343fc4ede70077a0c2f7641902e12fb",
+        "current_claim_canonical_sha256": "311f7cbcda9544188f29e7e97e45afb7f76d95aaa8e70a05dfca9216c72d3235",
+        "native_status": "MAINTAINABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R022",
+        "lineage": "R",
+        "native_id": "ERM-P022",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/21/native_record",
+        "current_pointer": "/properties/21/current_claim",
+        "native_record_canonical_sha256": "f77ba96600cd23132b542fd241ac8437ddab50cf230cd2e423dc2b0a683f10ae",
+        "current_claim_canonical_sha256": "43ebbe8b0ac59a6424f6af26e1168721982a90a10c80624da731d5721bf399fd",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R023",
+        "lineage": "R",
+        "native_id": "ERM-P023",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/22/native_record",
+        "current_pointer": "/properties/22/current_claim",
+        "native_record_canonical_sha256": "a465d9fdc572751d2e064fac9cec97c2d6cac0f891e9be46224142d552c745b5",
+        "current_claim_canonical_sha256": "e828ae7ebce0fa9097d71ae5e552c0861c991a56da1ebccd39c4c4370e10e4fe",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R024",
+        "lineage": "R",
+        "native_id": "ERM-P024",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/23/native_record",
+        "current_pointer": "/properties/23/current_claim",
+        "native_record_canonical_sha256": "e86a80c9321afe6e76e2b03ceda96a6a9fdd200811de5ee81bd63d935f6e8d69",
+        "current_claim_canonical_sha256": "ea72a130bb66600ae48cdda9e0994243f57b54524c5abcab663d0e392ac76610",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R025",
+        "lineage": "R",
+        "native_id": "ERM-P025",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/24/native_record",
+        "current_pointer": "/properties/24/current_claim",
+        "native_record_canonical_sha256": "c4e89d5ed775a980a740519b863f109d2561ee7bc91ce3890c7cae85742f39f3",
+        "current_claim_canonical_sha256": "61449f169f2eb11cab51afa036457014ef22db350162a02c01d2f10259a87460",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R026",
+        "lineage": "R",
+        "native_id": "ERM-P026",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/25/native_record",
+        "current_pointer": "/properties/25/current_claim",
+        "native_record_canonical_sha256": "219175fabc65c44efdd5a6a84242840111d703485c78e3c127b4c90a6e3bef37",
+        "current_claim_canonical_sha256": "d6ae20d559814da88866f094abfe91c5a713634c75544563c50d885e83f13d50",
+        "native_status": "RELIABILITY_EVIDENCE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R027",
+        "lineage": "R",
+        "native_id": "ERM-P027",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/26/native_record",
+        "current_pointer": "/properties/26/current_claim",
+        "native_record_canonical_sha256": "18050af72da271929a690fdbd6fc3d79524af7cb0c77070bceb655b897dd0fe5",
+        "current_claim_canonical_sha256": "34c53ef9a71bd9d15c55a45bcabd2fc069dc306f249cffd8b017e49a2d025f16",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R028",
+        "lineage": "R",
+        "native_id": "ERM-P028",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/27/native_record",
+        "current_pointer": "/properties/27/current_claim",
+        "native_record_canonical_sha256": "3da148c3e275a616338a0142965aa9163a2fc4c64beca1f3d4a617005ef8aec2",
+        "current_claim_canonical_sha256": "418267456651f7dea158f19fdfb9a2727c5276382a7cd70bef9bced1357ea93f",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R029",
+        "lineage": "R",
+        "native_id": "ERM-P029",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/28/native_record",
+        "current_pointer": "/properties/28/current_claim",
+        "native_record_canonical_sha256": "e526e1f8e1d080e297de0e59e19eb7eb85cf7eca1d16e2728cd4ea1d366cf866",
+        "current_claim_canonical_sha256": "70bcff03d9c3f1949eceb3a70b7ff61b7907187849669392bc2c1bd2cb7e4338",
+        "native_status": "RELIABILITY_EVIDENCE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R030",
+        "lineage": "R",
+        "native_id": "ERM-P030",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/29/native_record",
+        "current_pointer": "/properties/29/current_claim",
+        "native_record_canonical_sha256": "b25895053040fcedc16e594cb3bf510335169c52f131b5dd0fce8843dc78e79c",
+        "current_claim_canonical_sha256": "c6edae002a2ae521b442a4df04856550e4a94d8824178cc3007c8e1a74ae8ef9",
+        "native_status": "DOMAIN_SPECIFIC",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R031",
+        "lineage": "R",
+        "native_id": "ERM-P031",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/30/native_record",
+        "current_pointer": "/properties/30/current_claim",
+        "native_record_canonical_sha256": "518cccfad7264ba217b5c98c6d922af66d222833986d5978fe875ba9fe53e4ba",
+        "current_claim_canonical_sha256": "768f4d8e00ea87d8fbc4a93a02a6418df4839975ec6ca5d4a4eca8d026d86e97",
+        "native_status": "SERVICE_RELIABILITY_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R032",
+        "lineage": "R",
+        "native_id": "ERM-P032",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/31/native_record",
+        "current_pointer": "/properties/31/current_claim",
+        "native_record_canonical_sha256": "8495ea6b2ceb5b9e751d605dc85eacf999deed9a2ab9275881673b2f6bed2bec",
+        "current_claim_canonical_sha256": "62e3c0a445ac340783111c21f41ac1292fbc2fa7ca66744c48279f3d59a99b96",
+        "native_status": "USEFUL_BUT_EASILY_GAMED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R033",
+        "lineage": "R",
+        "native_id": "ERM-P033",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/32/native_record",
+        "current_pointer": "/properties/32/current_claim",
+        "native_record_canonical_sha256": "7eb85b0d08113ecd320ccc22aadfa39d4997320dd759e5f0e18e9adbcf91b89b",
+        "current_claim_canonical_sha256": "61fdcfacfd16ae0836ed8efb68acb4f661bdd04a2d28b78674a4e0a15dc14999",
+        "native_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R034",
+        "lineage": "R",
+        "native_id": "ERM-P034",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/33/native_record",
+        "current_pointer": "/properties/33/current_claim",
+        "native_record_canonical_sha256": "5dfc7bd720839503c3923355ae4cc55dd232873662ee42a2288bc13e82152839",
+        "current_claim_canonical_sha256": "3761be6f2e9559e8979e109878e50e0b636a5b2646b85e6ff86e384467c658d6",
+        "native_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R035",
+        "lineage": "R",
+        "native_id": "ERM-P035",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/34/native_record",
+        "current_pointer": "/properties/34/current_claim",
+        "native_record_canonical_sha256": "42dbc8a3361986ec5aedcd83b68ae9c36362b54cc42b8b17a13ceddd94838247",
+        "current_claim_canonical_sha256": "f933a618e99ee7e0295a4f2a47111ac160f2fa1887b15b181ce935478ab8ec11",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R036",
+        "lineage": "R",
+        "native_id": "ERM-P036",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/35/native_record",
+        "current_pointer": "/properties/35/current_claim",
+        "native_record_canonical_sha256": "fb625ecd3c8a90304d91394774a7f0ae9ec0cdd9b0d06715bad915e37b72c85f",
+        "current_claim_canonical_sha256": "921540cff9183aa5ce35608b2f69f33f9830d5906ffb37c3c9988a14432a7fd2",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R037",
+        "lineage": "R",
+        "native_id": "ERM-P037",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/36/native_record",
+        "current_pointer": "/properties/36/current_claim",
+        "native_record_canonical_sha256": "cad147a9183d7408814a0e637d349da2ed65302fd95d3732f3934c492c3feba7",
+        "current_claim_canonical_sha256": "0f339908841f076abf1fcf7557124e07ccce64595a738ea42523db45b60bc37d",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R038",
+        "lineage": "R",
+        "native_id": "ERM-P038",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/37/native_record",
+        "current_pointer": "/properties/37/current_claim",
+        "native_record_canonical_sha256": "26893b04d8dbc607b0969f26e00b23f6c8279819f07d2d90151af9d7eee463f7",
+        "current_claim_canonical_sha256": "f05d6e9a997e0d04152338eeda64f571af916541ea82a70ab404b7a75285e004",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R039",
+        "lineage": "R",
+        "native_id": "ERM-P039",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/38/native_record",
+        "current_pointer": "/properties/38/current_claim",
+        "native_record_canonical_sha256": "bc0a3e6623e48be0abff7f7eb9537ade28cce3a5c2e1c60bf919eaedd69c52e3",
+        "current_claim_canonical_sha256": "e7cfbb33edebeeb00991d665cd30c38b24afa24da36fbe510e6018d923e639e5",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R040",
+        "lineage": "R",
+        "native_id": "ERM-P040",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/39/native_record",
+        "current_pointer": "/properties/39/current_claim",
+        "native_record_canonical_sha256": "0e7a588ba73a814831b593fbd7308d4fb93a03ee45136fb33123797670ccfe34",
+        "current_claim_canonical_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+        "native_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R041",
+        "lineage": "R",
+        "native_id": "ERM-P041",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/40/native_record",
+        "current_pointer": "/properties/40/current_claim",
+        "native_record_canonical_sha256": "8c95962974d8783c6fc3bac6ce14007b11b1cf89c8bdb0c5a0247b8b7647fc43",
+        "current_claim_canonical_sha256": "b12e1bae55d57ed5491f44fe8793836e0810516104575cea850c7949ed6c502b",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R042",
+        "lineage": "R",
+        "native_id": "ERM-P042",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/41/native_record",
+        "current_pointer": "/properties/41/current_claim",
+        "native_record_canonical_sha256": "6b6a70cbb2023c3a9aa45c51975ada97350ef0e7036f829f3b004a82540cb17a",
+        "current_claim_canonical_sha256": "07ae7d2dc556a6c63386ed6e60eee95bdeb2adfbbd3702ab4aa5131bc99aedd9",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R043",
+        "lineage": "R",
+        "native_id": "ERM-P043",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/42/native_record",
+        "current_pointer": "/properties/42/current_claim",
+        "native_record_canonical_sha256": "0e1d5bfd225171be110425d50c627fb32d326683443bfc45280230ccc2ef86af",
+        "current_claim_canonical_sha256": "030877485c80b6582c71dd6ce54d2b27a8dc8fabe42d19abc999a6f761f49ac0",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R044",
+        "lineage": "R",
+        "native_id": "ERM-P044",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/43/native_record",
+        "current_pointer": "/properties/43/current_claim",
+        "native_record_canonical_sha256": "7c931397dccb76fd0ddd7561feb7797af524f758710511bd46a53383770c35e7",
+        "current_claim_canonical_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R045",
+        "lineage": "R",
+        "native_id": "ERM-P045",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/44/native_record",
+        "current_pointer": "/properties/44/current_claim",
+        "native_record_canonical_sha256": "bdf26a3ff4ec3a271268579ac7b83f8e1801d70cb0c54eef3da570a787a3266b",
+        "current_claim_canonical_sha256": "cff1b4b93298c10a47f7b4e63bd66ad5f9e93ddb11d6d78d4f7029f93836d237",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R046",
+        "lineage": "R",
+        "native_id": "ERM-P046",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/45/native_record",
+        "current_pointer": "/properties/45/current_claim",
+        "native_record_canonical_sha256": "92d34181b702eb458aab3d83ce9fd3c4eb00d74c389124a91a3bc973adbdeba2",
+        "current_claim_canonical_sha256": "6d151c2cc1f756d0876ebc2e1e6d6dbcbe71f25e5eb6ab6d238f57531c6735cf",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R047",
+        "lineage": "R",
+        "native_id": "ERM-P047",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/46/native_record",
+        "current_pointer": "/properties/46/current_claim",
+        "native_record_canonical_sha256": "3b84a755a97256a96e9c436ec653b036667a2c08e395bf9891c872ccabf9f4d0",
+        "current_claim_canonical_sha256": "7d6ccff6e1441c4ce23de05928d504f6b672efcad60eb233e4548d063bd9fee1",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R048",
+        "lineage": "R",
+        "native_id": "ERM-P048",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/47/native_record",
+        "current_pointer": "/properties/47/current_claim",
+        "native_record_canonical_sha256": "7d7e7a2f24f457e0da84963e94c7b7be932a569430843a0db72d6874384c6eac",
+        "current_claim_canonical_sha256": "07b9342ca3bbaab538bf073d1bebb8a09249290015e0822b9516d1ba2a247a93",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R049",
+        "lineage": "R",
+        "native_id": "ERM-P049",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/48/native_record",
+        "current_pointer": "/properties/48/current_claim",
+        "native_record_canonical_sha256": "08fc6b1eb29b552d042742d59deba42d29076d852a9f4e05d37d3bf77d47db7a",
+        "current_claim_canonical_sha256": "f579ccb2f83a47ef4a3df7bc271b63d6b5defd442a4a07979981a6d8c4c2d61b",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R050",
+        "lineage": "R",
+        "native_id": "ERM-P050",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/49/native_record",
+        "current_pointer": "/properties/49/current_claim",
+        "native_record_canonical_sha256": "95ce574588f130e16a560d563405ffe9b90d9aaa3e80e18cc31dfdcf1eb1c661",
+        "current_claim_canonical_sha256": "2388c8cd320e3f9a6f894525fa12c0e0f74225cf1ed131e10c7573a8d40801f9",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R051",
+        "lineage": "R",
+        "native_id": "ERM-P051",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/50/native_record",
+        "current_pointer": "/properties/50/current_claim",
+        "native_record_canonical_sha256": "7f669a941965f12d099243efd1f7f7f0f631b863158ad14b3bdcee0a29c02219",
+        "current_claim_canonical_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R052",
+        "lineage": "R",
+        "native_id": "ERM-P052",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/51/native_record",
+        "current_pointer": "/properties/51/current_claim",
+        "native_record_canonical_sha256": "d915635ce70f4d1ea138152d9c9e791d50b8bb897a2969c94348217838b70fb8",
+        "current_claim_canonical_sha256": "ac830bfe71e2c6746a99e8f3a33fcc86a6cba1ca6853d8f1ed5795614ba2cb28",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R053",
+        "lineage": "R",
+        "native_id": "ERM-P053",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/52/native_record",
+        "current_pointer": "/properties/52/current_claim",
+        "native_record_canonical_sha256": "3c925c48923f178fc4dbe71e900378e7f223ebda69a1c94c383b36c5d9b73fb5",
+        "current_claim_canonical_sha256": "2435e1ef324d0c7ad9019b40fc9bc26ac915f3492d4a07ba6ae01b93fa44c420",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R054",
+        "lineage": "R",
+        "native_id": "ERM-P054",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/53/native_record",
+        "current_pointer": "/properties/53/current_claim",
+        "native_record_canonical_sha256": "07c2a58148001e3569c036aadb9e0323b91f7ef24c5f1a45497a65bd36f4f0ab",
+        "current_claim_canonical_sha256": "e0f40b561ca50cc5f49efc8eb665d41e79240ec14709c7120b491f81cb4eb2a7",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "R055",
+        "lineage": "R",
+        "native_id": "ERM-P055",
+        "carrier": {
+          "path": "campaign_current/work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "bytes": 2498799,
+          "sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "native_pointer": "/properties/54/native_record",
+        "current_pointer": "/properties/54/current_claim",
+        "native_record_canonical_sha256": "741e55b7b2965178fc9139b5967bf728d2eada3a3733e06ea0f2e63854785f25",
+        "current_claim_canonical_sha256": "7fa4765f23e3ebf1e3271b33685cc39376053ee7bec2fd4f5077f7e3694e4a5d",
+        "native_status": "DOMAIN_SPECIFIC",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F001",
+        "lineage": "F",
+        "native_id": "P001",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/0/native_record",
+        "current_pointer": "/properties/0/current_claim",
+        "native_record_canonical_sha256": "aa4c3057d8972f7f053ab066f1f8958da2325c93a533caf8ede40ba5c4cf1a29",
+        "current_claim_canonical_sha256": "2d171f562996bca8de9da3912e10021d16b85ea12a9bf4c6c24adc49b0011722",
+        "native_status": "SPECIFICATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F002",
+        "lineage": "F",
+        "native_id": "P002",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/1/native_record",
+        "current_pointer": "/properties/1/current_claim",
+        "native_record_canonical_sha256": "be90d00a304dd57f8067b661850a3e52a2f0abe5b73e0fbc7aef2348dd048637",
+        "current_claim_canonical_sha256": "f044b4b85cb34ea07fed2450d21796b93eb1182f947aed3f7de7e7f997218a92",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F003",
+        "lineage": "F",
+        "native_id": "P003",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/2/native_record",
+        "current_pointer": "/properties/2/current_claim",
+        "native_record_canonical_sha256": "67b75d9083fa925ed6533d9c0b0ea4f048ebb9f8e5b36eccf32496c0363ddb38",
+        "current_claim_canonical_sha256": "690899745a84d71c4dae1fd564f2cc8ec1881a0e5daeb6c647d2d03444c8e4da",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F004",
+        "lineage": "F",
+        "native_id": "P004",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/3/native_record",
+        "current_pointer": "/properties/3/current_claim",
+        "native_record_canonical_sha256": "78bdfc8aba2c79e6ab9e8b6509aa56b33810b653029e6db2df89143682322ea6",
+        "current_claim_canonical_sha256": "558dbf1c0c18e7c7a962e11e1c8b0b9513cb3269f5f91734fe6fbc27a95d1ca6",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F005",
+        "lineage": "F",
+        "native_id": "P005",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/4/native_record",
+        "current_pointer": "/properties/4/current_claim",
+        "native_record_canonical_sha256": "968b065921be52f0eccd48b663a81373fc3ff35da42f1f92f3d9f841c66478ad",
+        "current_claim_canonical_sha256": "32a33ee95e85b24167786142bf42c09be17a3fa86ac5838450a6cc34c71586ee",
+        "native_status": "INVARIANT_TEMPORAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F006",
+        "lineage": "F",
+        "native_id": "P006",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/5/native_record",
+        "current_pointer": "/properties/5/current_claim",
+        "native_record_canonical_sha256": "1e9bf7eb522d153f1df52d6d2890e7836f005d79718b6b947a121373d48f3ce5",
+        "current_claim_canonical_sha256": "f1373b039c35db8eeb5a3892f4e7c0ab90970066f876c3c25938e0649e49d859",
+        "native_status": "INVARIANT_TEMPORAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F007",
+        "lineage": "F",
+        "native_id": "P007",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/6/native_record",
+        "current_pointer": "/properties/6/current_claim",
+        "native_record_canonical_sha256": "d51e6def3b663ee09aa40b5f49d7d1d5513e2cd37fdb02949d7705372ead03e0",
+        "current_claim_canonical_sha256": "6380999be109f2e44bd1a4c809f358706a532503b8f26e2d3205dc7cb683607f",
+        "native_status": "INVARIANT_TEMPORAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F008",
+        "lineage": "F",
+        "native_id": "P008",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/7/native_record",
+        "current_pointer": "/properties/7/current_claim",
+        "native_record_canonical_sha256": "f320845e26589b6e3169c7f49c7f4f67d386b15b1560e1d941dc99d0d2ccacdf",
+        "current_claim_canonical_sha256": "f10969debb3434b9169a359593642b614b93d0f069847b6636c6e9651b61888f",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F009",
+        "lineage": "F",
+        "native_id": "P009",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/8/native_record",
+        "current_pointer": "/properties/8/current_claim",
+        "native_record_canonical_sha256": "c04e4e79473af2bc183de1727db98821f19e8ed3d78e1077d05e97524d9618ac",
+        "current_claim_canonical_sha256": "f3ea1bbf4cf36651976a845164172ea317ce3ac32386a714415a4f0795f9bdec",
+        "native_status": "INVARIANT_TEMPORAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F010",
+        "lineage": "F",
+        "native_id": "P010",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/9/native_record",
+        "current_pointer": "/properties/9/current_claim",
+        "native_record_canonical_sha256": "1d2dc50b214ac1825a96d51804be8ba6cf5b2dd97bf51a0ec6216e8b351a9405",
+        "current_claim_canonical_sha256": "98b47f4bd5fa9f4657eb2c2bb596b5f87be21e566ffd8a1e111df82a03725dfc",
+        "native_status": "CONTRACT_COMPOSITION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F011",
+        "lineage": "F",
+        "native_id": "P011",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/10/native_record",
+        "current_pointer": "/properties/10/current_claim",
+        "native_record_canonical_sha256": "97c9811c817e96f5f57fb780ffb8bd0c901e8506c209b89b67cc4bfb539f209d",
+        "current_claim_canonical_sha256": "3f370adf111143c084672dafce7e9078f740479a672e1900f6ba12acfc8f44d6",
+        "native_status": "CONTRACT_COMPOSITION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F012",
+        "lineage": "F",
+        "native_id": "P012",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/11/native_record",
+        "current_pointer": "/properties/11/current_claim",
+        "native_record_canonical_sha256": "624f4a980c1880938f3ac527dd6fb373d541caee8267cb56c5bb9a0e9bab6d3e",
+        "current_claim_canonical_sha256": "e09eadfb4dba9d8cc334c4c89c59ac968cb91e2eccb20993e4f27e86061b5da1",
+        "native_status": "CONTRACT_COMPOSITION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F013",
+        "lineage": "F",
+        "native_id": "P013",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/12/native_record",
+        "current_pointer": "/properties/12/current_claim",
+        "native_record_canonical_sha256": "455944914a937f285e39daf29c7f54ccb037fffad52bcefe9957499cb7eed1a7",
+        "current_claim_canonical_sha256": "fe4dd39f335fd8ca01b103f45092f2430210fbc9c34ac39d05d36ea284b51811",
+        "native_status": "ABSTRACTION_REFINEMENT_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F014",
+        "lineage": "F",
+        "native_id": "P014",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/13/native_record",
+        "current_pointer": "/properties/13/current_claim",
+        "native_record_canonical_sha256": "cf4ce0eff1b85216db3a6eaa7e796ea91dd4daac0b76e56d5354869f81020765",
+        "current_claim_canonical_sha256": "185af218945c55d0054113cc3d7f59fb3d2cb4b422708ece26aee15e9c753520",
+        "native_status": "ABSTRACTION_REFINEMENT_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F015",
+        "lineage": "F",
+        "native_id": "P015",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/14/native_record",
+        "current_pointer": "/properties/14/current_claim",
+        "native_record_canonical_sha256": "0383d0b6fd528c2cd33f6e3e4075c6f7fbf81cda06cd3f9e290f2f628c13ca54",
+        "current_claim_canonical_sha256": "67102cfe0cd715a813b1be887e075173f9b26fb92e914a14eafded5ef37068bc",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F016",
+        "lineage": "F",
+        "native_id": "P016",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/15/native_record",
+        "current_pointer": "/properties/15/current_claim",
+        "native_record_canonical_sha256": "8f6261e501e560d95719782a3f78273ec5b416ee13d0a0fcc1a02370989bb472",
+        "current_claim_canonical_sha256": "e8cabfadf14582c74f16a8d168de62cfcf0277646952b23051a372e3425e0b25",
+        "native_status": "MODEL_CHECKING_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F017",
+        "lineage": "F",
+        "native_id": "P017",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/16/native_record",
+        "current_pointer": "/properties/16/current_claim",
+        "native_record_canonical_sha256": "6009ae611dca083d5e2f35f78fec695563c5c67d162771230330951b7146fc3c",
+        "current_claim_canonical_sha256": "305dfa032d597a81100149bd4fc0d79fbd804fa56bab18381d9629df78d91d66",
+        "native_status": "MODEL_CHECKING_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F018",
+        "lineage": "F",
+        "native_id": "P018",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/17/native_record",
+        "current_pointer": "/properties/17/current_claim",
+        "native_record_canonical_sha256": "106a0b72ed2125a685f224057129ce5f1ab68da2fffcce3c4e7bcd51e1d1b75b",
+        "current_claim_canonical_sha256": "72181ad02f69ae3553162e258f4d3ec0742a440d80fbe6b013dbcc569f3451be",
+        "native_status": "USEFUL_BUT_EASILY_GAMED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F019",
+        "lineage": "F",
+        "native_id": "P019",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/18/native_record",
+        "current_pointer": "/properties/18/current_claim",
+        "native_record_canonical_sha256": "0b3669bbf863296892fb710d247115fe8fa9b4ca06d8e06dea2649c742b92728",
+        "current_claim_canonical_sha256": "4157cb7ce9ae451c8c8482e307a12b1ade6c9d4c6d26edb3b0633f5645b0b502",
+        "native_status": "MODEL_CHECKING_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F020",
+        "lineage": "F",
+        "native_id": "P020",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/19/native_record",
+        "current_pointer": "/properties/19/current_claim",
+        "native_record_canonical_sha256": "431725d3879f893d291b933aa4d2e75808dcfc1068ad06dfe4ff4e3b374731a5",
+        "current_claim_canonical_sha256": "25ab96bb4f615a3172cd6815a99bae7ec8e3039debfb24ed8c8b54305abca499",
+        "native_status": "USEFUL_BUT_EASILY_GAMED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F021",
+        "lineage": "F",
+        "native_id": "P021",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/20/native_record",
+        "current_pointer": "/properties/20/current_claim",
+        "native_record_canonical_sha256": "1458e4cb4777725c376547796f28182fd152769fdf558a27a90fd6a9eb43677f",
+        "current_claim_canonical_sha256": "bb25294605a25dc080dcaf11528bc943d57fe87c6f2f6b3fa7a877f337ed388e",
+        "native_status": "THEOREM_PROVING_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F022",
+        "lineage": "F",
+        "native_id": "P022",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/21/native_record",
+        "current_pointer": "/properties/21/current_claim",
+        "native_record_canonical_sha256": "e1529cada2ec690d98ae16ac5f7a61340816d838810b579d2867e630b4e361e5",
+        "current_claim_canonical_sha256": "460c449cb332a76e2c8832f7ad2e3a86c180e60ab0d5d66b40ede5b8ff6062f5",
+        "native_status": "THEOREM_PROVING_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F023",
+        "lineage": "F",
+        "native_id": "P023",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/22/native_record",
+        "current_pointer": "/properties/22/current_claim",
+        "native_record_canonical_sha256": "326187107568194ed23a9f4a1448e30bd480b24f358bd40a1cfe9bc68e50b5b7",
+        "current_claim_canonical_sha256": "e684a5926a019c358ba0bfa13ca748372a6b1df471a528aca9de56fd43017e99",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F024",
+        "lineage": "F",
+        "native_id": "P024",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/23/native_record",
+        "current_pointer": "/properties/23/current_claim",
+        "native_record_canonical_sha256": "9c36926a881f2237aedd70a893c11ffefb2de184a2c65c42c317bd95169ed36a",
+        "current_claim_canonical_sha256": "bc8f19b7cbc69e03316f03d5a3cbe63630e2d5115a83fbec78dede51ae68f6a0",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F025",
+        "lineage": "F",
+        "native_id": "P025",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/24/native_record",
+        "current_pointer": "/properties/24/current_claim",
+        "native_record_canonical_sha256": "2d7871a9ba4820e1e900db9eb018114172bc61cef7241961c73613c0b61961a4",
+        "current_claim_canonical_sha256": "5d0708a15d23780da147ce4ceb3da1dc856e1a4253382c1e627d8b472055d07c",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F026",
+        "lineage": "F",
+        "native_id": "P026",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/25/native_record",
+        "current_pointer": "/properties/25/current_claim",
+        "native_record_canonical_sha256": "7f945de5e0d58ab65cfbdb3c5ad5ad160886cd2208ebb51be7c5b902e8720a53",
+        "current_claim_canonical_sha256": "676ad0a3d334aec2c09f03fa51c028faee29f63073917a02bc5c807635f4025c",
+        "native_status": "STATIC_ANALYSIS_TYPE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F027",
+        "lineage": "F",
+        "native_id": "P027",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/26/native_record",
+        "current_pointer": "/properties/26/current_claim",
+        "native_record_canonical_sha256": "5dbed5a202e4eabcca9a87f847ca76359b24d8161b8f5770756f5363406bc681",
+        "current_claim_canonical_sha256": "973fd0dc0c0a65eaf3cf737637785c82d05566ce3158683abdad974c3c4d0498",
+        "native_status": "STATIC_ANALYSIS_TYPE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F028",
+        "lineage": "F",
+        "native_id": "P028",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/27/native_record",
+        "current_pointer": "/properties/27/current_claim",
+        "native_record_canonical_sha256": "6b128e82e293418ef8d0ef58eb0617e4354a59be05b3207b3c25e768cd852ffa",
+        "current_claim_canonical_sha256": "57a614a068d48a4756576ffe3a6a0d817edff573a1b93af3ca190617341fc7e6",
+        "native_status": "STATIC_ANALYSIS_TYPE_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F029",
+        "lineage": "F",
+        "native_id": "P029",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/28/native_record",
+        "current_pointer": "/properties/28/current_claim",
+        "native_record_canonical_sha256": "e9574feab4821e82bf7f85f4a975e99b071c45703ad68ab4bd68ca77b2cb89ed",
+        "current_claim_canonical_sha256": "61fd4611ec7ae48bc97e6245f31514f5d789060a1151ef18197c5e87d1ad3876",
+        "native_status": "DOMAIN_SPECIFIC",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F030",
+        "lineage": "F",
+        "native_id": "P030",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/29/native_record",
+        "current_pointer": "/properties/29/current_claim",
+        "native_record_canonical_sha256": "e9f1598d30b75b7f8258a62b96df80173beaae512b30ae256ef05985880dc03b",
+        "current_claim_canonical_sha256": "3c9342e9633033e2a2c1fe553f7590acb0549e24355fbf9bc5c11ad37119287e",
+        "native_status": "DOMAIN_SPECIFIC",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F031",
+        "lineage": "F",
+        "native_id": "P031",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/30/native_record",
+        "current_pointer": "/properties/30/current_claim",
+        "native_record_canonical_sha256": "0aad6f62a53ec9c300e4bb4263213b9589122f5157cf896201cd953f975a96dc",
+        "current_claim_canonical_sha256": "0f50f9d249262a6789d4ee6f518f28f760aa81a43c042f5545b33e4ce318c538",
+        "native_status": "RUNTIME_VERIFICATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F032",
+        "lineage": "F",
+        "native_id": "P032",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/31/native_record",
+        "current_pointer": "/properties/31/current_claim",
+        "native_record_canonical_sha256": "c0befd33c5db5b911504b172b3cd3cf999b916fd87d532e50ad1f2eda591c904",
+        "current_claim_canonical_sha256": "e4ca561ef415d16465016c3bc327164c3d102e07bf3bd2758af2c2fc52515304",
+        "native_status": "RUNTIME_VERIFICATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F033",
+        "lineage": "F",
+        "native_id": "P033",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/32/native_record",
+        "current_pointer": "/properties/32/current_claim",
+        "native_record_canonical_sha256": "b29847c5b81aaeee952618171934c9cdbbcc7ec6898b8a4e6dc5373626aa25ca",
+        "current_claim_canonical_sha256": "36c7c5aab98e47653197f6958233682eb16dd68eae2d2846da737d89f25b8b23",
+        "native_status": "VERIFIED_TOOLCHAIN_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F034",
+        "lineage": "F",
+        "native_id": "P034",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/33/native_record",
+        "current_pointer": "/properties/33/current_claim",
+        "native_record_canonical_sha256": "1a56c453adf5f76967ec334371f90cb0a0a7d61c8add09d4f59ebe0e85308325",
+        "current_claim_canonical_sha256": "01999bcfd375b2f3920a3d6b9bb3818e6b4581012bcb34981eb50a207a09a7b3",
+        "native_status": "VERIFIED_TOOLCHAIN_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F035",
+        "lineage": "F",
+        "native_id": "P035",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/34/native_record",
+        "current_pointer": "/properties/34/current_claim",
+        "native_record_canonical_sha256": "c9c7e54254e4bb8800963f9320b58db9334b098f2686c210eec9a474c5cc4f60",
+        "current_claim_canonical_sha256": "fe1b20b84f34da4b4c95edb27bc86c1521cd10a0aa8e0710c3e10ca383887d1a",
+        "native_status": "VERIFIED_TOOLCHAIN_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F036",
+        "lineage": "F",
+        "native_id": "P036",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/35/native_record",
+        "current_pointer": "/properties/35/current_claim",
+        "native_record_canonical_sha256": "80ef51fea8c45b09ced057c97faca32ce803def9e55a32f7d0c233d76edb0356",
+        "current_claim_canonical_sha256": "2bd1d5ce65d2e3e4cf0589e04f71cb31c370779276eaa95c1fdfdcdace72dc7d",
+        "native_status": "STRONGLY_RETAINED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F037",
+        "lineage": "F",
+        "native_id": "P037",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/36/native_record",
+        "current_pointer": "/properties/36/current_claim",
+        "native_record_canonical_sha256": "7fe5aa97e18476425036a017e9d42aeb26f5413ed3b8352cb64fffaeed5bccaa",
+        "current_claim_canonical_sha256": "d47f5a123aa8571979346c7209dedf5566ed5d0ce9fd7cb6505068063a8e423e",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F038",
+        "lineage": "F",
+        "native_id": "P038",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/37/native_record",
+        "current_pointer": "/properties/37/current_claim",
+        "native_record_canonical_sha256": "0d2f28436f8903f56230012e7816fa2f764a3e31cefb4f488d04084bc214df03",
+        "current_claim_canonical_sha256": "7991c6006f36d0d3b6ab79e5b647f35f1cf2538ea25e9699272542b1fef7a625",
+        "native_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F039",
+        "lineage": "F",
+        "native_id": "P039",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/38/native_record",
+        "current_pointer": "/properties/38/current_claim",
+        "native_record_canonical_sha256": "324d29acdf5099f932c54fe15bfb3f3cc4eb8ffc9d4e74579f0ecf935cc128b1",
+        "current_claim_canonical_sha256": "fce96e818ef746b11abdde8cf2118c44a5ffbfd5a9748eb28fc099c8dc470dc0",
+        "native_status": "USEFUL_BUT_EASILY_GAMED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F040",
+        "lineage": "F",
+        "native_id": "P040",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/39/native_record",
+        "current_pointer": "/properties/39/current_claim",
+        "native_record_canonical_sha256": "d723bad0b904d2e640eb5d50b1e872b0ce96b9b479dc605084076c9963d5944d",
+        "current_claim_canonical_sha256": "53e1c71dd0f1e452c3456c225b649c92ab2d97c536e67de100fa8f11ea331c17",
+        "native_status": "CONTEXT_DEPENDENT",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F041",
+        "lineage": "F",
+        "native_id": "P041",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/40/native_record",
+        "current_pointer": "/properties/40/current_claim",
+        "native_record_canonical_sha256": "6d639a5cf286d81a4e34add1524337cdcd401feb437e9a975d3d439a7fcc0e1a",
+        "current_claim_canonical_sha256": "eab35b20f0624cf0e264d4d74aab4f9d0e1558ee3660779c23cded7b3cb3c37d",
+        "native_status": "USEFUL_BUT_EASILY_BUREAUCRATISED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F042",
+        "lineage": "F",
+        "native_id": "P042",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/41/native_record",
+        "current_pointer": "/properties/41/current_claim",
+        "native_record_canonical_sha256": "3894fe6d72647d729003e392308d739a49856bcc981588812337b1551bec9bc1",
+        "current_claim_canonical_sha256": "7502e2d35e381d3b0f178d755fc7979797638e6f16e0d7a8d19c84cedafe4640",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F043",
+        "lineage": "F",
+        "native_id": "P043",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/42/native_record",
+        "current_pointer": "/properties/42/current_claim",
+        "native_record_canonical_sha256": "2f21ae3c64934e2e6c46fd0a787488b6eecaf79931d8b044d501673b46c9ee5c",
+        "current_claim_canonical_sha256": "3b6eaa8e5baa5e18fe058807e0a03710bd38c97fdfe8cab4f112a55fda826d30",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F044",
+        "lineage": "F",
+        "native_id": "P044",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/43/native_record",
+        "current_pointer": "/properties/43/current_claim",
+        "native_record_canonical_sha256": "36abf98d924a8c9ef943b93a94c7a2dbea160625599cc2daec4ce13672a4e352",
+        "current_claim_canonical_sha256": "505e9d8e468ef21080e856b26dddf194ad8af6f30e02fa01511ff0b79b160bc0",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F045",
+        "lineage": "F",
+        "native_id": "P045",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/44/native_record",
+        "current_pointer": "/properties/44/current_claim",
+        "native_record_canonical_sha256": "8a3b3e39a643a00f8c683c7b1d0582920c48a5c3fbcaba8387c9ff1f9a35bf28",
+        "current_claim_canonical_sha256": "b732f1e68a049f24ffff9de2cd599c75a6d64016a4416d943a472ac0b1395914",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F046",
+        "lineage": "F",
+        "native_id": "P046",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/45/native_record",
+        "current_pointer": "/properties/45/current_claim",
+        "native_record_canonical_sha256": "835b240edf4f6c495d5ae56edb7e6fdd6bce1bb696e3cc56b11b2d7ca6deab88",
+        "current_claim_canonical_sha256": "59442e9028fb2a48df1b33faa747cadb0007ccf587497be9f01b1d24833755de",
+        "native_status": "REJECTED_OR_DISFAVOURED",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F047",
+        "lineage": "F",
+        "native_id": "P047",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/46/native_record",
+        "current_pointer": "/properties/46/current_claim",
+        "native_record_canonical_sha256": "43e470440dffbec533a681b44f9f5f11118345a0fa7966c2f9e6969e525e9f77",
+        "current_claim_canonical_sha256": "ee072c3cf61fbfdb2c9281b9f2acaf736f8ae913d57134f5824d5b969a31dafd",
+        "native_status": "ASSUMPTION_SENSITIVE",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F048",
+        "lineage": "F",
+        "native_id": "P048",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/47/native_record",
+        "current_pointer": "/properties/47/current_claim",
+        "native_record_canonical_sha256": "f55d8f1bee923625f9499397fe9888e5c37c3d23c7ad082bb714eb5735e183d4",
+        "current_claim_canonical_sha256": "c495cf2be031873818e9661ec4bc24b51e202cda8e5c73ac120b73f2430fcd1a",
+        "native_status": "RETAINED_IN_EVOLVED_FORM",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F049",
+        "lineage": "F",
+        "native_id": "P049",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/48/native_record",
+        "current_pointer": "/properties/48/current_claim",
+        "native_record_canonical_sha256": "65202dbae22f2931bd559e62db36933cbb5aa06186f965339ab77d6ceaf4da2e",
+        "current_claim_canonical_sha256": "a442d7b281f0b97054c44208c21aff22e38f724bd803416cf6e7511f3783f325",
+        "native_status": "SPECIFICATION_PROPERTY",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      },
+      {
+        "canonical_id": "F050",
+        "lineage": "F",
+        "native_id": "P050",
+        "carrier": {
+          "path": "campaign_current/work/drf_formal_verification/revisions/r2/current/PROPERTY_LEDGER.json",
+          "bytes": 613322,
+          "sha256": "abdf256ca3709fcb0bbb8233288d55b8b0f1d6cd0b429fe7e489176863587172"
+        },
+        "native_pointer": "/properties/49/native_record",
+        "current_pointer": "/properties/49/current_claim",
+        "native_record_canonical_sha256": "b5c74489a73254f47f956d96f88555029b2ec7761c1fac0a5590cac50e05a040",
+        "current_claim_canonical_sha256": "b1290094fdffdd7db1a82163a4d6a8212bdf624a44bf66a66f50e8e058d641b7",
+        "native_status": "DOMAIN_SPECIFIC",
+        "mapping": "INDEX_ONLY_LOSSLESS_POINTERS; current qualifications remain beside original meanings",
+        "inherited_reading_record": "checkpoints/002/READ_MASK.json; all current/native semantic fields and profiles at its stated exact scope",
+        "fresh_A002_reading": "See READING_SCOPE_A002.json; index verification alone gives no semantic reading credit"
+      }
+    ],
+    "loss_report": [
+      "Full native/current records, profiles, annotations and qualitative labels remain unchanged in exact source objects. The adapter is intentionally not a flattened replacement.",
+      "A002 D facets and the factored cross-lineage arguments are new analytical contributions, not newly discovered native predicates.",
+      "Current source qualifiers govern the supported use; original source access or review statements are not fresh A002 observations."
+    ]
+  }
+}

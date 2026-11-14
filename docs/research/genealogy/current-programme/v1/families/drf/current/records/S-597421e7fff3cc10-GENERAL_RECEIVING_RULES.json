@@ -1,0 +1,254 @@
+{
+  "source_identity": {
+    "source_id": "S-597421e7fff3cc10",
+    "scientific_name": "GENERAL_RECEIVING_RULES.json",
+    "original_bytes": 22241,
+    "original_sha256": "597421e7fff3cc102344f60036aa4e1a4bbbceb157eb0c42286ebadf4c074617"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-authored-rule-adjudications/1",
+    "status": "AUTHOR_ADJUDICATED_PENDING_INDEPENDENT_REVIEW",
+    "scope": "Four rules, each with exact ordered membership and an explicit receiving clause correspondence. These decisions do not accept the remaining checkpoint004 proposals.",
+    "rules": [
+      {
+        "id": "G001",
+        "source": "R001",
+        "target_members": "D01-54",
+        "disposition": "MATERIAL",
+        "type": "CRITERION_INPUT",
+        "source_fields": [
+          "bearer",
+          "proposition",
+          "guard_quantifier",
+          "criterion",
+          "remaining_premises",
+          "cheap_path_alternatives"
+        ],
+        "target_fields": [
+          "proposition",
+          "guard",
+          "criterion",
+          "negative_scope",
+          "cheap_path"
+        ],
+        "shared_question": "Which actual function and consumer make the distributed result adequate at the boundary the target itself declares?",
+        "source_contribution": "R001 supplies the distinction between the required function/event, its consumer and mission/demand interval, and a merely surviving process or other proxy. It supplies a criterion for interpreting the target; it does not supply missing deployment observations or choose stakeholder values.",
+        "common_inference": "Every listed D current claim has a named decision criterion and a scoped result or design comparison. The member record identifies that exact receiving use, its admitted premises and the literal criterion/guard/alternative clauses. When this result is offered for a consumer's required function, changing the event or interval can change whether the result answers that function even while its internal mathematical or mechanism claim remains true. R001 therefore changes the receiving adequacy judgment at that use. A model-only theorem remains legitimate and receives no imposed deployment requirement.",
+        "guard": "The receiving D result is being used for the same named function or a concrete choice serving it. The member's actual operation, state, protocol, observation or architecture boundary is retained; a different imagined application is not substituted.",
+        "member_correspondence": "For each explicit target: receiving_uses.py identifies its actual receiving question and premises; PROPERTY_INDEX/current_claim supplies the exact proposition, criterion and guard. The material facet is adequacy for that declared consumer, never an assertion that R001 proves the protocol, estimates its failure probability or improves it causally.",
+        "remaining_premises": "The actual threshold/required function and its authority, correspondence to the deployment, observations and all target-specific mechanism/proof conditions remain open unless separately established.",
+        "authority_effect_boundary": "Defining an event neither grants authority to operate nor causes the event to occur. Technical satisfaction and normative acceptance remain separate.",
+        "counter_controls": [
+          {
+            "targets": "D41,D27,D21",
+            "witness": "A read or internal return can succeed while a different required write/external action fails. Naming the write or external action changes the relevant evidence. If the read/internal action is the entire agreed objective, its success is sufficient.",
+            "support": "Received r2 readiness construction and r0/r1 enclosed-current-state constructions; complete current D21/D27/D41 qualifications. No new execution is claimed."
+          },
+          {
+            "targets": "D35",
+            "witness": "A causally consistent cut need not have physically coexisted in the recorded execution. R001 selects the intended recovery-cut objective; it cannot replace that objective with simultaneous physical state and reject a valid cut.",
+            "support": "D35 current proposition, guard and negative scope."
+          },
+          {
+            "targets": "D01,D11,D52",
+            "witness": "A pure conditional protocol theorem remains a valid result without any deployed mission. An application may require progress or business validity beyond agreement, but absence of those extra results does not refute agreement.",
+            "support": "D01/D11/D52 and R001 current negative scopes."
+          },
+          {
+            "targets": "D14,D45,D46,D51,D54",
+            "witness": "A local transaction, retained shared service or no-change decision can already meet the declared function. Defining a consumer does not mandate distribution, a new control, retirement or more paperwork.",
+            "support": "Exact target cheap paths and R001 direct-check alternative."
+          }
+        ],
+        "contrary_candidate_interfaces": "The rule does not transfer an empirical reliability rate, prove a selected formal statement or impose a global mission document. Those would require further source facts. Its guard does not encompass an unrelated application merely because it could use software.",
+        "nontrigger": "The target is intentionally a pure theorem, or its entire relevant function/event/interval is already unambiguously specified and no receiving adequacy question changes. The relationship can then be redundant with the existing criterion; no new empirical evidence or novelty is claimed.",
+        "cost_alternative": "Use the target's exact cheap path and one adequate pass/fail predicate where that covers the function. Added mission detail must discriminate a consequential decision.",
+        "source_ceiling": "Analytical criterion transfer grounded in qualified native/current meanings, not a field effect estimate. Source-specific access ceilings and inherited case attribution remain in the input/source registers.",
+        "reverse": "No reverse is assigned by this rule. D-to-R001 requires a separate concrete event/behavior contribution from that D property.",
+        "reentry": "Reassess an affected member if its consumer, required event, interval, state/operation boundary or current qualification changes. An entirely new use requires a new correspondence, not automatic expansion."
+      },
+      {
+        "id": "G002",
+        "source": "R004",
+        "target_members": "D01-54",
+        "disposition": "MATERIAL",
+        "type": "SCOPE_CONSTRAINT",
+        "source_fields": [
+          "bearer",
+          "proposition",
+          "guard_quantifier",
+          "mechanism",
+          "criterion",
+          "negative_scope"
+        ],
+        "target_fields": [
+          "proposition",
+          "guard",
+          "negative_scope",
+          "criterion"
+        ],
+        "shared_question": "What does this distributed result establish locally, and what stronger receiving function remains outside that result?",
+        "source_contribution": "R004 separates the actual local postcondition from a wider consumer consequence, preserving genuine partial improvement while identifying the external premise that a stronger extension needs.",
+        "common_inference": "Each exact D member already declares a particular state, effect, history, fault, observation or design boundary. Its literal proposition/guard/negative-scope clauses and the authored receiving-use record identify that boundary. If a claim extends beyond it, a world in which the local predicate holds but the wider required function fails defeats that extension; the local predicate remains true. Conversely, if the local predicate is the complete requirement, no additional global closure is needed. This changes the permissible receiving inference, not the truth of the original bounded D result.",
+        "guard": "A real extension or adequacy judgment is being made about the same operation/state/evidence/design boundary named by the D member. The wider function must be specified, rather than invented solely to manufacture a failure.",
+        "member_correspondence": "The member's receiving use supplies the exact local object and required premises; the target current negative-scope clause identifies the tempting stronger inference. R004 supplies the common local-versus-wider implication test. Where the target already makes that distinction, the relation is a shared, potentially subsumed premise, not new independent evidence.",
+        "remaining_premises": "Actual interface entailment, external dependencies and authority, correspondence, observations and the target's original assumptions. No universal second observer is introduced.",
+        "authority_effect_boundary": "Scope analysis can identify a remaining dependency or authorized owner; it does not assign blame, perform repair or authorize a wider action.",
+        "counter_controls": [
+          {
+            "targets": "D17,D21,D25,D27,D36,D49",
+            "witness": "An enclosed atomic return or internal replay can fully establish its own objective. If an external effect is excluded and required, it remains a separate premise; excluded effects do not invalidate the internal theorem.",
+            "support": "Current exact boundaries and received r0/r1 reset/history constructions."
+          },
+          {
+            "targets": "D03,D10,D11,D12,D52",
+            "witness": "Agreement under a fault set can hold while its field probability, termination or semantic value validity remains unproved. Requiring every one of those stronger properties would also incorrectly erase a valid bounded agreement result.",
+            "support": "Exact native/current fault-budget, agreement/progress and BFT qualifications; inherited equal-marginal joint-law constructions."
+          },
+          {
+            "targets": "D29-D34,D48",
+            "witness": "A finite queue or protected degraded path can succeed at its local objective while some work is rejected or a wider service remains down. Equality of arrival and service can preserve backlog without proving drainage.",
+            "support": "Current queue/capacity clauses; distinction between local occupancy, drainage and mission criterion."
+          },
+          {
+            "targets": "D04,D35,D43",
+            "witness": "An established order, consistent cut or observed dependency has its defined mathematical meaning; it does not establish every physical cause, simultaneous global state or current authorization.",
+            "support": "Exact causal/order/snapshot negative scopes."
+          },
+          {
+            "targets": "D14,D45-D47,D51,D54",
+            "witness": "A real local architectural benefit can coexist with cost shifted to another consumer or a shared dependency. Conversely, a valid modular/local/shared design is not invalid merely because it is not a whole-world optimum.",
+            "support": "Current architecture/reuse and cost/consumer clauses."
+          }
+        ],
+        "contrary_candidate_interfaces": "The rule neither demands every external dependency nor converts every narrow theorem into an engineering failure. It cannot estimate causal blame or a population resilience effect from scope alone.",
+        "nontrigger": "No stronger receiving extension is asserted and the local objective is adequate; no additional work follows merely from the existence of the distinction.",
+        "cost_alternative": "State the narrow result and the one material residual premise. Reuse an adequate enclosed contract rather than adding duplicate closure, global inventories or perpetual causal investigation.",
+        "source_ceiling": "A logical scope constraint plus qualified native examples. It is not a new measured intervention effect or independent empirical replication.",
+        "reverse": "No reverse follows automatically. A D source must separately contribute a particular local boundary, mechanism or observation to R004.",
+        "reentry": "Reassess when a wider claim, boundary, included effect or actual consumer changes; retain unaffected local truth."
+      },
+      {
+        "id": "G003",
+        "source": "R038",
+        "target_members": "D01-54",
+        "disposition": "MATERIAL",
+        "type": "EVALUATION_INPUT",
+        "source_fields": [
+          "proposition",
+          "guard_quantifier",
+          "criterion",
+          "counterexample",
+          "cheap_path_alternatives",
+          "cost_retirement"
+        ],
+        "target_fields": [
+          "proposition",
+          "guard",
+          "criterion",
+          "cheap_path",
+          "cost",
+          "negative_scope"
+        ],
+        "shared_question": "Which of the target's actually stated mechanisms/checks is adequate for the live distributed-system uncertainty at the least justified burden?",
+        "source_contribution": "R038 requires the alternative to discriminate the materially different worlds that would change the decision, preserving hard requirements and consequence before comparing burden.",
+        "common_inference": "Every exact D current claim has a concrete cheap-path alternative, a stated criterion and a cost. These literal fields are bound separately for every member; no inference is made from a property title. The alternative is relevant because it serves the same named operation/invariant/observation/design decision. R038 supplies the adequacy test that prevents either adopting extra ceremony solely for assurance labels or accepting an inadequate cheap mechanism. It changes selection or warranted non-escalation at the existing choice; it does not make the target theorem true.",
+        "guard": "An actual choice among the member's stated alternatives is being made for its named criterion. Costs include residual risk and burden borne by other consumers, and nontradeable obligations are satisfied rather than priced away.",
+        "member_correspondence": "Each member binds its exact criterion, cheap_path and cost strings plus its complete claim object and authored receiving-use boundary. The source adequacy discriminator is applied to that exact alternative, not to an unspecified future use of formal methods.",
+        "remaining_premises": "Correct criterion, admitted histories, actual resources/authority, known residual consequences and trustworthy cost evidence. No numerical optimum is inferred when those values are absent.",
+        "authority_effect_boundary": "A lower expected or qualitative burden does not authorize violating an independent obligation or making a consumer's value choice on its behalf.",
+        "counter_controls": [
+          {
+            "targets": "D17-D20,D49",
+            "witness": "The cheap fixed assignment is adequate for an isolated fixed intent but can overwrite a later superseding intent under A;B;retry(A). Adequacy must follow the full admitted history; simply minimizing journaling cost fails this control.",
+            "support": "D19 r2 interleaving qualification and affected D17-D20/D49 cheap paths; no rerun is claimed."
+          },
+          {
+            "targets": "D01,D14,D23,D45,D54",
+            "witness": "An existing local transaction or stronger shared order can be cheaper overall than a new distributed or weaker-order mechanism when it encloses the requirement. The mathematically weakest contract is not necessarily the cheapest implementation.",
+            "support": "Exact current alternatives and cost clauses."
+          },
+          {
+            "targets": "D29-D34,D48",
+            "witness": "A local rejection rule can be adequate without a global feedback graph, but rejected work and recovery load remain costs. A bounded queue cannot be called adequate for a required drain merely because its memory cost is low.",
+            "support": "Actual capacity, admission and drainage guards."
+          },
+          {
+            "targets": "D41-D44,D51",
+            "witness": "A direct capability check can settle a narrow objective, while a green proxy or tool ritual can fail to discriminate the required function. More instrumentation may itself consume scarce capacity and add common failure paths.",
+            "support": "Current observation/experiment/reuse criteria and inherited readiness counterworlds."
+          }
+        ],
+        "contrary_candidate_interfaces": "A cost field alone would not justify a relation. Here the receiving decision already compares the named adequate alternatives, and the source supplies a specific distinguishability condition on that comparison. It neither supplies a field cost estimate nor establishes optimality over unknown designs.",
+        "nontrigger": "The target is only being stated as pure mathematics with no evidence/mechanism selection, or an adequate comparison is already complete and nothing changes. No standing programme follows.",
+        "cost_alternative": "Reuse the exact member cheap path where its guard is met; otherwise retain the necessary stronger mechanism or investigate the specific unresolved discriminator. Include coordination, state retention, recovery and displaced consumer costs.",
+        "source_ceiling": "Analytical adequacy and bounded native alternatives; no universal ROI, empirical effectiveness or authority is claimed.",
+        "reverse": "D-to-R038 is separately judged from the particular alternative or failure witness that D supplies. This rule assigns no reverse.",
+        "reentry": "Changed requirement, concurrency/history, load, failure envelope, cost or surviving consumer can invalidate adequacy; reassess only the affected choice."
+      },
+      {
+        "id": "G004",
+        "source": "R038",
+        "target_members": "F001-050",
+        "disposition": "MATERIAL",
+        "type": "EVALUATION_INPUT",
+        "source_fields": [
+          "proposition",
+          "guard_quantifier",
+          "criterion",
+          "counterexample",
+          "cheap_path_alternatives",
+          "cost_retirement"
+        ],
+        "target_fields": [
+          "current_statement",
+          "quantifier_and_guard",
+          "nontrigger_or_cheap_path",
+          "cost_and_evaluation_criterion",
+          "negative_scope_and_legitimate_alternatives"
+        ],
+        "shared_question": "Which evidence or method choice actually answers this formal property's stated question, and which additional activity would discriminate no remaining material alternative?",
+        "source_contribution": "R038 supplies a scope-sensitive adequacy test for the already stated formal-method alternatives. A cheaper check must establish the required predicate at its claimed domain; a stronger or more numerous activity is not automatically more useful.",
+        "common_inference": "All 50 exact F current claims explicitly contain a nontrigger/cheap-path and cost/evaluation criterion. The member table binds those actual strings, the statement/guard and the authored method-specific receiving use. R038 applies to that existing method/evidence choice, not to the truth of induction, typing, refinement or a compiler theorem. A valid narrow mathematical result remains valid even if a different application requires more; an adequate existing check can make additional ceremony unnecessary.",
+        "guard": "The actual member's evidence or method is being selected, repeated, escalated or retired for its stated predicate. The intended mathematical scope can itself be the complete objective; no field deployment is demanded for a pure theorem.",
+        "member_correspondence": "The member-specific alternative and cost field provide the decision boundary. The source criterion asks whether this alternative discriminates the exact adverse possibilities admitted by the member's own semantics. Neither the words cost nor formal are used to classify membership automatically.",
+        "remaining_premises": "Soundness and completeness conditions of the method, correspondence where application is claimed, actual trust assumptions, required consequence/authority and the uncertainty of any cost estimate.",
+        "authority_effect_boundary": "Method selection does not grant operational permission or turn a checked statement into stakeholder acceptance. No applicable hard obligation is waived by cheapness.",
+        "counter_controls": [
+          {
+            "targets": "F005-F006,F016-F019,F024-F026",
+            "witness": "Reachability may prove a noninductive property; complete finite exploration may settle the whole finite objective; UNKNOWN or an incomplete search cannot be promoted to absence merely because it was cheap. A feasible bug witness and universal absence have different adequacy requirements.",
+            "support": "Exact method statements, guards and native contrary evidence."
+          },
+          {
+            "targets": "F010,F020,F027-F028,F046,F049",
+            "witness": "A contract/type/encoding may prove a weaker predicate while failing the intended requirement. The ordered-and-same-sum discriminator can miss a non-permutation; adequacy is predicate-specific. A genuinely weaker agreed requirement remains legitimate.",
+            "support": "R038 C14 qualification and current F contract/type/weak-specification scopes; not a new execution claim."
+          },
+          {
+            "targets": "F021-F023,F035,F040,F047-F048,F050",
+            "witness": "One actual accepted kernel check can be adequate; a second checker with the same mistaken statement does not independently validate intent. A tool build failure or expired current use does not make unchanged mathematics false.",
+            "support": "Exact trust, identity, change and reuse qualifications."
+          },
+          {
+            "targets": "F003,F015,F031-F034,F036-F039,F041-F045",
+            "witness": "A pure theorem needs no physical test. A runtime observation or unproved external compiler stage can leave a distinct application premise, and an independent obligation cannot be retired as a duplicate of a different proof objective.",
+            "support": "Exact model/world, monitor-role, compiler-stage, framework and test-subsumption boundaries."
+          },
+          {
+            "targets": "F001-F002,F007-F009,F011-F014,F029-F030",
+            "witness": "A local value contract or concrete history may need no general proof framework, but frame, fairness, preservation and pending-operation conditions cannot be omitted when the actual claim uses them.",
+            "support": "Exact logical class, resource and concurrency premises."
+          }
+        ],
+        "contrary_candidate_interfaces": "The rule does not claim a general reliability principle proves the formal method sound. Its specific receiving use is the explicit engineering choice alongside each native mathematical statement. If that choice is not invoked, the material inference is inactive and theorem truth is unchanged.",
+        "nontrigger": "No selection/evidence-use decision is at issue, or the exact adequate check and burden have already been settled. Do not invent an application or a recurring review obligation.",
+        "cost_alternative": "Use the exact member's existing type, direct argument, complete small checker, observed witness, bounded analysis, ordinary test or archived result when adequate. Include setup, false blocking, repair, learning, trust dependence and opportunity cost without fabricating numerical probabilities.",
+        "source_ceiling": "A shared analytical evaluation premise, often already reflected in F's proportionality fields. It creates neither independent empirical support nor new three-way property identity.",
+        "reverse": "Each F-to-R038 direction needs a separately identified check, distinction or counterexample from that F property; none is assigned automatically here.",
+        "reentry": "Reassess when the required proposition, method status, supported semantics, trust or integration premise, consumer or complete cost changes."
+      }
+    ]
+  }
+}

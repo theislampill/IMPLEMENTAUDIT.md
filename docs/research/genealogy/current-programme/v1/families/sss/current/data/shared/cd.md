@@ -1,0 +1,53 @@
+# Shared scientific records
+
+These records preserve repeated scientific material once. They are linked from the property, relationship and synthesis readers. Their keys identify exact normalized values, not strength of evidence.
+
+<a id="r-cd032d96b0da9172fa2c8dbf417f788eb6c0bb2ac8caf5eec3d267c2f803911e"></a>
+## Scientific record cd032d96b0da
+
+<p>A particular runtime-call counter-instance does not refute a probabilistic association, estimate an organizational intervention, invalidate a chosen norm, prove non-use elsewhere, infer historical intent or confer authority. No claim about model-quality rates or resource-optimal model configuration. Charge comparison assumes the same accepted outcome.</p>
+
+<a id="r-cd1a42546a58ebbcb46994041c7564ffa4f53a0d5ad632617ff1171a191ae449"></a>
+## Scientific record cd1a42546a58
+
+<dl><dt>Account</dt><dd><p>Comprehension proxies can miss cross-class effects; refactoring can introduce faults; observational association does not identify net benefit.</p></dd><dt>Source ids</dt><dd><ol><li><p>ESME-CS076</p></li><li><p>ESME-CS078</p></li></ol></dd><dt>Distinction</dt><dd><p>The sources’ findings and this researcher’s extrapolation/critique are separated in the criticism ledger and source limits.</p></dd></dl>
+
+<a id="r-cd29c728f93632c04b8a31bc74281d3cd05dfec88a544fab1004eaadb75e532e"></a>
+## Scientific record cd29c728f936
+
+<dl><dt>Native id</dt><dd><p>ESPLE-026</p></dd><dt>Native locator</dt><dd><p>/properties/25</p></dd><dt>Name</dt><dd><p>Family-based sharing of analysis</p></dd><dt>Status</dt><dd><p>DOMAIN_SPECIFIC</p></dd><dt>Disposition</dt><dd><p>RETAIN_COMPLETE_NATIVE_PROPERTY_UNCHANGED</p></dd><dt>New author assessment</dt><dd><p>Family analysis may share work under its representation and analysis assumptions. It does not automatically cover products or behaviors outside that model.</p></dd><dt>Full claim carrier</dt><dd><dl><dt>Path</dt><dd><p>EVOLVED_SOFTWARE_PRODUCT_LINE_ENGINEERING_PROPERTY_LEDGER.json</p></dd><dt>Bytes</dt><dd><p>1172693</p></dd><dt>Sha256</dt><dd><p>96ca3965ea3355457e5b1a614f6e360fb0d2cdbe0d8ce04c3927db762591c68c</p></dd></dl></dd><dt>Meaning scope</dt><dd><p>Complete44nativefields remain authoritative; this short assessment is not a substitute or a new property.</p></dd></dl>
+
+<a id="r-cd63e1308e0cfc9f111e221fdcefa80ca0b25f7842818d17568dabb0273aa33d"></a>
+## Scientific record cd63e1308e0c
+
+<dl><dt>Conditions</dt><dd><ol><li><p>Inventory reflects actual resolution and relevant use; a graph edge is not itself a live failure.</p></li></ol></dd><dt>Related property ids</dt><dd><ol><li><p>ESME-C022</p></li><li><p>ESME-C026</p></li><li><p>ESME-C072</p></li></ol></dd><dt>Interpretation</dt><dd><p>Related obligations and prerequisites, not a serial scheduling graph. Typed relations in the composition model control the relationship meaning.</p></dd></dl>
+
+<a id="r-cd67a9dc2b62cbb35ef78e607e707c858c85b62785983b655d77ab2b9efeea71"></a>
+## Scientific record cd67a9dc2b62
+
+<dl><dt>Actual result</dt><dd><p>389</p></dd><dt>After</dt><dd><dl><dt>Artifact</dt><dd><p>working/reserve.dat</p></dd><dt>Bytes</dt><dd><p>2</p></dd><dt>Observation role</dt><dd><p>INLINE_HISTORICAL_RESOURCE_STATE_NOT_CURRENT_FILE_DESCRIPTOR</p></dd><dt>Sha256</dt><dd><p>d6d824abba4afde81129c71dea75b8100e96338da5f416d2f69088f1960cb091</p></dd><dt>Text</dt><dd><p>97</p></dd></dl></dd><dt>Before</dt><dd><dl><dt>Artifact</dt><dd><p>working/reserve.dat</p></dd><dt>Bytes</dt><dd><p>2</p></dd><dt>Observation role</dt><dd><p>INLINE_HISTORICAL_RESOURCE_STATE_NOT_CURRENT_FILE_DESCRIPTOR</p></dd><dt>Sha256</dt><dd><p>d6d824abba4afde81129c71dea75b8100e96338da5f416d2f69088f1960cb091</p></dd><dt>Text</dt><dd><p>97</p></dd></dl></dd><dt>Fact</dt><dd><p><a href="9c.md#r-9ca7509ef727175e985719d2e0017a34a3ace7ed40c155749f4450279501b17d">Shared scientific record 9ca7509ef727</a></p></dd><dt>Independent oracle</dt><dd><dl><dt>Expected</dt><dd><p>389</p></dd><dt>Input</dt><dd><p>97</p></dd><dt>Rule</dt><dd><p>4 * initial value + 1</p></dd></dl></dd><dt>Local calls inspected</dt><dd><ol><li><p>int</p></li><li><p>read_resource</p></li><li><p>write_resource</p></li><li><p>str</p></li><li><p>write_resource</p></li><li><p>write_resource</p></li><li><p>str</p></li><li><p>str</p></li></ol></dd><dt>Mode</dt><dd><p>read_only</p></dd><dt>Program</dt><dd><dl><dt>Bytes</dt><dd><p>373</p></dd><dt>Path</dt><dd><p>control_candidate.py</p></dd><dt>Sha256</dt><dd><p>43925838d391c2e0f887094caf4a547af6b76b41c6640cad35c2f08ffe3d250c</p></dd></dl></dd><dt>Request</dt><dd><p><a href="fe.md#r-fe83621e138fd015601557787c4bb852a54bca23fc14c5e03461bfd2bbdbe89e">Shared scientific record fe83621e138f</a></p></dd><dt>Setup</dt><dd><dl><dt>At ns</dt><dd><p>1794515817245179581</p></dd><dt>Kind</dt><dd><p>AUTHORIZED_RESET_OUTSIDE_OBSERVED_INVOCATION</p></dd><dt>State</dt><dd><dl><dt>Artifact</dt><dd><p>working/reserve.dat</p></dd><dt>Bytes</dt><dd><p>2</p></dd><dt>Observation role</dt><dd><p>INLINE_HISTORICAL_RESOURCE_STATE_NOT_CURRENT_FILE_DESCRIPTOR</p></dd><dt>Sha256</dt><dd><p>d6d824abba4afde81129c71dea75b8100e96338da5f416d2f69088f1960cb091</p></dd><dt>Text</dt><dd><p>97</p></dd></dl></dd></dl></dd></dl>
+
+<a id="r-cdd22b46cbd7ec7e2276e8c3e26cc54e3dd75b6209ee5f76733a744fad7eb119"></a>
+## Scientific record cdd22b46cbd7
+
+<ol><li><p><a href="bf.md#r-bfd8795634e4708b78db2148172a31548cca4afb1165bfaa7c9a27450d267f7b">Shared scientific record bfd8795634e4</a></p></li></ol>
+
+<a id="r-cdd28f6baef3d17187200eebdb768a8451ef76534e569f6b5330aaa336adfbc0"></a>
+## Scientific record cdd28f6baef3
+
+<dl><dt>Conditions</dt><dd><ol><li><p>The support population is explicit; interaction sampling and omissions are not confused with exhaustive coverage.</p></li></ol></dd><dt>Related property ids</dt><dd><ol><li><p>ESME-C005</p></li><li><p>ESME-C022</p></li><li><p>ESME-C026</p></li><li><p>ESME-C057</p></li><li><p>ESME-C076</p></li></ol></dd><dt>Interpretation</dt><dd><p>Related obligations and prerequisites, not a serial scheduling graph. Typed relations in the composition model control the relationship meaning.</p></dd></dl>
+
+<a id="r-cde7aa49b958b3c33459d10eb1d64bb6558f1aeca0ea75b86d263842e7fc01b2"></a>
+## Scientific record cde7aa49b958
+
+<p>Choose the smallest adequate arrangement among feasible alternatives for the actual receiving obligation. A current checked mapping, direct agreement, local conversion or limited export may remove the need for a larger shared apparatus. Critical warrant repair does not mandate universal monitoring or notices, and exact logical falsification needs no irrelevant causal experiment. Added coordination, review, validation and maintenance burden must earn its role; no complete cost optimum, universal threshold or compulsory three-lineage stack is established.</p>
+
+<a id="r-cdeed6b9babd91020bfecc50c379f95df7df41665721ca8e73e4a29afc7e3b85"></a>
+## Scientific record cdeed6b9babd
+
+<dl><dt>Subject bearer</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/SUBJECT_BEARER</p></dd><dt>Value</dt><dd><p>Program statements, variable criterion and control/data dependencies. Relevant source, executable traces, build descriptions, documents and human knowledge form different evidence views.</p></dd></dl></dd><dt>Criterion</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/CRITERION</p></dd><dt>Value</dt><dd><p>The result states the criterion and model and is not represented as an exact minimal slice or a complete account of all real effects.</p></dd></dl></dd><dt>Mechanism</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/MECHANISM</p></dd><dt>Value</dt><dd><p>Use a declared slicing criterion and static dependence model to find potentially relevant statements, with explicit language, alias and environment assumptions.</p></dd></dl></dd><dt>Trigger context</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/TRIGGER_CONTEXT</p></dd><dt>Value</dt><dd><p>A consequential comprehension or impact question benefits from model-based relevance beyond a single observed run.</p></dd></dl></dd><dt>Non trigger cheap path</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/NON_TRIGGER_CHEAP_PATH</p></dd><dt>Value</dt><dd><p>Direct inspection suffices for a small obvious dependence; no slicing tool is required.</p></dd></dl></dd><dt>Dependencies preconditions</dt><dd><p><a href="56.md#r-565ff49492c8b864ba36505935e3e6d35ba2b93f68400c8621303aaa7aa8cc14">Shared scientific record 565ff49492c8</a></p></dd><dt>Required inputs</dt><dd><p><a href="4c.md#r-4cdd79bcef013dbcadc2e641785d5565487a5ddb6d5f98a8b5275c48bb2f51e6">Shared scientific record 4cdd79bcef01</a></p></dd><dt>Outputs evidence constraints</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/OUTPUTS_EVIDENCE_CONSTRAINTS</p></dd><dt>Value</dt><dd><p>The result states the criterion and model and is not represented as an exact minimal slice or a complete account of all real effects.</p></dd></dl></dd><dt>Actor authority boundary</dt><dd><p><a href="82.md#r-820de32cc330fd00e13c3db3ef663e7837ccce717452b1c737bb243bd625c3a0">Shared scientific record 820de32cc330</a></p></dd><dt>Observable postcondition</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/OBSERVABLE_POSTCONDITION</p></dd><dt>Value</dt><dd><p>The result states the criterion and model and is not represented as an exact minimal slice or a complete account of all real effects.</p></dd></dl></dd><dt>Expected payoff</dt><dd><dl><dt>Pointer</dt><dd><p>/properties/13/EXPECTED_PAYOFF</p></dd><dt>Value</dt><dd><dl><dt>Hypothesis</dt><dd><p>Reduce irrelevant code considered without claiming a complete specification.</p></dd><dt>Qualification</dt><dd><p>A conditional engineering rationale, not a universal quantified or experimentally certified payoff.</p></dd></dl></dd></dl></dd><dt>Known failure modes</dt><dd><p><a href="10.md#r-101a0d1f98ea26c34c18039d229b2f586b57c54818c059b1ef66b6ee936a2cf4">Shared scientific record 101a0d1f98ea</a></p></dd><dt>Contrary evidence</dt><dd><p><a href="eb.md#r-eb21fd59f7092d2c55e7247d5f46b99ce3f7fb3c75937dc77f1ab69a2a2831de">Shared scientific record eb21fd59f709</a></p></dd><dt>Assumption sensitivity</dt><dd><p><a href="21.md#r-21c5b4a9bce186283510014582e8bfa11b7d0f91fc5d7d3e5c69d521937d588e">Shared scientific record 21c5b4a9bce1</a></p></dd><dt>Open questions</dt><dd><p><a href="94.md#r-94df69594744fe131b7d9c36a89f5979ce5f9ed695482eff6c949c023854a904">Shared scientific record 94df69594744</a></p></dd></dl>
+
+<a id="r-cdf4f4ddfb12659995b98bb13f0a6912d02ca7cc51039e9d77627eff88b9cea5"></a>
+## Scientific record cdf4f4ddfb12
+
+<dl><dt>Input property key</dt><dd><p>B:ESME-052</p></dd><dt>Account</dt><dd><p><a href="53.md#r-538db1cf37145c95f09d6af9443c8d7d2f17bd929eb56e1ed9f82cafcb39c103">Shared scientific record 538db1cf3714</a></p></dd></dl>

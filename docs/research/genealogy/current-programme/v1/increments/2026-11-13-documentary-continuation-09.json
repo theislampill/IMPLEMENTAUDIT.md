@@ -1,0 +1,126 @@
+{
+  "schema": "cohort-c-documentary-continuation/9",
+  "date_utc": "2026-11-13",
+  "scope": "Permitted current qualification metadata; private scientific arguments and acquisition routes excluded",
+  "received_scientific_lineages": 24,
+  "received_scientific_syntheses": 8,
+  "received_scientific_units": 32,
+  "historical_final_review_positions": 64,
+  "available_original_final_review_receipts": 62,
+  "available_original_qualification_subject_review_objects": 124,
+  "syntheses": [
+    {
+      "unit_id": "LAW-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "7f62a136751c84fbbd0326eafdc59a26bc57db1c6da31ab4d09ca8a08b88b803",
+      "native_qualification_sha256": "4b7b8ba7e41109967b4e48c170adf6070398c7b64980948cae1bef63cdd291bc",
+      "final_review_sha256s": [
+        "c7316a4ffd296a021d27ff4589d662e99e2b5c399faa5e528f4370ded57adb53",
+        "c4c314b522fb8b3b9baa96ac5c142a7069259a896a5059b1d542ba793f5a4314"
+      ]
+    },
+    {
+      "unit_id": "SSD-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "aa53149fd110cce51bad79eb01e373146efae3b0ebd6d142efe7cc1316402c3c",
+      "native_qualification_sha256": "5b1cecbe96e2e3c3b51878f8704e4fd75746a7f3e7255227a4b3a6552f156f97",
+      "final_review_sha256s": [
+        "31cd38afe54e2b49e610199318360869b10bcd07c39703d22a94d28e214e5068",
+        "8eb9c7427e5dc093bccaac85b0cbf7aeb9429e9149e26f3a9ffa470e3125ce81"
+      ]
+    },
+    {
+      "unit_id": "DRF-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a",
+      "native_qualification_sha256": "fad4c7fe65da3985114ffa46e4a581406ac7bae79a8b5b7c345a2d141050f36d",
+      "final_review_sha256s": [
+        "3194c9e466867b8db787eba6cadace00668df5dbe2d3af0838856a12043b2702",
+        "6e5100980abbaf859d1360cd754bf36b72f9108bd02ebf5e0e76ab608b4df3e9"
+      ]
+    },
+    {
+      "unit_id": "CSS-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+      "native_qualification_sha256": "3b9dba6bd68ff3745afa350a03d1e4b7af2c9c2afb2011851bb76c31ed03d3e8",
+      "final_review_sha256s": [
+        "92719d1814c5e28df7b9ba4a3dbedcc4356262b09ad74fbdd66e18a86f53a6ba",
+        "237f73b7d4ca9570a9b784d755ff3ba6f426c03fd1246e5be36f46310f3de27c"
+      ]
+    },
+    {
+      "unit_id": "SSS-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb",
+      "native_qualification_sha256": "7bd97c54fd8381420161a88c0fdee3f04b8497e59b72c41581e792eb67add217",
+      "final_review_sha256s": [
+        "5ed3a75a4392dca2e8a103dff5d182fe940b141fa7b5354afe1cb68036e4a283",
+        "8e993b581bcfc6a9c503be5a87dfe4490ca9fae0ff3d919f4e4635766f2230c3"
+      ]
+    },
+    {
+      "unit_id": "BWP-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+      "native_qualification_sha256": "df68381df01150adcc9776ab294cdd7d27d0e12102878511add089bf44b62044",
+      "final_review_sha256s": [
+        "fcecaf4f7d0cb81db4660019246ae5df6f1c958fc9f18039a68b659ae251a9c0",
+        "236f63bc16dcb7564770f8297e033009a0ef04493f5bb40791606ed5c258216f"
+      ]
+    },
+    {
+      "unit_id": "AMA-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e",
+      "native_qualification_sha256": "365aaf9f5859e5e0203cb2a48c9f8da245ca0ec11b7b7bea961bb14bcfba4782",
+      "final_review_sha256s": [
+        "e117607cafb1e65a41b3f28eae6c35db97de6a83dd5f9b9e8693ea51d943345a",
+        "15227ba5f07cb35b8f8a7515d41418aa56a466c8b527a29a79b9cc1b4cf74681"
+      ]
+    },
+    {
+      "unit_id": "SPR-S",
+      "state": "QUALIFIED_AT_DECLARED_SCOPE",
+      "scientific_subject_sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183",
+      "native_qualification_sha256": "0a312bcd111cbcd5eb82eb83b219bf83a8c7d070457d56a3c2430b0bd37853e4",
+      "final_review_sha256s": [
+        "fdb5f22e7ee504b8a915d6d7719be9709f7c204e1074e3d57d213293b3174506",
+        "ee6a7df169718c31a980774680818af25150f3e5b55e5a4eea1bff8abbc26d31"
+      ]
+    }
+  ],
+  "new_scientific_qualifications_issued_here": 0,
+  "earlier_qualified_index_rows_preserved": 31,
+  "LAW_S": {
+    "subject_revision": "A008",
+    "original_qualification_time_utc": "2026-11-13T17:48:14.456445Z",
+    "required_final_reviews": [
+      "INDEPENDENT_FIDELITY_ACCEPT",
+      "DISTINCT_ADVERSARIAL_ACCEPT"
+    ],
+    "established_material_findings": 0,
+    "retained_unique_nonblocking_observations": 3,
+    "earlier_A007_GAP_REVISE": "Preserved at its original subject; later acceptance is not retrospective acceptance"
+  },
+  "SPR_L1": {
+    "historical_r4_qualification_retained": true,
+    "original_final_certificate_subject_and_two_reviews": "UNAVAILABLE_AT_RECORDED_RECOVERY_SCOPE",
+    "older_r2_substituted": false
+  },
+  "independent_programme_receiving_index_sha256": "df886d1b92ac71505abe2809ad87aa30f463b150fd25bbe0f9b8cf44b6e9f856",
+  "central_selection": {
+    "live_authoritative_application": "UNKNOWN",
+    "last_verified_snapshot": "B36: one synthesis selected; historical snapshot, not current state",
+    "complete_transaction": "STAGED_ONLY: seven original unit intents, fourteen original new-file objects, corrected aggregate helper002",
+    "unit_and_aggregate_idempotence": "VERIFIED_IN_ISOLATED_PROPOSAL",
+    "changed_current_refusal": "VERIFIED_IN_ISOLATED_PROPOSAL",
+    "verified_live_expected_current": false,
+    "effective_shared_writer_exclusion": false,
+    "authoritative_writes_here": 0
+  },
+  "prior_conversation_process_termination": "UNKNOWN",
+  "disclosure": "Detailed current scientific explanations remain private under source-specific pending decisions",
+  "native_implementation_issue_merge_deployment_release_effects": 0,
+  "history": "Initial PROGRAMME.json and C01-C08 remain dated evidence and are not rewritten"
+}

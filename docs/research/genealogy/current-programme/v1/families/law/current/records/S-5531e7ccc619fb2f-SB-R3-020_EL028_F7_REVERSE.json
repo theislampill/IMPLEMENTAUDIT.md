@@ -1,0 +1,891 @@
+{
+  "source_identity": {
+    "source_id": "S-5531e7ccc619fb2f",
+    "scientific_name": "SB-R3-020_EL028_F7_REVERSE.json",
+    "original_bytes": 67919,
+    "original_sha256": "5531e7ccc619fb2f475af456830f7ac71362dc29bb22773b64f17c8c352385cb"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-020",
+    "title": "EL-028_REVERSE_SUPPLIER_BUFFER_AND_CONTINUITY_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:12:24.154573+00:00",
+    "inquiry_family": 7,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_005.json",
+      "bytes": 7000,
+      "sha256": "7059b0b8192ede42bdfa0e9318bc2f31067e9c2a2413d47b5f3ca8c0c9a257a7"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal supplier rule, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-004",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        }
+      },
+      {
+        "native_id": "EL-008",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        }
+      },
+      {
+        "native_id": "EL-009",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        }
+      },
+      {
+        "native_id": "EL-010",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        }
+      },
+      {
+        "native_id": "EL-027",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        }
+      },
+      {
+        "native_id": "EL-028",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        }
+      },
+      {
+        "native_id": "EW-P009",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P026",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P028",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        }
+      },
+      {
+        "native_id": "EW-P029",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY7_SOURCE_INQUIRY.json",
+      "bytes": 3318,
+      "sha256": "8ae0f20c1d19caca960236df794b847df83ab4bef3197eeaa0fa699cb7ef2c60"
+    },
+    "native_common_basis": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility.",
+    "common_cost_and_alternative": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Information treated as physical capacity.",
+      "First-tier diversity treated as independent lower-tier supply.",
+      "A complete document treated as operational capability.",
+      "A partial exposure or criterion input rejected for failing the whole receiver.",
+      "Capacity, stock or staff double-counted for routine and contingency use.",
+      "Buyer savings treated as joint fair gain."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-028",
+        "argument": "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-028",
+        "argument": "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-028",
+        "argument": "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-028",
+        "argument": "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-028",
+        "argument": "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-028",
+        "argument": "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-028",
+        "argument": "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-028",
+        "argument": "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-028",
+        "overclaim": "A compatibility test alone does not reveal every critical sub-tier site or provide a recovery route.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-028",
+        "overclaim": "Administrative staging does not make a tightly coupled lower-tier component substitutable.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-028",
+        "overclaim": "An outside-view estimate cannot verify a supplier-reported site map or certify the availability of an alternate.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-028",
+        "overclaim": "A procurement clause can request information without making it truthful, current or physically substitutable.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-028",
+        "overclaim": "A readiness package does not establish the truth of a lower-tier map or qualify an untested substitute.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-028",
+        "overclaim": "One successful drill does not cover unexamined configurations, a later supplier change or every correlated disruption.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-028",
+        "overclaim": "A lifetime support requirement does not make exhaustive mapping economic or eliminate proprietary-information limits.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-028",
+        "overclaim": "A nominal high-assurance classification cannot itself validate a map or create alternate capacity.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared capacity, information, organizations, tools or source works are not independent controls or benefits.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P009->LAW-L1::EL-028",
+      "LAW-L3::EW-P022->LAW-L1::EL-028",
+      "LAW-L3::EW-P025->LAW-L1::EL-028",
+      "LAW-L3::EW-P026->LAW-L1::EL-028",
+      "LAW-L3::EW-P027->LAW-L1::EL-028",
+      "LAW-L3::EW-P028->LAW-L1::EL-028",
+      "LAW-L3::EW-P029->LAW-L1::EL-028",
+      "LAW-L3::EW-P033->LAW-L1::EL-028"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-028",
+        "source_native_id": "EW-P009",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification."
+        },
+        "shared_question_or_object": "A consequential interface whose lower-tier physical or service dependencies affect compatibility or availability.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification."
+        },
+        "source_contribution": "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification.",
+        "receiving_consequence": "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A compatibility test alone does not reveal every critical sub-tier site or provide a recovery route.",
+        "counter_control": "A compatibility test alone does not reveal every critical sub-tier site or provide a recovery route.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. Use local types or a focused contract test when the boundary is private and low consequence.",
+        "subcondition_evidence": {
+          "P1": "A consequential interface whose lower-tier physical or service dependencies affect compatibility or availability.",
+          "P2": {
+            "source_bearer": "A consequential boundary between components or organizations",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification."
+          },
+          "P3": "The owned semantic and configuration boundary identifies which substitutions preserve the required behavior and what changed dependency needs notification.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: A compatibility test alone does not reveal every critical sub-tier site or provide a recovery route."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P009",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-028",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter."
+        },
+        "shared_question_or_object": "A commitment relying on a supposedly available alternative source or design.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter."
+        },
+        "source_contribution": "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter.",
+        "receiving_consequence": "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Administrative staging does not make a tightly coupled lower-tier component substitutable.",
+        "counter_control": "Administrative staging does not make a tightly coupled lower-tier component substitutable.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. Stable well-understood delivery can justify a larger commitment without artificial staging.",
+        "subcondition_evidence": {
+          "P1": "A commitment relying on a supposedly available alternative source or design.",
+          "P2": {
+            "source_bearer": "A sequence of commitments under uncertainty",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter."
+          },
+          "P3": "The decision horizon and separability of the intended increment identify which hidden dependencies and substitute qualifications matter.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: Administrative staging does not make a tightly coupled lower-tier component substitutable."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P022",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-028",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain."
+        },
+        "shared_question_or_object": "A forecast depending on supplier diversity and recovery assumptions.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain."
+        },
+        "source_contribution": "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain.",
+        "receiving_consequence": "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "An outside-view estimate cannot verify a supplier-reported site map or certify the availability of an alternate.",
+        "counter_control": "An outside-view estimate cannot verify a supplier-reported site map or certify the availability of an alternate.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. A short-horizon forecast from recent throughput can suffice.",
+        "subcondition_evidence": {
+          "P1": "A forecast depending on supplier diversity and recovery assumptions.",
+          "P2": {
+            "source_bearer": "A forecast used for resource or commitment decisions",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain."
+          },
+          "P3": "Scenario ranges and sensitivity to lead time identify which opaque dependency is consequential enough to investigate and maintain.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: An outside-view estimate cannot verify a supplier-reported site map or certify the availability of an alternate."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P025",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-028",
+        "source_native_id": "EW-P026",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified."
+        },
+        "shared_question_or_object": "A supplier coordination decision involving hidden lower-tier commitments.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified."
+        },
+        "source_contribution": "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified.",
+        "receiving_consequence": "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A procurement clause can request information without making it truthful, current or physically substitutable.",
+        "counter_control": "A procurement clause can request information without making it truthful, current or physically substitutable.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. Direct coordination and a short dependency note can suffice at a simple shared-team boundary.",
+        "subcondition_evidence": {
+          "P1": "A supplier coordination decision involving hidden lower-tier commitments.",
+          "P2": {
+            "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified."
+          },
+          "P3": "Real data rights, ownership, lead times and change duties determine how dependency information may be obtained and which alternative can be qualified.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: A procurement clause can request information without making it truthful, current or physically substitutable."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P026",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-028",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information."
+        },
+        "shared_question_or_object": "A cutover relying on a critical lower-tier item or service.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information."
+        },
+        "source_contribution": "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information.",
+        "receiving_consequence": "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A readiness package does not establish the truth of a lower-tier map or qualify an untested substitute.",
+        "counter_control": "A readiness package does not establish the truth of a lower-tier map or qualify an untested substitute.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. Use proportionate existing readiness checks or a representative rehearsal where adequate and allowed.",
+        "subcondition_evidence": {
+          "P1": "A cutover relying on a critical lower-tier item or service.",
+          "P2": {
+            "source_bearer": "Transition to operation or restart",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information."
+          },
+          "P3": "The operational system, cutover horizon and support requirements define the criticality and timeliness needed of dependency information.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: A readiness package does not establish the truth of a lower-tier map or qualify an untested substitute."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P027",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-028",
+        "source_native_id": "EW-P028",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated."
+        },
+        "shared_question_or_object": "A recovery claim relying on substitute routes through multiple supplier tiers.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated."
+        },
+        "source_contribution": "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated.",
+        "receiving_consequence": "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "One successful drill does not cover unexamined configurations, a later supplier change or every correlated disruption.",
+        "counter_control": "One successful drill does not cover unexamined configurations, a later supplier change or every correlated disruption.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. A stateless isolated disposable experiment may need only restart or deletion.",
+        "subcondition_evidence": {
+          "P1": "A recovery claim relying on substitute routes through multiple supplier tiers.",
+          "P2": {
+            "source_bearer": "A proposed recovery claim after failure or change",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated."
+          },
+          "P3": "Current recovery tests and time/state objectives distinguish merely known alternatives from usable ones and specify which portability must be demonstrated.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: One successful drill does not cover unexamined configurations, a later supplier change or every correlated disruption."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P028",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-028",
+        "source_native_id": "EW-P029",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining."
+        },
+        "shared_question_or_object": "Continuing support of a system exposed to lower-tier obsolescence and concentration.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining."
+        },
+        "source_contribution": "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining.",
+        "receiving_consequence": "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A lifetime support requirement does not make exhaustive mapping economic or eliminate proprietary-information limits.",
+        "counter_control": "A lifetime support requirement does not make exhaustive mapping economic or eliminate proprietary-information limits.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. A short-lived tool may use an explicit early retirement policy.",
+        "subcondition_evidence": {
+          "P1": "Continuing support of a system exposed to lower-tier obsolescence and concentration.",
+          "P2": {
+            "source_bearer": "A supported system over its operational life",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining."
+          },
+          "P3": "Fielded configuration, support horizon and retirement authority determine which lower-tier data and substitute readiness are worth maintaining.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: A lifetime support requirement does not make exhaustive mapping economic or eliminate proprietary-information limits."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P029",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-028",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EL-028",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate."
+        },
+        "shared_question_or_object": "Selecting controls for a decision with hidden concentration or constrained substitution.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+          "literal_bridge": "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate."
+        },
+        "source_contribution": "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate.",
+        "receiving_consequence": "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate."
+        ],
+        "premises_remaining": [
+          "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A nominal high-assurance classification cannot itself validate a map or create alternate capacity.",
+        "counter_control": "A nominal high-assurance classification cannot itself validate a map or create alternate capacity.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Mapping, confidential disclosure, updates and alternative qualification count. Low-criticality replaceable inputs can use a short register and actual replacement test. Use existing adequate controls and bounded preauthorization where the actual regime permits.",
+        "subcondition_evidence": {
+          "P1": "Selecting controls for a decision with hidden concentration or constrained substitution.",
+          "P2": {
+            "source_bearer": "A decision about assurance strength under change",
+            "receiving_bearer": "Critical multilevel dependencies and feasible recovery options",
+            "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+            "receiving_criterion": "Map only where it changes buffer/recovery choices; known dependency without a feasible action does not establish resilience.",
+            "literal_bridge": "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate."
+          },
+          "P3": "The actual consequence, commitment deadline and permitted cheap path determine which dependencies need deep mapping and what substitute evidence is adequate.",
+          "P4": "Critical item/site dependencies are known at the relevant time and actual substitution/recovery is distinguished from mere visibility. Actual fulfillment of the complete Lean criterion remains separate. Control: A nominal high-assurance classification cannot itself validate a map or create alternate capacity."
+        },
+        "reverse_direction_key": "LAW-L1::EL-028->LAW-L3::EW-P033",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

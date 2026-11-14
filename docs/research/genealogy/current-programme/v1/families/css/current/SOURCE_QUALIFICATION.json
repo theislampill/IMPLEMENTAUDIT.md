@@ -1,0 +1,290 @@
+{
+  "schema": "public-source-scientific-qualification/1",
+  "family": "CSS",
+  "units": [
+    {
+      "unit_id": "CSS-L1",
+      "family": "CSS",
+      "kind": "lineage",
+      "name": "Cognitive Systems Engineering",
+      "lineage_identity": "EVOLVED_COGNITIVE_SYSTEMS_ENGINEERING",
+      "historical_property_rows": 62,
+      "selected_property_identities": 63,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695",
+        "bytes": 24939
+      },
+      "qualification_receipt": {
+        "sha256": "c1883437f82cb756753390b451fb42903c4eabdc9f009eafda49d291775b032d",
+        "bytes": 7230
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "ad3d6f997d31ea7ab67449506f18d3226e8fd1f9f3afeb3a13493d9b482c2e8c",
+            "bytes": 7336
+          },
+          "accepted_subject_sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "53e893238256c8447b9a5a5a87cb019119fc761980b832b577b425bf924de946",
+            "bytes": 12107
+          },
+          "accepted_subject_sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695",
+          "bytes": 24939,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "c1883437f82cb756753390b451fb42903c4eabdc9f009eafda49d291775b032d",
+          "bytes": 7230,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "ad3d6f997d31ea7ab67449506f18d3226e8fd1f9f3afeb3a13493d9b482c2e8c",
+          "bytes": 7336,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "53e893238256c8447b9a5a5a87cb019119fc761980b832b577b425bf924de946",
+          "bytes": 12107,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    },
+    {
+      "unit_id": "CSS-L2",
+      "family": "CSS",
+      "kind": "lineage",
+      "name": "Statistical Engineering",
+      "lineage_identity": "EVOLVED_STATISTICAL_ENGINEERING",
+      "historical_property_rows": 65,
+      "selected_property_identities": 65,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042",
+        "bytes": 21382
+      },
+      "qualification_receipt": {
+        "sha256": "b2f53e0600422d75d13cffaab3d9193d12456fc38a5c087c6d596debe680cbbb",
+        "bytes": 9700
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "d3e899f8973a44758a00dea40822a3cfaf1a6738cfe7fc6fe56d42c636d609e7",
+            "bytes": 15501
+          },
+          "accepted_subject_sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "7415e59a00e0c6af35b34bb93e7a4e17e385efcb5b6e7b6cd450205037f4d0c0",
+            "bytes": 12939
+          },
+          "accepted_subject_sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042",
+          "bytes": 21382,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "b2f53e0600422d75d13cffaab3d9193d12456fc38a5c087c6d596debe680cbbb",
+          "bytes": 9700,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "d3e899f8973a44758a00dea40822a3cfaf1a6738cfe7fc6fe56d42c636d609e7",
+          "bytes": 15501,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "7415e59a00e0c6af35b34bb93e7a4e17e385efcb5b6e7b6cd450205037f4d0c0",
+          "bytes": 12939,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    },
+    {
+      "unit_id": "CSS-L3",
+      "family": "CSS",
+      "kind": "lineage",
+      "name": "Systems Safety",
+      "lineage_identity": "EVOLVED_SYSTEMS_SAFETY",
+      "historical_property_rows": 68,
+      "selected_property_identities": 68,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b",
+        "bytes": 49646
+      },
+      "qualification_receipt": {
+        "sha256": "06e8f904637897240b6e5ff4e743529c4ca94e23e77d4bf5d3b6a0c324ec7a7a",
+        "bytes": 12770
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "29d60e34d1dadf60d4ffac559589598cee7b0690f99268b7debee8c432b3eb20",
+            "bytes": 13602
+          },
+          "accepted_subject_sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "169dd7128276e703a07edc088b87c24284d40d3ca327947ed1ed56e3a2fce9a6",
+            "bytes": 16560
+          },
+          "accepted_subject_sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b",
+          "bytes": 49646,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "06e8f904637897240b6e5ff4e743529c4ca94e23e77d4bf5d3b6a0c324ec7a7a",
+          "bytes": 12770,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "29d60e34d1dadf60d4ffac559589598cee7b0690f99268b7debee8c432b3eb20",
+          "bytes": 13602,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "169dd7128276e703a07edc088b87c24284d40d3ca327947ed1ed56e3a2fce9a6",
+          "bytes": 16560,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    },
+    {
+      "unit_id": "CSS-S",
+      "family": "CSS",
+      "kind": "synthesis",
+      "name": "CSS synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 195,
+      "selected_property_identities": 196,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "local_cohort_B",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+        "bytes": 534025
+      },
+      "qualification_receipt": {
+        "sha256": "3b9dba6bd68ff3745afa350a03d1e4b7af2c9c2afb2011851bb76c31ed03d3e8",
+        "bytes": 16178
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "92719d1814c5e28df7b9ba4a3dbedcc4356262b09ad74fbdd66e18a86f53a6ba",
+            "bytes": 9975
+          },
+          "accepted_subject_sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "237f73b7d4ca9570a9b784d755ff3ba6f426c03fd1246e5be36f46310f3de27c",
+            "bytes": 11932
+          },
+          "accepted_subject_sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [
+        "NEW_NEUTRAL_STUDY. Does not recover or requalify the missing original historical CSS synthesis or executed prompt; historical-original increment remains zero."
+      ],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa",
+          "bytes": 534025,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "3b9dba6bd68ff3745afa350a03d1e4b7af2c9c2afb2011851bb76c31ed03d3e8",
+          "bytes": 16178,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "92719d1814c5e28df7b9ba4a3dbedcc4356262b09ad74fbdd66e18a86f53a6ba",
+          "bytes": 9975,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "237f73b7d4ca9570a9b784d755ff3ba6f426c03fd1246e5be36f46310f3de27c",
+          "bytes": 11932,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    }
+  ],
+  "source": "Immutable programme identity records plus exact recovered original subject and receipt bytes.",
+  "historical_disclosure_status": "Old pending fields remain in the immutable programme and original proposals. They are historical publication states, not current owner refusal."
+}

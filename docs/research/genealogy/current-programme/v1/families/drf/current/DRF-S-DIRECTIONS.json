@@ -1,0 +1,68 @@
+{
+  "schema": "scientific-json-storage-index/1",
+  "kind": "lossless-gzip-storage-index",
+  "logical_path": "docs/research/genealogy/current-programme/v1/families/drf/current/DRF-S-DIRECTIONS.json",
+  "payload": {
+    "href": "DRF-S-DIRECTIONS.json.gz",
+    "media_type": "application/json",
+    "content_encoding": "gzip",
+    "bytes": 2047288,
+    "sha256": "32d613e74bc1c88955021959f80b0a61fcc67a40be5e399dc96260fc097c54fa",
+    "git_blob_sha1": "d3512f9a89b4dfb2da3654da1b92351f65daa4f7",
+    "uncompressed": {
+      "bytes": 27481765,
+      "sha256": "f0355562e135c5dd8334c10fa931999147e0adb27c1b47002c4944dec90494f5",
+      "git_blob_sha1": "e987e4923d42a3260e72399f28d1757228a0337d"
+    }
+  },
+  "records": {
+    "json_pointer": "/directions",
+    "count": 16840
+  },
+  "original_metadata": {
+    "scientific_subject": "DRF A006",
+    "count": 16840,
+    "counts": {
+      "MATERIAL": 16277,
+      "BOUNDED_NO_MATERIAL_RELATION": 348,
+      "EXAMINED_UNRESOLVED": 215
+    },
+    "reading_rule": "The complete effective record and every factored scientific evidence record jointly govern each direction. Reverses are independent. Current arguments supersede only their declared predecessor fields; original source-state tokens remain historical."
+  },
+  "reading_rule": "This file is a storage index, not the scientific dataset. Decompress the sibling payload to recover the complete original JSON bytes. Original metadata and all payload references retain the interpretation and reference base of the original logical file location.",
+  "scientific_source_ids": [
+    "S-01be882d978f26e2",
+    "S-208d4eabb56f4d7e",
+    "S-2210f67f71fea3af",
+    "S-224863815ff7e39e",
+    "S-256c38a4559e6169",
+    "S-28b586884a8a2f02",
+    "S-32762d877b180e01",
+    "S-395eaf81fc1a22dc",
+    "S-3eb5d38af99afddd",
+    "S-469f458b4c0c7e53",
+    "S-51b3676c1da64aed",
+    "S-597421e7fff3cc10",
+    "S-669127fdaf1be1b3",
+    "S-6bf959e488d08c52",
+    "S-6e30c8e7bfc4b48f",
+    "S-6ea4b15c2edba149",
+    "S-7358a0aca652e2e3",
+    "S-7a0c4184ca82be88",
+    "S-7dc01cc5c35737fc",
+    "S-839eff080b2bc3d9",
+    "S-8783720533aed7e4",
+    "S-b0aaba82a632617c",
+    "S-c253124ccdf9d2b0",
+    "S-c3e34796a2ff3a2d",
+    "S-c56deab888d5efce",
+    "S-c6a727bbe3eb913a",
+    "S-c7c490b044380a76",
+    "S-ce9faaf73c06ae6a",
+    "S-d30b81371eec22d3",
+    "S-d4967b391f21755f",
+    "S-d9c7d327a46158c8",
+    "S-fd6883b60c80d0c9"
+  ],
+  "scientific_source_ids_location": "Each source_id in directions[].factored_scientific_evidence[] of the original dataset; identifiers only, not a new source qualification."
+}

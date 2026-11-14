@@ -1,0 +1,404 @@
+{
+  "schema": "source-specific-scientific-correction/1",
+  "unit": "AMA-S",
+  "assessment": {
+    "schema": "ama-r18-author-source-assessment/1",
+    "revision": "AMA-S-2026-11-13-r18_a002",
+    "at_utc": "2026-11-13T07:12:31.256979+00:00",
+    "state": "CORRECTED_WHOLE_AUTHOR_BODY_INTEGRATED_INDEPENDENT_REVIEWS_PENDING",
+    "standard": {
+      "path": "[local source location omitted]",
+      "bytes": 18451,
+      "sha256": "4cf99ef9b9f82b3e00ccde6de18e0834bd2f31fb3fa50c6b98e61372097391e6"
+    },
+    "standard_change": false,
+    "reason": "Two actual examination-to-memory operands satisfy unchanged §7 partial-input materiality. No native constituent is requalified.",
+    "parent_subject": {
+      "path": "[local source location omitted]",
+      "bytes": 53515,
+      "sha256": "84a912acff761a23bed92845ac0474ad06157e1f5c11b4fb1bfd3a35fc97c837"
+    },
+    "actual_final_adverse": {
+      "path": "[local source location omitted]",
+      "bytes": 21316,
+      "sha256": "5faf56de421fa4a1fd9547a441eb585b660486ad8e07e75dae09cf7ff2e3113a"
+    },
+    "decisions": [
+      {
+        "decision_id": "AMA-R18A2-C130-030",
+        "source": "EAOSE:EAOSE-C130",
+        "target": "EAA:EAA-030",
+        "disposition": "MATERIAL_GUARDED_PARTIAL_EVIDENCE_INPUT",
+        "source_native": {
+          "path": "[local source location omitted]",
+          "bytes": 11620182,
+          "sha256": "44a92b022f65fcd2905679a4d41adc7067f258bf304818cb8897620d0db02343",
+          "json_pointer": "/properties/129",
+          "native_id": "EAOSE-C130"
+        },
+        "source_qualification": {
+          "path": "[local source location omitted]",
+          "bytes": 264962,
+          "sha256": "16ac6321e732b5e445b33499c34c423a52f85a11c381f75984da829951887b08",
+          "json_pointer": "/properties/129",
+          "native_id": "EAOSE-C130"
+        },
+        "target_native": {
+          "path": "[local source location omitted]",
+          "bytes": 1572040,
+          "sha256": "2bc92691f2acd3d9aa61fc6b9ced44e420d90b2ac995c928704b6c62a76749c6",
+          "json_pointer": "/properties/29",
+          "native_id": "EAA-030"
+        },
+        "target_qualification": {
+          "path": "[local source location omitted]",
+          "bytes": 149639,
+          "sha256": "3aabc4da8b2374eaab9521afcd528c91de7257ccfb9b8f723d768f6a0b567a63",
+          "json_pointer": "/properties/29",
+          "native_id": "EAA-030"
+        },
+        "native_meanings": {
+          "source": "C130 isolates the waiting intention and asks the engineer/operator/task owner to examine actual responsiveness and explicit failure/resumption. Its criterion and examination rule permit a scoped assessment of an actual episode.",
+          "target": "EAA030 retains the origin and evidential status of consequential experience, separates observations and corrections from generated interpretations, and permits later observations or external checks to challenge the record."
+        },
+        "producer": "A criterion-matched examination of actual wait, reactive-arrival, handling and terminal events; an isolation label or an arbitrary stored log is insufficient.",
+        "produced_operand": "An interpreted episode assessment with evidence identity and bounded support, contradiction or unknown status.",
+        "carrier": {
+          "assessment": {
+            "path": "[local source location omitted]",
+            "bytes": 8629,
+            "sha256": "eb5dad14c45805d92c4372ca1423dea98527df8957b09b66c217e971d0be911f",
+            "json_pointer": "/assessments/blocked"
+          },
+          "retained_record": {
+            "path": "[local source location omitted]",
+            "bytes": 3620,
+            "sha256": "017b19847c7fe272bc8ec8855a1824099063d7b8759b18dd511876344de584ef",
+            "json_pointer": "/negative"
+          }
+        },
+        "actual_consumer": "The EAA030 curation operation consumes the matched assessment to qualify the retained generated claim; the later trial selector then consumes the serialized/reloaded qualified record.",
+        "changed_consequence": "The claim that unrelated events were handled during generation changes from INTERPRETATION_UNVERIFIED to CONTRADICTED_BY_THIS_BOUNDED_CHECK. The later consumer changes from needing a relevant check to revising the wait configuration before the next bounded trial. External action authority remains false.",
+        "joint_guard": "An actual C130 examination interprets observed wait/reactive and failure/resumption behavior against an independently stated, scoped criterion. The assessment and receiving record concern the same task, actor, runtime/version, episode, observation horizon and relevant obligation. Origin, interpretation, proposition-specific observation sufficiency, legitimate retention purpose and an actual future consumer are independently established. A complete observation interval is needed only where the asserted negative depends on absence throughout that interval; a witnessed positive event can support its narrower existential claim without certifying all obligations. Serialization preserves assessment, origin and limits and supplies no additional warrant. Action permission remains separate.",
+        "premise_discharged": "The bounded evidential qualification of this retained claim, through an actually consumed external check.",
+        "premises_still_open": "Legitimate access/retention, future purpose, reliable observation and interpretation, current applicability, completeness of any stronger claim, and all action permissions. The assessment does not originate the memory policy.",
+        "positive_case": "The isolated-wait case handles alarm and status while planning waits, and the retained record becomes consistent with that bounded check. This supports an observed opportunity, not all future deadlines.",
+        "failure_witness": "The blocked loop receives alarm at tick 2 and status at tick 4; neither is handled before resumption at tick 7. The matched adverse assessment contradicts the saved success claim and is actually consumed by the later selector.",
+        "boundary_and_nontrigger": "Wrong task, actor, runtime/version or episode supplies no qualification of this record. Missing interpretation or insufficient negative observation coverage leaves the relevant claim unknown. No legitimate future memory consumer can make retention unjustified even when the examination is useful.",
+        "countercontrol_and_alternative": "A scheduler using transient continuation state can preserve responsiveness without experience memory. An adequate current direct check can qualify the claim without this persistent carrier. A useful assessment need never be retained.",
+        "historical_error": "The old reverse negative tested whether memory is needed as an input to scheduling. Its source assessment additionally demanded that C130 create a full memory criterion or obligation. Neither defeats a partial examination-result input to existing memory curation.",
+        "reentry_condition": "Reassess if the actual assessment/record/consumer binding, interpretation, observation horizon, retention purpose or adequate alternative changes; do not infer a return from a forward relation alone.",
+        "evidence_ceiling": "This is a finite analytical examination-result interface. It does not prove every responsiveness obligation, deadlines, fairness, capacity, safe late-plan enactment, future applicability, whole memory validity or action authority. No JaKtA or LLM experiment, empirical replication, measured benefit, new property, or independent acceptance is claimed.",
+        "change_basis": [
+          "SCIENTIFIC_ERROR",
+          "NEW_EVIDENCE"
+        ],
+        "finding": "AMA-ADV17S5-F001",
+        "argument": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-030",
+          "orientation": "endpoint_to_memory",
+          "contribution": "An interpreted episode assessment with evidence identity and bounded support, contradiction or unknown status. The EAA030 curation operation consumes the matched assessment to qualify the retained generated claim; the later trial selector then consumes the serialized/reloaded qualified record. The claim that unrelated events were handled during generation changes from INTERPRETATION_UNVERIFIED to CONTRADICTED_BY_THIS_BOUNDED_CHECK. The later consumer changes from needing a relevant check to revising the wait configuration before the next bounded trial. External action authority remains false.",
+          "same_object_guard": "An actual C130 examination interprets observed wait/reactive and failure/resumption behavior against an independently stated, scoped criterion. The assessment and receiving record concern the same task, actor, runtime/version, episode, observation horizon and relevant obligation. Origin, interpretation, proposition-specific observation sufficiency, legitimate retention purpose and an actual future consumer are independently established. A complete observation interval is needed only where the asserted negative depends on absence throughout that interval; a witnessed positive event can support its narrower existential claim without certifying all obligations. Serialization preserves assessment, origin and limits and supplies no additional warrant. Action permission remains separate.",
+          "countercontrol_and_alternative": "A scheduler using transient continuation state can preserve responsiveness without experience memory. An adequate current direct check can qualify the claim without this persistent carrier. A useful assessment need never be retained.",
+          "remaining_premises_and_limit": "Legitimate access/retention, future purpose, reliable observation and interpretation, current applicability, completeness of any stronger claim, and all action permissions. The assessment does not originate the memory policy. This is a finite analytical examination-result interface. It does not prove every responsiveness obligation, deadlines, fairness, capacity, safe late-plan enactment, future applicability, whole memory validity or action authority. No JaKtA or LLM experiment, empirical replication, measured benefit, new property, or independent acceptance is claimed.",
+          "origin": "FINAL_ADVERSE_FINDING_INDIVIDUALLY_RECONCILED_BY_A002_AUTHOR",
+          "argument_id": "AMA-MEM18A2-A001",
+          "relation_id": "AMA-RQ-R18A2-M001",
+          "current_source_assessment_ref": "R18_SOURCE_ASSESSMENT.json#/decisions/0"
+        }
+      },
+      {
+        "decision_id": "AMA-R18A2-C130-031",
+        "source": "EAOSE:EAOSE-C130",
+        "target": "EAA:EAA-031",
+        "disposition": "MATERIAL_GUARDED_PARTIAL_EVIDENCE_INPUT",
+        "source_native": {
+          "path": "[local source location omitted]",
+          "bytes": 11620182,
+          "sha256": "44a92b022f65fcd2905679a4d41adc7067f258bf304818cb8897620d0db02343",
+          "json_pointer": "/properties/129",
+          "native_id": "EAOSE-C130"
+        },
+        "source_qualification": {
+          "path": "[local source location omitted]",
+          "bytes": 264962,
+          "sha256": "16ac6321e732b5e445b33499c34c423a52f85a11c381f75984da829951887b08",
+          "json_pointer": "/properties/129",
+          "native_id": "EAOSE-C130"
+        },
+        "target_native": {
+          "path": "[local source location omitted]",
+          "bytes": 1572040,
+          "sha256": "2bc92691f2acd3d9aa61fc6b9ced44e420d90b2ac995c928704b6c62a76749c6",
+          "json_pointer": "/properties/30",
+          "native_id": "EAA-031"
+        },
+        "target_qualification": {
+          "path": "[local source location omitted]",
+          "bytes": 149639,
+          "sha256": "3aabc4da8b2374eaab9521afcd528c91de7257ccfb9b8f723d768f6a0b567a63",
+          "json_pointer": "/properties/30",
+          "native_id": "EAA-031"
+        },
+        "native_meanings": {
+          "source": "The same C130 examination can yield a scope-specific validity cue for an identified episode; it creates neither retention purpose nor a general deletion rule.",
+          "target": "EAA031 retrieves by task relevance and validity and bounds or retires use when purpose, authority or applicability expires, while preserving required provenance and rare important contrary experience."
+        },
+        "producer": "The actual C130 criterion assessment of identified current or prior wait/reactive episodes.",
+        "produced_operand": "A relevant bounded validity/scope cue, including contradiction, insufficient interpretation, or applicability limited to a prior context.",
+        "carrier": {
+          "selection_inputs": {
+            "path": "[local source location omitted]",
+            "bytes": 13972,
+            "sha256": "2f62fe49d688be9bc8652acbce4739782ecf72441beeb33edd27e71802489c95"
+          },
+          "selected_record": {
+            "path": "[local source location omitted]",
+            "bytes": 1687,
+            "sha256": "382cf4b750bb15307dd9ca28339e9a576775f027f2e5f6df0f5863984a09ee4f"
+          }
+        },
+        "actual_consumer": "The independently specified EAA031 selection policy consumes the assessment keyed to each actual episode. A later review-queue consumer reads the serialized selection and places the rare adverse episode on its queue.",
+        "changed_consequence": "Four ordinary current episodes and the rare blocked episode remain eligible with their assessed statuses. The rare adverse witness is retained despite frequency imbalance; unknown and old-context entries are withheld from current evidence use while their origins remain. Without the matched assessment no checked eligibility is manufactured.",
+        "joint_guard": "An actual C130 examination interprets observed wait/reactive and failure/resumption behavior against an independently stated, scoped criterion. The assessment and receiving record concern the same task, actor, runtime/version, episode, observation horizon and relevant obligation. Origin, interpretation, proposition-specific observation sufficiency, legitimate retention purpose and an actual future consumer are independently established. A complete observation interval is needed only where the asserted negative depends on absence throughout that interval; a witnessed positive event can support its narrower existential claim without certifying all obligations. Serialization preserves assessment, origin and limits and supplies no additional warrant. Action permission remains separate. The selection policy separately identifies its current consumer, relevance/validity criteria, retention duties and the cost of losing rare contrary evidence.",
+        "premise_discharged": "A specific validity or applicability input to actual selection/current-use retirement, not the receiver policy as a whole.",
+        "premises_still_open": "Justified retention purpose and authority, current consumer, relevance/validity policy, preservation of required provenance and unresolved adverse evidence, and permission for any deletion or action. Age, frequency, retrieval relevance or an importance score alone supplies none of these.",
+        "positive_case": "Selection uses produced assessments of ordinary episodes and feeds a later review queue, with retained origins and explicit current-use boundaries.",
+        "failure_witness": "Forgetting the only blocked episode removes the adverse cue. Its absence warrants unknown evidence status, not a positive responsiveness conclusion. An uninterpreted generated success claim cannot replace it.",
+        "boundary_and_nontrigger": "A wrong episode, changed runtime, unmatched task/horizon or absent actual receiver blocks this use. A record can remain relevant despite age. Retirement from a current decision set does not mean destruction of the historical record or erasure of an adverse finding.",
+        "countercontrol_and_alternative": "No persistent store, a short fixed context or an adequate current direct check can serve the task. The scheduler needs no forgetting policy. Selection and storage are distinct operations; this return is not inferred from the EAA030 return.",
+        "historical_error": "The former reverse assessment required the scheduler to originate a selection/retirement criterion. EAA031 already supplies that policy problem; the actual examination contributes an operand that changes the specified selection.",
+        "reentry_condition": "Reassess when retention duties, consumer, current context, source interpretation or actual evidence use changes. Reopen if a valid contrary record is erased or relevance is conflated with truth.",
+        "evidence_ceiling": "This is a finite analytical examination-result interface. It does not prove every responsiveness obligation, deadlines, fairness, capacity, safe late-plan enactment, future applicability, whole memory validity or action authority. No JaKtA or LLM experiment, empirical replication, measured benefit, new property, or independent acceptance is claimed.",
+        "change_basis": [
+          "SCIENTIFIC_ERROR",
+          "NEW_EVIDENCE"
+        ],
+        "finding": "AMA-ADV17S5-F001",
+        "argument": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-031",
+          "orientation": "endpoint_to_memory",
+          "contribution": "A relevant bounded validity/scope cue, including contradiction, insufficient interpretation, or applicability limited to a prior context. The independently specified EAA031 selection policy consumes the assessment keyed to each actual episode. A later review-queue consumer reads the serialized selection and places the rare adverse episode on its queue. Four ordinary current episodes and the rare blocked episode remain eligible with their assessed statuses. The rare adverse witness is retained despite frequency imbalance; unknown and old-context entries are withheld from current evidence use while their origins remain. Without the matched assessment no checked eligibility is manufactured.",
+          "same_object_guard": "An actual C130 examination interprets observed wait/reactive and failure/resumption behavior against an independently stated, scoped criterion. The assessment and receiving record concern the same task, actor, runtime/version, episode, observation horizon and relevant obligation. Origin, interpretation, proposition-specific observation sufficiency, legitimate retention purpose and an actual future consumer are independently established. A complete observation interval is needed only where the asserted negative depends on absence throughout that interval; a witnessed positive event can support its narrower existential claim without certifying all obligations. Serialization preserves assessment, origin and limits and supplies no additional warrant. Action permission remains separate. The selection policy separately identifies its current consumer, relevance/validity criteria, retention duties and the cost of losing rare contrary evidence.",
+          "countercontrol_and_alternative": "No persistent store, a short fixed context or an adequate current direct check can serve the task. The scheduler needs no forgetting policy. Selection and storage are distinct operations; this return is not inferred from the EAA030 return.",
+          "remaining_premises_and_limit": "Justified retention purpose and authority, current consumer, relevance/validity policy, preservation of required provenance and unresolved adverse evidence, and permission for any deletion or action. Age, frequency, retrieval relevance or an importance score alone supplies none of these. This is a finite analytical examination-result interface. It does not prove every responsiveness obligation, deadlines, fairness, capacity, safe late-plan enactment, future applicability, whole memory validity or action authority. No JaKtA or LLM experiment, empirical replication, measured benefit, new property, or independent acceptance is claimed.",
+          "origin": "FINAL_ADVERSE_FINDING_INDIVIDUALLY_RECONCILED_BY_A002_AUTHOR",
+          "argument_id": "AMA-MEM18A2-A002",
+          "relation_id": "AMA-RQ-R18A2-M002",
+          "current_source_assessment_ref": "R18_SOURCE_ASSESSMENT.json#/decisions/1"
+        }
+      }
+    ],
+    "current_reverse_negatives": [],
+    "historical_reverse_negatives": [
+      {
+        "prior_index": 14,
+        "exact_judgment": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-030",
+          "orientation": "endpoint_to_memory",
+          "judgment": "NO_ADDITIONAL_OPERATIVE_DIRECTION_AT_EXAMINED_NATIVE_SCOPE",
+          "reason": "The native mechanism suspends a waiting plan-generation intention while the rest of the loop remains responsive. Persistent experience and selective forgetting are not identified as inputs to that scheduling mechanism.",
+          "countercontrol": "A runtime can implement the selected nonblocking wait using transient continuation state and an adequate current event loop, with no persistent experience store.",
+          "remaining_limit": "Preserve inherited shared-concern directions. A concrete future memory-mediated generation example would require its own actual interface evidence; scheduling and persistent memory are not equated."
+        },
+        "author_assessment": "The scheduler/evaluator produces no native origin-legitimacy, evidential-status or selection-retirement criterion in reverse. Actual observations can be retained, but that use does not identify a C130-produced obligation on EAA030/031. Retain the bounded negative without declaring a universal nonrelation."
+      },
+      {
+        "prior_index": 16,
+        "exact_judgment": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-031",
+          "orientation": "endpoint_to_memory",
+          "judgment": "NO_ADDITIONAL_OPERATIVE_DIRECTION_AT_EXAMINED_NATIVE_SCOPE",
+          "reason": "The native mechanism suspends a waiting plan-generation intention while the rest of the loop remains responsive. Persistent experience and selective forgetting are not identified as inputs to that scheduling mechanism.",
+          "countercontrol": "A runtime can implement the selected nonblocking wait using transient continuation state and an adequate current event loop, with no persistent experience store.",
+          "remaining_limit": "Preserve inherited shared-concern directions. A concrete future memory-mediated generation example would require its own actual interface evidence; scheduling and persistent memory are not equated."
+        },
+        "author_assessment": "The scheduler/evaluator produces no native origin-legitimacy, evidential-status or selection-retirement criterion in reverse. Actual observations can be retained, but that use does not identify a C130-produced obligation on EAA030/031. Retain the bounded negative without declaring a universal nonrelation."
+      }
+    ],
+    "prior_s004_partial": {
+      "path": "[local source location omitted]",
+      "bytes": 5948,
+      "sha256": "1a0a0a940645cf4bf2d52605d82e84605e5c03204f497c6454c5fabc58df08b2",
+      "scientific_verdict": null,
+      "final_scientific_review": false
+    },
+    "source_and_case_reconciliation": "Complete direct native EAA030/031 records and all C130 native scalar values with exact occurrence map; C130 constituent adjudication; entire original case source, inputs, execution, results and four serialized carrier bodies inspected. Original case executions are not replayed or counted as A002 experiments.",
+    "interpretation_nuance": "The recovered finite checker conservatively required a complete trace for its whole finite assessment. That construction does not establish a universal complete-trace requirement for every positive subclaim. Any narrower witnessed positive retains its narrower scope.",
+    "source_currentness": "121 parent files and 7448 logical dependency identities matched in streaming checks. Mechanical identity is not semantic reading or independent acceptance.",
+    "scientific_review_status": "UNQUALIFIED_NEW_WHOLE_SUBJECT_REQUIRES_SEQUENTIAL_FIDELITY_THEN_DISTINCT_ADVERSARIAL_REVIEW",
+    "new_domain_experiments": 0,
+    "old_program_replays": 0,
+    "independent_acceptance": false,
+    "forward_reconciliations": [
+      {
+        "relation_id": "AMA-RQ-R16S4-M014",
+        "historical_argument": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-030",
+          "orientation": "memory_to_endpoint",
+          "contribution": "EAA030 actually retains consequential observed experience with origin, evidential status and correction limits, separates it from generated interpretation, and delivers it to the named later native consumer. The reviewer runs isolated-wait, whole-loop-blocked, timeout, missing-reactive-capacity and no-concurrent-obligation episodes. Actual arrival/handling events discriminate preserved responsiveness from a blocking wait; an isolation label without capacity fails, and the synchronous no-obligation case is a nontrigger. The retained/selected carrier is actually consumed by the engineering evaluator, although the scheduler itself can run from transient state. The new author five-current-episode suite keeps the rare five-tick delay through selection and returns unknown if it is forgotten; that single contrary witness also suffices to refute the suite claim. A confirmed context update retires an old version only from current eligibility while preserving valid retrospective evaluation. This establishes a bounded forward evaluation operand and a separate EAA031 operation. Neither event generation nor scheduler observation produces native memory legitimacy or retirement authority in reverse.",
+          "same_object_guard": "EAA030 actually retains consequential observed experience with origin, evidential status and correction limits, separates it from generated interpretation, and delivers it to the named later native consumer. Truth, interpretation, applicability, proposition-specific evidence sufficiency and legitimate retention/use are independent premises. Origin hashes establish correspondence only; no authority to act is inferred. Independently state the current runtime, actual actor, concurrent obligations, evaluation horizon, criterion, observation interpretation, capacity and applicable failure/resumption paths. Establish legitimate retention and receiving use separately. Selection must retain relevant adverse events and justify expired-purpose exclusion. A source timestamp or plan-return label is not proof of safe late-plan enactment.",
+          "countercontrol_and_alternative": "Direct current event observation, an adequate current event loop or a prewritten plan can suffice. Synchronous execution is a valid nontrigger where no concurrent obligation exists; persistent memory needs its own justified future purpose.",
+          "remaining_premises_and_limit": "Transient continuation/current-loop state can implement the scheduling mechanism without persistent experience. Both C130-to-EAA030/EAA031 negatives remain bounded and unpromoted. No hard deadline, universal fairness, future reactive capacity, safe stale-plan use or whole-agent success follows.",
+          "origin": "REVIEW_IDENTIFIED_AMA-FID-R15-S4-F001_INDIVIDUALLY_AUTHOR_ADJUDICATED",
+          "argument_id": "AMA-MEM16S4-A014",
+          "relation_id": "AMA-RQ-R16S4-M014",
+          "current_source_assessment_ref": "R16_SOURCE_ASSESSMENT.json#/decisions/13"
+        },
+        "current_argument": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-030",
+          "orientation": "memory_to_endpoint",
+          "contribution": "EAA030 actually retains consequential observed experience with origin, evidential status and correction limits, separates it from generated interpretation, and delivers it to the named later native consumer. The reviewer runs isolated-wait, whole-loop-blocked, timeout, missing-reactive-capacity and no-concurrent-obligation episodes. Actual arrival/handling events discriminate preserved responsiveness from a blocking wait; an isolation label without capacity fails, and the synchronous no-obligation case is a nontrigger. The retained/selected carrier is actually consumed by the engineering evaluator, although the scheduler itself can run from transient state. The new author five-current-episode suite keeps the rare five-tick delay through selection and returns unknown if it is forgotten; that single contrary witness also suffices to refute the suite claim. A confirmed context update retires an old version only from current eligibility while preserving valid retrospective evaluation. This establishes a bounded forward evaluation operand and a separate EAA031 operation. Neither event generation nor scheduler observation produces native memory legitimacy or retirement authority in reverse.",
+          "same_object_guard": "EAA030 actually retains consequential observed experience with origin, evidential status and correction limits, separates it from generated interpretation, and delivers it to the named later native consumer. Truth, interpretation, applicability, proposition-specific evidence sufficiency and legitimate retention/use are independent premises. Origin hashes establish correspondence only; no authority to act is inferred. Independently state the current runtime, actual actor, concurrent obligations, evaluation horizon, criterion, observation interpretation, capacity and applicable failure/resumption paths. Establish legitimate retention and receiving use separately. Selection must retain relevant adverse events and justify expired-purpose exclusion. A source timestamp or plan-return label is not proof of safe late-plan enactment.",
+          "countercontrol_and_alternative": "Direct current event observation, an adequate current event loop or a prewritten plan can suffice. Synchronous execution is a valid nontrigger where no concurrent obligation exists; persistent memory needs its own justified future purpose.",
+          "remaining_premises_and_limit": "Transient continuation/current-loop state can implement the scheduling mechanism without persistent experience. The independently adjudicated C130 return inputs qualify retained evidence and selection under R18_SOURCE_ASSESSMENT.json; they create neither memory purpose nor action authority. No hard deadline, universal fairness, future reactive capacity, safe stale-plan use or whole-agent success follows.",
+          "origin": "REVIEW_IDENTIFIED_AMA-FID-R15-S4-F001_INDIVIDUALLY_AUTHOR_ADJUDICATED",
+          "argument_id": "AMA-MEM16S4-A014",
+          "relation_id": "AMA-RQ-R16S4-M014",
+          "current_source_assessment_ref": "R18_SOURCE_ASSESSMENT.json#/forward_reconciliations/0",
+          "r18_reverse_reconciliation": "Forward producer, carrier, receiving evaluation and all substantive forward guards remain. The separately warranted reverse is an examination-result input; no symmetry or sufficiency follows."
+        },
+        "original_source_assessment": "R16_SOURCE_ASSESSMENT.json#/decisions/13",
+        "judgment": "PRESERVED_FORWARD_MEANING_WITH_REPAIRED_CURRENT_REVERSE_ANNOTATION"
+      },
+      {
+        "relation_id": "AMA-RQ-R16S4-M015",
+        "historical_argument": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-031",
+          "orientation": "memory_to_endpoint",
+          "contribution": "EAA031 actually selects by task relevance, current validity and legitimate purpose from a mixed retained store, retires expired current eligibility while preserving necessary origin, and delivers the selected evidence to the named consumer. This is a separately executed operation, not the mere availability of EAA030 storage. The reviewer runs isolated-wait, whole-loop-blocked, timeout, missing-reactive-capacity and no-concurrent-obligation episodes. Actual arrival/handling events discriminate preserved responsiveness from a blocking wait; an isolation label without capacity fails, and the synchronous no-obligation case is a nontrigger. The retained/selected carrier is actually consumed by the engineering evaluator, although the scheduler itself can run from transient state. The new author five-current-episode suite keeps the rare five-tick delay through selection and returns unknown if it is forgotten; that single contrary witness also suffices to refute the suite claim. A confirmed context update retires an old version only from current eligibility while preserving valid retrospective evaluation. This establishes a bounded forward evaluation operand and a separate EAA031 operation. Neither event generation nor scheduler observation produces native memory legitimacy or retirement authority in reverse.",
+          "same_object_guard": "EAA031 actually selects by task relevance, current validity and legitimate purpose from a mixed retained store, retires expired current eligibility while preserving necessary origin, and delivers the selected evidence to the named consumer. This is a separately executed operation, not the mere availability of EAA030 storage. Truth, interpretation, applicability, proposition-specific evidence sufficiency and legitimate retention/use are independent premises. Origin hashes establish correspondence only; no authority to act is inferred. Independently state the current runtime, actual actor, concurrent obligations, evaluation horizon, criterion, observation interpretation, capacity and applicable failure/resumption paths. Establish legitimate retention and receiving use separately. Selection must retain relevant adverse events and justify expired-purpose exclusion. A source timestamp or plan-return label is not proof of safe late-plan enactment.",
+          "countercontrol_and_alternative": "Direct current event observation, an adequate current event loop or a prewritten plan can suffice. Synchronous execution is a valid nontrigger where no concurrent obligation exists; persistent memory needs its own justified future purpose.",
+          "remaining_premises_and_limit": "Transient continuation/current-loop state can implement the scheduling mechanism without persistent experience. Both C130-to-EAA030/EAA031 negatives remain bounded and unpromoted. No hard deadline, universal fairness, future reactive capacity, safe stale-plan use or whole-agent success follows.",
+          "origin": "REVIEW_IDENTIFIED_AMA-FID-R15-S4-F001_INDIVIDUALLY_AUTHOR_ADJUDICATED",
+          "argument_id": "AMA-MEM16S4-A015",
+          "relation_id": "AMA-RQ-R16S4-M015",
+          "current_source_assessment_ref": "R16_SOURCE_ASSESSMENT.json#/decisions/14"
+        },
+        "current_argument": {
+          "endpoint": "EAOSE:EAOSE-C130",
+          "memory": "EAA:EAA-031",
+          "orientation": "memory_to_endpoint",
+          "contribution": "EAA031 actually selects by task relevance, current validity and legitimate purpose from a mixed retained store, retires expired current eligibility while preserving necessary origin, and delivers the selected evidence to the named consumer. This is a separately executed operation, not the mere availability of EAA030 storage. The reviewer runs isolated-wait, whole-loop-blocked, timeout, missing-reactive-capacity and no-concurrent-obligation episodes. Actual arrival/handling events discriminate preserved responsiveness from a blocking wait; an isolation label without capacity fails, and the synchronous no-obligation case is a nontrigger. The retained/selected carrier is actually consumed by the engineering evaluator, although the scheduler itself can run from transient state. The new author five-current-episode suite keeps the rare five-tick delay through selection and returns unknown if it is forgotten; that single contrary witness also suffices to refute the suite claim. A confirmed context update retires an old version only from current eligibility while preserving valid retrospective evaluation. This establishes a bounded forward evaluation operand and a separate EAA031 operation. Neither event generation nor scheduler observation produces native memory legitimacy or retirement authority in reverse.",
+          "same_object_guard": "EAA031 actually selects by task relevance, current validity and legitimate purpose from a mixed retained store, retires expired current eligibility while preserving necessary origin, and delivers the selected evidence to the named consumer. This is a separately executed operation, not the mere availability of EAA030 storage. Truth, interpretation, applicability, proposition-specific evidence sufficiency and legitimate retention/use are independent premises. Origin hashes establish correspondence only; no authority to act is inferred. Independently state the current runtime, actual actor, concurrent obligations, evaluation horizon, criterion, observation interpretation, capacity and applicable failure/resumption paths. Establish legitimate retention and receiving use separately. Selection must retain relevant adverse events and justify expired-purpose exclusion. A source timestamp or plan-return label is not proof of safe late-plan enactment.",
+          "countercontrol_and_alternative": "Direct current event observation, an adequate current event loop or a prewritten plan can suffice. Synchronous execution is a valid nontrigger where no concurrent obligation exists; persistent memory needs its own justified future purpose.",
+          "remaining_premises_and_limit": "Transient continuation/current-loop state can implement the scheduling mechanism without persistent experience. The independently adjudicated C130 return inputs qualify retained evidence and selection under R18_SOURCE_ASSESSMENT.json; they create neither memory purpose nor action authority. No hard deadline, universal fairness, future reactive capacity, safe stale-plan use or whole-agent success follows.",
+          "origin": "REVIEW_IDENTIFIED_AMA-FID-R15-S4-F001_INDIVIDUALLY_AUTHOR_ADJUDICATED",
+          "argument_id": "AMA-MEM16S4-A015",
+          "relation_id": "AMA-RQ-R16S4-M015",
+          "current_source_assessment_ref": "R18_SOURCE_ASSESSMENT.json#/forward_reconciliations/1",
+          "r18_reverse_reconciliation": "Forward producer, carrier, receiving evaluation and all substantive forward guards remain. The separately warranted reverse is an examination-result input; no symmetry or sufficiency follows."
+        },
+        "original_source_assessment": "R16_SOURCE_ASSESSMENT.json#/decisions/14",
+        "judgment": "PRESERVED_FORWARD_MEANING_WITH_REPAIRED_CURRENT_REVERSE_ANNOTATION"
+      }
+    ],
+    "saved_observation_reconciliation": "R18_CASE_RECONCILIATION.json"
+  },
+  "actual_incidence": {
+    "schema": "ama-r18-whole-integration-owner/1",
+    "revision": "AMA-S-2026-11-13-r18_a002",
+    "at_utc": "2026-11-13T07:16:52.628831+00:00",
+    "source_assessment": "R18_SOURCE_ASSESSMENT.json",
+    "new_relation_ids": [
+      "AMA-RQ-R18A2-M001",
+      "AMA-RQ-R18A2-M002"
+    ],
+    "actual_incidence": [
+      {
+        "id": "AMA-F045",
+        "return_relations": [
+          "AMA-RQ-R18A2-M001"
+        ],
+        "meaning": "C130 and EAA030 are actual members; the retained claim can be qualified by examination. EAA031 remains absent."
+      },
+      {
+        "id": "AMA-F035",
+        "return_relations": [],
+        "meaning": "Runtime observation is relevant, but no memory endpoint is a member. Its existing monitoring concern is preserved without a new internal return."
+      },
+      {
+        "id": "AMA-F044",
+        "return_relations": [],
+        "meaning": "Generated-plan enforcement remains distinct. C130 membership alone does not establish a curation or selection member."
+      },
+      {
+        "id": "AMA-F052",
+        "return_relations": [],
+        "meaning": "Resource and responsiveness limits survive. The return supplies evidence elsewhere, not an extra resource or memory mechanism inside this profile."
+      },
+      {
+        "id": "AMA-K025",
+        "return_relations": [
+          "AMA-RQ-R18A2-M001"
+        ],
+        "meaning": "Only EAA030 and C130 coexist. The internal explanation adds curation feedback and does not add EAA031."
+      },
+      {
+        "id": "AMA-K020",
+        "return_relations": [],
+        "meaning": "Deployment monitoring may produce relevant assessments; current cluster membership has no memory endpoint and is unchanged."
+      },
+      {
+        "id": "AMA-K030",
+        "return_relations": [],
+        "meaning": "Bounded reasoning/responsiveness retains its direct-current-state alternative; no memory member is inserted."
+      },
+      {
+        "id": "AMA-CFG012",
+        "return_relations": [
+          "AMA-RQ-R18A2-M001",
+          "AMA-RQ-R18A2-M002"
+        ],
+        "meaning": "All three are conditional members; both separately guarded branches are explained. No required mechanism or whole-system assurance is added."
+      },
+      {
+        "id": "AMA-CFG005",
+        "return_relations": [],
+        "meaning": "C130 is present but the two memory properties are absent. Preserve the adequate current-state hybrid and describe any outside memory use as a separate interface."
+      },
+      {
+        "id": "AMA-B014",
+        "return_relations": [],
+        "meaning": "The Q14 bundle has C130 but no memory endpoint; its participating properties and internal relation list remain exact."
+      },
+      {
+        "id": "Q14",
+        "return_relations": [],
+        "meaning": "The correction qualifies a conditional memory use without changing this question support set or answering all operational-closure requirements."
+      },
+      {
+        "id": "AMA-CLAIM-Q14",
+        "return_relations": [],
+        "meaning": "No new memory premise is silently inserted into the claim. The bounded return is not whole-family effectiveness evidence."
+      }
+    ],
+    "novelty": [
+      {
+        "id": "AMA-N014",
+        "judgment": "RETAIN_RELATION_ONLY_OR_INHERITED_SUBSUMPTION",
+        "reason": "The new evidence route adds no criterion to N014. Its C130 parent still protects scoped responsive waiting; curation/selection instantiate existing EAA030/EAA031 criteria but those two properties are not inserted into N014 parent membership. An actual contradiction can qualify a record while plan validity, authority, external effects and whole generative closure remain unresolved.",
+        "removal": "Removing this C130 assessment removes this source of warrant; an adequate direct check can substitute. Removing memory removes the later retained-record route while the scheduling criterion survives. Removing the MAS lineage from this new EAA/EAOSE interface leaves the two demonstrated functions, so it establishes no three-lineage necessity. No full-parent-satisfaction witness of a residual criterion is produced.",
+        "history_limit": "The original twelve per-parent and three per-lineage entries are bounded reasoning, not complete reduced implementations. Their exact content, parent identities, subsumers and adverse examples remain."
+      },
+      {
+        "id": "AMA-RQ-N001",
+        "judgment": "RETAIN_RELATION_ONLY_OR_INHERITED_SUBSUMPTION",
+        "reason": "C130 is not a parent of this obligation-aware memory candidate. Its assessment can provide evidence to the already present EAA030/031 operations but supplies neither outstanding-work obligations nor legitimate custody or retention purpose. The candidate already separates remembered warrant, future consumer, retention and authority.",
+        "removal": "Replacing the local store with an adequate authorized external record preserves the relevant function. Removing this assessment leaves this piece of qualification unknown but need not defeat a sufficient direct check. Removing the legitimate consumer removes this retention reason subject to other duties. The original EAA/EMAS/EAOSE alternative routes remain; the C130 correction establishes no unique three-way property.",
+        "history_limit": "Preserve the original two functional and three lineage removals separately from later six-parent reasoning; no new empirical ablation or retrospective execution credit."
+      }
+    ],
+    "membership_rule": "No profile, cluster, bundle, configuration, native property, model-node or novelty-parent membership is changed. Two existing material pairs gain independently warranted returns.",
+    "preserved": "All native constituent records and qualifications, source occurrences/identities/families, 55 attribution negatives, 14 retained reverse annotations, r17 boundary input and its independent reverse, fixed-operation limits, contrary cases and failed execution history retain their exact original scopes.",
+    "scientific_limit": "Author integration and arithmetic do not confer independent acceptance. Sequential whole fidelity and a distinct adversarial review are still required on the same frozen successor."
+  },
+  "scientific_limit": "R17 GAP_REVISE and earlier null/partial review outcomes remain historical. This r18 correction and its review do not backdate acceptance."
+}

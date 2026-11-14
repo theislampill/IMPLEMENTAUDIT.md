@@ -1,0 +1,466 @@
+{
+  "source_identity": {
+    "source_id": "S-d04488c6ca35026f",
+    "scientific_name": "SB-R3-030_EA06_F9_REVERSE.json",
+    "original_bytes": 37936,
+    "original_sha256": "d04488c6ca35026f4773d3828622a096beb3f6d53f1aed8ed1a02533971a8672"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-030",
+    "title": "EA-06_REVERSE_INTEGRATION_AND_CONFIGURATION_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:40:37.543559+00:00",
+    "inquiry_family": 9,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_ORIGINAL_AGILE_ROW_AND_ACCEPTED_OVERLAY",
+      "COMPLETE_CURRENT_WATERFALL_ROW",
+      "ACTUAL_LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_007.json",
+      "bytes": 12364,
+      "sha256": "bb1119a087d6b0691dd0701b81c0638beee7881f7dad2ef323548dddb8314ada"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY9_NATIVE_MEANINGS.json",
+      "bytes": 151028,
+      "sha256": "f4113277f3aa84794b7ce823b2698d69ffcb4395b3793fd8b38a3b786406afa4"
+    },
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY9_SOURCE_INQUIRY.json",
+      "bytes": 4684,
+      "sha256": "9d06a0c2d8ec095f02b6ba760a21a39560a258b8064485cc5644f590d538cb45"
+    },
+    "bounded_interface_domain": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+    "native_common_basis": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required.",
+    "common_cost_and_alternative": "Charge design, execution, maintenance and flaky-check diagnosis; retain a targeted manual check, qualified analysis or no additional check where existing evidence is sufficient.",
+    "domain_horizon_authority": "Each member exact technical decision, configuration and actual authority; no universal process order or automatic exposure.",
+    "evidence_ceiling": "Conditional analytical partial-input relation. No empirical effect estimate, complete receiver entailment, legal applicability judgment, novelty or independent acceptance.",
+    "common_subconditions": {
+      "P1": "Actual common object and used receiving concern.",
+      "P2": "Complete native meanings support the specific input.",
+      "P3": "Literal input affects a receiving premise or its interpretation.",
+      "P4": "Missing premises, cost, cheaper alternative, nontrigger and stronger-claim counterexample remain explicit."
+    },
+    "inference": "The explicit contribution is material at its stated guard even when final action is confirmed rather than changed. Corresponding mechanisms may overlap; duplicate names, reused tests and common pipelines do not create additional benefit or independence.",
+    "attempted_contrary_interfaces": [
+      "Identical test behavior treated as unique artifact identity.",
+      "A green pipeline treated as exposure authority.",
+      "An approved model treated as actual deployed state.",
+      "The same test counted as independent evidence twice.",
+      "All evidence discarded after harmless change.",
+      "All evidence carried after a changed critical premise.",
+      "A trace link treated as proof of the linked claim."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-06",
+        "argument": "The versioned two-sided contract supplies semantic oracles and compatibility boundaries for selecting and interpreting regression checks."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-06",
+        "argument": "The anomaly record identifies the failure, affected versions and accepted residuals that the regression test must retain."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-06",
+        "argument": "Model version, semantics and validation boundaries identify the correct test object and delimit what regression agreement means."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-06",
+        "argument": "The pipeline supplies controlled execution, result provenance and receiving-decision linkage for justified regression evidence."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-06",
+        "overclaim": "Contract ownership cannot ensure that a test actually exercises the peer or covers all timing failures.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-06",
+        "overclaim": "Administrative closure supplies neither an executable check nor proof that the chosen oracle captures the defect.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-06",
+        "overclaim": "A digital-authority label cannot make an invalid oracle credible or remove the upkeep cost of tests.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-06",
+        "overclaim": "Automation of execution does not determine which regression checks are adequate or whether automation is economical.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition."
+      }
+    ],
+    "exceptions": [],
+    "author_challenge": "Each member has a separately written contribution and stronger-claim witness; reverse meanings were reasoned separately. This code only serializes and checks the literal set.",
+    "common_source_dependence": "Shared source works, configurations, models, observers, tests and pipelines are not independent assurance.",
+    "independent_review_scope": "Later fidelity and genuinely separate adversarial assessment must examine common premise, exact membership, native scope and controls; no author acceptance here.",
+    "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P009->LAW-L2::EA-06",
+      "LAW-L3::EW-P020->LAW-L2::EA-06",
+      "LAW-L3::EW-P030->LAW-L2::EA-06",
+      "LAW-L3::EW-P031->LAW-L2::EA-06"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-06",
+        "source_native_id": "EW-P009",
+        "receiving_native_id": "EA-06",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5",
+          "expected_native_id": "EA-06",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5",
+            "expected_native_id": "AGQ-EA-06"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+        },
+        "shared_question_or_object": "Repeated changes can regress a consequential interface contract.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required.",
+          "literal_bridge": "The versioned two-sided contract supplies semantic oracles and compatibility boundaries for selecting and interpreting regression checks."
+        },
+        "source_contribution": "The versioned two-sided contract supplies semantic oracles and compatibility boundaries for selecting and interpreting regression checks.",
+        "receiving_consequence": "The versioned two-sided contract supplies semantic oracles and compatibility boundaries for selecting and interpreting regression checks.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The versioned two-sided contract supplies semantic oracles and compatibility boundaries for selecting and interpreting regression checks."
+        ],
+        "premises_remaining": [
+          "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Contract ownership cannot ensure that a test actually exercises the peer or covers all timing failures.",
+        "counter_control": "Contract ownership cannot ensure that a test actually exercises the peer or covers all timing failures.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Charge design, execution, maintenance and flaky-check diagnosis; retain a targeted manual check, qualified analysis or no additional check where existing evidence is sufficient. A language type or contract test may suffice; include negotiation and supported-version costs.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "Repeated changes can regress a consequential interface contract.",
+          "P2": {
+            "source_bearer": "A consequential boundary between components or organizations",
+            "source_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+            "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+            "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+          },
+          "P3": "The versioned two-sided contract supplies semantic oracles and compatibility boundaries for selecting and interpreting regression checks.",
+          "P4": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Contract ownership cannot ensure that a test actually exercises the peer or covers all timing failures."
+        },
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P009",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P020->LAW-L2::EA-06",
+        "source_native_id": "EW-P020",
+        "receiving_native_id": "EA-06",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5",
+          "expected_native_id": "EA-06",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5",
+            "expected_native_id": "AGQ-EA-06"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+        },
+        "shared_question_or_object": "A known behavioral defect is claimed corrected on a new configuration.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+          "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required.",
+          "literal_bridge": "The anomaly record identifies the failure, affected versions and accepted residuals that the regression test must retain."
+        },
+        "source_contribution": "The anomaly record identifies the failure, affected versions and accepted residuals that the regression test must retain.",
+        "receiving_consequence": "The anomaly record identifies the failure, affected versions and accepted residuals that the regression test must retain.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The anomaly record identifies the failure, affected versions and accepted residuals that the regression test must retain."
+        ],
+        "premises_remaining": [
+          "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Administrative closure supplies neither an executable check nor proof that the chosen oracle captures the defect.",
+        "counter_control": "Administrative closure supplies neither an executable check nor proof that the chosen oracle captures the defect.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Charge design, execution, maintenance and flaky-check diagnosis; retain a targeted manual check, qualified analysis or no additional check where existing evidence is sufficient. A tracked issue and relevant regression check can suffice; administrative closure is not defect closure.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A known behavioral defect is claimed corrected on a new configuration.",
+          "P2": {
+            "source_bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "source_proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+            "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+            "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+          },
+          "P3": "The anomaly record identifies the failure, affected versions and accepted residuals that the regression test must retain.",
+          "P4": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Administrative closure supplies neither an executable check nor proof that the chosen oracle captures the defect."
+        },
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P020",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P030->LAW-L2::EA-06",
+        "source_native_id": "EW-P030",
+        "receiving_native_id": "EA-06",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5",
+          "expected_native_id": "EA-06",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5",
+            "expected_native_id": "AGQ-EA-06"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "An authoritative engineering model or digital environment",
+          "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+        },
+        "shared_question_or_object": "A governed model or digital engineering source contains repeatedly changed executable behavior.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "An authoritative engineering model or digital environment",
+          "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required.",
+          "literal_bridge": "Model version, semantics and validation boundaries identify the correct test object and delimit what regression agreement means."
+        },
+        "source_contribution": "Model version, semantics and validation boundaries identify the correct test object and delimit what regression agreement means.",
+        "receiving_consequence": "Model version, semantics and validation boundaries identify the correct test object and delimit what regression agreement means.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Model version, semantics and validation boundaries identify the correct test object and delimit what regression agreement means."
+        ],
+        "premises_remaining": [
+          "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "A digital-authority label cannot make an invalid oracle credible or remove the upkeep cost of tests.",
+        "counter_control": "A digital-authority label cannot make an invalid oracle credible or remove the upkeep cost of tests.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Charge design, execution, maintenance and flaky-check diagnosis; retain a targeted manual check, qualified analysis or no additional check where existing evidence is sufficient. Versioned native documents, source and tests may outperform a new platform; include migration, licensing and specialist upkeep.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A governed model or digital engineering source contains repeatedly changed executable behavior.",
+          "P2": {
+            "source_bearer": "An authoritative engineering model or digital environment",
+            "source_proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+            "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+            "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+          },
+          "P3": "Model version, semantics and validation boundaries identify the correct test object and delimit what regression agreement means.",
+          "P4": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: A digital-authority label cannot make an invalid oracle credible or remove the upkeep cost of tests."
+        },
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P030",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P031->LAW-L2::EA-06",
+        "source_native_id": "EW-P031",
+        "receiving_native_id": "EA-06",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/30",
+          "expected_native_id": "EW-P031"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/5",
+          "expected_native_id": "EA-06",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/5",
+            "expected_native_id": "AGQ-EA-06"
+          }
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+        },
+        "shared_question_or_object": "A recurring assurance pipeline relies on repeatable behavior checks after change.",
+        "guard": "The exact shared item, behavior, configuration, environment, time and used receiving concern stated in the member are established. The source contribution is actually connected to that concern with credible provenance, not merely imaginable tool use. A partial input can be material while other receiver premises remain open. Unknown correspondence is not an established false guard.",
+        "member_to_common_premise": {
+          "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+          "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+          "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+          "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required.",
+          "literal_bridge": "The pipeline supplies controlled execution, result provenance and receiving-decision linkage for justified regression evidence."
+        },
+        "source_contribution": "The pipeline supplies controlled execution, result provenance and receiving-decision linkage for justified regression evidence.",
+        "receiving_consequence": "The pipeline supplies controlled execution, result provenance and receiving-decision linkage for justified regression evidence.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The pipeline supplies controlled execution, result provenance and receiving-decision linkage for justified regression evidence."
+        ],
+        "premises_remaining": [
+          "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed.",
+          "Empirical net benefit, complete assurance, authority applicability and new-property identity are not inferred."
+        ],
+        "counterexample": "Automation of execution does not determine which regression checks are adequate or whether automation is economical.",
+        "counter_control": "Automation of execution does not determine which regression checks are adequate or whether automation is economical.",
+        "nontrigger": "The named actual object or receiving use is known absent, or the contribution concerns a different behavior/configuration. An unknown link remains unknown. This guard exclusion is not a global negative disposition.",
+        "specific_cost_and_limit": "Charge design, execution, maintenance and flaky-check diagnosis; retain a targeted manual check, qualified analysis or no additional check where existing evidence is sufficient. Manual or periodic evidence can be adequate at low cadence; automation adds upkeep and common-mode failure risk.",
+        "authority_limit": "Technical evidence and descriptive agreement do not themselves grant release, acceptance, risk waiver or implementation authority.",
+        "subcondition_evidence": {
+          "P1": "A recurring assurance pipeline relies on repeatable behavior checks after change.",
+          "P2": {
+            "source_bearer": "A pipeline producing or consuming recurring assurance evidence",
+            "source_proposition": "Continuous, configuration-linked evidence with explicit coverage limits, risk gates, monitoring and human/independent authority at consequential boundaries.",
+            "receiving_bearer": "Changes with reusable behavioral checks and consequential regression exposure.",
+            "receiving_criterion": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required."
+          },
+          "P3": "The pipeline supplies controlled execution, result provenance and receiving-decision linkage for justified regression evidence.",
+          "P4": "Repeatable checks can expose consequential regressions at the levels they actually exercise. Automation is conditional on credible oracles, repeated use and economics; TDD is not universally required. Fulfillment of the whole Agile mechanism remains separately assessed. Stronger-claim witness: Automation of execution does not determine which regression checks are adequate or whether automation is economical."
+        },
+        "reverse_direction_key": "LAW-L2::EA-06->LAW-L3::EW-P031",
+        "reentry": "Reopen affected members when the artifact, environment, dependency, oracle, claim, risk, authority or actual receiving use changes. Reuse unaffected evidence only while its premises remain valid; no blanket recertification or blanket carryover. Do not infer reverse, transitive or independent support from one accepted direction."
+      }
+    ]
+  }
+}

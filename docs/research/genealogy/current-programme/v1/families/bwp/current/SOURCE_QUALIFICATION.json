@@ -1,0 +1,288 @@
+{
+  "schema": "public-source-scientific-qualification/1",
+  "family": "BWP",
+  "units": [
+    {
+      "unit_id": "BWP-L1",
+      "family": "BWP",
+      "kind": "lineage",
+      "name": "Business Process Management",
+      "lineage_identity": "EVOLVED_BUSINESS_PROCESS_MANAGEMENT",
+      "historical_property_rows": 73,
+      "selected_property_identities": 73,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc",
+        "bytes": 19496
+      },
+      "qualification_receipt": {
+        "sha256": "51260ea5933922412cc4087fa7d69a1f45f79ae323b5a435bfa01b58626ad4fa",
+        "bytes": 9969
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "bcd548137953c251efe263fa8b8343791a2288c6c3ff201ea0daadb3e54c1ee7",
+            "bytes": 11114
+          },
+          "accepted_subject_sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "36a91fe649d63cd6967f09be2756f6f7bac37c0a3665fe8fc72c3815c8612af3",
+            "bytes": 16227
+          },
+          "accepted_subject_sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc",
+          "bytes": 19496,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "51260ea5933922412cc4087fa7d69a1f45f79ae323b5a435bfa01b58626ad4fa",
+          "bytes": 9969,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "bcd548137953c251efe263fa8b8343791a2288c6c3ff201ea0daadb3e54c1ee7",
+          "bytes": 11114,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "36a91fe649d63cd6967f09be2756f6f7bac37c0a3665fe8fc72c3815c8612af3",
+          "bytes": 16227,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    },
+    {
+      "unit_id": "BWP-L2",
+      "family": "BWP",
+      "kind": "lineage",
+      "name": "Workflow Management",
+      "lineage_identity": "EVOLVED_WORKFLOW_MANAGEMENT",
+      "historical_property_rows": 77,
+      "selected_property_identities": 77,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab",
+        "bytes": 32198
+      },
+      "qualification_receipt": {
+        "sha256": "e7bc375197e49f01726ca725dedf6921557c86ef48492f375aff6b0b7a57d135",
+        "bytes": 9721
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "8a66ae7f4158ff7934784b0680e1294106288960f04a92d6ad94b07049be1c03",
+            "bytes": 14347
+          },
+          "accepted_subject_sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "4f5c6766ff03ac13a481bc6815c086087897a72046a6ea0a92a74c7147dcfb48",
+            "bytes": 25501
+          },
+          "accepted_subject_sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab",
+          "bytes": 32198,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "e7bc375197e49f01726ca725dedf6921557c86ef48492f375aff6b0b7a57d135",
+          "bytes": 9721,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "8a66ae7f4158ff7934784b0680e1294106288960f04a92d6ad94b07049be1c03",
+          "bytes": 14347,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "4f5c6766ff03ac13a481bc6815c086087897a72046a6ea0a92a74c7147dcfb48",
+          "bytes": 25501,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    },
+    {
+      "unit_id": "BWP-L3",
+      "family": "BWP",
+      "kind": "lineage",
+      "name": "Process Mining",
+      "lineage_identity": "EVOLVED_PROCESS_MINING",
+      "historical_property_rows": 84,
+      "selected_property_identities": 84,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "central_cohort_A",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d",
+        "bytes": 24924
+      },
+      "qualification_receipt": {
+        "sha256": "c2bd03f55f3aa1fd501b9963a737da9e701ac90e4da4117e1d7596b22961d6ac",
+        "bytes": 19772
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "dd8e3346072c11f4b58071f417f0e3c87b76a5624cb15eb679db8fb6d0c4fae9",
+            "bytes": 12952
+          },
+          "accepted_subject_sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "1aa353f1a91fa10a094237e008020588b64d8615449fad64923d6b35b7954141",
+            "bytes": 38385
+          },
+          "accepted_subject_sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d",
+          "reported_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d",
+          "bytes": 24924,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "c2bd03f55f3aa1fd501b9963a737da9e701ac90e4da4117e1d7596b22961d6ac",
+          "bytes": 19772,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "dd8e3346072c11f4b58071f417f0e3c87b76a5624cb15eb679db8fb6d0c4fae9",
+          "bytes": 12952,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "1aa353f1a91fa10a094237e008020588b64d8615449fad64923d6b35b7954141",
+          "bytes": 38385,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    },
+    {
+      "unit_id": "BWP-S",
+      "family": "BWP",
+      "kind": "synthesis",
+      "name": "BWP synthesis",
+      "lineage_identity": null,
+      "historical_property_rows": 234,
+      "selected_property_identities": 234,
+      "scientific_status": "qualified_at_declared_scope",
+      "qualification_origin": "local_cohort_B",
+      "reported_disposition": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+        "bytes": 46181
+      },
+      "qualification_receipt": {
+        "sha256": "df68381df01150adcc9776ab294cdd7d27d0e12102878511add089bf44b62044",
+        "bytes": 12480
+      },
+      "accepted_reviews": [
+        {
+          "role": "fidelity",
+          "receipt": {
+            "sha256": "fcecaf4f7d0cb81db4660019246ae5df6f1c958fc9f18039a68b659ae251a9c0",
+            "bytes": 9253
+          },
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        },
+        {
+          "role": "adversarial",
+          "receipt": {
+            "sha256": "236f63bc16dcb7564770f8297e033009a0ef04493f5bb40791606ed5c258216f",
+            "bytes": 10511
+          },
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+          "reported_verdict": "ACCEPT",
+          "receipt_bytes_verified": true
+        }
+      ],
+      "limitations": [],
+      "fresh_identity_readback": [
+        {
+          "role": "subject",
+          "sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+          "bytes": 46181,
+          "actual_receiving_file": "SCIENTIFIC_SUBJECT.json"
+        },
+        {
+          "role": "qualification",
+          "sha256": "df68381df01150adcc9776ab294cdd7d27d0e12102878511add089bf44b62044",
+          "bytes": 12480,
+          "actual_receiving_file": "QUALIFICATION.json"
+        },
+        {
+          "role": "fidelity",
+          "sha256": "fcecaf4f7d0cb81db4660019246ae5df6f1c958fc9f18039a68b659ae251a9c0",
+          "bytes": 9253,
+          "actual_receiving_file": "FINAL_REVIEW_1.json"
+        },
+        {
+          "role": "adversarial",
+          "sha256": "236f63bc16dcb7564770f8297e033009a0ef04493f5bb40791606ed5c258216f",
+          "bytes": 10511,
+          "actual_receiving_file": "FINAL_REVIEW_2.json"
+        }
+      ],
+      "new_presentation_scope": "Historical scientific acceptance identifies the source. This normalization is a separate documentary candidate; no new science, operational result, native acceptance or fresh full-primary-source reading is asserted."
+    }
+  ],
+  "source": "Immutable programme identity records plus exact recovered original subject and receipt bytes.",
+  "historical_disclosure_status": "Old pending fields remain in the immutable programme and original proposals. They are historical publication states, not current owner refusal."
+}

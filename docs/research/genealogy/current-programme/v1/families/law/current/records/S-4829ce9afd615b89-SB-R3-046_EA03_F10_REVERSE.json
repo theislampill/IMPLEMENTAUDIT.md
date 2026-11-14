@@ -1,0 +1,1046 @@
+{
+  "source_identity": {
+    "source_id": "S-4829ce9afd615b89",
+    "scientific_name": "SB-R3-046_EA03_F10_REVERSE.json",
+    "original_bytes": 77381,
+    "original_sha256": "4829ce9afd615b890b92e92c302b94d9fbf3d46e2270198dc58d266f05484ee9"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-046",
+    "title": "EA-03_REVERSE_FEEDBACK_RISK_AND_COMMITMENT",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:48:40.331756+00:00",
+    "inquiry_family": 10,
+    "disposition": "MATERIAL",
+    "direction": "reverse",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L2": {
+        "scientific_subject": {
+          "path": "work/agile/SCIENTIFIC_MANIFEST.json",
+          "bytes": 10189,
+          "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L2_AGILE_QUALIFICATION_v1.json",
+          "bytes": 7896,
+          "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_fidelity_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/agile_adversarial_v1/REVIEW_RECEIPT.json",
+            "receipt_sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          }
+        ]
+      },
+      "LAW-L3": {
+        "scientific_subject": {
+          "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+          "bytes": 5580,
+          "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+        },
+        "selected_certificate": {
+          "path": "campaign/qualifications/LAW_L3_WATERFALL_QUALIFICATION_v1.json",
+          "bytes": 5024,
+          "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+        },
+        "final_reviews": [
+          {
+            "role": "FIDELITY_COMPLETENESS",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_fidelity_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          {
+            "role": "ADVERSARIAL",
+            "reviewer_context": "[custody locator omitted; scientific source identity retained]",
+            "accepted_subject_sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13",
+            "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+            "receipt_path": "work/waterfall_adversarial_r3/REVIEW_RECEIPT.json",
+            "receipt_sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          }
+        ]
+      }
+    },
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_008.json",
+      "bytes": 2084,
+      "sha256": "82042b597cb17c68a4e79f9232ee2ec6daa967b77de7ca0614efea4eda272ed6"
+    },
+    "native_adapter": {
+      "path": "research/FAMILY10_FIRST44_NATIVE_MEANINGS.json",
+      "bytes": 98789,
+      "sha256": "fafdc618938accf52399b4c6ede5de4b9bfaca6c74ee9a34581aec14a5cae22a"
+    },
+    "literal_argument_carrier": {
+      "path": "research/FAMILY10_EA01_EA03_LITERAL_ARGUMENTS.json",
+      "bytes": 16236,
+      "sha256": "3e808f45c2b962c1be0c57395a0d0f0cace30473ddc53b03a079a26fac33eddd"
+    },
+    "bounded_interface_domain": [
+      "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+      "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+      "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+      "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+      "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+    ],
+    "native_common_basis": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+    "common_cost_and_alternative": [
+      "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+      "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+      "No addition is warranted solely because another named method could be introduced.",
+      "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+    ],
+    "evidence_ceiling": "Conditional root analytical arguments from exact accepted native mechanisms. No new primary-body access, empirical effect, universal cadence, independent review, new property identity or scientific qualification claimed.",
+    "common_subconditions": {
+      "P1": "Actual common question, object and receiving use.",
+      "P2": "Exact native meaning and accepted overlay.",
+      "P3": "The separately reasoned partial consequence.",
+      "P4": "Counterexample, absent guard, remaining premises, cost, alternative and reentry."
+    },
+    "inference": "The specified partial input can materially change a decision premise or warrant even when the action is confirmed. No universal cadence, symmetric equivalence, temporal chain or requirement to add a new control follows.",
+    "common_source_dependence": "Shared evidence, method ancestry, prototype or model is not independent support twice.",
+    "exceptions": [],
+    "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-03",
+        "argument": "The operative requirement, unresolved assumptions and authority identify the intended outcome and dependencies whose risk is being prioritized."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-03",
+        "argument": "Explicit uncertainty, evidence needs and decision deadlines make a risk-priority judgment refer to concrete unknowns rather than a vague risk label."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-03",
+        "argument": "Architectural budgets, quality scenarios and dependencies make the potential loss and discriminating feasibility question concrete for sequencing."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-03",
+        "argument": "A representative executable investigation supplies information that can retire, reduce or confirm the need to manage the named risk."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-03",
+        "argument": "Context-valid evidence about real use supplies a concrete wrong-system risk or confirms the scoped need before further investment."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-03",
+        "argument": "Actual decision rights, commitment timing and feasible options constrain what risk work must be completed before reliance."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-03",
+        "argument": "The actual separable commitment and option structure determine where the claimed risk reduction can still alter the investment path."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-03",
+        "argument": "Actual system boundaries and evidence dependencies constrain the admissible risk-driven order across increments and levels."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-03",
+        "argument": "Actual context, obligations and allowed tailoring constrain the permissible effort and authority for risk-driven investigation."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-03",
+        "argument": "Cost, lead-time and uncertainty ranges make the prospective loss and delay cost explicit when ordering risk work against value and dependencies."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-03",
+        "argument": "Consequence, reversibility, coupling and actual obligations constrain acceptable sequencing and the remaining residual-risk decision."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-03",
+        "overclaim": "An authoritative requirement baseline can be wrong and cannot itself supply a credible risk estimate.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-03",
+        "overclaim": "Listing unknowns cannot determine their consequence or establish that highest-risk-first always beats a binding dependency or deadline.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-03",
+        "overclaim": "A speculative architecture model cannot establish a universal risk ranking or justify indefinite analysis.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-03",
+        "overclaim": "A failed prototype with an unrepresentative environment may not defeat the actual option, and a successful one does not eliminate all risk.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-03",
+        "overclaim": "A few favorable user observations do not resolve all population, strategic or long-term outcome uncertainty.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-03",
+        "overclaim": "An approval meeting does not make the risk estimate credible or require every risk to be eliminated.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-03",
+        "overclaim": "Staging alone does not provide a discriminating experiment or ensure that preserving an option is worth its cost.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-03",
+        "overclaim": "Lifecycle flexibility does not establish an optimal sequence or defeat a valid predominantly staged path for low-uncertainty work.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-03",
+        "overclaim": "A tailoring document cannot calibrate an unsupported risk score or establish net benefit from more analysis.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-03",
+        "overclaim": "A forecast can quantify stated assumptions without proving their truth or making every risky activity first in the schedule.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-03",
+        "overclaim": "A broad consequence band does not determine a unique numerical threshold, optimum control or universal ordering rule.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows."
+      }
+    ],
+    "explicit_member_keys": [
+      "LAW-L3::EW-P001->LAW-L2::EA-03",
+      "LAW-L3::EW-P002->LAW-L2::EA-03",
+      "LAW-L3::EW-P003->LAW-L2::EA-03",
+      "LAW-L3::EW-P004->LAW-L2::EA-03",
+      "LAW-L3::EW-P012->LAW-L2::EA-03",
+      "LAW-L3::EW-P021->LAW-L2::EA-03",
+      "LAW-L3::EW-P022->LAW-L2::EA-03",
+      "LAW-L3::EW-P023->LAW-L2::EA-03",
+      "LAW-L3::EW-P024->LAW-L2::EA-03",
+      "LAW-L3::EW-P025->LAW-L2::EA-03",
+      "LAW-L3::EW-P033->LAW-L2::EA-03"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P001->LAW-L2::EA-03",
+        "source_native_id": "EW-P001",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "An uncertain requirement could invalidate expensive dependent work.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A shared engineering intent state",
+          "source_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The operative requirement, unresolved assumptions and authority identify the intended outcome and dependencies whose risk is being prioritized.",
+        "receiving_consequence": "The operative requirement, unresolved assumptions and authority identify the intended outcome and dependencies whose risk is being prioritized.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The operative requirement, unresolved assumptions and authority identify the intended outcome and dependencies whose risk is being prioritized."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An authoritative requirement baseline can be wrong and cannot itself supply a credible risk estimate.",
+        "counter_control": "An authoritative requirement baseline can be wrong and cannot itself supply a credible risk estimate.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P001",
+        "member_to_common_premise": {
+          "source_bearer": "A shared engineering intent state",
+          "source_criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "An uncertain requirement could invalidate expensive dependent work.",
+          "literal_bridge": "The operative requirement, unresolved assumptions and authority identify the intended outcome and dependencies whose risk is being prioritized."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P002->LAW-L2::EA-03",
+        "source_native_id": "EW-P002",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/1",
+          "expected_native_id": "EW-P002"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "Several unresolved assumptions compete for limited investigation effort.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "source_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Explicit uncertainty, evidence needs and decision deadlines make a risk-priority judgment refer to concrete unknowns rather than a vague risk label.",
+        "receiving_consequence": "Explicit uncertainty, evidence needs and decision deadlines make a risk-priority judgment refer to concrete unknowns rather than a vague risk label.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Explicit uncertainty, evidence needs and decision deadlines make a risk-priority judgment refer to concrete unknowns rather than a vague risk label."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Listing unknowns cannot determine their consequence or establish that highest-risk-first always beats a binding dependency or deadline.",
+        "counter_control": "Listing unknowns cannot determine their consequence or establish that highest-risk-first always beats a binding dependency or deadline.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P002",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential assumption in a development commitment",
+          "source_criterion": "An uncertain premise is distinguished from an agreed requirement, with a proportionate learning action and a decision that depends on the result.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "Several unresolved assumptions compete for limited investigation effort.",
+          "literal_bridge": "Explicit uncertainty, evidence needs and decision deadlines make a risk-priority judgment refer to concrete unknowns rather than a vague risk label."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P003->LAW-L2::EA-03",
+        "source_native_id": "EW-P003",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/2",
+          "expected_native_id": "EW-P003"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "A coupled architectural decision may create costly irreversible rework.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Architectural budgets, quality scenarios and dependencies make the potential loss and discriminating feasibility question concrete for sequencing.",
+        "receiving_consequence": "Architectural budgets, quality scenarios and dependencies make the potential loss and discriminating feasibility question concrete for sequencing.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Architectural budgets, quality scenarios and dependencies make the potential loss and discriminating feasibility question concrete for sequencing."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A speculative architecture model cannot establish a universal risk ranking or justify indefinite analysis.",
+        "counter_control": "A speculative architecture model cannot establish a universal risk ranking or justify indefinite analysis.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P003",
+        "member_to_common_premise": {
+          "source_bearer": "An architectural or feasibility commitment with substantial downstream coupling",
+          "source_criterion": "Before an expensive commitment, architecture addresses the high-consequence feasibility and interface risks at the evidence level needed for that commitment.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "A coupled architectural decision may create costly irreversible rework.",
+          "literal_bridge": "Architectural budgets, quality scenarios and dependencies make the potential loss and discriminating feasibility question concrete for sequencing."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P004->LAW-L2::EA-03",
+        "source_native_id": "EW-P004",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/3",
+          "expected_native_id": "EW-P004"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "A risky assumption can be examined before expensive dependent commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "A representative executable investigation supplies information that can retire, reduce or confirm the need to manage the named risk.",
+        "receiving_consequence": "A representative executable investigation supplies information that can retire, reduce or confirm the need to manage the named risk.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "A representative executable investigation supplies information that can retire, reduce or confirm the need to manage the named risk."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A failed prototype with an unrepresentative environment may not defeat the actual option, and a successful one does not eliminate all risk.",
+        "counter_control": "A failed prototype with an unrepresentative environment may not defeat the actual option, and a successful one does not eliminate all risk.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P004",
+        "member_to_common_premise": {
+          "source_bearer": "An unresolved engineering risk amenable to executable investigation",
+          "source_criterion": "A prototype, pilot, simulation or thin increment answers a specified risk question and changes the next commitment.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "A risky assumption can be examined before expensive dependent commitment.",
+          "literal_bridge": "A representative executable investigation supplies information that can retire, reduce or confirm the need to manage the named risk."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P012->LAW-L2::EA-03",
+        "source_native_id": "EW-P012",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/11",
+          "expected_native_id": "EW-P012"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "A product investment could fail because intended users or operating conditions were misunderstood.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A system or concept in its intended use and operating context",
+          "source_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Context-valid evidence about real use supplies a concrete wrong-system risk or confirms the scoped need before further investment.",
+        "receiving_consequence": "Context-valid evidence about real use supplies a concrete wrong-system risk or confirms the scoped need before further investment.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Context-valid evidence about real use supplies a concrete wrong-system risk or confirms the scoped need before further investment."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A few favorable user observations do not resolve all population, strategic or long-term outcome uncertainty.",
+        "counter_control": "A few favorable user observations do not resolve all population, strategic or long-term outcome uncertainty.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P012",
+        "member_to_common_premise": {
+          "source_bearer": "A system or concept in its intended use and operating context",
+          "source_criterion": "Evidence addresses stakeholder needs and use conditions, even if every stated requirement is verified.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "A product investment could fail because intended users or operating conditions were misunderstood.",
+          "literal_bridge": "Context-valid evidence about real use supplies a concrete wrong-system risk or confirms the scoped need before further investment."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P021->LAW-L2::EA-03",
+        "source_native_id": "EW-P021",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/20",
+          "expected_native_id": "EW-P021"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "A commitment review must decide whether consequential uncertainty has been sufficiently addressed.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "source_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Actual decision rights, commitment timing and feasible options constrain what risk work must be completed before reliance.",
+        "receiving_consequence": "Actual decision rights, commitment timing and feasible options constrain what risk work must be completed before reliance.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual decision rights, commitment timing and feasible options constrain what risk work must be completed before reliance."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "An approval meeting does not make the risk estimate credible or require every risk to be eliminated.",
+        "counter_control": "An approval meeting does not make the risk estimate credible or require every risk to be eliminated.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P021",
+        "member_to_common_premise": {
+          "source_bearer": "A decision that commits substantial resources or exposure",
+          "source_criterion": "Evidence and open risks can change the go, redirect, hold or stop decision made by an empowered actor.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "A commitment review must decide whether consequential uncertainty has been sufficiently addressed.",
+          "literal_bridge": "Actual decision rights, commitment timing and feasible options constrain what risk work must be completed before reliance."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L2::EA-03",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "A sequence of investments can expose a risky assumption before a larger commitment.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "source_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "The actual separable commitment and option structure determine where the claimed risk reduction can still alter the investment path.",
+        "receiving_consequence": "The actual separable commitment and option structure determine where the claimed risk reduction can still alter the investment path.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "The actual separable commitment and option structure determine where the claimed risk reduction can still alter the investment path."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Staging alone does not provide a discriminating experiment or ensure that preserving an option is worth its cost.",
+        "counter_control": "Staging alone does not provide a discriminating experiment or ensure that preserving an option is worth its cost.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P022",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "source_criterion": "Learning and retained options constrain how much is committed before the next risk-relevant result.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "A sequence of investments can expose a risky assumption before a larger commitment.",
+          "literal_bridge": "The actual separable commitment and option structure determine where the claimed risk reduction can still alter the investment path."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P023->LAW-L2::EA-03",
+        "source_native_id": "EW-P023",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/22",
+          "expected_native_id": "EW-P023"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "Different levels of a system carry different risk and evidence dependencies.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "source_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Actual system boundaries and evidence dependencies constrain the admissible risk-driven order across increments and levels.",
+        "receiving_consequence": "Actual system boundaries and evidence dependencies constrain the admissible risk-driven order across increments and levels.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual system boundaries and evidence dependencies constrain the admissible risk-driven order across increments and levels."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "Lifecycle flexibility does not establish an optimal sequence or defeat a valid predominantly staged path for low-uncertainty work.",
+        "counter_control": "Lifecycle flexibility does not establish an optimal sequence or defeat a valid predominantly staged path for low-uncertainty work.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P023",
+        "member_to_common_premise": {
+          "source_bearer": "The application of lifecycle processes to a changing or hierarchical system",
+          "source_criterion": "Processes may iterate, overlap and recur at appropriate levels while their actual evidence dependencies remain satisfied.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "Different levels of a system carry different risk and evidence dependencies.",
+          "literal_bridge": "Actual system boundaries and evidence dependencies constrain the admissible risk-driven order across increments and levels."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P024->LAW-L2::EA-03",
+        "source_native_id": "EW-P024",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/23",
+          "expected_native_id": "EW-P024"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "Investigation and assurance effort must be allocated to consequential uncertainties.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "source_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Actual context, obligations and allowed tailoring constrain the permissible effort and authority for risk-driven investigation.",
+        "receiving_consequence": "Actual context, obligations and allowed tailoring constrain the permissible effort and authority for risk-driven investigation.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Actual context, obligations and allowed tailoring constrain the permissible effort and authority for risk-driven investigation."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A tailoring document cannot calibrate an unsupported risk score or establish net benefit from more analysis.",
+        "counter_control": "A tailoring document cannot calibrate an unsupported risk score or establish net benefit from more analysis.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P024",
+        "member_to_common_premise": {
+          "source_bearer": "Selection of assurance activities for a context",
+          "source_criterion": "The chosen controls satisfy binding obligations and address consequential risks with justified omissions, alternatives and retirement conditions.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "Investigation and assurance effort must be allocated to consequential uncertainties.",
+          "literal_bridge": "Actual context, obligations and allowed tailoring constrain the permissible effort and authority for risk-driven investigation."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L2::EA-03",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "A commitment forecast depends on uncertain feasibility, cost or delay.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "source_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Cost, lead-time and uncertainty ranges make the prospective loss and delay cost explicit when ordering risk work against value and dependencies.",
+        "receiving_consequence": "Cost, lead-time and uncertainty ranges make the prospective loss and delay cost explicit when ordering risk work against value and dependencies.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Cost, lead-time and uncertainty ranges make the prospective loss and delay cost explicit when ordering risk work against value and dependencies."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A forecast can quantify stated assumptions without proving their truth or making every risky activity first in the schedule.",
+        "counter_control": "A forecast can quantify stated assumptions without proving their truth or making every risky activity first in the schedule.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P025",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "source_criterion": "Ranges, reference evidence, assumptions and updates communicate uncertainty sufficiently for the decision rather than implying certainty.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "A commitment forecast depends on uncertain feasibility, cost or delay.",
+          "literal_bridge": "Cost, lead-time and uncertainty ranges make the prospective loss and delay cost explicit when ordering risk work against value and dependencies."
+        }
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L2::EA-03",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EA-03",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "inputs/repository/e78f7cb21af4197d490f10bc95917a4c75f748aa/docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+          "bytes": 96057,
+          "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+          "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/2",
+          "expected_native_id": "EA-03",
+          "selected_overlay": {
+            "path": "work/agile/CLAIMS.json",
+            "bytes": 86762,
+            "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+            "pointer": "/claims/2",
+            "expected_native_id": "AGQ-EA-03"
+          }
+        },
+        "shared_question_or_object": "A high-consequence commitment needs a proportionate risk-control sequence.",
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "source_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints."
+        },
+        "guard": [
+          "The common object, actual uncertain question, configuration or population, horizon and receiving use are identified.",
+          "The specific source contribution affects the stated receiving premise or its interpretation; generic possible tool use is insufficient.",
+          "Information may confirm a chosen action while improving its warrant. Lack of an action change does not establish a negative relation.",
+          "Authority, representativeness, proxy validity and remaining reversibility remain separate premises.",
+          "Unknown correspondence remains unknown; a bounded source contribution need not establish the whole receiving predicate."
+        ],
+        "source_contribution": "Consequence, reversibility, coupling and actual obligations constrain acceptable sequencing and the remaining residual-risk decision.",
+        "receiving_consequence": "Consequence, reversibility, coupling and actual obligations constrain acceptable sequencing and the remaining residual-risk decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "INTERPRETATION_QUALIFIER"
+        ],
+        "premises_supplied": [
+          "Consequence, reversibility, coupling and actual obligations constrain acceptable sequencing and the remaining residual-risk decision."
+        ],
+        "premises_remaining": [
+          "The complete receiving criterion and all actual native preconditions remain distinct from this partial input.",
+          "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "Actual authority, evidence credibility, representation, feasible response, applicable obligations and economic benefit remain to be established."
+        ],
+        "counterexample": "A broad consequence band does not determine a unique numerical threshold, optimum control or universal ordering rule.",
+        "counter_control": "A broad consequence band does not determine a unique numerical threshold, optimum control or universal ordering rule.",
+        "nontrigger": "The specified uncertain question, common object or actual receiving use is known absent. Unestablished correspondence remains unknown; no universal negative follows.",
+        "specific_cost_and_alternative": [
+          "Include evidence acquisition, interpretation, distraction, setup, switching, delay, option expiry and the cost of unsafe exposure.",
+          "Existing evidence, a targeted proof, longer sampling cadence, protected commitment interval or predominantly staged local path may be adequate.",
+          "No addition is warranted solely because another named method could be introduced.",
+          "Binding obligations and justified hard constraints limit what may be optimized or abandoned."
+        ],
+        "reentry": "Reopen affected members when uncertainty, evidence validity, population, coupling, horizon, authority, obligation, option feasibility or receiving use changes. No reverse or transitive result is inferred without its separate argument.",
+        "reverse_direction_key": "LAW-L2::EA-03->LAW-L3::EW-P033",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "source_criterion": "Consequence, recovery, coupling, observability, commitments, test scarcity and urgency inform a justified control package subject to applicable constraints.",
+          "receiving_bearer": "A planning decision where risk discovery could avoid costly later commitment.",
+          "receiving_criterion": "Sequence learning and commitment by consequential uncertainty and risk, alongside value and dependency constraints.",
+          "actual_object": "A high-consequence commitment needs a proportionate risk-control sequence.",
+          "literal_bridge": "Consequence, reversibility, coupling and actual obligations constrain acceptable sequencing and the remaining residual-risk decision."
+        }
+      }
+    ],
+    "independent_review_scope": "Full common premise, literal membership, native scope and controls require later fidelity and separate adversarial assessment."
+  }
+}

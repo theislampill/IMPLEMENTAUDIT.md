@@ -1,0 +1,2478 @@
+{
+  "schema": "evolved-public-scientific-corpus/1",
+  "edition": "2026-11-13",
+  "purpose": "Substantive derived accounts of all existing qualified scientific units, with separate historical research, scientific evidence, documentary review and engineering status.",
+  "scientific_evidence_index_sha256": "df886d1b92ac71505abe2809ad87aa30f463b150fd25bbe0f9b8cf44b6e9f856",
+  "scientific_counts": {
+    "historically_qualified_constituents": 24,
+    "scientifically_qualified_syntheses": 8,
+    "qualified_scientific_units": 32,
+    "total_units": 32,
+    "final_review_bindings_in_preserved_current_qualification_account": 64,
+    "available_original_final_review_receipts": 62,
+    "complete_original_four_object_binding_sets": 31
+  },
+  "central_registry_application": {
+    "status": "STAGED_ONLY",
+    "authoritative_writes_by_this_reconciliation": 0,
+    "current_live_master_selection": "NOT_VERIFIED",
+    "last_captured_snapshot": {
+      "historical_only": true,
+      "qualified_constituent_outcomes": 24,
+      "qualified_synthesis_outcomes": 1,
+      "source": "PROGRAMME.json"
+    }
+  },
+  "publication_authority": "Owner authorization of 13 November 2026 permits all 32 scientifically faithful public-safe derived accounts after exact independent fidelity and source-safety review.",
+  "documentary_review_record": "PUBLICATION_REVIEW.json",
+  "historical_programme": "PROGRAMME.json",
+  "current_reading_guide": "CURRENT_RESEARCH.md",
+  "rough_responsibility_registry": "../../../implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json",
+  "current_ownership_reconciliation": "../../../implementaudit/evolved-programme-v1/OWNERSHIP_RECONCILIATION_20261113.json",
+  "new_scientific_qualification": false,
+  "native_implementation_or_release_credit": false,
+  "units": [
+    {
+      "unit_id": "LAW-L1",
+      "family": "LAW",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "qualification_receipt": {
+        "bytes": 5449,
+        "sha256": "73f39a747a60f0aaad3cd6bc06914468b231aab5ac1604ff0031e88da628f6f4"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 12168,
+            "sha256": "1dd01936e4f3b7de1d8fa541d83d9c9c14f3b5994074808549e26b48b0eb86b3"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 15045,
+            "sha256": "46deb266826d948cea5779ecb305497d588a5674797593775522546166263da4"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Not all 83 primary works were freshly read in full; 21 work identities were probed by the adversary, 19 yielding substantive content at explicit full/partial/abstract scopes.",
+        "No universal causal Lean benefit or harm, raw-data reanalysis, exhaustive systematic review or empirical validation follows from finite constructed cases.",
+        "Two diagnostic false results remain for one duplicate mismatch; mechanical counts do not replace substantive judgment.",
+        "Contested chronology, broader transmission histories, worker effects across institutions, correlated disruption and durable domain outcomes remain bounded scientific questions.",
+        "Historical executed-prompt binding remains unknown; the full reusable commission has only its separately recorded static qualification.",
+        "No fourth-stage synthesis, target implementation, operational benefit, native host acceptance, browser rendering, publication or programme closure is qualified."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Lean",
+      "research_account": "families/law/current/LAW-L1.md",
+      "family_current_index": "families/law/current/README.md",
+      "portal_page_id": "research-lineage-lean",
+      "portal_route": "research-engineering-lineage/lean/",
+      "rough_responsibility_slot": "LAW-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/0/retained_limitations",
+        "source_array_sha256": "cdb14c8d44ea73706c75c7477cd3560e8c0bdad87268265bb89d39b5a7e18dff",
+        "entry_count": 6,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "LAW-L2",
+      "family": "LAW",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 10189,
+        "sha256": "3c2da243a1d52f948840576c8fdf5b04c8aa393961607f88f6dc2dcb14437046"
+      },
+      "qualification_receipt": {
+        "bytes": 7896,
+        "sha256": "79a75ba0766a278afd3dabfdd36a490a85b87328ecebcce647176efc670508a0"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 9600,
+            "sha256": "adb0c36bac9781dbb8c67c1138b5263d9a06cf0a700cf9fb5ed6cfb7bf870b22"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 13240,
+            "sha256": "7b470304f30b9006474b0a1bf3bf6a3a32bab91608a6f5a86465879b3bb6c056"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "No exhaustive all-source/full-text or original-data replication; each review records its actual primary-passage coverage.",
+        "Unknown executed historical prompt and unreceived earlier pass-1 body are not reconstructed or diagnosed as a proven original-contract breach.",
+        "No universal causal superiority, fixed thresholds, general productivity forecasts or device compliance conclusions.",
+        "The full reusable commission is statically reviewed only; no end-to-end execution qualification is inferred.",
+        "No fourth-stage synthesis, target implementation, host acceptance, operational outcome, browser rendering or live publication is granted."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Agile",
+      "research_account": "families/law/current/LAW-L2.md",
+      "family_current_index": "families/law/current/README.md",
+      "portal_page_id": "research-lineage-agile",
+      "portal_route": "research-engineering-lineage/agile/",
+      "rough_responsibility_slot": "LAW-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/1/retained_limitations",
+        "source_array_sha256": "14f4539728126f3cbf93658278912f57dc537a48ee76ac4540f1e336b7434434",
+        "entry_count": 5,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "LAW-L3",
+      "family": "LAW",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      },
+      "qualification_receipt": {
+        "bytes": 5024,
+        "sha256": "12221beed2736ed92cad6f311e262a8db20476291919d200f9df62fc00751993"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 7529,
+            "sha256": "ddb660d05bd1939c7fcf4202c9f3242d75467065afd3bf1abcbe99ece1868bc4"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 15912,
+            "sha256": "f3b25fb674cc10d2e746f55a1725e6f3ee3d8498b9d6972ccaf30abd8ec7454e"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Not all65 primary works were independently read in full. Consequential selected passages and full source records are distinct.",
+        "S042 full-body access and S036 direct body access failed; abstract/metadata and other documents are not substituted as full-body evidence.",
+        "Cached primary text reading is explicitly identified and is not described as a fresh HTTP retrieval.",
+        "No raw dataset reanalysis, operational test rerun, universal portfolio calibration or industrial ROI reproduction.",
+        "No full underlying paywalled-standard read, universal legal applicability determination or exhaustive literature-cutoff claim.",
+        "No target implementation, sibling conclusion, runtime audit closure, publication or release authority.",
+        "No qualification of a fourth-stage synthesis, target implementation, live host acceptance, operational benefit, browser rendering or publication.",
+        "Full reusable commission retains its separately recorded static qualification; neither this study nor receipt proves end-to-end execution qualification."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Waterfall / plan-driven assurance",
+      "research_account": "families/law/current/LAW-L3.md",
+      "family_current_index": "families/law/current/README.md",
+      "portal_page_id": "research-lineage-waterfall",
+      "portal_route": "research-engineering-lineage/waterfall/",
+      "rough_responsibility_slot": "LAW-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/2/retained_limitations",
+        "source_array_sha256": "f0efd44ccb68a5562fa71c30e4e59ff6b5c60f8438ce66442f2fbb4da84560fd",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "LAW-S",
+      "family": "LAW",
+      "kind": "synthesis",
+      "scientific_qualification": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "bytes": 27137,
+        "sha256": "7f62a136751c84fbbd0326eafdc59a26bc57db1c6da31ab4d09ca8a08b88b803"
+      },
+      "qualification_receipt": {
+        "bytes": 123056,
+        "sha256": "4b7b8ba7e41109967b4e48c170adf6070398c7b64980948cae1bef63cdd291bc"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "INDEPENDENT_WHOLE_FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPT",
+          "receipt": {
+            "bytes": 5350,
+            "sha256": "c7316a4ffd296a021d27ff4589d662e99e2b5c399faa5e528f4370ded57adb53"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_AVAILABLE"
+        },
+        {
+          "role": "DISTINCT_INDEPENDENT_WHOLE_ADVERSARIAL",
+          "reported_disposition": "ACCEPT",
+          "receipt": {
+            "bytes": 5532,
+            "sha256": "c4c314b522fb8b3b9baa96ac5c142a7069259a896a5059b1d542ba793f5a4314"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_AVAILABLE"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Qualification is current neutral analytical science at the declared scope. It does not authenticate the missing historical original neutral body or executed binding; both remainNOT_LOCATED/BLOCKED_INPUT, historical outcome null and original increment0. Answer-exposed prompt development, rendered/live publication, actual target transfer and operational effectiveness are not qualified by this result.",
+        "Three unique nonblocking observations remain in frozen science. LAW-A008-FID-NB01: staleQS11limits464vsoperative446 andQS13A007token. LAW-A008-FID-NB02: D005olderEL004statusphrase whileD018supports the separately grounded mature observation and actual adoption. LAW-A008-ADV-NB03: D034unqualifiedEW014->EL022reverseU wording whileD055supplies the independently real role-duty input consumed by current projection and candidate. The first two recur in the distinct findings and are not counted as five unique observations. Frozen author bytes are not silently edited; external consumers of stale capsule phrases are outside this acceptance.",
+        "The four census unknowns and1832global examined unresolved directions remain actual unknowns, not universal absence claims. Their source-specific missing demand-event, stock or supplier correspondences are not filled by invented receiver mechanisms. Appropriate bounded future evidence can warrant a named successor.",
+        "Source access remains the exact reported selected-source/prior-personal-reading scope.218selected slots plus69historical occurrences are not287independent works or replications. S041/S042 dependent pools and correctedS055abstract/metadata provenance remain disclosed. Historical editions and genealogy are bounded; analogy is not evidence of transmission. No new full-primary-source, jurisdiction-currentness, empirical effect, field, optimum or net-benefit claim follows.",
+        "C29 is a single finite quantity-consumer construction. Its nine views,22bindings,three contexts and eight uses are not independent experiments. Original-ledger and origin-lookup alternatives remain; no universal impossibility of later origin recovery is inferred.",
+        "Historical Family15/B05missing evidence andB10genuine new-rederivation identity remain. A006four saved,eight raw and34new-rederived effects are not retrospectively relabeled byte recovery. Actual LAW I018/I01946direction arguments already preserved in accepted ancestry remain exact; original unfinished whole increments gain no retroactive independent acceptance.",
+        "The author performed no new scientific execution in A008. The first reviewer twelve stipulated finite controls are analytical discriminators, not field trials or author prompt qualification. The distinct reviewer performed no new scientific finite/numerical/field/primary-source/target/legal execution. Its seven prior A006controls were not rerun. Full mechanical inventories do not imply fresh deep semantic reading of every direction or full primary-source reading.",
+        "Both actual reviewers preserve truthful exposure and personal-reuse masks. The distinct reviewer saved its own challenge map before opening the complete first conclusions, after eligibility/two-observation exposure; this is not a blinded examination. All five current exposed-author and reviewer contexts are disclosed. Current actor-owned operations actually ended; inaccessible predecessor A/B termination remainsUNKNOWN.",
+        "The programme historicalSPR-L1r4certificate identity remains qualified but its original certificate body, final subject and two final reviews remain unavailable at the recorded recovery scope. At32qualified units there are64historical review positions and62available original final-review receipts; earlierSPR-L1r2reviews are not substituted.",
+        "No effective shared technical writer fence or verified live expected-current registry head is available. This qualification and exact selection intent are isolated. The last verified B36 snapshot selectedSPR-S1/8; actual live central selection count is unknown. Owner authorization, observed current-worker closure and effective technical fencing remain separate facts. No central, GitHub, implementation, publication or release write is performed."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "LAW synthesis",
+      "research_account": "families/law/current/LAW-S.md",
+      "family_current_index": "families/law/current/README.md",
+      "portal_page_id": "research-lineage-evolved-law",
+      "portal_route": "research-engineering-lineage/evolved-law/",
+      "rough_responsibility_slot": "LAW-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/3/retained_limitations",
+        "source_array_sha256": "577b13bedd3837b34895a79bb85979e5cf5b759895b8c6a4e9e7510df63cf655",
+        "entry_count": 10,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "CSS-L1",
+      "family": "CSS",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 24939,
+        "sha256": "45802b8614ffea83bf28ab0f00dd660366fad1700d2bd819ac57a06c13e44695"
+      },
+      "qualification_receipt": {
+        "bytes": 7230,
+        "sha256": "c1883437f82cb756753390b451fb42903c4eabdc9f009eafda49d291775b032d"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 7336,
+            "sha256": "ad3d6f997d31ea7ab67449506f18d3226e8fd1f9f3afeb3a13493d9b482c2e8c"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 12107,
+            "sha256": "53e893238256c8447b9a5a5a87cb019119fc761980b832b577b425bf924de946"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Complete appropriate scientific assessment uses each reviewer’s documented prior full reading,exact unchanged carryforward and every affected r3 meaning; no fresh full-restart claim.",
+        "Original62property/90citation population preserved;63currentproperties98citationrecords.54author access groups are not54 independent studies; selected passages and identity checks are not full-paper reading.",
+        "S023 intended source identity remains unresolved and its proof role withheld. RestrictedR02identity access,unverifiedR04/R05quantities,and current normative-edition questions retain stated limits.",
+        "R12publisher selectedtext confirms Table4pp663–664; Results49/Discussion47 discrepancy remains unresolved. No reconciled overlapcount or fullpaper review claimed.",
+        "Executed historical commission binding remains unestablished; no original-commission failure attributed.",
+        "Constructed scenarios/timing cases and conditional configurations do not establish intervention efficacy, real operator parallelism, empirical bundle validation or fieldwide novelty.",
+        "Static HTML correspondence and links checked; no browser,accessibility,participant comprehension or operational validation claim.",
+        "All original,r1,r2,adverse/acceptedreview and sourceaccess histories remain immutable. No target defect,integration,GitHubwrite,publication or release follows."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Cognitive Systems Engineering",
+      "research_account": "families/css/current/CSS-L1.md",
+      "family_current_index": "families/css/current/README.md",
+      "portal_page_id": "research-lineage-cognitive-systems-engineering",
+      "portal_route": "research-engineering-lineage/cognitive-systems-engineering/",
+      "rough_responsibility_slot": "CSS-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/12/retained_limitations",
+        "source_array_sha256": "1f9af59d74b6d2e83a4878af14c8b590bdaa711d3bdc209f17bffc1d5e69d634",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "CSS-L2",
+      "family": "CSS",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 21382,
+        "sha256": "4596e030b9a33cd5a8669d19caa07388c2f9a7cb0e02a1505d382cd178419042"
+      },
+      "qualification_receipt": {
+        "bytes": 9700,
+        "sha256": "b2f53e0600422d75d13cffaab3d9193d12456fc38a5c087c6d596debe680cbbb"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 15501,
+            "sha256": "d3e899f8973a44758a00dea40822a3cfaf1a6738cfe7fc6fe56d42c636d609e7"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 12939,
+            "sha256": "7415e59a00e0c6af35b34bb93e7a4e17e385efcb5b6e7b6cd450205037f4d0c0"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Original executed commission binding/finality unresolved; no original-commission failure asserted.",
+        "Several original books and papers are inherited rather than newly read in full. Actual access ranges from metadata/abstract to selected passages/full short texts.",
+        "Constructed cases are author analyses, not empirical replications or actual deployment outcomes.",
+        "No new composition property was justified; no whole-programme unique causal effect established.",
+        "Primary controller has disclosed other-cohort intake and author/reviewer progress exposure; not a blind author. Sibling conclusions are not research premises.",
+        "No browser rendering, live publication, target absorption, Git action or operational effectiveness claim.",
+        "Target-facing native question fields/sections excluded as scholarly premises; no target implementation inspected.",
+        "Allcitationrecords read is not all external fulltexts read.31bounded independent primary checks have exact actual scopes in SOURCE_VERIFICATION.json.",
+        "Inherited books/papers/standards, uninspected proofs/full clauses and underlying empirical data remain outside fresh full-read/reproduction scope.",
+        "Constructed calculations establish only their stated models; no field efficacy or deployment result.",
+        "Original historical prompt finality/execution binding unresolved; no original-commission failure or full prompt execution qualification inferred.",
+        "No browser rendering/accessibility/live publication or independent user-comprehension experiment.",
+        "No new external source access in r2 or r3. The 31 independent first-review primary checks retain their original passage/abstract/metadata scope. The adversary's 23 external checks are not claimed as this reviewer's own source reading.",
+        "The author's historical writer/case execution assertions were read, not independently observed or replayed. Only reviewer-authored independent mathematical and correspondence code was executed.",
+        "The same first-reviewer context continues. No newly fresh review is claimed; the same distinct adversarial reviewer must separately reconsider the identical final subject.",
+        "The adverse r2 report/findings and receipt metadata were read; all 161 adverse review payload identities were checked. This is not a claim of reading every adversarial working view or inheriting its independent source accesses.",
+        "Same returning reviewer; original r2 exposure/threecompactions and limited accidental P001 target-question sample remain disclosed. No new actual target inspection or renewed freshness.",
+        "All local source records read does not mean all external works read.23prior bounded primary checks retain actual access;0newexternalchecks. First reviewer31checks not counted as own.",
+        "Original executed commission binding/finality unresolved; no original-commission breach or full prompt execution qualification.",
+        "Exact numerical constructions establish stipulated models only, not actual field costs, causal programme efficacy, reliability or transport.",
+        "No browser rendering/accessibility/livepublication, real deployment, full normative compliance or empirical dataset reanalysis.",
+        "Author code read inertly; no author execution/import or full generator replay claimed."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Statistical Engineering",
+      "research_account": "families/css/current/CSS-L2.md",
+      "family_current_index": "families/css/current/README.md",
+      "portal_page_id": "research-lineage-statistical-engineering",
+      "portal_route": "research-engineering-lineage/statistical-engineering/",
+      "rough_responsibility_slot": "CSS-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/13/retained_limitations",
+        "source_array_sha256": "eba011df288042dccedcb119ccb5ba9cfc3a6a3dd287624e3ff2952694224017",
+        "entry_count": 22,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "CSS-L3",
+      "family": "CSS",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 49646,
+        "sha256": "e9e0bf64463a764ac5b232cbf2c34533eda87b3dd49a262171f67fb53f05bd7b"
+      },
+      "qualification_receipt": {
+        "bytes": 12770,
+        "sha256": "06e8f904637897240b6e5ff4e743529c4ca94e23e77d4bf5d3b6a0c324ec7a7a"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 13602,
+            "sha256": "29d60e34d1dadf60d4ffac559589598cee7b0690f99268b7debee8c432b3eb20"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 16560,
+            "sha256": "169dd7128276e703a07edc088b87c24284d40d3ca327947ed1ed56e3a2fce9a6"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Original historical executed commission binding remains unestablished; no original-commission failure inferred.",
+        "68 guarded research properties are not an empirically validated integrated programme, universal method ranking or guarantee of loss prevention.",
+        "All125source records/assessments were reviewed; fresh adversarial primary checks covered19works represented by20sourceIDs, leaving105IDs with no independent external reading by that reviewer. Author and fidelity scopes remain separate.",
+        "Eight unresolved source identities and inherited access limits remain visible; failed access is not nonexistence.",
+        "Ten supplied constructed cases and11stronger alternatives establish conditional model results only, not measured failure probabilities, physical deadlines, empirical replication or operational permission.",
+        "Named current editions and selected normative passages do not establish complete standards or legal compliance.",
+        "All31previously omitted neutral conflicts and62occurrences restored; adverse r1 completeness claim and withdrawn provisional false-error attributions preserved.",
+        "All scientific bytes and negative history immutable; no target absorption, Git action or publication."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Systems Safety",
+      "research_account": "families/css/current/CSS-L3.md",
+      "family_current_index": "families/css/current/README.md",
+      "portal_page_id": "research-lineage-systems-safety",
+      "portal_route": "research-engineering-lineage/systems-safety/",
+      "rough_responsibility_slot": "CSS-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/14/retained_limitations",
+        "source_array_sha256": "6da743501aa573221e8e7b7a930ebf5a055917439ed711c15ecbe1607b7affb6",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "CSS-S",
+      "family": "CSS",
+      "kind": "synthesis",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 534025,
+        "sha256": "80ac8bf91f9850999cd9c9fceb3f12fde76b911097da31e78dc3bc72038858aa"
+      },
+      "qualification_receipt": {
+        "bytes": 16178,
+        "sha256": "3b9dba6bd68ff3745afa350a03d1e4b7af2c9c2afb2011851bb76c31ed03d3e8"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "fidelity",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCIENTIFIC_SCOPE",
+          "receipt": {
+            "bytes": 9975,
+            "sha256": "92719d1814c5e28df7b9ba4a3dbedcc4356262b09ad74fbdd66e18a86f53a6ba"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "adversarial",
+          "reported_disposition": "ACCEPT_CURRENT_WHOLE_NEW_NEUTRAL_SCIENTIFIC_STUDY_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 11932,
+            "sha256": "237f73b7d4ca9570a9b784d755ff3ba6f426c03fd1246e5be36f46310f3de27c"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Current new-neutral scientific qualification only. The original historical CSS-S synthesis body and its executed prompt remain unlocated within the recorded search; historical-original requalification remains unresolved and its master increment is0.",
+        "The reported original post060 r12 whole freeze is unavailable. The qualified subject is the separately identified successor003 integration of recovered native inquiry/cases, not an assertion that old freeze bytes survived.",
+        "195 historical property identities and196 selected constituent identities remain distinct. ECSE-63 is a qualified constituent addition, not synthesis novelty.342 citation identities do not constitute342 independent studies.",
+        "Three recovered r12 groups26 comparisons and81 earlier case bodies remain attributed executions; successor003 integration added no old-case rerun. Fidelity five groups31 checks and adversarial eight groups53 checks are exposed independent analytical constructions, not independent empirical samples.",
+        "The eight unresolved directions retain physical-to-human transfer and workload-informed policy limitations. No physical acceleration-to-human learning law, general capability, whole-configuration efficacy, authority, regulatory determination or implementation defect is established.",
+        "O-ADV-01: the published twelve-world state helper is bounded; future timestamps and mixed known-false/unknown extensions would require explicit semantics before a generalized API claim. No such general claim is qualified.",
+        "O-ADV-02: some old pending-review labels retain earlier revision names. Current exact identity, per-record scope and precedence control; old labels confer no acceptance and remain frozen history.",
+        "O-FID-R12-S003-01: five repeated general limits fields are not literally duplicated in rendered CL29-33, but local premises, current status and global qualifications retain their scientific meaning. No material repair is required.",
+        "Reviewer actual masks distinguish semantic examination from identity traversal, grouped mechanisms and unviewed/truncated content. No fresh full external corpus or independent clause-by-clause reread of all25,598 directed entries is claimed.",
+        "No constituent requalification, SSD-S work, central master writing, native engineering controller/continuity claim, GitHub mutation, release or publication is authorized."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "CSS synthesis",
+      "research_account": "families/css/current/CSS-S.md",
+      "family_current_index": "families/css/current/README.md",
+      "portal_page_id": "research-lineage-evolved-css",
+      "portal_route": "research-engineering-lineage/evolved-css/",
+      "rough_responsibility_slot": "CSS-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits and recorded observations of the original scientific qualification and original reviewer exposure. Historical statements about publication or mutation authority describe that scientific act; the later owner authorization separately permits the reviewed documentary publication. Current central application remains separately staged.",
+      "retained_scientific_limits_source_map": [
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/0",
+          "original_text_sha256": "d4578923700b39808f37c525c077a755a34024d527445d88d394deccaea93a4b",
+          "public_text_sha256": "d4578923700b39808f37c525c077a755a34024d527445d88d394deccaea93a4b",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/1",
+          "original_text_sha256": "d3e0d8bcb4679c1ec59f09fd5d53bec178d2c86fbbdbd2fab4c5fb60aa0300fe",
+          "public_text_sha256": "d3e0d8bcb4679c1ec59f09fd5d53bec178d2c86fbbdbd2fab4c5fb60aa0300fe",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/2",
+          "original_text_sha256": "b50611e589b13afd348b6bbb5c3c6ce7c9151f217fd43e194c2411b95507457a",
+          "public_text_sha256": "b50611e589b13afd348b6bbb5c3c6ce7c9151f217fd43e194c2411b95507457a",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/3",
+          "original_text_sha256": "0c8f80a11a954f674456ec5fe2be64ecfe8c9a9a05253f664e5080f7abb63836",
+          "public_text_sha256": "0c8f80a11a954f674456ec5fe2be64ecfe8c9a9a05253f664e5080f7abb63836",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/4",
+          "original_text_sha256": "808b8f635d14d0211d210a6ffd479feb78c64230712f6b1219c2013c78b3aec4",
+          "public_text_sha256": "808b8f635d14d0211d210a6ffd479feb78c64230712f6b1219c2013c78b3aec4",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/5",
+          "original_text_sha256": "fd22f11b04e31045b5ed226a272430b0768360ee8dabd82ddf9629e3fb945735",
+          "public_text_sha256": "fd22f11b04e31045b5ed226a272430b0768360ee8dabd82ddf9629e3fb945735",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/6",
+          "original_text_sha256": "f4b377cc6d051a63349eb5971a6ac39d6daba816051685eadfeb58f1e89d90cd",
+          "public_text_sha256": "f4b377cc6d051a63349eb5971a6ac39d6daba816051685eadfeb58f1e89d90cd",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/7",
+          "original_text_sha256": "8fa2ae7a4a2de13cc1fb26dd8582d7599dde9107399c19e77c61a385985baea6",
+          "public_text_sha256": "8fa2ae7a4a2de13cc1fb26dd8582d7599dde9107399c19e77c61a385985baea6",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/8",
+          "original_text_sha256": "ad3b43380e97afe18dbd7348c19761c3329724feeb3bcba6fd32bb417981b910",
+          "public_text_sha256": "ad3b43380e97afe18dbd7348c19761c3329724feeb3bcba6fd32bb417981b910",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained/9",
+          "original_text_sha256": "2586605fe56a8e5bccadd77e0d0b21eee20a522d141d73cadd38971e2e74c300",
+          "public_text_sha256": "2586605fe56a8e5bccadd77e0d0b21eee20a522d141d73cadd38971e2e74c300",
+          "transformation": "VERBATIM"
+        }
+      ],
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/15/original_binding/preserved_receiving_record/limitations_exactly_retained",
+        "source_array_sha256": "a988866ae82f889512eb21afc1bbd63ac49cecf675c8245c34700ba4cca378fa",
+        "entry_count": 10,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSD-L1",
+      "family": "SSD",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 63889,
+        "sha256": "c84586d47b329c9f6982da8331b2a4b45b77bb1be74acbbc47d28387209acc3b"
+      },
+      "qualification_receipt": {
+        "bytes": 9292,
+        "sha256": "d684e59c98a199b1f25a594a380de74f64abd77455cfbdad14459ec6419b3b48"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 11342,
+            "sha256": "cc7fe9c033ab2444f7da1ab33905963c11ad4ac3c9038cba7bfcbcc32f3e6e2b"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 75713,
+            "sha256": "a9d0a0899167da23d9347377e3ff001b3707620363877a966cffb80359f39fb3"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "The exact historically executed commission is unknown; received candidate identity does not establish retrospective original-commission failure.",
+        "All125 native citation records were covered; not all125 external works were retrieved or read in full.47 consultation records,34 first-role source/version/catalogue objects,nine original adversarial source groups and six continuation source objects are overlapping populations, not independent studies.",
+        "Unresolved identities S061,S072,S082,S097,S099,S102,S103,S110,S113 remain preserved/quarantined at declared scope; corrigendum and some normative full texts were unavailable.",
+        "Incremental causal benefit, lifecycle trace cost, model-to-world transfer, stakeholder legitimacy, staging efficiency, historical transmission, AI repeated-run reliability and broader novelty remain examined uncertainties.",
+        "Original93 independent checks/11 contrary cases and26 generator reproductions are retained original-role observations; continuation adds five exposed contrary cases and bounded source/presentation checks, not a reset or held-out trial.",
+        "No root fresh primary retrieval, case/generator rerun, dataset reanalysis or independent visual inspection is claimed by receiving.",
+        "No target transfer/implementation, operational efficacy, live host acceptance, synthesis, browser/mobile/accessibility/user-comprehension validation or live publication is qualified.",
+        "The reusable commission retains its recorded static qualification. This accepted scientific execution alone does not establish separate representative prompt-behavior qualification."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Systems Engineering",
+      "research_account": "families/ssd/current/SSD-L1.md",
+      "family_current_index": "families/ssd/current/README.md",
+      "portal_page_id": "research-lineage-systems-engineering",
+      "portal_route": "research-engineering-lineage/systems-engineering/",
+      "rough_responsibility_slot": "SSD-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/4/retained_limitations",
+        "source_array_sha256": "7477403945edff69e7a0b3d83321d9d06c10a77c608e47929e7964db906c0daa",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSD-L2",
+      "family": "SSD",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 26279,
+        "sha256": "c94ef360fb6c3115df8ef58256694433149f1744775d430406f1fedddebd7632"
+      },
+      "qualification_receipt": {
+        "bytes": 8628,
+        "sha256": "7256afb2eed9891011936cf0e37372f0f8c6c82a0cd9c361ffa29ae3c87e10a7"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 15091,
+            "sha256": "68ac673ebe52d2c6d58f6c6a805b6129c4e276481c85585607e8ab7138322231"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 12516,
+            "sha256": "0a73723336183ec748ed6e90c9b63c57078a35f3d8c6f3de12ca6864f0a80b69"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Five disclosed advisories remain: G13/N015 subsection locator;36source-correction entries versus35changes; P19 identity/credential lifetime wording; P29 comparator/burden clarity with optional P23/P50 clarification; P12/P15 empirical/background motivation not refreshed.",
+        "Fresh source access is at enumerated selected-passage/frontmatter/metadata scopes. Failed NIST substantive retrieval did not become reading; prior scopes remain attributed.",
+        "Six adversarial constructions and first-role cases are exposed and finite, not held-out or field measurements; no empirical prevalence or general economic superiority.",
+        "All seven HTML projections,1191nonemptylocalhrefs and49PDFtextunits checked by reviewer; four pages actually viewed and pixel-matched there.133externalhrefs not fetched; no browser/accessibility/user-study/live-publication claim.",
+        "Root performed exact receiving and read report/findings/challenge/verification reasoning; root did not rerun research/reviewer code, primary retrieval or page-image inspection.",
+        "Historical executed prompt binding UNKNOWN; no reusable full-study prompt execution qualification, target adoption, release or publication.",
+        "Accepted science does not supply missing original neutral SSD synthesis body or automatically qualify SSD-S."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Systems Security Engineering",
+      "research_account": "families/ssd/current/SSD-L2.md",
+      "family_current_index": "families/ssd/current/README.md",
+      "portal_page_id": "research-lineage-systems-security-engineering",
+      "portal_route": "research-engineering-lineage/systems-security-engineering/",
+      "rough_responsibility_slot": "SSD-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/5/retained_limitations",
+        "source_array_sha256": "25e5b021f8312b41d1a88fe939b808f999818188c7c1144d8d20c480e3436be8",
+        "entry_count": 7,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSD-L3",
+      "family": "SSD",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 24184,
+        "sha256": "cbecc352d720c34f7502c5219496f07777a7b79c25b9d4834ef1368a4e737e0f"
+      },
+      "qualification_receipt": {
+        "bytes": 7046,
+        "sha256": "71d910d5ac377ca56c11ea1aadd0ebe050319cb6e758d5a0daef7facabe9c436"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 10240,
+            "sha256": "64498c52533d55b6d38ff78da7d63ccfcccf7179ddd6cfe4632fbe9ae4cdf8e8"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 19432,
+            "sha256": "c93f2c354a8699ad3e64813c2506ef4bd591aeca457fcba16abf62de66d8c5f4"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Inherited detailed source and execution observations remain attributed; successor did not reexecute19 cases or reread13 primary works.",
+        "All primary access is at enumerated full/partial/metadata/abstract scopes; no R245 fulltext or S086/S099 full article reading.",
+        "Constructed/exposed cases are not held-out or field validation; no generic empirical superiority, complete proof census or exhaustive retraction search.",
+        "Specified workload fit, ambiguity credibility, preference legitimacy, consequence stability and total implementation benefit remain application-specific scientific uncertainties.",
+        "Historical executed prompt binding remains UNKNOWN; no general reusable full-study prompt execution qualification, target adoption, release or publication.",
+        "Local document/text/pixel/link checks plus seven actual successor page observations; full15page first-role visual scope attributed; no browser/mobile/live/user-study claim.",
+        "No root fresh scientific source retrieval, case execution, generator rerun or page-image inspection is claimed.",
+        "Machine identity and population checks do not establish semantic judgment; report reasoning and declared review scope supply the accepted evidence."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Decision and Operations Engineering",
+      "research_account": "families/ssd/current/SSD-L3.md",
+      "family_current_index": "families/ssd/current/README.md",
+      "portal_page_id": "research-lineage-decision-operations-engineering",
+      "portal_route": "research-engineering-lineage/decision-operations-engineering/",
+      "rough_responsibility_slot": "SSD-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/6/retained_limitations",
+        "source_array_sha256": "5883288c0b9d68e7bac3bd791dabaa00b42160aa330ec107125598beaa11a6aa",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSD-S",
+      "family": "SSD",
+      "kind": "synthesis",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 26174,
+        "sha256": "aa53149fd110cce51bad79eb01e373146efae3b0ebd6d142efe7cc1316402c3c"
+      },
+      "qualification_receipt": {
+        "bytes": 48071,
+        "sha256": "5b1cecbe96e2e3c3b51878f8704e4fd75746a7f3e7255227a4b3a6552f156f97"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "INDEPENDENT_WHOLE_FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 5867,
+            "sha256": "31cd38afe54e2b49e610199318360869b10bcd07c39703d22a94d28e214e5068"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "DISTINCT_INDEPENDENT_WHOLE_ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 6641,
+            "sha256": "8eb9c7427e5dc093bccaac85b0cbf7aeb9429e9149e26f3a9ffa470e3125ce81"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Current reconciled scientific successor qualification. Missing original neutral body/executed prompt, r6/r7 recovery limits and original historical authentication remain disclosed; no historical-original requalification is asserted.",
+        "R003 S00489759a09... and C009 S004261895c2... remain separate historical subjects. Neither was wholeaccepted. The source-grounded reconciliation, later C013 S006 and surviving05D4 correction effects are preserved; timestamps did not choose science.",
+        "The formerly observed05D4 S006435aba... whole body remains unavailable; surviving partial and actual freeze/readback evidence are preserved without fabricating that whole body.",
+        "All12whole-direction unknowns and the2unresolved Ebranches within otherwise material P048 directions remain. P03 owner-controlled P049cadence/P051criterion origins are distinct from calibration/input-data origin, which remains independently unresolved.",
+        "Fidelity and adversary masks distinguish current individual/factored reading and attributed historical reading. Neither receipt claims every2702longargument wrapper, all9904logicaladdresses or every198nativeprofile was freshly semantically read.",
+        "Finite analytical constructions and arithmetic checks do not establish field efficacy, actual prevalence, empirical covariance, measured comparative cost or successful target deployment. Shared source families remain dependent and original access ceilings unchanged.",
+        "O-S009-01: stale P017-addition wording is possible reentry wording only; actual P017→P27 remains a nonaddition without REL-U.",
+        "O-S009-ADV-02:77negative-block exception summaries and44count summaries are stale parent summaries. They omit exactly1458selectedU additions,including420newlymaterialdirections. They are not accepted as current and must not reconstruct science. Governing graph,pairs,current arguments,partials and4125actualnegative members agree.",
+        "The true derivative-summary discrepancy remains a failed comparison. Zero digest mismatches and root receiving success do not imply every scientific/projection comparison passed or establish scientific truth.",
+        "No new held-out prompt qualification, all-primary-source replication, browser/live documentation qualification, implementation, operational effectiveness, publication or release is granted.",
+        "All24constituent qualifications and SPR-S/CSS-S/BWP-S/SSS-S/AMA-S acceptance remain unchanged. Historical SPR-L1originalfinalr4evidence limitation persists; no older receipt substitutes for the missing original final objects.",
+        "Scientific qualification does not establish the termination of earlier execution contexts or effective exclusion of shared central writers. Observed completed scientific work and technical writer safety remain separate.",
+        "Last verified central snapshot selects SPRonly; it is not a verified live master. Exact SSD selection is staged only until actual common-head verification and an effective writer safeguard permit the transaction."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "SSD synthesis",
+      "research_account": "families/ssd/current/SSD-S.md",
+      "family_current_index": "families/ssd/current/README.md",
+      "portal_page_id": "research-lineage-evolved-ssd",
+      "portal_route": "research-engineering-lineage/evolved-ssd/",
+      "rough_responsibility_slot": "SSD-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits and recorded observations of the original scientific qualification and original reviewer exposure. Historical statements about publication or mutation authority describe that scientific act; the later owner authorization separately permits the reviewed documentary publication. Current central application remains separately staged.",
+      "retained_scientific_limits_source_map": [
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/0",
+          "original_text_sha256": "6688abf8ee99d4c5ab4dc02d7119e7c6f25615d2a896265e6b5573ec76e9c78a",
+          "public_text_sha256": "6688abf8ee99d4c5ab4dc02d7119e7c6f25615d2a896265e6b5573ec76e9c78a",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/1",
+          "original_text_sha256": "42cccf37e55f3eacc27bc7b1383e31f5dd9d3c21df0cf3d18c8e49230f018b94",
+          "public_text_sha256": "42cccf37e55f3eacc27bc7b1383e31f5dd9d3c21df0cf3d18c8e49230f018b94",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/2",
+          "original_text_sha256": "fe23918895aaf871bd02c36a72553ed34dd8ea10ad1842fb7ea51d8230749e83",
+          "public_text_sha256": "fe23918895aaf871bd02c36a72553ed34dd8ea10ad1842fb7ea51d8230749e83",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/3",
+          "original_text_sha256": "03413e0f17f8022281d3b8807c0f5ea0d9052b100bf02e9344d400afc5d44cc7",
+          "public_text_sha256": "03413e0f17f8022281d3b8807c0f5ea0d9052b100bf02e9344d400afc5d44cc7",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/4",
+          "original_text_sha256": "cdc8cb5d8659a7d19e226d0bf1a2b9e33b2cd709cb8aa442ada2a74f6418cce6",
+          "public_text_sha256": "cdc8cb5d8659a7d19e226d0bf1a2b9e33b2cd709cb8aa442ada2a74f6418cce6",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/5",
+          "original_text_sha256": "f5aeafb8c74b560fca8e48714e351910782ef3eb57511874c8c73eb8e482f276",
+          "public_text_sha256": "f5aeafb8c74b560fca8e48714e351910782ef3eb57511874c8c73eb8e482f276",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/6",
+          "original_text_sha256": "f4773e4d2e2f7da2a6f330d9f72b370d8ed396751ac71c6a435110a55fda0d39",
+          "public_text_sha256": "f4773e4d2e2f7da2a6f330d9f72b370d8ed396751ac71c6a435110a55fda0d39",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/7",
+          "original_text_sha256": "5926ac7c7d93f534f9fdcd13d8bfd09e578e46b6e9f0105d959bae40b705b6f2",
+          "public_text_sha256": "5926ac7c7d93f534f9fdcd13d8bfd09e578e46b6e9f0105d959bae40b705b6f2",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/8",
+          "original_text_sha256": "56147c833a6f56a9f14180bd4ae68442a673008003528d3c50bae5ec4a512d69",
+          "public_text_sha256": "56147c833a6f56a9f14180bd4ae68442a673008003528d3c50bae5ec4a512d69",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/9",
+          "original_text_sha256": "902b3b74f6dfe0a56c80c6c50a7c853118e94060b3d5743f303c3e26644bfff8",
+          "public_text_sha256": "902b3b74f6dfe0a56c80c6c50a7c853118e94060b3d5743f303c3e26644bfff8",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/10",
+          "original_text_sha256": "f3657030a944f4a3c40f647fd80b76883507f704c93330932ee1604300ec4888",
+          "public_text_sha256": "f3657030a944f4a3c40f647fd80b76883507f704c93330932ee1604300ec4888",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/11",
+          "original_text_sha256": "da96ef9ff5ff4587e8014322fc49f0327981a16d765b90fc33beb17c2c86df59",
+          "public_text_sha256": "a4a887788100de4c1add3d541c0c1728f2da7d9209f7446b7f2434d83c550f67",
+          "transformation": "Public explanation preserves evidential separation while omitting unrelated execution/host diagnostics."
+        },
+        {
+          "source_index_pointer": "/rows/7/original_binding/limitations/12",
+          "original_text_sha256": "95eb33701d0627d2e6af99be79fe8261de5179bc95023773174ed201ce571116",
+          "public_text_sha256": "95eb33701d0627d2e6af99be79fe8261de5179bc95023773174ed201ce571116",
+          "transformation": "VERBATIM"
+        }
+      ],
+      "retained_scientific_limits_disposition": "PUBLIC_SAFE_DERIVATION",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/7/original_binding/limitations",
+        "source_array_sha256": "8ef4d488dd50418f94beda20ba2526194e50ee5b023f761b485019506537066f",
+        "entry_count": 13,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "DRF-L1",
+      "family": "DRF",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 73989,
+        "sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4"
+      },
+      "qualification_receipt": {
+        "bytes": 6367,
+        "sha256": "4993aaa304d72b56c83d2e57f45a5fd68edf3d31380c554d8ef97aae4abe2a14"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 32128,
+            "sha256": "bb42a9453c0276ca872f8566fde93d1ec07ae1d782abb7118b8bcec4481a792b"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 32285,
+            "sha256": "d73eb75d61816c19c06c4eb99eee2c8241587908639c0ac8f412c55c90c181fc"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "No fresh full-body rereading of every unchanged132r1payload; exact prior evidence attributed per path.",
+        "No fresh full native reading of remaining49properties/all102source records or every original report/intake residual. Their exact prior complete meaning coverage is explicit; all54current decisions and current analytical owners independently read.",
+        "No whole AWS article, whole RFC9110, whole S038paper/allappendices/figures, source implementation or artifact replication claimed.",
+        "Original14cases and inherited S055 finite study not rerun; exact historical execution evidence preserved and attributed. C15 and own controls exposed.",
+        "Not every current first-review auxiliary142payload body newly read; full semantic core/scopes/findings/results and limits received as enumerated.",
+        "No original historical executed prompt identification; remains UNKNOWN.",
+        "No live vendor/target deployment, operational efficacy, external publication/rendering/accessibility, independent replication of wholeprogramme or programme selection.",
+        "No sibling Evolved/SPR/target conclusions as scientific premises; adapter only general sections1/2/5."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Distributed Systems Engineering",
+      "research_account": "families/drf/current/DRF-L1.md",
+      "family_current_index": "families/drf/current/README.md",
+      "portal_page_id": "research-lineage-distributed-systems-engineering",
+      "portal_route": "research-engineering-lineage/distributed-systems-engineering/",
+      "rough_responsibility_slot": "DRF-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/8/retained_limitations",
+        "source_array_sha256": "7856486ca94017773681c6e2e99ec8fe8688300bc84f5ec5b1f8419cfbf6adfd",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "DRF-L2",
+      "family": "DRF",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 53469,
+        "sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c"
+      },
+      "qualification_receipt": {
+        "bytes": 6394,
+        "sha256": "18fb9309de1e93eb47fb9ea98510934f25c1dd1dc9adc4946fbff145b075c1a8"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 9060,
+            "sha256": "1ea7204af8f8ba5453e2524971e2067795b777ff7718b44c81c8d23fd0084e04"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 32409,
+            "sha256": "8e09fc2d0b57bf68b9f4252057ad4cb12ecbe8c816fd4ea0b5b7e4e963445fc7"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "No whole85external-source-body reading, paidIECclauses, original1978NowlanHeap body, complete vonNeumann proof or underlying dataset reanalysis is claimed. Exact source masks govern.",
+        "Historical executed commission binding remains UNKNOWN; no retrospective historical-contract breach is inferred.",
+        "Author constructions and adversarial calculations are conditional analytical evidence; no new empirical field observations or actual intervention effects are established.",
+        "No universal maintenance/reserve/cost optimum, target adoption, runtime authority, synthesis qualification, browser/accessibility certification, publication or release.",
+        "Current first role uses explicitly attributed unchanged prior evidence, not personal complete rereading of every carrier; complete distinct adversary supplies the separate role."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Reliability and Maintainability Engineering",
+      "research_account": "families/drf/current/DRF-L2.md",
+      "family_current_index": "families/drf/current/README.md",
+      "portal_page_id": "research-lineage-reliability-maintainability-engineering",
+      "portal_route": "research-engineering-lineage/reliability-maintainability-engineering/",
+      "rough_responsibility_slot": "DRF-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/9/retained_limitations",
+        "source_array_sha256": "252c733e749e2f61a426fd604d85b20fa8b456b799f7cc7c82099abab3bf1c93",
+        "entry_count": 5,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "DRF-L3",
+      "family": "DRF",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 38434,
+        "sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821"
+      },
+      "qualification_receipt": {
+        "bytes": 6617,
+        "sha256": "077cf6416c8b5d8b43115afe5fbe6c780f1a3b43b59a16db2f90404558c70abc"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 11872,
+            "sha256": "6eaa075cf5a9f99a83bd4e9284e101f2faa59e92821a203a8825c2b1ee59a02e"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 18703,
+            "sha256": "3072d8b5b648b33bcd07cc568a4c1cfbc149f1c5cc8eb1dea7a925e7661f58ab"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Source-specific17freshadversarial primaryidentities at selectedpassage/abstract/metadata scopes are not wholeliterature or externalartifact replication.",
+        "Ten new finite/analytical reviewerconstructions and19authorcases do not establish industrial effectiveness or replace source proof obligations.",
+        "ActualS107mean, independentstudydenominator and historicalexecutedpromptbinding remainunknown.",
+        "No targetadoption, runtimeauthority, synthesisqualification, browser/accessibilityconformance, publication orrelease.",
+        "First role is explicitly returning with bounded prior-reading carryforward; no false freshcontext or fullnewrereadclaim."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Formal Methods and Verification Engineering",
+      "research_account": "families/drf/current/DRF-L3.md",
+      "family_current_index": "families/drf/current/README.md",
+      "portal_page_id": "research-lineage-formal-methods-verification-engineering",
+      "portal_route": "research-engineering-lineage/formal-methods-verification-engineering/",
+      "rough_responsibility_slot": "DRF-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/10/retained_limitations",
+        "source_array_sha256": "63c56ea28e814b35347af0099a4d8ca0c2483a7ffaca7b5a0579454f4c936365",
+        "entry_count": 5,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "DRF-S",
+      "family": "DRF",
+      "kind": "synthesis",
+      "scientific_qualification": "QUALIFIED_AT_DECLARED_SCOPE",
+      "frozen_subject": {
+        "bytes": 12026,
+        "sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a"
+      },
+      "qualification_receipt": {
+        "bytes": 61264,
+        "sha256": "fad4c7fe65da3985114ffa46e4a581406ac7bae79a8b5b7c345a2d141050f36d"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "INDEPENDENT_WHOLE_FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 6238,
+            "sha256": "3194c9e466867b8db787eba6cadace00668df5dbe2d3af0838856a12043b2702"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_AVAILABLE"
+        },
+        {
+          "role": "DISTINCT_INDEPENDENT_WHOLE_ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 8052,
+            "sha256": "6e5100980abbaf859d1360cd754bf36b72f9108bd02ebf5e0e76ab608b4df3e9"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_AVAILABLE"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Current analytical qualification does not authenticate missing historical original neutral body or executed contract. Both remain NOT_LOCATED/null/BLOCKED_INPUT, with zero original historical increment. Prompt qualification remains in progress at its disclosed scope; rendered assessment is not asserted.",
+        "Qualified native records and actual prior primary-section reading are not fresh full-primary-source replication. S036 primary PDF bytes are not locally pinned; no claim of new field validation or source-system implementation follows.",
+        "Reviewer read masks must distinguish fresh complete current report/source fields, exact prior personal reuse, mechanical correspondence, inherited executions and unavailable evidence. No automatic all-row semantic reading credit follows from hashes.",
+        "Finite analytical executions and stipulated numerical controls do not establish empirical probability, prevalence, real effect size, measured benefit or operational readiness.",
+        "First O01: current clock-family capsules retain stale predecessor-U/proposed-M tokens. Operative full arguments, outgoing memberships and effective current matrix selectM. Future clarification is advised; the frozen original remains unchanged.",
+        "First O02: R017→D29 synopsis is overbroad about physical/organizational support and absent computational work. Native software restoration and B21 reconstruction are genuine; the complete argument requires an actual restoration-result/evidence input consumed by D29 and does not find it. Current unknown and separate D29→R017/R017→D33 material relations remain distinct.",
+        "Actual first-review90980comparisons1failure and separate63checkresolution remain; root133checks1datatype error and separate5checkresolution remain. Zero physical mismatches is not a claim that every scientific test originally passed.",
+        "All24constituent and6alreadyaccepted synthesis identities remain unchanged; historicalSPR-L1r4original evidence limitation remains disclosed. InaccessibleoldA/B cessation remainsUNKNOWN.",
+        "Central authoritative selection is separate and requires an effective technical writer safeguard and liveexpectedcurrent verification; neither exists. Stageonly affected operation; no GitHub mutation, implementation, publication or release.",
+        "The actual distinct whole final verdict accepts at declared scope with0material/3nonblocking/0blocking. O01 and O02 preserve the clock-family stale labels and R017>D29 overbroad synopsis; distinct O03 preserves the stale A005 selection wording in the A006 task-clause introduction. Frozen author bytes remain unchanged. External consumers of stale capsule fields are not certified.",
+        "R047>D48 remains unresolved for missing identified finite exercise result actually consumed by the present D48 warrant; qualitative analytical evidence can suffice in an appropriate genuine successor. No queued-job, field-evidence, numerical-result or mandatory new-exercise gate is imposed. The separately supported incoming D48>R047 criterion is preserved.",
+        "Distinct reviewer used scoped primary XTrace, Hindsight, metastability and SRE material at the exact disclosed access scope; this qualification does not invent local PDF pins or complete-primary-source reading. Two new finite analytical controls with16checks are analytical discriminators, not empirical replication.",
+        "Actual second-review delivery wrapper failure and initially incorrect diagnosis are preserved. Official downloads exited0 and emitted plain path text; JSON parsing was mistaken, not a scientific-byte mismatch. Separate saved-byte verification62checks0 and receipt verification10checks0 resolve custody without erasing the original failure.",
+        "Root combined scientific-receiving command produced the actual two receipts before a host context-truncated result. Its original terminal status is NOT_OBSERVED. Separate current verification observed receipts with136DRF/198LAWchecks0, then actual final-delivery commandca174b exited0 with73DRF/94LAWchecks0. No fabricated original terminal is used."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "DRF synthesis",
+      "research_account": "families/drf/current/DRF-S.md",
+      "family_current_index": "families/drf/current/README.md",
+      "portal_page_id": "research-lineage-evolved-drf",
+      "portal_route": "research-engineering-lineage/evolved-drf/",
+      "rough_responsibility_slot": "DRF-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/11/retained_limitations",
+        "source_array_sha256": "12b10bb5280c52dd4e80eb4ca6e6fe667dc6407bc7cdbdf8cb6a5213dd647ef1",
+        "entry_count": 14,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSS-L1",
+      "family": "SSS",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 14990,
+        "sha256": "6be1f9a29ebfae1df91df68de438926a29320be6a582187e09aa7eb2f7a742dc"
+      },
+      "qualification_receipt": {
+        "bytes": 8778,
+        "sha256": "10280082670c707b147872084bd57ea0a065847759e6e18d5adf7555d91dc62c"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 17362,
+            "sha256": "fc9cb3b7cee1850fd5f52c046b97a25be83652757fa1566874bbeca0e9d6cd41"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 23515,
+            "sha256": "a44e9d640683a3f94275f193cd091bc2abd1de04bfd5c5c7df7221bbdc703012"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "All source records were read, but54 underlying selected external works were not independently reopened.",
+        "13 external primary works were inspected at named material passages, not represented as complete-paper rereads.",
+        "No source experiment, FDR/model-checker, benchmark repository, model service or target system was executed; only3 constructed arithmetic cases were independently reproduced.",
+        "Historical executed-commission binding, unarchived historical retrieval bytes and unread full normative clauses remain unavailable.",
+        "No other-lineage scientific body, target implementation, browser rendering, accessibility study, live publication or operational-effectiveness result is claimed.",
+        "Earlier partially read alternative CLAIM_SOURCE_INDEX residual is superseded for coverage by verified135-block exact reconstruction; all unique relevant content is covered.",
+        "All scientific payloads and native members read at their declared semantic scope using actual-value deduplication and complete unique residuals; coordinate maps additionally verified mechanically.",
+        "Sixteen primary-source identities received targeted passage/official-abstract inspection; not all67 works or whole papers freshly read.",
+        "Inherited source-access statements are attributed, not converted into reviewer inspection. S062 DOI access failed before successful publisher inspection.",
+        "Full normative clauses, original DDD book,1976 Parnas paper and other inherited/metadata-only material retain their limits.",
+        "Executed historical commission binding not established; no original-commission-failure finding.",
+        "Only reviewer finite calculations and structural/reconstruction checks executed. No source experiments, benchmark repositories, FDR, live/rendered/accessibility or target tests.",
+        "Method and first-review payload hashes do not import their scientific examples or computations as this reviewer's own work.",
+        "No external messages, Git writes, input mutation, publication, target integration or programme qualification authority exercised."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Software Architecture",
+      "research_account": "families/sss/current/SSS-L1.md",
+      "family_current_index": "families/sss/current/README.md",
+      "portal_page_id": "research-lineage-software-architecture",
+      "portal_route": "research-engineering-lineage/software-architecture/",
+      "rough_responsibility_slot": "SSS-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/16/retained_limitations",
+        "source_array_sha256": "6d4a808db0089980e3ce855a876f5389ef157945d0f593df39e3f1f572c6db00",
+        "entry_count": 14,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSS-L2",
+      "family": "SSS",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 71477,
+        "sha256": "47c2bc5894a6c4a98efe5278e86a6bc3f9c551bd5cab6e173565885115cbcb33"
+      },
+      "qualification_receipt": {
+        "bytes": 20202,
+        "sha256": "f2f7f78b7c70f5f89678758011746611ce5d111f34bd72c939824cea337f4743"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 17933,
+            "sha256": "9afcdd4bf1db4c24d053ef07513cce654a6a6f66dd8c370207dc096d242b142e"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 21778,
+            "sha256": "d5f1b6c64b1c79899f23c148e139289c83b40391b0ed71a258f052da6d42d5e7"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Historical executed-commission binding remains unestablished at the recorded original scope; this successor does not invent a prior execution or retrospectively approve one.",
+        "Complete105canonicalproperties106nativecitationrows andA98/67B74/67 populations retained;180mappingedges do not mean180uniqueproperties or independentstudies.",
+        "57examined/48evidence-limited,83conditionallyeligible/22ineligible and all12dispositioncategories remain; eligibility confers no target capability or applicability.",
+        "Nine adversarialprimarychecks were performed at r2 declaredscopes; r4 adds only an existingAPRpagevisualreread. Otheraccess stays attributed; no newfullpaper,raw-datareplication,professionalcausaltreatment-effect or fullprotocolproof claim.",
+        "C082 lifecycleirreversibility remains contested; C095longitudinalautonomyeffects/C100generalunattendedmaintenance remainunresolved;6compositionquestions remain.",
+        "Observation models and technicalconsumers are legitimate; currentactor-labelinterpretations establish no newactor,permission,veto orapproval. Behaviorpreservation is observer/premise-relative and doesnotprove toolfidelity,candidatecorrectness or payoff.",
+        "Public verification is exactsource/DOMcorrespondence andlinks,not browser/accessibility/reader-comprehension/livepublication oroperationalqualification.",
+        "Allprioradversereviews,originalfindings,sourceaccessfailures,rootN01/N02attribution andr3frozenunreviewedhistory preserved. A revieworvalidator aloneisnotqualification.",
+        "Incumbent verifies this handoff before anymaster32countchange; no IMPLEMENTAUDITdefect,adoption,RLGWO,Gitpublication orintegration follows."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Software Maintenance and Evolution — canonical",
+      "research_account": "families/sss/current/SSS-L2.md",
+      "family_current_index": "families/sss/current/README.md",
+      "portal_page_id": "research-lineage-software-maintenance-and-evolution",
+      "portal_route": "research-engineering-lineage/software-maintenance-and-evolution/",
+      "rough_responsibility_slot": "SSS-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/17/retained_limitations",
+        "source_array_sha256": "a7e1f34e150d4499893099e3b63477653025ece4fc5066308faf6a145e4cbcb6",
+        "entry_count": 9,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSS-L3",
+      "family": "SSS",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 54007,
+        "sha256": "107089602777ade226d1c49ff940e428bcaa27415ecdc3062f4a7367b7c6b5d7"
+      },
+      "qualification_receipt": {
+        "bytes": 12778,
+        "sha256": "4841e7dd94cd1c725ebb2ca7186072be6d42531386d66730803c80a1f60b04f8"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 38929,
+            "sha256": "2514e403d969f9c716e357b978943f70af9e84e02b7d8f4bd72b9e53e5d3b6a3"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 40184,
+            "sha256": "3a71b180dc8ce83c14ceb4f9506ab9ac5a5936fe470d1dd4573620e9c29db678"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Historical executed-prompt binding remains NOT_ESTABLISHED; no original-commission failure or execution qualification inferred.",
+        "All62nativeproperties45sources53relations6configurations andnegative/unknownpopulation retained; no newproperty or mandatoryretention quota.",
+        "Adversary freshprimarychecks cover8works atpartialscopes,0fullprimaryworks; no full45workreading, rawdatareplication, theoremproofrederivation orplant/productdeploymentvalidation.",
+        "R015 must be read with completeESPLE-028: applicable inherited evidence can discharge product obligations; no unconditional fresh-test quota.",
+        "JHipster source-reported35.70% remains distinct from ordinary9376/26256 rounding35.71%; numerator/denominator/sourceattribution notinvented.",
+        "R034 supplies no additionalS040bodyreading; R024 is its actual current sourceattempt. Latermetadata pass may clarify association without altering acceptedscience retrospectively.",
+        "ESPLE-048 regeneration and4compositionobligations remainunresolved: economiccalibration, regenerationcomparison, model-plantcorrespondence, autonomousreconciliation.",
+        "No browser/accessibility/reader-comprehension/livepublication qualification or IMPLEMENTAUDIT adoption/defect inferred. Incumbent receives before any mastercountchange."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Software Product Line Engineering",
+      "research_account": "families/sss/current/SSS-L3.md",
+      "family_current_index": "families/sss/current/README.md",
+      "portal_page_id": "research-lineage-software-product-line-engineering",
+      "portal_route": "research-engineering-lineage/software-product-line-engineering/",
+      "rough_responsibility_slot": "SSS-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/18/retained_limitations",
+        "source_array_sha256": "6a0ffab21878f0fa0f3ea220e9a1104dd83a0f564026e3246cacfa351b8333f1",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SSS-S",
+      "family": "SSS",
+      "kind": "synthesis",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 539336,
+        "sha256": "a2d040804fbd01ad6f26f5350a122c33830bde0d61ea4d1e1f079ba1717eb6bb"
+      },
+      "qualification_receipt": {
+        "bytes": 44920,
+        "sha256": "7bd97c54fd8381420161a88c0fdee3f04b8497e59b72c41581e792eb67add217"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "fidelity",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 17030,
+            "sha256": "5ed3a75a4392dca2e8a103dff5d182fe940b141fa7b5354afe1cb68036e4a283"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "adversarial",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 59107,
+            "sha256": "8e993b581bcfc6a9c503be5a87dfe4490ca9fae0ff3d919f4e4635766f2230c3"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "The seven broad unresolved research questions and the seven original unresolved pair cells remain distinct and unresolved at their inherited scopes. Neither is silently resolved or converted into a new acceptance gate.",
+        "The packaged original report and prompt are preserved; the complete original executed steering remains unauthenticated.",
+        "Raw program/result bytes for 74 historical later-r9 operations remain unavailable. Present cases do not recover or authenticate those operations.",
+        "Evidence is finite constructed analytical activity with inspected callback coverage and independent premises. It does not establish field efficacy, measured savings, universal interception, malicious-process authentication or a global optimum.",
+        "Native/source reading, selected primary passages, inherited source access and mechanical custody retain their actual separate scopes. Citation rows and dependent checks are not independent studies.",
+        "Authority, criterion, purpose, truth, binding, capacity, cost and horizon remain independent. Adequate direct, simpler, unchanged, omitted, retired or substitute arrangements remain legitimate.",
+        "All adverse findings and actual failed/corrected author and reviewer instruments remain preserved, including the r15 G/A defect, r16 author verifier exit 1, two adversarial structural instrument exits 1 and the exact interrupted draft.",
+        "The frozen author manifest still records its historical pre-review state. This external qualification does not edit that manifest or any prior receipt.",
+        "Scientific qualification confers no implementation qualification, repository mutation, publication, release or central registry authority. A alone receives and applies the idempotent proposal."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "SSS synthesis",
+      "research_account": "families/sss/current/SSS-S.md",
+      "family_current_index": "families/sss/current/README.md",
+      "portal_page_id": "research-lineage-evolved-sss",
+      "portal_route": "research-engineering-lineage/evolved-sss/",
+      "rough_responsibility_slot": "SSS-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits and recorded observations of the original scientific qualification and original reviewer exposure. Historical statements about publication or mutation authority describe that scientific act; the later owner authorization separately permits the reviewed documentary publication. Current central application remains separately staged.",
+      "retained_scientific_limits_source_map": [
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/0",
+          "original_text_sha256": "5cbcda7ec04a5dcb21343ddd14c72a752f093f37de4c81d2bcb506c1fe3702dd",
+          "public_text_sha256": "5cbcda7ec04a5dcb21343ddd14c72a752f093f37de4c81d2bcb506c1fe3702dd",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/1",
+          "original_text_sha256": "f6d70274efe9f87653d7ac929751b89c9705586f98170cb189c45df214053b5b",
+          "public_text_sha256": "f6d70274efe9f87653d7ac929751b89c9705586f98170cb189c45df214053b5b",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/2",
+          "original_text_sha256": "1227cfb11f7bcf2b4fa52de17344f072e8320821f60aaffe31494bbd827b5b71",
+          "public_text_sha256": "1227cfb11f7bcf2b4fa52de17344f072e8320821f60aaffe31494bbd827b5b71",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/3",
+          "original_text_sha256": "656086a22037f1344487aedc3a4ee8efa116119c8244e7e00f5d0c3a4ac79ac9",
+          "public_text_sha256": "656086a22037f1344487aedc3a4ee8efa116119c8244e7e00f5d0c3a4ac79ac9",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/4",
+          "original_text_sha256": "2d5eae0878c373de2757dcdc83c2fce1e7ea8a6b278e8f0cd2a5e6bb28eafb80",
+          "public_text_sha256": "2d5eae0878c373de2757dcdc83c2fce1e7ea8a6b278e8f0cd2a5e6bb28eafb80",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/5",
+          "original_text_sha256": "4f817c82f6856c410921e34a51496120305dc265ba7271d7eb126101b760d91e",
+          "public_text_sha256": "4f817c82f6856c410921e34a51496120305dc265ba7271d7eb126101b760d91e",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/6",
+          "original_text_sha256": "b3434a7218dea36c22fe40f2d18245385b3e04a4034618678428d9dfd4b60a4a",
+          "public_text_sha256": "b3434a7218dea36c22fe40f2d18245385b3e04a4034618678428d9dfd4b60a4a",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/7",
+          "original_text_sha256": "56545b8525a18f5966e004ec7feae709f5ae551165d1c73eb43db3ddd53a4644",
+          "public_text_sha256": "56545b8525a18f5966e004ec7feae709f5ae551165d1c73eb43db3ddd53a4644",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained/8",
+          "original_text_sha256": "c94383e0a78861693e21495818b073b162a462bef975bb52c274139f1453db23",
+          "public_text_sha256": "c94383e0a78861693e21495818b073b162a462bef975bb52c274139f1453db23",
+          "transformation": "VERBATIM"
+        }
+      ],
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/19/original_binding/preserved_receiving_record/limitations_exactly_retained",
+        "source_array_sha256": "85791a7fc087ddbbd0d3d1b0cfd0b57e67559ea5a0e910a1cf634ff6a65cb45a",
+        "entry_count": 9,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "BWP-L1",
+      "family": "BWP",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 19496,
+        "sha256": "de20a6a26b21fd3c6e73d1182db53a77a66ea49e498760029ebaa3334c1254bc"
+      },
+      "qualification_receipt": {
+        "bytes": 9969,
+        "sha256": "51260ea5933922412cc4087fa7d69a1f45f79ae323b5a435bfa01b58626ad4fa"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 11114,
+            "sha256": "bcd548137953c251efe263fa8b8343791a2288c6c3ff201ea0daadb3e54c1ee7"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 16227,
+            "sha256": "36a91fe649d63cd6967f09be2756f6f7bac37c0a3665fe8fc72c3815c8612af3"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Original executed historical prompt and steers UNKNOWN.",
+        "Original successor map/read-log/control bytes not recovered; their recorded history is not current byte verification.",
+        "Selected primary passages with source-specific access limits, not a full contemporary literature census or all-source full-text reading.",
+        "Constructed controls and source interpretation do not establish whole-composition field effectiveness, universal causal benefit, global minimality or irreducible novelty.",
+        "No browser rendering, accessibility audit, publication, independent human reader study or target implementation assessment.",
+        "EBPM-053 remains unresolved; 14 negative properties remain negative. Qualification preserves those dispositions.",
+        "Four synthesis dossiers omit an explicit novelty-status line; complete native exports and adjudications withhold irreducible novelty. The optional presentation clarification is not a new acceptance requirement.",
+        "Returning fidelity reused actual prior independent reading with exact unchanged/residual evidence and zero new primary accesses; successor adversary inspected selected passages from14 works, not all full texts."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Business Process Management",
+      "research_account": "families/bwp/current/BWP-L1.md",
+      "family_current_index": "families/bwp/current/README.md",
+      "portal_page_id": "research-lineage-evolved-bwp-business-process-management",
+      "portal_route": "research-engineering-lineage/evolved-bwp-business-process-management/",
+      "rough_responsibility_slot": "BWP-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/20/retained_limitations",
+        "source_array_sha256": "be645f913b9d050ec0b15a4e51247866f9a92a9c7b7ec00aaa7d0a1b6e5c5c4b",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "BWP-L2",
+      "family": "BWP",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 32198,
+        "sha256": "34fd59ab85661f9a47c16db924a78c4721334edd5a8f0dabd2013ffe15ff99ab"
+      },
+      "qualification_receipt": {
+        "bytes": 9721,
+        "sha256": "e7bc375197e49f01726ca725dedf6921557c86ef48492f375aff6b0b7a57d135"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 14347,
+            "sha256": "8a66ae7f4158ff7934784b0680e1294106288960f04a92d6ad94b07049be1c03"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 25501,
+            "sha256": "4f5c6766ff03ac13a481bc6815c086087897a72046a6ea0a92a74c7147dcfb48"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Not every administrative or historical scratch payload was cognitively read; READ_MASK gives all 161 exact scopes.",
+        "Most of 53 registered source bodies were not freshly reopened; inherited access and publication ceilings remain attributed.",
+        "Generic adaptation only; excluded sibling examples and method-pilot bodies not imported.",
+        "No engine/SDK execution, target implementation, raw-data replication, rendered/live site, or whole-field literature census.",
+        "Finite cases do not prove natural-language subsumption, historical transmission, all configurations or deployment benefit.",
+        "CMMN wording tension, EWM-074 generalisation and five native composition obligations remain disclosed scientific limits.",
+        "The complete original77property population and current negative/unresolved dispositions are preserved.",
+        "Fidelity selected12primary documents and adversary13selected-primary-passage inquiries; neither is all-source whole-body reading.",
+        "CMMN lifecycle wording tension, EWM-074 unresolved generalisation and five native composition obligations remain scientific limits.",
+        "Adversary case v2 only corrects annotations; all executed models, observations, checks and conclusions match preserved v1."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Workflow Management",
+      "research_account": "families/bwp/current/BWP-L2.md",
+      "family_current_index": "families/bwp/current/README.md",
+      "portal_page_id": "research-lineage-evolved-bwp-workflow-management",
+      "portal_route": "research-engineering-lineage/evolved-bwp-workflow-management/",
+      "rough_responsibility_slot": "BWP-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/21/retained_limitations",
+        "source_array_sha256": "1df2a907ed4deb8b52c9bedc406f4c4d3ca0d7d2a09354791c06182dd688c8fe",
+        "entry_count": 10,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "BWP-L3",
+      "family": "BWP",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 24924,
+        "sha256": "903171314772325506ca2fe5bda7c3728606a4a488fb406508dc5dd0c6181c6d"
+      },
+      "qualification_receipt": {
+        "bytes": 19772,
+        "sha256": "c2bd03f55f3aa1fd501b9963a737da9e701ac90e4da4117e1d7596b22961d6ac"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 12952,
+            "sha256": "dd8e3346072c11f4b58071f417f0e3c87b76a5624cb15eb679db8fb6d0c4fae9"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 38385,
+            "sha256": "1aa353f1a91fa10a094237e008020588b64d8615449fad64923d6b35b7954141"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "No field experiment, new prevalence estimate, cited-algorithm reproduction or independent theorem proof.",
+        "Selected source passages, not complete primary rereading of all63 works.",
+        "Code and historical metadata read scopes are explicit in READ_MASK.json; no claim of complete raw reading of every helper.",
+        "No successful browser rendering, runtime interaction or independent comprehension study; no publication.",
+        "No target implementation, sibling scientific premise, Git/controller creation, registry or engineering effect.",
+        "Original84property identities and all negative/unresolved histories remain intact.",
+        "EPM068/EPM082 and U01–U03 remain bounded examined unknowns, not uncompleted obligations concealed by acceptance.",
+        "EPM084 retains useful relational-invariant status without an irreducible new mechanism or established field benefit.",
+        "Source passage reading is attributed to each worker; historical executed prompt remains UNKNOWN.",
+        "The frozen historical author manifest retains review-pending fields; this detached receipt records later qualification without mutating science."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Process Mining",
+      "research_account": "families/bwp/current/BWP-L3.md",
+      "family_current_index": "families/bwp/current/README.md",
+      "portal_page_id": "research-lineage-evolved-bwp-process-mining",
+      "portal_route": "research-engineering-lineage/evolved-bwp-process-mining/",
+      "rough_responsibility_slot": "BWP-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/22/retained_limitations",
+        "source_array_sha256": "6c1a6f3011230cd9526039ffe326a588031ba53a45cd7046c20e00b122a642d7",
+        "entry_count": 10,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "BWP-S",
+      "family": "BWP",
+      "kind": "synthesis",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 46181,
+        "sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+      },
+      "qualification_receipt": {
+        "bytes": 12480,
+        "sha256": "df68381df01150adcc9776ab294cdd7d27d0e12102878511add089bf44b62044"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "fidelity",
+          "reported_disposition": "ACCEPT",
+          "receipt": {
+            "bytes": 9253,
+            "sha256": "fcecaf4f7d0cb81db4660019246ae5df6f1c958fc9f18039a68b659ae251a9c0"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "adversarial",
+          "reported_disposition": "ACCEPT",
+          "receipt": {
+            "bytes": 10511,
+            "sha256": "236f63bc16dcb7564770f8297e033009a0ef04493f5bb40791606ed5c258216f"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "The lost original predecessor r7 repair/case/freeze bytes remain unavailable; this is the separately identified successor003 subject, not a recovered old final freeze.",
+        "Historical BWP synthesis body and packaged prompt are present; the exact original executed conversation and steering chain remain unauthenticated.",
+        "Author94cases/366mixed checks, including10new/39mixed comparisons, are heterogeneous finite and attributed evidence, not field replications. New author command exit1 remains explicit;34 comparisons are data-dependent,3 construction assertions,2 absent-authority readbacks.",
+        "Fidelity used4fresh finite groups/13comparisons; distinct adversarial used8groups/28comparisons. Reviewers were exposed to author evidence and the adversary knew fidelity acceptance. Different scientific judgments do not make shared sources or constructed worlds independent empirical populations.",
+        "Four unresolved pairs, broader unresolved native capability/effectiveness questions, credibility, real event mappings, authority and observed receipts remain unresolved or independently required.",
+        "172citation/source records and167 inventory identities after five declared same-work merges are not independent-study counts. Dourish reanalysis dependence, unavailable earlier fieldwork and n8n static-template/denominator limits remain.",
+        "No all-primary-work reading, universal completeness of every future interface, deployed efficacy, causal effect estimate, whole-lineage necessity, global cost optimum, browser-layout verification, operating authority or implementation defect is asserted.",
+        "Original author and review execution limits remain preserved. Scientific qualification does not establish native controller or continuity evidence, central registry application, GitHub publication, unrelated science or engineering authority."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "BWP synthesis",
+      "research_account": "families/bwp/current/BWP-S.md",
+      "family_current_index": "families/bwp/current/README.md",
+      "portal_page_id": "research-lineage-evolved-bwp",
+      "portal_route": "research-engineering-lineage/evolved-bwp/",
+      "rough_responsibility_slot": "BWP-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits and recorded observations of the original scientific qualification and original reviewer exposure. Historical statements about publication or mutation authority describe that scientific act; the later owner authorization separately permits the reviewed documentary publication. Current central application remains separately staged.",
+      "retained_scientific_limits_source_map": [
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/0",
+          "original_text_sha256": "c110abdb2f2a71fa25a4e846323a1e0e09dc42ac13b6fbd9f6109324390c64c2",
+          "public_text_sha256": "c110abdb2f2a71fa25a4e846323a1e0e09dc42ac13b6fbd9f6109324390c64c2",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/1",
+          "original_text_sha256": "21938487615573fa6f576b3ca65c89c961e3a631ecf8d21bdcc81f1ffdc96eaa",
+          "public_text_sha256": "21938487615573fa6f576b3ca65c89c961e3a631ecf8d21bdcc81f1ffdc96eaa",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/2",
+          "original_text_sha256": "545d356e06c3b29b0413b2de7c7ace36d8f891120b669c77c60d1aa42ed05a1a",
+          "public_text_sha256": "545d356e06c3b29b0413b2de7c7ace36d8f891120b669c77c60d1aa42ed05a1a",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/3",
+          "original_text_sha256": "e13179e9a563339f343fe09b11e00be66b52855b77e324c0343973af037cba53",
+          "public_text_sha256": "e13179e9a563339f343fe09b11e00be66b52855b77e324c0343973af037cba53",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/4",
+          "original_text_sha256": "c9d907de4999f1837b0aa14b792ad36a9dfac14b59a81e2750bba19de009a86b",
+          "public_text_sha256": "c9d907de4999f1837b0aa14b792ad36a9dfac14b59a81e2750bba19de009a86b",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/5",
+          "original_text_sha256": "a646b253a7d2ec8b1101c99bb3e5ab116d740375fc0ac1cf041a873e84087f8a",
+          "public_text_sha256": "a646b253a7d2ec8b1101c99bb3e5ab116d740375fc0ac1cf041a873e84087f8a",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/6",
+          "original_text_sha256": "6e29aeb6fa60779abbb853b35d4615c5fb51c3f4b13606d473defdec9d4831b5",
+          "public_text_sha256": "6e29aeb6fa60779abbb853b35d4615c5fb51c3f4b13606d473defdec9d4831b5",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained/7",
+          "original_text_sha256": "02c42747957899f0b3b10bba5d0bedd9dd459e0a42a666ba83ee3e68e0689b8e",
+          "public_text_sha256": "b93b37511a417e1f18516541a81d2f9ed1d8bf6737f6da06f2fdaa5d1cf91d86",
+          "transformation": "Public explanation preserves evidential separation while omitting unrelated execution/host diagnostics."
+        }
+      ],
+      "retained_scientific_limits_disposition": "PUBLIC_SAFE_DERIVATION",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/23/original_binding/preserved_receiving_record/limitations_exactly_retained",
+        "source_array_sha256": "78eae620a083efd48f297a4cb49568d94d049476baa2567338c125325652383a",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "AMA-L1",
+      "family": "AMA",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 17566,
+        "sha256": "594dfaa5c71a8e907b437a22d2e3bfb717dc078565048c040538df6cda3a7bb6"
+      },
+      "qualification_receipt": {
+        "bytes": 9110,
+        "sha256": "07cefbbbfc374a419865dcb2066981105b204ffe1fe72162015552da2d57c2f6"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 10789,
+            "sha256": "0c9af893175a4ebc94c84c098d6f329fb35984e3afe3a65b9211ecd98fbcd77d"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 32630,
+            "sha256": "863105cce10513536a735d7c589b6d178dd98de1966da28540bf79d8258a6e71"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Original historical executed commission binding remains unestablished; no original-commission failure inferred.",
+        "Three inherited derived candidates are conditionally analyzed; no new empirical mechanism or universal architectural necessity follows.",
+        "All source appraisals read is not all external full texts read. Author and reviewer source work retain separate actual access scopes.",
+        "Adversary fresh scope:12 selected primary-passage source IDs,2 bibliography/abstract only,3 failed-only,39 unattempted; original S040 proof not freshly inspected in full text.",
+        "First reviewer source counts are not adversarial primary reading. No full proof census, empirical benchmark/dataset replication, physical timing experiment, target test or latest-version literature census.",
+        "Formal validity is distinct from practical implementation/environment correspondence; unknown or contested judgments remain so.",
+        "Constructed controls and cost/dependence examples establish stipulated models only. No deployment efficacy, compliance or safety certification.",
+        "Exact final science and all negative/prior history are immutable; no target absorption, Git action or publication."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Autonomous Agents",
+      "research_account": "families/ama/current/AMA-L1.md",
+      "family_current_index": "families/ama/current/README.md",
+      "portal_page_id": "research-lineage-autonomous-agents",
+      "portal_route": "research-engineering-lineage/autonomous-agents/",
+      "rough_responsibility_slot": "AMA-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/24/retained_limitations",
+        "source_array_sha256": "613a255e74dd35503e5a7aac008c05b222ede58b3146605284793114cd29e1b5",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "AMA-L2",
+      "family": "AMA",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 42408,
+        "sha256": "791620825f2a382e291f05befea096a5eda481f0b9d7b99dc5f7363f7784c0ed"
+      },
+      "qualification_receipt": {
+        "bytes": 16868,
+        "sha256": "a187680730038ceff5218f3f1f6b7a86f87a591762c1ee8030355ff0466496f5"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 19883,
+            "sha256": "c28b0984c23f6d4dc7aad8a3f814da01775325431e2b2d939d1eab1aba52f85f"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 13493,
+            "sha256": "bf128cde04f483535ad6cb19c01cc9e9b2b851b753d311875fb16b268a17aabe"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Original executed historical commission remains unestablished; no retrospective instruction violation inferred.",
+        "All76nativeproperties56source records61relations6configurations retained; analytical compositions071–074 are inherited, not newly validated whole-system properties.",
+        "Adversary inspected16of56nativeprimaryworks plusone supplement andone newpreprint at declared scopes; fourtargetdocuments fulltext, otherpassages selected. Forty nativeprimarybodies not independently read by adversary. Authorship/fidelity scopes remain separately attributed.",
+        "No complete literaturecensus, completeexternalproofcertification, empiricalreplication, runtimeequivalence, physicalactuatorcompliance or whole-compositioneffectiveness.",
+        "AMA-L2-FID-O01 remains nonblocking:three compressed genealogy locators imprecise; both reviewers independently support underlyingrelationships and record proper passages. Carry correction directions in receiving/publicationprojection without mutating frozenstudy.",
+        "No targetabsorption, operationaladoption, remoteGitaction or livepublication; incumbent mustreceivebeforemastercountchange.",
+        "Fresh primary-work scopes remain separately attributed: author26/56,fidelity9/56,adversary16/56, with full versus selected-page access preserved. Central retrieved no excluded raw caches.",
+        "FIPA full reading concerns exact9pageSC00029H inside a longer compilation, not the whole compilation. New preprint is version-bound selected passages; its venue line is not independent publication acceptance.",
+        "Fidelity did not independently hash recoveredS038body against the author body. Adversary metadata correspondence and central inventory verification do not create independent cache custody.",
+        "A bounded exact-title search did not locate the detached milestone delivery receipt. The actual received ZIP, identity, detached manifest and complete reconstruction are verified; no missing receipt is invented.",
+        "The native qualification calls54changedranges hunks; the exact unified diff contains36hunk headers. Both original values are preserved and this descriptor discrepancy adds no scientific gate."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Multi-Agent Systems",
+      "research_account": "families/ama/current/AMA-L2.md",
+      "family_current_index": "families/ama/current/README.md",
+      "portal_page_id": "research-lineage-multi-agent-systems",
+      "portal_route": "research-engineering-lineage/multi-agent-systems/",
+      "rough_responsibility_slot": "AMA-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/25/retained_limitations",
+        "source_array_sha256": "86937e3e779b00053cfc1a5bd534bba4a1ba8c882f0ff19f30cc23c47f0543b4",
+        "entry_count": 11,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "AMA-L3",
+      "family": "AMA",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 13824,
+        "sha256": "d60a32e34fc19d30f4b41272a1883a514daebec22196f448b3528b87b80f25fa"
+      },
+      "qualification_receipt": {
+        "bytes": 11375,
+        "sha256": "62016d4cd961d62f16bcc84dfd371ef914d572a3ff93a231c3ea5cf740a88e8a"
+      },
+      "qualification_identity_kind": "CENTRAL_WRAPPER_WITH_EXPLICIT_NATIVE_BINDING",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 60486,
+            "sha256": "865897c66ed66bf1e7e45bc635e136d1816f14778fa9783046a5a37fae99a9d5"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 56272,
+            "sha256": "517cda00c3f14ed676e2253a6ecac7f8c54728be89e2280ab84cfff59e271559"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "No broad comparative net-benefit acceptance: C119 and C120 remain separately unresolved.",
+        "Exact historical executed prompt is not recovered/bound; no missed historical obligation is invented.",
+        "Primary access remains selected-passage/metadata/abstract or separately attributed helper/inherited scope. No universal full-primary reading or exhaustive literature census.",
+        "No theorem replay, source-software/raw-data reproduction, industrial/clinical validation or operational-effectiveness claim.",
+        "Clouseau completion possibility is not all-run eventual successful discharge; nonblocking planning is not fairness, deadline or current authority.",
+        "Finite cases use explicit role-specific premises and finite total graphs; not a universal truth algebra or crash-safe transaction certificate.",
+        "CommA2015 allocation ambiguity remains a source-level non-verdict; stronger future causal use needs additional evidence.",
+        "Exact reconstruction/hashes do not establish cognition or science; actual completed reading and independent whole-subject reasoning are separately recorded."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Agent-Oriented Software Engineering — canonical",
+      "research_account": "families/ama/current/AMA-L3.md",
+      "family_current_index": "families/ama/current/README.md",
+      "portal_page_id": "research-lineage-agent-oriented-software-engineering",
+      "portal_route": "research-engineering-lineage/agent-oriented-software-engineering/",
+      "rough_responsibility_slot": "AMA-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/26/retained_limitations",
+        "source_array_sha256": "f18e491d5bd3640eff7073476e398c0ba3ff99d91c06f0a0ece188df1d4156d8",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "AMA-S",
+      "family": "AMA",
+      "kind": "synthesis",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 82725,
+        "sha256": "4fd89fbb8867b55788cf083523a6546b3ded8e515567de85b0db2e548377232e"
+      },
+      "qualification_receipt": {
+        "bytes": 24346,
+        "sha256": "365aaf9f5859e5e0203cb2a48c9f8da245ca0ec11b7b7bea961bb14bcfba4782"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 5640,
+            "sha256": "e117607cafb1e65a41b3f28eae6c35db97de6a83dd5f9b9e8693ea51d943345a"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL_VALIDITY",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 6090,
+            "sha256": "15227ba5f07cb35b8f8a7515d41418aa56a466c8b527a29a79b9cc1b4cf74681"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "The current complete corrected AMA synthesis is qualified at its declared analytical and evidential scope. Complete original executed steering remains unauthenticated/BLOCKED; current owner continuation is separately authorized. No retrospective original-prompt execution qualification is inferred.",
+        "Fresh reading is accurately bounded. Fidelity and adversary inspected complete selected whole-population cores and consequential native interfaces while reusing precisely identified unchanged completed examination. Neither claimed every generated relation, every whole historical record or the complete literature corpus was freshly read.",
+        "Finite analytical constructions and saved-data rederivations are not field experiments, JaKtA/LLM execution, empirical replication, a general fairness/deadline theorem or whole-method superiority.",
+        "Current C130 returns require actual correctly interpreted episode evidence, proposition-appropriate observation sufficiency, exact context, independently justified retention/selection purpose and legitimacy, and a real future consumer. They create neither action permission nor a requirement for persistent memory.",
+        "The fixed S004 case checker/four-field join is not a general horizon/obligation validation API. The actual case is bound by exact traces and the independent r18 guards; generalizing the helper would require new evidence.",
+        "Source occurrences and related editions are not independent studies. Selective primary access, unavailable normative/runtime evidence and original source ceilings remain as disclosed. Ciatto publisher manifestation timing does not create another independent study.",
+        "Whole-AOSE/method superiority, general self-revision assurance, deployment effectiveness and transfer to other targets remain unestablished at their recorded scopes.",
+        "All21 novelty rejections and parent/lineage removals remain analytical judgments, not executed reduced implementations or a universal prohibition on future novelty. Adequate conventional, direct-observation, external-record and no-memory alternatives remain legitimate.",
+        "Original r17 GAP_REVISE and earlier partial null remain true of their own subjects. R18 qualification is not retroactive acceptance or transfer of r17 fidelity.",
+        "Prior failed author and reviewer attempts remain preserved as historical evidence. Corrected reviewer checks do not change scientific source bytes.",
+        "No constituent requalification, new scientific standard, current-unit prompt execution qualification, publication, target implementation, GitHub mutation or central shared selection is conferred.",
+        "Scientific qualification does not establish termination of earlier execution contexts, native technical continuity or effective shared-writer exclusion. Scientific authorization and central writer safety remain separate."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "AMA synthesis",
+      "research_account": "families/ama/current/AMA-S.md",
+      "family_current_index": "families/ama/current/README.md",
+      "portal_page_id": "research-lineage-evolved-ama",
+      "portal_route": "research-engineering-lineage/evolved-ama/",
+      "rough_responsibility_slot": "AMA-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits and recorded observations of the original scientific qualification and original reviewer exposure. Historical statements about publication or mutation authority describe that scientific act; the later owner authorization separately permits the reviewed documentary publication. Current central application remains separately staged.",
+      "retained_scientific_limits_source_map": [
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/0",
+          "original_text_sha256": "ea81315c3355916198ff1ea456e247f2038bc05a9a94b90e21ff94118df27092",
+          "public_text_sha256": "ea81315c3355916198ff1ea456e247f2038bc05a9a94b90e21ff94118df27092",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/1",
+          "original_text_sha256": "7496131e0aed853d9b92308c889bd646a7ff47f3ffb431459e31a21844b5c90c",
+          "public_text_sha256": "7496131e0aed853d9b92308c889bd646a7ff47f3ffb431459e31a21844b5c90c",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/2",
+          "original_text_sha256": "bf3e80fb4bc9cc89a8572521ff8524035c8fe096e3c97878d6ab9f78af1fc7f8",
+          "public_text_sha256": "bf3e80fb4bc9cc89a8572521ff8524035c8fe096e3c97878d6ab9f78af1fc7f8",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/3",
+          "original_text_sha256": "f18dbea672a5be4e22a9c218b3be90da3e7a84b73a6316db89ea1b6122fd1168",
+          "public_text_sha256": "f18dbea672a5be4e22a9c218b3be90da3e7a84b73a6316db89ea1b6122fd1168",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/4",
+          "original_text_sha256": "ce9ccea776a04661fb96e2d9bc1a94b53edbc9654dc6d56ed88aff37e6fe4d65",
+          "public_text_sha256": "ce9ccea776a04661fb96e2d9bc1a94b53edbc9654dc6d56ed88aff37e6fe4d65",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/5",
+          "original_text_sha256": "9a53d5d25f8a626e4fc0d89d7d0bd93726aa83460055e7f64a8a22cf87fe5d3d",
+          "public_text_sha256": "9a53d5d25f8a626e4fc0d89d7d0bd93726aa83460055e7f64a8a22cf87fe5d3d",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/6",
+          "original_text_sha256": "28bacd3b0d1fdcdaaa4a56e35729444c112b7722828744b6b384961510d582bc",
+          "public_text_sha256": "28bacd3b0d1fdcdaaa4a56e35729444c112b7722828744b6b384961510d582bc",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/7",
+          "original_text_sha256": "a621c6421d7e89cbb521bda0d9039804ca43a2f0a9392559f3d5845ad62fafab",
+          "public_text_sha256": "a621c6421d7e89cbb521bda0d9039804ca43a2f0a9392559f3d5845ad62fafab",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/8",
+          "original_text_sha256": "a4afd775ebe16d6be1dddad25b43940ef1c48c45b00e1ad8b50f2952579959dd",
+          "public_text_sha256": "a4afd775ebe16d6be1dddad25b43940ef1c48c45b00e1ad8b50f2952579959dd",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/9",
+          "original_text_sha256": "74718e2f10999543659f590ad3917fb2c3465a7c1b51d27cb1a7499d8f61f31a",
+          "public_text_sha256": "a4ffae4391c1b03752965e229f882b77915fffd306aab740f0f77e6947c108dc",
+          "transformation": "Public explanation preserves evidential separation while omitting unrelated execution/host diagnostics."
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/10",
+          "original_text_sha256": "9d09337e9d32872232ef4c7c3ea771124877d95c8c9a5d8469369aee61e488ed",
+          "public_text_sha256": "9d09337e9d32872232ef4c7c3ea771124877d95c8c9a5d8469369aee61e488ed",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/27/original_binding/limitations/11",
+          "original_text_sha256": "218575421679a05e26282e7ea884b9f84ccbd041fa1fe5b7c468ede02a1356d3",
+          "public_text_sha256": "63d84b9b3b6ce4f67c1483106774c41ce96ea6e4290acca4de11cda059917ac6",
+          "transformation": "Public explanation preserves evidential separation while omitting unrelated execution/host diagnostics."
+        }
+      ],
+      "retained_scientific_limits_disposition": "PUBLIC_SAFE_DERIVATION",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/27/original_binding/limitations",
+        "source_array_sha256": "b4eff89231a8a009003c29fa8b5587450948fc2a7ea097a0a9db0df21d2b76aa",
+        "entry_count": 12,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SPR-L1",
+      "family": "SPR",
+      "kind": "lineage",
+      "scientific_qualification": "HISTORICAL_QUALIFICATION_RETAINED",
+      "frozen_subject": null,
+      "qualification_receipt": null,
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 0,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": null,
+          "receipt": null,
+          "availability": "ORIGINAL_FINAL_RECEIPT_UNAVAILABLE"
+        },
+        {
+          "role": "DISTINCT_ADVERSARIAL",
+          "reported_disposition": null,
+          "receipt": null,
+          "availability": "ORIGINAL_FINAL_RECEIPT_UNAVAILABLE"
+        }
+      ],
+      "retained_scientific_limits": [],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "original_evidence_exception": "Historical qualification is retained; original final subject, qualification body and two final review receipts remain unavailable. Available predecessor or selected-successor records must not be represented as these missing original proofs.",
+      "name": "System Identification — canonical",
+      "research_account": "families/spr/current/SPR-L1.md",
+      "family_current_index": "families/spr/current/README.md",
+      "portal_page_id": "research-lineage-system-identification",
+      "portal_route": "research-engineering-lineage/system-identification/",
+      "rough_responsibility_slot": "SPR-L1",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "ORIGINAL_FINAL_LIMITATIONS_UNAVAILABLE",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/28",
+        "evidence_limit": "The historical qualification remains recorded, but its original final subject, certificate and two final review objects are unavailable. Historical r4 candidate metadata is not a recovered final join. The empty limitation array is unavailable original evidence, not an assertion that this unit has no limits."
+      }
+    },
+    {
+      "unit_id": "SPR-L2",
+      "family": "SPR",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 51611,
+        "sha256": "423762e1d9e9e9fa2466a787672d166c49e5ad3a1da310e8a52936c8bb63f35e"
+      },
+      "qualification_receipt": {
+        "bytes": 7838,
+        "sha256": "1dd4e6ed24b45657f842be899008bdf61ff424c2967cc07ee11a5948c82f6041"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 10673,
+            "sha256": "f31a4f212bb87ef688f96bcf1f5edca8d4ae2bd6e7c7a0603105e9fa05904726"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 57538,
+            "sha256": "9df64ed8df4480d1c6bbeff8399f5003024b4dc8f982f51df31d359ab65d6059"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "No fresh whole69-property or entire original-report reread in r3; complete retained own scope and exact correspondence are explicit.",
+        "Partial primary inspections and constructed finite results do not establish arbitrary parser, rollback, deployment or empirical claims.",
+        "No all188-primary-bodies claim, full proof/compiler/benchmark reproduction, historical prompt execution binding, or target finding.",
+        "47open questions and3unresolved interactions remain scientific burdens at their stated status, not concealed review completion.",
+        "All prior adverse/procedural/access limits are retained; no cognition transfer from first reviewer or incomplete predecessor."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Programming Language Theory",
+      "research_account": "families/spr/current/SPR-L2.md",
+      "family_current_index": "families/spr/current/README.md",
+      "portal_page_id": "research-lineage-programming-language-theory",
+      "portal_route": "research-engineering-lineage/programming-language-theory/",
+      "rough_responsibility_slot": "SPR-L2",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/29/retained_limitations",
+        "source_array_sha256": "834891575504350a01b9ff3560033993f14de2a9dae4c112d74da914d6de5a33",
+        "entry_count": 5,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SPR-L3",
+      "family": "SPR",
+      "kind": "lineage",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 51421,
+        "sha256": "fc48f0f8c45eedbb477ddd1f82d5e3b4f02849b08a0789cc40a89969e91f9417"
+      },
+      "qualification_receipt": {
+        "bytes": 7492,
+        "sha256": "7902146774aaf1f365179c4d7a4e66c5cdef36abf38d33bdb611da4da159e970"
+      },
+      "qualification_identity_kind": "SELECTED_CENTRAL_QUALIFICATION",
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 68335,
+            "sha256": "86ae3d53b87c4bcaea7a803c6bcea2aab05d0e92838307318e1d2057579cffc0"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reported_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt": {
+            "bytes": 26015,
+            "sha256": "7326cdde512092b3ec65e9561a129adeaa8ce4db6b00fabc283c3fc6979b7256"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "All original retentions unchanged; no new distinct or induced property claimed.",
+        "Fresh external source access is selective and recorded; no fresh full140body review.",
+        "C0220–C0222remain unresolved at their actual appraisal scopes.",
+        "Original execution qualification remains UNKNOWN despite matching historical work-order hash.",
+        "Incidental method pilot exposure is disclosed; no sibling/private target scholarly premises.",
+        "Source-only documentation checks and finite cases are not rendered/live correctness,empirical calibration or independent scientific review.",
+        "R2 root is an exposed correction author, not a fresh full-study reader or independent reviewer. Exact new source/body and finite-case limits are in READ_MASK/R2_PRIMARY_ACCESS/R2_CASE_RESULTS.",
+        "SPR-L3-FID-003 and FID-004 remain disclosed nonblocking observations; FID-005 remains the legitimate bounded unresolved effectiveness claim."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "Requirements Engineering",
+      "research_account": "families/spr/current/SPR-L3.md",
+      "family_current_index": "families/spr/current/README.md",
+      "portal_page_id": "research-lineage-requirements-engineering",
+      "portal_route": "research-engineering-lineage/requirements-engineering/",
+      "rough_responsibility_slot": "SPR-L3",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits of the original unit qualification and its original review exposure; later documentary or publication effects are separately recorded.",
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/30/retained_limitations",
+        "source_array_sha256": "b483ab6471864df04616f8a6a06ba705a9bd38ffe7138ee4491568db3751688f",
+        "entry_count": 8,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    },
+    {
+      "unit_id": "SPR-S",
+      "family": "SPR",
+      "kind": "synthesis",
+      "scientific_qualification": "EXISTING_QUALIFICATION_RETAINED",
+      "frozen_subject": {
+        "bytes": 16022,
+        "sha256": "00ade914cedac23c9170375823ef1496dd369cc0e90a3fcc2160ba83a5689183"
+      },
+      "qualification_receipt": {
+        "bytes": 12447,
+        "sha256": "0a312bcd111cbcd5eb82eb83b219bf83a8c7d070457d56a3c2430b0bd37853e4"
+      },
+      "qualification_identity_kind": null,
+      "historical_final_review_positions": 2,
+      "recovered_original_final_review_receipts": 2,
+      "scientific_reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reported_disposition": "ACCEPT",
+          "receipt": {
+            "bytes": 9645,
+            "sha256": "fdb5f22e7ee504b8a915d6d7719be9709f7c204e1074e3d57d213293b3174506"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        },
+        {
+          "role": "DISTINCT_ADVERSARIAL",
+          "reported_disposition": "ACCEPT_WITH_NONMATERIAL_ERRATUM",
+          "receipt": {
+            "bytes": 9305,
+            "sha256": "ee6a7df169718c31a980774680818af25150f3e5b55e5a4eea1bff8abbc26d31"
+          },
+          "availability": "EXACT_ORIGINAL_BYTES_RECOVERED"
+        }
+      ],
+      "retained_scientific_limits": [
+        "Exact file identities, counts and successful correspondence checks are not semantic proof. No fresh all-source-body, all-native-body or all-negative-pair claim is made.",
+        "Reading reuse is attributed to the actual actor and field scope in the bound masks. Source abstracts, bodies, historical experiments and new finite constructions retain distinct access and execution limits.",
+        "Nineteen stronger hypotheses and sixteen examined unresolved pair dispositions remain as scientific unknowns, not silently converted to negative results or unperformed mandatory work.",
+        "No generic prompt qualification, live documentation, deployment, target transfer or operational effectiveness follows from this selection.",
+        "The original SPR-L1 r4 acceptance remains a historical outcome; its missing original qualification and two review packets are neither invented nor a new acceptance gate."
+      ],
+      "new_scientific_qualification": false,
+      "native_implementation_credit": false,
+      "name": "SPR synthesis",
+      "research_account": "families/spr/current/SPR-S.md",
+      "family_current_index": "families/spr/current/README.md",
+      "portal_page_id": "research-lineage-evolved-spr",
+      "portal_route": "research-engineering-lineage/evolved-spr/",
+      "rough_responsibility_slot": "SPR-S",
+      "disclosure_authority": "OWNER_AUTHORIZED_ORIGINAL_DERIVED_RESEARCH_2026-11-13",
+      "documentary_review_record": "PUBLICATION_REVIEW.json",
+      "retained_scientific_limits_scope": "Limits and recorded observations of the original scientific qualification and original reviewer exposure. Historical statements about publication or mutation authority describe that scientific act; the later owner authorization separately permits the reviewed documentary publication. Current central application remains separately staged.",
+      "retained_scientific_limits_source_map": [
+        {
+          "source_index_pointer": "/rows/31/original_binding/preserved_receiving_record/limitations_exactly_retained/0",
+          "original_text_sha256": "53f210bdc071d8e3d5603e520a6b4419c9512d089e2e42e10802fd461cac4ce3",
+          "public_text_sha256": "53f210bdc071d8e3d5603e520a6b4419c9512d089e2e42e10802fd461cac4ce3",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/31/original_binding/preserved_receiving_record/limitations_exactly_retained/1",
+          "original_text_sha256": "36b68440e19851fe3a03f030bcece9df71631eabba555bcdc958415f33399f43",
+          "public_text_sha256": "36b68440e19851fe3a03f030bcece9df71631eabba555bcdc958415f33399f43",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/31/original_binding/preserved_receiving_record/limitations_exactly_retained/2",
+          "original_text_sha256": "f1fc8e66c6036fe9c30dde4d36c891a955cb392ef62ae2a32d623c01335f8a2b",
+          "public_text_sha256": "f1fc8e66c6036fe9c30dde4d36c891a955cb392ef62ae2a32d623c01335f8a2b",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/31/original_binding/preserved_receiving_record/limitations_exactly_retained/3",
+          "original_text_sha256": "9dfdb454c03c14ded3e7b895c80d9de6496920d0235b563675b6c3a8b1ef25f6",
+          "public_text_sha256": "9dfdb454c03c14ded3e7b895c80d9de6496920d0235b563675b6c3a8b1ef25f6",
+          "transformation": "VERBATIM"
+        },
+        {
+          "source_index_pointer": "/rows/31/original_binding/preserved_receiving_record/limitations_exactly_retained/4",
+          "original_text_sha256": "5e1baf3e9a59967960ee1e9536663a1fd48a6e48b04813cfff6599c6e080c97b",
+          "public_text_sha256": "5e1baf3e9a59967960ee1e9536663a1fd48a6e48b04813cfff6599c6e080c97b",
+          "transformation": "VERBATIM"
+        }
+      ],
+      "retained_scientific_limits_disposition": "VERBATIM_SOURCE_LIMITS",
+      "retained_scientific_limits_source": {
+        "source_index_pointer": "/rows/31/original_binding/preserved_receiving_record/limitations_exactly_retained",
+        "source_array_sha256": "6fb62a38ef43b63e82aa9820cd4356fefad3166d70b1a4e5611659630158cf91",
+        "entry_count": 5,
+        "source_kind": "Original scientific qualification/receiving limitations; no later publication or native authority inferred."
+      }
+    }
+  ]
+}

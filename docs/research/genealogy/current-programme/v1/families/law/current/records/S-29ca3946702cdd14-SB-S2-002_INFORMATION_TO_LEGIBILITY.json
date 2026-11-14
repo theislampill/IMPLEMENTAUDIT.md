@@ -1,0 +1,644 @@
+{
+  "source_identity": {
+    "source_id": "S-29ca3946702cdd14",
+    "scientific_name": "SB-S2-002_INFORMATION_TO_LEGIBILITY.json",
+    "original_bytes": 40491,
+    "original_sha256": "29ca3946702cdd14367f139b763a06533450fe8728e72e432bbb03ae11b678f5"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "author_context": "[custody locator omitted; scientific source identity retained]",
+    "authored_at_utc": "2026-11-11T08:47:14.327395+00:00",
+    "inquiry_family": 5,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "MECHANISM",
+      "TRIGGER_OR_CONTEXT",
+      "NON_TRIGGER_OR_CHEAP_PATH",
+      "DEPENDENCIES_OR_PRECONDITIONS",
+      "MATURE_OR_EVOLVED_FORM",
+      "KNOWN_FAILURE_MODES",
+      "IMPORTANT_CRITICISMS",
+      "REQUALIFICATION"
+    ],
+    "full_native_reading_receipt": "research/FAMILY5_NATIVE_PREMISES_SUCCESSOR2.json",
+    "bounded_interface_domain": "A specified human decision about the same consequential engineering intent, rationale, item/version, change, trace query, anomaly/exception or model-derived work state. Temporal scope is the stated decision and invalidating changes. No generic organization-wide or all-tool relation.",
+    "domain_horizon_authority": "Shared engineering/work-information interfaces where the intended reader has a real decision or response role. Preserve actual authority, permitted access, required retention, consequences, timing and privacy; a representation creates none of these powers.",
+    "evidence_ceiling": "New guarded analytical interface judgments from complete qualified native meanings and primary institutional guidance. No empirical display effect, universal optimal documentation amount, causal trust, guaranteed safe change, deployed outcome or historical transmission claim.",
+    "source_refs": [
+      {
+        "id": "NLS-001",
+        "passages": [
+          "NLP-233",
+          "NLP-234",
+          "NLP-235"
+        ],
+        "role": "Same-work primary normative example for distinct reference/change/status functions and usability considerations; no independent replication or empirical validation."
+      }
+    ],
+    "common_cost_and_alternative": "Use existing adequate current records, direct lookup/contact or a concise view where sufficient. Count duplication, update, reader attention, access/privacy, interpretation and latency. A further layer may add no benefit or impose net burden; required obligations remain constraints.",
+    "exceptions": [
+      "EW-P024 is outside these two7memberrules: proportional selection is separately adjudicated in both directions.",
+      "Unrelated work objects or mere co-use/encodability fail membership application.",
+      "A fully adequate existing receiving premise defeats any claim of extra control or incremental deployment benefit.",
+      "Machine-only operations with no material human interpretation need are outside the forward usability guard.",
+      "Unknown source truth, identity, applicability or authority remains a missing premise; never replace it with a label or approval."
+    ],
+    "attempted_contrary_interfaces": [
+      "AC043-1staleclearstate",
+      "AC043-2wrongconfiguration/trace",
+      "AC043-3waiverandcorrection",
+      "AC043-7unrelatedco-use",
+      "AC043-9failedall8reversecommonreference"
+    ],
+    "positive_controls": [
+      "AC043-4typedtraceview",
+      "AC043-6validconfirmationwithoutactionchange"
+    ],
+    "negative_controls": [
+      "AC043-1",
+      "AC043-2",
+      "AC043-3",
+      "AC043-5adequateexistingpath",
+      "AC043-7",
+      "AC043-8authority/privacyconstraint",
+      "AC043-9"
+    ],
+    "author_challenge": "research/CONSTRUCTED_SCOPED_RULE_LEGIBILITY_SUCCESSOR2.json#AC-043",
+    "reentry": "Reopen the affected member when its object, reader, needed field, authority, configuration, interpretation, source scope or adequate alternative changes. A defect in a common premise requires causal-scope review of every rule member, independent reverse rule and downstream configuration/cost/novelty use; do not promote or reject neighboring members automatically.",
+    "independent_review_scope": "Both required sequential scientific reviews must challenge each rule rationale and every member-to-premise mapping, including adverse controls and exclusions. No sampling claim of complete independent reading; deep reinspections must be disclosed.",
+    "common_source_dependence": "Shared native and NASA ancestry plus a shared display/data path can create common-mode failure.14interfaces are not14independent controls, studies or additive benefits.",
+    "block_id": "SB-S2-002",
+    "title": "GOVERNED_INFORMATION_TO_LEGIBILITY",
+    "direction": "LAW-L3 specified7members->LAW-L1::EL-003",
+    "relation_types": [
+      "EVIDENCE_DEPENDENCY",
+      "INTERPRETATION_QUALIFIER"
+    ],
+    "native_common_basis": "Each source native mechanism supplies a distinct identified governing input to a named work-state interpretation. EL-003 requires shared state definitions, freshness and meaningful response; the exact source type is an explicit parameter, not a claim that all sources confer identity or authority.",
+    "common_subconditions": {
+      "P1": "The exact same consequential object and intended human decision are identified.",
+      "P2": "The member’s native fields establish the specified information-use need and the actual source contribution.",
+      "P3": "A missing, ambiguous, stale or uncertain receiving premise is identified; the contribution changes its bounded evaluation or interpretation.",
+      "P4": "Remaining truth/authority/action premises, nontriggers, adverse controls and adequate alternatives are preserved."
+    },
+    "inference": "IfP1–P4hold, the source’s explicitly typed governing input supplies or qualifies the meaning/current applicability of EL-003’s representation. Do not substitute a generic claim of authoritative truth or infer human usability/response from that input alone.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P001->LAW-L1::EL-003",
+      "LAW-L3::EW-P005->LAW-L1::EL-003",
+      "LAW-L3::EW-P006->LAW-L1::EL-003",
+      "LAW-L3::EW-P008->LAW-L1::EL-003",
+      "LAW-L3::EW-P017->LAW-L1::EL-003",
+      "LAW-L3::EW-P020->LAW-L1::EL-003",
+      "LAW-L3::EW-P030->LAW-L1::EL-003"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "shared_question_or_object": "Which intent/status should a work-state representation call operative?",
+        "guard": "The display informs work governed by shared revisable requirements, and its current/proposed/approved/implemented labels lack an authoritative semantic basis.",
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "member_to_common_premise": "EW-P001 explicitly identifies operative needs, unresolved assumptions and responsible authority. Those typed facts give content to EL-003 shared-state definitions and currentness; they are not furnished by a generic colored label.",
+        "source_contribution": "The operative requirement version, its status/uncertainties and the authorized source of revision.",
+        "receiving_consequence": "EL-003 can distinguish current intent from proposals, implementation and verification, narrowing or correcting what its normal/abnormal display warrants.",
+        "premises_remaining": [
+          "Accessible and understandable presentation",
+          "Actual state/evidence correspondence",
+          "Response capacity and legitimate action rights"
+        ],
+        "counterexample": "The display retains a superseded requirement because its old approval is easy to find.",
+        "nontrigger": "The work has no shared requirement-state ambiguity and an adequate current owned example already supplies the same meaning.",
+        "counter_control": "A concise versioned owned requirement/example can provide the necessary source state.",
+        "specific_cost_and_limit": "Intent authority is neither proof of correct requirements nor proof that work conforms.",
+        "direction_key": "LAW-L3::EW-P001->LAW-L1::EL-003",
+        "source_native_id": "EW-P001",
+        "receiving_native_id": "EL-003",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/0",
+          "expected_native_id": "EW-P001"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+          "expected_native_id": "EL-003"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P001": {
+            "bearer": "A shared engineering intent state",
+            "proposition": "A living authoritative requirement state that distinguishes proposed, approved, implemented, verified and retired obligations and allows risk-proportional change.",
+            "criterion": "People making dependent decisions can identify the operative needs, unresolved assumptions and responsible decision maker, and can revise that state when learning changes the basis.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P001"
+          },
+          "EL-003": {
+            "bearer": "A work-state representation and an intended human responder",
+            "proposition": "Make the minimum relevant normal/abnormal state visible to people who can act, with freshness, accessibility and ownership controls.",
+            "criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-003"
+          }
+        },
+        "source_native_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_evaluation_criterion"
+        ],
+        "premises_supplied": [
+          "The operative requirement version, its status/uncertainties and the authorized source of revision."
+        ],
+        "subcondition_evidence": {
+          "P1": "shared_question_or_object and guard name the joint object, decision and uncertainty.",
+          "P2": "member_to_common_premise, exact native field mask and source_contribution give the native-semantic proof.",
+          "P3": "receiving_consequence identifies the changed bounded assessment/interpretation; no whole-target implication.",
+          "P4": "premises_remaining, counterexample, nontrigger, counter_control and specific_cost_and_limit make the exclusions explicit."
+        },
+        "reverse_direction_key": "LAW-L1::EL-003->LAW-L3::EW-P001",
+        "reentry": "Apply the common re-entry rule to this exact object, source role, receiving need and cited adverse witness."
+      },
+      {
+        "shared_question_or_object": "What rationale or limitation is needed to interpret a visible work state correctly?",
+        "guard": "An intended reader beyond the original author sees a state but lacks durable, current context needed to interpret or respond to it.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "member_to_common_premise": "EW-P005 preserves current rationale, assumptions, interfaces and limits for later users. EL-003 requires interpretable actionable state; the missing context is a concrete receiving premise rather than generic documentation co-use.",
+        "source_contribution": "Applicable rationale/assumptions and limitations bound to the current configuration and reader task.",
+        "receiving_consequence": "A label can be qualified with the context required to distinguish a normal exception from an abnormal condition; obsolete context requires correction.",
+        "premises_remaining": [
+          "Truth and current applicability of the explanation",
+          "Accessible minimal presentation and adequate response",
+          "Any permission and independent evidence needed for action"
+        ],
+        "counterexample": "An old troubleshooting explanation makes a new configuration appear normal.",
+        "nontrigger": "The state and response are already obvious to the relevant user with an adequate concise current explanation.",
+        "counter_control": "A current executable example or short rationale with an expert escalation path can suffice.",
+        "specific_cost_and_limit": "Extra explanation can overload the view; preserve only information relevant to the actual decision and retention need.",
+        "direction_key": "LAW-L3::EW-P005->LAW-L1::EL-003",
+        "source_native_id": "EW-P005",
+        "receiving_native_id": "EL-003",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/4",
+          "expected_native_id": "EW-P005"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+          "expected_native_id": "EL-003"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P005": {
+            "bearer": "Engineering knowledge needed beyond its immediate author",
+            "proposition": "Minimum sufficient, current and configuration-linked engineering knowledge whose maintenance cost is justified by future decisions.",
+            "criterion": "A future user can recover current intent, interfaces, rationale and limitations in an accessible maintained form.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P005"
+          },
+          "EL-003": {
+            "bearer": "A work-state representation and an intended human responder",
+            "proposition": "Make the minimum relevant normal/abnormal state visible to people who can act, with freshness, accessibility and ownership controls.",
+            "criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-003"
+          }
+        },
+        "source_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_evaluation_criterion"
+        ],
+        "premises_supplied": [
+          "Applicable rationale/assumptions and limitations bound to the current configuration and reader task."
+        ],
+        "subcondition_evidence": {
+          "P1": "shared_question_or_object and guard name the joint object, decision and uncertainty.",
+          "P2": "member_to_common_premise, exact native field mask and source_contribution give the native-semantic proof.",
+          "P3": "receiving_consequence identifies the changed bounded assessment/interpretation; no whole-target implication.",
+          "P4": "premises_remaining, counterexample, nontrigger, counter_control and specific_cost_and_limit make the exclusions explicit."
+        },
+        "reverse_direction_key": "LAW-L1::EL-003->LAW-L3::EW-P005",
+        "reentry": "Apply the common re-entry rule to this exact object, source role, receiving need and cited adverse witness."
+      },
+      {
+        "shared_question_or_object": "Which exact item/version does the visible state or evidence describe?",
+        "guard": "A representation is used across versions or promotion states, and its item/evidence association is missing or ambiguous.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "QUESTIONS_FOR_REPOSITORY_AUDIT",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "member_to_common_premise": "EW-P006 supplies unique recoverable configuration identity, purpose/status and provenance. EL-003 current/interpretable state is otherwise about an unspecified or wrong object.",
+        "source_contribution": "An exact item/version and its qualified association with evidence and baseline status.",
+        "receiving_consequence": "The display can attribute observations to their proper object and withhold conclusions about another version without claiming that other version failed.",
+        "premises_remaining": [
+          "Correct correspondence of identifier and actual item",
+          "Behavioral adequacy and authority",
+          "Human interpretation, freshness and response capability"
+        ],
+        "counterexample": "BuildA passes a test and the display silently transfers that result to buildB.",
+        "nontrigger": "One unambiguous current item and an adequate existing identifier/evidence binding already satisfy the receiving concern.",
+        "counter_control": "A validated manifest, hash or direct version readback may supply the needed identity without additional governance machinery.",
+        "specific_cost_and_limit": "Identity is an evidential boundary, not a safety verdict, performance guarantee or release permission.",
+        "direction_key": "LAW-L3::EW-P006->LAW-L1::EL-003",
+        "source_native_id": "EW-P006",
+        "receiving_native_id": "EL-003",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/5",
+          "expected_native_id": "EW-P006"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+          "expected_native_id": "EL-003"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P006": {
+            "bearer": "An item or baseline on which evidence or authority depends",
+            "proposition": "Authoritative identity across intent, source/model, build, test evidence and release, with proportionate promotion controls.",
+            "criterion": "The relevant configuration is uniquely identified, recoverable and governed sufficiently to distinguish valid evidence from evidence about another item.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P006"
+          },
+          "EL-003": {
+            "bearer": "A work-state representation and an intended human responder",
+            "proposition": "Make the minimum relevant normal/abnormal state visible to people who can act, with freshness, accessibility and ownership controls.",
+            "criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-003"
+          }
+        },
+        "source_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "QUESTIONS_FOR_REPOSITORY_AUDIT",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_evaluation_criterion"
+        ],
+        "premises_supplied": [
+          "An exact item/version and its qualified association with evidence and baseline status."
+        ],
+        "subcondition_evidence": {
+          "P1": "shared_question_or_object and guard name the joint object, decision and uncertainty.",
+          "P2": "member_to_common_premise, exact native field mask and source_contribution give the native-semantic proof.",
+          "P3": "receiving_consequence identifies the changed bounded assessment/interpretation; no whole-target implication.",
+          "P4": "premises_remaining, counterexample, nontrigger, counter_control and specific_cost_and_limit make the exclusions explicit."
+        },
+        "reverse_direction_key": "LAW-L1::EL-003->LAW-L3::EW-P006",
+        "reentry": "Apply the common re-entry rule to this exact object, source role, receiving need and cited adverse witness."
+      },
+      {
+        "shared_question_or_object": "What does a change-state label permit the intended responder to do?",
+        "guard": "The visible state concerns a proposed consequential change, and interpretation depends on the actual impact class, delegation or approval/implementation distinction.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "member_to_common_premise": "EW-P008 identifies affected evidence and the appropriate change route. EL-003 action-linked state needs that typed routing/authority meaning; it does not get permission from visual prominence.",
+        "source_contribution": "Applicable change class, affected constraints and delegated response/escalation route, with approved and implemented states distinguished.",
+        "receiving_consequence": "A person can interpret the state as locally actionable, requiring escalation or still awaiting implementation evidence; the display’s apparent permission is narrowed accordingly.",
+        "premises_remaining": [
+          "Accurate impact and valid actual delegation",
+          "Current implementation/verification evidence",
+          "Timely response resources and usable presentation"
+        ],
+        "counterexample": "A green approval label is treated as proof of implementation or authority for a different affected party.",
+        "nontrigger": "An adequate preauthorized local route already makes the response unambiguous and no consequential change interface is implicated.",
+        "counter_control": "An existing policy and named authorized owner may suffice without a new board.",
+        "specific_cost_and_limit": "The rule supplies a route criterion; it does not assume every change needs prior centralized approval or ignore urgent paths.",
+        "direction_key": "LAW-L3::EW-P008->LAW-L1::EL-003",
+        "source_native_id": "EW-P008",
+        "receiving_native_id": "EL-003",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/7",
+          "expected_native_id": "EW-P008"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+          "expected_native_id": "EL-003"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P008": {
+            "bearer": "A proposed change affecting other evidence, interfaces or authority",
+            "proposition": "Policy-based change classes, automated impact evidence, named escalation thresholds and explicit acceptance of residual risk.",
+            "criterion": "Affected claims and commitments are assessed, and the empowered actor uses the applicable change route before relying on the changed state.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P008"
+          },
+          "EL-003": {
+            "bearer": "A work-state representation and an intended human responder",
+            "proposition": "Make the minimum relevant normal/abnormal state visible to people who can act, with freshness, accessibility and ownership controls.",
+            "criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-003"
+          }
+        },
+        "source_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_evaluation_criterion"
+        ],
+        "premises_supplied": [
+          "Applicable change class, affected constraints and delegated response/escalation route, with approved and implemented states distinguished."
+        ],
+        "subcondition_evidence": {
+          "P1": "shared_question_or_object and guard name the joint object, decision and uncertainty.",
+          "P2": "member_to_common_premise, exact native field mask and source_contribution give the native-semantic proof.",
+          "P3": "receiving_consequence identifies the changed bounded assessment/interpretation; no whole-target implication.",
+          "P4": "premises_remaining, counterexample, nontrigger, counter_control and specific_cost_and_limit make the exclusions explicit."
+        },
+        "reverse_direction_key": "LAW-L1::EL-003->LAW-L3::EW-P008",
+        "reentry": "Apply the common re-entry rule to this exact object, source role, receiving need and cited adverse witness."
+      },
+      {
+        "shared_question_or_object": "What dependency or evidence relation gives a displayed status its meaning?",
+        "guard": "The intended interpretation depends on an actual requirement/design/test/change link, and its type, endpoint/version or relevance is uncertain.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "member_to_common_premise": "EW-P017 requires accurate query-relevant relations with explicit semantics and configuration awareness. EL-003 otherwise risks a readable but semantically false dependency/evidence display.",
+        "source_contribution": "A justified typed relation and endpoint/version scope for the named decision query.",
+        "receiving_consequence": "The display can distinguish a genuine evidence/impact relationship from mere association and flag unsupported or stale interpretations.",
+        "premises_remaining": [
+          "Adequacy of linked evidence and query coverage",
+          "Human legibility and actual response rights",
+          "Link maintenance cost and change detection"
+        ],
+        "counterexample": "An attractive dependency graph treats every shared tag as a verified relation.",
+        "nontrigger": "The state is directly observed and its intended use does not rely on a cross-artifact relation, or an adequate native link already resolves it.",
+        "counter_control": "A focused current query or executable relation may meet the exact need.",
+        "specific_cost_and_limit": "A link supports only its typed claim; more links do not imply completeness, truth of endpoints or net benefit.",
+        "direction_key": "LAW-L3::EW-P017->LAW-L1::EL-003",
+        "source_native_id": "EW-P017",
+        "receiving_native_id": "EL-003",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/16",
+          "expected_native_id": "EW-P017"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+          "expected_native_id": "EL-003"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P017": {
+            "bearer": "A maintained relation between engineering obligations and realization/evidence",
+            "proposition": "Trace the claims whose loss would impair a real decision; maintain evidence of link quality rather than maximising link count.",
+            "criterion": "A specified impact, assurance or maintenance query can traverse accurate relevant links in the required direction at acceptable upkeep cost.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P017"
+          },
+          "EL-003": {
+            "bearer": "A work-state representation and an intended human responder",
+            "proposition": "Make the minimum relevant normal/abnormal state visible to people who can act, with freshness, accessibility and ownership controls.",
+            "criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-003"
+          }
+        },
+        "source_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_evaluation_criterion"
+        ],
+        "premises_supplied": [
+          "A justified typed relation and endpoint/version scope for the named decision query."
+        ],
+        "subcondition_evidence": {
+          "P1": "shared_question_or_object and guard name the joint object, decision and uncertainty.",
+          "P2": "member_to_common_premise, exact native field mask and source_contribution give the native-semantic proof.",
+          "P3": "receiving_consequence identifies the changed bounded assessment/interpretation; no whole-target implication.",
+          "P4": "premises_remaining, counterexample, nontrigger, counter_control and specific_cost_and_limit make the exclusions explicit."
+        },
+        "reverse_direction_key": "LAW-L1::EL-003->LAW-L3::EW-P017",
+        "reentry": "Apply the common re-entry rule to this exact object, source role, receiving need and cited adverse witness."
+      },
+      {
+        "shared_question_or_object": "Is a displayed normal/closed state consistent with outstanding exceptions and verified correction?",
+        "guard": "A material anomaly or accepted deviation affects the represented configuration and its residual/disposition may be lost or misinterpreted.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "member_to_common_premise": "EW-P020 preserves anomaly identity, affected configuration, authority and residual disposition. These facts qualify the normal/abnormal state that EL-003 makes visible.",
+        "source_contribution": "Actual anomaly/exception identity, scope, unresolved impact, authorized disposition and correction evidence status.",
+        "receiving_consequence": "EL-003 can represent accepted residuals and unverified correction explicitly instead of equating ticket closure with normal operation.",
+        "premises_remaining": [
+          "Validity of closure evidence and authority",
+          "Fresh actual state and confidential access",
+          "A capable accountable responder"
+        ],
+        "counterexample": "A waived defect vanishes from a new dashboard and is assumed repaired in all configurations.",
+        "nontrigger": "No material anomaly or exception affects the display, or an adequate current issue view already preserves all relevant distinctions.",
+        "counter_control": "A scoped issue record and associated evidence can suffice without another exception register.",
+        "specific_cost_and_limit": "Record provenance does not ensure response, remedy, consent or the absence of retaliation.",
+        "direction_key": "LAW-L3::EW-P020->LAW-L1::EL-003",
+        "source_native_id": "EW-P020",
+        "receiving_native_id": "EL-003",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/19",
+          "expected_native_id": "EW-P020"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+          "expected_native_id": "EL-003"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P020": {
+            "bearer": "A known anomaly or exception affecting relied-upon evidence",
+            "proposition": "One material problem identity from detection through authorised disposition and verified correction, linked to configuration and evidence.",
+            "criterion": "It has an identified state, impact, responsible disposition and a traceable relation to affected configurations.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P020"
+          },
+          "EL-003": {
+            "bearer": "A work-state representation and an intended human responder",
+            "proposition": "Make the minimum relevant normal/abnormal state visible to people who can act, with freshness, accessibility and ownership controls.",
+            "criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-003"
+          }
+        },
+        "source_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_evaluation_criterion"
+        ],
+        "premises_supplied": [
+          "Actual anomaly/exception identity, scope, unresolved impact, authorized disposition and correction evidence status."
+        ],
+        "subcondition_evidence": {
+          "P1": "shared_question_or_object and guard name the joint object, decision and uncertainty.",
+          "P2": "member_to_common_premise, exact native field mask and source_contribution give the native-semantic proof.",
+          "P3": "receiving_consequence identifies the changed bounded assessment/interpretation; no whole-target implication.",
+          "P4": "premises_remaining, counterexample, nontrigger, counter_control and specific_cost_and_limit make the exclusions explicit."
+        },
+        "reverse_direction_key": "LAW-L1::EL-003->LAW-L3::EW-P020",
+        "reentry": "Apply the common re-entry rule to this exact object, source role, receiving need and cited adverse witness."
+      },
+      {
+        "shared_question_or_object": "Can a model-derived work-state view be treated as information about the actual governed system?",
+        "guard": "The representation is generated from an engineering model/environment and its authority domain, version, semantics or actual-system correspondence is a material uncertainty.",
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "member_to_common_premise": "EW-P030 requires scoped authority, model validation and reconciliation to actual state. EL-003 cannot interpret a model picture as current reality without the relevant typed correspondence.",
+        "source_contribution": "Defined authority/semantic domain, version and validated correspondence limits or known divergences of the model-derived view.",
+        "receiving_consequence": "The display’s claim is confined to what the model actually supports; a coherent but stale view triggers correction or a different information path.",
+        "premises_remaining": [
+          "Human accessibility/interpretation",
+          "Current evidence for the particular use and latent omissions",
+          "Response authority and affordable maintenance"
+        ],
+        "counterexample": "A consistent model of the approved design is presented as an observation of a changed deployed product.",
+        "nontrigger": "A direct adequate work-state source makes no model-based correspondence claim.",
+        "counter_control": "Direct readback with a current small record may avoid the model environment entirely.",
+        "specific_cost_and_limit": "Validation at one purpose does not establish all-purpose fidelity; internal consistency, tool acquisition and visual polish are not reality checks.",
+        "direction_key": "LAW-L3::EW-P030->LAW-L1::EL-003",
+        "source_native_id": "EW-P030",
+        "receiving_native_id": "EL-003",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/29",
+          "expected_native_id": "EW-P030"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/2",
+          "expected_native_id": "EL-003"
+        },
+        "native_meanings_and_bearers": {
+          "EW-P030": {
+            "bearer": "An authoritative engineering model or digital environment",
+            "proposition": "A configuration-controlled, queryable engineering evidence environment with scoped authority and verified correspondence to reality.",
+            "criterion": "Its authority, version, semantics, access and reconciliation with actual systems are adequate for the decisions made from it.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EW-P030"
+          },
+          "EL-003": {
+            "bearer": "A work-state representation and an intended human responder",
+            "proposition": "Make the minimum relevant normal/abnormal state visible to people who can act, with freshness, accessibility and ownership controls.",
+            "criterion": "State must be current, interpretable and actionable for the specified decision; a label alone is insufficient.",
+            "full_record_ref": "research/NATIVE_MEANINGS.json#EL-003"
+          }
+        },
+        "source_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "receiver_native_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "MATURE_OR_EVOLVED_FORM",
+          "REQUALIFICATION.qualitative_evaluation_criterion"
+        ],
+        "premises_supplied": [
+          "Defined authority/semantic domain, version and validated correspondence limits or known divergences of the model-derived view."
+        ],
+        "subcondition_evidence": {
+          "P1": "shared_question_or_object and guard name the joint object, decision and uncertainty.",
+          "P2": "member_to_common_premise, exact native field mask and source_contribution give the native-semantic proof.",
+          "P3": "receiving_consequence identifies the changed bounded assessment/interpretation; no whole-target implication.",
+          "P4": "premises_remaining, counterexample, nontrigger, counter_control and specific_cost_and_limit make the exclusions explicit."
+        },
+        "reverse_direction_key": "LAW-L1::EL-003->LAW-L3::EW-P030",
+        "reentry": "Apply the common re-entry rule to this exact object, source role, receiving need and cited adverse witness."
+      }
+    ]
+  }
+}

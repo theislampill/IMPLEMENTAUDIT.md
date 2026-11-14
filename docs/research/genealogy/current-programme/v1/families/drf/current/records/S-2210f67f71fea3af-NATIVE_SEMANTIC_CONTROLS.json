@@ -1,0 +1,2554 @@
+{
+  "source_identity": {
+    "source_id": "S-2210f67f71fea3af",
+    "scientific_name": "NATIVE_SEMANTIC_CONTROLS.json",
+    "original_bytes": 172838,
+    "original_sha256": "2210f67f71fea3afad063d330cfb913201a2cf6f96a71bb89e3953f475b2ce02"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "drf-s-native-formal-interface-controls/1",
+    "common": {
+      "relation_scope": "A scoped methodological interface for evaluating the named native formal activity. No method adoption, actual AI proof success, checker run or target applicability is asserted. The finite objects and semantic near-misses are explicit; the relation does not arise merely because these records were authored by an AI.",
+      "materiality": "The native predicate and concrete activity already identify the shared engineering question. Statement-fidelity controls or represented-semantics limits change the warranted use of evidence for that question, including partial computational or local-contract inputs. They need not establish the whole receiver.",
+      "not_arbitrary_encoding": "The checked object directly represents events, transitions, resources, quantities or required predicates used by the receiving inference. A lossless encoding of unrelated prose would leave that inference unchanged, as NX02 shows, and is excluded.",
+      "AI_forward": "When AI assistance is selected for this named formal activity, a checked derivation earns only its actual statement and axioms. The member-specific near-miss identifies a consequential semantic change that successful derivation checking alone cannot repair. A faithful fixed-statement proof is not invalid merely because AI found it.",
+      "AI_guard": "Separate statement generation, fixed-statement proof search and repair; check derivation/unsafe assumptions with the actual trusted mechanism and independently establish correspondence to the member predicate. No checker success, roundtrip agreement or benchmark headline by itself supplies that correspondence.",
+      "AI_reverse": "The native predicate, finite object and consequential near-miss select what the generated formal statement must preserve and what would falsify fidelity. This is an intended-meaning and evaluation input, not a proof of the formalization workflow or the receiving physical/system function.",
+      "MC_forward": "Interpret a completed check only over the identified finite model, inputs, reductions and environmental actions. A complete exact executable model can be the entire intended mathematical object. A bounded abstraction supplies only its matched local/computational input; deployment, continuous-domain or all-time extrapolation requires separate correspondence.",
+      "MC_guard": "The finite/model scope is explicit, the property is non-vacuous and the actual checker or exhaustive enumeration is correct for it. If reduction, abstraction, numeric discretization, probabilities or fairness is used, its property-specific preservation obligations remain. Stating a proposed object is not reporting its execution.",
+      "MC_reverse": "The native inference identifies the actual event, horizon, function, state or quantity that a model result is being asked to support. Its specific near-miss identifies an omitted or altered semantic dimension requiring a different model, a limited conclusion or separate evidence.",
+      "scope_of_numeric_members": "A finite check of a real calculation routine can support its computed contribution. It is not empirical population model checking and does not establish a physical transfer law, fitted distribution, independent observations or a global analytic theorem. F015 computational premises and the received source/code identities remain separately attributed.",
+      "authority_and_effects": "Neither interface grants operating, maintenance, publication or institutional authority. External effects, empirical calibration, live capacity and useful human outcomes remain at their native bounds.",
+      "cost_and_alternative": "Use each member's already authored ROUTES comparator and residual. Direct human encoding, an existing theorem, an exact small enumeration or a current-state check can be adequate. Account for translation review, search/checking cost, false confidence, abstraction upkeep and additional dependencies; no uniform AI advantage or large checker requirement is inferred.",
+      "source_ceiling": "Qualified F040/F045 native/current claims and disclosed source access, exact109 native roles, own analytical controls and explicitly identified inherited/own cases. No new empirical experiment, proof-assistant run or industrial replication.",
+      "reentry": "Reopen the affected interface when intended meaning, generated statement/axioms, concrete model/bounds, code, observation question, checker semantics or a necessary environment premise changes."
+    },
+    "authored_controls": {
+      "path": "analysis_r12/semantic_controls.py",
+      "bytes": 31070,
+      "sha256": "d98a30e510ad7b28d5a8bbf7695f78b5547aee09f08b16c053ec7010500f5838"
+    },
+    "native_adapter": {
+      "path": "PROPERTY_INDEX.json",
+      "bytes": 523772,
+      "sha256": "30f97f19a952bc636a8e537cf942a52e9231ad39340a35aa84eaf1caa2dad3c5"
+    },
+    "exact_route_source": {
+      "path": "analysis_r3/formal_choice_routes.py",
+      "bytes": 39166,
+      "sha256": "64a4fa91a9608af4aa0feddd62f2082edc2681a949230fbb47c490968a25c53f"
+    },
+    "members": [
+      {
+        "id": "D01",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P01",
+          "native_pointer": "/PROPERTIES/0",
+          "current_pointer": "/QUALIFICATIONS/0",
+          "current_object_sha256": "a61034e0a67d3d356cf48c2734cf197c9f2d9934ca6dc01807db1546b9f2bcda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D01",
+          "canonical_tuple_sha256": "156ddaba2015b151c5e98c049bbe70d7660f3372040f4671dd994c92a17fafe5"
+        },
+        "intended_native_predicate": "A protocol claim remains within its declared fault/timing/storage model.",
+        "particular_formal_activity": "Specify the few fault transitions and assumptions on which the named theorem depends, and check the affected implication.",
+        "adequate_comparator": "Reuse the exact existing conditional theorem and its known premise mapping.",
+        "native_residual": "Actual deployment correspondence and probabilities are separate; recording irrelevant assumptions adds no assurance.",
+        "finite_model_or_computation_object": "The selected protocol transition relation with explicit crash, message and storage actions; enumerate only a declared finite instance.",
+        "consequential_semantic_near_miss": "Deleting a crash-recovery action from the generated model changes the fault model although the remaining theorem can be valid.",
+        "new_execution": false
+      },
+      {
+        "id": "D02",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P02",
+          "native_pointer": "/PROPERTIES/1",
+          "current_pointer": "/QUALIFICATIONS/1",
+          "current_object_sha256": "1749cbb5d8015f551d1a82614402b582411af42af497047b592b4fe5bbb0a9cb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D02",
+          "canonical_tuple_sha256": "15b778bbfa4b76cc568af83b1f23c6e0a043a3ca209327364d2eaee54bc4557a"
+        },
+        "intended_native_predicate": "The same observation distinguishes, or does not distinguish, the remote effect histories relevant to the consumer.",
+        "particular_formal_activity": "Enumerate the two timeout-equivalent histories and the postcondition of a fixed-intent recovery.",
+        "adequate_comparator": "Use an adequate enclosed return or direct current-state check.",
+        "native_residual": "Historical action can remain unknown; a stronger historical objective and authority remain separate.",
+        "finite_model_or_computation_object": "The two timeout-equivalent effect histories and a separate fixed-intent current-state reset, as in NX01 and the received preparation.",
+        "consequential_semantic_near_miss": "Translate an unknown past effect into no effect, or translate an adequate current postcondition into knowledge of that past effect.",
+        "new_execution": false
+      },
+      {
+        "id": "D03",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P03",
+          "native_pointer": "/PROPERTIES/2",
+          "current_pointer": "/QUALIFICATIONS/2",
+          "current_object_sha256": "f2f328c6106ec9ff81a2b923dabf4d704187a13ff488097ca0cc60e8d5446221",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D03",
+          "canonical_tuple_sha256": "fa57f8950a20d3c4663190827e2fb3b6c6d7e541ace3aafc26789c3beaba9ed4"
+        },
+        "intended_native_predicate": "The surviving function is implied by the admitted joint fault set.",
+        "particular_formal_activity": "Check a finite fault-set/function truth table and identify shared basic events.",
+        "adequate_comparator": "Use the existing fault-budget implication with explicitly unknown exposure probabilities.",
+        "native_residual": "A proof of tolerance is not a calibrated joint law; nominal replica names do not create independence.",
+        "finite_model_or_computation_object": "The admitted joint fault sets and Boolean surviving-function predicate; NX07 separates the finite grid calculation from its independent all-real bound.",
+        "consequential_semantic_near_miss": "Replace an admitted joint fault set with independent marginal failures, or replace deterministic tolerance with a calibrated success probability.",
+        "new_execution": false
+      },
+      {
+        "id": "D04",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P04",
+          "native_pointer": "/PROPERTIES/3",
+          "current_pointer": "/QUALIFICATIONS/3",
+          "current_object_sha256": "076ff6db110f5f825783a2a5287c6f8704e01e558352a62fa4818df65544c971",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D04",
+          "canonical_tuple_sha256": "71ddb066b77511e611c6cdf6cba7604f48aa16ca420bd13521132a19490bf36a"
+        },
+        "intended_native_predicate": "The claimed order or interval follows from the timestamp relation actually recorded.",
+        "particular_formal_activity": "Prove the specific causal-order or bounded-clock implication used in the inference.",
+        "adequate_comparator": "Use directly measured elapsed time when that is sufficient and meaningful.",
+        "native_residual": "Logical order alone supplies no physical duration or complete event history.",
+        "finite_model_or_computation_object": "A finite event graph, recorded logical/vector timestamps and the selected causal-order or bounded-clock relation.",
+        "consequential_semantic_near_miss": "Translate happens-before into elapsed physical time, or absence of a recorded edge into proof that no dependency exists.",
+        "new_execution": false
+      },
+      {
+        "id": "D05",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P05",
+          "native_pointer": "/PROPERTIES/4",
+          "current_pointer": "/QUALIFICATIONS/4",
+          "current_object_sha256": "b994147c1a240eb101faf10bed00ebd13058e942cfbac745e83b84a5b7ae6784",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D05",
+          "canonical_tuple_sha256": "0077093e58a7ac84de38fa1d8d91578847c6c7dbdfe055692676ebca33fe2ce0"
+        },
+        "intended_native_predicate": "The selected lease/generation protocol prevents conflicting effective access over its stated bounds.",
+        "particular_formal_activity": "Prove nonoverlap under the actual drift/pause/delay and resource-installation conditions.",
+        "adequate_comparator": "Use an adequate local serialized resource or established bounded-clock contract.",
+        "native_residual": "The resource must enforce the protocol; unsupported timing cannot be repaired by a proof label.",
+        "finite_model_or_computation_object": "Lease/holder/resource-acceptance transitions under stated pause, drift and delay bounds; clock discretization needs its own preservation relation.",
+        "consequential_semantic_near_miss": "Drop the timing/resource guard, or require generation fencing even when a different integrated or bounded-time protocol discharges the actual claim.",
+        "new_execution": false
+      },
+      {
+        "id": "D06",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P06",
+          "native_pointer": "/PROPERTIES/5",
+          "current_pointer": "/QUALIFICATIONS/5",
+          "current_object_sha256": "44b1bd9790135be10e9a01fb2e8bd24f6412c080f7272c6c5919722f0c295de4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D06",
+          "canonical_tuple_sha256": "6bc49808ec9869e85f23d6cd5f6672d87736dded07bea2ffa08784366a83ae16"
+        },
+        "intended_native_predicate": "The read/session history satisfies the consumer-selected freshness contract.",
+        "particular_formal_activity": "Check the concrete history against a small allowed-session state machine.",
+        "adequate_comparator": "Use an authoritative local read or an accepted weaker stale-read contract.",
+        "native_residual": "Later legitimate overwrites and target capability remain distinct from stale-read failure.",
+        "finite_model_or_computation_object": "A finite read/session history against the actual selected freshness predicate, including permitted stale reads and later overwrites.",
+        "consequential_semantic_near_miss": "Translate a consumer-specific freshness guarantee into a universal caller-visible certificate, or a later legitimate write into failure of the earlier guarantee.",
+        "new_execution": false
+      },
+      {
+        "id": "D07",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P07",
+          "native_pointer": "/PROPERTIES/6",
+          "current_pointer": "/QUALIFICATIONS/6",
+          "current_object_sha256": "5d7f6cd2af22fe7a2ba1eb98dd78e87038c6a326a93f4a7fac9d4a4fd808d3dd",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D07",
+          "canonical_tuple_sha256": "ff8e7f1e23fdf1cfad09efc036de4df7ed526c329f4d879c3c4c2403f1337a19"
+        },
+        "intended_native_predicate": "The admitted operation/transaction history satisfies the intended consistency predicate.",
+        "particular_formal_activity": "Use the matching linearizability, serializability or isolation checker on an exact finite history/model.",
+        "adequate_comparator": "Use a local transaction whose boundary already encloses the invariant.",
+        "native_residual": "A finite passing history is not all executions; progress and a wider business invariant remain separate.",
+        "finite_model_or_computation_object": "An exact finite operation or transaction history against its intended linearizability, serializability or isolation predicate.",
+        "consequential_semantic_near_miss": "Substitute serializability for linearizability, or infer all executions from one passing finite history.",
+        "new_execution": false
+      },
+      {
+        "id": "D08",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P08",
+          "native_pointer": "/PROPERTIES/7",
+          "current_pointer": "/QUALIFICATIONS/7",
+          "current_object_sha256": "16f1085722e6c646d032711801e9ecb7a238c3c8d50ff70bf52f6af76d78b1b4",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D08",
+          "canonical_tuple_sha256": "af035e1de176196501da8c26c39fa183bf51a222e4e74559449a545a2db560d1"
+        },
+        "intended_native_predicate": "Admitted merges preserve both the selected invariant and the required convergence result.",
+        "particular_formal_activity": "Check closure of invariant-valid states under the actual update/merge operations.",
+        "adequate_comparator": "Use a simple union object when that is the complete required function.",
+        "native_residual": "Convergence alone does not imply every business invariant; deployment delivery and state retention remain premises.",
+        "finite_model_or_computation_object": "The invariant-valid finite states and actual update/merge table of a selected convergent object.",
+        "consequential_semantic_near_miss": "Translate agreement on the final value into preservation of a separate business invariant.",
+        "new_execution": false
+      },
+      {
+        "id": "D09",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P09",
+          "native_pointer": "/PROPERTIES/8",
+          "current_pointer": "/QUALIFICATIONS/8",
+          "current_object_sha256": "1177ec9fed3b7cefd8f9db2b2175d1f7e6d3cd372c3c262dc054adee21a88770",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D09",
+          "canonical_tuple_sha256": "52027a464aa89e44cc275ad94b374d51cfa15997cf4088cbbee1cac22fbd2ff3"
+        },
+        "intended_native_predicate": "Repair chooses an acceptable source and can complete its required state transfer.",
+        "particular_formal_activity": "Specify source-authority and version predicates and check finite transfer/repair transitions.",
+        "adequate_comparator": "Use one known valid restore source and a direct resulting-state check.",
+        "native_residual": "Equal corrupted states and inadequate usable capacity remain real risks beyond the selection proof.",
+        "finite_model_or_computation_object": "Source-version/authority choices and finite repair-transfer states, with a distinct predicate for the resulting state.",
+        "consequential_semantic_near_miss": "Translate equal replicas into valid state, or a selected correct source into sufficient live transfer capacity.",
+        "new_execution": false
+      },
+      {
+        "id": "D10",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P10",
+          "native_pointer": "/PROPERTIES/9",
+          "current_pointer": "/QUALIFICATIONS/9",
+          "current_object_sha256": "d5db1dda6d81cbfd03528814bad3ccce60743586bb5fdf777f7acdcbe5a7aa4b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D10",
+          "canonical_tuple_sha256": "97fa973b570be0df58a0ced6e64cac09addc088d225f450b3f72c348fa1337f7"
+        },
+        "intended_native_predicate": "The actual quorum families and state-selection rules meet their protocol obligations.",
+        "particular_formal_activity": "Enumerate the finite intersection constraints or prove their phase-specific algebra.",
+        "adequate_comparator": "Reuse a standard fixed quorum configuration with its exact obligations.",
+        "native_residual": "Intersection alone is not the complete protocol, current membership or probability of survival.",
+        "finite_model_or_computation_object": "The actual finite phase-specific quorum families and intersection/selection constraints.",
+        "consequential_semantic_near_miss": "Translate any intersecting quorums into a complete consensus protocol, or silently change which phase must intersect which.",
+        "new_execution": false
+      },
+      {
+        "id": "D11",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P11",
+          "native_pointer": "/PROPERTIES/10",
+          "current_pointer": "/QUALIFICATIONS/10",
+          "current_object_sha256": "fcae2bb307143f13aa0115ef9daed720593aff807738534f7fc6c5e1983c9cda",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D11",
+          "canonical_tuple_sha256": "c819ca5a75898ab1474519bb00003f2d9e338dcd54d659bd0a0ed232afb1ab18"
+        },
+        "intended_native_predicate": "Agreement, decision progress and value validity are separately warranted.",
+        "particular_formal_activity": "Check the safety invariant and state precisely the additional liveness assumptions.",
+        "adequate_comparator": "Accept a safety-only conditional result when waiting is allowed.",
+        "native_residual": "Unbounded fairness does not give a response deadline or business-valid value.",
+        "finite_model_or_computation_object": "Finite agreement/value-validity states; a stated fair-path model is separate from a bounded-prefix liveness check.",
+        "consequential_semantic_near_miss": "Translate agreement into eventual response, or qualitative eventual response into a response-time bound.",
+        "new_execution": false
+      },
+      {
+        "id": "D12",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P12",
+          "native_pointer": "/PROPERTIES/11",
+          "current_pointer": "/QUALIFICATIONS/11",
+          "current_object_sha256": "d85e5cd8c157f96587e253ae6c704e07afffe1a0010f8848a99aa2d5dd400ecf",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D12",
+          "canonical_tuple_sha256": "38102cc2069828210708dc304b439706f121daf60bc4a7c3c2a9a30b454ebca6"
+        },
+        "intended_native_predicate": "The old/new membership transition preserves compatible decision authority and history.",
+        "particular_formal_activity": "Model the transition states and check old/new decision overlap and state transfer.",
+        "adequate_comparator": "Stop and reconfigure offline when downtime is acceptable.",
+        "native_residual": "Actual state durability, failed-transition stopping and resource access remain required.",
+        "finite_model_or_computation_object": "Old, transitional and new membership states with decision-authority and retained-history predicates.",
+        "consequential_semantic_near_miss": "Translate one successful final configuration into safety of every intermediate old/new overlap.",
+        "new_execution": false
+      },
+      {
+        "id": "D13",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P13",
+          "native_pointer": "/PROPERTIES/12",
+          "current_pointer": "/QUALIFICATIONS/12",
+          "current_object_sha256": "953999320bf81ce68e89268759aef0ec1464ef2220979d355e153040bd937855",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D13",
+          "canonical_tuple_sha256": "c673462052884416103348728aa5222e5a5b438409963fc5509be1a53be67ead"
+        },
+        "intended_native_predicate": "A delayed old actor cannot make a harmful accepted mutation.",
+        "particular_formal_activity": "Check sink token/generation and acceptance transitions, including overlap and late arrival.",
+        "adequate_comparator": "Allow harmless overlap or use an adequate locally serialized operation.",
+        "native_residual": "A lease grant or unused token is not enforcement at the protected resource.",
+        "finite_model_or_computation_object": "Delayed old-holder and new-holder arrivals at the actual accepting resource.",
+        "consequential_semantic_near_miss": "Translate token issuance or lease expiry into enforcement that rejects the harmful old mutation.",
+        "new_execution": false
+      },
+      {
+        "id": "D14",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P14",
+          "native_pointer": "/PROPERTIES/13",
+          "current_pointer": "/QUALIFICATIONS/13",
+          "current_object_sha256": "1e8a00940edfba806cfeb28441e6f6912ceff11ee44508ce0343e7cc6ba9e745",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D14",
+          "canonical_tuple_sha256": "9e3ce45d010e7c8a7f01cdc32cb817836f9a5f4ce7bd5a40ccc32d5d6b6caf2b"
+        },
+        "intended_native_predicate": "The local transaction/writer encloses the actual invariant under the accepted load and downtime.",
+        "particular_formal_activity": "Prove the bounded transaction invariant and compare the additional failover obligations.",
+        "adequate_comparator": "Retain the existing local transaction without a new distributed proof.",
+        "native_residual": "Capacity and outage consequences remain empirical/design premises; local atomicity excludes external nonparticipants.",
+        "finite_model_or_computation_object": "The enclosed local transaction/writer state and its admitted invariant, with resource/downtime consequences kept separate.",
+        "consequential_semantic_near_miss": "Translate local atomicity into atomicity of an external nonparticipant or into automatic availability under any load.",
+        "new_execution": false
+      },
+      {
+        "id": "D15",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P15",
+          "native_pointer": "/PROPERTIES/14",
+          "current_pointer": "/QUALIFICATIONS/14",
+          "current_object_sha256": "c7a789605bc6914d77ad45733fd9e262c026acfae6e4380848eb53917d79e15f",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D15",
+          "canonical_tuple_sha256": "4c6531517c21a825aae9b80c0606d5d6462f05be48ac68b1ab9b56b6b8bcaaa1"
+        },
+        "intended_native_predicate": "Independently admitted operations and their merge preserve the required invariant.",
+        "particular_formal_activity": "Construct/check the invariant-confluence obligation for the actual transactions and reachable states.",
+        "adequate_comparator": "Restrict admission or use an existing suitable atomic service.",
+        "native_residual": "Nonconfluence does not uniquely require global consensus; weakening the requirement needs actual acceptance.",
+        "finite_model_or_computation_object": "The actual finite reachable valid states, admitted independent operations and merge closure relation.",
+        "consequential_semantic_near_miss": "Translate lack of invariant confluence into a unique requirement for global consensus, omitting admission or objective alternatives.",
+        "new_execution": false
+      },
+      {
+        "id": "D16",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P16",
+          "native_pointer": "/PROPERTIES/15",
+          "current_pointer": "/QUALIFICATIONS/15",
+          "current_object_sha256": "c50a0ec1a7b9ea2c419a6f0eaeafe79d306cc8c552130659cb5013dd416069ea",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D16",
+          "canonical_tuple_sha256": "5c58078208eae85d6b25006f312ca3cea23a1af11f7ac98f9b4454018c513c1f"
+        },
+        "intended_native_predicate": "The invoked coordination-avoidance result applies to the actual operation/output domain.",
+        "particular_formal_activity": "Check the exact monotonicity, merge or invariant-confluence hypotheses of the selected theorem.",
+        "adequate_comparator": "Reuse a sufficient stronger coordinated service where amortized cost is lower.",
+        "native_residual": "Delivery, ownership and reclamation can still need communication; theorem names do not combine automatically.",
+        "finite_model_or_computation_object": "The selected finite operation/output domain and the precise monotonicity, merge or confluence hypothesis.",
+        "consequential_semantic_near_miss": "Combine distinct coordination-avoidance theorems by name while dropping their different output and delivery assumptions.",
+        "new_execution": false
+      },
+      {
+        "id": "D17",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P17",
+          "native_pointer": "/PROPERTIES/16",
+          "current_pointer": "/QUALIFICATIONS/16",
+          "current_object_sha256": "ef95a8f0d71b9f632d4e0372c26d9b218073cf4d41ca03d626e397266f56f1bb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D17",
+          "canonical_tuple_sha256": "7e0db4cddba8c472f52f9f3bd7a213f84a3df4a5034e9beeeb63e17e50cc6971"
+        },
+        "intended_native_predicate": "The internal runtime contract encloses the state and effects credited as completed.",
+        "particular_formal_activity": "Specify atomic participants and verify the relevant crash/replay transitions.",
+        "adequate_comparator": "Use an existing adequate atomic/provider contract without duplicate independent closure.",
+        "native_residual": "Excluded business effects, first-effect validity and authority remain outside the internal result.",
+        "finite_model_or_computation_object": "Enclosed runtime state, participating effects and finite crash/replay transitions.",
+        "consequential_semantic_near_miss": "Translate internal exactly-once processing into every excluded business effect, or reject an adequate enclosed result because a wider history remains unknown.",
+        "new_execution": false
+      },
+      {
+        "id": "D18",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P18",
+          "native_pointer": "/PROPERTIES/17",
+          "current_pointer": "/QUALIFICATIONS/17",
+          "current_object_sha256": "310053dfd384b870975f19ce4047f94b573fa8bf915389aabd2160bbe8333b7a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D18",
+          "canonical_tuple_sha256": "be039880bd35f8fb03fd8408a93433c229109065aacd0cd95e1474805ca23172"
+        },
+        "intended_native_predicate": "Retries preserve the same intention and enforce its lifecycle at the effect boundary.",
+        "particular_formal_activity": "Check identity/parameter/tenant binding and finite retention/reuse state transitions.",
+        "adequate_comparator": "Use harmless fixed-intent repetition or an enclosing transaction.",
+        "native_residual": "Attempt labels alone do not enforce business identity; late-arrival assumptions must justify expiration.",
+        "finite_model_or_computation_object": "Intent, immutable parameters, tenant/principal, attempts and finite retention/reuse states.",
+        "consequential_semantic_near_miss": "Translate a fresh attempt identifier into stable business intention, or omit the parameter/tenant binding.",
+        "new_execution": false
+      },
+      {
+        "id": "D19",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P19",
+          "native_pointer": "/PROPERTIES/18",
+          "current_pointer": "/QUALIFICATIONS/18",
+          "current_object_sha256": "69b4f40496987df2930d9357d709c4be0a63554b6a460bfb87fb90ea737213c9",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D19",
+          "canonical_tuple_sha256": "52ff0036dfb5e669a747b0c43a7776e4ddaff76b4eb4221aa38c4f0bc7a4b279"
+        },
+        "intended_native_predicate": "Deleting a repeated attempt preserves the required outcome over admitted interleavings.",
+        "particular_formal_activity": "Check the actual paired-run/erasure predicate or its sufficient invariant, including restart boundaries.",
+        "adequate_comparator": "Use a fixed isolated assignment, suitable commuting effect or existing atomic idempotency contract.",
+        "native_residual": "Self-idempotence alone misses superseding intents; deduplication does not order the first late arrival.",
+        "finite_model_or_computation_object": "The admitted paired executions before and after erasing a repeat, including superseding intents and restart boundaries; NX04 supplies a separate relational-transfer control.",
+        "consequential_semantic_near_miss": "Substitute f(f(x))=f(x) in isolation for the required interleaving-sensitive erasure predicate.",
+        "new_execution": false
+      },
+      {
+        "id": "D20",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P20",
+          "native_pointer": "/PROPERTIES/19",
+          "current_pointer": "/QUALIFICATIONS/19",
+          "current_object_sha256": "b22560e6ccf9206f22d0d1fa78ef41d2845cc4665de92261fc5d2da2f4a3c3fb",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D20",
+          "canonical_tuple_sha256": "2858063fe4e37284b59f9083e3aa2aa0a57baf806af6f092f6184291d9e12a2f"
+        },
+        "intended_native_predicate": "Retiring identity evidence cannot admit a forbidden old effect under the accepted lifetime contract.",
+        "particular_formal_activity": "Model retry/replay/rejoin horizons and check the expiry/admission rule.",
+        "adequate_comparator": "Reject operations outside an enforced bounded contract.",
+        "native_residual": "A timeout is not proof all messages vanished; no automatic infinite-retention requirement follows.",
+        "finite_model_or_computation_object": "The finite identity-expiry/replay-admission mechanism under an enforced arrival/lifetime contract.",
+        "consequential_semantic_near_miss": "Translate expiry of a local timer into absence of every late duplicate, or require infinite retention despite a valid bounded admission rule.",
+        "new_execution": false
+      },
+      {
+        "id": "D21",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P21",
+          "native_pointer": "/PROPERTIES/20",
+          "current_pointer": "/QUALIFICATIONS/20",
+          "current_object_sha256": "a7a93b11ded474c2174379cab5d0dc64581264a3af0c4e370c509367e5c77929",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D21",
+          "canonical_tuple_sha256": "d0fc9a9516d9829ee4917200e5488e9daabccb3dfb79fa2ff56027c15f4d6384"
+        },
+        "intended_native_predicate": "The response guarantee entails the required local consumer predicate.",
+        "particular_formal_activity": "Check the actual pre/postcondition implication and exception/effect boundary.",
+        "adequate_comparator": "Trust an adequate authoritative enclosed return.",
+        "native_residual": "Queue acceptance or a stale status does not establish a stronger external effect; authority is separate.",
+        "finite_model_or_computation_object": "Normal/exception response cases and the actual local consumer postcondition.",
+        "consequential_semantic_near_miss": "Translate queue acceptance into an excluded physical effect, or add needless proof beyond an authoritative enclosed return.",
+        "new_execution": false
+      },
+      {
+        "id": "D22",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P22",
+          "native_pointer": "/PROPERTIES/21",
+          "current_pointer": "/QUALIFICATIONS/21",
+          "current_object_sha256": "eeca5d1cb5065d6964daffdeecb1eecca49839c28c536f825013ae04f5fb9265",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D22",
+          "canonical_tuple_sha256": "6c7e4da2c5174f28c323ac567ca4a7400f22eb2c1b6559a5f7239b8c044c238d"
+        },
+        "intended_native_predicate": "State change and handoff record share the required atomic boundary.",
+        "particular_formal_activity": "Check transaction/commit/recovery cases and sink duplication behavior.",
+        "adequate_comparator": "Use one existing local transaction or a sufficient provider contract.",
+        "native_residual": "An outbox label does not cover nonparticipating external effects or business validity.",
+        "finite_model_or_computation_object": "State, handoff record and commit/recovery cases inside their actual atomic participants.",
+        "consequential_semantic_near_miss": "Translate an outbox record into atomic commitment by an unrelated external sink.",
+        "new_execution": false
+      },
+      {
+        "id": "D23",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P23",
+          "native_pointer": "/PROPERTIES/22",
+          "current_pointer": "/QUALIFICATIONS/22",
+          "current_object_sha256": "6a17ae2e8cba03411a2ac4ccc256ce3ce7c1e9dc7e2e423e7d6d1fd2ca9d4441",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D23",
+          "canonical_tuple_sha256": "825bd5652d704e60cbe76f09654d81cdf9d968fa1c5e1f3f978845476a2182ab"
+        },
+        "intended_native_predicate": "The chosen atomic or compensating architecture meets the required invariant and residual objective.",
+        "particular_formal_activity": "Model a small failure/interleaving set and prove the relevant commit or compensation contract.",
+        "adequate_comparator": "Keep a sufficient local atomic transaction or a deliberately weaker accepted objective.",
+        "native_residual": "Compensation need not be inverse, nonblocking premises matter, and total cost is not fixed by an architecture name.",
+        "finite_model_or_computation_object": "A finite commit/abort/compensation interleaving model for the declared invariant and residual objective.",
+        "consequential_semantic_near_miss": "Translate compensation into an inverse, or require non-compensatability as a universal precondition for choosing useful scoped atomicity.",
+        "new_execution": false
+      },
+      {
+        "id": "D24",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P24",
+          "native_pointer": "/PROPERTIES/23",
+          "current_pointer": "/QUALIFICATIONS/23",
+          "current_object_sha256": "ae4317124fc30680e010b68a46ed8484963f9f2f8d3396f54b1bd63a5b9187f0",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D24",
+          "canonical_tuple_sha256": "2a4323f6d3a6fefcda1c8096b99261bb5ef3c14e1c8a9fb720732f98a9c4ec64"
+        },
+        "intended_native_predicate": "The compensator establishes its declared restored state despite admitted failures/interleavings.",
+        "particular_formal_activity": "Check its pre/postcondition and residual-effect transitions.",
+        "adequate_comparator": "Use a direct authorized corrective action for the actual current objective.",
+        "native_residual": "Irreversible external consequences and history remain even when a narrower state is restored.",
+        "finite_model_or_computation_object": "The compensator pre/postcondition and admitted failure/interleaving states.",
+        "consequential_semantic_near_miss": "Translate a restored current balance or state into erasure of irreversible history and all external consequences.",
+        "new_execution": false
+      },
+      {
+        "id": "D25",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P25",
+          "native_pointer": "/PROPERTIES/24",
+          "current_pointer": "/QUALIFICATIONS/24",
+          "current_object_sha256": "d7e9207213e88814a01f857e85ce1a902196e71cfe2420b798c7215696bc55b8",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D25",
+          "canonical_tuple_sha256": "a42886872059b48c273d43c61fd5f9ed22c60b898b8c288c79e3935a116e9a8f"
+        },
+        "intended_native_predicate": "Restored workflow history produces the promised internal orchestration behavior.",
+        "particular_formal_activity": "Check deterministic replay and durable-state transitions at the runtime boundary.",
+        "adequate_comparator": "Reuse the existing exact runtime theorem and a current enclosed-state check.",
+        "native_residual": "External worker effects, validity and current business state require their own evidence.",
+        "finite_model_or_computation_object": "The retained workflow history and finite deterministic replay/runtime transitions.",
+        "consequential_semantic_near_miss": "Translate replayed orchestration into proof that each external activity occurred correctly or that every current business condition holds.",
+        "new_execution": false
+      },
+      {
+        "id": "D26",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P26",
+          "native_pointer": "/PROPERTIES/25",
+          "current_pointer": "/QUALIFICATIONS/25",
+          "current_object_sha256": "1dd503ee78de60bc0e5e88b0c002a75aadfd262ae1d7823576fb439a7a95db46",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D26",
+          "canonical_tuple_sha256": "fa293c8cf501b0797dc4b60664a8bc8deab98126967802fae207c0214fe550f3"
+        },
+        "intended_native_predicate": "Redispatch is harmless or adequately controlled while the old attempt can resume.",
+        "particular_formal_activity": "Check a finite overlap model with the actual sink acceptance and duplicate policy.",
+        "adequate_comparator": "Use a naturally harmless operation or adequate integrated exclusion.",
+        "native_residual": "Lease expiry does not stop the old worker; compensation is not universally enough.",
+        "finite_model_or_computation_object": "Old/new worker overlap and the sink duplicate/acceptance policy.",
+        "consequential_semantic_near_miss": "Translate redispatch or lease expiry into proof the old worker cannot resume.",
+        "new_execution": false
+      },
+      {
+        "id": "D27",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P27",
+          "native_pointer": "/PROPERTIES/26",
+          "current_pointer": "/QUALIFICATIONS/26",
+          "current_object_sha256": "347855de54d98f307db561e6cd3c1032a34473a71caec165997218dd1fb83e70",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D27",
+          "canonical_tuple_sha256": "ba91b56ff9663f56f5f29e4d96cde731cda2fe073108a2e42152a718950e2905"
+        },
+        "intended_native_predicate": "The available evidence entails the actual consumer closure predicate.",
+        "particular_formal_activity": "Write and check the narrow implication from producer guarantee to consumer postcondition.",
+        "adequate_comparator": "Use the existing adequate local return or deterministic state check.",
+        "native_residual": "Unknown wider effects need not block a valid narrower objective; omniscience is not a condition of closure.",
+        "finite_model_or_computation_object": "The narrow producer-guarantee to consumer-postcondition implication, with missing wider facts represented separately.",
+        "consequential_semantic_near_miss": "Translate incomplete global knowledge into failure of a complete local objective, or interpret local closure as arbitrary global closure.",
+        "new_execution": false
+      },
+      {
+        "id": "D28",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P28",
+          "native_pointer": "/PROPERTIES/27",
+          "current_pointer": "/QUALIFICATIONS/27",
+          "current_object_sha256": "bd6170e2e2e3d02890c8ff6f46eb15353f8297cf5cc02ac41eab8a904c3694d1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D28",
+          "canonical_tuple_sha256": "ccc6aceb570bb0e3efa8ff775a459c88ab18a3973ef8ab9c1db055d3ac53137d"
+        },
+        "intended_native_predicate": "Every admitted live history has an eligible worker or valid migration path.",
+        "particular_formal_activity": "Check the finite history/version eligibility relation and migration invariant.",
+        "adequate_comparator": "Pin old workers until their eligible histories retire.",
+        "native_residual": "Every build need not run every history; schemas, external dependencies and worker lifetime remain premises.",
+        "finite_model_or_computation_object": "The history-version/eligible-worker relation and the selected migration map; NX08 is one explicit finite instance.",
+        "consequential_semantic_near_miss": "Swap forall histories exists eligible worker for forall histories forall builds, or treat parser acceptance as semantic history preservation.",
+        "new_execution": false
+      },
+      {
+        "id": "D29",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P29",
+          "native_pointer": "/PROPERTIES/28",
+          "current_pointer": "/QUALIFICATIONS/28",
+          "current_object_sha256": "b441a83174fb05e8a5ee201feb33e5c0f9510657af5171c2d263a5e9fc4a78e0",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D29",
+          "canonical_tuple_sha256": "ea6a0e09a5e86d54825ee5723d34296c486f63d14611b1e407c245a9fbb03e78"
+        },
+        "intended_native_predicate": "Admitted work obeys the selected capacity, queue, age and overflow constraints.",
+        "particular_formal_activity": "Check a finite queue model or exact conservation inequality for the relevant interval.",
+        "adequate_comparator": "Use a bounded buffer/drop policy when its consumer consequences are accepted.",
+        "native_residual": "Bounded occupancy is not drainage, and sustained service assumptions require evidence.",
+        "finite_model_or_computation_object": "A declared finite queue/capacity/age/overflow model; finite caps and horizons are explicit.",
+        "consequential_semantic_near_miss": "Translate bounded occupancy into backlog drainage or omit the accepted consequences of rejected/expired work.",
+        "new_execution": false
+      },
+      {
+        "id": "D30",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P30",
+          "native_pointer": "/PROPERTIES/29",
+          "current_pointer": "/QUALIFICATIONS/29",
+          "current_object_sha256": "6d2eb38f5dedc4e468e11082df3a61a7b640f4bc790cf6ae28dff73a8ae4d6a1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D30",
+          "canonical_tuple_sha256": "84a1ea6d6630328e9eb54ede6c18ea94d8e965c0bab6a7813a0e267b8251d808"
+        },
+        "intended_native_predicate": "Flow control bounds relevant demand rather than hiding it in another queue or retry path.",
+        "particular_formal_activity": "Model the actual producer/consumer feedback and inspect aggregate conservation of queued work.",
+        "adequate_comparator": "Use an adequate local rejection/drop policy with its remaining upstream cost.",
+        "native_residual": "The proof cannot create producer cooperation or usable capacity.",
+        "finite_model_or_computation_object": "The actual producer, intermediate queues, consumer and retry feedback transitions.",
+        "consequential_semantic_near_miss": "Translate a smaller downstream queue into reduced total queued/retried work by hiding demand upstream.",
+        "new_execution": false
+      },
+      {
+        "id": "D31",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P31",
+          "native_pointer": "/PROPERTIES/30",
+          "current_pointer": "/QUALIFICATIONS/30",
+          "current_object_sha256": "683d45369b8709e1112d04c92a321d4a057cf36e1be15834c1401eb2916bbb86",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D31",
+          "canonical_tuple_sha256": "746bfbf61f4a34dbf29ab394d73a7ac78cbf072f239160213ea80b14c1033679"
+        },
+        "intended_native_predicate": "The admission/priority rule protects the declared critical work under the stated capacity.",
+        "particular_formal_activity": "Check finite eligibility, priority and resource-allocation invariants.",
+        "adequate_comparator": "Use a simple explicit priority/drop table.",
+        "native_residual": "Technical feasibility does not choose stakeholder values or erase harm to rejected consumers.",
+        "finite_model_or_computation_object": "Finite task eligibility, priority and resource-allocation states for the protected work.",
+        "consequential_semantic_near_miss": "Translate an implementable priority rule into permission to choose stakeholder values or discard an unacknowledged consumer obligation.",
+        "new_execution": false
+      },
+      {
+        "id": "D32",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P32",
+          "native_pointer": "/PROPERTIES/31",
+          "current_pointer": "/QUALIFICATIONS/31",
+          "current_object_sha256": "740ed6c38e9cd2fb59ffe091003e1dc290da3026428ea78533e4163ee0121780",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D32",
+          "canonical_tuple_sha256": "07758d1fc0ba0707ef2b3f4e5c6adeae1f575495920274f7767de71ced8a636f"
+        },
+        "intended_native_predicate": "Nested attempts stay within useful load/effect limits.",
+        "particular_formal_activity": "Check the finite call/attempt bound and duplicate-safety preconditions.",
+        "adequate_comparator": "Use a sufficient local retry limit, safe-read retry or no retry.",
+        "native_residual": "A budget representation does not supply capacity or safe external-effect semantics.",
+        "finite_model_or_computation_object": "The nested finite attempt/call tree with live workload and duplicate-safety predicates.",
+        "consequential_semantic_near_miss": "Translate one local retry limit into an end-to-end capacity proof, or require a particular budget representation when another valid bound suffices.",
+        "new_execution": false
+      },
+      {
+        "id": "D33",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P33",
+          "native_pointer": "/PROPERTIES/32",
+          "current_pointer": "/QUALIFICATIONS/32",
+          "current_object_sha256": "a3afc9aa60f8e5c340b196a57fe234607a0e6d9d9f28540de4c277c5dd632276",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D33",
+          "canonical_tuple_sha256": "515134fb899bddf23e1727eabddd616dbdf1ac2b67089b83000a7c9d09a79e93"
+        },
+        "intended_native_predicate": "The proposed intervention breaks the identified self-sustaining overload feedback.",
+        "particular_formal_activity": "Analyze the small queue/state feedback model and its recovery condition.",
+        "adequate_comparator": "Use a direct measured headroom or demand reduction when it answers the causal question.",
+        "native_residual": "A transient spike is not the modeled metastability; no single intervention is universally sufficient.",
+        "finite_model_or_computation_object": "The queue/state feedback and intervention in NX06 or a stated finite abstraction, separating bounded backlog and recovery.",
+        "consequential_semantic_near_miss": "Translate any transient spike into metastability, or a stationary backlog into return to baseline.",
+        "new_execution": false
+      },
+      {
+        "id": "D34",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P34",
+          "native_pointer": "/PROPERTIES/33",
+          "current_pointer": "/QUALIFICATIONS/33",
+          "current_object_sha256": "efa67d0542abe88985b9e716ef0dd8204481fd2eb78210fe71582f7c0b12b45a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D34",
+          "canonical_tuple_sha256": "fc39f14efabdcd58222c23cb8e024ce027f58e7944eac8d5266d6d8bba3abe64"
+        },
+        "intended_native_predicate": "The protected service retains its required resource path under the admitted coupled failure.",
+        "particular_formal_activity": "Check a finite resource/dependency cut or containment invariant.",
+        "adequate_comparator": "Use a direct local resource limit or accept a narrower degraded function.",
+        "native_residual": "Separate process labels do not remove shared bottlenecks; spare capacity can be stranded.",
+        "finite_model_or_computation_object": "The finite protected resource/dependency graph and selected containment/cut predicate.",
+        "consequential_semantic_near_miss": "Translate distinct process names into independent power, CPU, storage or other live capacity.",
+        "new_execution": false
+      },
+      {
+        "id": "D35",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P35",
+          "native_pointer": "/PROPERTIES/34",
+          "current_pointer": "/QUALIFICATIONS/34",
+          "current_object_sha256": "8a5c939b3c85ff69935255dce539be74ac98fb6343cff299e6fd85cc8609b6bc",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D35",
+          "canonical_tuple_sha256": "43a422647ec84b737e3f8d76431fadfd78f5c5737166b538029afbb26d0a4fb5"
+        },
+        "intended_native_predicate": "The recorded recovery cut respects send/receive dependencies under the communication model.",
+        "particular_formal_activity": "Prove the cut consistency predicate or check a finite snapshot construction.",
+        "adequate_comparator": "Use an adequate local atomic snapshot for an enclosed state.",
+        "native_residual": "A consistent cut need not be an actual simultaneous global state and excludes unmodeled effects.",
+        "finite_model_or_computation_object": "Finite send/receive events and a recovery cut closed under the required causal dependencies.",
+        "consequential_semantic_near_miss": "Translate a consistent cut into a claim that all recorded local states actually coexisted at one physical instant.",
+        "new_execution": false
+      },
+      {
+        "id": "D36",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P36",
+          "native_pointer": "/PROPERTIES/35",
+          "current_pointer": "/QUALIFICATIONS/35",
+          "current_object_sha256": "92d036083c48f46b6d378b59e7eb8914f1626abe31dd16823bc3f6e0b4567732",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D36",
+          "canonical_tuple_sha256": "91682a0cac08140f9cb08d0495e7f692f0001ad815c09ed50de57852589b69fc"
+        },
+        "intended_native_predicate": "Replay/restart restores the specified enclosed state under surviving primitives.",
+        "particular_formal_activity": "Check deterministic replay and output-commit/restoration invariants.",
+        "adequate_comparator": "Use a direct fixed-intent reset when it meets the actual objective.",
+        "native_residual": "The state theorem neither establishes physical renewal nor resolves excluded historical effects.",
+        "finite_model_or_computation_object": "The specific replay/restart state and output-commit transitions under the retained primitives.",
+        "consequential_semantic_near_miss": "Translate a valid software reset into physical renewal, or require a historical external journal for a fixed current objective that does not need it.",
+        "new_execution": false
+      },
+      {
+        "id": "D37",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P37",
+          "native_pointer": "/PROPERTIES/36",
+          "current_pointer": "/QUALIFICATIONS/36",
+          "current_object_sha256": "2557e498670d200c6bed857cb801eb5d8642ae2cd166689e426e1f4461a264ac",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D37",
+          "canonical_tuple_sha256": "25f67bc9e67cee14ff95ad5c023f16dce1685f34a173afac6939366f849fcb14"
+        },
+        "intended_native_predicate": "Handoff preserves compatible old/new state and effective mutation authority.",
+        "particular_formal_activity": "Check finite configuration/authority transitions and delayed-actor cases.",
+        "adequate_comparator": "Use a valid stop-and-transfer or bounded-time protocol.",
+        "native_residual": "Election and reachability do not recreate lost retained state or enforce sink exclusion.",
+        "finite_model_or_computation_object": "Old/new configuration and resource-mutation authority during handoff, including late actors.",
+        "consequential_semantic_near_miss": "Translate election or reachability into retained-data reconstruction or effective sink exclusion; do not erase a valid stop-and-transfer alternative.",
+        "new_execution": false
+      },
+      {
+        "id": "D38",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P38",
+          "native_pointer": "/PROPERTIES/37",
+          "current_pointer": "/QUALIFICATIONS/37",
+          "current_object_sha256": "687b598503f3565f89e4c2f2e53af3341dad28e50e10bbf91756dd409fe3b0cf",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D38",
+          "canonical_tuple_sha256": "c94fce9af8d66b18379fd37c21acc209c0ee11acee5428a2ea588b7b02bb0efd"
+        },
+        "intended_native_predicate": "The selected backup scenario can establish the required restored state.",
+        "particular_formal_activity": "Check the restoration procedure contract and artifact/configuration compatibility predicates.",
+        "adequate_comparator": "Use a small actual restore rehearsal with an adequate postcondition.",
+        "native_residual": "Model proof does not execute restoration; permissions, tools, environment and loss/time objective remain.",
+        "finite_model_or_computation_object": "The restore procedure states and artifact/configuration compatibility at its declared postcondition.",
+        "consequential_semantic_near_miss": "Translate a proved restore procedure into an executed successful restore with actual credentials, tools and live capacity.",
+        "new_execution": false
+      },
+      {
+        "id": "D39",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P39",
+          "native_pointer": "/PROPERTIES/38",
+          "current_pointer": "/QUALIFICATIONS/38",
+          "current_object_sha256": "0f463716b537c7fce1bc26e43e4339aa7d060fc285759fe8ced68f285c53cea3",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D39",
+          "canonical_tuple_sha256": "902f9c7fa71fd7d8ecc5ed33d33564a3fc91d39083cc159b87083fbb3a278925"
+        },
+        "intended_native_predicate": "Admitted old/new interactions preserve the required wire/state/history meaning.",
+        "particular_formal_activity": "Validate the exact transformation or check the finite compatibility relation.",
+        "adequate_comparator": "Pin versions or reject unsupported combinations deliberately.",
+        "native_residual": "Parsing is not semantic compatibility; unadmitted pairs need no invented interoperability proof.",
+        "finite_model_or_computation_object": "The admitted old/new wire, state or history relation; NX08 distinguishes representation from quantity and intent semantics.",
+        "consequential_semantic_near_miss": "Translate unchanged shape or hash comparison into preserved units, identities and required behavior.",
+        "new_execution": false
+      },
+      {
+        "id": "D40",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P40",
+          "native_pointer": "/PROPERTIES/39",
+          "current_pointer": "/QUALIFICATIONS/39",
+          "current_object_sha256": "41491065d969cbac234df35e004796296bf4868d51f562b9a0a8ef1197e59ddc",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D40",
+          "canonical_tuple_sha256": "967f2189086eb2966dde96203bcb1580e169c0c2f541df696725ef4de4c9f0e9"
+        },
+        "intended_native_predicate": "The change has the intended meaning and reaches the declared population sufficiently.",
+        "particular_formal_activity": "Check the finite configuration/rollout state machine and value-validity predicate.",
+        "adequate_comparator": "Use a local validation plus bounded staged observation.",
+        "native_residual": "Global equality of an invalid value is not success; every node need not change synchronously.",
+        "finite_model_or_computation_object": "Finite configuration validation and rollout-population states with separate value-meaning and reach predicates.",
+        "consequential_semantic_near_miss": "Translate agreement everywhere on one value into validity of that value, or require instantaneous global rollout unnecessarily.",
+        "new_execution": false
+      },
+      {
+        "id": "D41",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P41",
+          "native_pointer": "/PROPERTIES/40",
+          "current_pointer": "/QUALIFICATIONS/40",
+          "current_object_sha256": "6268305c22db235a5379e139c911025675f2923972081983d3bef2ac36f09b87",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D41",
+          "canonical_tuple_sha256": "5cb640233f755ccf8f11912d35dc259f94c64cfb73088040a7aa09f580b58a34"
+        },
+        "intended_native_predicate": "The readiness verdict covers the named capability, path and interval.",
+        "particular_formal_activity": "Specify the probe predicate and check its event-to-capability implication under explicit assumptions.",
+        "adequate_comparator": "Use one adequate direct capability check.",
+        "native_residual": "Liveness is not write capability; observer failures and later state changes remain possible.",
+        "finite_model_or_computation_object": "The actual probe event, target capability and interval with observer-health variables, as in NX06 and the received readiness controls.",
+        "consequential_semantic_near_miss": "Translate read success or a green liveness response into write capability, future health or operating authority.",
+        "new_execution": false
+      },
+      {
+        "id": "D42",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P42",
+          "native_pointer": "/PROPERTIES/41",
+          "current_pointer": "/QUALIFICATIONS/41",
+          "current_object_sha256": "c01a0a465941d0c5bc291eb89c1acec14d563459de9c9d847f37a46ffb84fc4d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D42",
+          "canonical_tuple_sha256": "73a390463f434b34b172b81c0a2bab5680c94cd09069125763bb2bb4cb2c4300"
+        },
+        "intended_native_predicate": "The selected telemetry inference follows under its actual sampling/missingness model.",
+        "particular_formal_activity": "Check the finite aggregation/count formula and the exact event/denominator semantics.",
+        "adequate_comparator": "Use a bounded sample or direct deterministic event check when adequate.",
+        "native_residual": "Proved arithmetic does not establish representative sampling or record completeness.",
+        "finite_model_or_computation_object": "A finite retained-event/selection/context table and exact aggregation routine; sampling correspondence stays explicit.",
+        "consequential_semantic_near_miss": "Translate correct counts into representative sampling, or missing records into evidence that the omitted events did not occur.",
+        "new_execution": false
+      },
+      {
+        "id": "D43",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P43",
+          "native_pointer": "/PROPERTIES/42",
+          "current_pointer": "/QUALIFICATIONS/42",
+          "current_object_sha256": "c5eb4325dfac64fd0765dc7a5fdc9e0a7e21b3a0c1c25911198eebd2eccec8a9",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D43",
+          "canonical_tuple_sha256": "6827a5e7a24329dda170eb09546d2f5ee475f19a3295e4677a0e9980a99b5a8d"
+        },
+        "intended_native_predicate": "The inferred causal/order relation follows from the observed edges and assumptions.",
+        "particular_formal_activity": "Compute/check transitive closure or the relevant causal-order implication.",
+        "adequate_comparator": "Use the small sufficient observed path directly.",
+        "native_residual": "Happens-before is not every physical cause; missing paths do not become negative evidence.",
+        "finite_model_or_computation_object": "The finite observed event/dependency graph and claimed transitive relation with gaps and inferred edges distinct.",
+        "consequential_semantic_near_miss": "Translate sorted timestamps or shared identifiers into a complete physical causal explanation.",
+        "new_execution": false
+      },
+      {
+        "id": "D44",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P44",
+          "native_pointer": "/PROPERTIES/43",
+          "current_pointer": "/QUALIFICATIONS/43",
+          "current_object_sha256": "4c0a287611bd99a93f17f83e700e4c6b90b96cf5ae7fb1982401cde7ab50f1f1",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D44",
+          "canonical_tuple_sha256": "349bc37781cc65f0d2d977d2f4805cdf02283206b23d652e643c96582ab6c561"
+        },
+        "intended_native_predicate": "The selected fault experiment can distinguish the stated hypothesis from its alternative.",
+        "particular_formal_activity": "Model the relevant finite fault/observer outcomes and check oracle discrimination.",
+        "adequate_comparator": "Use a small static/local check when it answers the same question.",
+        "native_residual": "Formal oracle design does not execute the experiment or generalize to all faults/workloads.",
+        "finite_model_or_computation_object": "The finite fault/hypothesis/oracle outcome table for the named experiment.",
+        "consequential_semantic_near_miss": "Translate a nondiscriminating pass or one injected scenario into protection against all faults or comparative resilience.",
+        "new_execution": false
+      },
+      {
+        "id": "D45",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P45",
+          "native_pointer": "/PROPERTIES/44",
+          "current_pointer": "/QUALIFICATIONS/44",
+          "current_object_sha256": "a582fab2a9b876b7dba2def590073f2ddc73a834727e9cf6391851de8ceabb9e",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D45",
+          "canonical_tuple_sha256": "bfcd6e5a70e94086ac5230daef030c2af1d28637ce1b43815295969cb3ba8f9d"
+        },
+        "intended_native_predicate": "The contemplated remote boundary adds a necessary capability or assurance at its full obligations.",
+        "particular_formal_activity": "Check the specific invariant/atomicity boundary that is proposed to justify distribution.",
+        "adequate_comparator": "Retain a sufficient local transaction and qualitative total-cost comparison.",
+        "native_residual": "This bounded formal input is not a proof of architectural optimality or measured organizational benefit.",
+        "finite_model_or_computation_object": "The particular local/remote invariant and dependency boundary proposed to justify distribution.",
+        "consequential_semantic_near_miss": "Translate a useful bounded remote capability into universal architectural optimality or measured organizational benefit.",
+        "new_execution": false
+      },
+      {
+        "id": "D46",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P46",
+          "native_pointer": "/PROPERTIES/45",
+          "current_pointer": "/QUALIFICATIONS/45",
+          "current_object_sha256": "1f17fddbdc3d5b7092d1d148fb9337b1fdc827c6e268b344ec1642512c815085",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D46",
+          "canonical_tuple_sha256": "a55d650f79357a67bc06d1420123b75f89e8f0a2b1ee9b367564159ff2f49e46"
+        },
+        "intended_native_predicate": "Removing the mechanism preserves the declared residual consumers and obligations.",
+        "particular_formal_activity": "Check a finite dependency/replay eligibility relation or a concrete removal invariant.",
+        "adequate_comparator": "Retain an inexpensive shared component where removal evidence is weak.",
+        "native_residual": "The model may omit dormant backup/audit consumers; no caller observed is not universal absence.",
+        "finite_model_or_computation_object": "The finite current and dormant-consumer dependency/removal relation.",
+        "consequential_semantic_near_miss": "Translate no recently observed caller into no remaining obligation, or retirement of active execution into falsity of a retained theorem.",
+        "new_execution": false
+      },
+      {
+        "id": "D47",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P47",
+          "native_pointer": "/PROPERTIES/46",
+          "current_pointer": "/QUALIFICATIONS/46",
+          "current_object_sha256": "54fc860a1166317378ec3116b7386f0b828403cc91c2c2765778f278064525ce",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D47",
+          "canonical_tuple_sha256": "d1315729bfb9d262aa49a35a55df896c36499378c46a2b80ee5ae5a80623efde"
+        },
+        "intended_native_predicate": "The proposed split changes the actual protected capacity or failure boundary.",
+        "particular_formal_activity": "Check the particular resource/dependency or invariant boundary claimed for the split.",
+        "adequate_comparator": "Retain a sufficient shared process/module and a direct load comparison.",
+        "native_residual": "The formal boundary result does not establish population-level productivity or universal microservice superiority.",
+        "finite_model_or_computation_object": "The specific resource/dependency or invariant boundary changed by the proposed split.",
+        "consequential_semantic_near_miss": "Translate separate deployments into resilience without a changed failure/capacity boundary or its costs.",
+        "new_execution": false
+      },
+      {
+        "id": "D48",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P48",
+          "native_pointer": "/PROPERTIES/47",
+          "current_pointer": "/QUALIFICATIONS/47",
+          "current_object_sha256": "eddb6c8732438c182047f84599be7b6d6af545a3f9fa3a29c7068b294985519b",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D48",
+          "canonical_tuple_sha256": "8a1482b77c3590714e9f6e85c68d98b9d6b0e98bb7196b10eaddac8f47ff6da1"
+        },
+        "intended_native_predicate": "A finite burst can be buffered and drained within the accepted service consequence.",
+        "particular_formal_activity": "Use a finite queue trace or conservation calculation with the actual service bound.",
+        "adequate_comparator": "Use direct admission/rejection for work that cannot remain useful.",
+        "native_residual": "A queue supplies no sustained throughput; equal arrival/service can retain backlog without drainage.",
+        "finite_model_or_computation_object": "The bounded burst, service and backlog transitions, including the equal-arrival/service countercase.",
+        "consequential_semantic_near_miss": "Translate stored work into added sustained throughput, or a non-growing backlog into drainage.",
+        "new_execution": false
+      },
+      {
+        "id": "D49",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P49",
+          "native_pointer": "/PROPERTIES/48",
+          "current_pointer": "/QUALIFICATIONS/48",
+          "current_object_sha256": "2029473cc55d54f519befd533cb19b5209065881f1bf3fb4f8378cd5177f845c",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D49",
+          "canonical_tuple_sha256": "feda998153ff5c55e74c9f7ccfe6ce1af648c404cefb4afe5c4b9fc88f96bfff"
+        },
+        "intended_native_predicate": "The enclosed exactly-once predicate is valid without extension to excluded business effects.",
+        "particular_formal_activity": "Check the exact replay/seek/version/effect scope and its proof obligation.",
+        "adequate_comparator": "Reuse the existing valid internal guarantee where it is the whole objective.",
+        "native_residual": "A useful internal result does not become either universal business closure or universal impossibility.",
+        "finite_model_or_computation_object": "The explicitly enclosed replay/processing predicate with excluded effects marked.",
+        "consequential_semantic_near_miss": "Translate a valid scoped exactly-once result into either universal business closure or a universal impossibility of exactly-once processing.",
+        "new_execution": false
+      },
+      {
+        "id": "D50",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P50",
+          "native_pointer": "/PROPERTIES/49",
+          "current_pointer": "/QUALIFICATIONS/49",
+          "current_object_sha256": "0455f5476c2a9001c1d6d9f2ed20e42770b6f56d0203a11aef8ae2f6d3c4cd52",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D50",
+          "canonical_tuple_sha256": "e6afd4a496a673fe0b68e6bc4cc8f16cb224cfd2bbce30f0b6d43c64ee803bed"
+        },
+        "intended_native_predicate": "The integrated lock/mutation protocol prevents the relevant stale-holder harm.",
+        "particular_formal_activity": "Check the actual acceptance and clock/pause/fencing cases.",
+        "adequate_comparator": "Use an efficiency-only approximate lock when duplicate work is harmless.",
+        "native_residual": "A token alone is insufficient; bounded-clock alternatives retain their own real premises.",
+        "finite_model_or_computation_object": "The integrated lock/resource acceptance protocol with its actual clock, pause and stale-holder cases.",
+        "consequential_semantic_near_miss": "Translate possession of a token into enforcement, or declare every lock merely advisory despite an adequate integrated boundary.",
+        "new_execution": false
+      },
+      {
+        "id": "D51",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P51",
+          "native_pointer": "/PROPERTIES/50",
+          "current_pointer": "/QUALIFICATIONS/50",
+          "current_object_sha256": "f1302119c554710f4bc8df4332f6a1f16608765f3c55dd4ec480fbe85b46a90d",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D51",
+          "canonical_tuple_sha256": "864a25df97084af69e0f9f50403dc0db0565183eed9ec5a5fc7e300f27b0c2b6"
+        },
+        "intended_native_predicate": "The selected formal artifact changes the consumer evidence rather than merely its label.",
+        "particular_formal_activity": "Identify one exact statement/check and its actual decision discriminator.",
+        "adequate_comparator": "Reuse an adequate trusted abstraction or concise ordinary evidence.",
+        "native_residual": "Useful documentation is not ceremony by format, and every consumer need not reprove infrastructure.",
+        "finite_model_or_computation_object": "The exact artifact claim and finite decision alternatives it is supposed to discriminate.",
+        "consequential_semantic_near_miss": "Translate tool pedigree, proof count or document existence into the intended claim, or dismiss necessary traceability as ceremony solely by format.",
+        "new_execution": false
+      },
+      {
+        "id": "D52",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P52",
+          "native_pointer": "/PROPERTIES/51",
+          "current_pointer": "/QUALIFICATIONS/51",
+          "current_object_sha256": "5b5fb064d4b42761c316c9e7890395c68b8b0ffe9b07b7e2bfe88c0fb4e1d01a",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D52",
+          "canonical_tuple_sha256": "eb4ebb8d2804475efa00de5279985e54dbdb5a5f294b56b242ec0110e769993a"
+        },
+        "intended_native_predicate": "The Byzantine protocol preserves its exact agreement/validity result under its fault budget.",
+        "particular_formal_activity": "Check the actual arbitrary-fault/authentication model and protocol invariant.",
+        "adequate_comparator": "Reuse a qualified component theorem at matching identities and assumptions.",
+        "native_residual": "Authentication does not rule out equivocation; model throughput is not field outage evidence.",
+        "finite_model_or_computation_object": "The admitted finite arbitrary-fault/authentication model and protocol agreement/validity predicate.",
+        "consequential_semantic_near_miss": "Translate authentication into absence of equivocation, or restrict arbitrary faults to malicious actors when accidental arbitrary behavior is also admitted.",
+        "new_execution": false
+      },
+      {
+        "id": "D53",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P53",
+          "native_pointer": "/PROPERTIES/52",
+          "current_pointer": "/QUALIFICATIONS/52",
+          "current_object_sha256": "c8916a7f30547092159fcb3b08f829df14ec266aab1e27328671652f10aba2d7",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D53",
+          "canonical_tuple_sha256": "9b5dc5b861cfd14ef7937027a34f0fc65174059ec94ebf4adfd546101237dbf4"
+        },
+        "intended_native_predicate": "The agent execution protocol preserves its bounded identity/effect/recovery contract.",
+        "particular_formal_activity": "Verify the finite orchestration/control predicate separately from open-ended task semantics.",
+        "adequate_comparator": "Use an ordinary deterministic workflow or direct bounded task check.",
+        "native_residual": "Protocol proof does not establish arbitrary agent meaning, field utility or independent replication from seeds.",
+        "finite_model_or_computation_object": "The bounded agent orchestration identity/effect/recovery control model, separately from open-ended task meaning.",
+        "consequential_semantic_near_miss": "Translate a checked protocol fragment into faithful arbitrary agent semantics, useful field outcomes or autonomous authority.",
+        "new_execution": false
+      },
+      {
+        "id": "D54",
+        "native_binding": {
+          "carrier": "work/drf_distributed_systems/revisions/r2/science/PROPERTY_LEDGER.json",
+          "native_id": "P54",
+          "native_pointer": "/PROPERTIES/53",
+          "current_pointer": "/QUALIFICATIONS/53",
+          "current_object_sha256": "555984e854dfa089ba06bf6c6be4b298a367c23cc7f876a0068623e839f98707",
+          "carrier_sha256": "2e2d9429b2f627c1595ce4540d37c55d323ad1ec9c83a8adaa4180b0d5b2b945"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "D54",
+          "canonical_tuple_sha256": "0b814cd41c9763de7dcab1c664999dc24d42033c3b8cedc8e11ba3b7b8e45ea4"
+        },
+        "intended_native_predicate": "The selected coordination/merge mechanism meets the actual invariant at acceptable total burden.",
+        "particular_formal_activity": "Check the necessary closure/coordination condition and reuse a stronger compatible proof when cheaper.",
+        "adequate_comparator": "Keep the existing amortized stronger service or an adequate local check.",
+        "native_residual": "Minimum coordination is not universal engineering optimality; unchanged component proofs can be reused.",
+        "finite_model_or_computation_object": "The actual finite invariant/merge/coordination condition and a bounded stronger-service alternative.",
+        "consequential_semantic_near_miss": "Translate minimum coordination into minimum total engineering burden, excluding a cheaper amortized stronger service.",
+        "new_execution": false
+      },
+      {
+        "id": "R001",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P001",
+          "native_pointer": "/properties/0/native_record",
+          "current_pointer": "/properties/0/current_claim",
+          "current_object_sha256": "860d73d5d0c8fa4791c09d55c995cf1de48c3bfb6b683fc23c6ede274d554a5a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R001",
+          "canonical_tuple_sha256": "aa30a8ec3f28709ebea73cc1f2defbe800e104f6b7f5ac24b44bd152a2f5da73"
+        },
+        "intended_native_predicate": "The stated predicate/event captures the required function and mission interval.",
+        "particular_formal_activity": "Write/check one precise pass/fail contract or finite event table against the intended examples.",
+        "adequate_comparator": "Use an agreed direct functional check without a larger formal model.",
+        "native_residual": "A formal definition neither chooses stakeholder values nor causes reliable operation.",
+        "finite_model_or_computation_object": "A finite required-function event/mission table with named pass and fail examples.",
+        "consequential_semantic_near_miss": "Translate the intended mission predicate into a convenient proxy event or silently change the mission interval.",
+        "new_execution": false
+      },
+      {
+        "id": "R002",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P002",
+          "native_pointer": "/properties/1/native_record",
+          "current_pointer": "/properties/1/current_claim",
+          "current_object_sha256": "550b727547563a2f317ee179f1fcc8388d81e46d8d8636c3f07e4b1d642b6fcf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R002",
+          "canonical_tuple_sha256": "225647cd3167cbaa418f8d04f664c4b8dc527f04d20bf1916f8e056b61f8bd48"
+        },
+        "intended_native_predicate": "The evidence weighting/scenario set corresponds to the declared operational-profile question.",
+        "particular_formal_activity": "Check a small scenario partition and weight/coverage calculation under the asserted profile.",
+        "adequate_comparator": "Use a few defensible bounding scenarios and explicit unweighted qualitative limits.",
+        "native_residual": "Formal arithmetic does not prove representativeness or make rare consequential cases irrelevant.",
+        "finite_model_or_computation_object": "The declared finite scenario partition and weights, with omitted scenarios explicitly outside the check.",
+        "consequential_semantic_near_miss": "Translate a curated or unweighted scenario set into the actual operational profile or remove a rare consequential case because it is inconvenient.",
+        "new_execution": false
+      },
+      {
+        "id": "R003",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P003",
+          "native_pointer": "/properties/2/native_record",
+          "current_pointer": "/properties/2/current_claim",
+          "current_object_sha256": "b4504d7c01849fc60e4505c3e3d0d2b26c3ef6b33ac23a56425bbc0c3dafa7d9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R003",
+          "canonical_tuple_sha256": "98c43d845ead6880b549aed49b5d588f450da479c1834a558c9973887b05741f"
+        },
+        "intended_native_predicate": "The chosen state partition distinguishes functionally different degraded/latent states.",
+        "particular_formal_activity": "Model only the finite states/transitions that can change the consumer decision.",
+        "adequate_comparator": "Keep a binary state for a genuinely binary function.",
+        "native_residual": "Additional state detail does not estimate exposure probabilities or cause detection.",
+        "finite_model_or_computation_object": "The finite degraded, latent and failed states relevant to this consumer.",
+        "consequential_semantic_near_miss": "Translate every non-nominal state into total failure, or extra state labels into calibrated probabilities.",
+        "new_execution": false
+      },
+      {
+        "id": "R004",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P004",
+          "native_pointer": "/properties/3/native_record",
+          "current_pointer": "/properties/3/current_claim",
+          "current_object_sha256": "614e602cf3234d7cc86c3bca15155954d641534f6b04ffd0c0dfdcc74330bf1d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R004",
+          "canonical_tuple_sha256": "c68d56ad0a4bfe8e9c2e337e334535a335b8ab6154c38dd54540d740b2ec522f"
+        },
+        "intended_native_predicate": "A local postcondition supplies exactly its part of the wider required function.",
+        "particular_formal_activity": "Check the local-to-consumer contract implication and name residual interface predicates.",
+        "adequate_comparator": "Accept a complete enclosed local objective as complete.",
+        "native_residual": "Failure to prove the whole function does not erase useful local evidence or identify blame.",
+        "finite_model_or_computation_object": "The actual local-to-consumer postcondition implication and explicit residual interface variables.",
+        "consequential_semantic_near_miss": "Translate a useful local result into the whole function, or erase that partial result because the conjunction is still unproved.",
+        "new_execution": false
+      },
+      {
+        "id": "R005",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P005",
+          "native_pointer": "/properties/4/native_record",
+          "current_pointer": "/properties/4/current_claim",
+          "current_object_sha256": "031c1c1eb0d3acc578d20a401a33dad54323006c40ddd5be99bfe080f4611c7f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R005",
+          "canonical_tuple_sha256": "a894bca8bc21458a0988d9233663faf7c2403704ca586de6555f0750901d9330"
+        },
+        "intended_native_predicate": "The selected reliability/availability/maintainability formula answers its stated estimand.",
+        "particular_formal_activity": "Check the conditional regenerative ratio or event/time definition used in the calculation.",
+        "adequate_comparator": "Report the directly observed time/demand quantity with its scope.",
+        "native_residual": "Proved algebra does not establish regeneration, exposure sampling or a delay distribution.",
+        "finite_model_or_computation_object": "The selected finite observation/time/demand data and numerical estimand calculation; a regenerative theorem retains its separate premises.",
+        "consequential_semantic_near_miss": "Translate one availability ratio into reliability, maintainability or a new durability estimand, or omit regeneration in a long-run formula.",
+        "new_execution": false
+      },
+      {
+        "id": "R006",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P006",
+          "native_pointer": "/properties/5/native_record",
+          "current_pointer": "/properties/5/current_claim",
+          "current_object_sha256": "e958d53163a11e5e3a7dacee11af922ece1d5d743725a84c14d1c9c866a45b08",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R006",
+          "canonical_tuple_sha256": "1d6cb386dd7630b211cb413b6ab709f38ec439334d499c9a44d2289f17434a90"
+        },
+        "intended_native_predicate": "The finite failure-analysis model includes the claim-relevant mode/effect paths.",
+        "particular_formal_activity": "Check the specific fault combinations and protected-function implication.",
+        "adequate_comparator": "Use a small complete mode/effect table at the relevant boundary.",
+        "native_residual": "Formal closure of the enumerated model is not exhaustive real-world discovery or effective correction.",
+        "finite_model_or_computation_object": "The finite mode/effect/fault-combination model actually enumerated by the analysis.",
+        "consequential_semantic_near_miss": "Translate closure of the table into exhaustive discovery of every physical failure path or implemented protection.",
+        "new_execution": false
+      },
+      {
+        "id": "R007",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P007",
+          "native_pointer": "/properties/6/native_record",
+          "current_pointer": "/properties/6/current_claim",
+          "current_object_sha256": "982d508a0da81d6b8037f1dafcd3a17f04765bba818496668231b4f58802163a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R007",
+          "canonical_tuple_sha256": "085a031b4d71cc6df6f2cae3c005a06abdce1c2bbd5ba2e1f023abf530f981a0"
+        },
+        "intended_native_predicate": "A viable protection path survives each admitted latent/single-point fault.",
+        "particular_formal_activity": "Check the finite active/standby/control path model and dormant-failure cases.",
+        "adequate_comparator": "Use a direct tested spare path where it answers the requirement.",
+        "native_residual": "Actual diagnosis, support and shared failures are not supplied by component count.",
+        "finite_model_or_computation_object": "The active, standby, detection and control-path states under admitted latent faults.",
+        "consequential_semantic_near_miss": "Translate a nominal spare count into an available surviving protection path.",
+        "new_execution": false
+      },
+      {
+        "id": "R008",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P008",
+          "native_pointer": "/properties/7/native_record",
+          "current_pointer": "/properties/7/current_claim",
+          "current_object_sha256": "bc1839a90c0df383965618eec15ca7b9978ec20f2dec1d61b4de7d9dfdf75835",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R008",
+          "canonical_tuple_sha256": "100a475104d8b6c1261d40924141bbb444744d19995561652e485b560cd11841"
+        },
+        "intended_native_predicate": "The joint law/fault set supports the stated system-success calculation.",
+        "particular_formal_activity": "Verify the Boolean success function and probability bounds under explicit marginals/dependence.",
+        "adequate_comparator": "Keep a range such as NX07 rather than fabricate a unique law.",
+        "native_residual": "A checked formula does not estimate dependence; unknown is not perfect cofailure.",
+        "finite_model_or_computation_object": "The Boolean system function and finite joint-law constraints in NX07, with the all-real bound justified separately.",
+        "consequential_semantic_near_miss": "Translate known marginals into independence, or unknown dependence into perfect cofailure as a uniquely worst law.",
+        "new_execution": false
+      },
+      {
+        "id": "R009",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P009",
+          "native_pointer": "/properties/8/native_record",
+          "current_pointer": "/properties/8/current_claim",
+          "current_object_sha256": "7fa7d2c525dc85c8f62761d50981df0d7aae0e4f7a810e45d07a03a31882a845",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R009",
+          "canonical_tuple_sha256": "daa4fee570fa16f90593776e7cb4fca2b2f253ca84b3dff68ac88266d31f0991"
+        },
+        "intended_native_predicate": "Added redundancy rescues the required function under its coverage and cost conditions.",
+        "particular_formal_activity": "Check the conditional rescue/failure expression and finite switch/capacity states.",
+        "adequate_comparator": "Retain one adequate path or a smaller redundancy scheme.",
+        "native_residual": "More components can add common failure/load; actual coverage and rates remain empirical.",
+        "finite_model_or_computation_object": "The finite conditional-rescue, switch/coverage and capacity states for the added redundant path.",
+        "consequential_semantic_near_miss": "Translate adding a component into monotonically improved system success while omitting switching or new shared failures.",
+        "new_execution": false
+      },
+      {
+        "id": "R010",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P010",
+          "native_pointer": "/properties/9/native_record",
+          "current_pointer": "/properties/9/current_claim",
+          "current_object_sha256": "a954864da9d8eef4ba557f86103fabbe9b2c90e44d2a3d0c76325a79fea45da0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R010",
+          "canonical_tuple_sha256": "98a6b20174bcb97d37bb86ade64bd34c2d3600cb51d4eb1b28d89d0304e8a569"
+        },
+        "intended_native_predicate": "The modeled boundary contains the relevant propagation before the protected function fails.",
+        "particular_formal_activity": "Check a finite propagation graph or software noninterference invariant.",
+        "adequate_comparator": "Use a direct local limit or explicitly narrower degraded function.",
+        "native_residual": "Logical separation does not establish physical power/resource independence.",
+        "finite_model_or_computation_object": "The finite propagation/resource graph or actual program noninterference relation.",
+        "consequential_semantic_near_miss": "Translate logical partitioning into independent physical infrastructure or unlimited containment capacity.",
+        "new_execution": false
+      },
+      {
+        "id": "R011",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P011",
+          "native_pointer": "/properties/10/native_record",
+          "current_pointer": "/properties/10/current_claim",
+          "current_object_sha256": "3f28ad6859292d0ff6d30fef1d542eca401bb8084323daf7b80b2f95da1d74c8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R011",
+          "canonical_tuple_sha256": "9bd97bb4bff156f62bb62b9094e13d22c22b794f74d49ec4c121e0f47be7dfa5"
+        },
+        "intended_native_predicate": "The detector coverage calculation uses the actual fault/event denominator.",
+        "particular_formal_activity": "Check the finite fault-to-observation table and coverage arithmetic.",
+        "adequate_comparator": "Use a deterministic check for the named fault class.",
+        "native_residual": "Correct table arithmetic does not validate labels, sampling or observer survival.",
+        "finite_model_or_computation_object": "The exact finite fault-to-observation and denominator table used by the coverage calculation.",
+        "consequential_semantic_near_miss": "Translate detection coverage into predictive value or silently replace faults by alarms as the denominator.",
+        "new_execution": false
+      },
+      {
+        "id": "R012",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P012",
+          "native_pointer": "/properties/11/native_record",
+          "current_pointer": "/properties/11/current_claim",
+          "current_object_sha256": "e2a5c9719753c3f030edbf0be646ab823bafe1a6a939044fcaf0b29ff882f462",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R012",
+          "canonical_tuple_sha256": "6cf1c9f6df96954c0751c8a344a90e8f195cb342b3bf27148380eedc3031ad07"
+        },
+        "intended_native_predicate": "The observed symptoms separate the candidate causes that matter to the decision.",
+        "particular_formal_activity": "Enumerate observational equivalence classes and a proposed discriminating follow-up.",
+        "adequate_comparator": "Use a sufficient current recovery action without full causal diagnosis.",
+        "native_residual": "A formal partition of candidate causes does not prove the candidate list exhaustive.",
+        "finite_model_or_computation_object": "The finite symptom/candidate-cause equivalence classes and proposed discriminating observation.",
+        "consequential_semantic_near_miss": "Translate an alarm into a unique root cause, or require full causal diagnosis before an already sufficient narrow restoration.",
+        "new_execution": false
+      },
+      {
+        "id": "R013",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P013",
+          "native_pointer": "/properties/12/native_record",
+          "current_pointer": "/properties/12/current_claim",
+          "current_object_sha256": "6e2f6866b392ac7810543afe9e962c3e137433c350387154e32168293ed7d5b0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R013",
+          "canonical_tuple_sha256": "01ef83cf59753e17c31ae1d4d35965fc250fdf46e3801f510ee366f47165a413"
+        },
+        "intended_native_predicate": "The response choice follows from the stipulated diagnostic errors, costs and feasible actions.",
+        "particular_formal_activity": "Check a small confusion table and constrained expected-loss comparison.",
+        "adequate_comparator": "Use a direct confirmatory check or no intervention when adequate.",
+        "native_residual": "Prevalence, action efficacy, delay and authority are not proved by the loss calculation.",
+        "finite_model_or_computation_object": "The finite confusion/outcome table and constrained expected-loss/action comparison in the received r2 preparation.",
+        "consequential_semantic_near_miss": "Translate sensitivity or accuracy into positive predictive value, or optimize over an infeasible or unauthorized action.",
+        "new_execution": false
+      },
+      {
+        "id": "R014",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P014",
+          "native_pointer": "/properties/13/native_record",
+          "current_pointer": "/properties/13/current_claim",
+          "current_object_sha256": "4e6fb7a41008bb356de97ac5a68f8add48966327a7bf53f05cbf09d294bc6839",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R014",
+          "canonical_tuple_sha256": "0b9094a495b716aad1df949fc2710c780fb52250171a99619a2cdf42fd5769a3"
+        },
+        "intended_native_predicate": "The degraded mode still satisfies the allowed protected function.",
+        "particular_formal_activity": "Check the finite mode-transition and critical-task predicate.",
+        "adequate_comparator": "Use a simple explicit degraded-service contract.",
+        "native_residual": "Consumer acceptance and actual remaining capacity are not supplied by the model.",
+        "finite_model_or_computation_object": "Finite degraded-mode transitions and the explicitly protected critical-task predicate.",
+        "consequential_semantic_near_miss": "Translate reduced service into either total mission failure or automatic consumer acceptance.",
+        "new_execution": false
+      },
+      {
+        "id": "R015",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P015",
+          "native_pointer": "/properties/14/native_record",
+          "current_pointer": "/properties/14/current_claim",
+          "current_object_sha256": "7bc229bf7572b626a880a68bb64d0cb0b419cd0ab747f2c741e42671aeb657f8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R015",
+          "canonical_tuple_sha256": "40ad6b15f57c542b2b285d5ce5e32cb0ca77c50a62523e41937f0bf3c913d88b"
+        },
+        "intended_native_predicate": "The stop/continue action reaches an allowed safe state under the admitted hazards.",
+        "particular_formal_activity": "Check the specific finite hazard/transition invariant and response bound.",
+        "adequate_comparator": "Use a direct safe stopping path when its consequence is acceptable.",
+        "native_residual": "Stopping is not universally safe; authority and physical path effectiveness remain.",
+        "finite_model_or_computation_object": "The actual finite stop/continue/hazard transition model and stated safe-state predicate.",
+        "consequential_semantic_near_miss": "Translate stopping into universal safety while omitting a case in which continued support is the safe action.",
+        "new_execution": false
+      },
+      {
+        "id": "R016",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P016",
+          "native_pointer": "/properties/15/native_record",
+          "current_pointer": "/properties/15/current_claim",
+          "current_object_sha256": "14badd48115984148f53a3166e67c20067ad8cb26489a7540e241e74ebb49f01",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R016",
+          "canonical_tuple_sha256": "359c56e9e95a66844dea593e58ad003775b875d4e6855e0b38e9b83297572dd2"
+        },
+        "intended_native_predicate": "The action establishes the declared current restoration postcondition.",
+        "particular_formal_activity": "Check the procedure contract and frame for the required state.",
+        "adequate_comparator": "Use an adequate deterministic reset and direct state check.",
+        "native_residual": "Past effects, wider service, usable capacity and authority remain separate when excluded.",
+        "finite_model_or_computation_object": "The fixed-intent restoration state and unaffected resources, including NX01/NX05.",
+        "consequential_semantic_near_miss": "Translate a verified present postcondition into knowledge of every past effect, broad service completion or operating permission.",
+        "new_execution": false
+      },
+      {
+        "id": "R017",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P017",
+          "native_pointer": "/properties/16/native_record",
+          "current_pointer": "/properties/16/current_claim",
+          "current_object_sha256": "4fc18c827dfcc1b467cb6d52705614002636fd259ea1b55fc28dc6886c4ce541",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R017",
+          "canonical_tuple_sha256": "12b41163bbfb775669e9e96fa0439ec31889c288a824b5cf4a1dbd1f4adb0281"
+        },
+        "intended_native_predicate": "The specified restoration scenario tests the relevant postcondition.",
+        "particular_formal_activity": "Check artifact/configuration bindings and the finite restoration procedure contract.",
+        "adequate_comparator": "Perform one appropriately scoped direct restore observation.",
+        "native_residual": "A formal model is not an executed restore and one actual scenario is not universal recoverability.",
+        "finite_model_or_computation_object": "The finite restoration scenario and artifact/configuration/postcondition bindings.",
+        "consequential_semantic_near_miss": "Translate a procedure model into an executed restoration, or one successful actual scenario into universal recoverability.",
+        "new_execution": false
+      },
+      {
+        "id": "R018",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P018",
+          "native_pointer": "/properties/17/native_record",
+          "current_pointer": "/properties/17/current_claim",
+          "current_object_sha256": "e43459b1f17b4a8ce11aa66a2bebaf937c296aac177201e2d06a8de5858224ff",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R018",
+          "canonical_tuple_sha256": "f83ff71a3265ce714554e2fa88a9373111048cc547b134fe40f76f9fabb92069"
+        },
+        "intended_native_predicate": "The proposed recovery pattern has the primitives needed for its claimed result.",
+        "particular_formal_activity": "Check the small restart/rollback/replay transition system and durable-state assumptions.",
+        "adequate_comparator": "Use a simple local reset or existing adequate recovery contract.",
+        "native_residual": "A pattern name or proof of a different primitive cannot supply missing durability or external closure.",
+        "finite_model_or_computation_object": "The finite restart/rollback/replay pattern with its actual durable and output primitives.",
+        "consequential_semantic_near_miss": "Translate the pattern name into unavailable durability or complete external-effect reconciliation.",
+        "new_execution": false
+      },
+      {
+        "id": "R019",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P019",
+          "native_pointer": "/properties/18/native_record",
+          "current_pointer": "/properties/18/current_claim",
+          "current_object_sha256": "cdc7888c27ecc76020d28bb5b0118170826eacdc4837d32cd7e6f87c0f46f6f3",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R019",
+          "canonical_tuple_sha256": "bcb9c5aa09b07d0db3967811122cfdb607412f0530535017466183a09d08626c"
+        },
+        "intended_native_predicate": "The repair task sequence has the required access, reassembly and validation preconditions.",
+        "particular_formal_activity": "Check a bounded procedure contract or finite task/prerequisite ordering.",
+        "adequate_comparator": "Use a concise tested maintenance instruction and direct validation.",
+        "native_residual": "The formal sequence does not establish human competence, physical access or actual supported restoration time.",
+        "finite_model_or_computation_object": "The finite physical-task prerequisites, access, reassembly and validation ordering, without pretending those resources are program heap ownership.",
+        "consequential_semantic_near_miss": "Translate a valid task ordering into available physical access, human skill or supported restoration time.",
+        "new_execution": false
+      },
+      {
+        "id": "R020",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P020",
+          "native_pointer": "/properties/19/native_record",
+          "current_pointer": "/properties/19/current_claim",
+          "current_object_sha256": "e8aeae316d37741c8fab93c3911f1fc0ddbb5c82144df49f871a7050adaaac2a",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R020",
+          "canonical_tuple_sha256": "4588acafba7711b03648dc5419d7a370770470b03200176b2ec321c04bc5d7d9"
+        },
+        "intended_native_predicate": "The support plan can enable the required repair action within its claimed resource window.",
+        "particular_formal_activity": "Check the finite prerequisite/scheduling constraint and distinguish eventuality from bounded service.",
+        "adequate_comparator": "Use a known spare/manual path, accept delay or reduce supported scope.",
+        "native_residual": "Actual stock, access, skill and authority are observations; logistics is not live service headroom.",
+        "finite_model_or_computation_object": "Finite spare, access, skill and scheduling prerequisites for the required repair window.",
+        "consequential_semantic_near_miss": "Translate eventual repair eligibility into a deadline, or parts logistics into service-processing headroom.",
+        "new_execution": false
+      },
+      {
+        "id": "R021",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P021",
+          "native_pointer": "/properties/20/native_record",
+          "current_pointer": "/properties/20/current_claim",
+          "current_object_sha256": "311f7cbcda9544188f29e7e97e45afb7f76d95aaa8e70a05dfca9216c72d3235",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R021",
+          "canonical_tuple_sha256": "bb9193752588bf310e9880119d5ec1dc027e63de10686baae324c4124fcaa094"
+        },
+        "intended_native_predicate": "The maintenance action preserves the specified unaffected state and validates its intended change.",
+        "particular_formal_activity": "Check a local frame/transition contract and explicit induced-fault cases.",
+        "adequate_comparator": "Use a direct before/after state check for a small task.",
+        "native_residual": "Human/physical induced-fault rates and task exposure are not established by the software contract.",
+        "finite_model_or_computation_object": "The local maintenance action, intended change and explicitly protected state with admitted induced-fault cases.",
+        "consequential_semantic_near_miss": "Translate one preserved software resource into no maintenance-induced physical faults.",
+        "new_execution": false
+      },
+      {
+        "id": "R022",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P022",
+          "native_pointer": "/properties/21/native_record",
+          "current_pointer": "/properties/21/current_claim",
+          "current_object_sha256": "43ebbe8b0ac59a6424f6af26e1168721982a90a10c80624da731d5721bf399fd",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R022",
+          "canonical_tuple_sha256": "0e6680dc618ce49eaded7382097b43823b4a3c5acd74392d04341f0f35b223d3"
+        },
+        "intended_native_predicate": "The age-replacement comparison follows from its stated hazard/renewal/cost model.",
+        "particular_formal_activity": "Check the policy cost/hazard calculation and explicit renewal precondition.",
+        "adequate_comparator": "Retain a simpler run-to-failure policy when its stated assumptions make replacement unhelpful.",
+        "native_residual": "A software counter reset is not physical renewal; the hazard law and task effect need evidence.",
+        "finite_model_or_computation_object": "The actual finite policy-comparison inputs and arithmetic routine; hazard and renewal are separate analytical/empirical premises.",
+        "consequential_semantic_near_miss": "Translate resetting an age counter into physical renewal, or assume every positive age requires preventive replacement.",
+        "new_execution": false
+      },
+      {
+        "id": "R023",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P023",
+          "native_pointer": "/properties/22/native_record",
+          "current_pointer": "/properties/22/current_claim",
+          "current_object_sha256": "e828ae7ebce0fa9097d71ae5e552c0861c991a56da1ebccd39c4c4370e10e4fe",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R023",
+          "canonical_tuple_sha256": "ce0f544abdfda2609386e47825f37174d6894a633024b82e3e0587eb1be6e16e"
+        },
+        "intended_native_predicate": "The condition-triggered action is feasible before the decision horizon and beneficial under the stipulated loss model.",
+        "particular_formal_activity": "Check the lead-time/threshold policy calculation and finite action constraints.",
+        "adequate_comparator": "Use a bounded exploratory check or simpler schedule/inspection.",
+        "native_residual": "Prediction calibration, censoring, drift and causal action efficacy remain empirical.",
+        "finite_model_or_computation_object": "The finite threshold/lead-time/action feasibility and stipulated loss comparison.",
+        "consequential_semantic_near_miss": "Translate a predicted failure into an effective timely intervention or prospective policy superiority.",
+        "new_execution": false
+      },
+      {
+        "id": "R024",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P024",
+          "native_pointer": "/properties/23/native_record",
+          "current_pointer": "/properties/23/current_claim",
+          "current_object_sha256": "ea72a130bb66600ae48cdda9e0994243f57b54524c5abcab663d0e392ac76610",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R024",
+          "canonical_tuple_sha256": "2533373673610dc5eb7efb7d4a8f65718753285ae2d811703b1f54eba92abc33"
+        },
+        "intended_native_predicate": "The recorded feedback links the actual failure/configuration, proposed correction and later evidence.",
+        "particular_formal_activity": "Check a finite event/configuration/action linkage and the correction-state contract.",
+        "adequate_comparator": "Keep a minimal actionable record and direct follow-up.",
+        "native_residual": "Closed tickets or valid record structure do not prove causal improvement or useful exposure.",
+        "finite_model_or_computation_object": "The finite failure/configuration/action/evidence linkage and correction-status transitions.",
+        "consequential_semantic_near_miss": "Translate a closed ticket or well-formed record into causal removal of the fault and adequate later exposure.",
+        "new_execution": false
+      },
+      {
+        "id": "R025",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P025",
+          "native_pointer": "/properties/24/native_record",
+          "current_pointer": "/properties/24/current_claim",
+          "current_object_sha256": "61449f169f2eb11cab51afa036457014ef22db350162a02c01d2f10259a87460",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R025",
+          "canonical_tuple_sha256": "486968156ba7c5fbe318ab077b0803bcdcb0fb11eeade5f1f25a25c8a8700b73"
+        },
+        "intended_native_predicate": "The proposed change removes the modeled fault mechanism without violating the selected invariant.",
+        "particular_formal_activity": "Check the affected implementation path/contract or a discriminating finite counterexample.",
+        "adequate_comparator": "Use a direct local corrective action and appropriate recurrence observation.",
+        "native_residual": "The model need not capture every cause; field opportunity for recurrence and unintended effects remain.",
+        "finite_model_or_computation_object": "The changed implementation or finite failure-mechanism model and its retained invariant.",
+        "consequential_semantic_near_miss": "Translate passing the changed local example into removal of every cause or absence of induced faults.",
+        "new_execution": false
+      },
+      {
+        "id": "R026",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P026",
+          "native_pointer": "/properties/25/native_record",
+          "current_pointer": "/properties/25/current_claim",
+          "current_object_sha256": "d6ae20d559814da88866f094abfe91c5a713634c75544563c50d885e83f13d50",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R026",
+          "canonical_tuple_sha256": "5208d4e20dec500e82761c1ec5a3b1ec3b902ad1ef32d9b3c251934e00815b77"
+        },
+        "intended_native_predicate": "The numerical failure bound follows from the specified sampling/process assumptions and observations.",
+        "particular_formal_activity": "Prove/check the finite count/exposure formula and its boundary cases.",
+        "adequate_comparator": "Use a trusted existing calculation with explicit iid/HPP and censoring limits.",
+        "native_residual": "Correct arithmetic does not establish independent observations, ascertainment or arbitrary-world zero risk.",
+        "finite_model_or_computation_object": "The actual count/exposure/censoring formula implementation at declared finite input cases; this is a computation subclaim, not model checking an empirical population.",
+        "consequential_semantic_near_miss": "Translate a conditional confidence bound into zero risk, or preserve arithmetic while deleting iid/HPP, censoring or ascertainment assumptions.",
+        "new_execution": false
+      },
+      {
+        "id": "R027",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P027",
+          "native_pointer": "/properties/26/native_record",
+          "current_pointer": "/properties/26/current_claim",
+          "current_object_sha256": "34c53ef9a71bd9d15c55a45bcabd2fc069dc306f249cffd8b017e49a2d025f16",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R027",
+          "canonical_tuple_sha256": "99f5e3ef9196c6069b7899cbb7d9d78e8fc50a220a865e8b75f37f4b43b2dbe7"
+        },
+        "intended_native_predicate": "The stress-life transfer calculation follows under its stated mode-specific law.",
+        "particular_formal_activity": "Check the selected transformation, units and extrapolation formula within its declared domain.",
+        "adequate_comparator": "Use a bounded comparative stress result without a use-lifetime claim.",
+        "native_residual": "Formal transfer cannot validate physical mechanism stability or unsupported stress ranges.",
+        "finite_model_or_computation_object": "The two mode-specific factor calculations in retained C07 or another declared finite input domain of that computation.",
+        "consequential_semantic_near_miss": "Translate the checked factor calculation into physical mechanism stability, or apply one acceleration factor indiscriminately to both modes.",
+        "new_execution": false
+      },
+      {
+        "id": "R028",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P028",
+          "native_pointer": "/properties/27/native_record",
+          "current_pointer": "/properties/27/current_claim",
+          "current_object_sha256": "418267456651f7dea158f19fdfb9a2727c5276382a7cd70bef9bced1357ea93f",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R028",
+          "canonical_tuple_sha256": "97466fb4b382f1ba779cae778e6618e7fd97f8f592ca0b75521c3e292f126425"
+        },
+        "intended_native_predicate": "The update correctly retains event/exposure/configuration and observation assumptions.",
+        "particular_formal_activity": "Check the exact finite aggregation or conditional update calculation.",
+        "adequate_comparator": "Use a small audited summary with explicit missingness and transfer limits.",
+        "native_residual": "More formally processed data can retain selection bias; representativeness is not an algebraic result.",
+        "finite_model_or_computation_object": "The finite event/exposure/configuration aggregation or conditional update code at its declared inputs.",
+        "consequential_semantic_near_miss": "Translate more processed records into representative observations or treat missing failures as confirmed non-failures.",
+        "new_execution": false
+      },
+      {
+        "id": "R029",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P029",
+          "native_pointer": "/properties/28/native_record",
+          "current_pointer": "/properties/28/current_claim",
+          "current_object_sha256": "70bcff03d9c3f1949eceb3a70b7ff61b7907187849669392bc2c1bd2cb7e4338",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R029",
+          "canonical_tuple_sha256": "69292dc00d634189244e8581bbdf5f5121366f0cd41394cf3392e91f1b345ca4"
+        },
+        "intended_native_predicate": "Only evidence whose relevant premises changed is reopened.",
+        "particular_formal_activity": "Check a finite claim/configuration dependency map and exact affected artifact identities.",
+        "adequate_comparator": "Reuse unchanged evidence and directly inspect the changed premise.",
+        "native_residual": "A hash does not establish semantic equivalence; a tool replay failure need not refute an old theorem.",
+        "finite_model_or_computation_object": "The finite changed-premise/claim/artifact dependency relation and exact identities.",
+        "consequential_semantic_near_miss": "Translate any edit into invalidation of every claim, or identical bytes into proof that environmental premises remain valid.",
+        "new_execution": false
+      },
+      {
+        "id": "R030",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P030",
+          "native_pointer": "/properties/29/native_record",
+          "current_pointer": "/properties/29/current_claim",
+          "current_object_sha256": "c6edae002a2ae521b442a4df04856550e4a94d8824178cc3007c8e1a74ae8ef9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R030",
+          "canonical_tuple_sha256": "60a011303cfd762855ebda84ef634b57cc3490c4bd24d0b08523a6c991be4cd4"
+        },
+        "intended_native_predicate": "The software behavior claim is conditional on the actual input/state profile and change.",
+        "particular_formal_activity": "Check the relevant software invariant or finite operational state model.",
+        "adequate_comparator": "Use a direct deterministic test at the consequential input boundary.",
+        "native_residual": "Formal software correctness does not estimate operational reliability or turn software into a wearing physical item.",
+        "finite_model_or_computation_object": "The actual finite software state/input boundary or local invariant under the selected operational profile.",
+        "consequential_semantic_near_miss": "Translate defect correction into physical rejuvenation, or a program theorem into an exposure-independent failure probability.",
+        "new_execution": false
+      },
+      {
+        "id": "R031",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P031",
+          "native_pointer": "/properties/30/native_record",
+          "current_pointer": "/properties/30/current_claim",
+          "current_object_sha256": "768f4d8e00ea87d8fbc4a93a02a6418df4839975ec6ca5d4a4eca8d026d86e97",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R031",
+          "canonical_tuple_sha256": "1ea1029cfad6e960fe3c35b50582228153136b372cea3e60db9efcc607191d49"
+        },
+        "intended_native_predicate": "The local guarantees compose to the selected consumer journey predicate.",
+        "particular_formal_activity": "Check the exact producer/consumer postcondition implications across the relevant interfaces.",
+        "adequate_comparator": "Use a direct adequate journey/capability check.",
+        "native_residual": "A valid local result need not close the entire journey; an infinite boundary is unnecessary.",
+        "finite_model_or_computation_object": "The finite producer/consumer interfaces and journey conjunction with separate partial postconditions.",
+        "consequential_semantic_near_miss": "Translate a valid local result into the complete journey, or demand an infinite chain beyond the actual selected objective.",
+        "new_execution": false
+      },
+      {
+        "id": "R032",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P032",
+          "native_pointer": "/properties/31/native_record",
+          "current_pointer": "/properties/31/current_claim",
+          "current_object_sha256": "62e3c0a445ac340783111c21f41ac1292fbc2fa7ca66744c48279f3d59a99b96",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R032",
+          "canonical_tuple_sha256": "419556467b264374d96b6e32f1fca41676f7485399ab63a9449f36928f9fe6aa"
+        },
+        "intended_native_predicate": "The stated SLI/error-budget rule implements the chosen event, denominator, window and response policy.",
+        "particular_formal_activity": "Check a finite policy/aggregation calculation or explicit threshold contract.",
+        "adequate_comparator": "Use a clear direct event count and accepted decision rule.",
+        "native_residual": "The proof does not choose the threshold, confer response authority or establish success for every user.",
+        "finite_model_or_computation_object": "The finite SLI event/denominator/window aggregation and threshold/response policy.",
+        "consequential_semantic_near_miss": "Translate a valid arithmetic threshold into stakeholder acceptance, every-user success or action authority.",
+        "new_execution": false
+      },
+      {
+        "id": "R033",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P033",
+          "native_pointer": "/properties/32/native_record",
+          "current_pointer": "/properties/32/current_claim",
+          "current_object_sha256": "61fdcfacfd16ae0836ed8efb68acb4f661bdd04a2d28b78674a4e0a15dc14999",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R033",
+          "canonical_tuple_sha256": "e05404dbcbd1def8b9e4679410db7f6c1bc9efd1cf763efea263cafe55163e43"
+        },
+        "intended_native_predicate": "The probe event supports the named capability/path inference at the relevant time.",
+        "particular_formal_activity": "Specify and check the observation-to-capability implication under explicit bridge assumptions.",
+        "adequate_comparator": "Use one direct capability check at the required path.",
+        "native_residual": "A correct monitor can still be an imperfect health classifier; observer dependence and later changes remain.",
+        "finite_model_or_computation_object": "The probe/observer/capability states and explicit time/path bridge used by the inference.",
+        "consequential_semantic_near_miss": "Translate a functioning monitor into a perfectly calibrated health classifier or future path availability.",
+        "new_execution": false
+      },
+      {
+        "id": "R034",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P034",
+          "native_pointer": "/properties/33/native_record",
+          "current_pointer": "/properties/33/current_claim",
+          "current_object_sha256": "3761be6f2e9559e8979e109878e50e0b636a5b2646b85e6ff86e384467c658d6",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R034",
+          "canonical_tuple_sha256": "fcca89caa46fdaa856f50579e1cc1381efc023f0d2a68c1b47ded3d499efa4be"
+        },
+        "intended_native_predicate": "The stated dependency structure supports the particular propagation/recovery inference.",
+        "particular_formal_activity": "Check the finite reachability/cut or assume-guarantee obligations of the chosen dependency model.",
+        "adequate_comparator": "Use the small sufficient dependency subgraph.",
+        "native_residual": "A graph alone supplies no joint law, queue dynamics or current-world completeness.",
+        "finite_model_or_computation_object": "The finite dependency reachability/cut model or justified assume-guarantee relation.",
+        "consequential_semantic_near_miss": "Translate a graph edge list into a complete joint probability law or dynamic queue behavior.",
+        "new_execution": false
+      },
+      {
+        "id": "R035",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P035",
+          "native_pointer": "/properties/34/native_record",
+          "current_pointer": "/properties/34/current_claim",
+          "current_object_sha256": "f933a618e99ee7e0295a4f2a47111ac160f2fa1887b15b181ce935478ab8ec11",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R035",
+          "canonical_tuple_sha256": "ae86c2a27fb9d1dbcc1de9a0dba3ded4f53843f6558e18db6e506251ec536b82"
+        },
+        "intended_native_predicate": "The injected fault and oracle of the experiment discriminate the actual protection hypothesis.",
+        "particular_formal_activity": "Check a small fault/recovery model and the observation predicate before interpreting the run.",
+        "adequate_comparator": "Use a targeted deterministic fault/check when adequate.",
+        "native_residual": "The formal hypothesis does not execute injection or establish comparative industrial effectiveness.",
+        "finite_model_or_computation_object": "The finite injection/hypothesis/recovery/oracle outcome model for the stated experiment.",
+        "consequential_semantic_near_miss": "Translate a specified formal hypothesis into execution of the fault injection or demonstrated industrial effectiveness.",
+        "new_execution": false
+      },
+      {
+        "id": "R036",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P036",
+          "native_pointer": "/properties/35/native_record",
+          "current_pointer": "/properties/35/current_claim",
+          "current_object_sha256": "921540cff9183aa5ce35608b2f69f33f9830d5906ffb37c3c9988a14432a7fd2",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R036",
+          "canonical_tuple_sha256": "9ca8e5a2fab047a9d28c12d24bcc42587b5d7f66d8f803106cd58c5540d198b0"
+        },
+        "intended_native_predicate": "The recovery workload fits usable capacity and meets the stated restoration/drainage objective.",
+        "particular_formal_activity": "Check the queue/conservation/feedback model including retries, replay and repair.",
+        "adequate_comparator": "Use a direct headroom/demand check or simpler admitted workload.",
+        "native_residual": "Parts availability is not service capacity; bounded backlog can still fail drainage or the mission.",
+        "finite_model_or_computation_object": "The queue/conservation/feedback model of live arrivals, retries, replay and repair, including NX06.",
+        "consequential_semantic_near_miss": "Translate spare availability or non-growing backlog into adequate usable capacity and achieved drainage/restoration.",
+        "new_execution": false
+      },
+      {
+        "id": "R037",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P037",
+          "native_pointer": "/properties/36/native_record",
+          "current_pointer": "/properties/36/current_claim",
+          "current_object_sha256": "0f339908841f076abf1fcf7557124e07ccce64595a738ea42523db45b60bc37d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R037",
+          "canonical_tuple_sha256": "d53faf60c870c80c90d748c48965970d6c85593a82ea8a6a1254a2820db52b16"
+        },
+        "intended_native_predicate": "The useful observation survives the modeled recovery operation and remains accessible for its named question.",
+        "particular_formal_activity": "Check the evidence frame/noninterference predicate or finite retention transition.",
+        "adequate_comparator": "Keep the minimal deterministic action/result/reproducer record.",
+        "native_residual": "Heap preservation is not crash durability, truthful measurement or causal diagnosis.",
+        "finite_model_or_computation_object": "The useful observation resource through the actual reset/recovery operation, including NX05.",
+        "consequential_semantic_near_miss": "Translate any stored cell into useful evidence, or local heap preservation into crash durability and truthful measurement.",
+        "new_execution": false
+      },
+      {
+        "id": "R038",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P038",
+          "native_pointer": "/properties/37/native_record",
+          "current_pointer": "/properties/37/current_claim",
+          "current_object_sha256": "f05d6e9a997e0d04152338eeda64f571af916541ea82a70ab404b7a75285e004",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R038",
+          "canonical_tuple_sha256": "fe7f42311ef5fecfabcb572ea3bc1e433e672898b26206fca2b44d71bb6cbc51"
+        },
+        "intended_native_predicate": "The chosen discriminator distinguishes the consequential alternatives with adequate support.",
+        "particular_formal_activity": "Check only the small finite predicate/contract needed to separate those worlds.",
+        "adequate_comparator": "Use an existing direct check or no added formal work.",
+        "native_residual": "Cheapness cannot excuse an unmet hard requirement or a wrong empirical model.",
+        "finite_model_or_computation_object": "The finite consequential alternatives and the exact predicate that distinguishes them; retained C14 is a weak/strong-control example.",
+        "consequential_semantic_near_miss": "Translate a cheap passing proxy into the full permutation requirement or treat low cost as permission to ignore a hard obligation.",
+        "new_execution": false
+      },
+      {
+        "id": "R039",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P039",
+          "native_pointer": "/properties/38/native_record",
+          "current_pointer": "/properties/38/current_claim",
+          "current_object_sha256": "e7cfbb33edebeeb00991d665cd30c38b24afa24da36fbe510e6018d923e639e5",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R039",
+          "canonical_tuple_sha256": "3912ede3ca24e8f2f101f288357e2b35d87b47826f7f47e713b1a60ae765c8ec"
+        },
+        "intended_native_predicate": "Removing active control/evidence use preserves actual residual obligations and future needed reuse.",
+        "particular_formal_activity": "Check the finite dependency/removal predicate and unchanged-claim bindings.",
+        "adequate_comparator": "Retain an inexpensive dormant result or archive without ongoing execution.",
+        "native_residual": "A theorem can remain true after active retirement; unmodeled consumers still need inquiry.",
+        "finite_model_or_computation_object": "The finite control/consumer/obligation relation before and after retirement, including dormant protection.",
+        "consequential_semantic_near_miss": "Translate no recent use into absence of residual obligations, or retirement of active replay into falsity of the old theorem.",
+        "new_execution": false
+      },
+      {
+        "id": "R040",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P040",
+          "native_pointer": "/properties/39/native_record",
+          "current_pointer": "/properties/39/current_claim",
+          "current_object_sha256": "31fcecab5cfd31f4621e34dab0368064f6d506ad733da688673e915cfcbd550b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R040",
+          "canonical_tuple_sha256": "1077e15d798953677fb86e662e2ec9ab13a3c578da045f159ae9c4e5a857ff40"
+        },
+        "intended_native_predicate": "The claimed diversity changes the relevant common failure mechanisms.",
+        "particular_formal_activity": "Check a finite shared-input/tool/specification dependency model and its joint-failure countercases.",
+        "adequate_comparator": "Use one justified mechanism or a genuinely different bounded backup path.",
+        "native_residual": "Separate implementations or proof tools need not be independent; quantitative dependence remains unmeasured.",
+        "finite_model_or_computation_object": "The finite shared-input, specification, tool and resource dependency model for the proposed diverse mechanisms.",
+        "consequential_semantic_near_miss": "Translate two brands or independently named proofs into statistically independent errors.",
+        "new_execution": false
+      },
+      {
+        "id": "R041",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P041",
+          "native_pointer": "/properties/40/native_record",
+          "current_pointer": "/properties/40/current_claim",
+          "current_object_sha256": "b12e1bae55d57ed5491f44fe8793836e0810516104575cea850c7949ed6c502b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R041",
+          "canonical_tuple_sha256": "9d6b41b6ce07c46afb7638736e4da2bec7927dbc1cca9489cd551ba4c45140d6"
+        },
+        "intended_native_predicate": "The requested mean-based inference follows from the actual random quantity and extra distribution assumptions.",
+        "particular_formal_activity": "Check the exact expectation identity or counterdistribution for the proposed probability formula.",
+        "adequate_comparator": "Report the mean with its scope without claiming an unsupported mission probability.",
+        "native_residual": "A finite mean alone does not identify a full lifetime/outage law.",
+        "finite_model_or_computation_object": "The retained finite outage-pattern records and expectation calculation at the actual comparison; model laws outside it are not inferred.",
+        "consequential_semantic_near_miss": "Translate equal time-average availability into equal mean outage duration or a unique mission-success distribution.",
+        "new_execution": false
+      },
+      {
+        "id": "R042",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P042",
+          "native_pointer": "/properties/41/native_record",
+          "current_pointer": "/properties/41/current_claim",
+          "current_object_sha256": "07ae7d2dc556a6c63386ed6e60eee95bdeb2adfbbd3702ab4aa5131bc99aedd9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R042",
+          "canonical_tuple_sha256": "03ef6d236005deff14c1bd5eb7206fadb3a1204e4c91c9cbe253cce552c5d23a"
+        },
+        "intended_native_predicate": "The availability figure and policy answer the declared event/population/window question.",
+        "particular_formal_activity": "Check denominator/window arithmetic and finite outage-pattern countercases.",
+        "adequate_comparator": "Use directly scoped time/demand availability and explicit exclusions.",
+        "native_residual": "The same percentage can hide different mission consequences; proof does not choose acceptable service.",
+        "finite_model_or_computation_object": "The finite time/demand/cohort event table and denominator/window policy, including retained C01/C09.",
+        "consequential_semantic_near_miss": "Translate a passing aggregate ratio into every subgroup or every interval satisfying the same target.",
+        "new_execution": false
+      },
+      {
+        "id": "R043",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P043",
+          "native_pointer": "/properties/42/native_record",
+          "current_pointer": "/properties/42/current_claim",
+          "current_object_sha256": "030877485c80b6582c71dd6ce54d2b27a8dc8fabe42d19abc999a6f761f49ac0",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R043",
+          "canonical_tuple_sha256": "59f3e383d19331391bd7365d2ea9fc8e741ad84c7060cb4965377afaaccc151b"
+        },
+        "intended_native_predicate": "The asserted hazard/rate curve has the mathematical meaning claimed under its model.",
+        "particular_formal_activity": "Check the derivative/conditional-hazard relation and a finite or analytic countermodel to a universal shape.",
+        "adequate_comparator": "Use a scoped qualitative mechanism claim without a fitted universal curve.",
+        "native_residual": "Mathematical consistency does not establish physical ageing, mixture or covariate behavior.",
+        "finite_model_or_computation_object": "The actual finite numerical policy-comparison inputs or a specified finite lifetime law used as a countermodel; derivative identities remain separate analytical proofs.",
+        "consequential_semantic_near_miss": "Translate a named curve shape into every population hazard, or identify failure rate with a different conditional lifetime quantity.",
+        "new_execution": false
+      },
+      {
+        "id": "R044",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P044",
+          "native_pointer": "/properties/43/native_record",
+          "current_pointer": "/properties/43/current_claim",
+          "current_object_sha256": "54dee1ebdaf85bbdc436bfc25743f35f9784e8c47e0e73c77abeeb695565445d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R044",
+          "canonical_tuple_sha256": "daa380a0d54178aecbb4d725da8948a9b1a3bd53a88c2ab832bced5bbad5ceb9"
+        },
+        "intended_native_predicate": "The handbook model calculation is used within its stated comparison and input assumptions.",
+        "particular_formal_activity": "Check the specific formula implementation and unit/domain correspondence.",
+        "adequate_comparator": "Use bounded comparative screening and direct field evidence where available.",
+        "native_residual": "A verified calculation does not validate the provenance of the handbook, technology transfer or empirical accuracy.",
+        "finite_model_or_computation_object": "The actual C07 illustrative transformation calculation; no unread handbook coefficient set is silently added.",
+        "consequential_semantic_near_miss": "Translate institutionally recognized metadata or correct formula execution into empirical accuracy for a new technology/profile.",
+        "new_execution": false
+      },
+      {
+        "id": "R045",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P045",
+          "native_pointer": "/properties/44/native_record",
+          "current_pointer": "/properties/44/current_claim",
+          "current_object_sha256": "cff1b4b93298c10a47f7b4e63bd66ad5f9e93ddb11d6d78d4f7029f93836d237",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R045",
+          "canonical_tuple_sha256": "b63aae4552ae8b5c61ed85811fa47794afa665d2e13ccb770a2c0197f091c925"
+        },
+        "intended_native_predicate": "The actual failure-analysis content supports the selected mode/effect/action inference.",
+        "particular_formal_activity": "Check the finite failure combination or correction predicate behind the completed form.",
+        "adequate_comparator": "Use a concise adequate mode/effect table.",
+        "native_residual": "Checking the enumerated model cannot turn paperwork completion into exhaustive discovery or efficacy.",
+        "finite_model_or_computation_object": "The finite recorded modes, shared-event combinations and actual control predicates behind the worksheet.",
+        "consequential_semantic_near_miss": "Translate populated rows into real-world completeness or control efficacy; a missing common power event can survive a structurally complete form.",
+        "new_execution": false
+      },
+      {
+        "id": "R046",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P046",
+          "native_pointer": "/properties/45/native_record",
+          "current_pointer": "/properties/45/current_claim",
+          "current_object_sha256": "6d151c2cc1f756d0876ebc2e1e6d6dbcbe71f25e5eb6ab6d238f57531c6735cf",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R046",
+          "canonical_tuple_sha256": "890fafc54b63617c7105fa15a7872c27ed8bdc6041fe30ebf2164bf016c267a7"
+        },
+        "intended_native_predicate": "The available backup and procedure can establish the actual restoration postcondition.",
+        "particular_formal_activity": "Check the bounded restoration contract and artifact/configuration requirements.",
+        "adequate_comparator": "Use a relevant actual restore demonstration and direct function check.",
+        "native_residual": "Backup creation alone remains its narrower event; tools, permissions and external residuals remain.",
+        "finite_model_or_computation_object": "The backup/restore procedure, artifact identity and required postcondition for the named scenario.",
+        "consequential_semantic_near_miss": "Translate creation of a backup into successful restoration with present tools, authority and compatible dependencies.",
+        "new_execution": false
+      },
+      {
+        "id": "R047",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P047",
+          "native_pointer": "/properties/46/native_record",
+          "current_pointer": "/properties/46/current_claim",
+          "current_object_sha256": "7d6ccff6e1441c4ce23de05928d504f6b672efcad60eb233e4548d063bd9fee1",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R047",
+          "canonical_tuple_sha256": "4008434213ffd17a21dbf192bf50341c8253d15c672e30d4561cbd20473caf18"
+        },
+        "intended_native_predicate": "The exercised failover scenario preserves the specified state/function/authority relation.",
+        "particular_formal_activity": "Check the finite transition including delayed actors and shared failure cases.",
+        "adequate_comparator": "Use a scoped direct failover observation under the actual scenario.",
+        "native_residual": "A passing scenario neither covers all faults nor makes untested transitions failed.",
+        "finite_model_or_computation_object": "The finite failover scenario with retained state, delayed actors, authority and shared-fault cases.",
+        "consequential_semantic_near_miss": "Translate one passing scenario into all faults, or label every untested transition failed.",
+        "new_execution": false
+      },
+      {
+        "id": "R048",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P048",
+          "native_pointer": "/properties/47/native_record",
+          "current_pointer": "/properties/47/current_claim",
+          "current_object_sha256": "07b9342ca3bbaab538bf073d1bebb8a09249290015e0822b9516d1ba2a247a93",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R048",
+          "canonical_tuple_sha256": "5dcc548d79f98de932bff8eb5850d363fe0c4ef0329bfca52f6ab0745282817d"
+        },
+        "intended_native_predicate": "The claimed improvement follows from the actual event/exposure comparison and correction mechanism.",
+        "particular_formal_activity": "Check rate arithmetic and a small counterexample separating count from rate.",
+        "adequate_comparator": "Use a transparent exposure-normalized comparison with causal limits.",
+        "native_residual": "Fewer counts can arise from less observation; formal arithmetic does not prove causation.",
+        "finite_model_or_computation_object": "The exact event/exposure rate comparison, including C08 counts10→5 and rates.01→.05.",
+        "consequential_semantic_near_miss": "Translate fewer observed counts into a lower failure rate while dropping the exposure denominator.",
+        "new_execution": false
+      },
+      {
+        "id": "R049",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P049",
+          "native_pointer": "/properties/48/native_record",
+          "current_pointer": "/properties/48/current_claim",
+          "current_object_sha256": "f579ccb2f83a47ef4a3df7bc271b63d6b5defd442a4a07979981a6d8c4c2d61b",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R049",
+          "canonical_tuple_sha256": "33655c982b13dee7ba20136bbaafcccbf23120ed8f7f5a7cde349bd44ee7c9ae"
+        },
+        "intended_native_predicate": "The green signal supplies its actual bounded functional evidence.",
+        "particular_formal_activity": "Check the exact probe/event predicate and the narrower implication it supports.",
+        "adequate_comparator": "Use an adequate current direct check or justified bounded continuation.",
+        "native_residual": "No formal verdict supplies unobserved paths, global current health or authority.",
+        "finite_model_or_computation_object": "The actual finite green/probe/capability relation with unobserved paths represented separately.",
+        "consequential_semantic_near_miss": "Translate the bounded useful probe result into global health or operating authorization.",
+        "new_execution": false
+      },
+      {
+        "id": "R050",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P050",
+          "native_pointer": "/properties/49/native_record",
+          "current_pointer": "/properties/49/current_claim",
+          "current_object_sha256": "2388c8cd320e3f9a6f894525fa12c0e0f74225cf1ed131e10c7573a8d40801f9",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R050",
+          "canonical_tuple_sha256": "3664e390b1c9ef36ce7249896960f5bfc89bb76a6828127bab64ee6d0bae6e8d"
+        },
+        "intended_native_predicate": "The selected chaos result supports its actual fault/workload/oracle claim.",
+        "particular_formal_activity": "Check the finite experiment model and a countercase to the proposed universal extension.",
+        "adequate_comparator": "Use a targeted local deterministic fault check.",
+        "native_residual": "Passing injection and tool adoption remain distinct from universal or comparative resilience.",
+        "finite_model_or_computation_object": "The selected finite injected-fault/workload/oracle model and its actual exclusion boundaries.",
+        "consequential_semantic_near_miss": "Translate passing chaos injection or tool adoption into universal resilience or a comparative population effect.",
+        "new_execution": false
+      },
+      {
+        "id": "R051",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P051",
+          "native_pointer": "/properties/50/native_record",
+          "current_pointer": "/properties/50/current_claim",
+          "current_object_sha256": "1546ffe56e0fd45c4534d00780a9f69146f9de443f0f3d28dadb1dc2416ffde8",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R051",
+          "canonical_tuple_sha256": "cf5e3f33700072458677d57fcbe792c8e0456d0ce7a96f229244a43d926bac19"
+        },
+        "intended_native_predicate": "The added redundancy produces conditional rescue rather than automatic monotonic improvement.",
+        "particular_formal_activity": "Check the finite switch/failure/function model and total-cost countercases.",
+        "adequate_comparator": "Keep a smaller adequate redundant scheme or a single sufficient mechanism.",
+        "native_residual": "Coverage, dependence, live capacity and new shared paths need actual evidence.",
+        "finite_model_or_computation_object": "The finite backup/switch/coverage/live-capacity model and the extra paths introduced by redundancy.",
+        "consequential_semantic_near_miss": "Translate more redundancy into monotonic benefit without the conditional rescue and new-failure terms.",
+        "new_execution": false
+      },
+      {
+        "id": "R052",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P052",
+          "native_pointer": "/properties/51/native_record",
+          "current_pointer": "/properties/51/current_claim",
+          "current_object_sha256": "ac830bfe71e2c6746a99e8f3a33fcc86a6cba1ca6853d8f1ed5795614ba2cb28",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R052",
+          "canonical_tuple_sha256": "8d89358265f4955651c8084321161144df27e606a5f46581ee0acf829a587305"
+        },
+        "intended_native_predicate": "The predictive policy wins the stated constrained comparison, if its input model is valid.",
+        "particular_formal_activity": "Check the threshold/loss/lead-time calculation against feasible simpler policies.",
+        "adequate_comparator": "Use inspection, fixed schedule or no intervention when adequate.",
+        "native_residual": "Model-checking a decision rule does not establish calibration, causal efficacy or prospective superiority.",
+        "finite_model_or_computation_object": "The finite threshold, loss, lead-time and feasible-policy comparison.",
+        "consequential_semantic_near_miss": "Translate a winning stipulated calculation into calibrated predictions, effective actions or general superiority of predictive maintenance.",
+        "new_execution": false
+      },
+      {
+        "id": "R053",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P053",
+          "native_pointer": "/properties/52/native_record",
+          "current_pointer": "/properties/52/current_claim",
+          "current_object_sha256": "2435e1ef324d0c7ad9019b40fc9bc26ac915f3492d4a07ba6ae01b93fa44c420",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R053",
+          "canonical_tuple_sha256": "a5501ac09f367ab25da848082c874c30b3823dcaa4ca85076e9026bc66130c8f"
+        },
+        "intended_native_predicate": "The fitted mean/process claim has the asserted mathematical implications.",
+        "particular_formal_activity": "Differentiate the mean curve and check the additional process assumptions needed for event probabilities.",
+        "adequate_comparator": "Report the fitted mean at its observed scope without an NHPP or causal extension.",
+        "native_residual": "A mean curve alone supplies neither independent increments nor effective correction.",
+        "finite_model_or_computation_object": "At fixed selected times, partition the single U in N(t)=floor(sqrt(t)+U) at its count thresholds; exact interval weights give a finite marginal/joint view of retained C13.",
+        "consequential_semantic_near_miss": "Translate E[N(t)]=sqrt(t) into an NHPP, resample U independently across times, or infer the all-time mean theorem from finitely many checks.",
+        "new_execution": false
+      },
+      {
+        "id": "R054",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P054",
+          "native_pointer": "/properties/53/native_record",
+          "current_pointer": "/properties/53/current_claim",
+          "current_object_sha256": "e0f40b561ca50cc5f49efc8eb665d41e79240ec14709c7120b491f81cb4eb2a7",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R054",
+          "canonical_tuple_sha256": "ed1ab1a0379ed7fdc8474566f8c893aa44df529828c9a6b457eed1f9965c53d1"
+        },
+        "intended_native_predicate": "The finite theorem or demonstration supports its exact risk/exclusion claim.",
+        "particular_formal_activity": "Check the deterministic finite predicate or conditional statistical bound and its stated uncertainty.",
+        "adequate_comparator": "Use adequate scoped evidence with an explicit accepted residual risk.",
+        "native_residual": "A valid model exclusion is not empirical proof of arbitrary-world zero risk.",
+        "finite_model_or_computation_object": "The exact finite deterministic exclusion predicate or the implemented statistical-bound calculation, with their different interpretation kept explicit.",
+        "consequential_semantic_near_miss": "Translate a model exclusion into arbitrary-world zero risk, or statistical non-observation into a deterministic theorem.",
+        "new_execution": false
+      },
+      {
+        "id": "R055",
+        "native_binding": {
+          "carrier": "work/drf_reliability_maintainability/revisions/r2/current/CURRENT_PROPERTY_LEDGER.json",
+          "native_id": "ERM-P055",
+          "native_pointer": "/properties/54/native_record",
+          "current_pointer": "/properties/54/current_claim",
+          "current_object_sha256": "7fa4765f23e3ebf1e3271b33685cc39376053ee7bec2fd4f5077f7e3694e4a5d",
+          "carrier_sha256": "bf28607fbb65c4758ece90faee42a2f323cbd95b899480e877b0e1f72848a231"
+        },
+        "route_exact_alias": {
+          "path": "analysis_r3/formal_choice_routes.py",
+          "literal_key": "R055",
+          "canonical_tuple_sha256": "36e796530d837453e90ea344a2b1890195ea33adb7f77a4c733d0e1d49a0af56"
+        },
+        "intended_native_predicate": "The automated maintenance/control component satisfies its bounded task/interface predicate.",
+        "particular_formal_activity": "Verify the finite control/decision contract separately from learned diagnosis and field policy utility.",
+        "adequate_comparator": "Use an ordinary deterministic check, human-supported action or no AI component.",
+        "native_residual": "A proof of the control fragment does not establish task fidelity, shift robustness, action efficacy or operational benefit.",
+        "finite_model_or_computation_object": "The bounded automated diagnostic/control or restoration-interface predicate; learned task fidelity and action policy utility remain outside that finite fragment.",
+        "consequential_semantic_near_miss": "Translate an AI-generated valid control proof into a faithful diagnosis, useful remediation under shift or autonomous authority.",
+        "new_execution": false
+      }
+    ],
+    "member_count": 109,
+    "limit": "Explicit analytical model objects and semantic challenges are not executed results or a population performance evaluation. Current native claims remain governing."
+  }
+}

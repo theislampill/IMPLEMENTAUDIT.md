@@ -1,0 +1,215 @@
+{
+  "schema": "complete-BWP-relationship-records/1",
+  "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7",
+  "record_sets": [
+    {
+      "record_set": "directions",
+      "path": "relationships/directions.json",
+      "expanded_semantic_sha256": "dce01ef4a82b1ff153f341bfa0dc4cd10980bffc8eca8b704d49819f4f8fcaa4",
+      "source_bindings": [
+        {
+          "filename": "EVOLVED_BWP_DIRECTIONAL_RELATION_LEDGER.json",
+          "bytes": 46333126,
+          "sha256": "fd1e7636f97342c12844440685db8da0d7f5547926b106a4dd7092710321c29d",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/directions.md",
+      "populations": {
+        "relations": 15841
+      }
+    },
+    {
+      "record_set": "pairs",
+      "path": "relationships/pairs.json",
+      "expanded_semantic_sha256": "027f047122fa1c4a101d1bb3fe3e28bfbcbdeb83004f4450e84547ff0633a686",
+      "source_bindings": [
+        {
+          "filename": "EVOLVED_BWP_INTRA_CROSSWALK_MATRIX.json",
+          "bytes": 25233695,
+          "sha256": "58b880f69c1c9dbddbc8a2763126bf24b02fe8a29cfe7f7b8c07133e981e4bf6",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/pairs.md",
+      "populations": {
+        "pairs": 18221
+      }
+    },
+    {
+      "record_set": "negative-blocks",
+      "path": "relationships/negative-blocks.json",
+      "expanded_semantic_sha256": "c68cc3a67da467b0683d5e99d5220c36f5b0cbd39ec8340377dbda3d6d2b7d0c",
+      "source_bindings": [
+        {
+          "filename": "NEGATIVE_BLOCK_MEMBERSHIP.json",
+          "bytes": 1112630,
+          "sha256": "fce7f02f3444b128c2a50112877805bc71e16897c81c02b31e342829c49a0600",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/negative-blocks.md",
+      "populations": {
+        "blocks": 217
+      }
+    },
+    {
+      "record_set": "causal-judgments",
+      "path": "relationships/causal-judgments.json",
+      "expanded_semantic_sha256": "6ecc22ebad9da8a0a8c21d14fa1db21ddb55baeae9d240c5dad8f3e8e3c85868",
+      "source_bindings": [
+        {
+          "filename": "CAUSAL_FRONTIER_OWNER.json",
+          "bytes": 2968374,
+          "sha256": "25d0655f00b815e3e3d19a7aec27bb9e6cfcc1048ce0dd6fe940d66365ffb696",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/causal-judgments.md",
+      "populations": {
+        "epm_receiver_operands": 84,
+        "r5_interface_judgments": 83,
+        "r4_interface_judgments": 267,
+        "r3_interface_judgments": 127,
+        "producer_profiles": 150
+      }
+    },
+    {
+      "record_set": "material-inputs",
+      "path": "relationships/material-inputs.json",
+      "expanded_semantic_sha256": "03bb6d0878eddcb6c357c16512d334d09e092dac73e6b7f2f4de1c4cd4a1f513",
+      "source_bindings": [
+        {
+          "filename": "MATERIAL_INPUT_OWNER.json",
+          "bytes": 6141075,
+          "sha256": "3e6c3d95537e62f4bfe41704d7c972ede14ff91688b3e936e4549314c72b0f2b",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/material-inputs.md",
+      "populations": {
+        "input_cards": 672,
+        "selection_cards": 483
+      }
+    },
+    {
+      "record_set": "scope-screen-r4",
+      "path": "relationships/scope-screen-r4.json",
+      "expanded_semantic_sha256": "5c111d72eaf0cc8f6b6758fbb27daf66d6edfc537ebfcb1dacf84a97a852642a",
+      "source_bindings": [
+        {
+          "filename": "R4_CAUSAL_SCOPE_SCREEN.json",
+          "bytes": 2417484,
+          "sha256": "3902ceb7944089354d836aafbd72268a57f5aceaa274bd7c3ddce14a0b0585fa",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/scope-screen-r4.md",
+      "populations": {
+        "rows": 908
+      }
+    },
+    {
+      "record_set": "scope-screen-r5",
+      "path": "relationships/scope-screen-r5.json",
+      "expanded_semantic_sha256": "de8e432e4520cc15f8473b725da31f310860f489928436df64ae7f1fa595a507",
+      "source_bindings": [
+        {
+          "filename": "R5_CAUSAL_SCOPE_SCREEN.json",
+          "bytes": 2571615,
+          "sha256": "a92226cb9db59ad728dd4e5177746ab1da9b3a42603fda9c1dd726216b4d5a85",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/scope-screen-r5.md",
+      "populations": {
+        "rows": 1056
+      }
+    },
+    {
+      "record_set": "scope-screen-r6",
+      "path": "relationships/scope-screen-r6.json",
+      "expanded_semantic_sha256": "ac55e5c0a5b46922b8cc7a47a5eef27b7d545f1ea00c4e60557b646ae6f6a401",
+      "source_bindings": [
+        {
+          "filename": "R6_CAUSAL_SCOPE_SCREEN.json",
+          "bytes": 2630687,
+          "sha256": "91221fe77d0c564e2ef66d828ddd31ec1bab4ef737ff77ecaed9823e6345aecf",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/scope-screen-r6.md",
+      "populations": {
+        "rows": 1082
+      }
+    },
+    {
+      "record_set": "scope-screen-r7",
+      "path": "relationships/scope-screen-r7.json",
+      "expanded_semantic_sha256": "4d7f6ddba979e734550639e95aeffb998f715ed165ea793a87833ae0abb30117",
+      "source_bindings": [
+        {
+          "filename": "R7_CAUSAL_SCOPE_SCREEN.json",
+          "bytes": 2643035,
+          "sha256": "583d89d0d3ab6e0f628b2d0aa85110f61651666fdc7bedafd375930fb1ede1d5",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/scope-screen-r7.md",
+      "populations": {
+        "rows": 1086
+      }
+    },
+    {
+      "record_set": "property-profiles",
+      "path": "relationships/property-profiles.json",
+      "expanded_semantic_sha256": "223585f05f7296fadbe7f3df69a36cf07c84a0b2d3b703af8422fca4a836188b",
+      "source_bindings": [
+        {
+          "filename": "EVOLVED_BWP_CONSTITUENT_PROPERTY_REGISTER.json",
+          "bytes": 5796701,
+          "sha256": "ab0d2dc62536bdf5788cc9d4c2190345f453e147813899f26aed233d0acf9c5f",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/property-profiles.md",
+      "populations": {
+        "properties": 234
+      }
+    },
+    {
+      "record_set": "source-register",
+      "path": "relationships/source-register.json",
+      "expanded_semantic_sha256": "367751e6bf2564b03f6bf06d48987821f13b3c4c0d0f50f537f0ded6619199b0",
+      "source_bindings": [
+        {
+          "filename": "EVOLVED_BWP_SOURCE_REGISTER.json",
+          "bytes": 793620,
+          "sha256": "e90119feb91c6da176461537e506184ea1a7aca3ff98e4e393168a3a8638a811",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/source-register.md",
+      "populations": {
+        "sources": 172
+      }
+    },
+    {
+      "record_set": "source-identities",
+      "path": "relationships/source-identities.json",
+      "expanded_semantic_sha256": "48ace356169e2c724dfd7b5058f4a6f707dd919deed9918b45b44b499667866f",
+      "source_bindings": [
+        {
+          "filename": "EVOLVED_BWP_SHARED_SOURCE_IDENTITY_LEDGER.json",
+          "bytes": 45864,
+          "sha256": "0941dd76d6ca82a1efde376bb57c2724c31b65bbe42110f6daa957aa18f6bafc",
+          "accepted_subject_sha256": "4b5075fef82f5f4af44d40db746ed272e4435e314c9e2ba82c1489d234ce50d7"
+        }
+      ],
+      "human_reader": "../relationships/source-identities.md",
+      "populations": {}
+    }
+  ],
+  "field_policy": "All eligible original fields, scalar types and ordered list members are retained. Exact repeated values are factored. Source-path labels and genuine private worker contexts are explicitly normalized; public bibliography identifiers are preserved.",
+  "no_new_science": true
+}

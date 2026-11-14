@@ -1,0 +1,1533 @@
+{
+  "source_identity": {
+    "source_id": "S-607e0407a98e703a",
+    "scientific_name": "DIRECTION_ARGUMENTS_B33_I014.json",
+    "original_bytes": 81204,
+    "original_sha256": "607e0407a98e703a62d5331137a147938db2226d84c666b5c326008d821313b9"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-b33-current-factored-directed-arguments/1",
+    "identity": "B33_INCREMENT_014",
+    "literal_source": {
+      "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+      "bytes": 29192,
+      "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+    },
+    "common_contract": {
+      "materiality": "A named actual artifact, behavior contract, evaluation premise or evidence result must affect the receiving engineering judgment. Useful partial inputs can matter before the whole receiver is established. A common technical topic alone is insufficient.",
+      "scope": "Six independent directions between maintained technical changeability and consequential interface control, verification planning, or relevant-level evidence. The directions have separate guards. C27 and C28 are two separately recorded constructions, never a joint runtime, field study or observed organization.",
+      "reverse_rule": "Forward directions supply actual changed-artifact or consequence content. Reverse directions supply actual constraints or discriminating evidence for the structural claim. No reverse follows from symmetry.",
+      "authority": "Author argument only; no master mutation, independent-review verdict, operational permission or scientific qualification."
+    },
+    "directions": [
+      {
+        "id": "B33-I014-D01",
+        "source": "LAW-L2::EA-08",
+        "receiver": "LAW-L3::EW-P009",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "argument_factors": [
+          "B33-I014-F01",
+          "B33-I014-F02",
+          "B33-I014-F03",
+          "B33-I014-F04"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "MATURE_OR_EVOLVED_FORM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "TRIGGER_OR_CONTEXT",
+          "CEREMONY_VS_PROPERTY",
+          "REQUALIFICATION.qualitative_criterion",
+          "IMPORTANT_CRITICISMS"
+        ],
+        "shared_object": "An actual structurally changed artifact whose behavior or supported compatibility is being assessed at a consequential interface.",
+        "guard": "The structural work actually changes the implementation relevant to an existing consequential boundary, and its changed-artifact description or preservation evidence is consumed in deciding compatibility, notification or version treatment. A private helper alone does not activate this guard; whole changeability benefit and complete interface governance need not already be proved.",
+        "source_contribution": "The actual transformation provides candidate identity, changed dependencies and a bounded preservation claim or counterevidence. These give the interface decision concrete implementation and compatibility content instead of an unsupported assertion that the change is merely internal.",
+        "receiving_consequence": "Compatibility treatment can distinguish a behavior-preserving implementation replacement from a change that affects the agreed semantics or whose evidence is inadequate. This does not choose owners or give an actor power to revise a contract.",
+        "remaining_premises": "Actual boundary consequence, the operative contract including any timing or state obligations, correspondence between the tested article and delivered artifact, affected consumers, ownership and applicable notification/version rules remain independently necessary where relied upon.",
+        "positive_witness": "C28 records a real model transformation V1→V2 with equal R4 values at both entrypoints and different source/dependency structure. That is bounded candidate-and-preservation content, useful if those entrypoints correspond to the actual contract being decided. C27 separately shows why a coordinated composition that meets its end-to-end oracle does not make a mismatched mixed version compatible. Neither construction observes an external owner; the native consequential-boundary guard is retained.",
+        "nontrigger_or_counterexample": "C28's private helper does not itself establish P009 governance. C27's mixed pair passes its isolated component checks but fails the required composition; a claim of local cleanliness or local green cannot supply compatibility. Its unit-convention change is not relabeled as a behavior-preserving refactoring at each component boundary.",
+        "cheap_alternative_and_removal": "A compact versioned contract, language type, direct compatibility check or adequate analysis may consume the same change information. Remove the actual candidate/preservation information and the interface judgment loses this input or must reacquire it. Removing a separate ICD or board need not remove the function; no extra cross-organizational ceremony is asserted for private calls.",
+        "reentry": "Changed contract, actual consumer set, release boundary, candidate implementation, evidence subject/domain, timing or state obligation.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity"
+          },
+          {
+            "control": "C28",
+            "case": "shared_edit_has_two_consumers"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Separate old C28 structural and C27 composition records; no new execution, combined system or actual external ownership. C28 finite scalar preservation and C27 unit composition are bounded technical premises only.",
+        "direction_key": "LAW-L2::EA-08->LAW-L3::EW-P009",
+        "reverse_direction_key": "LAW-L3::EW-P009->LAW-L2::EA-08",
+        "entry_row": [
+          "LAW-L2::EA-08->LAW-L3::EW-P009",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i014/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "98ec27a4cb6638b3a2d2ef314082f8a4b07746c25bd579889bb41074c3892903"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P009",
+            "capsule": {
+              "path": "reading/i014/native/EW-P009.json",
+              "bytes": 6823,
+              "sha256": "289b63aeebce77aff5cae839c89ee0cebe512708fe83288e91cb54bad8901690"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::MATURE_OR_EVOLVED_FORM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P009::MECHANISM",
+            "LAW-L3::EW-P009::TRIGGER_OR_CONTEXT",
+            "LAW-L3::EW-P009::CEREMONY_VS_PROPERTY",
+            "LAW-L3::EW-P009::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P009::IMPORTANT_CRITICISMS"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I014-F01",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "456f85cc5b233da77bd127aa1db3202eb985b6a29d7dd06b3bc576eea9f4b7e0"
+          },
+          {
+            "factor_id": "B33-I014-F02",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "90c5546e83b4b8c231d799d8d714fa53d830dc874479691518056e99f08c8596"
+          },
+          {
+            "factor_id": "B33-I014-F03",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "a91c69fefe0879ed3257235b03d04c4f9099b39c89cd5bcc94cbf792588ac2dc"
+          },
+          {
+            "factor_id": "B33-I014-F04",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2bbfabfc8db542254c90a6602236fffd0770e46b5505e4ed00db61d811db04cc"
+          }
+        ],
+        "analytical_case_bindings": [],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "1a61b727800912bd6a22315ae34ffe6074c8fb5ec772fa4320fb51ff93b68ed6",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Separate old C28 structural and C27 composition records; no new execution, combined system or actual external ownership. C28 finite scalar preservation and C27 unit composition are bounded technical premises only.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "shared_edit_has_two_consumers",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/3",
+            "canonical_value_sha256": "11eb75690041bf6d45e0e6929774ee80a871db50b0f96666ce1b5ec2ae42a883",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Separate old C28 structural and C27 composition records; no new execution, combined system or actual external ownership. C28 finite scalar preservation and C27 unit composition are bounded technical premises only.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Separate old C28 structural and C27 composition records; no new execution, combined system or actual external ownership. C28 finite scalar preservation and C27 unit composition are bounded technical premises only.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "49267700a23a42377ac81a2d0cec092da4af2f6db6804f59f7bccf61611b1844",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Separate old C28 structural and C27 composition records; no new execution, combined system or actual external ownership. C28 finite scalar preservation and C27 unit composition are bounded technical premises only.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I014-D02",
+        "source": "LAW-L3::EW-P009",
+        "receiver": "LAW-L2::EA-08",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I014-F01",
+          "B33-I014-F02",
+          "B33-I014-F03",
+          "B33-I014-F04"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "IMPORTANT_CRITICISMS",
+          "NON_TRIGGER_OR_CHEAP_PATH"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition",
+          "selected.simpler_path_and_cost"
+        ],
+        "shared_object": "The actual externally consequential behavior contract that a structural change proposes to preserve or deliberately revise through an appropriate route.",
+        "guard": "The structural decision consumes specific interface semantics, supported-version obligations, ownership constraints or actual compatibility evidence from a consequential boundary. An incomplete contract can supply a useful specific constraint without establishing whole P009 satisfaction; a hypothetical external interface is not assumed.",
+        "source_contribution": "The operative contract identifies which outputs, units, protocols, timing or other behaviors must stay compatible and where coordination is needed. It restricts a vague preserve-behavior claim to the behavior actually owed to consumers, rather than freezing all implementation details.",
+        "receiving_consequence": "Structural work can preserve the identified obligation, isolate the change behind a seam, or explicitly treat a contract revision as more than a private refactor. It can also reject unnecessary central approval for an actual private implementation detail.",
+        "remaining_premises": "Contract adequacy, actual counterpart behavior, completeness of affected consumers, feasible change design, verification and expected economic benefit are separate. A document's existence is not evidence that implementations obey it.",
+        "positive_witness": "The declared C28 entrypoint R4 values make the preservation question precise enough to distinguish V2 from V3. Separately, C27's metre-versus-centimetre interpretation changes which paired implementations meet the end-to-end requirement. These models illustrate consumption of specified semantics, with no claim that their private functions possess actual external ownership. In application, the guard requires the real consequential contract.",
+        "nontrigger_or_counterexample": "No actual compatibility obligation is supplied by calling every internal helper an interface. In the freshly accessed MCO executive summary, metric output was already specified yet English-unit data was supplied: the contract alone did not establish implementation conformity. An immutable universal interface policy would also conflict with warranted evolution and is not inferred.",
+        "cheap_alternative_and_removal": "An existing type, assertion, small direct contract agreement or adequate source analysis can provide the needed constraint. Remove the required semantics and preservation can become ambiguous; remove a formal board while keeping an adequate actual contract and the constraint may remain. No-change or targeted isolation can be preferable to polishing a disposable artifact.",
+        "reentry": "Changed contractual semantics, supported versions, affected owners or consumers, actual private/consequential classification, or evidence that the contract is wrong or incomplete.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Contract-consumption mechanism in two separate pure-function constructions. Their declared scalar semantics do not instantiate real ownership, timing, deployed state or interface-change authority.",
+        "direction_key": "LAW-L3::EW-P009->LAW-L2::EA-08",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P009",
+        "entry_row": [
+          "LAW-L3::EW-P009->LAW-L2::EA-08",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P009",
+            "capsule": {
+              "path": "reading/i014/native/EW-P009.json",
+              "bytes": 6823,
+              "sha256": "289b63aeebce77aff5cae839c89ee0cebe512708fe83288e91cb54bad8901690"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8"
+            },
+            "selected_ref": null,
+            "native_status": "CONTEXT_DEPENDENT",
+            "selected_criterion": "The parties have a shared testable contract, ownership and a way to detect incompatible changes.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i014/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "98ec27a4cb6638b3a2d2ef314082f8a4b07746c25bd579889bb41074c3892903"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P009::MECHANISM",
+            "LAW-L3::EW-P009::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P009::IMPORTANT_CRITICISMS",
+            "LAW-L3::EW-P009::NON_TRIGGER_OR_CHEAP_PATH"
+          ],
+          "receiver": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition",
+            "LAW-L2::EA-08::selected.simpler_path_and_cost"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I014-F01",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "456f85cc5b233da77bd127aa1db3202eb985b6a29d7dd06b3bc576eea9f4b7e0"
+          },
+          {
+            "factor_id": "B33-I014-F02",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "90c5546e83b4b8c231d799d8d714fa53d830dc874479691518056e99f08c8596"
+          },
+          {
+            "factor_id": "B33-I014-F03",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "a91c69fefe0879ed3257235b03d04c4f9099b39c89cd5bcc94cbf792588ac2dc"
+          },
+          {
+            "factor_id": "B33-I014-F04",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/3",
+            "canonical_value_sha256": "2bbfabfc8db542254c90a6602236fffd0770e46b5505e4ed00db61d811db04cc"
+          }
+        ],
+        "analytical_case_bindings": [],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Contract-consumption mechanism in two separate pure-function constructions. Their declared scalar semantics do not instantiate real ownership, timing, deployed state or interface-change authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "d423c39ad2b3f7df3bfb74aec44e2a7b0fa0ba5bbb0c878a289c24a35f645d10",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Contract-consumption mechanism in two separate pure-function constructions. Their declared scalar semantics do not instantiate real ownership, timing, deployed state or interface-change authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Contract-consumption mechanism in two separate pure-function constructions. Their declared scalar semantics do not instantiate real ownership, timing, deployed state or interface-change authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_source_analysis",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "be40a6960bd007e91e14276629c46767a09d65a519513e0c89f126ef8687f820",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Contract-consumption mechanism in two separate pure-function constructions. Their declared scalar semantics do not instantiate real ownership, timing, deployed state or interface-change authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I014-D03",
+        "source": "LAW-L2::EA-08",
+        "receiver": "LAW-L3::EW-P010",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "argument_factors": [
+          "B33-I014-F01",
+          "B33-I014-F02",
+          "B33-I014-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition",
+          "selected.simpler_path_and_cost"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "DEPENDENCIES_OR_PRECONDITIONS",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.qualitative_criterion"
+        ],
+        "shared_object": "The actual structural candidate and the particular behavior-preservation requirement being used to plan its evaluation.",
+        "guard": "A real structural proposal or its observed limitation supplies article identity, affected behavior or a discriminating case to an evaluation decision for that preservation requirement. This is not a claim that all refactoring improves testability; an evaluation input can matter before the complete plan or economic case is known.",
+        "source_contribution": "The concrete before/after transformation identifies what the claim concerns, which dependencies or observables changed and what would count as an unsafe semantic change. It can expose the need to revise an initially vague or nominal-only evaluation condition.",
+        "receiving_consequence": "The evaluation method can name the successor article, compare it against the relevant predecessor contract, select discriminating inputs and distinguish preservation from a separately intended functional change. Required resources and environments can then be scoped to that actual purpose.",
+        "remaining_premises": "The requirement and oracle must be valid for the intended use; the method must cover the relied-on domain and relevant effects; article correspondence, environment, independence and feasibility remain separate. Model boundary coverage is not general adequacy.",
+        "positive_witness": "C28 gives explicit V1/V2 artifacts for an R4 preservation comparison and V3 shows that nominal input5 can pass while input4 refutes the claim. Its later R3 functional change has a different oracle and is not evidence that the earlier R4 preservation obligation changed automatically. These concrete distinctions inform method/article/criterion selection.",
+        "nontrigger_or_counterexample": "A general debt register without an actual candidate or evaluable obligation supplies no such plan content. Calling the one-helper version cleaner does not establish its behavior, and choosing an echo of candidate output as the criterion would eliminate the intended challenge, as C27's separately recorded circular-oracle view shows.",
+        "cheap_alternative_and_removal": "An existing assertion with the correct article and criterion, or a complete source argument for the small pure domain, may be the whole adequate plan. Remove the actual preservation obligation or candidate scope and the evaluation loses its target; remove a separate plan document while those particulars remain and the function survives.",
+        "reentry": "Changed candidate, preservation purpose, oracle, affected observables, domain, scarce environment or evidence-method assumption.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity"
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          },
+          {
+            "control": "C28",
+            "case": "actual_future_edit_and_direct_alternative"
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Old C28 supplies concrete article and boundary discrimination; old C27 supplies a separate oracle-interpretation counterview. No new planning experiment, early-versus-late causal comparison or general coverage proof.",
+        "direction_key": "LAW-L2::EA-08->LAW-L3::EW-P010",
+        "reverse_direction_key": "LAW-L3::EW-P010->LAW-L2::EA-08",
+        "entry_row": [
+          "LAW-L2::EA-08->LAW-L3::EW-P010",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i014/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "98ec27a4cb6638b3a2d2ef314082f8a4b07746c25bd579889bb41074c3892903"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P010",
+            "capsule": {
+              "path": "reading/i014/native/EW-P010.json",
+              "bytes": 6757,
+              "sha256": "69b658c7cba1304a9d8f0779df413371f0c95d7673fa325a68c4b82b85d1ff10"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition",
+            "LAW-L2::EA-08::selected.simpler_path_and_cost"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P010::MECHANISM",
+            "LAW-L3::EW-P010::DEPENDENCIES_OR_PRECONDITIONS",
+            "LAW-L3::EW-P010::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P010::REQUALIFICATION.qualitative_criterion"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I014-F01",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "456f85cc5b233da77bd127aa1db3202eb985b6a29d7dd06b3bc576eea9f4b7e0"
+          },
+          {
+            "factor_id": "B33-I014-F02",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "90c5546e83b4b8c231d799d8d714fa53d830dc874479691518056e99f08c8596"
+          },
+          {
+            "factor_id": "B33-I014-F03",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "a91c69fefe0879ed3257235b03d04c4f9099b39c89cd5bcc94cbf792588ac2dc"
+          }
+        ],
+        "analytical_case_bindings": [],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "preserved_behavior_new_identity",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "1a61b727800912bd6a22315ae34ffe6074c8fb5ec772fa4320fb51ff93b68ed6",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old C28 supplies concrete article and boundary discrimination; old C27 supplies a separate oracle-interpretation counterview. No new planning experiment, early-versus-late causal comparison or general coverage proof.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old C28 supplies concrete article and boundary discrimination; old C27 supplies a separate oracle-interpretation counterview. No new planning experiment, early-versus-late causal comparison or general coverage proof.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "actual_future_edit_and_direct_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "01422db783745e55ed679c6f6ddb48220784dee458895a718006e2e8225284d4",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Old C28 supplies concrete article and boundary discrimination; old C27 supplies a separate oracle-interpretation counterview. No new planning experiment, early-versus-late causal comparison or general coverage proof.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/8",
+            "canonical_value_sha256": "d38038612f0b2477728c0d74c70422512e472421be183a5693a243acb3e27fca",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Old C28 supplies concrete article and boundary discrimination; old C27 supplies a separate oracle-interpretation counterview. No new planning experiment, early-versus-late causal comparison or general coverage proof.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I014-D04",
+        "source": "LAW-L3::EW-P010",
+        "receiver": "LAW-L2::EA-08",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "SCOPE_CONSTRAINT",
+          "EVIDENCE_DEPENDENCY"
+        ],
+        "argument_factors": [
+          "B33-I014-F01",
+          "B33-I014-F02",
+          "B33-I014-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "NON_TRIGGER_OR_CHEAP_PATH",
+          "selected.proposition"
+        ],
+        "shared_object": "The feasible method, subject and acceptance condition actually used to judge a particular structural preservation claim.",
+        "guard": "The structural decision consumes an actual evaluation condition, article/domain specification, feasibility limit or discriminating result for the behavior it claims to preserve. A partial criterion or identified evaluation gap can already matter; full verification or whole changeability benefit is not required for the direction.",
+        "source_contribution": "Evaluation design supplies a noncircular condition and a method at a declared scope, or exposes that an existing condition cannot distinguish a failure. It can identify which checks must be revised when structural changes invalidate old article or environment assumptions.",
+        "receiving_consequence": "The proposed structural work can be accepted only at the supported preservation scope, repaired when a necessary premise fails, or kept unresolved when evidence is insufficient. A method limit is not converted into a universal demand for every possible test.",
+        "remaining_premises": "Correct and sufficiently complete requirements, actual execution or valid analysis, evidence correspondence, unexamined timing/state/use effects and the economic justification for restructuring remain independent. A verification plan does not prove itself fulfilled.",
+        "positive_witness": "C28's R4 criterion at input4 rejects V3 despite its nominal green and one-comparison shape, while the same criterion supports V2 over the stated finite domain. The complete source-inlining alternative explains the pure-function preservation mechanism without extra calls. These are different evidence kinds with explicit assumptions.",
+        "nontrigger_or_counterexample": "A stale plan or one mirroring a bad requirement cannot establish maintained changeability. C27's oracle-removed and circular-echo views show that a measured value alone, or a criterion copied from that value, is insufficient for the intended independent requirement. No plan text creates execution evidence or future cost savings.",
+        "cheap_alternative_and_removal": "Reuse an adequate current assertion, existing result or complete analysis. Remove the actual criterion/method and the preservation conclusion loses its stated warrant; removing new execution need not do so when adequate current or analytic evidence remains. A safe stable artifact does not require a speculative refactoring event.",
+        "reentry": "Changed requirement, evidence method, article correspondence, domain, candidate, environment or a counterexample within the relied-on scope.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative"
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence"
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet"
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Separate old records distinguish useful condition, missing/circular condition, finite execution and complete small-model analysis. No complete real requirement set, plan fulfillment or causal economic estimate.",
+        "direction_key": "LAW-L3::EW-P010->LAW-L2::EA-08",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P010",
+        "entry_row": [
+          "LAW-L3::EW-P010->LAW-L2::EA-08",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P010",
+            "capsule": {
+              "path": "reading/i014/native/EW-P010.json",
+              "bytes": 6757,
+              "sha256": "69b658c7cba1304a9d8f0779df413371f0c95d7673fa325a68c4b82b85d1ff10"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/9"
+            },
+            "selected_ref": null,
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "The requirement has a feasible evidence method and interpretable acceptance condition before reliance on it becomes expensive.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i014/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "98ec27a4cb6638b3a2d2ef314082f8a4b07746c25bd579889bb41074c3892903"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P010::MECHANISM",
+            "LAW-L3::EW-P010::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P010::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L3::EW-P010::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ],
+          "receiver": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::NON_TRIGGER_OR_CHEAP_PATH",
+            "LAW-L2::EA-08::selected.proposition"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I014-F01",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "456f85cc5b233da77bd127aa1db3202eb985b6a29d7dd06b3bc576eea9f4b7e0"
+          },
+          {
+            "factor_id": "B33-I014-F02",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "90c5546e83b4b8c231d799d8d714fa53d830dc874479691518056e99f08c8596"
+          },
+          {
+            "factor_id": "B33-I014-F03",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "a91c69fefe0879ed3257235b03d04c4f9099b39c89cd5bcc94cbf792588ac2dc"
+          }
+        ],
+        "analytical_case_bindings": [],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Separate old records distinguish useful condition, missing/circular condition, finite execution and complete small-model analysis. No complete real requirement set, plan fulfillment or causal economic estimate.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "d423c39ad2b3f7df3bfb74aec44e2a7b0fa0ba5bbb0c878a289c24a35f645d10",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Separate old records distinguish useful condition, missing/circular condition, finite execution and complete small-model analysis. No complete real requirement set, plan fulfillment or causal economic estimate.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "adequate_current_evidence",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "2bed18665421c143c65f773ea61168a5c8200368a497f595217374bebcc09e8b",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Separate old records distinguish useful condition, missing/circular condition, finite execution and complete small-model analysis. No complete real requirement set, plan fulfillment or causal economic estimate.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "oracle_removed_from_evidence_packet",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/7",
+            "canonical_value_sha256": "e33ec0b0cf977061572be0fc35bd3c315844b0d036b97ae5e6fe9dbc8e2e087c",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Separate old records distinguish useful condition, missing/circular condition, finite execution and complete small-model analysis. No complete real requirement set, plan fulfillment or causal economic estimate.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "circular_echo_oracle",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/8",
+            "canonical_value_sha256": "d38038612f0b2477728c0d74c70422512e472421be183a5693a243acb3e27fca",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Separate old records distinguish useful condition, missing/circular condition, finite execution and complete small-model analysis. No complete real requirement set, plan fulfillment or causal economic estimate.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I014-D05",
+        "source": "LAW-L2::EA-08",
+        "receiver": "LAW-L3::EW-P011",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "INPUT_TO_DECISION",
+          "SCOPE_CONSTRAINT"
+        ],
+        "argument_factors": [
+          "B33-I014-F01",
+          "B33-I014-F02",
+          "B33-I014-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "PROBLEM_IT_ADDRESSED",
+          "REQUALIFICATION.qualitative_criterion",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "shared_object": "An actual changed dependency or affected consumer set whose preservation claim is being evaluated at the level where a relevant failure can occur.",
+        "guard": "The integration-evidence decision actually consumes structural-change information, affected call paths or preservation counterevidence to select relevant levels or determine which component evidence can transfer. Merely announcing an architectural cleanup does not activate the direction.",
+        "source_contribution": "Actual structural work exposes changed composition assumptions and consumers, together with bounded evidence of preserved or failed behavior. This identifies where old local evidence may remain useful and where a wider interaction needs attention.",
+        "receiving_consequence": "Evidence selection can follow the real failure path rather than a fixed number of test phases. A shared edit's multiple consumers can be considered even when only one source site changes, while unchanged valid assumptions permit evidence reuse.",
+        "remaining_premises": "The dependency account must be sufficiently complete for the relied-on claim; configuration identity, real integration conditions, representative data/load and an appropriate oracle remain separate. No local call graph proves timing, concurrency, physical or hidden operational effects absent from the model.",
+        "positive_witness": "C28 V2→V6 changes one comparison site but changes both modeled entrypoint results at3. The actual call edges identify two consumers, so a one-site source delta is not a one-consumer evidence scope. Its complete direct V4 alternative also passes; a shared-helper design is not required for relevant-level evaluation.",
+        "nontrigger_or_counterexample": "A claim of fewer source lines or cleaner structure cannot establish end-to-end behavior. C27 separately exhibits isolated component success with a failed mixed composition, so component-level green cannot be transferred when the actual unit/composition assumption is invalid. C28 contains no timing or distributed system execution.",
+        "cheap_alternative_and_removal": "Use a focused entrypoint check or complete source argument where it covers the actual failure path; reuse component evidence when composition assumptions remain valid. Remove the actual changed-dependency content and the receiving level choice loses that input; removing redundant test layers may leave all needed evidence intact.",
+        "reentry": "Changed dependency graph, consumers, composition assumptions, source/configuration, relevant failure mode, integration environment or evidence domain.",
+        "controls": [
+          {
+            "control": "C28",
+            "case": "shared_edit_has_two_consumers"
+          },
+          {
+            "control": "C28",
+            "case": "actual_future_edit_and_direct_alternative"
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative"
+          },
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join"
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "C28 observed local caller consequences and source-site deltas; C27 independently observed unit-sensitive composition. They are not joined into a larger system or a field timing/load study.",
+        "direction_key": "LAW-L2::EA-08->LAW-L3::EW-P011",
+        "reverse_direction_key": "LAW-L3::EW-P011->LAW-L2::EA-08",
+        "entry_row": [
+          "LAW-L2::EA-08->LAW-L3::EW-P011",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i014/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "98ec27a4cb6638b3a2d2ef314082f8a4b07746c25bd579889bb41074c3892903"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          },
+          "receiver": {
+            "canonical_key": "LAW-L3::EW-P011",
+            "capsule": {
+              "path": "reading/i014/native/EW-P011.json",
+              "bytes": 6692,
+              "sha256": "1315b79d84beacd9152374cb13a6137244b91c5514d2c7204ce36f9384df7c5e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10"
+            },
+            "selected_ref": null,
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition"
+          ],
+          "receiver": [
+            "LAW-L3::EW-P011::MECHANISM",
+            "LAW-L3::EW-P011::PROBLEM_IT_ADDRESSED",
+            "LAW-L3::EW-P011::REQUALIFICATION.qualitative_criterion",
+            "LAW-L3::EW-P011::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I014-F01",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "456f85cc5b233da77bd127aa1db3202eb985b6a29d7dd06b3bc576eea9f4b7e0"
+          },
+          {
+            "factor_id": "B33-I014-F02",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "90c5546e83b4b8c231d799d8d714fa53d830dc874479691518056e99f08c8596"
+          },
+          {
+            "factor_id": "B33-I014-F03",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "a91c69fefe0879ed3257235b03d04c4f9099b39c89cd5bcc94cbf792588ac2dc"
+          }
+        ],
+        "analytical_case_bindings": [],
+        "control_bindings": [
+          {
+            "control": "C28",
+            "case": "shared_edit_has_two_consumers",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/3",
+            "canonical_value_sha256": "11eb75690041bf6d45e0e6929774ee80a871db50b0f96666ce1b5ec2ae42a883",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "C28 observed local caller consequences and source-site deltas; C27 independently observed unit-sensitive composition. They are not joined into a larger system or a field timing/load study.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "actual_future_edit_and_direct_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "01422db783745e55ed679c6f6ddb48220784dee458895a718006e2e8225284d4",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "C28 observed local caller consequences and source-site deltas; C27 independently observed unit-sensitive composition. They are not joined into a larger system or a field timing/load study.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "complete_source_analysis_alternative",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/6",
+            "canonical_value_sha256": "d423c39ad2b3f7df3bfb74aec44e2a7b0fa0ba5bbb0c878a289c24a35f645d10",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "C28 observed local caller consequences and source-site deltas; C27 independently observed unit-sensitive composition. They are not joined into a larger system or a field timing/load study.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "isolated_green_before_join",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/0",
+            "canonical_value_sha256": "dbf830da434c85de107d093033fcad210330c01f02ba653d3e4e9c1cbec28ad8",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "C28 observed local caller consequences and source-site deltas; C27 independently observed unit-sensitive composition. They are not joined into a larger system or a field timing/load study.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "C28 observed local caller consequences and source-site deltas; C27 independently observed unit-sensitive composition. They are not joined into a larger system or a field timing/load study.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      },
+      {
+        "id": "B33-I014-D06",
+        "source": "LAW-L3::EW-P011",
+        "receiver": "LAW-L2::EA-08",
+        "disposition": "MATERIAL",
+        "relation_types": [
+          "EVIDENCE_DEPENDENCY",
+          "INPUT_TO_DECISION"
+        ],
+        "argument_factors": [
+          "B33-I014-F01",
+          "B33-I014-F02",
+          "B33-I014-F03"
+        ],
+        "source_fields": [
+          "MECHANISM",
+          "PROBLEM_IT_ADDRESSED",
+          "KNOWN_FAILURE_MODES",
+          "REQUALIFICATION.cheaper_or_boundary_alternative"
+        ],
+        "receiver_fields": [
+          "MECHANISM",
+          "KNOWN_FAILURE_MODES",
+          "selected.proposition",
+          "selected.simpler_path_and_cost"
+        ],
+        "shared_object": "Relevant-level evidence or an identified integration gap consumed in deciding whether a structural candidate preserves the relied-on behavior.",
+        "guard": "The structural preservation decision actually uses evidence from the level at which its relevant failure can occur, or uses an identified insufficiency of lower-level evidence. A useful integration result does not require completion of all system assurance or proof of future economic benefit.",
+        "source_contribution": "Correctly scoped integration evidence tests or analyzes actual interactions that local success does not establish. It supplies either support limited to the exercised claim, a contradiction of a necessary premise, or an explicit remaining gap.",
+        "receiving_consequence": "The structural decision can refuse an unsafe preservation claim, narrow it to a supported domain, retain adequate component evidence under valid composition assumptions, or continue inquiry. It does not infer that the candidate is affordable, authorized or globally safe merely because one integration path passes.",
+        "remaining_premises": "The evidence must correspond to the proposed combination and intended behavior; oracle adequacy, representativeness, unobserved effects and expected change-cost benefit remain separate. A candidate may fail one necessary claim while other useful properties remain unknown.",
+        "positive_witness": "C27's actual mixed composition produces300 against a required3 even though its two isolated checks pass; the failure can contradict a preservation claim that depends on that exact combination. The coherent updated and baseline pairs both meet the modeled end-to-end criterion. Separately, C28's two-entrypoint boundary evidence distinguishes the preserving V2 transformation from V3. These are bounded discriminators, not proof that every real structural change needs the same test arrangement.",
+        "nontrigger_or_counterexample": "An unrelated integration suite or mocked path that removes the relevant interaction supplies no such evidence. A prior pass for a different C27 combination is not execution evidence for the mixed target. Nor does one failed mixed combination rule out the passing coherent pair or its producer in every possible composition.",
+        "cheap_alternative_and_removal": "An adequate current result, focused end-to-end path or complete analysis under valid composition assumptions may suffice. Remove the relevant interaction evidence and local green may leave the preservation premise unknown; remove a redundant test level while the relevant evidence remains and the function is preserved. No fixed pyramid, repeated run or universal full-system test follows.",
+        "reentry": "Changed combination, article or oracle, invalidated composition assumptions, new relevant effect, representative environment or a preservation counterexample.",
+        "controls": [
+          {
+            "control": "C27",
+            "case": "mixed_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair"
+          },
+          {
+            "control": "C27",
+            "case": "coherent_baseline_pair"
+          },
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target"
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current"
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass"
+          }
+        ],
+        "analytical_case_ids": [],
+        "finite_control_scope": "Two separately recorded pure-function constructions with independent literal requirements. No current run, field deployment, timing/load model, human causal estimate or operational authority.",
+        "direction_key": "LAW-L3::EW-P011->LAW-L2::EA-08",
+        "reverse_direction_key": "LAW-L2::EA-08->LAW-L3::EW-P011",
+        "entry_row": [
+          "LAW-L3::EW-P011->LAW-L2::EA-08",
+          "UNEXAMINED",
+          "UNASSIGNED",
+          null
+        ],
+        "native_bindings": {
+          "source": {
+            "canonical_key": "LAW-L3::EW-P011",
+            "capsule": {
+              "path": "reading/i014/native/EW-P011.json",
+              "bytes": 6692,
+              "sha256": "1315b79d84beacd9152374cb13a6137244b91c5514d2c7204ce36f9384df7c5e"
+            },
+            "native_ref": {
+              "path": "inputs/native/waterfall.yaml",
+              "bytes": 444967,
+              "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+              "pointer": "/EVOLVED_WATERFALL/PROPERTIES/10"
+            },
+            "selected_ref": null,
+            "native_status": "STRONGLY_RETAINED",
+            "selected_criterion": "Evidence addresses specified behavior at relevant levels, including interactions not established by lower-level tests.",
+            "selected_quantifier": "CONTEXTUAL_RECOMMENDATION_WITH_EXPLICIT_NONTRIGGER"
+          },
+          "receiver": {
+            "canonical_key": "LAW-L2::EA-08",
+            "capsule": {
+              "path": "reading/i014/native/EA-08.json",
+              "bytes": 5988,
+              "sha256": "98ec27a4cb6638b3a2d2ef314082f8a4b07746c25bd579889bb41074c3892903"
+            },
+            "native_ref": {
+              "path": "inputs/native/agile_native.yaml",
+              "bytes": 96057,
+              "sha256": "209626fa9bb79b2129a1503460ace090662288aef872fa272a26aa0f3325a219",
+              "pointer": "/EVOLVED_AGILE_PROPERTY_LEDGER/properties/7"
+            },
+            "selected_ref": {
+              "path": "inputs/native/agile_overlay.json",
+              "bytes": 86762,
+              "sha256": "779b79445ee9c20fc3f771920d5c48e9d06db6427fbf5b2c4da9c07d29183ce6",
+              "pointer": "/claims/7"
+            },
+            "native_status": "RETAINED_IN_EVOLVED_FORM",
+            "selected_criterion": "Preserve affordable technical change through justified structural work and verification; the means depend on expected future change.",
+            "selected_quantifier": null
+          }
+        },
+        "native_field_factors": {
+          "source": [
+            "LAW-L3::EW-P011::MECHANISM",
+            "LAW-L3::EW-P011::PROBLEM_IT_ADDRESSED",
+            "LAW-L3::EW-P011::KNOWN_FAILURE_MODES",
+            "LAW-L3::EW-P011::REQUALIFICATION.cheaper_or_boundary_alternative"
+          ],
+          "receiver": [
+            "LAW-L2::EA-08::MECHANISM",
+            "LAW-L2::EA-08::KNOWN_FAILURE_MODES",
+            "LAW-L2::EA-08::selected.proposition",
+            "LAW-L2::EA-08::selected.simpler_path_and_cost"
+          ]
+        },
+        "shared_argument_bindings": [
+          {
+            "factor_id": "B33-I014-F01",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/0",
+            "canonical_value_sha256": "456f85cc5b233da77bd127aa1db3202eb985b6a29d7dd06b3bc576eea9f4b7e0"
+          },
+          {
+            "factor_id": "B33-I014-F02",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/1",
+            "canonical_value_sha256": "90c5546e83b4b8c231d799d8d714fa53d830dc874479691518056e99f08c8596"
+          },
+          {
+            "factor_id": "B33-I014-F03",
+            "source": {
+              "path": "authoring/B33_I014_LITERAL_ARGUMENTS.json",
+              "bytes": 29192,
+              "sha256": "a99534e095f25c291764cfe6bfbb4777f7e4d0219fc38b59c49997570a5c9f56"
+            },
+            "pointer": "/shared_argument_factors/2",
+            "canonical_value_sha256": "a91c69fefe0879ed3257235b03d04c4f9099b39c89cd5bcc94cbf792588ac2dc"
+          }
+        ],
+        "analytical_case_bindings": [],
+        "control_bindings": [
+          {
+            "control": "C27",
+            "case": "mixed_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "363f0cced8ac86bdd7be7aaf716ad9c7cde535963b786480b8347046a208c78d",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Two separately recorded pure-function constructions with independent literal requirements. No current run, field deployment, timing/load model, human causal estimate or operational authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_updated_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/2",
+            "canonical_value_sha256": "49267700a23a42377ac81a2d0cec092da4af2f6db6804f59f7bccf61611b1844",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Two separately recorded pure-function constructions with independent literal requirements. No current run, field deployment, timing/load model, human causal estimate or operational authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "coherent_baseline_pair",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/3",
+            "canonical_value_sha256": "62e9821c37912d41c57fccab49f648ad88ecc8e531a194ce4f2f4df9321617f4",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Two separately recorded pure-function constructions with independent literal requirements. No current run, field deployment, timing/load model, human causal estimate or operational authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "prior_pass_wrong_target",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/4",
+            "canonical_value_sha256": "d1441763c01e989cc2b0e5cd4bfac6be8a5958652432214386e6783d004268cf",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Two separately recorded pure-function constructions with independent literal requirements. No current run, field deployment, timing/load model, human causal estimate or operational authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C27",
+            "case": "adequate_current",
+            "result": {
+              "path": "research/increment_007/CONTROL_B33_C27.json",
+              "bytes": 33918,
+              "sha256": "4fc84f142afe80eb61d30f4cabf7ba275ba16694f799dccf769b79071aa02a89"
+            },
+            "pointer": "/cases/5",
+            "canonical_value_sha256": "147e9d66d1e556b8e6e2da61ce0f725299955bc720aa6c4f737956f357253783",
+            "recorded_run": {
+              "path": "execution/CONTROL_C27_RUN001/RUN_RECEIPT.json",
+              "bytes": 914,
+              "sha256": "66f54cbb8df94aa359e29e864ccd77a9ded72fcbb47bbc48599d025799f1cb1d"
+            },
+            "scope": "Two separately recorded pure-function constructions with independent literal requirements. No current run, field deployment, timing/load model, human causal estimate or operational authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          },
+          {
+            "control": "C28",
+            "case": "unsafe_shape_nominal_pass",
+            "result": {
+              "path": "research/increment_013/CONTROL_B33_C28.json",
+              "bytes": 50366,
+              "sha256": "75d61f10b3aba51d0b24847fedb476b5874be08ecf85357f8efc01e6cecd244a"
+            },
+            "pointer": "/cases/1",
+            "canonical_value_sha256": "ec96c020a25737cbf2fdcf8dbbd4500404f02728b1f8ca14d3947af2ee487e56",
+            "recorded_run": {
+              "path": "execution/CONTROL_C28_RUN001/RUN_RECEIPT.json",
+              "bytes": 903,
+              "sha256": "091e036ade16ddf1a284a52edc72bfe778e38348579312ddd660eb4de476525f"
+            },
+            "scope": "Two separately recorded pure-function constructions with independent literal requirements. No current run, field deployment, timing/load model, human causal estimate or operational authority.",
+            "evidence_origin": "EXACT_PRIOR_SEPARATE_FINITE_CONSTRUCTION",
+            "additional_execution_for_binding": false
+          }
+        ]
+      }
+    ],
+    "scientific_verdicts_computed": false
+  }
+}

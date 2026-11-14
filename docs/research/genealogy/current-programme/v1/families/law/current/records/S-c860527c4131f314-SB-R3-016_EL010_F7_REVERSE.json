@@ -1,0 +1,891 @@
+{
+  "source_identity": {
+    "source_id": "S-c860527c4131f314",
+    "scientific_name": "SB-R3-016_EL010_F7_REVERSE.json",
+    "original_bytes": 67278,
+    "original_sha256": "c860527c4131f31443cd4b266b4748464739ab06ab3d6c6d8a37b2329e6a8ae3"
+  },
+  "reading_rule": "Complete selected scientific source values, with custody-only fields removed as documented. Author-state tokens remain dated source history; original later qualification governs scientific acceptance.",
+  "source_record": {
+    "schema": "law-explicit-member-scoped-block/1",
+    "rule_version": "1",
+    "block_id": "SB-R3-016",
+    "title": "EL-010_REVERSE_SUPPLIER_BUFFER_AND_CONTINUITY_INPUTS",
+    "author_context": "[runtime author identity omitted]",
+    "authored_at_utc": "2026-11-11T23:12:24.154573+00:00",
+    "inquiry_family": 7,
+    "disposition": "MATERIAL",
+    "author_validation_status": "AUTHOR_SEMANTIC_MEMBERSHIP_AND_CONTROL_CHECK_COMPLETE_PENDING_INDEPENDENT_REVIEWS",
+    "independent_acceptance": false,
+    "selected_subject_bindings": {
+      "LAW-L1": {
+        "path": "work/lean/revision_r2/subject/SCIENTIFIC_SUBJECT.json",
+        "bytes": 6227,
+        "sha256": "bc3e5ea99fa7d14ad8a93336fa4b038f3e9aa0e4b8b7f3e6cce196b3ce25c136"
+      },
+      "LAW-L3": {
+        "path": "work/waterfall/revisions/r3/SCIENTIFIC_SUBJECT.json",
+        "bytes": 5580,
+        "sha256": "45ee00e8398ed760416eae8de21d633949c9d3f93ca9cfb12117f2cf9efe4c13"
+      }
+    },
+    "native_field_mask": [
+      "COMPLETE_CURRENT_LEAN_RECORD_AND_CLAIMS",
+      "COMPLETE_CURRENT_WATERFALL_RECORD",
+      "LITERAL_DIRECTION_ARGUMENT"
+    ],
+    "full_native_reading_receipt": {
+      "path": "READ_MASK_ROOT_RECOVERED_005.json",
+      "bytes": 7000,
+      "sha256": "7059b0b8192ede42bdfa0e9318bc2f31067e9c2a2413d47b5f3ca8c0c9a257a7"
+    },
+    "bounded_interface_domain": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+    "domain_horizon_authority": "Each exact object in the member, with actual horizon and decision rights established rather than presumed from the lineage label.",
+    "evidence_ceiling": "Conditional analytical receiving consequence; no whole-predicate entailment, empirical net benefit, universal supplier rule, current legal determination or new historical descent.",
+    "source_refs": [
+      {
+        "native_id": "EL-004",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/3",
+          "expected_native_id": "EL-004"
+        }
+      },
+      {
+        "native_id": "EL-008",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/7",
+          "expected_native_id": "EL-008"
+        }
+      },
+      {
+        "native_id": "EL-009",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/8",
+          "expected_native_id": "EL-009"
+        }
+      },
+      {
+        "native_id": "EL-010",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        }
+      },
+      {
+        "native_id": "EL-027",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/26",
+          "expected_native_id": "EL-027"
+        }
+      },
+      {
+        "native_id": "EL-028",
+        "locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/27",
+          "expected_native_id": "EL-028"
+        }
+      },
+      {
+        "native_id": "EW-P009",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        }
+      },
+      {
+        "native_id": "EW-P022",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        }
+      },
+      {
+        "native_id": "EW-P025",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        }
+      },
+      {
+        "native_id": "EW-P026",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        }
+      },
+      {
+        "native_id": "EW-P027",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        }
+      },
+      {
+        "native_id": "EW-P028",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        }
+      },
+      {
+        "native_id": "EW-P029",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        }
+      },
+      {
+        "native_id": "EW-P033",
+        "locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        }
+      }
+    ],
+    "source_inquiry": {
+      "path": "research/ROOT_FAMILY7_SOURCE_INQUIRY.json",
+      "bytes": 3318,
+      "sha256": "8ae0f20c1d19caca960236df794b847df83ab4bef3197eeaa0fa699cb7ef2c60"
+    },
+    "native_common_basis": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself.",
+    "common_cost_and_alternative": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog.",
+    "exceptions": [],
+    "attempted_contrary_interfaces": [
+      "Information treated as physical capacity.",
+      "First-tier diversity treated as independent lower-tier supply.",
+      "A complete document treated as operational capability.",
+      "A partial exposure or criterion input rejected for failing the whole receiver.",
+      "Capacity, stock or staff double-counted for routine and contingency use.",
+      "Buyer savings treated as joint fair gain."
+    ],
+    "positive_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-010",
+        "argument": "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-010",
+        "argument": "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-010",
+        "argument": "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-010",
+        "argument": "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-010",
+        "argument": "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-010",
+        "argument": "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-010",
+        "argument": "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-010",
+        "argument": "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices."
+      }
+    ],
+    "negative_controls": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-010",
+        "overclaim": "A valid schema does not establish honest consumption, bounded latency or ability to replenish.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-010",
+        "overclaim": "An investment stage cannot establish the truth of a demand signal or eliminate forecast uncertainty.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-010",
+        "overclaim": "A desired target entered as a forecast does not turn it into genuine withdrawal evidence.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-010",
+        "overclaim": "Commercial authorization does not prove the order reflects actual demand or that the supplier can meet it.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-010",
+        "overclaim": "An approved operational scenario does not verify the data actually arriving in the replenishment channel.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-010",
+        "overclaim": "A recovery deadline cannot make stale measurements current or establish an unobserved stock level.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-010",
+        "overclaim": "A lifecycle plan does not prevent duplicated orders or misleading current demand records.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-010",
+        "overclaim": "A risk matrix does not supply accurate demand or require maximal telemetry for every low-volume request.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification."
+      }
+    ],
+    "author_challenge": "Each of the8members has its own literal bridge and independently authored stronger-claim counterexample. Reverse members use separately reasoned native contributions.",
+    "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference.",
+    "independent_review_scope": "Full common premise, membership basis, directions, costs and controls require later distinct fidelity/adversarial assessment. These author judgments confer no independent acceptance.",
+    "common_source_dependence": "Shared capacity, information, organizations, tools or source works are not independent controls or benefits.",
+    "direction": "reverse",
+    "relation_types": [
+      "INPUT_TO_DECISION"
+    ],
+    "common_subconditions": {
+      "P1": "Specific shared object and used receiving concern.",
+      "P2": "Complete native meanings support the named bridge.",
+      "P3": "Named partial consequence changes an actual decision premise or interpretation.",
+      "P4": "Stronger claim, missing premises, false guard, cost, alternative and reentry remain explicit."
+    },
+    "inference": "For each explicitly demonstrated member, the partial source contribution is material at the guard. The rule does not require a changed final action and does not infer universal applicability, symmetric equivalence, or whole-receiver proof.",
+    "explicit_member_keys": [
+      "LAW-L3::EW-P009->LAW-L1::EL-010",
+      "LAW-L3::EW-P022->LAW-L1::EL-010",
+      "LAW-L3::EW-P025->LAW-L1::EL-010",
+      "LAW-L3::EW-P026->LAW-L1::EL-010",
+      "LAW-L3::EW-P027->LAW-L1::EL-010",
+      "LAW-L3::EW-P028->LAW-L1::EL-010",
+      "LAW-L3::EW-P029->LAW-L1::EL-010",
+      "LAW-L3::EW-P033->LAW-L1::EL-010"
+    ],
+    "member_to_premise_evidence": [
+      {
+        "direction_key": "LAW-L3::EW-P009->LAW-L1::EL-010",
+        "source_native_id": "EW-P009",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/8",
+          "expected_native_id": "EW-P009"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning."
+        },
+        "shared_question_or_object": "A replenishment signal transmitted across a consequential interface.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A consequential boundary between components or organizations",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning."
+        },
+        "source_contribution": "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning.",
+        "receiving_consequence": "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A valid schema does not establish honest consumption, bounded latency or ability to replenish.",
+        "counter_control": "A valid schema does not establish honest consumption, bounded latency or ability to replenish.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Use local types or a focused contract test when the boundary is private and low consequence.",
+        "subcondition_evidence": {
+          "P1": "A replenishment signal transmitted across a consequential interface.",
+          "P2": {
+            "source_bearer": "A consequential boundary between components or organizations",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "Authoritative, testable and owned contracts for consequential boundaries, with automated compatibility evidence where possible.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning."
+          },
+          "P3": "A versioned two-sided contract and compatibility checks specify the signal representation and change notification needed to preserve demand meaning.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: A valid schema does not establish honest consumption, bounded latency or ability to replenish."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P009",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P022->LAW-L1::EL-010",
+        "source_native_id": "EW-P022",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/21",
+          "expected_native_id": "EW-P022"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision."
+        },
+        "shared_question_or_object": "A staged commitment informed by consumption and long-lead demand signals.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A sequence of commitments under uncertainty",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision."
+        },
+        "source_contribution": "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision.",
+        "receiving_consequence": "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "An investment stage cannot establish the truth of a demand signal or eliminate forecast uncertainty.",
+        "counter_control": "An investment stage cannot establish the truth of a demand signal or eliminate forecast uncertainty.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Stable well-understood delivery can justify a larger commitment without artificial staging.",
+        "subcondition_evidence": {
+          "P1": "A staged commitment informed by consumption and long-lead demand signals.",
+          "P2": {
+            "source_bearer": "A sequence of commitments under uncertainty",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "Commit evidence, money and authority in slices sized by uncertainty, coupling and reversibility, while preserving coherent system integration.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision."
+          },
+          "P3": "The commitment horizon and option-expiry date identify how fresh and forward-looking the signal must be to inform that decision.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: An investment stage cannot establish the truth of a demand signal or eliminate forecast uncertainty."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P022",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P025->LAW-L1::EL-010",
+        "source_native_id": "EW-P025",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/24",
+          "expected_native_id": "EW-P025"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required."
+        },
+        "shared_question_or_object": "A forecast using withdrawal or replenishment records as actual demand evidence.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A forecast used for resource or commitment decisions",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required."
+        },
+        "source_contribution": "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required.",
+        "receiving_consequence": "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A desired target entered as a forecast does not turn it into genuine withdrawal evidence.",
+        "counter_control": "A desired target entered as a forecast does not turn it into genuine withdrawal evidence.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. A short-horizon forecast from recent throughput can suffice.",
+        "subcondition_evidence": {
+          "P1": "A forecast using withdrawal or replenishment records as actual demand evidence.",
+          "P2": {
+            "source_bearer": "A forecast used for resource or commitment decisions",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "A decision model that exposes uncertainty and changes with evidence, while retaining accountable external commitments where necessary.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required."
+          },
+          "P3": "Forecast assumptions, ranges and separation of targets from commitments specify the demand interpretation and long-lead complement required.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: A desired target entered as a forecast does not turn it into genuine withdrawal evidence."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P025",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P026->LAW-L1::EL-010",
+        "source_native_id": "EW-P026",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/25",
+          "expected_native_id": "EW-P026"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path."
+        },
+        "shared_question_or_object": "Supplier replenishment and long-lead preparation governed across organizations.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path."
+        },
+        "source_contribution": "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path.",
+        "receiving_consequence": "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "Commercial authorization does not prove the order reflects actual demand or that the supplier can meet it.",
+        "counter_control": "Commercial authorization does not prove the order reflects actual demand or that the supplier can meet it.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Direct coordination and a short dependency note can suffice at a simple shared-team boundary.",
+        "subcondition_evidence": {
+          "P1": "Supplier replenishment and long-lead preparation governed across organizations.",
+          "P2": {
+            "source_bearer": "A delivery dependency crossing supplier or long-lead boundaries",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "Govern external dependency commitments and evidence at the boundary, while minimising imposed internal process.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path."
+          },
+          "P3": "Supplier lead time, item/configuration identity and authorized commitment define the signal scope, forecast horizon and exception path.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: Commercial authorization does not prove the order reflects actual demand or that the supplier can meet it."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P026",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P027->LAW-L1::EL-010",
+        "source_native_id": "EW-P027",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/26",
+          "expected_native_id": "EW-P027"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter."
+        },
+        "shared_question_or_object": "A readiness decision using demand and replenishment information for startup support.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "Transition to operation or restart",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter."
+        },
+        "source_contribution": "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter.",
+        "receiving_consequence": "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "An approved operational scenario does not verify the data actually arriving in the replenishment channel.",
+        "counter_control": "An approved operational scenario does not verify the data actually arriving in the replenishment channel.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Use proportionate existing readiness checks or a representative rehearsal where adequate and allowed.",
+        "subcondition_evidence": {
+          "P1": "A readiness decision using demand and replenishment information for startup support.",
+          "P2": {
+            "source_bearer": "Transition to operation or restart",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "A risk-scaled decision that actual capability and enabling system are ready, with explicit rollback and residual-risk authority.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter."
+          },
+          "P3": "The intended operating scenario, support requirement and startup authority specify which demand signal and freshness matter.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: An approved operational scenario does not verify the data actually arriving in the replenishment channel."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P027",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P028->LAW-L1::EL-010",
+        "source_native_id": "EW-P028",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/27",
+          "expected_native_id": "EW-P028"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation."
+        },
+        "shared_question_or_object": "Recovery planning based on demand, inventory consumption and restoration signals.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A proposed recovery claim after failure or change",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation."
+        },
+        "source_contribution": "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation.",
+        "receiving_consequence": "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A recovery deadline cannot make stale measurements current or establish an unobserved stock level.",
+        "counter_control": "A recovery deadline cannot make stale measurements current or establish an unobserved stock level.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. A stateless isolated disposable experiment may need only restart or deletion.",
+        "subcondition_evidence": {
+          "P1": "Recovery planning based on demand, inventory consumption and restoration signals.",
+          "P2": {
+            "source_bearer": "A proposed recovery claim after failure or change",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "Demonstrated recovery capability whose evidence is tied to the current architecture, data and operational configuration.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation."
+          },
+          "P3": "The recovery time and state/dependency requirements specify which signal needs to arrive before a useful decision and which exceptions require escalation.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: A recovery deadline cannot make stale measurements current or establish an unobserved stock level."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P028",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P029->LAW-L1::EL-010",
+        "source_native_id": "EW-P029",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/28",
+          "expected_native_id": "EW-P029"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract."
+        },
+        "shared_question_or_object": "Continuing support using field demand and replenishment signals.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A supported system over its operational life",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract."
+        },
+        "source_contribution": "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract.",
+        "receiving_consequence": "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A lifecycle plan does not prevent duplicated orders or misleading current demand records.",
+        "counter_control": "A lifecycle plan does not prevent duplicated orders or misleading current demand records.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. A short-lived tool may use an explicit early retirement policy.",
+        "subcondition_evidence": {
+          "P1": "Continuing support using field demand and replenishment signals.",
+          "P2": {
+            "source_bearer": "A supported system over its operational life",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "Through-life ownership and evidence for maintaining, modifying and retiring the actual fielded configuration.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract."
+          },
+          "P3": "Fleet/configuration and support-end obligations identify the relevant item identities, forecast horizon and retirement exceptions for the signal contract.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: A lifecycle plan does not prevent duplicated orders or misleading current demand records."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P029",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      },
+      {
+        "direction_key": "LAW-L3::EW-P033->LAW-L1::EL-010",
+        "source_native_id": "EW-P033",
+        "receiving_native_id": "EL-010",
+        "source_locator": {
+          "path": "work/waterfall/revisions/r3/research/EVOLVED_WATERFALL_FULL_RESEARCH_LEDGER_R3.yaml",
+          "bytes": 444967,
+          "sha256": "1bf494b26d8853c14f584b8e1fb1acb321ab82bf759a7745f5511eb6d396dadd",
+          "pointer": "/EVOLVED_WATERFALL/PROPERTIES/32",
+          "expected_native_id": "EW-P033"
+        },
+        "receiver_locator": {
+          "path": "work/lean/revision_r2/subject/LEAN_REQUALIFIED_LEDGER.json",
+          "bytes": 593126,
+          "sha256": "da705adc89781cd7f2192a45ae528100ee6c7578713d373d6b6abead9a72f805",
+          "pointer": "/EVOLVED_LEAN_PROPERTY_LEDGER/9",
+          "expected_native_id": "EL-010"
+        },
+        "native_meanings_and_bearers": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices."
+        },
+        "shared_question_or_object": "Selecting a control package where demand information changes the timing or scale of commitment.",
+        "guard": "The exact shared item, configuration, time horizon, population and actually used receiving premise in the member are identified. A different private tool or generic organizational co-use is excluded. Unknown correspondence is not an established false guard. A partial input may be material without proving the entire receiver.",
+        "member_to_common_premise": {
+          "source_bearer": "A decision about assurance strength under change",
+          "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+          "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+          "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+          "literal_bridge": "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices."
+        },
+        "source_contribution": "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices.",
+        "receiving_consequence": "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices.",
+        "relation_types": [
+          "INPUT_TO_DECISION"
+        ],
+        "source_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "receiver_native_fields": [
+          "COMPLETE_CURRENT_RECORD",
+          "REQUALIFICATION"
+        ],
+        "premises_supplied": [
+          "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices."
+        ],
+        "premises_remaining": [
+          "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate.",
+          "Actual empirical benefit, fair distribution and universal efficacy are not inferred from compatibility or guidance."
+        ],
+        "counterexample": "A risk matrix does not supply accurate demand or require maximal telemetry for every low-volume request.",
+        "counter_control": "A risk matrix does not supply accurate demand or require maximal telemetry for every low-volume request.",
+        "nontrigger": "The particular shared object or actual receiving use described here is known absent; a coincident label or possible application is insufficient. Missing knowledge remains unknown. This guard exclusion is not a global negative classification.",
+        "specific_cost_and_limit": "Data maintenance, incentive distortion, forecasting and latency count. Low-volume direct requests can use confirmation and a simple backlog. Use existing adequate controls and bounded preauthorization where the actual regime permits.",
+        "subcondition_evidence": {
+          "P1": "Selecting a control package where demand information changes the timing or scale of commitment.",
+          "P2": {
+            "source_bearer": "A decision about assurance strength under change",
+            "receiving_bearer": "A demand or replenishment signal consumed by a release decision",
+            "source_native_proposition": "A falsifiable control-selection policy: identify the failure mode, trigger dimensions, cheap path, required evidence and residual risk; re-evaluate after operational feedback.",
+            "receiving_criterion": "Check origin, units, freshness and decision scope; actual withdrawals alone do not establish long-lead capacity.",
+            "literal_bridge": "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices."
+          },
+          "P3": "The actual consequence, commitment deadline and permitted authority define what signal quality is decision-relevant and when a cheap confirmed request suffices.",
+          "P4": "The signal has defined origin, units, freshness, authority and scope; truthful information is not physical replenishment or a demand forecast by itself. Actual fulfillment of the complete Lean criterion remains separate. Control: A risk matrix does not supply accurate demand or require maximal telemetry for every low-volume request."
+        },
+        "reverse_direction_key": "LAW-L1::EL-010->LAW-L3::EW-P033",
+        "reentry": "Reopen all causally affected uses if item/site identity, compatibility, demand, lead time, capacity, authority, obligation, contract, support horizon, failure correlation or evidence changes. A failed common rule requires every affected member and dependent composition to be reconsidered; no automatic reverse or transitive inference."
+      }
+    ]
+  }
+}

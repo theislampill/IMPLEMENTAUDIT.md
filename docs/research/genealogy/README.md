@@ -8,7 +8,11 @@ This retention layer is included in the v0.4.0.0 repository/source state,
 remains excluded from both plugin and standalone runtime payloads, and does not
 activate the deferred v0.4.1 reabsorption campaign.
 
-## Trifectas
+## Versioned current programme
+
+The [current-programme v1 index](current-programme/v1/README.md) separately records the eight-family programme, 24 lineages and eight syntheses, exact received qualification metadata and explicit unfinished/access states. It does not rewrite the original four-family corpus or promote research into native implementation.
+
+## Historical frozen trifectas
 
 | Trifecta | Lineages | Properties |
 |---|---:|---:|
