@@ -487,7 +487,28 @@ class CombinedContinuitySourceControls(unittest.TestCase):
         claim = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh').read_bytes()
         validate = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh').read_bytes()
         script = self.oe._native_r0011_stdin_script_v1(claim, validate, ['--observe-current-continuity'])
-        self.assertIsInstance(script, bytes)
+        # The original14 owner has an eight-member dependency closure. It must
+        # never enter the historical two-file stdin transport.
+        self.assertIsNone(script)
+        graph_source = SOURCE/'source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py'
+        graph = load(graph_source, 'combined_original14_transport')
+        with tempfile.TemporaryDirectory(prefix='combined-owner-source-') as directory:
+            owner_root = Path(directory).resolve()
+            for name, size, digest in graph._NATIVE_ORIGINAL14_CLOSURE_V1:
+                origin = (SOURCE/'source-peers/native-runtime/skills/implementaudit/scripts'
+                          if name in {'claim-run.sh', 'validate-run-root.sh'}
+                          else SOURCE/'skills/implementaudit/scripts') / name
+                raw = origin.read_bytes()
+                self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
+                (owner_root/name).write_bytes(raw)
+            (owner_root/'compile-work-graph.py').write_bytes(graph_source.read_bytes())
+            graph = load(owner_root/'compile-work-graph.py', 'combined_materialized_transport')
+            route = graph._native_continuity_host_v1()
+            self._check_actual_owner_refusals(owner_root, graph, route, claim, validate)
+
+    def _check_actual_owner_refusals(self, owner_root, graph, route, claim, validate):
+        import os
+        import subprocess
         environment = {k:v for k,v in os.environ.items()
                        if not k.startswith(('GIT_', 'BASH_FUNC_')) and k not in {'BASH_ENV','ENV','PYTHONPATH','PYTHONSTARTUP'}}
         environment.update(GIT_CONFIG_GLOBAL=os.devnull, GIT_CONFIG_NOSYSTEM='1', PYTHONDONTWRITEBYTECODE='1')
@@ -502,20 +523,37 @@ class CombinedContinuitySourceControls(unittest.TestCase):
                                     'refs/implementaudit/controllers/control-'+str(population),blob],
                                    env=environment,check=True,capture_output=True)
                 before = subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment)
-                result = subprocess.run([self.bash,'-c','eval "$(cat)"','fixed-source-control',
-                    hashlib.sha256(claim).hexdigest(),hashlib.sha256(validate).hexdigest(),
-                    '--observe-current-continuity'],input=script,cwd=root,env=environment,
+                result = subprocess.run([self.bash, route.bash_script_path(owner_root/'claim-run.sh'),
+                    '--observe-current-continuity'],cwd=root,env=environment,
                     stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
                 self.assertNotEqual(result.returncode,0)
                 self.assertEqual(result.stdout,b'')
+                if os.name == 'nt':
+                    # Execute the current private transport, including its
+                    # complete held closure and canonical script identity.
+                    with self.assertRaisesRegex(graph.WorkGraphError, 'continuity owner refused'):
+                        graph._native_claim_call_v1(self.oe, route, root,
+                            ['--observe-current-continuity'], claim, validate)
+                else:
+                    # This native transport has Windows custody qualification
+                    # only. Its refusal must precede any process launch.
+                    with patch.object(graph.subprocess, 'run', side_effect=AssertionError('unsupported host launch')):
+                        with self.assertRaisesRegex(graph.WorkGraphError, 'requires qualified Windows custody'):
+                            graph._native_claim_call_v1(self.oe, route, root,
+                                ['--observe-current-continuity'], claim, validate)
                 self.assertEqual(subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment),before)
                 self.assertFalse((root/'.IMPLEMENTAUDIT').exists())
-            extra = subprocess.run([self.bash,'-c','eval "$(cat)"','fixed-source-control',
-                hashlib.sha256(claim).hexdigest(),hashlib.sha256(validate).hexdigest(),
-                '--observe-current-continuity','caller-controller'],input=script,cwd=root,env=environment,
+            extra = subprocess.run([self.bash, route.bash_script_path(owner_root/'claim-run.sh'),
+                '--observe-current-continuity','caller-controller'],cwd=root,env=environment,
                 stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
             self.assertNotEqual(extra.returncode,0)
             self.assertEqual(extra.stdout,b'')
+            with patch.object(graph.subprocess, 'run', side_effect=AssertionError('invalid operand launch')):
+                with self.assertRaises(graph.WorkGraphError):
+                    graph._native_claim_call_v1(self.oe, route, root,
+                        ['--observe-current-continuity', 'caller-controller'], claim, validate)
+            self.assertEqual(subprocess.check_output(['git','-C',str(root),'for-each-ref'],env=environment),before)
+            self.assertFalse((root/'.IMPLEMENTAUDIT').exists())
 
 
 

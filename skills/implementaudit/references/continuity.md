@@ -119,6 +119,14 @@ that helper loads exact pinned `canonical_hot_projection.py` bytes. Neither
 projection module publishes current authority. Source-bound interfaces and
 limits live in `references/canonical-state-rotation.md`.
 
+`canonical_rotation_inputs.py` is the private exact-usage/context-lease adapter
+for that same claim owner. It opens no host connection and owns no publication.
+Its fixed source owner remains unavailable until the issuer, configured-budget
+semantics, exclusive native custody and accepting-writer integration are admitted.
+Caller-authored envelopes or matching hashes cannot select that owner. C02 uses
+the same claim companion's separately guarded append and fresh-transition APIs;
+their fixed source/issuer resolver likewise refuses absent actual admission.
+
 For a known controller, run `scripts/claim-run.sh --resolve-canonical-generation
 <controller>`. Exit 0 returns `implementaudit.canonical-generation-resolution.v1`
 with one pointer token, exact component paths, claim/run identity, receipt and

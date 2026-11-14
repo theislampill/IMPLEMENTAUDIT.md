@@ -3440,6 +3440,48 @@ def current_controller(
     return _current_controller_from_owner_read_v1(repo, controller, parts, receipt)
 
 
+def _r0039_original14_current_view_v1(repo, controller, parts, receipt, fields):
+    """Derive a read view only from the original owner's complete live JOIN.
+
+    Fourteen-field receipt bytes are not an alternate eighteen-field record.
+    The fixed sibling claim owner verifies its original pointer, exact receipt,
+    allocation/publication, permanent marker and retained archive before this
+    consumer extracts the unchanged R0033 currentness fields.
+    """
+    if len(fields) != 14:
+        fail("original14 currentness view has a foreign receipt domain")
+    claim = Path(__file__).with_name("claim-run.sh")
+    raw = run([str(trusted_host_executable(repo, "bash")), bash_script_path(claim),
+        "--resolve-canonical-generation", controller], cwd=repo,
+        label="original14 canonical owner resolution", environment=sanitized_action_environment())
+    try:
+        resolved = json.loads(raw, object_pairs_hook=unique_object)
+    except (ValueError, UnicodeError):
+        fail("original14 owner resolution is malformed")
+    keys = {"schema", "controller", "claim_id", "run_root_identity", "pointer_token", "receipt_token",
+        "marker_oid", "state_path", "roadmap_path", "protected_manifest_path", "archive_manifest_path", "pointer"}
+    if type(resolved) is not dict or set(resolved) != keys:
+        fail("original14 owner resolution shape differs")
+    root_identity = Path(parts[2]).resolve(strict=True).relative_to(repo.resolve(strict=True)).as_posix()
+    pointer = resolved["pointer"]
+    if (resolved["schema"] != "implementaudit.canonical-generation-resolution.v1" or
+            resolved["controller"] != controller or resolved["claim_id"] != parts[3] or
+            resolved["run_root_identity"] != root_identity or resolved["receipt_token"] != receipt or
+            type(pointer) is not dict or pointer.get("projection_schema") != "implementaudit.protected-projection.v2"):
+        fail("original14 owner resolution is foreign or stale")
+    pointer_ref = "refs/implementaudit/current-generations/" + controller
+    token = resolved["pointer_token"]
+    if not isinstance(token, str) or not re.fullmatch(re.escape(pointer_ref) + r"@[0-9a-f]{40}", token):
+        fail("original14 pointer token is malformed")
+    expected = ["implementaudit.continuity-receipt.v3", controller, parts[3], root_identity,
+        pointer["continuity_epoch"], pointer["invalidation_oid"], pointer_ref, token.split("@", 1)[1],
+        pointer["state_sha256"], pointer["roadmap_sha256"], pointer["protected_manifest_sha256"],
+        pointer["archive_manifest_sha256"], pointer["exact_next_action"], pointer["predecessor_receipt_ref_oid"]]
+    if fields != expected or not OID_RE.fullmatch(resolved["marker_oid"]):
+        fail("original14 receipt differs from the verified current owner view")
+    return pointer["invalidation_oid"], pointer["exact_next_action"]
+
+
 def _current_controller_from_owner_read_v1(repo, controller, parts, receipt):
     """Parse actual fixed-owner output inside its enclosing live read.
 
@@ -3481,6 +3523,11 @@ def _current_controller_from_owner_read_v1(repo, controller, parts, receipt):
         invalidation_oid = receipt_fields[8]
         boundary_kind = receipt_fields[9]
         next_action = receipt_fields[11]
+    elif schema == "implementaudit.continuity-receipt.v3" and len(receipt_fields) == 14:
+        if (not receipt_raw.endswith(b"\n") or receipt_raw.endswith(b"\n\n") or b"\n" in receipt_raw[:-1]):
+            fail("original14 continuity receipt framing is malformed")
+        invalidation_oid, next_action = _r0039_original14_current_view_v1(repo, controller, parts, receipt, receipt_fields)
+        boundary_kind = ""
     elif schema == "implementaudit.continuity-receipt.v3":
         if (
             len(receipt_fields) != 18
@@ -3825,6 +3872,12 @@ def executing_package_evidence(
         Path(__file__).resolve(),
         Path(__file__).resolve().with_name("claim-run.sh"),
     ]
+    # This composition delegates migrated authority to the original R0039
+    # owner. Bind the complete adjacent delegation chain into the existing
+    # package/source fingerprint; later drift invalidates the route.
+    source_paths.extend(Path(__file__).resolve().with_name(name) for name in (
+        "claim-run-rotation.py", "rotate-canonical-state.py", "canonical_hot_projection.py",
+        "canonical_custody.py", "canonical_rotation_inputs.py", "read-canonical-pair.py", "validate-run-root.sh"))
     reason = mechanical_required_reason(request["action"]["argv"])
     if decision == "REQUIRED" and reason in CHILD_ROUTE_MAP:
         source_paths.append(Path(__file__).resolve().with_name("resolve-internal-skill.py"))
@@ -4579,7 +4632,7 @@ def skill_frontmatter_identity(raw: bytes, label: str) -> tuple[str, str]:
     return name.group(1), version.group(1)
 
 
-def child_delivery_snapshot(path: Path, label: str) -> tuple[bytes, tuple[int, ...]]:
+def child_delivery_snapshot(path: Path, label: str, *, max_bytes: int | None = None) -> tuple[bytes, tuple[int, ...]]:
     """Read one exact delivery input and retain its physical identity for reread."""
     def identity(info: os.stat_result) -> tuple[int, ...]:
         if (not stat.S_ISREG(info.st_mode) or stat.S_ISLNK(info.st_mode)
@@ -4590,11 +4643,24 @@ def child_delivery_snapshot(path: Path, label: str) -> tuple[bytes, tuple[int, .
         if path.absolute() != path.resolve(strict=True):
             fail(f"{label} traverses a delivery input alias")
         before = identity(os.lstat(path))
-        with path.open("rb") as stream:
-            opened = identity(os.fstat(stream.fileno()))
-            raw = stream.read()
-            finished = identity(os.fstat(stream.fileno()))
-        if before != opened or opened != finished or finished != identity(os.lstat(path)) or len(raw) != before[2]:
+        if max_bytes is not None and before[2] > max_bytes:
+            fail(f"{label} exceeds its exact source bound")
+        flags = (os.O_RDONLY | getattr(os, "O_BINARY", 0) | getattr(os, "O_NONBLOCK", 0)
+                 | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_CLOEXEC", 0))
+        descriptor = os.open(path, flags)
+        try:
+            opened = identity(os.fstat(descriptor))
+            if before != opened:
+                fail(f"{label} changed while its delivery bytes were read")
+            with os.fdopen(descriptor, "rb") as stream:
+                descriptor = None
+                raw = stream.read() if max_bytes is None else stream.read(max_bytes + 1)
+                finished = identity(os.fstat(stream.fileno()))
+        finally:
+            if descriptor is not None:
+                os.close(descriptor)
+        if (before != opened or opened != finished or finished != identity(os.lstat(path))
+                or len(raw) != before[2] or (max_bytes is not None and len(raw) > max_bytes)):
             fail(f"{label} changed while its delivery bytes were read")
         return raw, before
     except OSError as exc:

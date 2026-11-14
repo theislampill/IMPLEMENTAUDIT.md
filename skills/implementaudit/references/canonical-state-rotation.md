@@ -206,15 +206,93 @@ remaining-context basis points, bound to cl100k_base/tiktoken0.12.0 and
 codex-desktop2026-08-20. Its minimum byte reduction is32768, token payoff8192,
 maximum runtime5000ms and memory67108864bytes.
 
-The executable portable admission currently uses the exact byte route; it does
-not fabricate observations from another host or tokenizer. Below the byte
+The default executable admission uses the exact byte route. Below the byte
 threshold it returns the ordinary cheap path without loading an owner map,
 writing an archive/generation or calling a model. Triggered unsupported grammar
 or insufficient measured payoff refuses; retained bytes are never discarded to
-meet a budget. Token/context-health admission and original host calibration
-remain separate qualification burdens. The owner-approved scoped issue exit
-described below does not satisfy those original predicates. Storage is retained and deduplicated;
+meet a budget. Storage is retained and deduplicated;
 budget excess is an owner decision, never silent deletion.
+
+The existing claim owner also accepts `--tokenizer-encoding <absolute-file>` on
+`--rotate-canonical-state`. This selects exact byte OR token admission using
+tiktoken 0.13.0 and pinned cl100k_base encoding bytes. An isolated Python worker
+counts the exact STATE and ROADMAP components separately, without downloads,
+cache changes, model calls or caller-supplied counts. Unknown dependency/version,
+changed encoding, invalid text or failed counting refuses. Both minimum byte
+and token payoffs are required. The exact encoding is retained under the existing
+archive object namespace and included in publication guards; prepared measurements
+are recomputed from the archived preimage and draft. The historical byte contract
+and its original calibration remain intact.
+
+This local byte/token route reports context health as `UNAVAILABLE`. Its
+non-trigger result applies only to those measured inputs. It does not admit a
+context producer or satisfy the original full OR requirement. Configured model
+capacity, aggregate/estimated token usage and matching caller-authored envelope
+hashes cannot supply that missing observation or issuer grant.
+
+The private native-input adapter has a distinct candidate route: version-pinned
+Codex `rawResponse/completed` supplies exact upstream-accounted usage. An explicit
+owner policy may define headroom against its configured usable operational budget
+at that cutoff; this is not a measurement of residual model capacity. The source
+owner must bind the actual binary/config/model, subject, response, cutoff and
+freshness, exclude other native writers, and invalidate on any later context
+change, uncertain stream or withdrawn grant. The current fixed resolver is
+unavailable. Parser, lease or constructed grant controls do not admit a producer
+or qualify an authentic health-only rotation.
+
+`--rotate-canonical-state --native-input --tokenizer-encoding <absolute-file>`
+selects that complete OR contract through the same claim owner. It accepts no
+caller observation file. The owner remeasures the exact predecessor and holds the
+opaque source lease through preparation and every authority CAS checkpoint.
+Withdrawal, disconnect or uncertain publication retains an UNKNOWN outcome for
+reconciliation; it does not silently recover and report native success. Source
+revision atomicity and exclusive native custody remain producer-admission gates.
+
+### C02 correction preparation and publication
+
+The claim companion has separate append-only adjudication and fresh-correction
+interfaces. Both require the existing source owner to resolve the actual census
+and independently current issuer-grant revisions. Caller-supplied empty censuses,
+hashes or role labels confer no authority. The production resolver remains
+unavailable; isolated fixture grants qualify mechanics only.
+
+Its fixed receiver selection is initially unset. The namespace registry names
+two distinct claim-owned revision heads, `continuity-adjudication-sources` and
+`continuity-adjudication-grants`, under the existing Git store. An inert revision
+plan allocates neither objects nor refs. Before that plan can be published, the
+existing owner must verify actual ordered native-source facts and the applicable
+issuer decision. The receiver binds the exact repository, claim, source owner
+and issuer, then independently rereads both heads; it accepts no CLI or environment
+selection. A named role, locator or source copy is not that admission.
+
+The public claim commands are `--prepare-c02-correction` and
+`--append-c02-correction`, each taking the controller, exact
+`--expected-invalidation <ref@oid>` and bounded `--decision <file>` proposal.
+Preparation has no effect; append resolves the actual source and issuer again.
+`--apply-c02-correction <controller> --correction-record <oid>` requests the
+separately entitled fresh transition. None falls back to an ordinary claim or
+accepts a caller grant, source locator, currentness flag or native-resume label.
+
+An append preserves the original erroneous invalidation, exact expected-old
+tuple, source/grant objects and correction record in the existing object-anchor
+namespace. It restores no currentness. A separately admitted fresh transition
+uses `implementaudit.c02-correction-transition.v1`, kind `c02-correction`, and
+private boundary `erroneous-invalidation-correction`. It preserves the protected
+preimage, advances generation and epoch exactly once, retains correction
+provenance in the owner epoch/archive, and mints the unchanged fourteen-field
+receipt-v3 under generation-v1/projection-v2. It is not a native resume occurrence.
+The public native invalidator does not accept that private boundary. A genuinely
+newer native event preempts correction; incomplete correction allocations remain
+retained and require owner reconciliation rather than automatic compensation.
+
+The new C02-only preparation policy records the prospective 60-second Windows
+envelope and separate whole-operation/descendant qualification requirement.
+It does not rewrite the historical byte calibration or change byte/token/native
+resume limits, the 64-MiB helper memory guard, security checks or test deadlines.
+Other hosts retain the existing preparation limit; the Windows envelope is not
+imposed on them. Passing a preparation ceiling is not full-operation qualification
+or an issuer grant. Actual correction semantics, entitled publication and host
+readback remain required before C02 acceptance.
 
 Triggered work checks the process peak resident set against67108864bytes before
 archive effects, after parsing and derivation, and before returning a prepared
@@ -245,18 +323,18 @@ does not confer native Windows, host discovery, install, release or campaign
 qualification. Source reviews and fresh-context canaries bind an immutable
 candidate; they are separate from each zero-model rotation.
 
-### Prospective Windows byte-only qualification
+### Prospective Windows qualification and original acceptance
 
-The October 22, 2026 owner amendment for issue #215 selects only the demonstrated
-`EXACT_BYTES` path, protected-state equivalence at its measured scope, Windows
-custody/crash/rollback controls, distribution parity and selected installed Codex
-receiving. Token/context activation and accepting C02 publication remain
-unavailable; unauthenticated or unqualified inputs fail closed. The retained
-authentic-input, full amended occurrence-canary and entitled-correction predicates
-remain unearned with their existing owners in one linked follow-up. No pending
-or unknown obligation is consumed by this narrower issue exit.
+R0039 is one work order, issue #215, OPEN / INCOMPLETE until all applicable
+original requirements are earned. PR #249 is qualified implementation progress
+at its demonstrated scope. All fourteen original criteria, the valid criterion-5
+amendment and C02 publication obligations remain in #215. Authentic context
+activation, original occurrence/JOIN evidence and entitled C02 publication are
+separate unearned requirements. No pending or unknown obligation is consumed by
+source qualification or by a merged implementation PR.
 
-For the pinned Windows qualification population only, the prospective complete
+The retained owner-approved prospective Windows complete-operation envelope is
+applicable only to source-bound qualification populations. The complete
 owner CLI ceiling is 60,000 ms and 201,326,592 peak aggregate committed bytes
 (192 MiB), with no baseline subtraction. A private Windows Job Object contains
 the suspended-before-assignment root and inherited descendants with no breakaway.

@@ -57,6 +57,26 @@ def functions(name, selected, env):
     return env
 
 
+def source_profile_constants():
+    """Read the real profile declarations without importing an owner or store."""
+    tree = ast.parse(source_text('compaction-result-observation.py'))
+    names = ('NONPROTECTED_PROFILE', 'OWNED_STDIO_PROFILE')
+    values = {}
+    for name in names:
+        nodes = [n for n in tree.body if isinstance(n, ast.Assign) and len(n.targets) == 1
+                 and isinstance(n.targets[0], ast.Name) and n.targets[0].id == name]
+        if len(nodes) != 1 or not isinstance(nodes[0].value, ast.Constant) or type(nodes[0].value.value) is not str:
+            raise ValueError('profile literal declaration changed: ' + name)
+        values[name] = nodes[0].value.value
+    families = [n for n in tree.body if isinstance(n, ast.Assign) and len(n.targets) == 1
+                and isinstance(n.targets[0], ast.Name) and n.targets[0].id == 'SOURCE_PROFILES']
+    if (len(families) != 1 or not isinstance(families[0].value, ast.Tuple)
+            or [n.id if isinstance(n, ast.Name) else None for n in families[0].value.elts] != list(names)):
+        raise ValueError('source profile family declaration changed')
+    values['SOURCE_PROFILES'] = tuple(values[name] for name in names)
+    return values
+
+
 def load(name):
     if name in _MODULES: return _MODULES[name]
     if name not in PUBLIC_OWNERS or name == 'compaction-audit-pending.py':

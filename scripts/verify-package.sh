@@ -347,6 +347,7 @@ require_file scripts/check-canonical-state-rotation.sh
 require_file tests/canonical-state-rotation.test.sh
 require_file skills/implementaudit/scripts/rotate-canonical-state.py
 require_file skills/implementaudit/scripts/canonical_hot_projection.py
+require_file skills/implementaudit/scripts/canonical_rotation_inputs.py
 require_file skills/implementaudit/scripts/claim-run-rotation.py
 require_file skills/implementaudit/scripts/read-canonical-pair.py
 require_file skills/implementaudit/references/canonical-state-rotation.md
