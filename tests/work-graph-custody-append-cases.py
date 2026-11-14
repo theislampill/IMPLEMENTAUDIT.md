@@ -116,7 +116,7 @@ class SourceCases(SourceFixture):
     def test_full_root_currentness_includes_hidden_git_and_replacement(self):
         path = self.add(".git/opaque", b"one")
         first, stamps1, _ = self.snapshot()
-        path.write_bytes(b"two")
+        path.write_bytes(b"two"); info = path.stat(); os.utime(path, ns=(info.st_atime_ns, info.st_mtime_ns + 10_000_000_000))  # no timestamp-tick race
         second, stamps2, _ = self.snapshot()
         self.assertNotEqual(first, second)
         self.assertNotEqual(stamps1, stamps2)
