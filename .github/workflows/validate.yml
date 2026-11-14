@@ -9,7 +9,7 @@ on:
 
 jobs:
   package:
-    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.ref != 'integration/active-rlgwo-composite-20261025' || github.event.pull_request.head.repo.full_name != github.repository }}
+    if: ${{ github.event_name != 'pull_request' || github.repository != 'theislampill/IMPLEMENTAUDIT.md' || github.event.number != 255 }}
     runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
