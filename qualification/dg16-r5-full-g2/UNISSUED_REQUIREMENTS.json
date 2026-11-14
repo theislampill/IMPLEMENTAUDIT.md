@@ -1,0 +1,59 @@
+{
+  "actual_witness_received": true,
+  "authority": "NONE",
+  "completed_finite_gate": "Root accepted only canary34-41; no original/nativebank award; exact public Root receipt retained outside runtime source",
+  "component_seal_sha256": "c93292cb249539432ab4fa25d279da3fcede464106ed3392633fe05da52a4511",
+  "final_composition_ready": "PROSPECTIVE_CODE_TRUE_NOT_OPERATIONAL_ADOPTION",
+  "historical_receipt_role": "Authentic5126/770ea10d input bound as data under maintainedhistory(); transferauthorityfalse, closingcurrentnessfalse, freshcurrentcontroller required",
+  "native_residuals": [
+    "Exact currenthost/boot/controller qualification and two maintainedchangedcases/fivepredicates;89source86/3scope preserved",
+    "Freshcomponent same-job maximum before either full leg",
+    "Full111/2068actualsame-child pair + original110/2057subset + independentoriginalraw/fulltransitive receiving and closingcurrentness"
+  ],
+  "note": "Prospective finalized source is frozen for review without a later sourcehash flip. Root08 remains untouched. Actual active decision files are absent.",
+  "old_recipient_reused": false,
+  "operationally_installed": false,
+  "original_awards": [],
+  "private_authenticated_interoperability": false,
+  "private_key_area_accessed": false,
+  "production_same_host_gate_received": false,
+  "public_recipient": {
+    "bytes": 1533,
+    "sha256": "1d81ea8b4ff7b906d88dd6e70b28a9c555918dcf7f5b14a6f32c41f557d86cc0"
+  },
+  "remote_ref_absence": "ROOT_MUST_VERIFY_BEFORE_PUBLICATION",
+  "root_decisions_issued": false,
+  "root_owned_unissued": [
+    "Actual protected-recipient selection issuance at runtime guarded path",
+    "Actual current-host request issuance at runtime guarded path",
+    "Actual independent immutable native/code/policy reviews and Root adoptions",
+    "Exact operator/public-index/publication and live controller/native/currentness/private inputs"
+  ],
+  "schema": "dg16.source08.post-witness-root-issuance-requirements.v1",
+  "selected_branch": "pro/dg16-r5-full-g2-direct-host-18-20261114",
+  "selected_control_branch": "pro/dg16-r5-full-g2-direct-control-18-20261114",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "witness_descriptors": {
+    "independent": {
+      "bytes": 7047,
+      "sha256": "f9dfaee37cd8d11072a04918dd9344ac4490b18af40f03482bedbc311b2f7ab1"
+    },
+    "provider": {
+      "bytes": 888,
+      "sha256": "42e6852e27a80b052b9002649f49b0e593923f1f53074faa2a5df636b5a564a6"
+    },
+    "public": {
+      "bytes": 8407,
+      "sha256": "3f837f5fc16afdf0eb74b994805fbb1aced90ac2b96bbb525b2e31f449a96e9d"
+    },
+    "root": {
+      "bytes": 4866,
+      "sha256": "d38d87a9bd7c0f76b0115385987cfb76fcf3b9e8bea50b311d485f156e2092c7"
+    },
+    "source_root": {
+      "bytes": 1329,
+      "sha256": "fa564c26943b9b93b823a30de98552d9eda38d98b04488b1b189affcab57db30"
+    }
+  }
+}
