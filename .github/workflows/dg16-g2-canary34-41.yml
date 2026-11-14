@@ -1,0 +1,68 @@
+name: DG16 G2 legacy slots 34-41 canary only
+
+on:
+  push:
+    branches:
+      - pro/dg16-g2-canary-34-41-r3-20261114
+permissions:
+  contents: read
+concurrency:
+  group: dg16-g2-canary-34-41-r3-20261114
+  cancel-in-progress: false
+jobs:
+  original-wrapper-canary:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-g2-canary-34-41-r3-20261114' &&
+      github.event.created == true && github.event.deleted == false && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 270
+    env:
+      GIT_CONFIG_GLOBAL: /dev/null
+      GIT_CONFIG_NOSYSTEM: '1'
+      GIT_ATTR_NOSYSTEM: '1'
+      GIT_OPTIONAL_LOCKS: '0'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Exact canary packet
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+      - name: Exact corrected product
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 205aeab7c93299b0666b261485ab5658d8e183de
+          path: qualified-source
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+      - name: Observe this host and run unchanged maintained wrapper once
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-canary34-41/canary.py"
+          actual="$(/usr/bin/sha256sum "$adapter")"
+          [[ "${actual%% *}" == '2ffaa1089175ed6675dc64cc0de73a0cba6f7e2ead258f42e7f3452bba3214b8' ]] || exit 1
+          /usr/bin/python3 -I -S -B "$adapter" \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg16-canary-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Upload only bounded closed report; never raw diagnostic streams
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-canary-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg16-canary-${{ github.run_id }}-${{ github.run_attempt }}/public/RESULT.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6

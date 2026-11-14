@@ -1,0 +1,62 @@
+{
+  "schema": "dg16.canary.source-dependencies.v1",
+  "authority": "NONE",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "inventory_origin": {
+    "path": "/home/agent/pr255-g2-completion-20261113-07/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/run.py",
+    "function": "inventory",
+    "function_sha256": "b50e0e126fa6ca35b0d0f3e852f4aa88184f40f686bbf87df9898748c53af4a4"
+  },
+  "files": {
+    "native_profile.py": {
+      "bytes": 5615,
+      "sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d"
+    },
+    "full_output_relation.py": {
+      "bytes": 24126,
+      "sha256": "1328f4e1987afaeda665f7392cc7424f9441ece5acf017c265c732b1a3f4f711"
+    },
+    "evidence_io.py": {
+      "bytes": 6321,
+      "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075"
+    },
+    "REPORT_SLOTS.json": {
+      "bytes": 1020916,
+      "sha256": "2108ac51676a79d3321e1b63badcb41caceea84a77deb2d1c13aeff96d0149d4"
+    },
+    "host_utility.py": {
+      "bytes": 65235,
+      "sha256": "02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5"
+    },
+    "SOURCE_MANIFEST.json": {
+      "bytes": 495517,
+      "sha256": "328bfd9ba1711260d6efa19ed8fcf45651d375e7c3685b9ce50bd03f1c3803ee"
+    },
+    "checkout_prepare.py": {
+      "bytes": 17927,
+      "sha256": "1cab07709dc06f5eae35da4abcc358fd2d4f1ed8885e7e8e731e104fa54d5c1a"
+    },
+    "host_inventory.py": {
+      "bytes": 1602,
+      "sha256": "9726cf6cb8076a4b8880d2d511dfef9d9ce4d90179bc97135f94ff1d95b77c3f"
+    },
+    "inner.py": {
+      "bytes": 15229,
+      "sha256": "adec516f04aad099029c7bb65de3074c29ed021d499adf24a9e29bb0216c9527"
+    }
+  },
+  "checkout_preparation_delta": "Only SOURCE_COMMIT rebound to actual205; original prepare/readback/postimage code unchanged",
+  "revision": "R3",
+  "ordinary_workload_contract": {
+    "wall_seconds_at_most": 14400,
+    "original_mask_function_sha256": "002f7aa88e7d2177faeaca52b0854a36bca718f3d5953b5dbabf90f0f3fa76d2",
+    "canary_mask_function_sha256": "2722517419911a1720104bbf0799d2ae2659baade1559a9e9a1cba173b700334",
+    "mask_delta": "Three Root-approved command-role expressions only; every other function byte unchanged",
+    "crypto_resource_limits_imported": false,
+    "deadline": "Original outer host_utility.capture polling deadline; no alarm inside maintained sigwait",
+    "outer_capture_sha256": "02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5",
+    "inner_alarm": "REMOVED; maintained sigwait not interruptible by Python SIGALRM",
+    "join": "Outer actual exit/deadline/ECHILD before consuming inner PASS"
+  }
+}
