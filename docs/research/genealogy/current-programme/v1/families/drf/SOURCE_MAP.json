@@ -1,0 +1,203 @@
+{
+  "schema": "drf-documentary-public-source-map/2",
+  "as_of": "2026-11-13T16:32:20.612930+00:00",
+  "source_layers": [
+    "Immutable August public property corpus",
+    "Existing bounded v0.4 target interpretation",
+    "Accepted current three constituent r2 identities; detailed science private",
+    "Provisional later DRF-S receiving; no qualification at cutoff",
+    "Actual A006 whole qualification with both final acceptances; all detailed current science private"
+  ],
+  "lineages": [
+    {
+      "unit_id": "DRF-L1",
+      "name": "Distributed Systems Engineering",
+      "scientific_status": "QUALIFIED_AT_DECLARED_SCOPE",
+      "revision": "r2",
+      "qualified_at_utc": "2026-11-11T03:51:05.935721+00:00",
+      "subject": {
+        "bytes": 73989,
+        "sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4"
+      },
+      "qualification_sha256": "4993aaa304d72b56c83d2e57f45a5fd68edf3d31380c554d8ef97aae4abe2a14",
+      "reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reviewer_context": "/root/drf_l1_fidelity_r2",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_sha256": "bb42a9453c0276ca872f8566fde93d1ec07ae1d782abb7118b8bcec4481a792b",
+          "accepted_subject_sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reviewer_context": "/root/drf_l1_adversarial_r2",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_sha256": "d73eb75d61816c19c06c4eb99eee2c8241587908639c0ac8f412c55c90c181fc",
+          "accepted_subject_sha256": "04f846274086b4e3802c9facb57ab4a731f113a2a418844f05255727d5067ad4"
+        }
+      ],
+      "historical_rows": 54,
+      "current_identity_count": 54,
+      "count_limit": "Identity accounting only; not equal meaning, implemented mechanisms or empirical results.",
+      "historical_executed_commission": "UNKNOWN",
+      "central_application": "UNKNOWN_AT_CURRENT_LIVE_MASTER",
+      "publication": "CURRENT_DETAILED_SCIENCE_WITHHELD_PENDING_SOURCE_SPECIFIC_DISCLOSURE",
+      "new_documentary_review": "PENDING"
+    },
+    {
+      "unit_id": "DRF-L2",
+      "name": "Reliability and Maintainability Engineering",
+      "scientific_status": "QUALIFIED_AT_DECLARED_SCOPE",
+      "revision": "r2",
+      "qualified_at_utc": "2026-11-11T08:50:55.195332+00:00",
+      "subject": {
+        "bytes": 53469,
+        "sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c"
+      },
+      "qualification_sha256": "18fb9309de1e93eb47fb9ea98510934f25c1dd1dc9adc4946fbff145b075c1a8",
+      "reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reviewer_context": "/root/drf_l2_fidelity_r2_successor",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_sha256": "1ea7204af8f8ba5453e2524971e2067795b777ff7718b44c81c8d23fd0084e04",
+          "accepted_subject_sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reviewer_context": "/root/drf_l2_adversarial_r2",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_sha256": "8e09fc2d0b57bf68b9f4252057ad4cb12ecbe8c816fd4ea0b5b7e4e963445fc7",
+          "accepted_subject_sha256": "78661aa22d6ec0ad738e229a8aedde5927b655a9c8a5545cd3b82960bc69d03c"
+        }
+      ],
+      "historical_rows": 55,
+      "current_identity_count": 55,
+      "count_limit": "Identity accounting only; not equal meaning, implemented mechanisms or empirical results.",
+      "historical_executed_commission": "UNKNOWN",
+      "central_application": "UNKNOWN_AT_CURRENT_LIVE_MASTER",
+      "publication": "CURRENT_DETAILED_SCIENCE_WITHHELD_PENDING_SOURCE_SPECIFIC_DISCLOSURE",
+      "new_documentary_review": "PENDING"
+    },
+    {
+      "unit_id": "DRF-L3",
+      "name": "Formal Methods and Verification Engineering",
+      "scientific_status": "QUALIFIED_AT_DECLARED_SCOPE",
+      "revision": "r2",
+      "qualified_at_utc": "2026-11-11T12:00:19.993635+00:00",
+      "subject": {
+        "bytes": 38434,
+        "sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821"
+      },
+      "qualification_sha256": "077cf6416c8b5d8b43115afe5fbe6c780f1a3b43b59a16db2f90404558c70abc",
+      "reviews": [
+        {
+          "role": "FIDELITY_COMPLETENESS",
+          "reviewer_context": "/root/drf_l3_fidelity_r1",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_sha256": "6eaa075cf5a9f99a83bd4e9284e101f2faa59e92821a203a8825c2b1ee59a02e",
+          "accepted_subject_sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821"
+        },
+        {
+          "role": "ADVERSARIAL",
+          "reviewer_context": "/root/drf_l3_adversarial_r2",
+          "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+          "receipt_sha256": "3072d8b5b648b33bcd07cc568a4c1cfbc149f1c5cc8eb1dea7a925e7661f58ab",
+          "accepted_subject_sha256": "d6cc9b3754b9a194d0654a610b768601d1a539e511db03ed8e62fa89acb3a821"
+        }
+      ],
+      "historical_rows": 50,
+      "current_identity_count": 50,
+      "count_limit": "Identity accounting only; not equal meaning, implemented mechanisms or empirical results.",
+      "historical_executed_commission": "UNKNOWN",
+      "central_application": "UNKNOWN_AT_CURRENT_LIVE_MASTER",
+      "publication": "CURRENT_DETAILED_SCIENCE_WITHHELD_PENDING_SOURCE_SPECIFIC_DISCLOSURE",
+      "new_documentary_review": "PENDING"
+    }
+  ],
+  "synthesis": {
+    "unit_id": "DRF-S",
+    "state": "QUALIFIED_AT_DECLARED_SCOPE",
+    "revision": "A006",
+    "qualified_at_utc": "2026-11-13T16:08:44.900719+00:00",
+    "subject": {
+      "bytes": 12026,
+      "sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a"
+    },
+    "qualification": {
+      "bytes": 61264,
+      "sha256": "fad4c7fe65da3985114ffa46e4a581406ac7bae79a8b5b7c345a2d141050f36d"
+    },
+    "final_reviews": [
+      {
+        "role": "FIDELITY_COMPLETENESS",
+        "bytes": 6238,
+        "sha256": "3194c9e466867b8db787eba6cadace00668df5dbe2d3af0838856a12043b2702",
+        "accepted_subject_sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a",
+        "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+        "material_findings": 0,
+        "nonblocking_findings": 2
+      },
+      {
+        "role": "DISTINCT_WHOLE_ADVERSARIAL",
+        "bytes": 8052,
+        "sha256": "6e5100980abbaf859d1360cd754bf36b72f9108bd02ebf5e0e76ab608b4df3e9",
+        "accepted_subject_sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a",
+        "disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+        "material_findings": 0,
+        "nonblocking_findings": 3
+      }
+    ],
+    "unique_nonblocking_observations": 3,
+    "scientific_source_bytes_changed_by_documentation": false,
+    "historical_adverse_A005_retained": true,
+    "historical_original_neutral_body": "NOT_LOCATED",
+    "historical_original_executed_contract": "NOT_LOCATED",
+    "historical_comparison": "BLOCKED_INPUT",
+    "historical_requalification_increment": 0,
+    "public_detailed_current_science": false,
+    "disclosure_decision": "DRF-D4_PENDING",
+    "source_public_safe_labels_are_disclosure_permission": false
+  },
+  "current_live_central_master_application": "UNKNOWN",
+  "new_documentary_independent_review": "PENDING",
+  "source_access_limit": "Scientific object hashes identify received evidence; they are not public download locators or permission to disclose protected bodies.",
+  "historical_synthesis_receiving_checkpoint026": {
+    "state": "PROVISIONAL_NOT_QUALIFIED_AT_CHECKPOINT026",
+    "A005_distinct_verdict": "GAP_REVISE",
+    "A005_verdict_sha256": "8cd976a7df6f5b87c67f757d80eacca0a1dcea58c305717990187ffc3a172b1e",
+    "A006_subject_sha256": "a3da8ee7edb361a8891d1f455b30c49f7d5bc7f4e5a65e01304a87eb54e80b4a",
+    "A006_first_verdict": "ACCEPTED_AT_DECLARED_SCOPE",
+    "A006_first_receipt_sha256": "3194c9e466867b8db787eba6cadace00668df5dbe2d3af0838856a12043b2702",
+    "distinct_final_verdict_received": false,
+    "qualification": false,
+    "frontier_bytes": 5323,
+    "frontier_sha256": "853dcc2b13bf632b2c43a959cdbb689b6bbf0e164c8fefc07be9f1baa9fa5ffc"
+  },
+  "current_receiving": {
+    "checkpoint": "029",
+    "at_utc": "2026-11-13T16:32:20.612930+00:00",
+    "frontier": {
+      "bytes": 5227,
+      "sha256": "c1d60a763ea771b456ead6522ac22176c0268cbf0317b67d821e975d2e9ce38c"
+    },
+    "independent_receiving": "003",
+    "receipt": {
+      "bytes": 32605,
+      "sha256": "4e6a4ecdb0550960a304f1f0ff4f0cced8e2da181ced76f6dcaefd72a741fee7"
+    },
+    "qualified_syntheses": 7,
+    "synthesis_population": 8,
+    "qualified_units": 31,
+    "unit_population": 32,
+    "LAW_synthesis": "UNQUALIFIED_AT_CUTOFF",
+    "scientific_count_effect_of_this_documentary_author": 0,
+    "current_live_central_master_application": "UNKNOWN"
+  },
+  "disclosures": {
+    "DRF-L1": "PENDING",
+    "DRF-L2": "PENDING",
+    "DRF-L3": "PENDING",
+    "DRF-S": "PENDING"
+  }
+}

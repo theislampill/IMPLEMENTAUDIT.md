@@ -1,3 +1,7 @@
+> **Later R2 receiving:** [checkpoint029 qualification](#qualified-synthesis-documentary-receiving--checkpoint029) is the later boundary. All earlier notices, “latest” headings and unqualified statements below remain preserved history.
+
+> **Later receiving:** the [checkpoint 026 documentary section](#current-constituent-documentary-receiving--checkpoint-026) is the newest dated boundary in this proposal. All earlier “latest” headings and receiving cutoffs below are preserved as history.
+
 # DRF — current-programme documentary view v1
 
 [Programme index](../README.md) · [Exact metadata registry](../PROGRAMME.json)
@@ -87,3 +91,25 @@ The [fifth receiving record](../increments/2026-11-13-documentary-continuation-0
 A later original boundary at 08:03:13.575027 UTC records the directional inquiry as author-complete while whole integration remains pending. Projection is explicitly not yet performed. Whole-study integration, report, final freeze and independent fidelity/adversarial review remain pending; DRF remains scientifically unqualified. This does not reconstruct the missing earlier checkpoint/report or lost receiving receipt. Protected directional findings and counters remain private.
 
 The [sixth receiving record](../increments/2026-11-13-documentary-continuation-06.md) and [exact metadata](../increments/2026-11-13-documentary-continuation-06.json) distinguish this author milestone from whole-study completion, central application and native implementation.
+
+## Current constituent documentary receiving — checkpoint 026
+
+The prior dated receiving sections above remain historical observations. The later verified scientific cutoff is **13 November 2026, 15:22:50.163732 UTC**. At that cutoff DRF has three accepted r2 constituents and an unqualified current synthesis. A006 has an actual first whole-fidelity acceptance; its distinct adversary has no final verdict received at that cutoff. The prior A005 adverse second verdict remains preserved and is not canceled by an earlier first acceptance.
+
+The [four-unit documentary package](drf/README.md) now supplies complete public historical property readers for **54 + 55 + 50 = 159** identities, linked through the maintained lineage Pages. These are original public records, not the corrected current scientific bodies. The synthesis row reuses this population and is not counted again.
+
+Three complete current lineage manuscripts and current property readers are privately prepared against their exact accepted subjects. Their three source-specific disclosure decisions are **PENDING**. Current detailed science is not included publicly. The fourth account remains provisional, awaiting authentic whole-synthesis qualification; no accepted synthesis is manufactured from status receipts.
+
+**Current live central-master application is UNKNOWN.** Any preserved captured selection describes its dated historical boundary only. Scientific qualification, current central application, documentary acceptance, disclosure and native realization remain separate.
+
+The [exact source metadata](drf/SOURCE_MAP.json), [eight-component matrix](drf/COMPLETENESS.md), [159-row historical source map](drf/PUBLIC_PROPERTY_SOURCE_MAP.json), and [four rough owner responsibilities](drf/RLGWO_OUTLINES.md) record the scope. New independent documentary review is pending. Root owns final integration, generated-document validation, rendering and publication; this source proposal does not assert those outcomes.
+
+## Qualified synthesis documentary receiving — checkpoint029
+
+The earlier receiving sections remain historical. Actual DRF-S A006 qualification was issued at **13 November 2026 16:08:44.900719 UTC** after two final acceptances on the same frozen subject. Checkpoint029 at **16:32:20.612930 UTC** and independent receiving003 record 7 of 8 qualified syntheses and 31 of 32 qualified units. LAW remains unqualified at that cutoff. This documentary work adds no scientific qualification.
+
+The [four-unit package](drf/README.md) now contains a complete privately authored current whole account alongside the three accepted constituent accounts. The [exact metadata](drf/SOURCE_MAP.json) binds the actual subject, qualification, two final reviews and receiving identities. Earlier adverse history and the absent original whole-body/executed-contract limits remain. The older public explanation is not a substitute for the protected current whole.
+
+All four source-specific disclosure decisions are **PENDING**. Public historical property readers retain54 + 55 + 50 = 159 original identities and every field. Detailed current science is not released by scientific acceptance or a source public_safe label. Fresh R2 documentary review remains PENDING; root owns integration, rendering and publication.
+
+**Current live central-master application is UNKNOWN.** Historical captured selections are not a live master read. Existing native issue/PR snapshots and exactly four rough DRF responsibilities remain bounded; no native adoption or new work order is inferred.

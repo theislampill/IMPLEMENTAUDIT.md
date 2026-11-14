@@ -87,6 +87,8 @@ Each row below is a preliminary research-to-consumer question. It is neither a p
 
 ### LAW four-unit outline
 
+The [four detailed LAW responsibilities](../../genealogy/current-programme/v1/families/law/RLGWO_OUTLINES.md) preserve these same slots and existing native owners. The [family scope](../../genealogy/current-programme/v1/families/law/COMPLETENESS.md) distinguishes current qualification from the historical snapshot below; disclosure and final work-order authority remain separate.
+
 #### LAW-L1 — Lean
 
 - Research/verification question: Lean: flow, waste, feedback and consequence-sensitive control. Which exact current consumer uses the supported part, with which assumptions and actual receiving evidence?
@@ -229,6 +231,8 @@ The [four detailed CSS outlines](../../genealogy/current-programme/v1/families/c
 
 
 ### DRF four-unit outline
+
+The [four detailed DRF responsibilities](../../genealogy/current-programme/v1/families/drf/RLGWO_OUTLINES.md) preserve these same slots and existing native owners. The [family scope](../../genealogy/current-programme/v1/families/drf/COMPLETENESS.md) distinguishes current qualification from the historical snapshot below; disclosure and final work-order authority remain separate.
 
 #### DRF-L1 — Distributed Systems Engineering
 
@@ -479,3 +483,11 @@ The [SSD four-unit package](../../genealogy/current-programme/v1/families/ssd/RE
 ### SPR family documentation — four existing responsibility slots
 
 The [SPR four-unit guide](../../genealogy/current-programme/v1/families/spr/README.md) records complete private scientific accounts and the explicit public-source boundary. Its [four rough responsibilities](../../genealogy/current-programme/v1/families/spr/RLGWO_OUTLINES.md) retain the existing32-slot contract and distinguish real existing candidate owners from proven SPR implementation coverage. A separately warranted exact-current receiving case is required before native or issue work. The original L1 final evidence gap and four PENDING disclosure decisions remain explicit. No new synthesis umbrella or issue is created.
+
+## Later scientific receiving — continuation 09
+
+All 32 existing scientific units are qualified at their declared scopes; [C09](../../genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-09.md) supplies the current receiving account. The older scientific-state text in the individual outlines is preserved snapshot history, not a reversal of later qualification. The 32 responsibilities, existing native owners, adequate/no-change outcomes and separate future authorization remain unchanged. Original SPR-L1 evidence remains limited.
+
+## Current ownership receiving — 13 November 2026
+
+The [dated32-slot ownership reconciliation](OWNERSHIP_RECONCILIATION_20261113.md) preserves every original row and adds fresh observations of22 named carriers and30 additional existing native/comparison owners. Its JSON companion retains exact issue/body and current PR-head identities. This is documentary preparation, with no new issue, final work order, native qualification or implementation authority.

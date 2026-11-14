@@ -5,139 +5,279 @@
       "id": "R29-LQ1",
       "question": "Why does IMPLEMENTAUDIT visibly use substantial Lean-derived vocabulary?",
       "page": "research-lineage-overview",
-      "evidence": ["native engineering controls", "not methodology conformance", "Andon", "Hansei", "Gemba"]
+      "evidence": [
+        "native engineering controls",
+        "not methodology conformance",
+        "Andon",
+        "Hansei",
+        "Gemba"
+      ]
     },
     {
       "id": "R29-LQ2",
       "question": "Why is Evolved-LAW not three methodology modes bolted together?",
       "page": "research-lineage-evolved-law",
-      "evidence": ["not a runtime mode", "one native owner", "property-level synthesis", "no methodology-specific runtime"]
+      "evidence": [
+        "not a runtime mode",
+        "one native owner",
+        "property-level synthesis",
+        "no methodology-specific runtime"
+      ]
     },
     {
       "id": "R29-LQ3",
       "question": "What did Agile contribute beyond the word iteration?",
       "page": "research-lineage-agile",
-      "evidence": ["integrated working evidence", "technical changeability", "sustainable pace", "operational feedback"]
+      "evidence": [
+        "integrated working evidence",
+        "technical changeability",
+        "sustainable pace",
+        "operational feedback"
+      ]
     },
     {
       "id": "R29-LQ4",
       "question": "What did Waterfall and plan-driven assurance contribute beyond the caricature of fixed phases?",
       "page": "research-lineage-waterfall",
-      "evidence": ["authoritative but revisable intent", "configuration identity", "multi-level verification", "acceptance authority"]
+      "evidence": [
+        "authoritative but revisable intent",
+        "configuration identity",
+        "multi-level verification",
+        "acceptance authority"
+      ]
     },
     {
       "id": "R29-LQ5",
       "question": "Which major properties were already native before Evolved-LAW?",
       "page": "research-lineage-evolved-law",
-      "evidence": ["PRE_EXISTING_NATIVE", "Smoke A", "Andon", "exact identity", "independent review"]
+      "evidence": [
+        "PRE_EXISTING_NATIVE",
+        "Smoke A",
+        "Andon",
+        "exact identity",
+        "independent review"
+      ]
     },
     {
       "id": "R29-LQ6",
       "question": "Which properties actually changed or sharpened v0.3.3.3?",
       "page": "research-lineage-evolved-law",
-      "evidence": ["SHARPENED_OR_RECONCILED", "actionability-weighted feedback", "protective slack", "live engineering function and consumer", "otherwise it is waste", "sustainable recovery capacity", "option"]
+      "evidence": [
+        "SHARPENED_OR_RECONCILED",
+        "actionability-weighted feedback",
+        "protective slack",
+        "live engineering function and consumer",
+        "otherwise it is waste",
+        "sustainable recovery capacity",
+        "option"
+      ]
     },
     {
       "id": "R29-LQ7",
       "question": "Which ceremonies and universal prescriptions were rejected?",
       "page": "research-lineage-evolved-law",
-      "evidence": ["REJECTED_OR_NOT_ADOPTED", "fixed sprint", "zero slack", "fixed phase", "manual trace matrix", "No trigger means no new record, ceremony, or runtime mode"]
+      "evidence": [
+        "REJECTED_OR_NOT_ADOPTED",
+        "fixed sprint",
+        "zero slack",
+        "fixed phase",
+        "manual trace matrix",
+        "No trigger means no new record, ceremony, or runtime mode"
+      ]
     },
     {
       "id": "R29-LQ8",
       "question": "Where do surviving properties live in native IMPLEMENTAUDIT controls?",
       "page": "research-lineage-evolved-law",
-      "evidence": ["property-to-native-owner", "R001D", "R0020", "R0022", "R0023"]
+      "evidence": [
+        "property-to-native-owner",
+        "R001D",
+        "R0020",
+        "R0022",
+        "R0023"
+      ]
     },
     {
       "id": "R29-LQ9",
       "question": "What research and source evidence supports the explanation?",
       "page": "research-lineage-overview",
-      "evidence": ["primary history", "authoritative current guidance", "empirical evidence", "claim boundary", "R0025"]
+      "evidence": [
+        "primary history",
+        "authoritative current guidance",
+        "empirical evidence",
+        "claim boundary",
+        "R0025"
+      ]
     },
     {
       "id": "R29-LQ10",
       "question": "What has not been universally validated across agents, repositories, hosts, or skill ecosystems?",
       "page": "research-lineage-overview",
-      "evidence": ["not universal validation", "agents", "repositories", "hosts", "skill ecosystems"]
+      "evidence": [
+        "not universal validation",
+        "agents",
+        "repositories",
+        "hosts",
+        "skill ecosystems"
+      ]
     },
     {
       "id": "R29-LQ11",
       "question": "What does Evolved-CSS contribute without becoming a selectable methodology?",
       "page": "research-lineage-evolved-css",
-      "evidence": ["Cognitive Systems Engineering", "Statistical Engineering", "Systems Safety", "native controls", "not a runtime mode"]
+      "evidence": [
+        "Cognitive Systems Engineering",
+        "Statistical Engineering",
+        "Systems Safety",
+        "native controls",
+        "not a runtime mode"
+      ]
     },
     {
       "id": "R29-LQ12",
       "question": "What does Evolved-SSD contribute to the integrated substrate?",
       "page": "research-lineage-evolved-ssd",
-      "evidence": ["Systems Engineering", "Systems Security Engineering", "Decision &amp; Operations Engineering", "native controls", "claim boundary"]
+      "evidence": [
+        "Systems Engineering",
+        "Systems Security Engineering",
+        "Decision &amp; Operations Engineering",
+        "native controls",
+        "claim boundary"
+      ]
     },
     {
       "id": "R29-LQ13",
       "question": "What does Evolved-DRF contribute while preserving negative evidence?",
       "page": "research-lineage-evolved-drf",
-      "evidence": ["Distributed Systems Engineering", "Reliability &amp; Maintainability Engineering", "Formal Methods &amp; Verification Engineering", "negative evidence", "owner decision"]
+      "evidence": [
+        "Distributed Systems Engineering",
+        "Reliability &amp; Maintainability Engineering",
+        "Formal Methods &amp; Verification Engineering",
+        "negative evidence",
+        "owner decision"
+      ]
     },
     {
       "id": "R29-LQ14",
       "question": "How should readers interpret S³E, the 658 denominator, and package projections?",
       "page": "research-lineage-s3e",
-      "evidence": ["one native state-synthesis substrate", "658/658 property disposition accounting", "not 658 source changes", "standalone compatibility projection omits plugin manifests", "four child procedures under the governor", "mechanically checked independently", "not literal member-for-member copies"]
+      "evidence": [
+        "one native state-synthesis substrate",
+        "658/658 property disposition accounting",
+        "not 658 source changes",
+        "standalone compatibility projection omits plugin manifests",
+        "four child procedures under the governor",
+        "mechanically checked independently",
+        "not literal member-for-member copies"
+      ]
     },
     {
       "id": "R29-LQ15",
       "question": "What does Systems Engineering contribute without imposing a fixed lifecycle?",
       "page": "research-lineage-systems-engineering",
-      "evidence": ["authoritative but revisable intent", "configuration identity", "interfaces", "V&amp;V", "lifecycle coherence"]
+      "evidence": [
+        "authoritative but revisable intent",
+        "configuration identity",
+        "interfaces",
+        "V&amp;V",
+        "lifecycle coherence"
+      ]
     },
     {
       "id": "R29-LQ16",
       "question": "What does Systems Security Engineering contribute without claiming certification?",
       "page": "research-lineage-systems-security-engineering",
-      "evidence": ["protected consequence", "trust boundaries", "least privilege", "current authorisation", "secure failure"]
+      "evidence": [
+        "protected consequence",
+        "trust boundaries",
+        "least privilege",
+        "current authorisation",
+        "secure failure"
+      ]
     },
     {
       "id": "R29-LQ17",
       "question": "What does Decision & Operations Engineering contribute to bounded action selection?",
       "page": "research-lineage-decision-operations-engineering",
-      "evidence": ["decision owner", "meaningful alternatives", "hard constraints", "proxy substitution", "cheap authoritative discriminator"]
+      "evidence": [
+        "decision owner",
+        "meaningful alternatives",
+        "hard constraints",
+        "proxy substitution",
+        "cheap authoritative discriminator"
+      ]
     },
     {
       "id": "R29-LQ18",
       "question": "What does Distributed Systems Engineering contribute without claiming consensus or fault tolerance?",
       "page": "research-lineage-distributed-systems-engineering",
-      "evidence": ["partial failure", "unknown outcome", "currentness", "configuration", "fenced effects"]
+      "evidence": [
+        "partial failure",
+        "unknown outcome",
+        "currentness",
+        "configuration",
+        "fenced effects"
+      ]
     },
     {
       "id": "R29-LQ19",
       "question": "What does Reliability & Maintainability Engineering contribute without claiming measured reliability?",
       "page": "research-lineage-reliability-maintainability-engineering",
-      "evidence": ["required function", "common-cause", "diagnostic coverage", "graceful degradation", "restoration"]
+      "evidence": [
+        "required function",
+        "common-cause",
+        "diagnostic coverage",
+        "graceful degradation",
+        "restoration"
+      ]
     },
     {
       "id": "R29-LQ20",
       "question": "What does Formal Methods & Verification Engineering contribute without claiming a formal proof?",
       "page": "research-lineage-formal-methods-verification-engineering",
-      "evidence": ["precise property", "assumptions", "invariants", "temporal properties", "proof currentness"]
+      "evidence": [
+        "precise property",
+        "assumptions",
+        "invariants",
+        "temporal properties",
+        "proof currentness"
+      ]
     },
     {
       "id": "R29-LQ21",
       "question": "What does Cognitive Systems Engineering contribute without creating a human-factors ceremony?",
       "page": "research-lineage-cognitive-systems-engineering",
-      "evidence": ["joint cognitive work", "decision-relevant state", "authority and capability", "handoff", "attention"]
+      "evidence": [
+        "joint cognitive work",
+        "decision-relevant state",
+        "authority and capability",
+        "handoff",
+        "attention"
+      ]
     },
     {
       "id": "R29-LQ22",
       "question": "What does Statistical Engineering contribute without turning metrics into proof?",
       "page": "research-lineage-statistical-engineering",
-      "evidence": ["measurand", "measurement-system fitness", "variation", "negative controls", "proxy resistance"]
+      "evidence": [
+        "measurand",
+        "measurement-system fitness",
+        "variation",
+        "negative controls",
+        "proxy resistance"
+      ]
     },
     {
       "id": "R29-LQ23",
       "question": "What does Systems Safety contribute without claiming universal safety?",
       "page": "research-lineage-systems-safety",
-      "evidence": ["unacceptable loss", "hazardous state", "safety constraints", "containment", "recovery"]
+      "evidence": [
+        "unacceptable loss",
+        "hazardous state",
+        "safety constraints",
+        "containment",
+        "recovery"
+      ]
     }
   ],
   "public_pages": [
@@ -159,34 +299,160 @@
     "research-lineage-statistical-engineering",
     "research-lineage-systems-safety",
     "research-lineage-evolved-css",
+    "research-lineage-software-architecture",
+    "research-lineage-software-maintenance-and-evolution",
+    "research-lineage-software-product-line-engineering",
     "research-lineage-evolved-sss",
     "research-lineage-evolved-bwp",
+    "research-lineage-evolved-bwp-business-process-management",
+    "research-lineage-evolved-bwp-workflow-management",
+    "research-lineage-evolved-bwp-process-mining",
     "research-lineage-evolved-ama",
+    "research-lineage-autonomous-agents",
+    "research-lineage-multi-agent-systems",
+    "research-lineage-agent-oriented-software-engineering",
+    "research-lineage-system-identification",
+    "research-lineage-programming-language-theory",
+    "research-lineage-requirements-engineering",
     "research-lineage-evolved-spr",
     "research-lineage-s3e"
   ],
   "first_reader_contract": {
-    "section_ids": ["contribution", "changed", "already-native", "rejected", "unverified", "provenance"],
-    "depth_section_ids": ["genealogy", "selected-sources"],
+    "section_ids": [
+      "contribution",
+      "changed",
+      "already-native",
+      "rejected",
+      "unverified",
+      "provenance"
+    ],
+    "depth_section_ids": [
+      "genealogy",
+      "selected-sources"
+    ],
     "minimum_selected_source_links": 4,
     "claim_limit_literal": "Does not establish",
     "minimum_visible_words": 180,
     "individual_pages": [
-      {"page": "research-lineage-systems-engineering", "title": "Systems Engineering", "route": "research-engineering-lineage/systems-engineering/", "family": "SSD", "rxx": "R002D", "review_tier": "cold-review"},
-      {"page": "research-lineage-systems-security-engineering", "title": "Systems Security Engineering", "route": "research-engineering-lineage/systems-security-engineering/", "family": "SSD", "rxx": "R002E", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-decision-operations-engineering", "title": "Decision & Operations Engineering", "route": "research-engineering-lineage/decision-operations-engineering/", "family": "SSD", "rxx": "R002F", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-distributed-systems-engineering", "title": "Distributed Systems Engineering", "route": "research-engineering-lineage/distributed-systems-engineering/", "family": "DRF", "rxx": "R0030", "review_tier": "cold-review"},
-      {"page": "research-lineage-reliability-maintainability-engineering", "title": "Reliability & Maintainability Engineering", "route": "research-engineering-lineage/reliability-maintainability-engineering/", "family": "DRF", "rxx": "R0031", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-formal-methods-verification-engineering", "title": "Formal Methods & Verification Engineering", "route": "research-engineering-lineage/formal-methods-verification-engineering/", "family": "DRF", "rxx": "R0032", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-cognitive-systems-engineering", "title": "Cognitive Systems Engineering", "route": "research-engineering-lineage/cognitive-systems-engineering/", "family": "CSS", "rxx": "R002A", "review_tier": "cold-review"},
-      {"page": "research-lineage-statistical-engineering", "title": "Statistical Engineering", "route": "research-engineering-lineage/statistical-engineering/", "family": "CSS", "rxx": "R002B", "review_tier": "shared-template-census"},
-      {"page": "research-lineage-systems-safety", "title": "Systems Safety", "route": "research-engineering-lineage/systems-safety/", "family": "CSS", "rxx": "R002C", "review_tier": "shared-template-census"}
+      {
+        "page": "research-lineage-systems-engineering",
+        "title": "Systems Engineering",
+        "route": "research-engineering-lineage/systems-engineering/",
+        "family": "SSD",
+        "rxx": "R002D",
+        "review_tier": "cold-review"
+      },
+      {
+        "page": "research-lineage-systems-security-engineering",
+        "title": "Systems Security Engineering",
+        "route": "research-engineering-lineage/systems-security-engineering/",
+        "family": "SSD",
+        "rxx": "R002E",
+        "review_tier": "shared-template-census"
+      },
+      {
+        "page": "research-lineage-decision-operations-engineering",
+        "title": "Decision & Operations Engineering",
+        "route": "research-engineering-lineage/decision-operations-engineering/",
+        "family": "SSD",
+        "rxx": "R002F",
+        "review_tier": "shared-template-census"
+      },
+      {
+        "page": "research-lineage-distributed-systems-engineering",
+        "title": "Distributed Systems Engineering",
+        "route": "research-engineering-lineage/distributed-systems-engineering/",
+        "family": "DRF",
+        "rxx": "R0030",
+        "review_tier": "cold-review"
+      },
+      {
+        "page": "research-lineage-reliability-maintainability-engineering",
+        "title": "Reliability & Maintainability Engineering",
+        "route": "research-engineering-lineage/reliability-maintainability-engineering/",
+        "family": "DRF",
+        "rxx": "R0031",
+        "review_tier": "shared-template-census"
+      },
+      {
+        "page": "research-lineage-formal-methods-verification-engineering",
+        "title": "Formal Methods & Verification Engineering",
+        "route": "research-engineering-lineage/formal-methods-verification-engineering/",
+        "family": "DRF",
+        "rxx": "R0032",
+        "review_tier": "shared-template-census"
+      },
+      {
+        "page": "research-lineage-cognitive-systems-engineering",
+        "title": "Cognitive Systems Engineering",
+        "route": "research-engineering-lineage/cognitive-systems-engineering/",
+        "family": "CSS",
+        "rxx": "R002A",
+        "review_tier": "cold-review"
+      },
+      {
+        "page": "research-lineage-statistical-engineering",
+        "title": "Statistical Engineering",
+        "route": "research-engineering-lineage/statistical-engineering/",
+        "family": "CSS",
+        "rxx": "R002B",
+        "review_tier": "shared-template-census"
+      },
+      {
+        "page": "research-lineage-systems-safety",
+        "title": "Systems Safety",
+        "route": "research-engineering-lineage/systems-safety/",
+        "family": "CSS",
+        "rxx": "R002C",
+        "review_tier": "shared-template-census"
+      }
     ],
     "synthesis_pages": [
-      {"page": "research-lineage-evolved-css", "depth_section_ids": ["family-genealogy", "contribution", "tensions", "rejected", "unverified", "provenance"]},
-      {"page": "research-lineage-evolved-ssd", "depth_section_ids": ["family-genealogy", "contribution", "tensions", "rejected", "unverified", "provenance"]},
-      {"page": "research-lineage-evolved-drf", "depth_section_ids": ["family-genealogy", "contribution", "tensions", "rejected", "unverified", "provenance"]},
-      {"page": "research-lineage-s3e", "depth_section_ids": ["s3e-genealogy", "contribution", "tensions", "rejected", "unverified", "package-projection", "provenance"]}
+      {
+        "page": "research-lineage-evolved-css",
+        "depth_section_ids": [
+          "family-genealogy",
+          "contribution",
+          "tensions",
+          "rejected",
+          "unverified",
+          "provenance"
+        ]
+      },
+      {
+        "page": "research-lineage-evolved-ssd",
+        "depth_section_ids": [
+          "family-genealogy",
+          "contribution",
+          "tensions",
+          "rejected",
+          "unverified",
+          "provenance"
+        ]
+      },
+      {
+        "page": "research-lineage-evolved-drf",
+        "depth_section_ids": [
+          "family-genealogy",
+          "contribution",
+          "tensions",
+          "rejected",
+          "unverified",
+          "provenance"
+        ]
+      },
+      {
+        "page": "research-lineage-s3e",
+        "depth_section_ids": [
+          "s3e-genealogy",
+          "contribution",
+          "tensions",
+          "rejected",
+          "unverified",
+          "package-projection",
+          "provenance"
+        ]
+      }
     ]
   },
   "classification_literals": [

@@ -381,9 +381,39 @@ for issue in ("R0025 / #186", "R0026 / #187", "R0027 / #188"):
     if issue not in synthesis:
         raise SystemExit(f"lineage synthesis missing evidence owner {issue}")
 
+# The internal name is forbidden; the historical adjective "Semantically" is not.
+# Keep the original prefix matching and punctuation/compound name detection.
+def contains_forbidden_public_token(text, token):
+    if token == "Semantica":
+        return __import__("re").search(r"Semantica(?![A-Za-z])", text) is not None
+    return token in text
+
+# Guard the lexical distinction without changing the owner-question contract.
+for sample, token in (
+        ("Semantica", "Semantica"),
+        ("(Semantica)", "Semantica"),
+        ("Semantica's", "Semantica"),
+        ("Semantica-derived", "Semantica"),
+        ("pre-Semantica", "Semantica"),
+        ("Semantica_main", "Semantica"),
+        ("Semantica.md", "Semantica"),
+        ("prefixSemantica", "Semantica"),
+        ("Semantica2", "Semantica"),
+        ("Semantica-main", "Semantica-main"),
+        ("(Semantica-main)", "Semantica-main"),
+        ("three methodology modes", "three methodology modes"),
+        ("(three methodology modes)", "three methodology modes")):
+    if not contains_forbidden_public_token(sample, token):
+        raise SystemExit(f"forbidden public token false-passed: {sample}")
+for sample in (
+        "Semantically justified extraction",
+        "<summary>Semantically justified extraction</summary>"):
+    if contains_forbidden_public_token(sample, "Semantica"):
+        raise SystemExit(f"historical adjective was misclassified as internal branding: {sample}")
+
 combined = "\n".join(page_text.values())
 for forbidden in ("Semantica", "Semantica-main", "three methodology modes"):
-    if forbidden in combined:
+    if contains_forbidden_public_token(combined, forbidden):
         raise SystemExit(f"internal comparative branding leaked publicly: {forbidden}")
 for boundary in (
         "non-cooperating same-principal writer",
@@ -418,7 +448,7 @@ if lineage_pending in " ".join(changelog.split()):
         raise SystemExit("README does not route pending lineage readers to repository source")
 if fixture["compact_label"] not in page_text["research-lineage-s3e"]:
     raise SystemExit("protected S³E label missing from synthesis")
-if "Semantica" in readme + changelog + report:
+if contains_forbidden_public_token(readme + changelog + report, "Semantica"):
     raise SystemExit("internal comparative corpus branding leaked to public owners")
 
 unreleased = changelog.split("## [Unreleased]", 1)[1].split("\n## [", 1)[0]

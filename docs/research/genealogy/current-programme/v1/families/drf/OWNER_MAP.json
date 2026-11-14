@@ -1,0 +1,916 @@
+{
+  "schema": "drf-four-slot-native-owner-map/1",
+  "baseline_commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+  "issue_heads_observed_at": "2026-11-13T15:26:56.730Z",
+  "registry_slots": 32,
+  "drf_slots": 4,
+  "new_issues_authorized": false,
+  "executor_ready": false,
+  "rows": [
+    {
+      "slot": "DRF-L1",
+      "trifecta": "DRF",
+      "responsibility": "L1",
+      "lineage_or_scope": "Distributed Systems Engineering",
+      "original_property_count": 54,
+      "carrier_kind": "existing_lineage_issue",
+      "issue_numbers": [
+        200
+      ],
+      "issue_states": {
+        "200": "open"
+      },
+      "shared_native_owners": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "observed_disposition": "R0030 open; current #251/#255 for R0030",
+      "claim_limit": "Historical receipt is bounded to its recorded subject. Exact current implementation/activation has not been requalified by this ownership lane. Corrective comment preserves 54 original properties; the earlier 98-row phrase is not the property denominator.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "Distributed Systems Engineering",
+      "canonical_lineage_id": "EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING",
+      "historical_property_rows": 54,
+      "scientific_selected_current_property_identities": 54,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200#issuecomment-5314418103"
+      ],
+      "scientific_unit_id": "DRF-L1",
+      "scientific_unit_name": "Distributed Systems Engineering",
+      "scientific_status": "qualified_at_declared_scope",
+      "central_selection": "selected_at_captured_A_boundary",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true,
+      "registry_record_scope": "PRESERVED_HISTORICAL_REGISTRY_SNAPSHOT; original fields are not a live master read",
+      "central_selection_scope": "HISTORICAL_CAPTURED_BOUNDARY_ONLY",
+      "current_live_central_master_application": "UNKNOWN"
+    },
+    {
+      "slot": "DRF-L2",
+      "trifecta": "DRF",
+      "responsibility": "L2",
+      "lineage_or_scope": "Reliability and Maintainability Engineering",
+      "original_property_count": 55,
+      "carrier_kind": "existing_lineage_issue",
+      "issue_numbers": [
+        201
+      ],
+      "issue_states": {
+        "201": "closed"
+      },
+      "shared_native_owners": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "observed_disposition": "R0031 closed; bounded v0.4 terminal receipt",
+      "claim_limit": "Historical receipt is bounded to its recorded subject. Exact current implementation/activation has not been requalified by this ownership lane.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "Reliability and Maintainability Engineering",
+      "canonical_lineage_id": "EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING",
+      "historical_property_rows": 55,
+      "scientific_selected_current_property_identities": 55,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/201",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/201#issuecomment-5312880214"
+      ],
+      "scientific_unit_id": "DRF-L2",
+      "scientific_unit_name": "Reliability and Maintainability Engineering",
+      "scientific_status": "qualified_at_declared_scope",
+      "central_selection": "selected_at_captured_A_boundary",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true,
+      "registry_record_scope": "PRESERVED_HISTORICAL_REGISTRY_SNAPSHOT; original fields are not a live master read",
+      "central_selection_scope": "HISTORICAL_CAPTURED_BOUNDARY_ONLY",
+      "current_live_central_master_application": "UNKNOWN"
+    },
+    {
+      "slot": "DRF-L3",
+      "trifecta": "DRF",
+      "responsibility": "L3",
+      "lineage_or_scope": "Formal Methods and Verification Engineering",
+      "original_property_count": 50,
+      "carrier_kind": "existing_lineage_issue",
+      "issue_numbers": [
+        202
+      ],
+      "issue_states": {
+        "202": "closed"
+      },
+      "shared_native_owners": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "observed_disposition": "R0032 closed; bounded v0.4 terminal receipt",
+      "claim_limit": "Historical receipt is bounded to its recorded subject. Exact current implementation/activation has not been requalified by this ownership lane.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "Formal Methods and Verification Engineering",
+      "canonical_lineage_id": "EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING",
+      "historical_property_rows": 50,
+      "scientific_selected_current_property_identities": 50,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/202",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/202#issuecomment-5312880955"
+      ],
+      "scientific_unit_id": "DRF-L3",
+      "scientific_unit_name": "Formal Methods and Verification Engineering",
+      "scientific_status": "qualified_at_declared_scope",
+      "central_selection": "selected_at_captured_A_boundary",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true,
+      "registry_record_scope": "PRESERVED_HISTORICAL_REGISTRY_SNAPSHOT; original fields are not a live master read",
+      "central_selection_scope": "HISTORICAL_CAPTURED_BOUNDARY_ONLY",
+      "current_live_central_master_application": "UNKNOWN"
+    },
+    {
+      "slot": "DRF-S",
+      "trifecta": "DRF",
+      "responsibility": "S",
+      "lineage_or_scope": "DRF synthesis",
+      "original_property_count": 159,
+      "carrier_kind": "embedded_semantic_receipt_and_shared_owners",
+      "issue_numbers": [
+        200,
+        201,
+        202
+      ],
+      "issue_states": {
+        "200": "open",
+        "201": "closed",
+        "202": "closed"
+      },
+      "shared_native_owners": [
+        "R0030/#200",
+        "R0031/#201",
+        "R0032/#202",
+        "R0022/#163",
+        "R0024/#167"
+      ],
+      "observed_disposition": "R0032 body contains separately labelled DRF trio semantic synthesis receipt: 159 originals, 588 directed edges",
+      "claim_limit": "Closed R0032 is not closure of R0030 or proof of every DRF mechanism; receipt itself distinguishes composition from implementation.",
+      "new_issue_warranted": false,
+      "proven_current_native_defect": false,
+      "canonical_display_name": "DRF synthesis",
+      "canonical_lineage_id": null,
+      "historical_property_rows": 159,
+      "scientific_selected_current_property_identities": 159,
+      "property_count_scope": "Historical public work-order/corpus population; scientific selected-current identities are separately labelled and confer no implementation credit.",
+      "programme_identity_source": "../../genealogy/current-programme/v1/PROGRAMME.json",
+      "sources": [
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/202",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/205",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/206"
+      ],
+      "scientific_unit_id": "DRF-S",
+      "scientific_unit_name": "DRF synthesis",
+      "scientific_status": "unfinished",
+      "central_selection": "not_qualified_in_received_snapshot",
+      "documentation_status": "prepared_on_C_branch_at_v1_subject",
+      "source_owner": "Scientific cohort custody recorded at the scientific snapshot; later transfers do not alter family membership.",
+      "consumer_owners": [
+        "R0030/#200",
+        "R0031/#201",
+        "R0032/#202",
+        "R0022/#163",
+        "R0024/#167"
+      ],
+      "future_owner_decision": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "possible_native_change": "Undetermined. At most a bounded change to an existing native owner if a later exact-current witness proves a residual.",
+      "unproven_candidate": true,
+      "registry_record_scope": "PRESERVED_HISTORICAL_REGISTRY_SNAPSHOT; original fields are not a live master read",
+      "central_selection_scope": "HISTORICAL_CAPTURED_BOUNDARY_ONLY",
+      "current_live_central_master_application": "UNKNOWN",
+      "current_received_scientific_status": "QUALIFIED_A006_AT_DECLARED_SCOPE",
+      "current_received_qualification_sha256": "fad4c7fe65da3985114ffa46e4a581406ac7bae79a8b5b7c345a2d141050f36d"
+    }
+  ],
+  "issue_heads": [
+    {
+      "number": 200,
+      "title": "R0030 (legacy R48) — Evolved Distributed Systems Engineering — bounded partial-failure, fenced effects, admission and recovery closure",
+      "state": "open",
+      "updated_at": "2026-09-08T05:46:40Z",
+      "body_sha256": "1954bc3d59d300df00f609e55bb1f447dce5916ad5f01e6ee6d9070e8558fa59",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200",
+      "kind": "issue"
+    },
+    {
+      "number": 201,
+      "title": "R0031 (legacy R49) — Evolved Reliability & Maintainability Engineering — required function, failure propagation, common cause, diagnostic coverage, graceful degradation, repair, restoration, maintainability, and configuration-bound evidence",
+      "state": "closed",
+      "updated_at": "2026-08-17T07:02:01Z",
+      "body_sha256": "e2cd12c46f5dc441500d5b93c65d237d96d7174afb4f12c30614cb524ac02a12",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/201",
+      "kind": "issue"
+    },
+    {
+      "number": 202,
+      "title": "R0032 (legacy R50) — Evolved Formal Methods and Verification Engineering — precise specifications, invariants and temporal properties, abstraction/refinement, compositional contracts, mechanical checking, proof/toolchain trust and proof currentness",
+      "state": "closed",
+      "updated_at": "2026-08-17T07:02:04Z",
+      "body_sha256": "5ac7d5ac18a34121fc46cea40c6e43bc7228466d0643b5617aaa758b3db814c2",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/202",
+      "kind": "issue"
+    },
+    {
+      "number": 163,
+      "title": "R0022 (legacy R34) — Engineering-value admission and control retirement: preserve warranted gates while omitting zero-payoff process work",
+      "state": "closed",
+      "updated_at": "2026-10-14T21:19:17Z",
+      "body_sha256": "93198a875e39858531c0d73ace5e8830e72ba1bf720626e7da134c76a2852da7",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/163",
+      "kind": "issue"
+    },
+    {
+      "number": 167,
+      "title": "R0024 (legacy R36) — Observation-bound mutation integrity - partial or stale observations must not authorise destructive writes beyond established state",
+      "state": "closed",
+      "updated_at": "2026-08-16T15:38:11Z",
+      "body_sha256": "069d376a8fba350431a051c47f929ec49cbf6c40af6c2a9515b71d1032a1b81f",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/167",
+      "kind": "issue"
+    },
+    {
+      "number": 209,
+      "title": "R0035 (legacy R53) — Dependency-correct work-conserving DAG execution — closed frontier, required JOIN, currentness and single-writer authority",
+      "state": "open",
+      "updated_at": "2026-09-11T18:09:58Z",
+      "body_sha256": "6605343572b2a3ad62c4b0392703ccfdea2b1280f50a669348734a6dca60d097",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209",
+      "kind": "issue"
+    },
+    {
+      "number": 211,
+      "title": "R0037 (legacy R55) — Nested L1-L5 control integration — planner, run, phase, Andon and audit-fix convergence across v0.4 composition",
+      "state": "open",
+      "updated_at": "2026-09-11T18:19:54Z",
+      "body_sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+      "kind": "issue"
+    },
+    {
+      "number": 215,
+      "title": "R0039 — Deterministic canonical current-state rotation with lossless archival and rehydration equivalence",
+      "state": "open",
+      "updated_at": "2026-10-23T07:25:46Z",
+      "body_sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+      "kind": "issue"
+    },
+    {
+      "number": 251,
+      "title": "Integrate R002C, R002D, R002E and R0030 through existing owners",
+      "state": "open",
+      "updated_at": "2026-10-25T18:50:29Z",
+      "body_sha256": "928f596084932c0bc5f6152193979d8e8e7f9a3767668a52849c20e13bd43594",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/251",
+      "kind": "pull_request"
+    },
+    {
+      "number": 255,
+      "title": "Combine active RLGWO source with custody and lifecycle repairs (draft)",
+      "state": "open",
+      "updated_at": "2026-11-13T15:25:32Z",
+      "body_sha256": "3f2fe6df6c1138f8fcda24001df0bcf5618ca14b111b14749453a25d43123d17",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255",
+      "kind": "pull_request"
+    }
+  ],
+  "candidate_pull_requests": [
+    {
+      "number": 251,
+      "head_sha": "92f7f388654c159a99e0f3db9b7e369304e90310",
+      "base_sha": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "updated_at": "2026-10-25T18:50:29Z"
+    },
+    {
+      "number": 255,
+      "head_sha": "8754c0d30659f1e109f0683bd30d6845a2afb36a",
+      "base_sha": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "updated_at": "2026-11-13T15:25:32Z"
+    }
+  ],
+  "native_source_identity_observations": [
+    {
+      "path": "fixtures/acceptance-instrument-discipline/F7-vacuous-invariant.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 583,
+      "sha256": "dc3181add0d063aef289be9cc65499940d8104fa394f7a98a8c2cc343bb6b5bc",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "fixtures/audit-action-selection/engineering-value-cases.json",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 66356,
+      "sha256": "8567bf4393fa70b091f282b7afe747657ff37182fa1c9b7db17e2c08d3803d9c",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-admission-cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-disposable-target.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-effect-cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-evidence-currentness-cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-fencing-cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-profile-cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/distributed-runtime/r48-recovery-cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/formal-evidence-boundaries/C04-mutated-statement.md",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/formal-evidence-boundaries/C05-cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/formal-evidence-boundaries/C07-prompt-independent-mission.txt",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/formal-evidence-boundaries/C09-public-claims.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "fixtures/reliability-maintainability/cases.json",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "scripts/build-release-asset.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 29407,
+      "sha256": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-acceptance-instrument-discipline.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 40864,
+      "sha256": "112a17dfe87a8b8f2364b2b33b62d0ab636bc1cf0ce57b8f7943d76ad6054db0",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-action-selection-contract.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 42909,
+      "sha256": "38e7b277b8429b0d13fb7710f47e4f144dde693504c8640463c2ab074f8cc6bb",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-canonical-state-rotation.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 1961,
+      "sha256": "edf8a798db03750a009b9b73ede310611294e57dae35dd5f691451ff83eb7eab",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-fanout-coverage-contract.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 8470,
+      "sha256": "b3701a09bc7bdda184001e335f5762e5e57b1babc61ce733f91eb4fd3cd6c40b",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-helper-reachability.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 42755,
+      "sha256": "d0309a8f331a95ddd719ea79cc6d31e9eda11a8999ec47117a356f3e8c01e051",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-installed-payload-self-contained.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 4372,
+      "sha256": "228ab1ed29c50d7916cca4e82b0696d42314c6a4efb3b2a7bdd43b5a3bfd70b8",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-lean-discipline.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 12776,
+      "sha256": "eff43d8768b019c1dfcd369df84e864de5decea62cb664a3854f62dabc9b003f",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-no-terminal-cap.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 5476,
+      "sha256": "0868f60de64c71d3d1139931bbaaf6b0927574769c0415f5b9884a5fc03e65b9",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-planner-stages.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 13763,
+      "sha256": "78d3735a5af7b83f76bafd48feac2af23868e6a8c668f7c579367f627c0a5825",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-public-claim-boundaries.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 14263,
+      "sha256": "02a8c278565f1aec1196bc97f3780d16a8dded29f4dbb39896383ef4dfe64d29",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/check-reliability-maintainability-contract.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "scripts/check-validation-registry.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 2299,
+      "sha256": "c7c6b0f26111c44c4caaf5e1ffc20979e48cc15ca83600f3fea16514e9d02fee",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/detect-env.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "scripts/install-claude-from-release.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 26524,
+      "sha256": "4b510d67dbcf3a2a413a27faf048479e43499e5adf3a66974a7e5c8f81cff43c",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/install-codex-from-release.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 25240,
+      "sha256": "0d0e5faea158574e51eded0c07325c83d1da9f09ad6a348e3037a4a303fb0a9d",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/install-plugin-from-release.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 3012,
+      "sha256": "df38f1cff97150db0d90f70214bbe47bd4c63057539f82d9d520f1dca94fe591",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/repo-state.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "scripts/verify-package.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 43108,
+      "sha256": "47b619b95de50c993d512e0ba345d51177bb3d15c026be6300df14f86d111f5b",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "scripts/write-release-checksums.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 2177,
+      "sha256": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/SKILL.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 20388,
+      "sha256": "38f8bbd7dda1a7b92abe55d50454d237af8582016a7652d5e62a8bcb65a5e7ec",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/audit-playbook.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 20140,
+      "sha256": "87e65d0e8035c9bf89abb69820faaac4ecddaec0e44c5bfc71cc437386e2e203",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/canonical-state-rotation.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 19283,
+      "sha256": "add3bfe525875e1d3171ed01ad8633f5540ea60e8ba12bd0c970fb2ad9996bec",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/child-agents.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 18419,
+      "sha256": "02389ea2fd1a530d93f0561d226da7031294fb00f02184b489d4f802cb0a0fcf",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/continuity.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 17726,
+      "sha256": "35ebaacaa7f5a390795dcfd9153e7511129f1d89b5aade019d57c07e2058cde8",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/formal-evidence-boundaries.md",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 18210,
+      "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/lean-operating-discipline.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 21792,
+      "sha256": "c077be1091dccd563461e98e1eaf0d865c1b7fb1095e3018470aec60d4245c10",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/phase-design.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 20396,
+      "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/plan-lifecycle.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 30905,
+      "sha256": "482418733316fcffc478a86f925f421a7f0ccf9a82b43ab94808d0fa51c8e9c1",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/planning-depth.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 18762,
+      "sha256": "dd72b40052defebad79a6d041051641e5c5568dab6cf1093cbad37c04924a98b",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/references/repo-state-comparison.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 33879,
+      "sha256": "f580001a2bb15d12817bccf71a20a0832daf2cc7eccff0417097eb2abf33131d",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 56144,
+      "sha256": "eec9f0eaa80905cdd9187810449f6401d97912e0d1721abaf6a15b937c946d39",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/scripts/check-evidence-anchor.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 43368,
+      "sha256": "b52984cf1c3f68ccaa288fc8e543468aa547029dd27ad177ddcab904450a7e76",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 17368,
+      "sha256": "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/scripts/detect-env.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 7221,
+      "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/scripts/repo-state.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 22629,
+      "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 61001,
+      "sha256": "d8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/templates/PROTOCOL.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 66769,
+      "sha256": "c56038e2b7265d13f0141fe6194626f8ee691cf2bc102746050902ed14caeab6",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/templates/STATE.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 10089,
+      "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/templates/THINKING.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 6380,
+      "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/templates/final-report.md",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 4250,
+      "sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "skills/implementaudit/templates/phase-goal.txt",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 12501,
+      "sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/acceptance-instrument-discipline.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 40972,
+      "sha256": "85671a1d0b2e353995b3a3eb34fe3a063bfa3b51f2076ffa17b7369163c77c4b",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/action-selection-contract.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 36803,
+      "sha256": "f49fdde27d2e23558bd1e8cc74c66fb30520953426e4b5166ebcb93dffaec0b0",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/canonical-state-rotation.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 1013,
+      "sha256": "0213d9bec378a0197444a9b78328d0c10ec0cef011ab8c0a33064c7ebcd3bd80",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/cold-review-contract.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 13130,
+      "sha256": "a8ae7ee4004f594ef05be735e8e4ec702354ee1ff3b6adcef5b2e8d3f5e97d52",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/continuity-contract.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 35565,
+      "sha256": "9573773f8e16c7f51bec249eab3d0b6114f969729b640f413b4628e73adb0e1d",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/distributed-runtime-behavior.test.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "tests/distributed-runtime-contract.test.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "tests/fanout-coverage-contract.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 6168,
+      "sha256": "1a3d5274e30d99d9f7e1f087086bf3c239228b2b890758736312253b7ca2c372",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/formal-evidence-boundaries.test.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "tests/helper-reachability.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 17456,
+      "sha256": "2a32e025ae7fb7cf2261a54b0c4450fb1bfb80a9b0384af91c277d787ace50a7",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/installed-payload-self-contained.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 5401,
+      "sha256": "842e9c7063a40fca12816feb0cbc5484b5954e913dac1af5cc767d517251f9a0",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/internal-skill-routing.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 18531,
+      "sha256": "3b612782c02982d549f4e99726283e854a26ede25b2396a2fb090fcbe9057df5",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/internal-skill-topology.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 1574,
+      "sha256": "6d4a1f2e06f85096fb1680529997ef70ffdf17947c2c24534429d984fa16c97c",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/issue-ready-work-orders.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 40232,
+      "sha256": "7a634ecb013b86b023135fa3f16a023c3c0ace5cce354c44e42b773e04673385",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/marker-order.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 4045,
+      "sha256": "1736083571f60936b1fbddf3c038a75c4b866432f7fe242161e0939b13182691",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/observation-bound-mutation-integrity.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 163452,
+      "sha256": "753526e40cdf7ac452facf9fbcb51b2d838be64a0c7bf64635a55e8ef0b7938e",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/reliability-maintainability-contract.test.sh",
+      "state": "NOT_PRESENT_AT_DOCUMENTARY_BASELINE",
+      "meaning": "A historical/proposed issue locator is not evidence of a current native defect or implementation."
+    },
+    {
+      "path": "tests/repo-state.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 6631,
+      "sha256": "4aabc17ec6a599dadca3b2119bea5b31fcf136ebadf65d53c7f6c9ef765549d5",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    },
+    {
+      "path": "tests/validation-registry.test.sh",
+      "state": "EXACT_SOURCE_IDENTITY_OBSERVED",
+      "bytes": 3683,
+      "sha256": "ac9459ec5485ae550251924f0e2365dec0ff86859e2b74fca44bebdcd752250e",
+      "commit": "20b77c9e6384f53aafcafff676a277fe796c6cb9",
+      "semantic_adequacy": "NOT_ADJUDICATED"
+    }
+  ],
+  "boundaries": [
+    "Registry central_selection fields are preserved captured historical values; current live central application is UNKNOWN.",
+    "Historical v0.4 receipts retain their exact candidate and bounded contract. Closed R0031/R0032 is not current r2 target adoption or R0030 closure.",
+    "R0030 P34/P37 are distinct historical implementation residuals; P53 is an owner-decision-only row with no automatic activation burden.",
+    "Current draft PRs are source candidates, not merged/main or native qualification.",
+    "No current native adequacy, defect, new issue necessity or synthesis umbrella necessity is determined."
+  ],
+  "documentary_R2_parent": "3e8bf513360caf648756daf2c26aa1eb66776517",
+  "later_scientific_receiving": {
+    "cutoff": "2026-11-13T16:32:20.612930+00:00",
+    "DRF-S": "QUALIFIED_AT_DECLARED_SCOPE",
+    "qualification_sha256": "fad4c7fe65da3985114ffa46e4a581406ac7bae79a8b5b7c345a2d141050f36d",
+    "all_four_disclosures": "PENDING",
+    "current_live_central_master_application": "UNKNOWN"
+  },
+  "owner_snapshot_limit": "Original R1 read-only owner/PR heads preserved at their recorded observation time; no new current implementation judgment or issue action in R2."
+}

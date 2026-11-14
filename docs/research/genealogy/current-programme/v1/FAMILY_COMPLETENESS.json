@@ -1,0 +1,332 @@
+{
+  "schema": "cohort-c-eight-family-documentary-scope/1",
+  "date_utc": "2026-11-13",
+  "family_count": 8,
+  "unit_count": 32,
+  "four_unit_packages": 8,
+  "scientific_qualification": "24 constituents and8 syntheses qualified at declared scopes",
+  "full_current_science_public_disclosure": "INCOMPLETE: protected detailed interpretations remain private for all8families; SPR has no public property bodies",
+  "pending_source_specific_unit_disclosures": 32,
+  "family_records": [
+    {
+      "family": "LAW",
+      "units": [
+        {
+          "unit_id": "LAW-L1",
+          "documentary_path": "families/law/LAW-L1.md",
+          "page_id": "research-lineage-lean",
+          "generated_route": "research-engineering-lineage/lean/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-lean.html"
+        },
+        {
+          "unit_id": "LAW-L2",
+          "documentary_path": "families/law/LAW-L2.md",
+          "page_id": "research-lineage-agile",
+          "generated_route": "research-engineering-lineage/agile/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-agile.html"
+        },
+        {
+          "unit_id": "LAW-L3",
+          "documentary_path": "families/law/LAW-L3.md",
+          "page_id": "research-lineage-waterfall",
+          "generated_route": "research-engineering-lineage/waterfall/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-waterfall.html"
+        },
+        {
+          "unit_id": "LAW-S",
+          "documentary_path": "families/law/LAW-S.md",
+          "page_id": "research-lineage-evolved-law",
+          "generated_route": "research-engineering-lineage/evolved-law/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-law.html"
+        }
+      ],
+      "historical_property_count": 106,
+      "public_scope": "Complete historical 40/28/38 readers; A008 qualification metadata",
+      "private_current_scope": "Four-unit private documentary account independently accepted at six declared claims; exact report and later readback received",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Original neutral body/executed commission not located; actual A006/A007 adverse history and A008 limits retained",
+      "latest_documentary_receiving": "families/law/DOCUMENTARY_RECEIVING_20261113.json"
+    },
+    {
+      "family": "CSS",
+      "units": [
+        {
+          "unit_id": "CSS-L1",
+          "documentary_path": "families/css/CSS-L1.md",
+          "page_id": "research-lineage-cognitive-systems-engineering",
+          "generated_route": "research-engineering-lineage/cognitive-systems-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-cognitive-systems-engineering.html"
+        },
+        {
+          "unit_id": "CSS-L2",
+          "documentary_path": "families/css/CSS-L2.md",
+          "page_id": "research-lineage-statistical-engineering",
+          "generated_route": "research-engineering-lineage/statistical-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-statistical-engineering.html"
+        },
+        {
+          "unit_id": "CSS-L3",
+          "documentary_path": "families/css/CSS-L3.md",
+          "page_id": "research-lineage-systems-safety",
+          "generated_route": "research-engineering-lineage/systems-safety/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-systems-safety.html"
+        },
+        {
+          "unit_id": "CSS-S",
+          "documentary_path": "families/css/CSS-S.md",
+          "page_id": "research-lineage-evolved-css",
+          "generated_route": "research-engineering-lineage/evolved-css/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-css.html"
+        }
+      ],
+      "historical_property_count": 195,
+      "public_scope": "Complete historical 195-row readers; corrected196 identities distinguished",
+      "private_current_scope": "Four-unit documentary account and source-specific disclosures retained; exact independent review records govern acceptance",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Original commissioning and historical neutral-body gaps; current interpretation remains private"
+    },
+    {
+      "family": "SSD",
+      "units": [
+        {
+          "unit_id": "SSD-L1",
+          "documentary_path": "families/ssd/SSD-L1.md",
+          "page_id": "research-lineage-systems-engineering",
+          "generated_route": "research-engineering-lineage/systems-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-systems-engineering.html"
+        },
+        {
+          "unit_id": "SSD-L2",
+          "documentary_path": "families/ssd/SSD-L2.md",
+          "page_id": "research-lineage-systems-security-engineering",
+          "generated_route": "research-engineering-lineage/systems-security-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-systems-security-engineering.html"
+        },
+        {
+          "unit_id": "SSD-L3",
+          "documentary_path": "families/ssd/SSD-L3.md",
+          "page_id": "research-lineage-decision-operations-engineering",
+          "generated_route": "research-engineering-lineage/decision-operations-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-decision-operations-engineering.html"
+        },
+        {
+          "unit_id": "SSD-S",
+          "documentary_path": "families/ssd/SSD-S.md",
+          "page_id": "research-lineage-evolved-ssd",
+          "generated_route": "research-engineering-lineage/evolved-ssd/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-ssd.html"
+        }
+      ],
+      "historical_property_count": 198,
+      "public_scope": "Complete 198-row historical projection; S009 qualification metadata",
+      "private_current_scope": "Four-unit documentary account and source-specific disclosures retained; exact independent review records govern acceptance",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Actual derivative documentation failure and missing former S006 whole body retained"
+    },
+    {
+      "family": "DRF",
+      "units": [
+        {
+          "unit_id": "DRF-L1",
+          "documentary_path": "families/drf/DRF-L1.md",
+          "page_id": "research-lineage-distributed-systems-engineering",
+          "generated_route": "research-engineering-lineage/distributed-systems-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-distributed-systems-engineering.html"
+        },
+        {
+          "unit_id": "DRF-L2",
+          "documentary_path": "families/drf/DRF-L2.md",
+          "page_id": "research-lineage-reliability-maintainability-engineering",
+          "generated_route": "research-engineering-lineage/reliability-maintainability-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-reliability-maintainability-engineering.html"
+        },
+        {
+          "unit_id": "DRF-L3",
+          "documentary_path": "families/drf/DRF-L3.md",
+          "page_id": "research-lineage-formal-methods-verification-engineering",
+          "generated_route": "research-engineering-lineage/formal-methods-verification-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-formal-methods-verification-engineering.html"
+        },
+        {
+          "unit_id": "DRF-S",
+          "documentary_path": "families/drf/DRF-S.md",
+          "page_id": "research-lineage-evolved-drf",
+          "generated_route": "research-engineering-lineage/evolved-drf/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-drf.html"
+        }
+      ],
+      "historical_property_count": 159,
+      "public_scope": "Complete 54/55/50 historical readers; A006 qualification metadata",
+      "private_current_scope": "Four-unit documentary account and source-specific disclosures retained; exact independent review records govern acceptance",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Historical executed commissions and original neutral whole body remain unlocated; accepted observations retained"
+    },
+    {
+      "family": "SSS",
+      "units": [
+        {
+          "unit_id": "SSS-L1",
+          "documentary_path": "families/sss/SSS-L1.md",
+          "page_id": "research-lineage-software-architecture",
+          "generated_route": "research-engineering-lineage/software-architecture/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-software-architecture.html"
+        },
+        {
+          "unit_id": "SSS-L2",
+          "documentary_path": "families/sss/SSS-L2.md",
+          "page_id": "research-lineage-software-maintenance-and-evolution",
+          "generated_route": "research-engineering-lineage/software-maintenance-and-evolution/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-software-maintenance-and-evolution.html"
+        },
+        {
+          "unit_id": "SSS-L3",
+          "documentary_path": "families/sss/SSS-L3.md",
+          "page_id": "research-lineage-software-product-line-engineering",
+          "generated_route": "research-engineering-lineage/software-product-line-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-software-product-line-engineering.html"
+        },
+        {
+          "unit_id": "SSS-S",
+          "documentary_path": "families/sss/SSS-S.md",
+          "page_id": "research-lineage-evolved-sss",
+          "generated_route": "research-engineering-lineage/evolved-sss/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-sss.html"
+        }
+      ],
+      "historical_property_count": 235,
+      "public_scope": "Complete 68/105/62 historical readers; separate qualified synthesis",
+      "private_current_scope": "Four-unit documentary account and source-specific disclosures retained; exact independent review records govern acceptance",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Unavailable raw bytes of74 historical operations and other accepted source/review limits retained"
+    },
+    {
+      "family": "BWP",
+      "units": [
+        {
+          "unit_id": "BWP-L1",
+          "documentary_path": "families/bwp/BWP-L1.md",
+          "page_id": "research-lineage-evolved-bwp-business-process-management",
+          "generated_route": "research-engineering-lineage/evolved-bwp-business-process-management/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-bwp-business-process-management.html"
+        },
+        {
+          "unit_id": "BWP-L2",
+          "documentary_path": "families/bwp/BWP-L2.md",
+          "page_id": "research-lineage-evolved-bwp-workflow-management",
+          "generated_route": "research-engineering-lineage/evolved-bwp-workflow-management/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-bwp-workflow-management.html"
+        },
+        {
+          "unit_id": "BWP-L3",
+          "documentary_path": "families/bwp/BWP-L3.md",
+          "page_id": "research-lineage-evolved-bwp-process-mining",
+          "generated_route": "research-engineering-lineage/evolved-bwp-process-mining/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-bwp-process-mining.html"
+        },
+        {
+          "unit_id": "BWP-S",
+          "documentary_path": "families/bwp/BWP-S.md",
+          "page_id": "research-lineage-evolved-bwp",
+          "generated_route": "research-engineering-lineage/evolved-bwp/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-bwp.html"
+        }
+      ],
+      "historical_property_count": 234,
+      "public_scope": "Complete 73/77/84 historical readers and qualified synthesis metadata",
+      "private_current_scope": "Four-unit documentary account and source-specific disclosures retained; exact independent review records govern acceptance",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Original commission/steering and predecessor-freeze recovery limits retained; already published23-file package preserved"
+    },
+    {
+      "family": "AMA",
+      "units": [
+        {
+          "unit_id": "AMA-L1",
+          "documentary_path": "families/ama/AMA-L1.md",
+          "page_id": "research-lineage-autonomous-agents",
+          "generated_route": "research-engineering-lineage/autonomous-agents/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-autonomous-agents.html"
+        },
+        {
+          "unit_id": "AMA-L2",
+          "documentary_path": "families/ama/AMA-L2.md",
+          "page_id": "research-lineage-multi-agent-systems",
+          "generated_route": "research-engineering-lineage/multi-agent-systems/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-multi-agent-systems.html"
+        },
+        {
+          "unit_id": "AMA-L3",
+          "documentary_path": "families/ama/AMA-L3.md",
+          "page_id": "research-lineage-agent-oriented-software-engineering",
+          "generated_route": "research-engineering-lineage/agent-oriented-software-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-agent-oriented-software-engineering.html"
+        },
+        {
+          "unit_id": "AMA-S",
+          "documentary_path": "families/ama/AMA-S.md",
+          "page_id": "research-lineage-evolved-ama",
+          "generated_route": "research-engineering-lineage/evolved-ama/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-ama.html"
+        }
+      ],
+      "historical_property_count": 278,
+      "public_scope": "Complete 70/76/132 historical readers; r18 qualification metadata",
+      "private_current_scope": "Four-unit documentary account and source-specific disclosures retained; exact independent review records govern acceptance",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Earlier r17 gap and partial/null adverse outcomes remain separate from accepted r18"
+    },
+    {
+      "family": "SPR",
+      "units": [
+        {
+          "unit_id": "SPR-L1",
+          "documentary_path": "families/spr/SPR-L1.md",
+          "page_id": "research-lineage-system-identification",
+          "generated_route": "research-engineering-lineage/system-identification/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-system-identification.html"
+        },
+        {
+          "unit_id": "SPR-L2",
+          "documentary_path": "families/spr/SPR-L2.md",
+          "page_id": "research-lineage-programming-language-theory",
+          "generated_route": "research-engineering-lineage/programming-language-theory/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-programming-language-theory.html"
+        },
+        {
+          "unit_id": "SPR-L3",
+          "documentary_path": "families/spr/SPR-L3.md",
+          "page_id": "research-lineage-requirements-engineering",
+          "generated_route": "research-engineering-lineage/requirements-engineering/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-requirements-engineering.html"
+        },
+        {
+          "unit_id": "SPR-S",
+          "documentary_path": "families/spr/SPR-S.md",
+          "page_id": "research-lineage-evolved-spr",
+          "generated_route": "research-engineering-lineage/evolved-spr/",
+          "maintained_page_source": "docs/portal/pages/research-lineage-evolved-spr.html"
+        }
+      ],
+      "historical_property_count": 224,
+      "public_scope": "Metadata-only public surfaces; zero public property bodies",
+      "private_current_scope": "Four-unit documentary account and source-specific disclosures retained; exact independent review records govern acceptance",
+      "protected_current_public_property_rows": 0,
+      "pending_disclosure_decisions": 4,
+      "retained_limit": "Original L1 final certificate/subject/two-review gap, additional historical candidate unavailability and source disclosure limits retained"
+    }
+  ],
+  "rough_responsibilities": 32,
+  "new_issues": 0,
+  "native_implementation_changes": 0,
+  "central_application": "UNKNOWN; exact complete transaction staged only",
+  "historical_sources": "Original corpora, initial registry and dated receiving increments are retained unchanged",
+  "documentary_review_boundary": "This scope index is not a scientific or documentary verdict. Original family reviews and exact integrated review/validation separately establish their accepted scopes.",
+  "visual_boundary": "Earlier records retain UNVERIFIED_ENVIRONMENT_BLOCKED; any actual later inspection must identify the generated candidate and viewport scope separately."
+}

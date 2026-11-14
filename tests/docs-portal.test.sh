@@ -1143,6 +1143,9 @@ scientific_examples = [
     "Disclosure, reverse engineering, insider knowledge or widespread deployment defeats mechanisms whose safety rests on hidden design.",
     "Rollback defeats remediation.",
     "Encryption defeats recovery.",
+    "Common control plane defeats independence",
+    "One fault, or one fault plus an undetected latent condition, defeats required function.",
+    "Size/checking overhead defeats distribution benefits.",
 ]
 cases = [
     (" ".join(scientific_examples), True),
@@ -1161,6 +1164,8 @@ for scientific_example in scientific_examples[5:]:
     cases.extend([
         ("This product defeats its competitor. " + scientific_example, False),
         (scientific_example + " This product beats every alternative.", False),
+        (scientific_example + " This product defeats its competitor.", False),
+        ("This product beats every alternative. " + scientific_example, False),
     ])
 with tempfile.NamedTemporaryFile(
     mode="w", encoding="utf-8", prefix=".claim-language-", suffix=".html",

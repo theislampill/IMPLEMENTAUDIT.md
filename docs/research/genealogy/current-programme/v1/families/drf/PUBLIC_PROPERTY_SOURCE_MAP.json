@@ -1,0 +1,3192 @@
+{
+  "schema": "drf-public-historical-property-source-map/1",
+  "scope": "Immutable August public corpus; full records projected into maintained Pages. Current detailed protected science is absent.",
+  "historical_rows": 159,
+  "counts_by_unit": {
+    "DRF-L1": 54,
+    "DRF-L2": 55,
+    "DRF-L3": 50
+  },
+  "rows": [
+    {
+      "unit": "DRF-L1",
+      "native_id": "P01",
+      "name": "Explicit distributed failure, timing, network, storage and recovery model",
+      "historical_status": "FAILURE_MODEL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/0",
+      "record_canonical_sha256": "535e66ebe05643664806ed0debe68ff5e846d2db926bf90fc61ebae0836b4451",
+      "field_count": 44,
+      "page_anchor": "historical-p01",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P02",
+      "name": "Partial failure and unknown-outcome semantics",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/1",
+      "record_canonical_sha256": "e9f4e10c1b4b55dd08134e6f821087e1578421f7d40a1599481d3dc038b7848d",
+      "field_count": 44,
+      "page_anchor": "historical-p02",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P03",
+      "name": "Failure-domain independence and common-mode awareness",
+      "historical_status": "FAILURE_MODEL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/2",
+      "record_canonical_sha256": "795beaf56ddfccc2729b22e53655ba7a1b72a366b03a488cc0e06002b73f4878",
+      "field_count": 44,
+      "page_anchor": "historical-p03",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P04",
+      "name": "Causal order distinguished from wall-clock and arbitrary total order",
+      "historical_status": "CAUSALITY_CURRENTNESS_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/3",
+      "record_canonical_sha256": "b8795f605c228e17491d769eff4ad976d041d264516d13fff6446d54e9d4bbcc",
+      "field_count": 44,
+      "page_anchor": "historical-p04",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P05",
+      "name": "Bounded-clock use and time-based authority with uncertainty margin",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/4",
+      "record_canonical_sha256": "9c8dc1bef4f1ea78e288c8b77c2be38948c3bfa8b1f6babf86fe718af3e1fe13",
+      "field_count": 44,
+      "page_anchor": "historical-p05",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C02 PROTECTED_SINK_AUTHORITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P06",
+      "name": "Currentness, freshness and session guarantees as explicit evidence",
+      "historical_status": "CAUSALITY_CURRENTNESS_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/5",
+      "record_canonical_sha256": "7763a3a236c01edeff90f5fc6ee566dd81efec7ff6e2dd5e5ed339acc7ddfb3b",
+      "field_count": 44,
+      "page_anchor": "historical-p06",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C01 CONDITIONAL_PROFILE"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P07",
+      "name": "Consistency level and isolation as an operation-scoped contract",
+      "historical_status": "REPLICATION_CONSISTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/6",
+      "record_canonical_sha256": "0faf9869ce02a9234e7acc6e3de8183a4ce4d0c46c2f2e6ed035cd0940ae1248",
+      "field_count": 44,
+      "page_anchor": "historical-p07",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P08",
+      "name": "Semantic conflict resolution beyond replica byte convergence",
+      "historical_status": "REPLICATION_CONSISTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/7",
+      "record_canonical_sha256": "4f99b80109f8190d87636ca8e6b09366a178a083ce156208e3d58e10c9f41bef",
+      "field_count": 44,
+      "page_anchor": "historical-p08",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P09",
+      "name": "Anti-entropy, convergence and repair with corruption/lag safeguards",
+      "historical_status": "REPLICATION_CONSISTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/8",
+      "record_canonical_sha256": "0bf3337800199d41b746d1f4b5c8fde12e1722b57bb8be4d8bcdb8157a11ef79",
+      "field_count": 44,
+      "page_anchor": "historical-p09",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-F01 FORMAL_MODEL"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P10",
+      "name": "Quorum validity bound to current membership and configuration",
+      "historical_status": "CONSENSUS_AUTHORITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/9",
+      "record_canonical_sha256": "77099441abde6f7a0d3e3e81956552717ae8788f54694bd3880ce523371b7f6c",
+      "field_count": 44,
+      "page_anchor": "historical-p10",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-F01 FORMAL_MODEL"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P11",
+      "name": "Consensus safety separated from liveness and semantic validity",
+      "historical_status": "CONSENSUS_AUTHORITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/10",
+      "record_canonical_sha256": "14f0853595c218a950fdf2eca82388a28aba44a7a19ab5e1b0e2e718f417d857",
+      "field_count": 44,
+      "page_anchor": "historical-p11",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P12",
+      "name": "Versioned membership and safe reconfiguration",
+      "historical_status": "CONSENSUS_AUTHORITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/11",
+      "record_canonical_sha256": "ba56469100e9ffc2c5a3488ad9c2a9cd4817c66facfb4c2516c8147d7ff5663a",
+      "field_count": 44,
+      "page_anchor": "historical-p12",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-F01 FORMAL_MODEL"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P13",
+      "name": "Current mutation authority enforced by epochs or fencing",
+      "historical_status": "CONSENSUS_AUTHORITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/12",
+      "record_canonical_sha256": "05dc4e8f226f6bdcad1cd081d68771a410be0a0cd928d2c8b41607429e4d19bc",
+      "field_count": 44,
+      "page_anchor": "historical-p13",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C02 PROTECTED_SINK_AUTHORITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P14",
+      "name": "Single-writer or local-transaction cheap path",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/13",
+      "record_canonical_sha256": "133e28aad53f63921ef520c42e0879752b00773cf86e71d46a8779d45753084c",
+      "field_count": 44,
+      "page_anchor": "historical-p14",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-N01 SOURCE_CONTRACT_NEGATIVE"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P15",
+      "name": "Strong coordination for non-confluent invariants",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/14",
+      "record_canonical_sha256": "ec9b83ecb6ee64366baa9558cac9bacbcaf37cabd33f876650785edac4211336",
+      "field_count": 44,
+      "page_anchor": "historical-p15",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-F01 FORMAL_MODEL"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P16",
+      "name": "Coordination avoidance for invariant-confluent, commutative or partitionable operations",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/15",
+      "record_canonical_sha256": "c228c580eb9d5e0378f601c2236a92ba158adb116f3f6e69768b1502ac6cca81",
+      "field_count": 44,
+      "page_anchor": "historical-p16",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-F01 FORMAL_MODEL"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P17",
+      "name": "Duplicate-aware delivery semantics",
+      "historical_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/16",
+      "record_canonical_sha256": "87fe6b8ddfc59ad9144888c4de5de03e959b08ffbe391c5d00753ec5c1857b8e",
+      "field_count": 44,
+      "page_anchor": "historical-p17",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P18",
+      "name": "End-to-end business-operation and effect identity",
+      "historical_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/17",
+      "record_canonical_sha256": "02e6f13c2797d61d58b0588712f532f48e53f675a7dc0628a71f67f705c0cd5e",
+      "field_count": 44,
+      "page_anchor": "historical-p18",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P19",
+      "name": "Semantic idempotency, not request-ID ritual",
+      "historical_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/18",
+      "record_canonical_sha256": "0a20f8ed73dc275ed230ff714b6958d09f965b2464050dbce88430a4fe481db9",
+      "field_count": 44,
+      "page_anchor": "historical-p19",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P20",
+      "name": "Bounded deduplication and replay horizon",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/19",
+      "record_canonical_sha256": "a9aaa6ce82c93f6c49594c8cb00953f4e9f3389bc5aa7fd5eb9f4c9063c51b09",
+      "field_count": 44,
+      "page_anchor": "historical-p20",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P21",
+      "name": "Acknowledgement separated from verified external effect",
+      "historical_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/20",
+      "record_canonical_sha256": "6fc59defa4f43a4dfebe40aed327692a1341e3a8a564a642d427f67e584b1897",
+      "field_count": 44,
+      "page_anchor": "historical-p21",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P22",
+      "name": "Transactional messaging or outbox/inbox closure",
+      "historical_status": "DELIVERY_IDEMPOTENCY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/21",
+      "record_canonical_sha256": "c9733333d1491523ea67c0471471820a3a3d2d5910f008f435f5dbd0cbcc5808",
+      "field_count": 44,
+      "page_anchor": "historical-p22",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P23",
+      "name": "Explicit transactional boundary and atomic-commit choice",
+      "historical_status": "TRANSACTION_COMPENSATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/22",
+      "record_canonical_sha256": "a7b09c9be1bba4fdf899f1d0e8f84a65907a0112537119675f13332c0267b917",
+      "field_count": 44,
+      "page_anchor": "historical-p23",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P24",
+      "name": "Compensation and forward recovery with semantic limits",
+      "historical_status": "TRANSACTION_COMPENSATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/23",
+      "record_canonical_sha256": "7287b8979a693d6e48b9ab383f5b779f086d698f5f4e58defa269c7b3f9861a0",
+      "field_count": 44,
+      "page_anchor": "historical-p24",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P25",
+      "name": "Durable workflow state as a recoverable distributed state machine",
+      "historical_status": "WORKFLOW_STATE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/24",
+      "record_canonical_sha256": "e6fefc270bef98106c2ac0cbb31c178ddb2bf294ed8cba7094e6460547b81e1f",
+      "field_count": 44,
+      "page_anchor": "historical-p25",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C05 RECOVERY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P26",
+      "name": "Task ownership, lease expiry and duplicate-safe re-dispatch",
+      "historical_status": "WORKFLOW_STATE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/25",
+      "record_canonical_sha256": "1b09caccf26f297b1bee0683bcea421acf34bbc9287b323ef0919fd338ac5d33",
+      "field_count": 44,
+      "page_anchor": "historical-p26",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C03 EFFECT_IDENTITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P27",
+      "name": "Completion defined by durable state plus verified postcondition",
+      "historical_status": "WORKFLOW_STATE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/26",
+      "record_canonical_sha256": "ad53db432c93d179dbdb9b10f0251be43959bea3dc92dc141a0c44a15a4b705e",
+      "field_count": 44,
+      "page_anchor": "historical-p27",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C05 RECOVERY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P28",
+      "name": "Deterministic replay with explicit workflow/code version evolution",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/27",
+      "record_canonical_sha256": "92e623626ba4c9853d7b4427101620fd1722fa1e21c0be0e64f1018325681bce",
+      "field_count": 44,
+      "page_anchor": "historical-p28",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P29",
+      "name": "Bounded queues with explicit work-age and capacity semantics",
+      "historical_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/28",
+      "record_canonical_sha256": "715fd5c5d32471a9acdb846bdaa50ce4d139108f63cb56d6b2302f9d67ffc7bd",
+      "field_count": 44,
+      "page_anchor": "historical-p29",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C04 CAPACITY_ADMISSION"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P30",
+      "name": "Backpressure propagated to the source of demand",
+      "historical_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/29",
+      "record_canonical_sha256": "0c767039262f3cca755661d0ae0f9a3902de66516a879049d5057e6fd46bee0d",
+      "field_count": 44,
+      "page_anchor": "historical-p30",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C04 CAPACITY_ADMISSION"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P31",
+      "name": "Admission control and load shedding with consequence policy",
+      "historical_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/30",
+      "record_canonical_sha256": "ac7511d77912b64ed345098275ac6702c2c8ce0749bb6edd2af1bb7a74b0b6f8",
+      "field_count": 44,
+      "page_anchor": "historical-p31",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C04 CAPACITY_ADMISSION"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P32",
+      "name": "Retry budgets, exponential backoff, jitter and deadline propagation",
+      "historical_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/31",
+      "record_canonical_sha256": "6e6e498449f8bef8d5758385f23166877a1a2535bdfa60c452b13bc87381133e",
+      "field_count": 44,
+      "page_anchor": "historical-p32",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C04 CAPACITY_ADMISSION"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P33",
+      "name": "Metastable and cascading-overload containment",
+      "historical_status": "OVERLOAD_BACKPRESSURE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/32",
+      "record_canonical_sha256": "f55823b1fd588b8a40a0700d800f2e83bbbeff3091149fa6bb9d154b49f07901",
+      "field_count": 44,
+      "page_anchor": "historical-p33",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C04 CAPACITY_ADMISSION"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P34",
+      "name": "Dependency isolation and bulkheads with end-to-end verification",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/33",
+      "record_canonical_sha256": "5b4b2b05aac568f53f6a1e370e4719d68daf7245bb493c574f90af840f96ef94",
+      "field_count": 44,
+      "page_anchor": "historical-p34",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C04 CAPACITY_ADMISSION"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P35",
+      "name": "Consistent distributed snapshot or checkpoint",
+      "historical_status": "RECOVERY_RECONSTITUTION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/34",
+      "record_canonical_sha256": "e4b25b9234bc38c65e7240e6ba91192551ac1cb7c0f441d12796f882f33c9481",
+      "field_count": 44,
+      "page_anchor": "historical-p35",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C05 RECOVERY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P36",
+      "name": "Replay and restore with external-state reconciliation",
+      "historical_status": "RECOVERY_RECONSTITUTION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/35",
+      "record_canonical_sha256": "ef72cf489917894ef366ec6c940ac6f85ac1f583f34bb9baa808c4642c5c0b63",
+      "field_count": 44,
+      "page_anchor": "historical-p36",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C05 RECOVERY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P37",
+      "name": "Failover re-establishes current authority before mutation",
+      "historical_status": "RECOVERY_RECONSTITUTION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/36",
+      "record_canonical_sha256": "f461eaaf327840ef79d8458ad40419ed66f28d0b8fb3964aaf281c16410f99ad",
+      "field_count": 44,
+      "page_anchor": "historical-p37",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C02 PROTECTED_SINK_AUTHORITY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P38",
+      "name": "Tested restore and recovery-path evidence",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/37",
+      "record_canonical_sha256": "e532f30420f6d9f6f70422917d6534f88cccd7c3aed88f7cc5eb9c6729b4a222",
+      "field_count": 44,
+      "page_anchor": "historical-p38",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C05 RECOVERY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P39",
+      "name": "Schema, wire protocol and event evolution under mixed versions",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/38",
+      "record_canonical_sha256": "8f3b77e00bbdab9c6c74b41b78f89548ff0b885346a47f373df7917927a7cbaa",
+      "field_count": 44,
+      "page_anchor": "historical-p39",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C06 EVIDENCE_CURRENTNESS"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P40",
+      "name": "Configuration and control-plane/data-plane currentness",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/39",
+      "record_canonical_sha256": "a33df3b032458f85853968a0b793b745f106d9a6810bde66638da269b7631b25",
+      "field_count": 44,
+      "page_anchor": "historical-p40",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C06 EVIDENCE_CURRENTNESS"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P41",
+      "name": "Current dependency topology and end-to-end readiness",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/40",
+      "record_canonical_sha256": "e76cdcb3a437882e28d389abd7263b766ea5f2c6f34805b27094ad9891a8a641",
+      "field_count": 44,
+      "page_anchor": "historical-p41",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P42",
+      "name": "Distributed observability treated as partial, sampled evidence",
+      "historical_status": "USEFUL_BUT_EASILY_GAMED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/41",
+      "record_canonical_sha256": "9f3e9fc2cf746c38e9dfeba62805830fd1e03628689c530bf3d44cc368a5c912",
+      "field_count": 44,
+      "page_anchor": "historical-p42",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P43",
+      "name": "Causal trace reconstruction and event provenance",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/42",
+      "record_canonical_sha256": "8fb3bb260ae41e8a46eba3e897c775a9f9d2f89fb092a40c3c89104621be13e1",
+      "field_count": 44,
+      "page_anchor": "historical-p43",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-C06 EVIDENCE_CURRENTNESS"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P44",
+      "name": "Hypothesis-bound fault injection and recovery challenge",
+      "historical_status": "USEFUL_BUT_EASILY_BUREAUCRATISED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/43",
+      "record_canonical_sha256": "f0248f25fc7cb5cf1996fe57586eb73dce04d582b1f9499d8724d546d9796c37",
+      "field_count": 44,
+      "page_anchor": "historical-p44",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P45",
+      "name": "Distribution requires a named consumer and retains a cheap local path",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/44",
+      "record_canonical_sha256": "51f3e4e7394541030665f927e1b8cab07030fef7bf8de34dd2c4fd2625612837",
+      "field_count": 44,
+      "page_anchor": "historical-p45",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P46",
+      "name": "Retire distributed machinery when its coordination consumer disappears",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/45",
+      "record_canonical_sha256": "4b7b503aa0ef9382de72c0609c21fcdf25fcb4d61d1930a2771f4de497c3cb60",
+      "field_count": 44,
+      "page_anchor": "historical-p46",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-S01 SOURCE_CONTRACT"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P47",
+      "name": "Microservices automatically improve resilience",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/46",
+      "record_canonical_sha256": "ae13a3f6140e8f4eae66b01b35d292ce4431d40ac444d2a3e455e140365d7495",
+      "field_count": 44,
+      "page_anchor": "historical-p47",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-N01 SOURCE_CONTRACT_NEGATIVE"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P48",
+      "name": "A queue absorbs overload",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/47",
+      "record_canonical_sha256": "66838d5e42c2dc82d74f020e4467cafe844e44d2295d6a04325ffc545efbd8d5",
+      "field_count": 44,
+      "page_anchor": "historical-p48",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-N01 SOURCE_CONTRACT_NEGATIVE"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P49",
+      "name": "Exactly-once delivery implies the business action occurs exactly once",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/48",
+      "record_canonical_sha256": "23d63cbda376bd1d1eacc04dfb73822d36ff0e4b790632b9f5224c0bea1d111a",
+      "field_count": 44,
+      "page_anchor": "historical-p49",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-N01 SOURCE_CONTRACT_NEGATIVE"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P50",
+      "name": "Distributed lock alone makes concurrent mutation safe",
+      "historical_status": "SUPERSEDED_BY_STRONGER_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/49",
+      "record_canonical_sha256": "e6571c09bc3f9588c1086d457a0ad50b4d502257e6cdf04d13cfd8d7501bd114",
+      "field_count": 44,
+      "page_anchor": "historical-p50",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-N01 SOURCE_CONTRACT_NEGATIVE"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P51",
+      "name": "Named infrastructure or repeated ritual as an engineering property",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/50",
+      "record_canonical_sha256": "eb56e888dae1a6468cac1caad788a93254a0d986efbbd37766275377c3d4d5b2",
+      "field_count": 44,
+      "page_anchor": "historical-p51",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-N01 SOURCE_CONTRACT_NEGATIVE"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P52",
+      "name": "Byzantine/adversarial fault tolerance only under an explicit adversarial model",
+      "historical_status": "DOMAIN_SPECIFIC",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/51",
+      "record_canonical_sha256": "1aead0bf0d0d95402ca46c46e59a5580b7e5e3ae5aa7b0e9ca8ed5c2f383c91a",
+      "field_count": 44,
+      "page_anchor": "historical-p52",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-F01 FORMAL_MODEL"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P53",
+      "name": "Distributed AI and agentic systems as a bounded domain translation",
+      "historical_status": "UNRESOLVED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/52",
+      "record_canonical_sha256": "9ca65e4d12711dafd6a9e068ae1806ddba15e102a02d101c81204e7796ada26e",
+      "field_count": 44,
+      "page_anchor": "historical-p53",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-O01 OWNER_DECISION_ONLY"
+      }
+    },
+    {
+      "unit": "DRF-L1",
+      "native_id": "P54",
+      "name": "Default global consensus or coordination for all distributed state",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d5122096fd245f73aebf1bfbdf7dce2bd49aec131621f625500049f3ef1b68d9",
+      "json_pointer": "/PROPERTIES/53",
+      "record_canonical_sha256": "8ad8cdccf530874dee7e23d15264aa2c14eb92884111f4cd7f2f3608ee5f27a3",
+      "field_count": 44,
+      "page_anchor": "historical-p54",
+      "existing_owner": {
+        "issue": 200,
+        "rlgwo": "R0030",
+        "state": "open",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "historical_issue_proof_layer": "D48-N01 SOURCE_CONTRACT_NEGATIVE"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P001",
+      "name": "Explicit required-function and mission semantics",
+      "historical_status": "MISSION_RELIABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/0",
+      "record_canonical_sha256": "29a7ad9c06b0ff5e63f055d4c4fb22b2d5fa07593f3f047352fd57ef07c52f2e",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p001",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C04"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P002",
+      "name": "Operational-profile, environment and demand definition",
+      "historical_status": "MISSION_RELIABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/1",
+      "record_canonical_sha256": "230f305535497bc34e5bebde5f13055641f25c52ced12f01509577b5918a0013",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p002",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C01"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P003",
+      "name": "Explicit complete, partial, intermittent, latent and degraded failure states",
+      "historical_status": "MISSION_RELIABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/2",
+      "record_canonical_sha256": "2a493b762d91a224e3269638a68607843da9f28a680207766eb0239eabb5b89f",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p003",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C01"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P004",
+      "name": "System boundary and failure-attribution discipline",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/3",
+      "record_canonical_sha256": "86e49887b368c05bf6c9e71627c958eff0a23a90b60247c3508aff1b1c3bdeda",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p004",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P005",
+      "name": "Separate reliability, availability, maintainability, supportability and durability claims",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/4",
+      "record_canonical_sha256": "61174d053338ec9cc4eb876a3a4fb98a31822a5650c49886c72dc04ce3668a73",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p005",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P006",
+      "name": "Systematic failure-mode, effect and propagation challenge",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/5",
+      "record_canonical_sha256": "39bd510e4dab3f21ddaf3f81f5bc4a75247d548090ba221abbc2fc902191a6aa",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p006",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C01"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P007",
+      "name": "Single-point and latent-failure exposure control",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/6",
+      "record_canonical_sha256": "7905171a42a0954a04a066c131a434d9947cad7cff5333b58c1a4c0b3cc29c37",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p007",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C01"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P008",
+      "name": "Common-cause, common-mode and correlated-dependency analysis",
+      "historical_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/7",
+      "record_canonical_sha256": "dafecfc35f7466f6341f6e95ab4f3fd99c411174d9179f9eb9d6741c4cb78605",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p008",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C01"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P009",
+      "name": "Redundancy only with credible independence, coverage and switchover",
+      "historical_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/8",
+      "record_canonical_sha256": "2e9403a9efa4e92d00589c805a377cd087617fa495528ac64440c9a46255958e",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p009",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C07"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P010",
+      "name": "Fault containment regions and propagation barriers",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/9",
+      "record_canonical_sha256": "a44fec4c663c3cdc4f4283e65fb79db8beaa53b0fa51b7c62cc867679c4d3eaf",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p010",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P011",
+      "name": "Fault detection coverage tied to required function",
+      "historical_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/10",
+      "record_canonical_sha256": "d4cba1412759aa7ab5b0b681b95126f5a4028387d63c510db4b2d6659b524aac",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p011",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C02"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P012",
+      "name": "Diagnostic isolation, ambiguity and confidence discipline",
+      "historical_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/11",
+      "record_canonical_sha256": "9d116fbee8ae8d148784aa29cee49c23016c9680b7617348f5423598168d4fba",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p012",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P013",
+      "name": "Explicit false-positive, false-negative and action cost",
+      "historical_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/12",
+      "record_canonical_sha256": "2b840f17bd53740448cdc5fbe59bf0b382c87f54f4e38ebf5e8af2f5b701e859",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p013",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C05"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P014",
+      "name": "Graceful degradation with explicit mission priorities",
+      "historical_status": "MISSION_RELIABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/13",
+      "record_canonical_sha256": "ae232964d096cf063acf73249323949b9a9c97f9e4691a563989f930857f878b",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p014",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C07"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P015",
+      "name": "Contextual selection of fail-safe, fail-stop and fail-operational objectives",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/14",
+      "record_canonical_sha256": "b72b3e37b80a8cd4935fbcd7525d5b8f536f4521190bc936739eeb4744b618ac",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p015",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P016",
+      "name": "Recovery closes on required function and state postconditions",
+      "historical_status": "RECOVERY_RESTORATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/15",
+      "record_canonical_sha256": "f3cdeb7f3f1b0392a3d0d69746ea44ee59a4050cd1f29b0b7e58a79f0a32f6e7",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p016",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C08"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P017",
+      "name": "Backup, restore and reconstitution paths must be exercised and validated",
+      "historical_status": "RECOVERY_RESTORATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/16",
+      "record_canonical_sha256": "49bd7a4a28331807d15f9ad4a9249a8fadb42cb0c9e80f3a7fe9bf7342cb2b0c",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p017",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C08"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P018",
+      "name": "Conditional validity of retry, restart, rollback and checkpoint recovery",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/17",
+      "record_canonical_sha256": "ca6a31d68d1b8f54a2b834d407e55555ac78d079d40247c35386b53ba9a417a8",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p018",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P019",
+      "name": "Repairability and maintainability by design",
+      "historical_status": "MAINTAINABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/18",
+      "record_canonical_sha256": "ecb740e16c2cc840cdeb12761e9e3dff31f8ab1b7f4d5309956f65934f860689",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p019",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C03"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P020",
+      "name": "Supportability, logistics and operational maintenance capability",
+      "historical_status": "MAINTAINABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/19",
+      "record_canonical_sha256": "eda47320b8b06ac2b951cb6003601e821b79e3d45db531420414827ecc54ae58",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p020",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P021",
+      "name": "Maintenance-induced failure and maintenance human factors as system mechanisms",
+      "historical_status": "MAINTAINABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/20",
+      "record_canonical_sha256": "b511d385cf505515c0d838cdbb6e1be69343fc4ede70077a0c2f7641902e12fb",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p021",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C03"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P022",
+      "name": "Age-based preventive maintenance only for valid age-related mechanisms",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/21",
+      "record_canonical_sha256": "f77ba96600cd23132b542fd241ac8437ddab50cf230cd2e423dc2b0a683f10ae",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p022",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P023",
+      "name": "Condition-based and predictive maintenance only with observable precursors and decision value",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/22",
+      "record_canonical_sha256": "a465d9fdc572751d2e064fac9cec97c2d6cac0f891e9be46224142d552c745b5",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p023",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P024",
+      "name": "Closed-loop test–analyse–fix and FRACAS",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/23",
+      "record_canonical_sha256": "e86a80c9321afe6e76e2b03ceda96a6a9fdd200811de5ee81bd63d935f6e8d69",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p024",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P025",
+      "name": "Corrective-action effectiveness and recurrence control",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/24",
+      "record_canonical_sha256": "c4e89d5ed775a980a740519b863f109d2561ee7bc91ce3890c7cae85742f39f3",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p025",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P026",
+      "name": "Reliability demonstration with explicit confidence, population and assumptions",
+      "historical_status": "RELIABILITY_EVIDENCE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/25",
+      "record_canonical_sha256": "219175fabc65c44efdd5a6a84242840111d703485c78e3c127b4c90a6e3bef37",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p026",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P027",
+      "name": "Accelerated evidence only under failure-mechanism equivalence",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/26",
+      "record_canonical_sha256": "18050af72da271929a690fdbd6fc3d79524af7cb0c77070bceb655b897dd0fe5",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p027",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P028",
+      "name": "Field-data feedback, model calibration and explicit uncertainty",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/27",
+      "record_canonical_sha256": "3da148c3e275a616338a0142965aa9163a2fc4c64beca1f3d4a617005ef8aec2",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p028",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P029",
+      "name": "Reliability evidence bound to current configuration and change",
+      "historical_status": "RELIABILITY_EVIDENCE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/28",
+      "record_canonical_sha256": "e526e1f8e1d080e297de0e59e19eb7eb85cf7eca1d16e2728cd4ea1d366cf866",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p029",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P030",
+      "name": "Software reliability under an operational input profile",
+      "historical_status": "DOMAIN_SPECIFIC",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/29",
+      "record_canonical_sha256": "b25895053040fcedc16e594cb3bf510335169c52f131b5dd0fce8843dc78e79c",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p030",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P031",
+      "name": "User-journey and consumer-consequence service reliability",
+      "historical_status": "SERVICE_RELIABILITY_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/30",
+      "record_canonical_sha256": "518cccfad7264ba217b5c98c6d922af66d222833986d5978fe875ba9fe53e4ba",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p031",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C06"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P032",
+      "name": "SLI/SLO and error-budget governance as a scoped decision aid",
+      "historical_status": "USEFUL_BUT_EASILY_GAMED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/31",
+      "record_canonical_sha256": "8495ea6b2ceb5b9e751d605dc85eacf999deed9a2ab9275881673b2f6bed2bec",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p032",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P033",
+      "name": "End-to-end health checks and symptom-versus-cause separation",
+      "historical_status": "DIAGNOSTIC_COVERAGE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/32",
+      "record_canonical_sha256": "7eb85b0d08113ecd320ccc22aadfa39d4997320dd759e5f0e18e9adbcf91b89b",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p033",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C09"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P034",
+      "name": "Explicit dependency, correlation and hidden single-point mapping",
+      "historical_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/33",
+      "record_canonical_sha256": "5dfc7bd720839503c3923355ae4cc55dd232873662ee42a2288bc13e82152839",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p034",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P035",
+      "name": "Hypothesis-bound fault injection and chaos experimentation",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/34",
+      "record_canonical_sha256": "42dbc8a3361986ec5aedcd83b68ae9c36362b54cc42b8b17a13ceddd94838247",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p035",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P036",
+      "name": "Overload-aware recovery: capacity margin, load shedding and bounded retries",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/35",
+      "record_canonical_sha256": "fb625ecd3c8a90304d91394774a7f0ae9ec0cdd9b0d06715bad915e37b72c85f",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p036",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "explicit_historical_execution_cell": "R49-C10"
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P037",
+      "name": "Observability and evidence preservation during failure and recovery",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/36",
+      "record_canonical_sha256": "cad147a9183d7408814a0e637d349da2ed65302fd95d3732f3934c492c3feba7",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p037",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P038",
+      "name": "Proportional cheap path and deterministic functional check",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/37",
+      "record_canonical_sha256": "26893b04d8dbc607b0969f26e00b23f6c8279819f07d2d90151af9d7eee463f7",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p038",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P039",
+      "name": "Retirement of stale controls, metrics, support and reliability claims",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/38",
+      "record_canonical_sha256": "bc0a3e6623e48be0abff7f7eb9537ade28cce3a5c2e1c60bf919eaedd69c52e3",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p039",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P040",
+      "name": "Design diversity as conditional common-mode mitigation",
+      "historical_status": "REDUNDANCY_COMMON_CAUSE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/39",
+      "record_canonical_sha256": "0e7a588ba73a814831b593fbd7308d4fb93a03ee45136fb33123797670ccfe34",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p040",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P041",
+      "name": "MTBF as a universal scalar for reliability",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/40",
+      "record_canonical_sha256": "8c95962974d8783c6fc3bac6ce14007b11b1cf89c8bdb0c5a0247b8b7647fc43",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p041",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P042",
+      "name": "“Five nines” as a universal service-reliability claim",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/41",
+      "record_canonical_sha256": "6b6a70cbb2023c3a9aa45c51975ada97350ef0e7036f829f3b004a82540cb17a",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p042",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P043",
+      "name": "Universal bathtub-curve assumption",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/42",
+      "record_canonical_sha256": "0e1d5bfd225171be110425d50c627fb32d326683443bfc45280230ccc2ef86af",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p043",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P044",
+      "name": "Handbook reliability prediction as field-reliability proof",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/43",
+      "record_canonical_sha256": "7c931397dccb76fd0ddd7561feb7797af524f758710511bd46a53383770c35e7",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p044",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P045",
+      "name": "Completed FMEA/FMECA as proof that failure modes are controlled",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/44",
+      "record_canonical_sha256": "bdf26a3ff4ec3a271268579ac7b83f8e1801d70cb0c54eef3da570a787a3266b",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p045",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P046",
+      "name": "Backup existence as proof that recovery is solved",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/45",
+      "record_canonical_sha256": "92d34181b702eb458aab3d83ce9fd3c4eb00d74c389124a91a3bc973adbdeba2",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p046",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P047",
+      "name": "One failover test as proof of disaster recovery",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/46",
+      "record_canonical_sha256": "3b84a755a97256a96e9c436ec653b036667a2c08e395bf9891c872ccabf9f4d0",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p047",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P048",
+      "name": "No incidents or lower incident count as proof of reliability improvement",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/47",
+      "record_canonical_sha256": "7d7e7a2f24f457e0da84963e94c7b7be932a569430843a0db72d6874384c6eac",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p048",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P049",
+      "name": "Green health check as proof that required function is available",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/48",
+      "record_canonical_sha256": "08fc6b1eb29b552d042742d59deba42d29076d852a9f4e05d37d3bf77d47db7a",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p049",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P050",
+      "name": "Chaos exercise as general proof of resilience",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/49",
+      "record_canonical_sha256": "95ce574588f130e16a560d563405ffe9b90d9aaa3e80e18cc31dfdcf1eb1c661",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p050",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P051",
+      "name": "More redundancy always improves reliability",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/50",
+      "record_canonical_sha256": "7f669a941965f12d099243efd1f7f7f0f631b863158ad14b3bdcee0a29c02219",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p051",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P052",
+      "name": "Predictive maintenance universally outperforms simpler policies",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/51",
+      "record_canonical_sha256": "d915635ce70f4d1ea138152d9c9e791d50b8bb897a2969c94348217838b70fb8",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p052",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P053",
+      "name": "Reliability-growth curve alone proves causal design improvement",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/52",
+      "record_canonical_sha256": "3c925c48923f178fc4dbe71e900378e7f223ebda69a1c94c383b36c5d9b73fb5",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p053",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P054",
+      "name": "Zero observed failures means zero failure probability or an unlimited reliability claim",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/53",
+      "record_canonical_sha256": "07c2a58148001e3569c036aadb9e0323b91f7ef24c5f1a45497a65bd36f4f0ab",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p054",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L2",
+      "native_id": "ERM-P055",
+      "name": "AI/ML/agentic diagnosis or auto-remediation as a general reliability property",
+      "historical_status": "DOMAIN_SPECIFIC",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "8374369b1a0cb6f93065d2df04d073c3f8edfbd786d5dae7072062b68e79f3e2",
+      "json_pointer": "/properties/54",
+      "record_canonical_sha256": "741e55b7b2965178fc9139b5967bf728d2eada3a3733e06ea0f2e63854785f25",
+      "field_count": 40,
+      "page_anchor": "historical-erm-p055",
+      "existing_owner": {
+        "issue": 201,
+        "rlgwo": "R0031",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P001",
+      "name": "Precise property before proof",
+      "historical_status": "SPECIFICATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/0",
+      "record_canonical_sha256": "aa4c3057d8972f7f053ab066f1f8958da2325c93a533caf8ede40ba5c4cf1a29",
+      "field_count": 35,
+      "page_anchor": "historical-p001",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P002",
+      "name": "Explicit assumptions and preconditions",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/1",
+      "record_canonical_sha256": "be90d00a304dd57f8067b661850a3e52a2f0abe5b73e0fbc7aef2348dd048637",
+      "field_count": 35,
+      "page_anchor": "historical-p002",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P003",
+      "name": "Environment model boundary",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/2",
+      "record_canonical_sha256": "67b75d9083fa925ed6533d9c0b0ea4f048ebb9f8e5b36eccf32496c0363ddb38",
+      "field_count": 35,
+      "page_anchor": "historical-p003",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P004",
+      "name": "Explicit state and transition model",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/3",
+      "record_canonical_sha256": "78bdfc8aba2c79e6ab9e8b6509aa56b33810b653029e6db2df89143682322ea6",
+      "field_count": 35,
+      "page_anchor": "historical-p004",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P005",
+      "name": "State invariant as cheap mechanical guard",
+      "historical_status": "INVARIANT_TEMPORAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/4",
+      "record_canonical_sha256": "968b065921be52f0eccd48b663a81373fc3ff35da42f1f92f3d9f841c66478ad",
+      "field_count": 35,
+      "page_anchor": "historical-p005",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P006",
+      "name": "Inductive invariant obligation",
+      "historical_status": "INVARIANT_TEMPORAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/5",
+      "record_canonical_sha256": "1e9bf7eb522d153f1df52d6d2890e7836f005d79718b6b947a121373d48f3ce5",
+      "field_count": 35,
+      "page_anchor": "historical-p006",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P007",
+      "name": "Safety versus liveness distinction",
+      "historical_status": "INVARIANT_TEMPORAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/6",
+      "record_canonical_sha256": "d51e6def3b663ee09aa40b5f49d7d1d5513e2cd37fdb02949d7705372ead03e0",
+      "field_count": 35,
+      "page_anchor": "historical-p007",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P008",
+      "name": "Fairness and scheduler assumptions",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/7",
+      "record_canonical_sha256": "f320845e26589b6e3169c7f49c7f4f67d386b15b1560e1d941dc99d0d2ccacdf",
+      "field_count": 35,
+      "page_anchor": "historical-p008",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P009",
+      "name": "Property-class matching",
+      "historical_status": "INVARIANT_TEMPORAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/8",
+      "record_canonical_sha256": "c04e4e79473af2bc183de1727db98821f19e8ed3d78e1077d05e97524d9618ac",
+      "field_count": 35,
+      "page_anchor": "historical-p009",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P010",
+      "name": "Contracts, preconditions and postconditions",
+      "historical_status": "CONTRACT_COMPOSITION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/9",
+      "record_canonical_sha256": "1d2dc50b214ac1825a96d51804be8ba6cf5b2dd97bf51a0ec6216e8b351a9405",
+      "field_count": 35,
+      "page_anchor": "historical-p010",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P011",
+      "name": "Local reasoning, frame and ownership conditions",
+      "historical_status": "CONTRACT_COMPOSITION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/10",
+      "record_canonical_sha256": "97c9811c817e96f5f57fb780ffb8bd0c901e8506c209b89b67cc4bfb539f209d",
+      "field_count": 35,
+      "page_anchor": "historical-p011",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P012",
+      "name": "Assume/guarantee and compositional verification",
+      "historical_status": "CONTRACT_COMPOSITION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/11",
+      "record_canonical_sha256": "624f4a980c1880938f3ac527dd6fb373d541caee8267cb56c5bb9a0e9bab6d3e",
+      "field_count": 35,
+      "page_anchor": "historical-p012",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P013",
+      "name": "Sound abstraction discipline",
+      "historical_status": "ABSTRACTION_REFINEMENT_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/12",
+      "record_canonical_sha256": "455944914a937f285e39daf29c7f54ccb037fffad52bcefe9957499cb7eed1a7",
+      "field_count": 35,
+      "page_anchor": "historical-p013",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P014",
+      "name": "Refinement/simulation correspondence",
+      "historical_status": "ABSTRACTION_REFINEMENT_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/13",
+      "record_canonical_sha256": "cf4ce0eff1b85216db3a6eaa7e796ea91dd4daac0b76e56d5354869f81020765",
+      "field_count": 35,
+      "page_anchor": "historical-p014",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P015",
+      "name": "Model-code correspondence",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/14",
+      "record_canonical_sha256": "0383d0b6fd528c2cd33f6e3e4075c6f7fbf81cda06cd3f9e290f2f628c13ca54",
+      "field_count": 35,
+      "page_anchor": "historical-p015",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P016",
+      "name": "Exhaustive finite-state challenge where warranted",
+      "historical_status": "MODEL_CHECKING_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/15",
+      "record_canonical_sha256": "8f6261e501e560d95719782a3f78273ec5b416ee13d0a0fcc1a02370989bb472",
+      "field_count": 35,
+      "page_anchor": "historical-p016",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P017",
+      "name": "Counterexample usefulness and trace review",
+      "historical_status": "MODEL_CHECKING_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/16",
+      "record_canonical_sha256": "6009ae611dca083d5e2f35f78fec695563c5c67d162771230330951b7146fc3c",
+      "field_count": 35,
+      "page_anchor": "historical-p017",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P018",
+      "name": "Bounded checking scope disclosure",
+      "historical_status": "USEFUL_BUT_EASILY_GAMED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/17",
+      "record_canonical_sha256": "106a0b72ed2125a685f224057129ce5f1ab68da2fffcce3c4e7bcd51e1d1b75b",
+      "field_count": 35,
+      "page_anchor": "historical-p018",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P019",
+      "name": "State explosion management",
+      "historical_status": "MODEL_CHECKING_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/18",
+      "record_canonical_sha256": "0b3669bbf863296892fb710d247115fe8fa9b4ca06d8e06dea2649c742b92728",
+      "field_count": 35,
+      "page_anchor": "historical-p019",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P020",
+      "name": "Vacuity and specification-strength checks",
+      "historical_status": "USEFUL_BUT_EASILY_GAMED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/19",
+      "record_canonical_sha256": "431725d3879f893d291b933aa4d2e75808dcfc1068ad06dfe4ff4e3b374731a5",
+      "field_count": 35,
+      "page_anchor": "historical-p020",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P021",
+      "name": "Mechanical proof replay",
+      "historical_status": "THEOREM_PROVING_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/20",
+      "record_canonical_sha256": "1458e4cb4777725c376547796f28182fd152769fdf558a27a90fd6a9eb43677f",
+      "field_count": 35,
+      "page_anchor": "historical-p021",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P022",
+      "name": "Trusted kernel/certificate boundary",
+      "historical_status": "THEOREM_PROVING_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/21",
+      "record_canonical_sha256": "e1529cada2ec690d98ae16ac5f7a61340816d838810b579d2867e630b4e361e5",
+      "field_count": 35,
+      "page_anchor": "historical-p022",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P023",
+      "name": "Proof maintenance and currentness",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/22",
+      "record_canonical_sha256": "326187107568194ed23a9f4a1448e30bd480b24f358bd40a1cfe9bc68e50b5b7",
+      "field_count": 35,
+      "page_anchor": "historical-p023",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P024",
+      "name": "Solver/encoding trust boundary",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/23",
+      "record_canonical_sha256": "9c36926a881f2237aedd70a893c11ffefb2de184a2c65c42c317bd95169ed36a",
+      "field_count": 35,
+      "page_anchor": "historical-p024",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P025",
+      "name": "Symbolic execution/path constraint scope",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/24",
+      "record_canonical_sha256": "2d7871a9ba4820e1e900db9eb018114172bc61cef7241961c73613c0b61961a4",
+      "field_count": 35,
+      "page_anchor": "historical-p025",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P026",
+      "name": "Sound versus unsound static analysis boundary",
+      "historical_status": "STATIC_ANALYSIS_TYPE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/25",
+      "record_canonical_sha256": "7f945de5e0d58ab65cfbdb3c5ad5ad160886cd2208ebb51be7c5b902e8720a53",
+      "field_count": 35,
+      "page_anchor": "historical-p026",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P027",
+      "name": "Type-system claim boundary",
+      "historical_status": "STATIC_ANALYSIS_TYPE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/26",
+      "record_canonical_sha256": "5dbed5a202e4eabcca9a87f847ca76359b24d8161b8f5770756f5363406bc681",
+      "field_count": 35,
+      "page_anchor": "historical-p027",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P028",
+      "name": "Dependent/refinement types as selective proof carriers",
+      "historical_status": "STATIC_ANALYSIS_TYPE_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/27",
+      "record_canonical_sha256": "6b128e82e293418ef8d0ef58eb0617e4354a59be05b3207b3c25e768cd852ffa",
+      "field_count": 35,
+      "page_anchor": "historical-p028",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P029",
+      "name": "Concurrency/distributed protocol modelling",
+      "historical_status": "DOMAIN_SPECIFIC",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/28",
+      "record_canonical_sha256": "e9574feab4821e82bf7f85f4a975e99b071c45703ad68ab4bd68ca77b2cb89ed",
+      "field_count": 35,
+      "page_anchor": "historical-p029",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P030",
+      "name": "Linearizability/serialisability/refinement properties",
+      "historical_status": "DOMAIN_SPECIFIC",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/29",
+      "record_canonical_sha256": "e9f1598d30b75b7f8258a62b96df80173beaae512b30ae256ef05985880dc03b",
+      "field_count": 35,
+      "page_anchor": "historical-p030",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P031",
+      "name": "Runtime monitor scope",
+      "historical_status": "RUNTIME_VERIFICATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/30",
+      "record_canonical_sha256": "0aad6f62a53ec9c300e4bb4263213b9589122f5157cf896201cd953f975a96dc",
+      "field_count": 35,
+      "page_anchor": "historical-p031",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P032",
+      "name": "Monitor currentness and fail-open/fail-closed design",
+      "historical_status": "RUNTIME_VERIFICATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/31",
+      "record_canonical_sha256": "c0befd33c5db5b911504b172b3cd3cf999b916fd87d532e50ad1f2eda591c904",
+      "field_count": 35,
+      "page_anchor": "historical-p032",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P033",
+      "name": "Verified compiler/toolchain scope",
+      "historical_status": "VERIFIED_TOOLCHAIN_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/32",
+      "record_canonical_sha256": "b29847c5b81aaeee952618171934c9cdbbcc7ec6898b8a4e6dc5373626aa25ca",
+      "field_count": 35,
+      "page_anchor": "historical-p033",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P034",
+      "name": "Translation validation per-run evidence",
+      "historical_status": "VERIFIED_TOOLCHAIN_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/33",
+      "record_canonical_sha256": "1a56c453adf5f76967ec334371f90cb0a0a7d61c8add09d4f59ebe0e85308325",
+      "field_count": 35,
+      "page_anchor": "historical-p034",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P035",
+      "name": "Proof-carrying/certificate evidence",
+      "historical_status": "VERIFIED_TOOLCHAIN_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/34",
+      "record_canonical_sha256": "c9c7e54254e4bb8800963f9320b58db9334b098f2686c210eec9a474c5cc4f60",
+      "field_count": 35,
+      "page_anchor": "historical-p035",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P036",
+      "name": "Hybrid proof + testing/fuzzing/runtime evidence",
+      "historical_status": "STRONGLY_RETAINED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/35",
+      "record_canonical_sha256": "80ef51fea8c45b09ced057c97faca32ce803def9e55a32f7d0c233d76edb0356",
+      "field_count": 35,
+      "page_anchor": "historical-p036",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P037",
+      "name": "Lightweight proportional formalisation",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/36",
+      "record_canonical_sha256": "7fe5aa97e18476425036a017e9d42aeb26f5413ed3b8352cb64fffaeed5bccaa",
+      "field_count": 35,
+      "page_anchor": "historical-p037",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P038",
+      "name": "Ceremony/proxy rejection",
+      "historical_status": "CEREMONY_NOT_GENERAL_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/37",
+      "record_canonical_sha256": "0d2f28436f8903f56230012e7816fa2f764a3e31cefb4f488d04084bc214df03",
+      "field_count": 35,
+      "page_anchor": "historical-p038",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P039",
+      "name": "Specification gaming and golden theorem drift",
+      "historical_status": "USEFUL_BUT_EASILY_GAMED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/38",
+      "record_canonical_sha256": "324d29acdf5099f932c54fe15bfb3f3cc4eb8ffc9d4e74579f0ecf935cc128b1",
+      "field_count": 35,
+      "page_anchor": "historical-p039",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P040",
+      "name": "AI-assisted formalisation boundary",
+      "historical_status": "CONTEXT_DEPENDENT",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/39",
+      "record_canonical_sha256": "d723bad0b904d2e640eb5d50b1e872b0ce96b9b479dc605084076c9963d5944d",
+      "field_count": 35,
+      "page_anchor": "historical-p040",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P041",
+      "name": "Certification/formality ceremony boundary",
+      "historical_status": "USEFUL_BUT_EASILY_BUREAUCRATISED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/40",
+      "record_canonical_sha256": "6d639a5cf286d81a4e34add1524337cdcd401feb437e9a975d3d439a7fcc0e1a",
+      "field_count": 35,
+      "page_anchor": "historical-p041",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P042",
+      "name": "Cost/payoff trigger discipline",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/41",
+      "record_canonical_sha256": "3894fe6d72647d729003e392308d739a49856bcc981588812337b1551bec9bc1",
+      "field_count": 35,
+      "page_anchor": "historical-p042",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P043",
+      "name": "Prove everything",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/42",
+      "record_canonical_sha256": "2f21ae3c64934e2e6c46fd0a787488b6eecaf79931d8b044d501673b46c9ee5c",
+      "field_count": 35,
+      "page_anchor": "historical-p043",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P044",
+      "name": "Proof eliminates testing",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/43",
+      "record_canonical_sha256": "36abf98d924a8c9ef943b93a94c7a2dbea160625599cc2daec4ce13672a4e352",
+      "field_count": 35,
+      "page_anchor": "historical-p044",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P045",
+      "name": "Model checking explores every real behaviour",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/44",
+      "record_canonical_sha256": "8a3b3e39a643a00f8c683c7b1d0582920c48a5c3fbcaba8387c9ff1f9a35bf28",
+      "field_count": 35,
+      "page_anchor": "historical-p045",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P046",
+      "name": "Type safety means functional correctness",
+      "historical_status": "REJECTED_OR_DISFAVOURED",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/45",
+      "record_canonical_sha256": "835b240edf4f6c495d5ae56edb7e6fdd6bce1bb696e3cc56b11b2d7ca6deab88",
+      "field_count": 35,
+      "page_anchor": "historical-p046",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P047",
+      "name": "Proof assistant cannot be wrong",
+      "historical_status": "ASSUMPTION_SENSITIVE",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/46",
+      "record_canonical_sha256": "43e470440dffbec533a681b44f9f5f11118345a0fa7966c2f9e6969e525e9f77",
+      "field_count": 35,
+      "page_anchor": "historical-p047",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P048",
+      "name": "Retirement of stale formal artefacts",
+      "historical_status": "RETAINED_IN_EVOLVED_FORM",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/47",
+      "record_canonical_sha256": "f55d8f1bee923625f9499397fe9888e5c37c3d23c7ad082bb714eb5735e183d4",
+      "field_count": 35,
+      "page_anchor": "historical-p048",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P049",
+      "name": "Stakeholder/world-machine validation",
+      "historical_status": "SPECIFICATION_PROPERTY",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/48",
+      "record_canonical_sha256": "65202dbae22f2931bd559e62db36933cbb5aa06186f965339ab77d6ceaf4da2e",
+      "field_count": 35,
+      "page_anchor": "historical-p049",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    },
+    {
+      "unit": "DRF-L3",
+      "native_id": "P050",
+      "name": "Domain-specific verified libraries/protocols",
+      "historical_status": "DOMAIN_SPECIFIC",
+      "source_repository_path": "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json",
+      "source_commit": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "source_sha256": "d3e1e04d8bd4686cdc8700aadaedf6eab89f684ac982e5a0546430b2a8bb7b12",
+      "json_pointer": "/properties/49",
+      "record_canonical_sha256": "b5c74489a73254f47f956d96f88555029b2ec7761c1fac0a5590cac50e05a040",
+      "field_count": 35,
+      "page_anchor": "historical-p050",
+      "existing_owner": {
+        "issue": 202,
+        "rlgwo": "R0032",
+        "state": "closed",
+        "basis": "Actual issue and terminal/corrective receipt owns this historical lineage population. Current scientific applicability has not been adjudicated.",
+        "granularity": "Family carrier established; no additional per-property native adequacy inferred."
+      }
+    }
+  ]
+}

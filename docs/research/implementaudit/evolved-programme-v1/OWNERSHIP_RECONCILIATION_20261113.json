@@ -1,0 +1,2858 @@
+{
+  "schema": "implementaudit.evolved-ownership-dated-supplement.v1",
+  "observed_at_utc": "2026-11-13T19:22:03.695939+00:00",
+  "scope": "DOCUMENTARY_OWNERSHIP_METADATA_ONLY",
+  "original_registry": {
+    "path": "docs/research/implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json",
+    "bytes": 85023,
+    "sha256": "76a745b3cceb7250436a29c122d6c70d421aa7bc9eeb4d9571cdf5526c87f960"
+  },
+  "original_registry_observed_github_utc": "2026-11-12T22:47:37Z",
+  "original_registry_is_replaced": false,
+  "repository_observation": {
+    "C_head": "3e8bf513360caf648756daf2c26aa1eb66776517",
+    "C_tree": "ceee4603ecb493880b6964c6a9d261b2b770cffd",
+    "main": "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+  },
+  "population": {
+    "responsibility_slots": 32,
+    "families": 8,
+    "named_carrier_slots": 28,
+    "SPR_slots_without_proved_named_carrier": 4,
+    "deduplicated_named_carrier_issues": 22,
+    "current_closed_named_carriers": 16,
+    "current_open_named_carriers": 6,
+    "all_captured_carrier_native_comparison_issues": 52
+  },
+  "canonical_identity_boundary": {
+    "main_high_water": "R003A",
+    "allocated_ordinal_max": 58,
+    "R003B_through_R0045": "Existing published references, not canonically allocated by this observation",
+    "new_R_numbers": 0
+  },
+  "rough_responsibility_assessment": {
+    "all32_distinct_preparatory_responsibilities_present": true,
+    "genuine_missing_substance_found_in_this_scope": [],
+    "executor_ready_work_orders_authored": 0
+  },
+  "separate_scientific_receiving": {
+    "date": "2026-11-13",
+    "qualified_identities_at_declared_scopes": 32,
+    "historical_review_positions": 64,
+    "available_original_final_review_receipts": 62,
+    "SPR_L1_r4_original_evidence_gap_retained": true,
+    "native_qualification_from_science": false
+  },
+  "rows": [
+    {
+      "slot": "LAW-L1",
+      "family": "LAW",
+      "responsibility": "L1",
+      "lineage_or_scope": "Lean",
+      "original_registry_row_canonical_sha256": "19ee3985f6808d8ed4e10ec0d84971fa50d0ae07182cb5155a3e434898b78404",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        186
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "186": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 186,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/186",
+          "title": "R0025 (legacy R37) — Evolved-Lean property integration — crosswalk surviving Lean/TPS engineering properties into native IMPLEMENTAUDIT controls without importing ceremony",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-16T15:38:12Z",
+          "closed_at": "2026-08-12T22:00:04Z",
+          "captured_at_utc": "2026-11-13T19:11:40.689Z",
+          "body_bytes": 12220,
+          "body_sha256": "32f20705edcc752a86574fba87ee406c2ef48cadbb213f8370997e5b60158cd5"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R001F/#158",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R001F/#158",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "The full40-row table additionally retains R000C acceptance, R0013 scope and all other row-specific owners. R0022 does not replace them.",
+      "rough_preparatory_responsibility_present": "Receive flow, capacity, abnormality, learning and outcome predicates; preserve cheap paths and every historical property owner.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/RLGWO_OUTLINES.md",
+        "bytes": 5383,
+        "sha256": "1b7fed67ca7c6bdd81dd3b127eb4387e475ec9756d265cf99b5176b68a30c9ce",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/OWNER_MAP.md",
+        "bytes": 10884,
+        "sha256": "9940e340238121caef2cd2383bea9987c3de09b1fc3ff721ebea992795550cb2",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": "SEPARATE_DOCUMENTARY_REVIEW_PENDING; unchanged R2 responsibility source used here",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "LAW-L2",
+      "family": "LAW",
+      "responsibility": "L2",
+      "lineage_or_scope": "Agile",
+      "original_registry_row_canonical_sha256": "dd04a6bd78d923f4005255f26ab1a2c95fd4042693b01a2cb07219d256d58611",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        187
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "187": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 187,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/187",
+          "title": "R0026 (legacy R38) — Evolved-Agile property integration — crosswalk surviving adaptive/iterative engineering properties into native IMPLEMENTAUDIT controls without importing ceremony",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-16T15:38:14Z",
+          "closed_at": "2026-08-12T22:00:04Z",
+          "captured_at_utc": "2026-11-13T19:11:57.710Z",
+          "body_bytes": 10057,
+          "body_sha256": "23df97632c989eb04b710b6fb49e8388c80710fe55f5a66f1ad9ed05ad13c01f"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R001F/#158",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R001F/#158",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "The full28-row table retains R000C executable validation, R001F authorised revision, R0023 evaluator integrity and R001D shipped public behavior.",
+      "rough_preparatory_responsibility_present": "Receive feedback, evidence, changeability, adaptation and authority distinctions at the actual consumer; retain no-change and nontrigger outcomes.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/RLGWO_OUTLINES.md",
+        "bytes": 5383,
+        "sha256": "1b7fed67ca7c6bdd81dd3b127eb4387e475ec9756d265cf99b5176b68a30c9ce",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/OWNER_MAP.md",
+        "bytes": 10884,
+        "sha256": "9940e340238121caef2cd2383bea9987c3de09b1fc3ff721ebea992795550cb2",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": "SEPARATE_DOCUMENTARY_REVIEW_PENDING; unchanged R2 responsibility source used here",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "LAW-L3",
+      "family": "LAW",
+      "responsibility": "L3",
+      "lineage_or_scope": "Waterfall / plan-driven assurance",
+      "original_registry_row_canonical_sha256": "b5a6c82e3d3e16e450ea2c1bd735ec86b76a0f77537ff3681162e1f37d087759",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        188
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "188": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 188,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/188",
+          "title": "R0027 (legacy R39) — Evolved-Waterfall property integration — crosswalk surviving plan-driven/systems-assurance properties into native IMPLEMENTAUDIT controls without importing ceremony",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-16T15:38:15Z",
+          "closed_at": "2026-08-12T22:00:04Z",
+          "captured_at_utc": "2026-11-13T19:11:57.666Z",
+          "body_bytes": 12496,
+          "body_sha256": "8b28b5885f49feac51736adda3f327598f495d10b07419ae173ed69643d0c578"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R001F/#158",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R001F/#158",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "The full38-row table remains intact. EW-P017 is CONTEXT_SPECIFIC_OPTIONAL; no current generic traceability mechanism is inferred.",
+      "rough_preparatory_responsibility_present": "Receive evidence-purpose, configuration, commitment, recovery and tailoring conditions; optional traceability does not become a universal matrix.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/RLGWO_OUTLINES.md",
+        "bytes": 5383,
+        "sha256": "1b7fed67ca7c6bdd81dd3b127eb4387e475ec9756d265cf99b5176b68a30c9ce",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/OWNER_MAP.md",
+        "bytes": 10884,
+        "sha256": "9940e340238121caef2cd2383bea9987c3de09b1fc3ff721ebea992795550cb2",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": "SEPARATE_DOCUMENTARY_REVIEW_PENDING; unchanged R2 responsibility source used here",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "LAW-S",
+      "family": "LAW",
+      "responsibility": "S",
+      "lineage_or_scope": "LAW synthesis",
+      "original_registry_row_canonical_sha256": "e7a81ca793b99bc91cbdbeb71da064fd14f9bf73563bc4587417994c6afd6a1f",
+      "original_carrier_kind_preserved": "shared_native_owner_and_constituent_contracts",
+      "original_issue_numbers_preserved": [
+        163,
+        186,
+        187,
+        188
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "163": "closed",
+        "186": "closed",
+        "187": "closed",
+        "188": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 163,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/163",
+          "title": "R0022 (legacy R34) — Engineering-value admission and control retirement: preserve warranted gates while omitting zero-payoff process work",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-14T21:19:17Z",
+          "closed_at": "2026-10-14T21:19:17Z",
+          "captured_at_utc": "2026-11-13T19:11:57.838Z",
+          "body_bytes": 34914,
+          "body_sha256": "93198a875e39858531c0d73ace5e8830e72ba1bf720626e7da134c76a2852da7"
+        },
+        {
+          "issue_number": 186,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/186",
+          "title": "R0025 (legacy R37) — Evolved-Lean property integration — crosswalk surviving Lean/TPS engineering properties into native IMPLEMENTAUDIT controls without importing ceremony",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-16T15:38:12Z",
+          "closed_at": "2026-08-12T22:00:04Z",
+          "captured_at_utc": "2026-11-13T19:11:40.689Z",
+          "body_bytes": 12220,
+          "body_sha256": "32f20705edcc752a86574fba87ee406c2ef48cadbb213f8370997e5b60158cd5"
+        },
+        {
+          "issue_number": 187,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/187",
+          "title": "R0026 (legacy R38) — Evolved-Agile property integration — crosswalk surviving adaptive/iterative engineering properties into native IMPLEMENTAUDIT controls without importing ceremony",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-16T15:38:14Z",
+          "closed_at": "2026-08-12T22:00:04Z",
+          "captured_at_utc": "2026-11-13T19:11:57.710Z",
+          "body_bytes": 10057,
+          "body_sha256": "23df97632c989eb04b710b6fb49e8388c80710fe55f5a66f1ad9ed05ad13c01f"
+        },
+        {
+          "issue_number": 188,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/188",
+          "title": "R0027 (legacy R39) — Evolved-Waterfall property integration — crosswalk surviving plan-driven/systems-assurance properties into native IMPLEMENTAUDIT controls without importing ceremony",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-16T15:38:15Z",
+          "closed_at": "2026-08-12T22:00:04Z",
+          "captured_at_utc": "2026-11-13T19:11:57.666Z",
+          "body_bytes": 12496,
+          "body_sha256": "8b28b5885f49feac51736adda3f327598f495d10b07419ae173ed69643d0c578"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R0013/#92",
+        "R001D/#155"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R000A/#83",
+        "R0013/#92",
+        "R001D/#155"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R0022/#163, R000A/#83, R0013/#92 and R001D/#155 retain different roles; constituent issue contracts remain separate.",
+      "rough_preparatory_responsibility_present": "Keep the shared proportionality and cross-method receiving responsibility; use the separate A008 scientific qualification before any exact-current native comparison.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/RLGWO_OUTLINES.md",
+        "bytes": 5383,
+        "sha256": "1b7fed67ca7c6bdd81dd3b127eb4387e475ec9756d265cf99b5176b68a30c9ce",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/law/OWNER_MAP.md",
+        "bytes": 10884,
+        "sha256": "9940e340238121caef2cd2383bea9987c3de09b1fc3ff721ebea992795550cb2",
+        "source_kind": "accepted_R2_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "unfinished",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": true,
+      "LAW_A008_documentary_successor_status_at_this_read": "SEPARATE_DOCUMENTARY_REVIEW_PENDING; unchanged R2 responsibility source used here",
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "CSS-L1",
+      "family": "CSS",
+      "responsibility": "L1",
+      "lineage_or_scope": "Cognitive Systems Engineering",
+      "original_registry_row_canonical_sha256": "43c2f6cc4c67866fcf4a1e96239b6c0b8674bd64b27bcc055b5f31392f09906f",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        194
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "194": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 194,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/194",
+          "title": "R002A (legacy R42) — Evolved Cognitive Systems Engineering — joint cognitive work, decision-state legibility, authority/capability alignment, handoff/re-entry, attention, coordination, adaptation and cognitive fit",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:00:42Z",
+          "closed_at": "2026-08-17T07:00:42Z",
+          "captured_at_utc": "2026-11-13T19:11:57.649Z",
+          "body_bytes": 38923,
+          "body_sha256": "fb811b27f4c54010c9341ab75b4389c6353238d897a4f11036c09989c3a4f4a1"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0033/#207",
+        "R001F/#158",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0033/#207",
+        "R001F/#158",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #194 also names R000F effect readback, R0014 learning, R001B derived views, R0020 conditional convergence, R0028 independence and R0029 capability.",
+      "rough_preparatory_responsibility_present": "Distinguish transmitted state, actual comprehension, usable intervention, independent information and achieved joint work.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "bytes": 26882,
+        "sha256": "b6ae497e063e3512ed32f6b0dfbe30cfeb6ea12bae8df521ceb929c436739ff1",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "bytes": 41518,
+        "sha256": "4aff49d003fc8b75144ae4891b4e471dad6f3476f81b36679d699433949341c2",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "CSS-L2",
+      "family": "CSS",
+      "responsibility": "L2",
+      "lineage_or_scope": "Statistical Engineering",
+      "original_registry_row_canonical_sha256": "6ac43e0751d99d456859bec4f2144087014feb1b512280ee694c65a1296d5527",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        195
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "195": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 195,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/195",
+          "title": "R002B (legacy R43) — Evolved Statistical Engineering — measurement fitness, variation and discrimination, experimentation/stopping discipline, evaluator validity, proxy resistance and evidence-efficient decisions",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:01:42Z",
+          "closed_at": "2026-08-17T07:01:42Z",
+          "captured_at_utc": "2026-11-13T19:11:58.735Z",
+          "body_bytes": 46028,
+          "body_sha256": "cd2491c7c2bc8d191304fafa40616769c0a82de9bea32823115d7137b8443495"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0033/#207",
+        "R001F/#158",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0033/#207",
+        "R001F/#158",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R000C/#85, R0006/#79, R000A/#83, R000D/#86, R000E/#87 and R000F/#88 retain distinct measurement/census/identity roles. R0008, R000B, R0012 and R0018 are complementary, not statistical substitutes.",
+      "rough_preparatory_responsibility_present": "Preserve measurement meaning, comparison units, dependence, uncertainty, stopping and evaluator integrity without treating native analogies as statistical proof.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "bytes": 26882,
+        "sha256": "b6ae497e063e3512ed32f6b0dfbe30cfeb6ea12bae8df521ceb929c436739ff1",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "bytes": 41518,
+        "sha256": "4aff49d003fc8b75144ae4891b4e471dad6f3476f81b36679d699433949341c2",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "CSS-L3",
+      "family": "CSS",
+      "responsibility": "L3",
+      "lineage_or_scope": "Systems Safety",
+      "original_registry_row_canonical_sha256": "6b4a6af3f978be2a50c95faf422e3480295a854c3ce3c8b1bf7273f0e56d2bc4",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        196
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "196": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 196,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/196",
+          "title": "R002C (legacy R44) — Evolved Systems Safety — unacceptable-loss reasoning, hazardous-state and control constraints, assurance, containment, recovery, and consequence-proportional engineering",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-08T05:46:33Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.976Z",
+          "body_bytes": 27279,
+          "body_sha256": "b0c75c88af3c6bec8bd1536ed8a7c5cd3b5e53f991c6f59d71008ac3e3ab98db"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0033/#207",
+        "R001F/#158",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0033/#207",
+        "R001F/#158",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R002C remains the safety integration carrier; R000F/R0024 effect closure, R0028/R0029 challenge/capability and active R0030/R002D/R002E seams remain separately owned.",
+      "rough_preparatory_responsibility_present": "Distinguish loss, hazard, enforceable constraint, actual authority, feedback, achieved containment and recovery at the existing safety/effect owners.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "bytes": 26882,
+        "sha256": "b6ae497e063e3512ed32f6b0dfbe30cfeb6ea12bae8df521ceb929c436739ff1",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "bytes": 41518,
+        "sha256": "4aff49d003fc8b75144ae4891b4e471dad6f3476f81b36679d699433949341c2",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "CSS-S",
+      "family": "CSS",
+      "responsibility": "S",
+      "lineage_or_scope": "CSS synthesis",
+      "original_registry_row_canonical_sha256": "356a960ede6ab2eab3f554e3b446d4b08dd13a3ce0eb70e2600290378bbc82b0",
+      "original_carrier_kind_preserved": "shared_semantic_receipt_and_native_owners",
+      "original_issue_numbers_preserved": [
+        194,
+        195,
+        196
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "194": "closed",
+        "195": "closed",
+        "196": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 194,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/194",
+          "title": "R002A (legacy R42) — Evolved Cognitive Systems Engineering — joint cognitive work, decision-state legibility, authority/capability alignment, handoff/re-entry, attention, coordination, adaptation and cognitive fit",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:00:42Z",
+          "closed_at": "2026-08-17T07:00:42Z",
+          "captured_at_utc": "2026-11-13T19:11:57.649Z",
+          "body_bytes": 38923,
+          "body_sha256": "fb811b27f4c54010c9341ab75b4389c6353238d897a4f11036c09989c3a4f4a1"
+        },
+        {
+          "issue_number": 195,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/195",
+          "title": "R002B (legacy R43) — Evolved Statistical Engineering — measurement fitness, variation and discrimination, experimentation/stopping discipline, evaluator validity, proxy resistance and evidence-efficient decisions",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:01:42Z",
+          "closed_at": "2026-08-17T07:01:42Z",
+          "captured_at_utc": "2026-11-13T19:11:58.735Z",
+          "body_bytes": 46028,
+          "body_sha256": "cd2491c7c2bc8d191304fafa40616769c0a82de9bea32823115d7137b8443495"
+        },
+        {
+          "issue_number": 196,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/196",
+          "title": "R002C (legacy R44) — Evolved Systems Safety — unacceptable-loss reasoning, hazardous-state and control constraints, assurance, containment, recovery, and consequence-proportional engineering",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-08T05:46:33Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.976Z",
+          "body_bytes": 27279,
+          "body_sha256": "b0c75c88af3c6bec8bd1536ed8a7c5cd3b5e53f991c6f59d71008ac3e3ab98db"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R001D/#155",
+        "R001F/#158",
+        "R0020/#160",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0028/#189",
+        "R0029/#190"
+      ],
+      "original_consumer_owners_preserved": [
+        "R001D/#155",
+        "R001F/#158",
+        "R0020/#160",
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0028/#189",
+        "R0029/#190"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "The historical CSS semantic receipt and native synthesis route are shared; no fourth CSS issue or ownership transfer to PR254 is supplied.",
+      "rough_preparatory_responsibility_present": "Receive cognitive, statistical and consequence-control contributions at one relevant context, preserving direction, partial support and independent premises.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/RLGWO_OUTLINES.md",
+        "bytes": 26882,
+        "sha256": "b6ae497e063e3512ed32f6b0dfbe30cfeb6ea12bae8df521ceb929c436739ff1",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/css/OWNER_MAP.json",
+        "bytes": 41518,
+        "sha256": "4aff49d003fc8b75144ae4891b4e471dad6f3476f81b36679d699433949341c2",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSD-L1",
+      "family": "SSD",
+      "responsibility": "L1",
+      "lineage_or_scope": "Systems Engineering",
+      "original_registry_row_canonical_sha256": "ae4cee74b3f19bf479040e230434dc1752bc5fbc052c8ee75ee6bc8c566287f3",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        197
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "197": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 197,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197",
+          "title": "R002D (legacy R45) — Evolved Systems Engineering — current intent, architecture, interfaces, configuration, integration, V&V, model credibility and lifecycle coherence",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-11T22:10:56Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.795Z",
+          "body_bytes": 28394,
+          "body_sha256": "35ecac26609bdf30ddd782168145d7ede8023e5dcab09d135ad20e2f81d46896"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0033/#207",
+        "R0035/#209",
+        "R0037/#211"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0033/#207",
+        "R0035/#209",
+        "R0037/#211"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #197 additionally retains R000E/R000F/R0010/R001B/R0021 configuration evidence, R000C/R0023/R0028 V&V and R001F/R0020/R0022 integration readiness.",
+      "rough_preparatory_responsibility_present": "Keep intended use, requirements, interfaces, configuration, integration and evidence distinct; retain P007/P012/P032 outside their historical accepted radius.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/RLGWO_OUTLINES.md",
+        "bytes": 5638,
+        "sha256": "8f0f1febb321f09ba7402063f9af596b44599b2ae3a752796f38069a294e0deb",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/OWNER_MAP.md",
+        "bytes": 4394,
+        "sha256": "89345f16df1304f30210941abe6c09c8d35ce6aad5efbccd32c5d8e0aa66ff81",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSD-L2",
+      "family": "SSD",
+      "responsibility": "L2",
+      "lineage_or_scope": "Systems Security Engineering",
+      "original_registry_row_canonical_sha256": "3c7f91940fe8129bb37243f4b31a470fb9f0101cf3e8e008e303a74938dedbf3",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        198
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "198": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 198,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/198",
+          "title": "R002E (legacy R46) — Evolved Systems Security Engineering — trust boundaries, adversarial resilience, secure architecture, assurance, recovery, and lifecycle trustworthiness",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-11T18:19:54Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.623Z",
+          "body_bytes": 16342,
+          "body_sha256": "00e311b14a7ddce720c19f0109da541aea19e6e94a1a1f63741135bb2387591a"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0033/#207",
+        "R0035/#209",
+        "R0037/#211"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0033/#207",
+        "R0035/#209",
+        "R0037/#211"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "SECURITY_NATIVE and R000C, R000D/R0028, R000E–R0010/R0024, R0013/R0022, R0015, R0019, R001B, R001D and R001F retain their conditional original roles.",
+      "rough_preparatory_responsibility_present": "Keep protected consequence, principal, actual authority, enforcement, provenance, observed configuration and recovery distinct.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/RLGWO_OUTLINES.md",
+        "bytes": 5638,
+        "sha256": "8f0f1febb321f09ba7402063f9af596b44599b2ae3a752796f38069a294e0deb",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/OWNER_MAP.md",
+        "bytes": 4394,
+        "sha256": "89345f16df1304f30210941abe6c09c8d35ce6aad5efbccd32c5d8e0aa66ff81",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSD-L3",
+      "family": "SSD",
+      "responsibility": "L3",
+      "lineage_or_scope": "Decision and Operations Engineering",
+      "original_registry_row_canonical_sha256": "d5799e19b69af72a1a3b18fda3a5b89f9fb6607b4b9231ed10e5b221a69973ef",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        199
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "199": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 199,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/199",
+          "title": "R002F (legacy R47) — Evolved Decision & Operations Engineering — decision framing, alternatives, constrained resources, capacity and backpressure, uncertainty, scheduling, value of information, robustness, and adaptive decisions",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:01:54Z",
+          "closed_at": "2026-08-17T07:01:54Z",
+          "captured_at_utc": "2026-11-13T19:11:57.792Z",
+          "body_bytes": 20368,
+          "body_sha256": "a33a64b919d76fb86a48d8a3a171c2bec5c103539aabde26468f2d40f6a7716a"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0033/#207",
+        "R0035/#209",
+        "R0037/#211"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R0023/#164",
+        "R0024/#167",
+        "R0033/#207",
+        "R0035/#209",
+        "R0037/#211"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #199 keeps R001B/R001F/R0022/R0023/R0024/R0028 as implementation authorities. P065 remains a transfer boundary at its recorded scope.",
+      "rough_preparatory_responsibility_present": "Preserve decision framing, feasible alternatives, resource constraints, uncertainty and justified evidence-to-action use without reopening the closed carrier.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/RLGWO_OUTLINES.md",
+        "bytes": 5638,
+        "sha256": "8f0f1febb321f09ba7402063f9af596b44599b2ae3a752796f38069a294e0deb",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/OWNER_MAP.md",
+        "bytes": 4394,
+        "sha256": "89345f16df1304f30210941abe6c09c8d35ce6aad5efbccd32c5d8e0aa66ff81",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSD-S",
+      "family": "SSD",
+      "responsibility": "S",
+      "lineage_or_scope": "SSD synthesis",
+      "original_registry_row_canonical_sha256": "8dba694d3c24821bcb975a84c54ac2f68f4292606fea4d12240b4aed9f8ba087",
+      "original_carrier_kind_preserved": "shared_semantic_receipt_and_native_owners",
+      "original_issue_numbers_preserved": [
+        197,
+        198,
+        199
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "197": "open",
+        "198": "open",
+        "199": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 197,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/197",
+          "title": "R002D (legacy R45) — Evolved Systems Engineering — current intent, architecture, interfaces, configuration, integration, V&V, model credibility and lifecycle coherence",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-11T22:10:56Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.795Z",
+          "body_bytes": 28394,
+          "body_sha256": "35ecac26609bdf30ddd782168145d7ede8023e5dcab09d135ad20e2f81d46896"
+        },
+        {
+          "issue_number": 198,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/198",
+          "title": "R002E (legacy R46) — Evolved Systems Security Engineering — trust boundaries, adversarial resilience, secure architecture, assurance, recovery, and lifecycle trustworthiness",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-11T18:19:54Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.623Z",
+          "body_bytes": 16342,
+          "body_sha256": "00e311b14a7ddce720c19f0109da541aea19e6e94a1a1f63741135bb2387591a"
+        },
+        {
+          "issue_number": 199,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/199",
+          "title": "R002F (legacy R47) — Evolved Decision & Operations Engineering — decision framing, alternatives, constrained resources, capacity and backpressure, uncertainty, scheduling, value of information, robustness, and adaptive decisions",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:01:54Z",
+          "closed_at": "2026-08-17T07:01:54Z",
+          "captured_at_utc": "2026-11-13T19:11:57.792Z",
+          "body_bytes": 20368,
+          "body_sha256": "a33a64b919d76fb86a48d8a3a171c2bec5c103539aabde26468f2d40f6a7716a"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R002D/#197",
+        "R002E/#198",
+        "R002F/#199",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R002D/#197",
+        "R002E/#198",
+        "R002F/#199",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "The #197/#198/#199 contracts and R0024/#167 remain separate; shared R0033/R0035/R0037 do not become a new synthesis owner.",
+      "rough_preparatory_responsibility_present": "Prepare guarded composition of systems, security and decision predicates; independent local passes do not prove their joint configuration.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/RLGWO_OUTLINES.md",
+        "bytes": 5638,
+        "sha256": "8f0f1febb321f09ba7402063f9af596b44599b2ae3a752796f38069a294e0deb",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ssd/OWNER_MAP.md",
+        "bytes": 4394,
+        "sha256": "89345f16df1304f30210941abe6c09c8d35ce6aad5efbccd32c5d8e0aa66ff81",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "unfinished",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": true,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "DRF-L1",
+      "family": "DRF",
+      "responsibility": "L1",
+      "lineage_or_scope": "Distributed Systems Engineering",
+      "original_registry_row_canonical_sha256": "06c01db3f344ede1d52ca3066b022101e0dd619f58b2bbeeab1480c42996e46f",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        200
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "200": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 200,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200",
+          "title": "R0030 (legacy R48) — Evolved Distributed Systems Engineering — bounded partial-failure, fenced effects, admission and recovery closure",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-08T05:46:40Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.731Z",
+          "body_bytes": 25144,
+          "body_sha256": "1954bc3d59d300df00f609e55bb1f447dce5916ad5f01e6ee6d9070e8558fa59"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R0030/#200 remains the partial-failure/effect carrier. Shared R0022/R0024/R0035/R0037/R0039 retain their original mechanisms;54 properties are not98 or133 relation objects.",
+      "rough_preparatory_responsibility_present": "Discriminate actual operation/attempt authority and postcondition at partial-failure boundaries; preserve separate P34, P37 and P53 questions.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/RLGWO_OUTLINES.md",
+        "bytes": 3964,
+        "sha256": "e5e1756b413ccf9471e6afa13bf212ec24b0604702fe0e6e1b4d98c7c6ae7e37",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "bytes": 42094,
+        "sha256": "77343d6f2c5d75247c15b87f2994eee3ecbfae286656357af774cffba87a859a",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "DRF-L2",
+      "family": "DRF",
+      "responsibility": "L2",
+      "lineage_or_scope": "Reliability and Maintainability Engineering",
+      "original_registry_row_canonical_sha256": "b94fc2b5bb8ad131e6093896e515c736b87496f2b06814287e69788658e31bfb",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        201
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "201": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 201,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/201",
+          "title": "R0031 (legacy R49) — Evolved Reliability & Maintainability Engineering — required function, failure propagation, common cause, diagnostic coverage, graceful degradation, repair, restoration, maintainability, and configuration-bound evidence",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:02:01Z",
+          "closed_at": "2026-08-17T07:02:01Z",
+          "captured_at_utc": "2026-11-13T19:11:57.590Z",
+          "body_bytes": 33174,
+          "body_sha256": "e2cd12c46f5dc441500d5b93c65d237d96d7174afb4f12c30614cb524ac02a12"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #201 additionally names R001F reconstruction, R0023 diagnostic evidence and R0028 independence; R001E/R001D are conditional reachability/public tails.",
+      "rough_preparatory_responsibility_present": "Discriminate required function from component health, proxy success, capacity, diagnosis and recovery claims at the actual context.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/RLGWO_OUTLINES.md",
+        "bytes": 3964,
+        "sha256": "e5e1756b413ccf9471e6afa13bf212ec24b0604702fe0e6e1b4d98c7c6ae7e37",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "bytes": 42094,
+        "sha256": "77343d6f2c5d75247c15b87f2994eee3ecbfae286656357af774cffba87a859a",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "DRF-L3",
+      "family": "DRF",
+      "responsibility": "L3",
+      "lineage_or_scope": "Formal Methods and Verification Engineering",
+      "original_registry_row_canonical_sha256": "323fb9beeb7df579364b5260100cff24f33eb0e5eca4a268fd92d91ab783f7f7",
+      "original_carrier_kind_preserved": "existing_lineage_issue",
+      "original_issue_numbers_preserved": [
+        202
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "202": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 202,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/202",
+          "title": "R0032 (legacy R50) — Evolved Formal Methods and Verification Engineering — precise specifications, invariants and temporal properties, abstraction/refinement, compositional contracts, mechanical checking, proof/toolchain trust and proof currentness",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:02:04Z",
+          "closed_at": "2026-08-17T07:02:04Z",
+          "captured_at_utc": "2026-11-13T19:11:57.647Z",
+          "body_bytes": 30127,
+          "body_sha256": "5ac7d5ac18a34121fc46cea40c6e43bc7228466d0643b5617aaa758b3db814c2"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0022/#163",
+        "R0024/#167",
+        "R0035/#209",
+        "R0037/#211",
+        "R0039/#215"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #202 retains R000E/R000F/R0010 identity, R001B derived models, R001F custody, R0020 trigger, R0022/R0029 cost, R0023 instrument, R0024 mutation and R0028 separation.",
+      "rough_preparatory_responsibility_present": "Bind statement, translation, model, environment, trusted result and current identity; preserve formal-evidence legs and inconclusive outcomes.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/RLGWO_OUTLINES.md",
+        "bytes": 3964,
+        "sha256": "e5e1756b413ccf9471e6afa13bf212ec24b0604702fe0e6e1b4d98c7c6ae7e37",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "bytes": 42094,
+        "sha256": "77343d6f2c5d75247c15b87f2994eee3ecbfae286656357af774cffba87a859a",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "DRF-S",
+      "family": "DRF",
+      "responsibility": "S",
+      "lineage_or_scope": "DRF synthesis",
+      "original_registry_row_canonical_sha256": "ebafc39266ca9c3683ca174c49b3214284e61ae1b627bc5c3eb4679f23a8dde2",
+      "original_carrier_kind_preserved": "embedded_semantic_receipt_and_shared_owners",
+      "original_issue_numbers_preserved": [
+        200,
+        201,
+        202
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "200": "open",
+        "201": "closed",
+        "202": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 200,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/200",
+          "title": "R0030 (legacy R48) — Evolved Distributed Systems Engineering — bounded partial-failure, fenced effects, admission and recovery closure",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-08T05:46:40Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.731Z",
+          "body_bytes": 25144,
+          "body_sha256": "1954bc3d59d300df00f609e55bb1f447dce5916ad5f01e6ee6d9070e8558fa59"
+        },
+        {
+          "issue_number": 201,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/201",
+          "title": "R0031 (legacy R49) — Evolved Reliability & Maintainability Engineering — required function, failure propagation, common cause, diagnostic coverage, graceful degradation, repair, restoration, maintainability, and configuration-bound evidence",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:02:01Z",
+          "closed_at": "2026-08-17T07:02:01Z",
+          "captured_at_utc": "2026-11-13T19:11:57.590Z",
+          "body_bytes": 33174,
+          "body_sha256": "e2cd12c46f5dc441500d5b93c65d237d96d7174afb4f12c30614cb524ac02a12"
+        },
+        {
+          "issue_number": 202,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/202",
+          "title": "R0032 (legacy R50) — Evolved Formal Methods and Verification Engineering — precise specifications, invariants and temporal properties, abstraction/refinement, compositional contracts, mechanical checking, proof/toolchain trust and proof currentness",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-08-17T07:02:04Z",
+          "closed_at": "2026-08-17T07:02:04Z",
+          "captured_at_utc": "2026-11-13T19:11:57.647Z",
+          "body_bytes": 30127,
+          "body_sha256": "5ac7d5ac18a34121fc46cea40c6e43bc7228466d0643b5617aaa758b3db814c2"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0030/#200",
+        "R0031/#201",
+        "R0032/#202",
+        "R0022/#163",
+        "R0024/#167"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0030/#200",
+        "R0031/#201",
+        "R0032/#202",
+        "R0022/#163",
+        "R0024/#167"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "The separately labelled DRF semantic receipt in #202 is historical composition custody; no new fourth work order or universal formal qualification follows.",
+      "rough_preparatory_responsibility_present": "Receive accepted A006 interactions at a real shared consumer; keep historical159/588 semantic receipt distinct from the later scientific synthesis.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/RLGWO_OUTLINES.md",
+        "bytes": 3964,
+        "sha256": "e5e1756b413ccf9471e6afa13bf212ec24b0604702fe0e6e1b4d98c7c6ae7e37",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "bytes": 42094,
+        "sha256": "77343d6f2c5d75247c15b87f2994eee3ecbfae286656357af774cffba87a859a",
+        "source_kind": "accepted_DRF_documentary_candidate"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "unfinished",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": true,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSS-L1",
+      "family": "SSS",
+      "responsibility": "L1",
+      "lineage_or_scope": "Software Architecture",
+      "original_registry_row_canonical_sha256": "680916282290a0121dc2a1068aea080cb475bc5950b556744e746f9f863eea77",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        228
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "228": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 228,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/228",
+          "title": "R003C — Evolved Software Architecture — qualify selected architecture and receiver interaction obligations",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-16T16:58:46Z",
+          "closed_at": "2026-10-16T16:58:46Z",
+          "captured_at_utc": "2026-11-13T19:11:57.976Z",
+          "body_bytes": 38984,
+          "body_sha256": "af4a123c6e2c4e2f12e3c97b20f38eadf924235bad6146ecccacbf7b4ddb26ed"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "original_consumer_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #228 explicitly preserves R0032/#202 proof/applicability, R0034/#208 package identity and R0022/#163 proportionality in addition to the registry summary.",
+      "rough_preparatory_responsibility_present": "Receive consequential interfaces, actual dependencies and decision evidence; distinguish a described interaction from actual supported receiving.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "bytes": 9856,
+        "sha256": "e65d4c3fd4889d4aaa4bef04a41d22dff2fac4e0d5b2c0810e5a0e576cb5a742",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "bytes": 11292,
+        "sha256": "3eb25c1acc99d2bffdd2c8703782474adab86ed96cfcc5b8c3a26b736b334080",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSS-L2",
+      "family": "SSS",
+      "responsibility": "L2",
+      "lineage_or_scope": "Software Maintenance and Evolution — canonical",
+      "original_registry_row_canonical_sha256": "a7a8133623a04b1d80bcff1397175d9dc5f09877f8a78a71364dffe01b5cbf0b",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        227
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "227": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 227,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/227",
+          "title": "R003D — Evolved Software Maintenance & Evolution — qualify maintenance purpose, change impact and evidence-bound dependency authority",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-17T06:34:48Z",
+          "closed_at": "2026-10-17T06:34:48Z",
+          "captured_at_utc": "2026-11-13T19:11:57.675Z",
+          "body_bytes": 41184,
+          "body_sha256": "15cdd6281b4ccbee46cdadb9ad9465844da1fac9e2a103a2b57927454ee25cfe"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "original_consumer_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #227 additionally preserves R0032/#202 proof, R0031/#201 restoration, R0030/#200 effects/recovery, R0034/#208 package identity and R0022/#163 proportionality.",
+      "rough_preparatory_responsibility_present": "Keep supported obligation, actual change, evidence, recovery and support horizon aligned; association supplies no edit or dependency authority.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "bytes": 9856,
+        "sha256": "e65d4c3fd4889d4aaa4bef04a41d22dff2fac4e0d5b2c0810e5a0e576cb5a742",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "bytes": 11292,
+        "sha256": "3eb25c1acc99d2bffdd2c8703782474adab86ed96cfcc5b8c3a26b736b334080",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSS-L3",
+      "family": "SSS",
+      "responsibility": "L3",
+      "lineage_or_scope": "Software Product Line Engineering",
+      "original_registry_row_canonical_sha256": "928167f5a749d80eb9634755f8d2eb9e2b1833d1a72523868a8ff72d8f1e76a7",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        226
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "226": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 226,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/226",
+          "title": "R003B — Evolved Software Product Line Engineering — qualify variability, configuration consumers and retained product promises",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-16T11:10:42Z",
+          "closed_at": "2026-10-16T11:10:42Z",
+          "captured_at_utc": "2026-11-13T19:11:57.723Z",
+          "body_bytes": 40152,
+          "body_sha256": "587c4b8e668c0f3b5e1d0b17df2b3d56392896a92c1f302d73c4d287feb3edc9"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "original_consumer_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158",
+        "R001D/#155"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #226 explicitly preserves R0032/#202 proof/applicability, R0034/#208 package identity and R0022/#163 proportionality; no duplicate product-family writer is assigned.",
+      "rough_preparatory_responsibility_present": "Distinguish requested configuration, valid model, realised artifact and supported consumer promise; preserve simpler sufficient alternatives.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "bytes": 9856,
+        "sha256": "e65d4c3fd4889d4aaa4bef04a41d22dff2fac4e0d5b2c0810e5a0e576cb5a742",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "bytes": 11292,
+        "sha256": "3eb25c1acc99d2bffdd2c8703782474adab86ed96cfcc5b8c3a26b736b334080",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SSS-S",
+      "family": "SSS",
+      "responsibility": "S",
+      "lineage_or_scope": "SSS synthesis",
+      "original_registry_row_canonical_sha256": "141e6b43fe33df3ab06aab856a83e4e6feef9f963adac12d4ab466533fabdccf",
+      "original_carrier_kind_preserved": "embedded_synthesis_unit",
+      "original_issue_numbers_preserved": [
+        227
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "227": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 227,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/227",
+          "title": "R003D — Evolved Software Maintenance & Evolution — qualify maintenance purpose, change impact and evidence-bound dependency authority",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-17T06:34:48Z",
+          "closed_at": "2026-10-17T06:34:48Z",
+          "captured_at_utc": "2026-11-13T19:11:57.675Z",
+          "body_bytes": 41184,
+          "body_sha256": "15cdd6281b4ccbee46cdadb9ad9465844da1fac9e2a103a2b57927454ee25cfe"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158"
+      ],
+      "original_consumer_owners_preserved": [
+        "R002D/#197",
+        "R0035/#209",
+        "R0037/#211",
+        "R001F/#158"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R003D::SSS-SYNTHESIS, ::RECEIPT and ::C1 remain separately addressable inside #227; the host does not absorb every specialist mechanism.",
+      "rough_preparatory_responsibility_present": "Keep the embedded synthesis and its separate receipt/C1 scope distinct from Maintenance105 and its individual acceptance.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/RLGWO_OUTLINES.md",
+        "bytes": 9856,
+        "sha256": "e65d4c3fd4889d4aaa4bef04a41d22dff2fac4e0d5b2c0810e5a0e576cb5a742",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/sss/OWNER_MAP.json",
+        "bytes": 11292,
+        "sha256": "3eb25c1acc99d2bffdd2c8703782474adab86ed96cfcc5b8c3a26b736b334080",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "BWP-L1",
+      "family": "BWP",
+      "responsibility": "L1",
+      "lineage_or_scope": "Business Process Management",
+      "original_registry_row_canonical_sha256": "b4db53a2c873f0f9e152f364c393f713d0cfa3226bbc14061d103e816130ecaf",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        225
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "225": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 225,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225",
+          "title": "R003F — Evolved Business Process Management — authority-constrained process change and claim-specific benefit qualification",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-10-16T03:18:54Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.671Z",
+          "body_bytes": 26311,
+          "body_sha256": "c82f5dfd9d0829e7635df732ba549e603d63fd6a7fede19dac1e0253ac29b019"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0037/#211",
+        "R001F/#158",
+        "R0022/#163",
+        "R0035/#209",
+        "R0038/#214",
+        "R0030/#200",
+        "R0039/#215"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0037/#211",
+        "R001F/#158",
+        "R0022/#163",
+        "R0035/#209",
+        "R0038/#214",
+        "R0030/#200",
+        "R0039/#215"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #225 keeps R0037/R001F receiving, R0037/R0022 autonomy admission, R0022/R0035/R0038 benefit comparison and R0023 only for actual evaluator change.",
+      "rough_preparatory_responsibility_present": "Receive process purpose, actual work, effective authority and claim-specific benefit; EBPM73 and embedded BWP234 remain separate undertakings.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/RLGWO_OUTLINES.md",
+        "bytes": 9575,
+        "sha256": "81638b9f87d2b0d7e17ff0c7900231bed8290721b0aa0a2001dc9e2612566f09",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/PROPERTY_OWNER_MAP.json",
+        "bytes": 1009572,
+        "sha256": "fd3bd2ccdcd93114ebef5bab3aa9ec2cf4d9d775ecd19cdc79e5986810c525a7",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "BWP-L2",
+      "family": "BWP",
+      "responsibility": "L2",
+      "lineage_or_scope": "Workflow Management",
+      "original_registry_row_canonical_sha256": "886a77cde70aea3be5086001a5cfb259bb32764b1ffc22e6b66b5f0142a56e36",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        230
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "230": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 230,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/230",
+          "title": "R0041 — Evolved Workflow Management — state-sensitive migration, pending interactions and receiving qualification",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-09-11T18:28:27Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.727Z",
+          "body_bytes": 27000,
+          "body_sha256": "0a3ed67c70aa5698590945d2a132014a5b6c0adff07e902469b96280a2f8a24f"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0037/#211",
+        "R001F/#158",
+        "R0022/#163",
+        "R0035/#209",
+        "R0038/#214",
+        "R0030/#200",
+        "R0039/#215"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0037/#211",
+        "R001F/#158",
+        "R0022/#163",
+        "R0035/#209",
+        "R0038/#214",
+        "R0030/#200",
+        "R0039/#215"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #230 additionally names R002D/#197 configuration, R002C/#196 loss boundary and R003A/#216 actual host/session/grant binding.",
+      "rough_preparatory_responsibility_present": "Receive actual definition, running state, data, pending work and external obligations; no performed migration means no migration acceptance.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/RLGWO_OUTLINES.md",
+        "bytes": 9575,
+        "sha256": "81638b9f87d2b0d7e17ff0c7900231bed8290721b0aa0a2001dc9e2612566f09",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/PROPERTY_OWNER_MAP.json",
+        "bytes": 1009572,
+        "sha256": "fd3bd2ccdcd93114ebef5bab3aa9ec2cf4d9d775ecd19cdc79e5986810c525a7",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "BWP-L3",
+      "family": "BWP",
+      "responsibility": "L3",
+      "lineage_or_scope": "Process Mining",
+      "original_registry_row_canonical_sha256": "24fa8aaf44f908f5288b5ae517d931d939f1b86739d3c6633d7f90e5a7f77b21",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        229
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "229": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 229,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/229",
+          "title": "R0040 — Evolved Process Mining — event-meaning, evidence-applicability and causal-claim qualification",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-16T03:26:09Z",
+          "closed_at": "2026-10-16T03:26:09Z",
+          "captured_at_utc": "2026-11-13T19:11:58.021Z",
+          "body_bytes": 26727,
+          "body_sha256": "94fcfd6362a3902e1ce56245e5fe5a64becad00c204f4df335c17365f6de2dbc"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0037/#211",
+        "R001F/#158",
+        "R0022/#163",
+        "R0035/#209",
+        "R0038/#214",
+        "R0030/#200",
+        "R0039/#215"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0037/#211",
+        "R001F/#158",
+        "R0022/#163",
+        "R0035/#209",
+        "R0038/#214",
+        "R0030/#200",
+        "R0039/#215"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #229 preserves R0038/#214 event evidence, R0039/#215 applicability, R0030/#200 effects and R003A/#216 grant/session; R0033/#207 retains applicable control-change authority.",
+      "rough_preparatory_responsibility_present": "Preserve event meaning, applicability and inferential limits; performed work and observed records do not by themselves prove accepted outcome or causal benefit.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/RLGWO_OUTLINES.md",
+        "bytes": 9575,
+        "sha256": "81638b9f87d2b0d7e17ff0c7900231bed8290721b0aa0a2001dc9e2612566f09",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/PROPERTY_OWNER_MAP.json",
+        "bytes": 1009572,
+        "sha256": "fd3bd2ccdcd93114ebef5bab3aa9ec2cf4d9d775ecd19cdc79e5986810c525a7",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "BWP-S",
+      "family": "BWP",
+      "responsibility": "S",
+      "lineage_or_scope": "BWP synthesis",
+      "original_registry_row_canonical_sha256": "8149b2ef884f041fdf8197bb4a233eb0797d4ec034c0159d8629a49bfe257ce0",
+      "original_carrier_kind_preserved": "embedded_synthesis_unit",
+      "original_issue_numbers_preserved": [
+        225
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "225": "open"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 225,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/225",
+          "title": "R003F — Evolved Business Process Management — authority-constrained process change and claim-specific benefit qualification",
+          "state": "open",
+          "state_reason": null,
+          "updated_at": "2026-10-16T03:18:54Z",
+          "closed_at": null,
+          "captured_at_utc": "2026-11-13T19:11:57.671Z",
+          "body_bytes": 26311,
+          "body_sha256": "c82f5dfd9d0829e7635df732ba549e603d63fd6a7fede19dac1e0253ac29b019"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R003F/#225",
+        "R0037/#211",
+        "R0035/#209",
+        "R0038/#214",
+        "R0039/#215"
+      ],
+      "original_consumer_owners_preserved": [
+        "R003F/#225",
+        "R0037/#211",
+        "R0035/#209",
+        "R0038/#214",
+        "R0039/#215"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "The host is R003F::BWP-LANE-CONTINUATION, not a new R0042. R001F/R0037 receiving and R0035/R0038/R0039 composition/evidence/applicability remain separate.",
+      "rough_preparatory_responsibility_present": "Retain the embedded BWP continuation, joint guards, separate lineage/component acceptance and unresolved member obligations.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/RLGWO_OUTLINES.md",
+        "bytes": 9575,
+        "sha256": "81638b9f87d2b0d7e17ff0c7900231bed8290721b0aa0a2001dc9e2612566f09",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/bwp/PROPERTY_OWNER_MAP.json",
+        "bytes": 1009572,
+        "sha256": "fd3bd2ccdcd93114ebef5bab3aa9ec2cf4d9d775ecd19cdc79e5986810c525a7",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "AMA-L1",
+      "family": "AMA",
+      "responsibility": "L1",
+      "lineage_or_scope": "Autonomous Agents",
+      "original_registry_row_canonical_sha256": "df2dfa2e9844d2ed4dcc7bf0b4bab11a78e4831e5968eccd5c2bc3050561966f",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        233
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "233": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 233,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/233",
+          "title": "R0045 — Evolved Autonomous Agents — qualify action attribution and preserve claim-specific evidence through changed boundaries",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-15T23:21:45Z",
+          "closed_at": "2026-10-15T23:21:45Z",
+          "captured_at_utc": "2026-11-13T19:11:57.699Z",
+          "body_bytes": 21848,
+          "body_sha256": "2ac85f702177ca24c18d5031e27fdbf72746942b249014ea5e899897bc919ff5"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197",
+        "R001F/#158"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197",
+        "R001F/#158"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #233 also preserves R0038/#214 event meaning and R0039/#215 affected-use invalidation. The shared EAA-001/C001 event is not two independent confirmations.",
+      "rough_preparatory_responsibility_present": "Discriminate requested action, entitled decision, observed execution and attribution; scientific agency concepts confer no autonomous authority.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/RLGWO_OUTLINES.md",
+        "bytes": 11812,
+        "sha256": "2ec29635d813a08e820be5eb8b74dfae5de8bc6d78322f6cedb0b0a53ef4bc1c",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/OWNER_MAP.json",
+        "bytes": 1272206,
+        "sha256": "f9e775cd434c4fae707653667edf583ac8d1846f65bc54ee7c3f4fdf8514ef72",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "AMA-L2",
+      "family": "AMA",
+      "responsibility": "L2",
+      "lineage_or_scope": "Multi-Agent Systems",
+      "original_registry_row_canonical_sha256": "b2f2870ee1f84036af3d189cc498b570876aebd21180d1c6790770bb69ba73a6",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        231
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "231": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 231,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/231",
+          "title": "R0044 — Evolved Multi-Agent Systems — qualify interdependence, accepted contribution and total-cost comparison through existing native controls",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-18T02:04:26Z",
+          "closed_at": "2026-10-18T02:04:26Z",
+          "captured_at_utc": "2026-11-13T19:11:57.734Z",
+          "body_bytes": 21476,
+          "body_sha256": "0c7f2094082c98135034b95649a6693656764701edddb38846d03b299f4f2289"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197",
+        "R001F/#158"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197",
+        "R001F/#158"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #231 also preserves R0022/#163 comparison value and R0038/#214 observation/evaluation limits; R0036/#210 keeps scoped lane and parent-custody duties.",
+      "rough_preparatory_responsibility_present": "Receive actual interdependence, contributions, residual obligations and fair comparison; agent count and legal protocol alone do not establish collective success.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/RLGWO_OUTLINES.md",
+        "bytes": 11812,
+        "sha256": "2ec29635d813a08e820be5eb8b74dfae5de8bc6d78322f6cedb0b0a53ef4bc1c",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/OWNER_MAP.json",
+        "bytes": 1272206,
+        "sha256": "f9e775cd434c4fae707653667edf583ac8d1846f65bc54ee7c3f4fdf8514ef72",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "AMA-L3",
+      "family": "AMA",
+      "responsibility": "L3",
+      "lineage_or_scope": "Agent-Oriented Software Engineering — canonical",
+      "original_registry_row_canonical_sha256": "6be30e3808f7ebb57f55bfe00fbf0e93daeb562b5d9e28903798777f3af2289c",
+      "original_carrier_kind_preserved": "published_lineage_issue_canonically_unallocated",
+      "original_issue_numbers_preserved": [
+        232
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "232": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 232,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/232",
+          "title": "R0043 — Evolved Agent-Oriented Software Engineering — qualify explicit cross-level responsibility and affected-party acceptance in native controls",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-22T17:03:59Z",
+          "closed_at": "2026-10-22T17:03:59Z",
+          "captured_at_utc": "2026-11-13T19:11:57.742Z",
+          "body_bytes": 22942,
+          "body_sha256": "b3289f8a90f5f7a66013b2c53e615424599d3d1e99fbefdf8a36b2140d3af0d2"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197",
+        "R001F/#158"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197",
+        "R001F/#158"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Original #232 also preserves R0038/#214 evidence and R0039/#215 scoped invalidation, distinct from R0033 authority, R0035 JOIN and R0036 orchestration.",
+      "rough_preparatory_responsibility_present": "Bind requirements, responsible actors, model/implementation correspondence, affected-party acceptance and changed obligations in their existing owners.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/RLGWO_OUTLINES.md",
+        "bytes": 11812,
+        "sha256": "2ec29635d813a08e820be5eb8b74dfae5de8bc6d78322f6cedb0b0a53ef4bc1c",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/OWNER_MAP.json",
+        "bytes": 1272206,
+        "sha256": "f9e775cd434c4fae707653667edf583ac8d1846f65bc54ee7c3f4fdf8514ef72",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "AMA-S",
+      "family": "AMA",
+      "responsibility": "S",
+      "lineage_or_scope": "AMA synthesis",
+      "original_registry_row_canonical_sha256": "2aa81a92111fe8f72ce9c33df723e925610f9e6fdb3246c8f31c9c5f94e6dc37",
+      "original_carrier_kind_preserved": "embedded_synthesis_unit",
+      "original_issue_numbers_preserved": [
+        232
+      ],
+      "original_issue_states_at_2026_11_12": {
+        "232": "closed"
+      },
+      "fresh_carrier_evidence": [
+        {
+          "issue_number": 232,
+          "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/232",
+          "title": "R0043 — Evolved Agent-Oriented Software Engineering — qualify explicit cross-level responsibility and affected-party acceptance in native controls",
+          "state": "closed",
+          "state_reason": "completed",
+          "updated_at": "2026-10-22T17:03:59Z",
+          "closed_at": "2026-10-22T17:03:59Z",
+          "captured_at_utc": "2026-11-13T19:11:57.742Z",
+          "body_bytes": 22942,
+          "body_sha256": "b3289f8a90f5f7a66013b2c53e615424599d3d1e99fbefdf8a36b2140d3af0d2"
+        }
+      ],
+      "original_shared_native_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197"
+      ],
+      "original_consumer_owners_preserved": [
+        "R0033/#207",
+        "R0035/#209",
+        "R0036/#210",
+        "R0037/#211",
+        "R002D/#197"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R0043::AMA-CONTINUATION is separately scoped within #232. Existing specialist owners retain mechanisms; hosting appoints no person or programme steward.",
+      "rough_preparatory_responsibility_present": "Retain the separately accepted embedded278/32 continuation and common-context receiving, distinct from its EAOSE132 host and later r18 science.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/RLGWO_OUTLINES.md",
+        "bytes": 11812,
+        "sha256": "2ec29635d813a08e820be5eb8b74dfae5de8bc6d78322f6cedb0b0a53ef4bc1c",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/ama/OWNER_MAP.json",
+        "bytes": 1272206,
+        "sha256": "f9e775cd434c4fae707653667edf583ac8d1846f65bc54ee7c3f4fdf8514ef72",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": true,
+      "SPR_comparison_candidates_are_not_appointments": false,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "unfinished",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": true,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SPR-L1",
+      "family": "SPR",
+      "responsibility": "L1",
+      "lineage_or_scope": "System Identification — canonical",
+      "original_registry_row_canonical_sha256": "04676e64446c0f20cd2e86c51d6d4b3230646db693431f85afa2d567d46b4672",
+      "original_carrier_kind_preserved": "no_matching_published_issue_identified",
+      "original_issue_numbers_preserved": [],
+      "original_issue_states_at_2026_11_12": {},
+      "fresh_carrier_evidence": [],
+      "original_shared_native_owners_preserved": [
+        "UNPROVED_COMPARISON_CANDIDATES: R002B/#195, R002D/#197, R002F/#199, R0038/#214"
+      ],
+      "original_consumer_owners_preserved": [
+        "UNPROVED_COMPARISON_CANDIDATES: R002B/#195, R002D/#197, R002F/#199, R0038/#214"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R002B/#195, R002D/#197, R002F/#199 and R0038/#214 are comparison candidates only; the original SPR-L1 r4 evidence gap remains.",
+      "rough_preparatory_responsibility_present": "Prepare identification/model-evidence comparison against existing measurement, systems, decision and derived-evidence owners; SPR coverage remains unproved.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/RLGWO_OUTLINES.md",
+        "bytes": 3740,
+        "sha256": "fb0ba1b5b9833a98871cc854fb3ffdee763cc666f940a4d0e7954c97a93c9de5",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/OWNER_MAP.json",
+        "bytes": 14242,
+        "sha256": "2d86f4c08248c268afb31b9e8f55eafd4c1ea27cdabce61f83d1b27246975bb8",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": false,
+      "SPR_comparison_candidates_are_not_appointments": true,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "historical_qualified_outcome_preserved_receipts_missing",
+      "later_scientific_receiving": "HISTORICAL_QUALIFIED_IDENTITY_WITH_ORIGINAL_R4_BODY_SUBJECT_AND_TWO_FINAL_RECEIPTS_UNAVAILABLE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SPR-L2",
+      "family": "SPR",
+      "responsibility": "L2",
+      "lineage_or_scope": "Programming Language Theory",
+      "original_registry_row_canonical_sha256": "eed711663d32578afed08a9a35f65ae619cecfa0771934a8388b52a7b0799f56",
+      "original_carrier_kind_preserved": "no_matching_published_issue_identified",
+      "original_issue_numbers_preserved": [],
+      "original_issue_states_at_2026_11_12": {},
+      "fresh_carrier_evidence": [],
+      "original_shared_native_owners_preserved": [
+        "UNPROVED_COMPARISON_CANDIDATES: R0032/#202 and existing specification/instrument owners"
+      ],
+      "original_consumer_owners_preserved": [
+        "UNPROVED_COMPARISON_CANDIDATES: R0032/#202 and existing specification/instrument owners"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R0032/#202 is a comparison candidate; R000C/#85 and R0023/#164 are related existing native owners. No SPR carrier is proved.",
+      "rough_preparatory_responsibility_present": "Prepare language/specification comparison against formal-methods, acceptance-instrument and evaluator owners; no new language subsystem is proposed.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/RLGWO_OUTLINES.md",
+        "bytes": 3740,
+        "sha256": "fb0ba1b5b9833a98871cc854fb3ffdee763cc666f940a4d0e7954c97a93c9de5",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/OWNER_MAP.json",
+        "bytes": 14242,
+        "sha256": "2d86f4c08248c268afb31b9e8f55eafd4c1ea27cdabce61f83d1b27246975bb8",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": false,
+      "SPR_comparison_candidates_are_not_appointments": true,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SPR-L3",
+      "family": "SPR",
+      "responsibility": "L3",
+      "lineage_or_scope": "Requirements Engineering",
+      "original_registry_row_canonical_sha256": "5d9592c474c1ff87c103dbad1b4fb4760c162245abd38855893f12e3acb24434",
+      "original_carrier_kind_preserved": "no_matching_published_issue_identified",
+      "original_issue_numbers_preserved": [],
+      "original_issue_states_at_2026_11_12": {},
+      "fresh_carrier_evidence": [],
+      "original_shared_native_owners_preserved": [
+        "UNPROVED_COMPARISON_CANDIDATES: R002D/#197, R001F/#158"
+      ],
+      "original_consumer_owners_preserved": [
+        "UNPROVED_COMPARISON_CANDIDATES: R002D/#197, R001F/#158"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "R002D/#197 and R001F/#158 are comparison candidates; R0024/#167 is a related existing owner. No SPR carrier is proved.",
+      "rough_preparatory_responsibility_present": "Prepare requirement/commission comparison against systems, work-order and observation-bound mutation owners, retaining adequate concise routes.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/RLGWO_OUTLINES.md",
+        "bytes": 3740,
+        "sha256": "fb0ba1b5b9833a98871cc854fb3ffdee763cc666f940a4d0e7954c97a93c9de5",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/OWNER_MAP.json",
+        "bytes": 14242,
+        "sha256": "2d86f4c08248c268afb31b9e8f55eafd4c1ea27cdabce61f83d1b27246975bb8",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": false,
+      "SPR_comparison_candidates_are_not_appointments": true,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    },
+    {
+      "slot": "SPR-S",
+      "family": "SPR",
+      "responsibility": "S",
+      "lineage_or_scope": "SPR synthesis",
+      "original_registry_row_canonical_sha256": "b2eb25cc2efdc70f1c1df0613ea4a05452dbe660f8cc0c60bf092a05d2d8842a",
+      "original_carrier_kind_preserved": "no_matching_published_issue_identified",
+      "original_issue_numbers_preserved": [],
+      "original_issue_states_at_2026_11_12": {},
+      "fresh_carrier_evidence": [],
+      "original_shared_native_owners_preserved": [
+        "UNALLOCATED_PENDING_EXACT_CURRENT_OWNER_CENSUS; no new synthesis umbrella inferred"
+      ],
+      "original_consumer_owners_preserved": [
+        "UNALLOCATED_PENDING_EXACT_CURRENT_OWNER_CENSUS; no new synthesis umbrella inferred"
+      ],
+      "original_future_owner_decision_preserved": "After current open RLGWOs finish, commission exact-current source/consumer discrimination; retain adequate/no-change/partial/research outcomes; authorize any amendment or issue separately.",
+      "original_native_owner_summary_is_exhaustive": false,
+      "original_scope_clarification": "Actual future consumer facts would determine existing-owner routing. Absence of a named carrier neither proves lack of coverage nor warrants a new R number.",
+      "rough_preparatory_responsibility_present": "Find a real shared consumer before any cross-owner comparison; no separate named SPR synthesis carrier or new umbrella has been proved.",
+      "responsibility_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/RLGWO_OUTLINES.md",
+        "bytes": 3740,
+        "sha256": "fb0ba1b5b9833a98871cc854fb3ffdee763cc666f940a4d0e7954c97a93c9de5",
+        "source_kind": "tracked_C_source"
+      },
+      "owner_map_source": {
+        "path": "docs/research/genealogy/current-programme/v1/families/spr/OWNER_MAP.json",
+        "bytes": 14242,
+        "sha256": "2d86f4c08248c268afb31b9e8f55eafd4c1ea27cdabce61f83d1b27246975bb8",
+        "source_kind": "tracked_C_source"
+      },
+      "named_native_carrier_proved": false,
+      "SPR_comparison_candidates_are_not_appointments": true,
+      "native_owner_replaced": false,
+      "new_carrier_or_R_number_allocated": false,
+      "genuine_missing_rough_responsibility_found": false,
+      "original_scientific_status_preserved": "qualified_at_declared_scope",
+      "later_scientific_receiving": "EXISTING_QUALIFICATION_RECEIVED_AT_DECLARED_SCOPE",
+      "historical_scientific_status_requires_dated_supplement": false,
+      "LAW_A008_documentary_successor_status_at_this_read": null,
+      "outline_status": "ROUGH_ONLY_NOT_EXECUTOR_READY",
+      "future_authority": "Separate exact-current source/consumer comparison, original owner acceptance and action-specific authority are required for any issue, native change, merge or publication. This observation grants none.",
+      "native_implementation_or_current_activation_qualified_here": false,
+      "scientific_qualification_issued_here": false
+    }
+  ],
+  "PR_observations": [
+    {
+      "number": 224,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "e6b43a40e844cb02fa2839f6e3fce892e885c9e6",
+      "tree": "0e4512a1e2e1ed4d4cad7278970d962aea92ef14",
+      "base": "83d565d6d8b1820c3f20abf888177c88d957a409",
+      "merge_base_for_changed_paths": "83d565d6d8b1820c3f20abf888177c88d957a409",
+      "changed_files": 420,
+      "API_file_list_agrees": true,
+      "overlap_with_C": [
+        "README.md",
+        "docs/portal/site.json",
+        "docs/research/genealogy/README.md",
+        "scripts/check-public-claim-boundaries.sh",
+        "tests/docs-portal.test.sh"
+      ],
+      "body_mentions_exact_current_head": true,
+      "native_acceptance_from_PR_state": false
+    },
+    {
+      "number": 254,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "0358c6b2dc5d16df50713911ed5b58a390864065",
+      "tree": "1fc12e33c9a46656322dbd2826bf8d039cae388d",
+      "base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "merge_base_for_changed_paths": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "changed_files": 19,
+      "API_file_list_agrees": true,
+      "overlap_with_C": [
+        "docs/portal/pages/research-lineage-overview.html",
+        "docs/portal/site.json"
+      ],
+      "body_mentions_exact_current_head": false,
+      "native_acceptance_from_PR_state": false
+    },
+    {
+      "number": 255,
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "head": "8754c0d30659f1e109f0683bd30d6845a2afb36a",
+      "tree": "040b938728b497f100c47f2422b5f71395ed237e",
+      "base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "merge_base_for_changed_paths": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "changed_files": 517,
+      "API_file_list_agrees": true,
+      "overlap_with_C": [
+        "README.md",
+        "docs/portal/pages/research-lineage-overview.html",
+        "docs/portal/site.json",
+        "tests/docs-portal.test.sh"
+      ],
+      "body_mentions_exact_current_head": false,
+      "native_acceptance_from_PR_state": false
+    }
+  ],
+  "PR_pairwise_composition": [
+    {
+      "PRs": [
+        224,
+        254
+      ],
+      "intersection_count": 1,
+      "same_mode_and_blob": [
+        {
+          "path": "docs/portal/site.json",
+          "same": false
+        }
+      ],
+      "head_a_is_ancestor_of_b": false,
+      "head_b_is_ancestor_of_a": false
+    },
+    {
+      "PRs": [
+        224,
+        255
+      ],
+      "intersection_count": 58,
+      "same_mode_and_blob": [
+        {
+          "path": "AGENTS.md",
+          "same": false
+        },
+        {
+          "path": "README.md",
+          "same": false
+        },
+        {
+          "path": "docs/audits/INDEX.md",
+          "same": false
+        },
+        {
+          "path": "docs/portal/pages/installation.html",
+          "same": false
+        },
+        {
+          "path": "docs/portal/site.json",
+          "same": false
+        },
+        {
+          "path": "fixtures/audit-action-selection/engineering-value-cases.json",
+          "same": false
+        },
+        {
+          "path": "fixtures/audit-action-selection/security-profile-cases.json",
+          "same": true
+        },
+        {
+          "path": "fixtures/distributed-runtime/r48-admission-cases.json",
+          "same": true
+        },
+        {
+          "path": "fixtures/distributed-runtime/r48-fencing-cases.json",
+          "same": true
+        },
+        {
+          "path": "fixtures/semantic-preservation/cases.json",
+          "same": false
+        },
+        {
+          "path": "package/implementaudit-package.json",
+          "same": false
+        },
+        {
+          "path": "scripts/build-docs-portal.py",
+          "same": false
+        },
+        {
+          "path": "scripts/check-action-selection-contract.sh",
+          "same": false
+        },
+        {
+          "path": "scripts/check-auto-loom-coverage.py",
+          "same": true
+        },
+        {
+          "path": "scripts/check-helper-reachability.sh",
+          "same": false
+        },
+        {
+          "path": "scripts/check-no-terminal-cap.sh",
+          "same": false
+        },
+        {
+          "path": "scripts/install-codex-from-release.sh",
+          "same": false
+        },
+        {
+          "path": "scripts/install-plugin-from-release.sh",
+          "same": false
+        },
+        {
+          "path": "scripts/package-contract.py",
+          "same": false
+        },
+        {
+          "path": "scripts/verify-package.sh",
+          "same": false
+        },
+        {
+          "path": "skills/audit-implement/SKILL.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/SKILL.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/audit-playbook.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/canonical-state-rotation.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/child-agents.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/continuity.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/host-session-binding.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/lean-operating-discipline.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/plan-lifecycle.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/planning-depth.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/repo-state-comparison.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/references/transcript-contract.md",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/scripts/claim-run.sh",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/scripts/compile-work-graph.py",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/scripts/host-stop-interlock.py",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/scripts/validate-audit-implement-return.py",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/scripts/validate-run-root.sh",
+          "same": false
+        },
+        {
+          "path": "skills/implementaudit/templates/PROTOCOL.md",
+          "same": false
+        },
+        {
+          "path": "tests/R000B-R001E-review-heldouts.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/action-selection-contract.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/canonical-state-rotation.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/continuity-contract.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/distributed-runtime-contract.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/docs-portal.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/evidence-anchoring.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/helper-reachability.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/internal-skill-routing.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/no-terminal-cap.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/observation-bound-mutation-integrity.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/package-contract.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/plugin-release-asset.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/release-asset-install.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/release-asset.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/run-root-validation.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/skill-bootstrap-budget.test.sh",
+          "same": false
+        },
+        {
+          "path": "tests/work-graph-compiler.test.sh",
+          "same": false
+        }
+      ],
+      "head_a_is_ancestor_of_b": false,
+      "head_b_is_ancestor_of_a": false
+    },
+    {
+      "PRs": [
+        254,
+        255
+      ],
+      "intersection_count": 19,
+      "same_mode_and_blob": [
+        {
+          "path": "docs/portal/pages/research-lineage-overview.html",
+          "same": true
+        },
+        {
+          "path": "docs/portal/site.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-actual-receiving.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-member-qualification.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-bwp-ledger.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-bwp-receiving.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-continuation-qualification.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-engineering-evidence.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-owner-interface-qualification.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-pending-source-qualification.json.gz",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-pending-source-transport.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-preparation-inputs.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-preparation-receiving.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-preparation-recovery.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-qualification.md",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r003f-r0041-receiving-inputs.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r0041-actual-receiving.json",
+          "same": true
+        },
+        {
+          "path": "docs/research/implementaudit/r0041-member-qualification.json",
+          "same": true
+        }
+      ],
+      "head_a_is_ancestor_of_b": false,
+      "head_b_is_ancestor_of_a": false
+    }
+  ],
+  "disagreements_and_limits": [
+    {
+      "id": "OWN-D01",
+      "kind": "historical_body_versus_current_tracker_state",
+      "issues": [
+        194,
+        195,
+        214,
+        216
+      ],
+      "finding": "Current API states are closed while original body headings retain OPEN or OPEN_NOT_STARTED. Preserve both dated observations; do not reopen or infer native completion from tracker state.",
+      "disposition": "RECONCILED_BY_DATED_METADATA"
+    },
+    {
+      "id": "OWN-D02",
+      "kind": "historical_scientific_cutoff",
+      "slots": [
+        "LAW-S",
+        "SSD-S",
+        "DRF-S",
+        "AMA-S"
+      ],
+      "finding": "Original registry records LAW-S, SSD-S, DRF-S and AMA-S as unfinished. Their existing later scientific qualification has now been received separately. Leave original rows unchanged and use this dated supplement; native acceptance remains separate.",
+      "disposition": "ADDITIVE_SUPPLEMENT_ONLY"
+    },
+    {
+      "id": "OWN-D03",
+      "kind": "LAW_documentary_cutoff",
+      "slots": [
+        "LAW-L1",
+        "LAW-L2",
+        "LAW-L3",
+        "LAW-S"
+      ],
+      "finding": "Unchanged accepted R2 LAW outline still says to await scientific qualification. Actual A008 science exists; its documentary successor was not accepted at this read. Original responsibility and owner mappings remain sound; document the later dependency resolution without inventing documentary acceptance.",
+      "disposition": "PRESERVE_R2_AND_LABEL_LATER_DOCUMENTARY_REVIEW"
+    },
+    {
+      "id": "OWN-D04",
+      "kind": "abbreviated_owner_summary",
+      "finding": "Generic registry shared-owner arrays are not exhaustive. Actual original carriers preserve additional owners, including SSS proof/package/cost roles and AMA/BWP evidence/applicability/effect roles. Keep the original arrays and exact full maps; the per-slot clarification describes those already existing roles.",
+      "disposition": "ORIGINAL_SCOPE_CLARIFICATIONS_ADDED_NO_APPOINTMENTS"
+    },
+    {
+      "id": "OWN-D05",
+      "kind": "PR_description_versus_current_head",
+      "PRs": [
+        254,
+        255
+      ],
+      "finding": "PR descriptions retain old published checkpoint SHAs and do not mention their current exact head SHAs. Current API metadata, independent ls-remote and exact Git composition agree. Old checkpoint text supplies no current-head qualification.",
+      "disposition": "FRESH_HEADS_RECORDED_OLD_TEXT_RETAINED"
+    },
+    {
+      "id": "OWN-D06",
+      "kind": "historical_R0033_population",
+      "issues": [
+        207
+      ],
+      "finding": "Current issue title names four children. Original body heading and early contract name three; its later additive reconciliation states four and preserves remaining native acceptance limits. Historical three-child text must not override the later scope.",
+      "disposition": "LATER_EXISTING_RECONCILIATION_RECOGNIZED_NO_NATIVE_REVIEW"
+    },
+    {
+      "id": "OWN-D07",
+      "kind": "unproved_SPR_carrier",
+      "slots": [
+        "SPR-L1",
+        "SPR-L2",
+        "SPR-L3",
+        "SPR-S"
+      ],
+      "finding": "No named SPR carrier is proved by the supplied registry and current family metadata. Existing comparison candidates remain unappointed. This targeted refresh is not a new exhaustive repository-wide search for all possible SPR mentions.",
+      "disposition": "UNPROVED_RETAINED_NO_NEW_R_NUMBER"
+    }
+  ],
+  "reading_boundary": "Fresh actual issue metadata and full bodies were captured once; focused original ownership/component/boundary sections were read. This is not a fresh native audit of every acceptance clause, comment, scientific study or source implementation. Source-specific read masks remain with the receiving evidence.",
+  "future_authority": "Original native owners, source custodians, actual receiving predicates and separately scoped issue/native/publication authority remain distinct. No original obligation is closed, reassigned or silently widened by this matrix.",
+  "issues_or_comments_created": 0,
+  "native_source_changes": 0,
+  "commits_pushes_merges": 0
+}

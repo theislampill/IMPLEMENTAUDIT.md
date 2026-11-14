@@ -26,7 +26,20 @@
     "skills/implementaudit/references/audit-playbook.md",
     "skills/implementaudit/references/issue-ready-work-orders.md",
     "skills/implementaudit/templates/final-report.md",
-    "skills/implementaudit/references/terminology-integration.md"
+    "skills/implementaudit/references/terminology-integration.md",
+    "docs/research/genealogy/current-programme/v1/families/law/COMPLETENESS.md",
+    "docs/research/genealogy/current-programme/v1/families/law/GENEALOGY.md",
+    "docs/research/genealogy/current-programme/v1/families/law/LAW-L1.md",
+    "docs/research/genealogy/current-programme/v1/families/law/LAW-L2.md",
+    "docs/research/genealogy/current-programme/v1/families/law/LAW-L3.md",
+    "docs/research/genealogy/current-programme/v1/families/law/LAW-S.md",
+    "docs/research/genealogy/current-programme/v1/families/law/OWNER_MAP.md",
+    "docs/research/genealogy/current-programme/v1/families/law/PUBLIC_PROPERTY_SOURCE_MAP.json",
+    "docs/research/genealogy/current-programme/v1/families/law/README.md",
+    "docs/research/genealogy/current-programme/v1/families/law/RLGWO_OUTLINES.md",
+    "docs/research/genealogy/current-programme/v1/families/law/SOURCE_MAP.md",
+    "docs/research/genealogy/current-programme/v1/families/law.md",
+    "docs/research/genealogy/law/README.md"
   ],
   "nav": [
     {
@@ -553,7 +566,11 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/lean-operating-discipline.md",
-        "skills/implementaudit/references/planning-depth.md"
+        "skills/implementaudit/references/planning-depth.md",
+        "docs/research/genealogy/current-programme/v1/families/law/LAW-L1.md",
+        "docs/research/genealogy/current-programme/v1/families/law/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/law/evolved-lean/corpus/EVOLVED_LEAN_PROPERTY_LEDGER.json",
+        "docs/research/genealogy/current-programme/v1/families/law/DOCUMENTARY_RECEIVING_20261113.json"
       ]
     },
     "research-lineage-agile": {
@@ -563,7 +580,11 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/planning-depth.md",
-        "skills/implementaudit/references/phase-design.md"
+        "skills/implementaudit/references/phase-design.md",
+        "docs/research/genealogy/current-programme/v1/families/law/LAW-L2.md",
+        "docs/research/genealogy/current-programme/v1/families/law/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/law/evolved-agile/corpus/EVOLVED_AGILE_PROPERTY_LEDGER.yaml",
+        "docs/research/genealogy/current-programme/v1/families/law/DOCUMENTARY_RECEIVING_20261113.json"
       ]
     },
     "research-lineage-waterfall": {
@@ -573,7 +594,11 @@
       "sources": [
         "fixtures/public-projection/lineage-reader-questions.json",
         "skills/implementaudit/references/repo-state-comparison.md",
-        "skills/implementaudit/references/phase-design.md"
+        "skills/implementaudit/references/phase-design.md",
+        "docs/research/genealogy/current-programme/v1/families/law/LAW-L3.md",
+        "docs/research/genealogy/current-programme/v1/families/law/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/law/evolved-waterfall/corpus/EVOLVED_WATERFALL_PROPERTY_LEDGER.yaml",
+        "docs/research/genealogy/current-programme/v1/families/law/DOCUMENTARY_RECEIVING_20261113.json"
       ]
     },
     "research-lineage-evolved-law": {
@@ -593,7 +618,19 @@
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
         "docs/research/genealogy/README.md",
-        "docs/research/genealogy/current-programme/v1/families/law.md"
+        "docs/research/genealogy/current-programme/v1/families/law.md",
+        "docs/research/genealogy/current-programme/v1/families/law/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/families/law/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/law/LAW-L1.md",
+        "docs/research/genealogy/current-programme/v1/families/law/LAW-L2.md",
+        "docs/research/genealogy/current-programme/v1/families/law/LAW-L3.md",
+        "docs/research/genealogy/current-programme/v1/families/law/LAW-S.md",
+        "docs/research/genealogy/current-programme/v1/families/law/OWNER_MAP.md",
+        "docs/research/genealogy/current-programme/v1/families/law/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/law/README.md",
+        "docs/research/genealogy/current-programme/v1/families/law/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/law/SOURCE_MAP.md",
+        "docs/research/genealogy/current-programme/v1/families/law/DOCUMENTARY_RECEIVING_20261113.json"
       ]
     },
     "research-lineage-systems-engineering": {
@@ -724,7 +761,14 @@
         "skills/implementaudit/references/repo-state-comparison.md",
         "skills/implementaudit/references/continuity.md",
         "docs/research/genealogy/current-programme/v1/families/drf.md",
-        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/DRF-L1.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/DRF-L1-HISTORICAL-PROPERTIES.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/COMPLETENESS.md",
+        "docs/research/genealogy/drf/evolved-distributed-systems-engineering/corpus/EVOLVED_DISTRIBUTED_SYSTEMS_ENGINEERING_PROPERTY_LEDGER.json"
       ]
     },
     "research-lineage-reliability-maintainability-engineering": {
@@ -736,7 +780,14 @@
         "skills/implementaudit/references/lean-operating-discipline.md",
         "skills/implementaudit/references/planning-depth.md",
         "docs/research/genealogy/current-programme/v1/families/drf.md",
-        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/DRF-L2.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/DRF-L2-HISTORICAL-PROPERTIES.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/COMPLETENESS.md",
+        "docs/research/genealogy/drf/evolved-reliability-and-maintainability-engineering/corpus/EVOLVED_RELIABILITY_AND_MAINTAINABILITY_ENGINEERING_PROPERTY_LEDGER.json"
       ]
     },
     "research-lineage-formal-methods-verification-engineering": {
@@ -748,7 +799,14 @@
         "skills/implementaudit/references/phase-design.md",
         "skills/implementaudit/references/repo-state-comparison.md",
         "docs/research/genealogy/current-programme/v1/families/drf.md",
-        "docs/research/genealogy/current-programme/v1/PROGRAMME.json"
+        "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/DRF-L3.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/DRF-L3-HISTORICAL-PROPERTIES.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/PUBLIC_PROPERTY_SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/COMPLETENESS.md",
+        "docs/research/genealogy/drf/evolved-formal-methods-and-verification-engineering/corpus/EVOLVED_FORMAL_METHODS_AND_VERIFICATION_ENGINEERING_PROPERTY_LEDGER.json"
       ]
     },
     "research-lineage-evolved-drf": {
@@ -764,7 +822,15 @@
         "docs/research/genealogy/current-programme/v1/PROGRAMME.json",
         "docs/research/genealogy/current-programme/v1/SOURCE_STATUS.md",
         "docs/research/genealogy/README.md",
-        "docs/research/genealogy/current-programme/v1/families/drf.md"
+        "docs/research/genealogy/current-programme/v1/families/drf.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/README.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/DRF-S.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/SOURCE_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/GENEALOGY.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/OWNER_MAP.json",
+        "docs/research/genealogy/current-programme/v1/families/drf/RLGWO_OUTLINES.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/DOCUMENTARY_STATUS.json"
       ]
     },
     "research-lineage-cognitive-systems-engineering": {
@@ -856,7 +922,9 @@
         "docs/research/genealogy/current-programme/v1/families/bwp/README.md",
         "docs/research/genealogy/current-programme/v1/families/ama/README.md",
         "docs/research/genealogy/current-programme/v1/families/ssd/README.md",
-        "docs/research/genealogy/current-programme/v1/families/spr/README.md"
+        "docs/research/genealogy/current-programme/v1/families/spr/README.md",
+        "docs/research/genealogy/current-programme/v1/families/law/README.md",
+        "docs/research/genealogy/current-programme/v1/families/drf/README.md"
       ]
     },
     "research-programme": {
@@ -888,7 +956,16 @@
         "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-06.md",
         "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-06.json",
         "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-07.md",
-        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-07.json"
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-07.json",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-09.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-09.json",
+        "docs/research/genealogy/current-programme/v1/FAMILY_COMPLETENESS.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-08.md",
+        "docs/research/genealogy/current-programme/v1/increments/2026-11-13-documentary-continuation-08.json",
+        "docs/research/genealogy/current-programme/v1/FAMILY_COMPLETENESS.json",
+        "docs/research/implementaudit/evolved-programme-v1/OWNERSHIP_RECONCILIATION_20261113.md",
+        "docs/research/implementaudit/evolved-programme-v1/OWNERSHIP_RECONCILIATION_20261113.json",
+        "docs/research/genealogy/current-programme/v1/families/law/DOCUMENTARY_RECEIVING_20261113.json"
       ]
     },
     "research-lineage-evolved-sss": {

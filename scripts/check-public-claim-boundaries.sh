@@ -318,6 +318,9 @@ for path in Path(".").rglob("*"):
                         "disclosure, reverse engineering, insider knowledge or widespread deployment defeats mechanisms whose safety rests on hidden design",
                         "rollback defeats remediation",
                         "encryption defeats recovery",
+                        "common control plane defeats independence",
+                        "one fault, or one fault plus an undetected latent condition, defeats required function.",
+                        "size/checking overhead defeats distribution benefits.",
                     ):
                         claim_line = claim_line.replace(scientific_clause, "criterion discrimination")
                 if phrase in claim_line:
