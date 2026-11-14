@@ -124,6 +124,92 @@ if "${py_cmd[@]}" "$checker" --scan-root "$tmp" >/dev/null 2>&1; then
   fail "bare maintained legacy Rockstar path segment was accepted"
 fi
 
+# Published research references do not extend the runtime allocation registry.
+# These cases exercise the scanner against real, separately tracked fixtures.
+"${py_cmd[@]}" - "$checker" <<'PY'
+import json
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+
+checker = str(Path(sys.argv[1]).resolve())
+portal = "docs/portal/pages/research-lineage-evolved-bwp.html"
+outline = "docs/research/implementaudit/evolved-programme-v1/ROUGH_RLGWO_OUTLINES.md"
+receipt = "docs/research/implementaudit/evolved-programme-v1/OWNERSHIP_RECONCILIATION_20261113.json"
+# Independently recorded issue identities, not values imported from the checker.
+carriers = {
+    "R003B": 226, "R003C": 228, "R003D": 227,
+    "R003F": 225, "R0040": 229, "R0041": 230,
+    "R0043": 232, "R0044": 231, "R0045": 233,
+}
+cases = []
+for identity, issue in carriers.items():
+    text = f"Existing published carrier {identity} / #{issue}.\n"
+    cases.append((f"published-portal-{identity}", portal, text, None))
+    cases.append((f"runtime-refuses-{identity}", "skills/implementaudit/references/current-owner.md", text, identity))
+all_carriers = "Published carrier references: " + ", ".join(carriers) + ".\n"
+cases.extend([
+    ("published-outline", outline, all_carriers, None),
+    ("published-receipt", receipt, json.dumps({"published_carriers": list(carriers)}), None),
+    ("embedded-carrier", portal, "Existing R003F::BWP-LANE-CONTINUATION.\n", None),
+    ("ordinary-readme-refuses", "README.md", "Current owner R003F.\n", "R003F"),
+    ("other-portal-refuses", "docs/portal/pages/overview.html", "Current owner R003F.\n", "R003F"),
+    ("nested-portal-refuses", "docs/portal/pages/research-lineage-other/entry.html", "Current owner R003F.\n", "R003F"),
+    ("non-documentary-suffix-refuses", "docs/research/implementaudit/evolved-programme-v1/owner.py", "Current owner R003F.\n", "R003F"),
+    ("unobserved-gap-refuses", portal, "Current owner R003E.\n", "R003E"),
+    ("unknown-portal-refuses", portal, "Current owner R0046.\n", "R0046"),
+    ("unknown-outline-refuses", outline, "Current owner R0046.\n", "R0046"),
+    ("unknown-receipt-refuses", receipt, '{"current_owner": "R0046"}', "R0046"),
+])
+historical_clauses = [
+    "The fourth is an embedded separately accepted component, not a new R0042 issue.",
+    "The host is R003F::BWP-LANE-CONTINUATION, not a new R0042.",
+    "Old standalone R0042 draft is historical, not a current dependency or proposed new issue here.",
+    "The old standalone R0042 draft is explicitly historical, not an issue dependency.",
+]
+for number, text in enumerate(historical_clauses, 1):
+    cases.append((f"historical-container-{number}", outline, text, None))
+cases.extend([
+    ("positive-container-refuses", outline, "Current owner R0042.\n", "R0042"),
+    ("vague-history-refuses", outline, "Historical current owner R0042.\n", "R0042"),
+    ("same-line-positive-refuses", outline, historical_clauses[2] + " Current owner R0042.", "R0042"),
+    ("historical-runtime-refuses", "skills/implementaudit/references/current-owner.md", historical_clauses[2], "R0042"),
+    ("known-and-unknown-refuses", portal, "Published R003F; current owner R0046.\n", "R0046"),
+])
+cases.extend([
+    ("captured-title-alias", receipt, json.dumps({"title": "R0025 (legacy R37) — Evolved-Lean"}, indent=2), None),
+    ("captured-title-last-alias", receipt, json.dumps({"title": "R0037 (legacy R55) — original title"}, indent=2), None),
+    ("mismatched-title-alias-refuses", receipt, json.dumps({"title": "R0025 (legacy R38) — wrong alias"}, indent=2), "R38"),
+    ("extra-title-alias-refuses", receipt, json.dumps({"title": "R0025 (legacy R37) — current owner R28"}, indent=2), "R28"),
+    ("other-field-alias-refuses", receipt, json.dumps({"observed_disposition": "R0025 (legacy R37)"}, indent=2), "R37"),
+    ("other-document-alias-refuses", "docs/research/implementaudit/evolved-programme-v1/RLGWO_REGISTRY.json", json.dumps({"title": "R0025 (legacy R37)"}, indent=2), "R37"),
+    ("runtime-title-alias-refuses", "skills/implementaudit/references/current-owner.json", json.dumps({"title": "R0025 (legacy R37)"}, indent=2), "R37"),
+    ("unpaired-title-alias-refuses", receipt, json.dumps({"title": "Current owner R37"}, indent=2), "R37"),
+])
+failures = []
+for name, relative, text, rejected_identity in cases:
+    with tempfile.TemporaryDirectory(prefix="documentary-identity-") as temporary:
+        root = Path(temporary)
+        target = root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(text, encoding="utf-8")
+        subprocess.run(["git", "-C", temporary, "init", "-q"], check=True, capture_output=True)
+        subprocess.run(["git", "-C", temporary, "add", relative], check=True, capture_output=True)
+        result = subprocess.run([sys.executable, checker, "--scan-root", temporary], text=True, capture_output=True)
+        if rejected_identity is None:
+            passed = result.returncode == 0
+        else:
+            reason = "stale maintained Rockstar" if len(rejected_identity) == 3 else "unallocated Rockstar presented as current"
+            passed = result.returncode == 1 and f"{reason} {rejected_identity}" in result.stderr
+        print(f"documentary-identity: {'PASS' if passed else 'FAIL'} {name}")
+        if not passed:
+            failures.append(f"{name}: exit {result.returncode}; {result.stderr.strip()}")
+if failures:
+    raise SystemExit("\n".join(failures))
+print(f"documentary-identity: {len(cases)}/{len(cases)} cases passed")
+PY
+
 "${py_cmd[@]}" "$checker"
 
 printf 'durable-identity-contract.test: ok\n'
