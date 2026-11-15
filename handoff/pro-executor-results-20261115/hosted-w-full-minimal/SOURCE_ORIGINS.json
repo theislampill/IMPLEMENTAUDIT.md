@@ -1,0 +1,42 @@
+{
+  "authority": "PREPARATION_ONLY; no protected execute, grant, native accepting result or original award authored",
+  "exact_function_extractions": {
+    "require": {
+      "bytes": 66,
+      "sha256": "2307fa04aee958ad444ba69dee6024b21b76e255966ca84f45ebc21f699bc10a"
+    },
+    "task_bodies": {
+      "bytes": 6324,
+      "sha256": "4864f21f67ffbbe614650cfa6ba1a3f0bd905ec97d86dc8160c37f33a82f0b31"
+    }
+  },
+  "excluded_regions": [
+    "historical native capture controls",
+    "invalid/foreign/stale activation controls",
+    "pending successor control",
+    "maintained execute",
+    "held admission and multirole wrappers",
+    "historical public projection and diagnostic machinery"
+  ],
+  "historical_source": {
+    "bytes": 185484,
+    "commit": "8806711614bf4ed736a6599a5b63b234c37c7407",
+    "path": "qualification/dg18-isolated-windows21/prepare_and_execute.py",
+    "sha256": "8ca35fd46264b2a3c1683dab79117ea77843ceaacc5ae5b1b3fc93cd428fe40b"
+  },
+  "requirement": "R0039/#215 F0, F5-F7 and the 60000 ms / 201326592 B Windows envelope",
+  "retention_addition": {
+    "field": "PREPARATION.json.maintained_environment",
+    "producer": "selected scripts/run-r0039-windows-resume.py::environment(tools)",
+    "reason": "Preserve the actual sanitized inputs used by the existing environment_sha256 comparison for an exact later restore; no inherited environment or credential dump."
+  },
+  "reused_command_regions": [
+    "4080-4137: actual fresh subject, normal owner activation, truthful pair, first resume",
+    "4167-4187: actual receipt and owner map, first rotation, manual invalidation, maintained prepare"
+  ],
+  "schema": "pro-executor.source-reuse.v1",
+  "selected_runtime": {
+    "commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570"
+  }
+}

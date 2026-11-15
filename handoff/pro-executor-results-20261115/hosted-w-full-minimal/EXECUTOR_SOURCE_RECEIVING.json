@@ -1,0 +1,62 @@
+{
+  "N1_or_compaction_or_C02_evidence_claimed": false,
+  "authority_reference": "Owner unified commission A.1 and current explicit direction to use eligible hosted environments",
+  "decision": "CONSUME_EXACT_REVIEWED_SOURCE_FOR_ORDINARY_WINDOWS_PREPARATION_ONLY",
+  "executor": "PRO-EXECUTOR-01",
+  "expected_operation": "Actual new disposable subject, real first rotation and explicit manual-resume boundary, maintained prepare only; retain complete subject and input facts",
+  "future_execution_gates": [
+    "fresh exact owner native operation grant",
+    "applicable concurrent owner originals",
+    "actual unchanged prepared source/subject/tool/environment/currentness checks",
+    "actual Windows complete process measurement",
+    "independent result receiving"
+  ],
+  "independent_review_sha256": "2fdc970ffb6dc3ea1420bcc43fbacb0175d6c8d3d8b5f5ee9e6640c3a87a2dd3",
+  "independent_reviewer": "/root/dg16_m5_original_receiving",
+  "native_grant_issued": false,
+  "original_awards": [],
+  "original_clauses": [
+    "R0039 F0",
+    "R0039 F5-F7",
+    "Original prospective Windows 60000ms / 201326592B whole-operation envelope"
+  ],
+  "prepared_operation_exists": false,
+  "protected_execute_authorized": false,
+  "recorded_utc": "2026-11-15T12:48:46.602887+00:00",
+  "reviewed_files": [
+    {
+      "bytes": 11749,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "sha256": "2c1653a7ce42a8b3909822d67c2438df36fa4bb06de11bf7f96139f1692a9bbd"
+    },
+    {
+      "bytes": 6653,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+    },
+    {
+      "bytes": 1819,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/SOURCE_ORIGINS.json",
+      "sha256": "72dc9aa212a8c9bf97850261d0c1861315a780b8e4106d45d698db35187439ef"
+    },
+    {
+      "bytes": 2089,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/SOURCE_CHECKS.json",
+      "sha256": "63a0d835f61db6eb85f801fee1a4dc86d36272637ea22b7aa1e2c4f21edec9d9"
+    },
+    {
+      "bytes": 7527,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+      "sha256": "e476464e8d797e23c8a6266ae5385d4394db725ca9d656434468d0c9ed2e2ee7"
+    },
+    {
+      "bytes": 4379,
+      "path": "/workspace/scratch/0269e6626329/dg18/.github/workflows/dg18-w-full-minimal-prepare.yml",
+      "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+    }
+  ],
+  "schema": "pro.dg18.wfull-preparation-executor-source-receiving.v1",
+  "selected_product_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "selected_product_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+  "source_product_modified": false
+}

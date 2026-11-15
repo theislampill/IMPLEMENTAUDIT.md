@@ -1,0 +1,50 @@
+{
+  "bounded_followup": "Retain only the actual maintained environment(tools) result; no additional execution or behavior change.",
+  "checks": {
+    "exact_function_require": "PASS_UNCHANGED_PUBLISHED_BODY",
+    "exact_function_task_bodies": "PASS_UNCHANGED_PUBLISHED_BODY",
+    "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py": {
+      "bytes": 11749,
+      "sha256": "2c1653a7ce42a8b3909822d67c2438df36fa4bb06de11bf7f96139f1692a9bbd",
+      "syntax": "PASS"
+    },
+    "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py": {
+      "bytes": 6653,
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916",
+      "syntax": "PASS"
+    },
+    "selected_runtime_identity": "PASS_ACTUAL_GIT_IDENTITY",
+    "tracked_product_source_delta": "NONE",
+    "workflow_parse": "PASS"
+  },
+  "frozen_source_files": {
+    ".github/workflows/dg18-w-full-minimal-prepare.yml": {
+      "bytes": 4379,
+      "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+    },
+    "handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md": {
+      "bytes": 7527,
+      "sha256": "e476464e8d797e23c8a6266ae5385d4394db725ca9d656434468d0c9ed2e2ee7"
+    },
+    "handoff/pro-executor-results-20261115/hosted-w-full-minimal/SOURCE_ORIGINS.json": {
+      "bytes": 1819,
+      "sha256": "72dc9aa212a8c9bf97850261d0c1861315a780b8e4106d45d698db35187439ef"
+    },
+    "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py": {
+      "bytes": 11749,
+      "sha256": "2c1653a7ce42a8b3909822d67c2438df36fa4bb06de11bf7f96139f1692a9bbd"
+    },
+    "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py": {
+      "bytes": 6653,
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+    }
+  },
+  "not_run": [
+    "accepted historical qualification suites",
+    "native Windows preparation",
+    "protected execute",
+    "native model operations"
+  ],
+  "original_acceptance_delta": 0,
+  "scope": "STATIC_SOURCE_REUSE_ONLY_NO_HOSTED_OR_NATIVE_EXECUTION"
+}

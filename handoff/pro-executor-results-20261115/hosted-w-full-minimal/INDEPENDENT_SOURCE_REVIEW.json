@@ -1,0 +1,255 @@
+{
+  "authority": "NONE",
+  "blocking_findings": [],
+  "closing_readback": {
+    "all_final_source_digests_equal_requested_freeze": true,
+    "report_outside_reviewed_source_packet": true,
+    "selected_HEAD_tree_unchanged": true,
+    "tracked_product_diff_empty": true
+  },
+  "disposition": "PASS_BOUNDED_WFULL_PREPARATION_SOURCE_ONLY",
+  "operations": {
+    "grants": 0,
+    "model_requests": 0,
+    "native_effects": 0,
+    "preflight_runs": 0,
+    "provider_mutations": 0,
+    "qualified_suite_reruns": 0,
+    "source_edits": 0,
+    "source_or_subject_execution": 0,
+    "workflow_dispatches": 0
+  },
+  "original_acceptance_delta": 0,
+  "original_awards": [],
+  "original_requirements": {
+    "applicability": [
+      "R0039/#215 F0 source/subject re-anchor",
+      "F5-F7 real owner transition and pointer/receipt/marker joins",
+      "Windows prospective 60000 ms and 201326592 B whole-Job committed-memory envelope; zero baseline subtraction",
+      "Commission A.1 engineering and eligible W-FULL preparation; A.3 fresh written grant for exact native operation",
+      "W-FULL additionally requires two authentic concurrent DG16/DG17 owner originals"
+    ],
+    "commission": {
+      "bytes": 15837,
+      "commit": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+      "path": "handoff/dg16-dg18-findings-20261115/PRO_UNIFIED_COMMISSION.md",
+      "sha256": "dd39e59d9a1b70c11630773b02a747321196fe1d6fb5ed113b37184e647e96c3"
+    },
+    "issue215": {
+      "bytes": 35566,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/ISSUE215_CURRENT.md",
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    }
+  },
+  "preserved_gates": [
+    "Fresh owner written native grant naming the actual prepared OPERATION.json/hash and all original limits.",
+    "Two authentic concurrent DG16/DG17 owner originals for W-FULL.",
+    "Actual Windows whole-operation measurement with complete descendant/process and aggregate Job committed-memory accounting.",
+    "Fresh maintained source/subject/tool/environment/currentness preflight at any future execution; no stale preparation authorizes launch.",
+    "Actual result and independent receiving before any W-FULL or original predicate award.",
+    "N1/authentic occurrence and complete amended cold-receiving obligations remain separate and open."
+  ],
+  "producer_consumer_relationships": [
+    {
+      "consumer": "prepare.py tools selection; driver.physical/Q.direct_git_layout and Python samefile",
+      "finding": "Exact supported direct Git image, source paths and selected executable hashes; no inherited PATH tool substitution.",
+      "producer": "workflow physical Python/direct Git/Bash arguments"
+    },
+    {
+      "consumer": "driver.source_snapshot(request)",
+      "finding": "Exact head/tree, clean checkout, copied tracked scripts/templates, tool bytes and maintained recorder bodies checked; packet checkout is separate.",
+      "producer": "separate qualified-source checkout at exact ef7 commit"
+    },
+    {
+      "consumer": "author_checkpoint.author and actual activation token",
+      "finding": "Existing true initializer authors this fresh task; exact inspect token is consumed by normal activate. The historical adversarial cases are not rerun.",
+      "producer": "claim output and actual .claimed/.controller/subject HEAD/tree"
+    },
+    {
+      "consumer": "exact task_bodies, render_pair and build_owner_map helpers",
+      "finding": "Pure current-pair/owner-map construction. No fixture_pair/fixture_bodies or unittest entry point is invoked. Real captured public source supplies the byte-trigger population.",
+      "producer": "actual newly authored STATE/ROADMAP and current public claim owner source"
+    },
+    {
+      "consumer": "maintained prepare preflight",
+      "finding": "Migrated pointer/receipt/permanent marker plus a real newer manual boundary produce a fresh unused next operation. It is not described as host-reported compaction.",
+      "producer": "first real resume/verify/require, first real rotation, explicit manual-resume invalidation"
+    },
+    {
+      "consumer": "run-r0039-windows-resume.py main prepare parser",
+      "finding": "All nine exact required flags match; output is separate from source and subject; caller out and nested operation/preflight dirs use exclusive creation.",
+      "producer": "prepare.py maintained-prepare command"
+    },
+    {
+      "consumer": "existing execute source_snapshot/preflight and typed prepared comparison",
+      "finding": "Prepared command, absolute paths, tool hashes, source identity, copied runtime/recorders, subject HEAD/tree/status, source/authority/pair/retained-object bindings and sanitized environment must match when executed. No later restoration is inferred.",
+      "producer": "OPERATION.json request/prepared plus SUBJECT.tar and maintained_environment"
+    }
+  ],
+  "received_predicates": {
+    "all_six_final_bodies_exact": true,
+    "both_extracted_function_bodies_exact_including_terminal_LF": true,
+    "credential_persistence_disabled": true,
+    "existing_sixty_second_192MiB_consumer_limits_unchanged": true,
+    "historical_original_object_read_and_hash_verified": true,
+    "maintained_driver_parameters_match": true,
+    "maintained_environment_is_sanitized_allowlist_not_inherited_dump": true,
+    "new_python_source_parsed_for_static_inspection": true,
+    "no_grant_or_original_award_authored": true,
+    "no_model_or_PC_request_in_source": true,
+    "only_prepare_command_reachable_from_new_wrapper": true,
+    "ordinary_engineering_push_trigger_only": true,
+    "original_history_and_prior_qualifications_not_rerun_or_superseded": true,
+    "product_HEAD_tree_and_all_reviewed_dependencies_unchanged": true,
+    "restoration_claim_limited_to_existing_comparison_fields": true,
+    "subject_and_evidence_output_layout_compatible": true,
+    "workflow_contents_read_and_pinned_actions": true,
+    "workflow_exact_repository_branch_attempt1_and_path_gates": true
+  },
+  "restoration_and_retention": {
+    "archive": "SUBJECT.tar retains the entire actual subject including its real Git objects, refs, pair and invalidation. It is outside the subject and written on a returned try-block failure as well. The workflow uploads preparation record, archive, per-command raw output and operation directory using always().",
+    "compared_identities": "The maintained prepared comparison contains hashes/bytes, absolute paths, Git identities/refs, subject status and sanitized environment. Native file/ancestor custody is freshly checked on each operation; no retained inode/device/mtime or handle is in the prepared equality.",
+    "environment": "PREPARATION.json.maintained_environment records actual driver.environment(tools): selected tool PATH, SystemRoot/WINDIR, PATHEXT, Python/MSYS/locale controls and present TEMP/TMP only. The same function supplies the prepared environment_sha256; no full os.environ copy is emitted.",
+    "limitations": [
+      "No archive extraction or later Windows host/tool equivalence was executed or received.",
+      "The archive alone does not supply the separately pinned qualified source checkout or physical tool images.",
+      "Exact original absolute source/subject/tool paths and executable bytes plus sanitized environment must be recreated; windows-2022 label alone cannot prove this.",
+      "Timeout/interruption can prevent final retention; source review does not claim an artifact exists or complete preparation will return."
+    ]
+  },
+  "reviewed_utc": "2026-11-15T12:47:31.179213+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authoring_context_reused": false,
+    "distinct_source_author": "/root/g132_existing_offline_intake",
+    "requested_model": "GPT-6 Astra Pro",
+    "review_kind": "ordinary independent source review",
+    "source_authoring_role": false
+  },
+  "schema": "pro.dg18.wfull-minimal-independent-source-review.v1",
+  "source_reuse": {
+    "command_regions_read": [
+      "4080-4137",
+      "4167-4187"
+    ],
+    "exact_function_extractions": {
+      "require": {
+        "bytes": 66,
+        "exact_original_body_with_terminal_LF": true,
+        "historical_function": "qualification/dg18-isolated-windows21/prepare_and_execute.py::require",
+        "sha256": "2307fa04aee958ad444ba69dee6024b21b76e255966ca84f45ebc21f699bc10a"
+      },
+      "task_bodies": {
+        "bytes": 6324,
+        "exact_original_body_with_terminal_LF": true,
+        "historical_function": "qualification/dg18-isolated-windows21/prepare_and_execute.py::task_bodies",
+        "sha256": "4864f21f67ffbbe614650cfa6ba1a3f0bd905ec97d86dc8160c37f33a82f0b31"
+      }
+    },
+    "historical_source": {
+      "bytes": 185484,
+      "commit": "8806711614bf4ed736a6599a5b63b234c37c7407",
+      "path": "qualification/dg18-isolated-windows21/prepare_and_execute.py",
+      "sha256": "8ca35fd46264b2a3c1683dab79117ea77843ceaacc5ae5b1b3fc93cd428fe40b"
+    },
+    "interpretation": "The actual fresh-subject, claim/activation, truthful pair, first receipt/rotation, explicit manual invalidation and maintained prepare sequence is reused. Historical capture, adverse qualification controls, wrappers and execute regions are excluded. No preserved fixture receipt/controller/native history is imported.",
+    "task_data_edits": "Only preparation scope, current source identity, actual subject metadata and next action are supplied; captured historical payload is the actual current public claim owner source captured during this new task."
+  },
+  "subject": {
+    "frozen_review_files": [
+      {
+        "bytes": 11749,
+        "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+        "sha256": "2c1653a7ce42a8b3909822d67c2438df36fa4bb06de11bf7f96139f1692a9bbd"
+      },
+      {
+        "bytes": 6653,
+        "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+        "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+      },
+      {
+        "bytes": 1819,
+        "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/SOURCE_ORIGINS.json",
+        "sha256": "72dc9aa212a8c9bf97850261d0c1861315a780b8e4106d45d698db35187439ef"
+      },
+      {
+        "bytes": 2089,
+        "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/SOURCE_CHECKS.json",
+        "sha256": "63a0d835f61db6eb85f801fee1a4dc86d36272637ea22b7aa1e2c4f21edec9d9"
+      },
+      {
+        "bytes": 7527,
+        "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+        "sha256": "e476464e8d797e23c8a6266ae5385d4394db725ca9d656434468d0c9ed2e2ee7"
+      },
+      {
+        "bytes": 4379,
+        "path": "/workspace/scratch/0269e6626329/dg18/.github/workflows/dg18-w-full-minimal-prepare.yml",
+        "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+      }
+    ],
+    "read_only_dependencies": [
+      {
+        "bytes": 24440,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "89775328d4ff1f1963567147b87b06749cf3d022",
+        "path": "/workspace/scratch/0269e6626329/dg18/scripts/run-r0039-windows-resume.py",
+        "sha256": "23cc5a07c128028d3554e2e7781dcb393b51c7a82c2a8bc17385baaa33315c2c"
+      },
+      {
+        "bytes": 14304,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "a1c6775398da74f0fe05a8f3ccf79aa74c532d61",
+        "path": "/workspace/scratch/0269e6626329/dg18/scripts/check-r0039-windows-resume.py",
+        "sha256": "248d22b8d32b78a8220542e2ada0ed316e02e24abf9a28ae7fac4381135504b6"
+      },
+      {
+        "bytes": 25678,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "0871accd09acbba57aa8d39480a0d1a44407082c",
+        "path": "/workspace/scratch/0269e6626329/dg18/scripts/r0039-windows-job.py",
+        "sha256": "0191eb110977e8aad6c615f7130052c08a38b83297c65748768608a2959ecd8b"
+      },
+      {
+        "bytes": 9582,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "2cfd0fb46854125df2252b4dc7c53d26d2453b6c",
+        "path": "/workspace/scratch/0269e6626329/dg18/fixtures/controller-initialization/author_checkpoint.py",
+        "sha256": "fa875136c9b856027232387afc32bb788d7f728bb082b029b046cea74b02fecb"
+      },
+      {
+        "bytes": 39677,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "673d7c883142734da5137dcd335ec8d62bcc0d5a",
+        "path": "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/protected_projection_v2_test.py",
+        "sha256": "926d68a0588e1fc60d0a6bfc5ea98a3c6ae3ba9f6bb700fbe3cc619f9d5f9c7a"
+      },
+      {
+        "bytes": 32290,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "950970b6089dd2063173342c26d6e976055c7232",
+        "path": "/workspace/scratch/0269e6626329/dg18/skills/implementaudit/scripts/claim-run.sh",
+        "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353"
+      },
+      {
+        "bytes": 291624,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "6879da1bd7095da53058ffefb66e90b1c3393520",
+        "path": "/workspace/scratch/0269e6626329/dg18/skills/implementaudit/scripts/claim-run-rotation.py",
+        "sha256": "866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d"
+      },
+      {
+        "bytes": 93893,
+        "equals_selected_HEAD_blob": true,
+        "git_blob_oid": "37dc7e3bb0b82220c551af5e5b2f59a91d24aab6",
+        "path": "/workspace/scratch/0269e6626329/dg18/skills/implementaudit/scripts/canonical_hot_projection.py",
+        "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+      }
+    ],
+    "repository": "/workspace/scratch/0269e6626329/dg18",
+    "selected_product_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "selected_product_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "tracked_product_source_delta": []
+  }
+}
