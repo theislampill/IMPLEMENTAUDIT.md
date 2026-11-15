@@ -113,7 +113,7 @@ def publication(raw,v,s):
     p=parse(raw);need(type(p) is dict and all(k in p for k in ('commit','ref','run')),'ACTUAL_PUBLICATION_RECEIVING')
     c,r,run=p['commit'],p['ref'],p['run']
     head=c['sha'];need(re.fullmatch('[0-9a-f]{40}',head) is not None,'PUBLISHED_COMMIT')
-    need(c['tree']['sha']==v['host_tree'] and [x['sha'] for x in c['parents']]==[v['product_commit']],
+    need(c['tree']['sha']==v['host_tree'] and s.host_commit(c)==head,
          'FINAL_HOST_SOURCE_PARENT')
     need(r['ref']=='refs/heads/'+s.binding['branch'] and r['object']['type']=='commit' and r['object']['sha']==head,
          'PUBLICATION_BRANCH_COMMIT')

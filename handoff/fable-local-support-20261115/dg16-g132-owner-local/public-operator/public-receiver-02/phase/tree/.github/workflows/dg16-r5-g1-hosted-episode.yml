@@ -259,5 +259,6 @@
         }
       ]
     }
-  }
+  },
+  "run-name": "G132 host32 continuation from 434f12f (${{ github.sha }})"
 }

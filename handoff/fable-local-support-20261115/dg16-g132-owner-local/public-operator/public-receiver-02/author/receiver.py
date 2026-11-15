@@ -23,7 +23,7 @@ _physical=types.ModuleType('fixed_current05_physical_io')
 exec(compile(b'"""Bounded ordinary-file acquisition; no POSIX custody equivalence claim.\n\nWindows pins every ancestor with a no-delete-sharing handle, opens the leaf\nwithout following reparse points, rejects ADS and multi-link files, and compares\nnamed/descriptor bookends. This module never changes ACLs or grants privacy.\n"""\nimport contextlib\nimport os\nfrom pathlib import Path\nimport stat\n\n\ndef need(value, code):\n    if not value:\n        raise ValueError(code)\n\n\ndef mark(s):\n    return (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size,\n            s.st_mtime_ns, s.st_ctime_ns)\n\n\ndef canonical(path):\n    p = Path(path)\n    need(p.is_absolute() and \'..\' not in p.parts and p.resolve(strict=True) == p,\n         \'CANONICAL_PATH_REQUIRED\')\n    if os.name == \'nt\':\n        need(p.drive and not str(p).startswith(\'\\\\\\\\\') and\n             all(\':\' not in x for x in p.parts[1:]), \'LOCAL_PATH_NO_ADS\')\n    return p\n\n\nif os.name == \'nt\':\n    import ctypes\n    from ctypes import wintypes as W\n    import msvcrt\n    K = ctypes.WinDLL(\'kernel32\', use_last_error=True)\n    K.CreateFileW.argtypes = (W.LPCWSTR, W.DWORD, W.DWORD, W.LPVOID,\n                              W.DWORD, W.DWORD, W.HANDLE)\n    K.CreateFileW.restype = W.HANDLE\n    K.CloseHandle.argtypes = (W.HANDLE,)\n    K.CloseHandle.restype = W.BOOL\n    K.GetFileInformationByHandleEx.argtypes = (W.HANDLE, ctypes.c_int,\n                                               W.LPVOID, W.DWORD)\n    K.GetFileInformationByHandleEx.restype = W.BOOL\n    class AttributeTag(ctypes.Structure):\n        _fields_ = [(\'attributes\', W.DWORD), (\'tag\', W.DWORD)]\n\n    def handle(path, directory=False):\n        # OPEN_EXISTING, OPEN_REPARSE_POINT. Ancestors remain pinned until\n        # payload closing validation, preventing a directory rename/swap.\n        access = 0 if directory else 0x80000000\n        share = 3 if directory else 1\n        flags = 0x00200000 | (0x02000000 if directory else 0)\n        h = K.CreateFileW(str(path), access, share, None, 3, flags, None)\n        if h == ctypes.c_void_p(-1).value:\n            raise ctypes.WinError(ctypes.get_last_error())\n        tag = AttributeTag()\n        try:\n            if not K.GetFileInformationByHandleEx(h, 9, ctypes.byref(tag), ctypes.sizeof(tag)):\n                raise ctypes.WinError(ctypes.get_last_error())\n            need(not tag.attributes & 0x400, \'REPARSE_POINT_REFUSED\')\n            need(bool(tag.attributes & 0x10) == directory, \'PHYSICAL_TYPE_REFUSED\')\n            return h\n        except BaseException:\n            K.CloseHandle(h)\n            raise\n\n\ndef read_file(path, maximum=4 * 1024**2):\n    need(type(maximum) is int and maximum >= 0, \'READ_LIMIT\')\n    p = canonical(path)\n    with contextlib.ExitStack() as stack:\n        for parent in reversed(p.parents):\n            s = parent.lstat()\n            need(stat.S_ISDIR(s.st_mode) and not parent.is_symlink() and\n                 not getattr(s, \'st_file_attributes\', 0) & 0x400, \'ANCESTOR_REFUSED\')\n            if os.name == \'nt\':\n                h = handle(parent, True)\n                stack.callback(K.CloseHandle, h)\n        before = p.lstat()\n        need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and\n             0 <= before.st_size <= maximum and not p.is_symlink() and\n             not getattr(before, \'st_file_attributes\', 0) & 0x400, \'ORDINARY_SINGLE_FILE_BOUND\')\n        if os.name == \'nt\':\n            h = handle(p)\n            try:\n                fd = msvcrt.open_osfhandle(h, os.O_RDONLY | os.O_BINARY)\n            except BaseException:\n                K.CloseHandle(h)\n                raise\n        else:\n            fd = os.open(p, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)\n        stack.callback(os.close, fd)\n        need(mark(os.fstat(fd)) == mark(before), \'OPEN_IDENTITY_CHANGED\')\n        chunks, count = [], 0\n        while True:\n            chunk = os.read(fd, min(65536, maximum + 1 - count))\n            if not chunk:\n                break\n            chunks.append(chunk)\n            count += len(chunk)\n            need(count <= maximum, \'READ_BOUND_EXCEEDED\')\n        need(count == before.st_size and mark(os.fstat(fd)) == mark(before) == mark(p.lstat()),\n             \'CLOSING_IDENTITY_CHANGED\')\n        return b\'\'.join(chunks)\n','<fixed-current05-physical-io>','exec'),_physical.__dict__)
 read_file=_physical.read_file
 
-SOURCE_SHA = '7de1096a7abf180d8fdd122ea1b08b6ab85550ef10cff429d3d4f039b57a0fcd'
+SOURCE_SHA = '75c2919f51949940f1654a32f2750a9d5f8bd9207cf0dc0fc34ed3e9a70f9871'
 LANE = Path(__file__).resolve().parent.parent
 CORE = 'tree/qualification/dg16-r5-g1-hosted-episode/'
 ENTRY = 'tree/qualification/dg16-r5-g1-hosted-entry/'
@@ -242,6 +242,21 @@ class Sources:
         for k in ('repository','branch','workflow_path','job_name'):need(ctx[k]==self.binding[k],'FIXED_HOST_CONTEXT')
         return ctx
     def endpoint(self,ctx,artifact_id,kind):return self.B.endpoint(ctx,artifact_id,kind)
+    def host_commit(self,commit):
+        """Require the exact continuation -> received original host -> product."""
+        row=self.sources['qualification_inputs']['evidence/original_host_commit.json']
+        raw=read(self.local(row['path']),65536)
+        need(desc(raw)=={k:row[k] for k in ('bytes','sha256')},'ORIGINAL_HOST_OBJECT_CHANGED')
+        original=parse(raw,65536)
+        need(type(original) is dict and original.get('sha')=='434f12f038da9420f9addaf2fed7178e1e41e20f'
+          and original.get('tree',{}).get('sha')=='e81ffaf2959df5da5a6203b66b0b3e0819eae82c'
+          and [x.get('sha') for x in original.get('parents',[])]==[self.binding['source_commit']],
+          'ORIGINAL_HOST_PRODUCT_ANCESTRY')
+        need(type(commit) is dict and type(commit.get('sha')) is str and re.fullmatch('[0-9a-f]{40}',commit['sha'])
+          and commit['sha']!=original['sha'] and commit.get('tree',{}).get('sha')==self.sources['expected_tree']
+          and [x.get('sha') for x in commit.get('parents',[])]==[original['sha']],
+          'PUBLISHED_HOST_SOURCE_PARENT')
+        return commit['sha']
 
 def artifact_name(phase,ctx):
     need(phase in PHASES,'FIXED_PHASE');return PHASES[phase][0].format(run=ctx['run_id'])
@@ -543,7 +558,7 @@ def published_host_parent(s,received,raw):
     p=parse(raw,65536);need(type(p) is dict and all(k in p for k in ('commit','ref','run')),'PUBLISHED_HOST_RECEIVING_FIELDS')
     c,r,run=p['commit'],p['ref'],p['run'];ctx=received['context'];s.context(ctx)
     head=c.get('sha');need(type(head) is str and re.fullmatch('[0-9a-f]{40}',head),'PUBLISHED_HOST_COMMIT')
-    need(c.get('tree',{}).get('sha')==s.sources['expected_tree'] and [x.get('sha') for x in c.get('parents',[])]==[s.binding['source_commit']],'PUBLISHED_HOST_SOURCE_PARENT')
+    need(s.host_commit(c)==head,'PUBLISHED_HOST_SOURCE_PARENT')
     need(r.get('ref')=='refs/heads/'+s.binding['branch'] and r.get('object',{}).get('type')=='commit' and r['object'].get('sha')==head,'PUBLISHED_HOST_REF_JOIN')
     need(ctx['repository']==s.binding['repository'] and ctx['workflow_commit']==head and ctx['branch']==s.binding['branch']
       and run.get('head_sha')==head and run.get('head_branch')==ctx['branch'] and run.get('path')==ctx['workflow_path']==s.binding['workflow_path']

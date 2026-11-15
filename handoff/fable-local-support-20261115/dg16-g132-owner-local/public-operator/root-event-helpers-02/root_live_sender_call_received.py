@@ -20,14 +20,14 @@ ROOT = 'PRO-EXECUTOR-01'
 FINAL = BASE + '/root-final-operators-01'
 PIPELINE = FINAL + '/root_pipeline_inputs_v2.py'
 PINS = {
-    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', '33579984c5e5d05f8e801fd75187886c38a604c6622cd1e4097412b565af9ad3'),
-    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', '58c148499349a40f9471a2a1371710daa2e5a1728856a09042702bd4c068cbf6'),
+    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', 'b610f6fb79e18a5e4c4be5668aacd4c9591553f81d63d71f4cb6af25811a8667'),
+    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', '40d01e8db285e790b098856114a74267f3a2218febde98a1d0c1e2344d02bc47'),
     'binder': (BASE+'/dispatcher-templates-02/bind_dispatcher.py', 'c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad'),
-    'pipeline': (PIPELINE, '347205482ab76b60fb9b9fddda0c316240cb7c0ef5a711ed47c5ccd86eeed49b'),
-    'binary': (FINAL+'/binary_publish_v3.py', '7143a193ac02131b4efed80b2ff80f53d9fb64540bff40284049265c1223eff4'),
-    'journal': (FINAL+'/control_process_v3.py', 'e3b48846c8c260548fab8b8d4822bb856ff19c7d95f10ceaa39ea88a404c86c3'),
+    'pipeline': (PIPELINE, '7edc9231a0d5fbe29cdbdf428857e3534105f79a3af4b34b5215afdc127725e9'),
+    'binary': (FINAL+'/binary_publish_v3.py', '3ea4f721116cc15d8b12b60ac6c186dfe81e78116bc8347aa4fcec07d39e1482'),
+    'journal': (FINAL+'/control_process_v3.py', '506fbae322a25e3947320d35818075ca99edfa2f305c2632fc40e2647913a082'),
     'decoder': (FINAL+'/file_readback.py', 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'),
-    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', 'e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149'),
+    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', '35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22'),
 }
 LOADER = "import hashlib,os,pathlib,stat,sys; p=pathlib.Path(sys.argv[1]); pin=sys.argv[2]; mark=lambda s:(s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_uid,s.st_gid,s.st_size,s.st_mtime_ns,s.st_ctime_ns); s=p.lstat(); assert stat.S_ISREG(s.st_mode) and s.st_nlink==1 and s.st_uid==os.geteuid() and stat.S_IMODE(s.st_mode) in (0o400,0o444) and 0<s.st_size<=1048576; fd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC); opened=os.fstat(fd); assert mark(opened)==mark(s) and stat.S_ISREG(opened.st_mode) and not os.listxattr(fd); raw=os.pread(fd,s.st_size+1,0); assert len(raw)==s.st_size and hashlib.sha256(raw).hexdigest()==pin and mark(os.fstat(fd))==mark(s) and mark(p.lstat())==mark(s); os.close(fd); sys.argv=[str(p),*sys.argv[3:]]; exec(compile(raw,str(p),'exec'),{'__name__':'__main__','__file__':str(p)})"
 

@@ -8,7 +8,7 @@ import hashlib,json,os,re,select,signal,ssl,sys,termios,time,types,urllib.error,
 from contextlib import contextmanager
 from pathlib import Path
 BASE=Path(__file__).resolve().parent
-RECEIVER_SHA = '0676910949eec3aada03d5c5feb37df88daebf217256f17fb46f6a0b8c22a1a7'
+RECEIVER_SHA = '8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b'
 WATCHDOG_SECONDS=45
 
 class Refusal(ValueError):pass

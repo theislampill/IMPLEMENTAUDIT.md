@@ -17,7 +17,7 @@ import types
 BASE = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator')
 RECEIVER = BASE / 'public-receiver-02'
 READER = RECEIVER / 'author/receiver.py'
-READER_SHA = '0676910949eec3aada03d5c5feb37df88daebf217256f17fb46f6a0b8c22a1a7'
+READER_SHA = '8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b'
 HOST_COMMIT = 'f9ba187e8f5520956f0f16cf13c0a706e8360b96'
 HOST_TREE = '8390375505282e602759c7976b6bca82a44d5737'
 
@@ -63,8 +63,7 @@ def publication_join(R, source, raw, ctx):
     require(ref['ref'] == 'refs/heads/'+ctx['branch'] and ref['object']['type'] == 'commit'
             and ref['object']['sha'] == commit['sha'] == run['head_sha'] == HOST_COMMIT,
             'PUBLICATION_HEAD_CHANGED')
-    require(commit['tree']['sha'] == HOST_TREE
-            and [row['sha'] for row in commit['parents']] == [source.P.SOURCE_COMMIT],
+    require(commit['tree']['sha'] == HOST_TREE and source.host_commit(commit) == HOST_COMMIT,
             'PUBLICATION_TREE_OR_ANCESTRY_CHANGED')
     require(run['repository']['full_name'] == run['head_repository']['full_name'] == ctx['repository']
             and run['head_branch'] == ctx['branch'] and run['path'] == ctx['workflow_path']
