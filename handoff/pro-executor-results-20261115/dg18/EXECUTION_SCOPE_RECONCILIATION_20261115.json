@@ -1,0 +1,44 @@
+{
+  "actor": "PRO-EXECUTOR-01",
+  "actual_custodian_owner_store_assignment_received": false,
+  "current_status_rule": "The old INPUT_PACKETS pending-distinct-receiver source status is superseded only at the three-source-CLI scope by the published99-check receiving receipt. Native owner records remain pending.",
+  "existing_qualified_source": {
+    "commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "distinct_receiving_checks": 99,
+    "receipt": {
+      "bytes": 3869,
+      "path": "handoff/pro-executor-results-20261115/dg18/independent-receiving/HOSTED_SOURCE_RECEIVING_43676967250_RECEIPT.json",
+      "sha256": "8bce51741926f3c373ad51c27d255b22a9cff5721cba004047653246b5f38ade"
+    },
+    "rerun": false,
+    "run": 43676967250,
+    "source_cli_cases": 3,
+    "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570"
+  },
+  "new_native_effects": 0,
+  "new_source_qualification_claims": 0,
+  "original_acceptance": false,
+  "owner_inferred": false,
+  "remaining_inputs": {
+    "C02": "Actual adjudication owner decision, erroneous event evidence, complete census and expected-old binding, append grant; any fresh transition requires separately scoped grant.",
+    "E_F": "Actual timed availability and native GO.",
+    "N1": "Actual custodian pending_owner(store, session_id, owner_id), episode_owner(module_pin, repository, controller), supported live owner/current_record readback and exact assignment; then bounded authentic audit-state turn. A retained progress label is not the authority record.",
+    "OR": "Actual fresh host observation, entitled producer and issuer grant; qualified consumer does not create observation authority.",
+    "W_FULL": "Real Windows full measurement, two concurrent admitted DG16/DG17 owners and fresh owner grant.",
+    "final_receiving": "N1 and original cold cross-result receiving remain required."
+  },
+  "retained_n1_check": {
+    "bytes": 2300,
+    "path": "handoff/pro-executor-results-20261115/dg18/N1_RETAINED_RECORD_CHECK.json",
+    "sha256": "6583af07cec0e4e0728ec1785dfceb0dd31772a1a7707cc242984cd9ef8a619c"
+  },
+  "retained_n1_status": {
+    "accepted_witness": null,
+    "consumption": "PENDING",
+    "currentness": "UNRESOLVED",
+    "reservation": "RESERVED",
+    "result": "PENDING"
+  },
+  "schema": "dg18.continuing-execution-scope-reconciliation.v1",
+  "source_packet_reference": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/ef7bfa0590876f6a92ebe3dcdc833829f0d43c09/handoff/dg16-dg18-findings-20261115/dg18-source-qualification/INPUT_PACKETS.json"
+}

@@ -1,0 +1,32 @@
+{
+  "authority": "NONE",
+  "candidate_commit": "068db6d3ab91f51f95d3751f4fe933c7102cf7c1",
+  "candidate_tree": "edac792d9b18e1d7fdd4cd0d2ab55cd3093585b9",
+  "critical_findings": [],
+  "execution": {
+    "candidate_edits": 0,
+    "full_suites": 0,
+    "historical_baseline_reruns": 0,
+    "offline_ast_checks": 1,
+    "protected_native_key_operations": 0,
+    "provider_calls": 0
+  },
+  "important_findings": [],
+  "limits": [
+    "This is engineering source evidence only, not formal lifecycle closure or an issuer act.",
+    "Actual positive complete bound installation remains unavailable; no fixture body or source hash authenticates provenance.",
+    "Original effect admission still requires actual require_final_review and current external authentic capability."
+  ],
+  "nonselected_ast_unchanged": true,
+  "only_five_original_assignments_selected": true,
+  "original_acceptance": false,
+  "original_receiver_sha256": "5bb8d71aa40e2a4d842ddd178b31257eef496ca3c0073461e8328d2e64560f5e",
+  "reviewed_scope": [
+    "semantic_receiver.py:147-239 bound-source reconstruction, physical seven-member installation, original binder reapplication, exact7-output comparison, original verified entry",
+    "Original bind_public structural hashes, adoption/certificate/bridge/run flags, runtime flags/path separation, binding fields/decision joins/reviewer selection",
+    "Original public_receiver module audit fence, acquire, verify_seal and verified"
+  ],
+  "reviewer": "/root/dg16_independent_review/replacement_loader_review",
+  "schema": "dg16.replacement-loader-source-subreview.v1",
+  "semantic_sha256": "852322cf62881bafee5d9f7c35e5ad4c69f9ec58047282631973cee2a53caa01"
+}

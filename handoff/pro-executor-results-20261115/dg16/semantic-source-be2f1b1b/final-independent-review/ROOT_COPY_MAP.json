@@ -1,0 +1,41 @@
+{
+  "bytes_preserved": true,
+  "copies": [
+    {
+      "bytes": 40546,
+      "path": "handoff/pro-executor-results-20261115/dg16/semantic-source-be2f1b1b/final-independent-review/SOURCE_COPY.json",
+      "sha256": "3846c0dcdc689fbb655ee84bd77e334bd9a2672675793bedd3697f2d4233c85e"
+    },
+    {
+      "bytes": 1721,
+      "path": "handoff/pro-executor-results-20261115/dg16/semantic-source-be2f1b1b/final-independent-review/REVIEW_EXECUTIONS.json",
+      "sha256": "9252237c400431a482a3c45f61e617b01ba56f5bdb883e71d21295c47e341305"
+    },
+    {
+      "bytes": 756,
+      "path": "handoff/pro-executor-results-20261115/dg16/semantic-source-be2f1b1b/final-independent-review/focused-custody.log",
+      "sha256": "49f64452d8a78b4b332b823e4ab514f90223fa5f409a68b1639c263aeb4381fa"
+    },
+    {
+      "bytes": 616,
+      "path": "handoff/pro-executor-results-20261115/dg16/semantic-source-be2f1b1b/final-independent-review/checked_file_fifo_race_worker.py",
+      "sha256": "ded664227772d9b835a51597156cc373904b621b97072b0cce95a59ae44bd4c9"
+    },
+    {
+      "bytes": 10287,
+      "path": "handoff/pro-executor-results-20261115/dg16/semantic-source-be2f1b1b/final-independent-review/REVIEW.json",
+      "sha256": "6fb2f7906a8d52bad6dd3d23f78abc84b46ea3dc91bd06e40bcb1a8de0f24dfd"
+    },
+    {
+      "bytes": 1663,
+      "path": "handoff/pro-executor-results-20261115/dg16/semantic-source-be2f1b1b/final-independent-review/REVIEW_RECEIPT.json",
+      "sha256": "0417de7bfa57f476d12374e2f8302a1112bffbd535349dc7cebd29510848c248"
+    },
+    {
+      "bytes": 3882,
+      "path": "handoff/pro-executor-results-20261115/dg16/semantic-source-be2f1b1b/final-independent-review/REVIEW.txt",
+      "sha256": "892864523067e3d3923f8f73345286549bba943497a856c9d94661e4bca684fa"
+    }
+  ],
+  "original_acceptance": false
+}

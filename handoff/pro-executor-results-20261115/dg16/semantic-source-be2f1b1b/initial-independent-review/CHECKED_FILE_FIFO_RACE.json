@@ -1,0 +1,23 @@
+{
+  "authority": "NONE",
+  "original_acceptance": false,
+  "results": [
+    {
+      "child_terminated_by_test_timeout": true,
+      "elapsed_seconds": 1.0022856460000185,
+      "mode": "exact_source",
+      "timeout": true
+    },
+    {
+      "elapsed_seconds": 0.0456995510003253,
+      "exit_code": 0,
+      "mode": "counterfactual_nonblock",
+      "stderr": "",
+      "stdout": "REFUSED:INPUT_CHANGED\n",
+      "timeout": false
+    }
+  ],
+  "schema": "dg16.independent-file-race-control.v1",
+  "scope": "INERT_LOCAL_INPUT_ONLY; exact source unchanged; comparison flag injected by isolated test hook only",
+  "source_sha256": "852322cf62881bafee5d9f7c35e5ad4c69f9ec58047282631973cee2a53caa01"
+}

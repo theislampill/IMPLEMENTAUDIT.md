@@ -1,0 +1,79 @@
+{
+  "schema": "pro-executor-source-publications.v1",
+  "executor": "PRO-EXECUTOR-01",
+  "dg17": {
+    "branch": "engineering/pro-executor-dg17-source-20261115",
+    "remote_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "remote_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "sole_parent": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+    "local_source_candidate": "0655cfa87cc3b81ed59ffa046d07b1ba616d631e",
+    "local_integration": "3304d04a43dc64d6cbc2e0ccc45b1503574238a1",
+    "actual_runs": [
+      {
+        "id": 43686248655,
+        "attempt": 1,
+        "status": "in_progress",
+        "conclusion": null,
+        "name": "DG17 offline source lifecycle",
+        "path": ".github/workflows/dg17-offline-lifecycle.yml"
+      }
+    ],
+    "original_acceptance": false
+  },
+  "dg16_m5": {
+    "branch": "engineering/pro-executor-dg16-m5-source-20261115",
+    "remote_commit": "c073689e315b4db7c26e5a95c9024a34b1e560b7",
+    "remote_tree": "8d5502db6ea1f303f6345ded74cf1a0ae1dd3e94",
+    "sole_parent": "07a57141b74b5e7861a3145174582347837d075c",
+    "local_source_candidate": "21c53ac61f6db57f0bb8ddfdabeb254420e109c2",
+    "local_integration": "689e39feb0665e0be8222e91117b1434654b50e7",
+    "actual_run": 43686188100,
+    "original_acceptance": false
+  },
+  "original_acceptance": false,
+  "protected_or_native_launches": 0,
+  "remote_full_trees_equal_local_integrations": true,
+  "method": "GitHub GitData with verified blobs/full tree, exact sole parent, guarded update for DG17 and observed-absent create-only M5; API commit metadata yields distinct local/remote commit identities.",
+  "provider_records": [
+    {
+      "path": "provider/m5-branch-readback.json",
+      "bytes": 507,
+      "sha256": "051041a551019cc8294276970b50e53e65777b92b3e91b5439603cbe5430965f"
+    },
+    {
+      "path": "provider/m5-commit-readback.json",
+      "bytes": 1497,
+      "sha256": "0b3a96c434e3d8e6db06ffaa4f67205bf929fb24918d58bea80aae14b355a39a"
+    },
+    {
+      "path": "provider/m5-first-run-observation.json",
+      "bytes": 13974,
+      "sha256": "59d7bc49d6c83ba01a06e56d7f9060be242c4b1f919ed6bdf7e7607c80003680"
+    },
+    {
+      "path": "provider/dg17-branch-readback.json",
+      "bytes": 497,
+      "sha256": "fe92322c50e27151831cf098c36cd4ce5ebc253ebb98e957f9f76e4fc35582a2"
+    },
+    {
+      "path": "provider/dg17-commit-readback.json",
+      "bytes": 1575,
+      "sha256": "8d05916edb9422149d9cbdb3880595e27007090e7d400e6ceff106d84075cb72"
+    },
+    {
+      "path": "provider/dg17-first-run-observation.json",
+      "bytes": 14025,
+      "sha256": "9f9729d441289af71e9c8a167eaf70245acfb476399e17f9d18295e33f8b384a"
+    },
+    {
+      "path": "provider/dg17-terminal-run.json",
+      "bytes": 13992,
+      "sha256": "a3e594e5e9cea9b2ed7b42519fe7f68bdd2bfa9cefde6f2b2ffaef92a2150ca2"
+    },
+    {
+      "path": "provider/dg17-terminal-jobs.json",
+      "bytes": 4211,
+      "sha256": "0a7da67fc8790a68c394cc32789a8623d6b2eef705d30e2b176ecb25a3cca456"
+    }
+  ]
+}

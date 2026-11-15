@@ -1,0 +1,82 @@
+{
+  "actual_interval_seconds": 80.266988201,
+  "all_16_phases_completed_and_children_reaped": true,
+  "artifact": {
+    "bytes": 6847,
+    "id": 14151065080,
+    "name": "dg16-installed-runtime05-43686188100-1",
+    "public_files": 9,
+    "public_uncompressed_bytes": 17149,
+    "sha256": "897340c804241024f7be059adf0df717279d642add529c08eaa1b7851e5f3594"
+  },
+  "artifact_reacquired": false,
+  "attempt": 1,
+  "authority": "NONE",
+  "blocking_findings": 0,
+  "commands": 225,
+  "current_four_route_conjunction_received": true,
+  "disposition": "RECEIVED_CURRENT_SOURCE_FOUR_ROUTE_HOSTED_QUALIFICATION",
+  "failure_present": false,
+  "frozen_utc": "2026-11-15T06:43:57.766934+00:00",
+  "historical_raw_packet_recovered": false,
+  "host": {
+    "all_four_tools_including_env_observed": true,
+    "architecture": "x86_64",
+    "image": "ubuntu26 / 20261111.196.1",
+    "os": "Ubuntu 26.04",
+    "python": "3.14.4",
+    "uid": 1001
+  },
+  "job_id": 132727043728,
+  "old_27_controls_rerun": false,
+  "original_M5_Q04_Q05_G221_M6_native_Windows_release_closure_acceptance": false,
+  "original_M5_remaining": [
+    "Exact canonical G221 package/source identity join",
+    "Applicable M6/original receiving"
+  ],
+  "parent_and_all_route_closing_currentness": true,
+  "publication_and_acquisition_custodian": "/root",
+  "receiver": "/root/dg18_engineering",
+  "receiver_body_gets": 0,
+  "receiver_job_log_acquisitions": 0,
+  "receiving_manifest": {
+    "bytes": 4922,
+    "mode": "0o644",
+    "path": "MANIFEST.json",
+    "sha256": "8cb1f019acad5feddce87cb2c7a3dffe6e0e61142184683b9319587937aa7d09"
+  },
+  "report": {
+    "bytes": 11214,
+    "mode": "0o644",
+    "path": "REPORT.md",
+    "sha256": "7e0b245a9cdb05550e85f0591303be20af34e6e453b29047eb2f73dee0e252b1"
+  },
+  "root_body_gets": 1,
+  "run_id": 43686188100,
+  "schema": "dg16.m5-distinct-actual-hosted-receiving-receipt.v1",
+  "signed_url_retained": false,
+  "source": {
+    "after_complete": true,
+    "before_complete": true,
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "file_count": 1766,
+    "manifest_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+    "parent_runtime_unchanged": true,
+    "schema": "dg16.installed-runtime-source.v1",
+    "source_unchanged": true,
+    "total_bytes": 167023692,
+    "tracked_product_mutations_authorized": false,
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "source_author": "/root/dg18_independent_review",
+  "source_or_controller_or_remote_mutation_by_receiver": false,
+  "technical_receiving_record": {
+    "bytes": 22867,
+    "mode": "0o644",
+    "path": "RECEIVING.json",
+    "sha256": "73bfbab6178344e90a116d50218f43766079a1f4c4e501e2bf9839841c0200f5"
+  },
+  "workflow_commit": "c073689e315b4db7c26e5a95c9024a34b1e560b7",
+  "workflow_tree": "8d5502db6ea1f303f6345ded74cf1a0ae1dd3e94",
+  "writes_frozen": true
+}

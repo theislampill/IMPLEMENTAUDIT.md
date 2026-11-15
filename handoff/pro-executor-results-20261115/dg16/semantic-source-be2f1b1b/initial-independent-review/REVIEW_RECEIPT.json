@@ -1,0 +1,29 @@
+{
+  "authority": "NONE",
+  "candidate": {
+    "candidate_files": 27,
+    "commit": "068db6d3ab91f51f95d3751f4fe933c7102cf7c1",
+    "inherited_files": 95,
+    "manifest_sha256": "c4908935a03f853047708fba57532a3af477a107979892a56ff420a9528cabe7",
+    "parent": "07a57141b74b5e7861a3145174582347837d075c",
+    "semantic_receiver_sha256": "852322cf62881bafee5d9f7c35e5ad4c69f9ec58047282631973cee2a53caa01",
+    "source_closure_sha256": "77a9e8437f6da55864552be223711fd90a4386594cf6abe8c254cedb19b2ada0",
+    "tree": "edac792d9b18e1d7fdd4cd0d2ab55cd3093585b9"
+  },
+  "disposition": "GAP_REVISE_SOURCE_ONLY",
+  "original_acceptance": false,
+  "reports": [
+    {
+      "bytes": 10619,
+      "path": "/workspace/scratch/0269e6626329/dg16-review-recovery/new-068db6d3/REVIEW.json",
+      "sha256": "3b5e511a1e119937c35c0be9c3ae4563c40abfd26b6b5391a7c81d0820c74bb2"
+    },
+    {
+      "bytes": 4554,
+      "path": "/workspace/scratch/0269e6626329/dg16-review-recovery/new-068db6d3/REVIEW.txt",
+      "sha256": "3fb5ce2ecf203bcb1a3e5c2834f6b68b344a808c5c9bc1d1eee73dcd311190b7"
+    }
+  ],
+  "reviewer": "/root/dg16_independent_review",
+  "schema": "dg16.independent-new-source-review-receipt.v1"
+}

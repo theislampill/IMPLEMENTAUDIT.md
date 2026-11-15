@@ -1,0 +1,117 @@
+{
+  "authority": "NONE",
+  "distinct_review_of_new_source_required": true,
+  "external_requirements": [
+    "Actual fresh public recipient/adoption and eligibility observation",
+    "Complete selected candidate/composition, four original decision bodies, seals/tree and gate records",
+    "Actual runtime/path receiving, distinct review selection and exact seven-member receiver installation",
+    "Actual separately sealed final combined binding review through original admission gate",
+    "Actual live request/proof relations, independent review/FINAL/seal, Root input/consumption and original one-shot effect grant",
+    "Genuine current provider/body and later same-job closing/terminal artifact/log receiving"
+  ],
+  "g132": "Owner-local exact host plus 49 public-overlay and 98 operator files unavailable; no integration or reconstruction",
+  "historical_candidate_reference_only": {
+    "commit": "95a7a0d1981ad317ab0b6fba034875cd42e778b7",
+    "identity_assigned_to_new_source": false,
+    "manifest_members": 71,
+    "manifest_recovered": false,
+    "manifest_sha256": "0990656991c1712a2e80bcefe1a691eea389e446e78b8ebfe98b20ba5bb82a52",
+    "parent": "dd5f29a703a3b889129f28e9fc8e8d36f80e650f",
+    "tree": "a5cfc611f03c3f121290f2886d70c4179014e09f"
+  },
+  "historical_records": [
+    {
+      "bytes": 3657,
+      "path": "history/95a-recovered/REVIEW.txt",
+      "scope": "HISTORICAL_95A_ONLY_NOT_NEW_SOURCE_REVIEW",
+      "sha256": "b07b5f92c5648746c8d0821c554f82bb3b89066c1bf0c5b3031c2d42ba28669d"
+    },
+    {
+      "bytes": 1339,
+      "path": "history/95a-recovered/REVIEW_RECEIPT.json",
+      "scope": "HISTORICAL_95A_ONLY_NOT_NEW_SOURCE_REVIEW",
+      "sha256": "8f0df9b1be6e2fbaefe269a1d01188e7295d78e342a5dc687a19a571a9686534"
+    },
+    {
+      "bytes": 973,
+      "path": "history/95a-recovered/original-four.log",
+      "scope": "HISTORICAL_95A_ONLY_NOT_NEW_SOURCE_REVIEW",
+      "sha256": "a1a50136c081d7157cdd0d00507923878ce909c13bb85283976c3b61125aeab6"
+    }
+  ],
+  "new_source_scope": "Pinned original public semantics, original control evidence verification, one-shot receiving and unchanged recovered V8 interfaces; fixtures grant no authority",
+  "new_tests": {
+    "accepted_baseline_rerun": false,
+    "executed_on_initial_recovery_candidate": "068db6d3ab91f51f95d3751f4fe933c7102cf7c1",
+    "failures": 0,
+    "python": 33,
+    "skips": 0,
+    "v8_interfaces": 7
+  },
+  "not_recovered": [
+    "Complete original semantic_receiver.py bytes",
+    "Original 71-member candidate manifest",
+    "Original full candidate Git object/subtree",
+    "Original deterministic test source",
+    "Original timestamped validation logs except the separately recovered original-four.log",
+    "Original SOURCE_CLOSURE.json serialization; published dependency bytes are reclosed with a new manifest"
+  ],
+  "original_acceptance": false,
+  "post_review_custody_correction": {
+    "change": "Nonblocking open plus immediate pre-read descriptor identity check; original post-read descriptor/path checks retained.",
+    "current_source": {
+      "bytes": 35658,
+      "sha256": "9ad95ee8a9c696548501a0404d1029ab5ff79f070a88c2e22f9a44619c47716b"
+    },
+    "distinct_correction_review_required": true,
+    "finding": "DG16-RECOVERY-01",
+    "focused_current_tests_passed": 4,
+    "full_initial_33_python_and_7_v8_rerun": false,
+    "initial_source_sha256": "852322cf62881bafee5d9f7c35e5ad4c69f9ec58047282631973cee2a53caa01",
+    "new_regression_methods": 3,
+    "retained_green": "file-custody-green.txt",
+    "retained_red": "file-custody-red.txt"
+  },
+  "production_bound_positive_qualified": false,
+  "production_files": [
+    {
+      "bytes": 3269,
+      "path": "binding_adapter.py",
+      "sha256": "9e2988fa416aaa828c6ef4b77f7da4ab8a62eb1cb9d64e9b791949a794dcaeed",
+      "status": "EXACT_RAW_RECOVERY_MATCHES_PRIOR_PIN"
+    },
+    {
+      "bytes": 19148,
+      "path": "control_publication.js",
+      "sha256": "a338b12d6b28b1c01645bcba0359efb558ef41824ab281957ddcd6fc71ca8de8",
+      "status": "EXACT_RAW_RECOVERY_MATCHES_PRIOR_PIN"
+    },
+    {
+      "bytes": 14881,
+      "path": "receiving_session.js",
+      "sha256": "d3466df91888484c09b8f4fdcc7031576be448c012ff654900239dac80980c1f",
+      "status": "EXACT_RAW_RECOVERY_MATCHES_PRIOR_PIN"
+    },
+    {
+      "bytes": 35658,
+      "lost_original": {
+        "bytes": 33672,
+        "sha256": "91c8c98a7a3e2a61623f43d4bfcd6ad609b5691b8ea9bdc154774ba95697672f"
+      },
+      "path": "semantic_receiver.py",
+      "sha256": "9ad95ee8a9c696548501a0404d1029ab5ff79f070a88c2e22f9a44619c47716b",
+      "status": "NEW_IMPLEMENTATION_NOT_OLD_SOURCE_RECOVERY"
+    }
+  ],
+  "protected_native_or_key_operations": 0,
+  "provider_calls": 0,
+  "published_base": {
+    "commit": "07a57141b74b5e7861a3145174582347837d075c",
+    "tree": "32592f08a5919299f0d1e3b935a00a99ccf684d5"
+  },
+  "schema": "dg16.source-recovery-map.v1",
+  "source_authors": [
+    "/root",
+    "/root/dg16_contract_check"
+  ]
+}

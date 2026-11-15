@@ -1,0 +1,25 @@
+Independent DG16 bounded correction review
+
+Disposition: SOURCE_QUALIFIED_FOR_BOUNDED_ENGINEERING_PUBLICATION.
+Unresolved findings: zero critical, zero important at the reviewed source scope.
+Reviewer: /root/dg16_independent_review.
+Candidate: 95a7a0d1981ad317ab0b6fba034875cd42e778b7
+Tree: a5cfc611f03c3f121290f2886d70c4179014e09f
+Parent: dd5f29a703a3b889129f28e9fc8e8d36f80e650f
+Driver SHA-256: d3466df91888484c09b8f4fdcc7031576be448c012ff654900239dac80980c1f
+Manifest SHA-256: 0990656991c1712a2e80bcefe1a691eea389e446e78b8ebfe98b20ba5bb82a52
+Authority: NONE. Original acceptance: false.
+
+DG16-SEMANTIC-01 is closed for this corrected revision. The driver now requires an integer semantic-process expires_ms no later than its selected runtime deadline and adopts it before either final asynchronous currentness callback. The existing checks before and after those callbacks therefore enforce the earlier live REQUEST deadline. Missing, string, fractional, null and extended helper deadlines refuse. The correction changes no provider action, journal key, frame, retry path or acceptance flag.
+
+All four original independent regressions now pass against the exact corrected bytes. The same regression harness was used with only its HERE path rebound to the new isolated copy. The full current receiving suite independently passes 40/40 with zero skips, including two timely earlier-deadline positives, six reply/callback expiry refusals, and ten invalid output-deadline cases. This review does not double-count those overlapping controls as distinct production qualifications.
+
+The complete 27-file delta was inspected. Only receiving_session.js changes in production; the other three production files and all 95 inherited dependencies are byte-identical. The 71 manifest members, manifest itself and Git bytes match the frozen candidate. All 15 retained files from the original GAP review are byte-identical. The isolated 167-file copy remained unchanged, and the author worktree remains clean at the selected commit/tree.
+
+The full previous independent review is inherited for unchanged source: its 32 Python, 22 publication V8, 17 baseline-chain and five retained-wrapper parser controls passed previously. Root also retains manifest-pinned current full 32 Python + 62 V8 runs. The changed receiving population and original four regressions were independently rerun in this correction review; unchanged populations were not unnecessarily repeated.
+
+The source packet is ready for bounded engineering publication and for a separate owner-use review, with the original limitations explicit. This is an engineering review; it is not publication itself, an installation seal, a formal lifecycle closure, an actual live-proof verdict, an effect grant, or authorization/qualification to execute the original route.
+
+The actual fresh recipient/adoption, complete bound candidate and original decisions/seals, runtime/path receiving, seven-member receiver installation, combined review, live proof review, Root input/consumption and original one-shot grant remain absent. Complete positive production-bound original inspect, actual original timing and same-job closing remain unqualified. Original G132 local dependencies remain unavailable. Prior G219 UNKNOWN remains spent; prior genuine G218 component evidence remains separate. No provider calls, protected/key operations, source edits, artifact reacquisition or retries occurred.
+
+The earlier dd5f29a7 GAP report remains immutable and valid for its own revision. This receipt supersedes only its single deadline finding at 95a7a0d1. REVIEW.json carries exact evidence descriptors, source scope and limits.

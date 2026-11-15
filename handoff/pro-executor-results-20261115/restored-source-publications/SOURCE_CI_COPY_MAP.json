@@ -1,0 +1,221 @@
+{
+  "bytes_preserved": true,
+  "copied_files": 42,
+  "members": [
+    {
+      "bytes": 1298,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/ACQUISITION_INTENT.json",
+      "sha256": "dcb0b6c9babf188b3c9095e3be51568b74e2f799724215b3d474bdeaa7497e78"
+    },
+    {
+      "bytes": 894,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/ACQUISITION_RECEIPT.json",
+      "sha256": "d7fb9cafe23d0d9afc8d012a6bb34f1a2cf90ea407cc99692bd76cc41b5da09e"
+    },
+    {
+      "bytes": 128,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/BODY_READ_INTENT.json",
+      "sha256": "8166821069ed4e24b422f469314787447c750f0d6d388c621306ca48b6b00883"
+    },
+    {
+      "bytes": 604,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/DOWNLOAD_REFERENCE_DESCRIPTOR.json",
+      "sha256": "5cf8a238f9b38c070d270c1e454a4431f72491c602f14a2a7f4dac194d731bfb"
+    },
+    {
+      "bytes": 3351,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/artifact.zip",
+      "sha256": "14df48f5cd170301efa114f361ebfcf1a1399f91631c418e3fc6852ada77136e"
+    },
+    {
+      "bytes": 764,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/members/rebuild.log",
+      "sha256": "83707e68474151dcef9a0086a6911d833c907afecb335d63ebafa7abfa0c51d0"
+    },
+    {
+      "bytes": 3851,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/members/rebuilt/PINS.json",
+      "sha256": "72d4102fbf0a60c7f5f8e933776d2c491025840103dd478c71273f06282cbc74"
+    },
+    {
+      "bytes": 14983,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/windows/members/store-custody.log",
+      "sha256": "2d192b40b65198180683b2c042e8f2c3846a4e4a7b5144b0bb3d6d4b8002b150"
+    },
+    {
+      "bytes": 1291,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/ACQUISITION_INTENT.json",
+      "sha256": "d2e9a9df3ddd128b9261f605f92f52d3a6274f759a5707330e5e98647ce0ae4b"
+    },
+    {
+      "bytes": 2339,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/ACQUISITION_RECEIPT.json",
+      "sha256": "e3d0a4d7b653f1fea60da49bb017e7ee84d9b35977eff129098e454bee4d608b"
+    },
+    {
+      "bytes": 128,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/BODY_READ_INTENT.json",
+      "sha256": "87a8ef914a039620270e325072bfb24daeb48c0268a1184090be29bb5b695582"
+    },
+    {
+      "bytes": 596,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/DOWNLOAD_REFERENCE_DESCRIPTOR.json",
+      "sha256": "9d2beae68d9eabb96b6e70d5879a9635a17626d1c1a4e195a430f3e48a096600"
+    },
+    {
+      "bytes": 11013,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/artifact.zip",
+      "sha256": "1b9fb65d13a011c64f5fd4c2d2df5316e1a7c4f71b99665ae9d843f911cfac28"
+    },
+    {
+      "bytes": 3630,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/blocked-hook/REHEARSAL_RESULT.json",
+      "sha256": "a10b1eda9bea4ed4b7c8855761b93f94635ef9f774ba5b4d71eb116ef5fee267"
+    },
+    {
+      "bytes": 178,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/blocked-hook/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 2807,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/blocked-hook.log",
+      "sha256": "d6fc550c49308f8ba93f0de2f2ba6ca772f92031f71bdbea472cea09adbee365"
+    },
+    {
+      "bytes": 3638,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/full/REHEARSAL_RESULT.json",
+      "sha256": "bcd810deb492f937e398009f0656d607cd99bb91ed7178df01bbd4c4cca5238d"
+    },
+    {
+      "bytes": 178,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/full/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 3037,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/full.log",
+      "sha256": "a48dd5675e26188ca73a6eadd2a8342eb4cfd67cfc3e5b30d8086d79d5e22494"
+    },
+    {
+      "bytes": 1212,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/native-boundary/REHEARSAL_RESULT.json",
+      "sha256": "b17cb4b94e8261db983ac253ba9bdf21bc750bb56c4f8e920b6183c84db730aa"
+    },
+    {
+      "bytes": 178,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/native-boundary/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 1161,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/native-boundary.log",
+      "sha256": "6f505f03d65e2db01db03fb9971ed2619a267b74618cbfa6f82d5c78b0e2e064"
+    },
+    {
+      "bytes": 764,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/rebuild.log",
+      "sha256": "1eabc976ad876159405e5a27f8ee27bb2910237b396624c353c940cb9098ebd2"
+    },
+    {
+      "bytes": 3935,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/rebuilt/PINS.json",
+      "sha256": "d474c46ca83ab147c6f1fb465bace144909aeac96bac4f80edb34f2a8755aa84"
+    },
+    {
+      "bytes": 4387,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/linux/members/source-controls.log",
+      "sha256": "fdcb8d1b5f129d7a757afc6eec85a4f6637c5425f4091763ff53bcfbee8c68da"
+    },
+    {
+      "bytes": 1308,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/ACQUISITION_INTENT.json",
+      "sha256": "4aa08d1a4693ea7cfeff9ff77039e421babd468156ec30587fea51fcfb787319"
+    },
+    {
+      "bytes": 1768,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/ACQUISITION_RECEIPT.json",
+      "sha256": "24d97666bf098fd8297049307a1d37bd385c6421c958b33fa189440232eb349f"
+    },
+    {
+      "bytes": 128,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/BODY_READ_INTENT.json",
+      "sha256": "7adbf85d4d4339435690f587ab3f8f26dc96a9f0bdfa31702f643c8453255688"
+    },
+    {
+      "bytes": 612,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/DOWNLOAD_REFERENCE_DESCRIPTOR.json",
+      "sha256": "88a2cb00bb32d33b2eb97e3ab616b68faeb23a6916db9a11e43581c6fdeb0f0e"
+    },
+    {
+      "bytes": 6847,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/artifact.zip",
+      "sha256": "897340c804241024f7be059adf0df717279d642add529c08eaa1b7851e5f3594"
+    },
+    {
+      "bytes": 1306,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/ARTIFACT_MANIFEST.json",
+      "sha256": "c6af783dd49ff93591c261dd4da97c21fcd1521a060e4cbc99814a2623f1a506"
+    },
+    {
+      "bytes": 403,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/CLEANUP.json",
+      "sha256": "b03566055b551a47dcc81a4c986fda5b64e6a89326735269a06312c6b6fb7887"
+    },
+    {
+      "bytes": 150,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/FAILURE.json",
+      "sha256": "5ca7e2247359a1f58287856dc8acec02af30737b84d5dc076ed0cfc4179f6558"
+    },
+    {
+      "bytes": 2384,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/HOST.json",
+      "sha256": "9b67d7e43c40dd8f8534bac891e8b0ec49bae5470cf5eaba5ff17b2660632f5f"
+    },
+    {
+      "bytes": 1413,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/PACKAGES.json",
+      "sha256": "1ff6b51cbb54ea56859f102f2ec572b0cee6d7008dbbc0b6ec1311d60be0f54f"
+    },
+    {
+      "bytes": 5262,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/PHASES.json",
+      "sha256": "0a990c121c4adf6db81ce05ca1ba87fe7ca5f6f8ce9ee596270d7bfbba15af3e"
+    },
+    {
+      "bytes": 1675,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/RESULT.json",
+      "sha256": "200cc2fbef6734b3c8c4ccac196576f5a4c8dd62b3361272e4cdee1d6a4c6ec5"
+    },
+    {
+      "bytes": 4090,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/ROUTES.json",
+      "sha256": "73a63ffb6ff8f360ba61dfded3ba09054279b72f64939a801ffb0f01ed6f15f9"
+    },
+    {
+      "bytes": 466,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/artifact/members/SOURCE.json",
+      "sha256": "076255de7761412fb274eeb46d5f763302dd83a548c12d58e2584ff89127c89b"
+    },
+    {
+      "bytes": 1540,
+      "path": "handoff/pro-executor-results-20261115/dg17/hosted-source-run-43686248655/PROVIDER_ARTIFACT_CATALOG.json",
+      "sha256": "09e6fcd28e249abe6a35483dacde050bdb6d05bf3a5de24aa576c3e707b323fd"
+    },
+    {
+      "bytes": 800,
+      "path": "handoff/pro-executor-results-20261115/dg16-m5/hosted-source-run-43686188100/PROVIDER_ARTIFACT_CATALOG.json",
+      "sha256": "652e3514ac6c7831566f503249ffae677daad1cc4f349526f3b6fa6c18b9956d"
+    },
+    {
+      "bytes": 4894,
+      "path": "handoff/pro-executor-results-20261115/restored-source-publications/receive_public_source_ci.py",
+      "sha256": "dbee778411b6af43b2378e8b2898cc445dd7552d369dd9568807f2862731afc5"
+    }
+  ],
+  "original_acceptance": false,
+  "protected_or_native_effects": 0,
+  "schema": "pro-executor-received-source-ci-copy-map.v1",
+  "signed_urls_retained": false,
+  "source_scope_only": true
+}

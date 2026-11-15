@@ -1,0 +1,15 @@
+✔ new live outcome crosses recovered driver with the earlier REQUEST deadline (275.103601ms)
+✔ new control outcome crosses recovered driver preserving original evidence checks (224.103982ms)
+✔ earlier new helper deadline expiring at semantic-process-completed refuses (204.392186ms)
+✔ earlier new helper deadline expiring at semantic-outcome-received refuses (194.224071ms)
+✔ noninteger new helper deadline is not accepted by the recovered driver (169.598162ms)
+✔ new original preparation satisfies recovered publisher data contract before external admission (214.878693ms)
+✔ changed original review check prevents publisher admission (216.26886ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1674.061635

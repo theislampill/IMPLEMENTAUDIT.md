@@ -1,0 +1,58 @@
+{"status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW", "post_A": "/home/runner/work/_temp/dg17-offline/full/SIMULATED-case/evidence/POST_A.json", "remaining_global_seconds": 893.561470905}
+{"status": "SOURCE_BOUND_ONLY_ROOT_B_GRANT_REQUIRED", "operation": {"path": "/home/runner/work/_temp/dg17-offline/full/OPERATION_B_BOUND.json", "bytes": 6566, "sha256": "7a07d8eb13d434f23bf4b52b19d155a9002bf82680b791ba07cd4d33f0441bba"}, "grant_required": {"issuer": "SIMULATED-NO-AUTHORITY", "stage": "B", "operation_sha256": "7a07d8eb13d434f23bf4b52b19d155a9002bf82680b791ba07cd4d33f0441bba", "post_A_sha256": "a6ccae122b81d6b3a98b8019f2f82f9caf6251ebd0e3e7301c156531319d2c00", "owner_approval_sha256": "f20238624586cddcf705c428a443ff5f84832702e03e2d2177b5ff42a99b56b6", "independent_post_A": {"path": "/home/runner/work/_temp/dg17-offline/full/SIMULATED-independent-input.json", "bytes": 116, "sha256": "084446b1f453fd0b9b468caaf499580be32a222262d699b14e9e207437752944"}}}
+{"status": "ONE_ACTUAL_SELECTED_NATIVE_ALLOW_AND_NATURAL_NONTERMINAL_COMPLETION_AWAIT_INDEPENDENT_RECEIVING", "post_B": "/home/runner/work/_temp/dg17-offline/full/SIMULATED-case/evidence/stage-B01/POST_B.json"}
+{
+  "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+  "authority": "NONE",
+  "mode": "full",
+  "genuine_codex_turns": 0,
+  "native_appservers_started": 0,
+  "windows_custody_exercised": false,
+  "original14_unknown_differences": 14,
+  "stage_A_source_steps": [
+    "01-clone.json",
+    "02-checkout.json",
+    "03-head.json",
+    "04-tree.json",
+    "05-controller-ref-absence.json",
+    "06-new-claim.json",
+    "06a-inspect-initialization.json",
+    "06b-activate-controller.json",
+    "07-source-bootstrap.json",
+    "08-source-verify.json",
+    "09-source-require.json",
+    "10-source-positive.json",
+    "11-invalidate-new-session.json",
+    "12-separate-STATE-read.json",
+    "13-separate-ROADMAP-read.json",
+    "14-native-context-resume.json",
+    "15-native-context-verify.json",
+    "16-native-context-require.json",
+    "17-current-controller.json"
+  ],
+  "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+  "stage_A_error": null,
+  "result": "DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS",
+  "stage_B_status": "ONE_ACTUAL_SELECTED_NATIVE_ALLOW_AND_NATURAL_NONTERMINAL_COMPLETION_AWAIT_INDEPENDENT_RECEIVING",
+  "stage_B_error": null,
+  "stage_B_steps": [
+    "01-currentness.json",
+    "02-owned-init.json",
+    "03-owned-bind.json",
+    "04-owned-lookup.json",
+    "05-new-project-trust.json",
+    "06-new-hook-trust.json",
+    "07-new-hook-enable.json",
+    "08-currentness-before-model.json"
+  ],
+  "teardown_known_in_simulation": true,
+  "actual_native_acceptance": false,
+  "elapsed_seconds": 8.165903833,
+  "seams": [
+    "native RPC and model traffic simulated",
+    "fresh simulated grant/reviewer inputs",
+    "constructor fixed host literals rebound only in test copies",
+    "Stage B operation path routed to test copy",
+    "Windows ACL replaced by POSIX private test directory"
+  ]
+}

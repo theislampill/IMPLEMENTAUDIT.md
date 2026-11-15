@@ -1,0 +1,77 @@
+{
+  "archive": {
+    "bytes": 11013,
+    "sha256": "1b9fb65d13a011c64f5fd4c2d2df5316e1a7c4f71b99665ae9d843f911cfac28"
+  },
+  "artifact_id": 14150851650,
+  "authority": "NONE",
+  "automatic_retry": false,
+  "body_gets": 1,
+  "head_sha": "a297957be11feb494c0ec467235794a1e0c54751",
+  "members": [
+    {
+      "bytes": 178,
+      "path": "blocked-hook/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 3630,
+      "path": "blocked-hook/REHEARSAL_RESULT.json",
+      "sha256": "a10b1eda9bea4ed4b7c8855761b93f94635ef9f774ba5b4d71eb116ef5fee267"
+    },
+    {
+      "bytes": 2807,
+      "path": "blocked-hook.log",
+      "sha256": "d6fc550c49308f8ba93f0de2f2ba6ca772f92031f71bdbea472cea09adbee365"
+    },
+    {
+      "bytes": 3638,
+      "path": "full/REHEARSAL_RESULT.json",
+      "sha256": "bcd810deb492f937e398009f0656d607cd99bb91ed7178df01bbd4c4cca5238d"
+    },
+    {
+      "bytes": 178,
+      "path": "full/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 3037,
+      "path": "full.log",
+      "sha256": "a48dd5675e26188ca73a6eadd2a8342eb4cfd67cfc3e5b30d8086d79d5e22494"
+    },
+    {
+      "bytes": 1212,
+      "path": "native-boundary/REHEARSAL_RESULT.json",
+      "sha256": "b17cb4b94e8261db983ac253ba9bdf21bc750bb56c4f8e920b6183c84db730aa"
+    },
+    {
+      "bytes": 178,
+      "path": "native-boundary/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 1161,
+      "path": "native-boundary.log",
+      "sha256": "6f505f03d65e2db01db03fb9971ed2619a267b74618cbfa6f82d5c78b0e2e064"
+    },
+    {
+      "bytes": 764,
+      "path": "rebuild.log",
+      "sha256": "1eabc976ad876159405e5a27f8ee27bb2910237b396624c353c940cb9098ebd2"
+    },
+    {
+      "bytes": 3935,
+      "path": "rebuilt/PINS.json",
+      "sha256": "d474c46ca83ab147c6f1fb465bace144909aeac96bac4f80edb34f2a8755aa84"
+    },
+    {
+      "bytes": 4387,
+      "path": "source-controls.log",
+      "sha256": "fdcb8d1b5f129d7a757afc6eec85a4f6637c5425f4091763ff53bcfbee8c68da"
+    }
+  ],
+  "original_acceptance": false,
+  "run_id": 43686248655,
+  "signed_url_retained": false,
+  "status": "EXACT_PUBLIC_SOURCE_CI_ARTIFACT_RECEIVED"
+}

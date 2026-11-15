@@ -1,0 +1,17 @@
+{
+  "actual_tool_result": {
+    "bytes": 1908,
+    "sha256": "573d7fe1af0ffd2e9544e8f56d9afbefb5a71554e41f60c721dd0fe461c653aa"
+  },
+  "archive_name": "dg17-windows-store-source-only.zip",
+  "artifact_id": 14150317766,
+  "authentication_boundary": "ACTUAL_SUCCESSOR_TOOL_CALL_AND_INDEPENDENT_PROVIDER_RECEIVING_REQUIRED",
+  "authority": "NONE",
+  "content_blocks": 1,
+  "file_reference_identifier_retained": false,
+  "mime_type": "application/zip",
+  "nested_structure_present": true,
+  "schema": "dg16.g2-safe-download-result.v1",
+  "signed_url_retained": false,
+  "unstructured_text_retained": false
+}

@@ -1,0 +1,47 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 403,
+      "name": "CLEANUP.json",
+      "sha256": "b03566055b551a47dcc81a4c986fda5b64e6a89326735269a06312c6b6fb7887"
+    },
+    {
+      "bytes": 150,
+      "name": "FAILURE.json",
+      "sha256": "5ca7e2247359a1f58287856dc8acec02af30737b84d5dc076ed0cfc4179f6558"
+    },
+    {
+      "bytes": 2384,
+      "name": "HOST.json",
+      "sha256": "9b67d7e43c40dd8f8534bac891e8b0ec49bae5470cf5eaba5ff17b2660632f5f"
+    },
+    {
+      "bytes": 1413,
+      "name": "PACKAGES.json",
+      "sha256": "1ff6b51cbb54ea56859f102f2ec572b0cee6d7008dbbc0b6ec1311d60be0f54f"
+    },
+    {
+      "bytes": 5262,
+      "name": "PHASES.json",
+      "sha256": "0a990c121c4adf6db81ce05ca1ba87fe7ca5f6f8ce9ee596270d7bfbba15af3e"
+    },
+    {
+      "bytes": 1675,
+      "name": "RESULT.json",
+      "sha256": "200cc2fbef6734b3c8c4ccac196576f5a4c8dd62b3361272e4cdee1d6a4c6ec5"
+    },
+    {
+      "bytes": 4090,
+      "name": "ROUTES.json",
+      "sha256": "73a63ffb6ff8f360ba61dfded3ba09054279b72f64939a801ffb0f01ed6f15f9"
+    },
+    {
+      "bytes": 466,
+      "name": "SOURCE.json",
+      "sha256": "076255de7761412fb274eeb46d5f763302dd83a548c12d58e2584ff89127c89b"
+    }
+  ],
+  "private_outputs_included": false,
+  "schema": "dg16.installed-runtime-artifact-manifest.v1"
+}

@@ -1,0 +1,9 @@
+test_closing_identity_still_refuses_replacement_after_read (test_file_custody_recovery.FileCustody.test_closing_identity_still_refuses_replacement_after_read) ... ok
+test_regular_to_fifo_race_refuses_without_waiting_for_writer (test_file_custody_recovery.FileCustody.test_regular_to_fifo_race_refuses_without_waiting_for_writer) ... ok
+test_replaced_regular_file_refuses_before_any_body_read (test_file_custody_recovery.FileCustody.test_replaced_regular_file_refuses_before_any_body_read) ... ok
+test_checked_file_rejects_symlink_hardlink_and_changed_path (test_semantic_recovery.NewSource.test_checked_file_rejects_symlink_hardlink_and_changed_path) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.041s
+
+OK

@@ -1,0 +1,176 @@
+test_bound_source_is_only_original_five_assignment_transform (test_semantic_recovery.NewSource.test_bound_source_is_only_original_five_assignment_transform) ... FAIL
+test_changed_original_source_refuses_before_loading (test_semantic_recovery.NewSource.test_changed_original_source_refuses_before_loading) ... FAIL
+test_checked_file_rejects_symlink_hardlink_and_changed_path (test_semantic_recovery.NewSource.test_checked_file_rejects_symlink_hardlink_and_changed_path) ... FAIL
+test_control_preparation_preserves_original_payload_tree_and_publication_request (test_semantic_recovery.NewSource.test_control_preparation_preserves_original_payload_tree_and_publication_request) ... FAIL
+test_control_preparation_refuses_unreviewed_changed_payload_overlay_and_expiry (test_semantic_recovery.NewSource.test_control_preparation_refuses_unreviewed_changed_payload_overlay_and_expiry) ... FAIL
+test_control_readback_runs_original_validator_and_never_issues_decisions (test_semantic_recovery.NewSource.test_control_readback_runs_original_validator_and_never_issues_decisions) ... FAIL
+test_duplicate_nonfinite_partial_error_and_unknown_log_envelopes_refuse (test_semantic_recovery.NewSource.test_duplicate_nonfinite_partial_error_and_unknown_log_envelopes_refuse) ... FAIL
+test_inspect_adapter_calls_original_inspect_and_requires_terminal_log (test_semantic_recovery.NewSource.test_inspect_adapter_calls_original_inspect_and_requires_terminal_log) ... FAIL
+test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) ... FAIL
+test_original_control_rejects_missing_extra_or_changed_review_members (test_semantic_recovery.NewSource.test_original_control_rejects_missing_extra_or_changed_review_members) ... FAIL
+test_original_control_rejects_root_fields_issuer_review_body_and_request_proof_changes (test_semantic_recovery.NewSource.test_original_control_rejects_root_fields_issuer_review_body_and_request_proof_changes) ... FAIL
+test_original_control_requires_all_actual_authors_and_distinct_reviewer (test_semantic_recovery.NewSource.test_original_control_requires_all_actual_authors_and_distinct_reviewer) ... FAIL
+test_original_control_verification_prefix_accepts_complete_inert_inputs_without_issuing (test_semantic_recovery.NewSource.test_original_control_verification_prefix_accepts_complete_inert_inputs_without_issuing) ... FAIL
+test_original_inspect_rejects_historical_code_mismatch (test_semantic_recovery.NewSource.test_original_inspect_rejects_historical_code_mismatch) ... FAIL
+test_original_seven_member_log_join_accepts_only_complete_matching_envelopes (test_semantic_recovery.NewSource.test_original_seven_member_log_join_accepts_only_complete_matching_envelopes) ... FAIL
+test_real_connector_log_wrapper_shape_preserves_exact_text (test_semantic_recovery.NewSource.test_real_connector_log_wrapper_shape_preserves_exact_text) ... FAIL
+test_retained_failed_archive_metadata_joins_without_relabeling_source (test_semantic_recovery.NewSource.test_retained_failed_archive_metadata_joins_without_relabeling_source) ... FAIL
+test_stop_is_only_local_preparation_and_issues_no_review_consumption_or_publication_request (test_semantic_recovery.NewSource.test_stop_is_only_local_preparation_and_issues_no_review_consumption_or_publication_request) ... FAIL
+test_unbound_or_changed_installation_fails_closed (test_semantic_recovery.NewSource.test_unbound_or_changed_installation_fails_closed) ... FAIL
+
+======================================================================
+FAIL: test_bound_source_is_only_original_five_assignment_transform (test_semantic_recovery.NewSource.test_bound_source_is_only_original_five_assignment_transform)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_changed_original_source_refuses_before_loading (test_semantic_recovery.NewSource.test_changed_original_source_refuses_before_loading)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_checked_file_rejects_symlink_hardlink_and_changed_path (test_semantic_recovery.NewSource.test_checked_file_rejects_symlink_hardlink_and_changed_path)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_control_preparation_preserves_original_payload_tree_and_publication_request (test_semantic_recovery.NewSource.test_control_preparation_preserves_original_payload_tree_and_publication_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_control_preparation_refuses_unreviewed_changed_payload_overlay_and_expiry (test_semantic_recovery.NewSource.test_control_preparation_refuses_unreviewed_changed_payload_overlay_and_expiry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_control_readback_runs_original_validator_and_never_issues_decisions (test_semantic_recovery.NewSource.test_control_readback_runs_original_validator_and_never_issues_decisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_duplicate_nonfinite_partial_error_and_unknown_log_envelopes_refuse (test_semantic_recovery.NewSource.test_duplicate_nonfinite_partial_error_and_unknown_log_envelopes_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_inspect_adapter_calls_original_inspect_and_requires_terminal_log (test_semantic_recovery.NewSource.test_inspect_adapter_calls_original_inspect_and_requires_terminal_log)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_original_control_rejects_missing_extra_or_changed_review_members (test_semantic_recovery.NewSource.test_original_control_rejects_missing_extra_or_changed_review_members)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_original_control_rejects_root_fields_issuer_review_body_and_request_proof_changes (test_semantic_recovery.NewSource.test_original_control_rejects_root_fields_issuer_review_body_and_request_proof_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_original_control_requires_all_actual_authors_and_distinct_reviewer (test_semantic_recovery.NewSource.test_original_control_requires_all_actual_authors_and_distinct_reviewer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_original_control_verification_prefix_accepts_complete_inert_inputs_without_issuing (test_semantic_recovery.NewSource.test_original_control_verification_prefix_accepts_complete_inert_inputs_without_issuing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_original_inspect_rejects_historical_code_mismatch (test_semantic_recovery.NewSource.test_original_inspect_rejects_historical_code_mismatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_original_seven_member_log_join_accepts_only_complete_matching_envelopes (test_semantic_recovery.NewSource.test_original_seven_member_log_join_accepts_only_complete_matching_envelopes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_real_connector_log_wrapper_shape_preserves_exact_text (test_semantic_recovery.NewSource.test_real_connector_log_wrapper_shape_preserves_exact_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_retained_failed_archive_metadata_joins_without_relabeling_source (test_semantic_recovery.NewSource.test_retained_failed_archive_metadata_joins_without_relabeling_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_stop_is_only_local_preparation_and_issues_no_review_consumption_or_publication_request (test_semantic_recovery.NewSource.test_stop_is_only_local_preparation_and_issues_no_review_consumption_or_publication_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+======================================================================
+FAIL: test_unbound_or_changed_installation_fails_closed (test_semantic_recovery.NewSource.test_unbound_or_changed_installation_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 22, in setUp
+    self.assertIsNotNone(S, 'new semantic_receiver.py implementation is missing')
+AssertionError: unexpectedly None : new semantic_receiver.py implementation is missing
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.001s
+
+FAILED (failures=19)

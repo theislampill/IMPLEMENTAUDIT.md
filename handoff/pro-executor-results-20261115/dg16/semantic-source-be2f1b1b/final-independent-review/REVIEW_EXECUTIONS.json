@@ -1,0 +1,42 @@
+{
+  "authority": "NONE",
+  "candidate_commit": "be2f1b1b12e75adbfa8fdc5ac3fe4cbba77249ba",
+  "focused_tests": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "test_file_custody_recovery",
+      "test_semantic_recovery.NewSource.test_checked_file_rejects_symlink_hardlink_and_changed_path"
+    ],
+    "exit_code": 0,
+    "log": {
+      "bytes": 756,
+      "path": "/workspace/scratch/0269e6626329/dg16-review-recovery/correction-be2f1b1b/focused-custody.log",
+      "sha256": "49f64452d8a78b4b332b823e4ab514f90223fa5f409a68b1639c263aeb4381fa"
+    },
+    "wall_seconds": 0.18122702800064872
+  },
+  "original_acceptance": false,
+  "original_independent_fifo_worker": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-I",
+      "-B",
+      "/workspace/scratch/0269e6626329/dg16-review-recovery/correction-be2f1b1b/checked_file_fifo_race_worker.py",
+      "/workspace/scratch/0269e6626329/dg16-review-recovery/correction-be2f1b1b/source-copy/qualification/dg16-github-evidence/semantic-integration",
+      "/workspace/scratch/0269e6626329/dg16-review-recovery/correction-be2f1b1b/INERT_INDEPENDENT_FIFO_ijbjhg5v/public.txt",
+      "exact_source"
+    ],
+    "exit_code": 0,
+    "no_timeout": true,
+    "stderr": "",
+    "stdout": "REFUSED:INPUT_CHANGED\n",
+    "wall_seconds": 0.03231138900082442
+  },
+  "schema": "dg16.independent-custody-correction-executions.v1",
+  "scope": "Exact corrected source, inert local fixtures only; no provider or accepted baseline rerun",
+  "source_sha256": "9ad95ee8a9c696548501a0404d1029ab5ff79f070a88c2e22f9a44619c47716b"
+}

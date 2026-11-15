@@ -1,0 +1,16 @@
+{"control":false,"phase":"Reply","status":"REFUSED_OR_UNCERTAIN_NO_RETRY","frames":1,"metadata_reads":11}
+{"control":false,"phase":"FinalCallback","status":"REFUSED_OR_UNCERTAIN_NO_RETRY","frames":1,"metadata_reads":11}
+{"control":true,"phase":"Reply","status":"REFUSED_OR_UNCERTAIN_NO_RETRY","frames":1,"metadata_reads":0}
+{"control":true,"phase":"FinalCallback","status":"REFUSED_OR_UNCERTAIN_NO_RETRY","frames":1,"metadata_reads":0}
+✔ live semantic receiving refuses when Reply reaches the semantic request deadline (1790.370902ms)
+✔ live semantic receiving refuses when FinalCallback reaches the semantic request deadline (1742.56375ms)
+✔ live control preparation refuses when Reply reaches the semantic request deadline (1564.440241ms)
+✔ live control preparation refuses when FinalCallback reaches the semantic request deadline (1578.387317ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6814.805737

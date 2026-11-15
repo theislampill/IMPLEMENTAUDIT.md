@@ -1,0 +1,28 @@
+Independent bounded correction review — DG16 file custody
+
+Disposition: SOURCE_QUALIFIED_FOR_BOUNDED_ENGINEERING_PUBLICATION.
+Unresolved findings: zero critical, zero important at the reviewed source scope.
+Reviewer: /root/dg16_independent_review. Authority NONE; original acceptance false.
+
+Candidate: be2f1b1b12e75adbfa8fdc5ac3fe4cbba77249ba
+Tree: 7c571a413149b9190f5c480543def1379dafd111
+Parent: 068db6d3ab91f51f95d3751f4fe933c7102cf7c1
+Candidate subtree: fa36b0023f581f3c7ad1122a938bd319978aae06
+Manifest SHA-256: 0c7f9db24dda1c94f1c37285a4e11101c191d0ea08f39625bb6719f00b603501
+Semantic module: 35,658 bytes; SHA-256 9ad95ee8a9c696548501a0404d1029ab5ff79f070a88c2e22f9a44619c47716b
+
+DG16-RECOVERY-01 is closed for this exact corrected revision. checked_file now opens with O_NONBLOCK, immediately compares the full opened descriptor identity (including file mode) before any body read, and retains its original closing descriptor/named-path, byte-count and finally-close checks. Only this function changes in production.
+
+The unchanged independent FIFO race worker now returns REFUSED:INPUT_CHANGED in approximately0.032 seconds, without a timeout or test-hook flag injection. All four focused custody tests independently pass: FIFO replacement; regular-file replacement before any read; replacement after reading; and ordinary-file/size/symlink/hardlink controls. There are no failures or skips.
+
+The complete nine-file delta was inspected. The three recovered production modules and all95 inherited dependencies remain byte-identical. All30 manifest members plus the manifest match committed bytes. The isolated126-file copy remained unchanged, and the author worktree is clean at the selected commit/tree. An initial reviewer-only textual delta assertion used the wrong indentation while modeling the moved line; its corrected exact substitution verifies the entire production delta. That harness error did not change candidate bytes or test results.
+
+The full substantive068db6d3 source review is incorporated for unchanged behavior, including its independently run33 Python, seven V8 interface, four additional runtime/optimization and one loader-AST controls. Those results retain their original identity and were not relabeled as newly executed full suites. The earlier GAP report remains immutable; this receipt closes only its single file-open finding at be2f1b1b.
+
+The new replacement source packet is suitable for bounded engineering publication and separate owner-use review. This is not publication itself, an effect grant, a formal audit closure, an actual bound installation or permission/readiness to execute the original route.
+
+Original loader/binder/verified, control-prefix seals/FINAL/Root checks, optimize=0 assertions, validators/codecs/tree calculation, no self-approval, create-only publication, independent readback, UNKNOWN/no-retry and earlier-deadline boundaries are unchanged. Authentic external capabilities must still establish source/provenance/actor/owner authority and execute the original final-review gate.
+
+Complete positive production-bound verified/inspect remains unqualified. Fixture receiver/decode/inspect seams, synthesized G219 terminal lines and synthetic provider/provenance/capability boundaries remain explicit. Fresh authentic recipient/adoption, complete candidate/composition/four decisions/seals/gate records, runtime/path receiving, installation, combined review, live proof review, Root input/consumption, original grant, actual timing and same-job closing remain required. G132 local dependencies remain unavailable. No lost95a full identity is assigned to this replacement.
+
+No unrelated accepted baseline, provider call, remote effect, protected/native/key operation, artifact reacquisition, actual UNKNOWN retry, candidate edit or controller mutation occurred. REVIEW.json records exact layered evidence and scope.

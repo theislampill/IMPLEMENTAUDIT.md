@@ -1,0 +1,213 @@
+{
+  "accepted_baseline_rerun": false,
+  "authority": "NONE",
+  "base_commit": "07a57141b74b5e7861a3145174582347837d075c",
+  "base_tree": "32592f08a5919299f0d1e3b935a00a99ccf684d5",
+  "member_count": 30,
+  "members": [
+    {
+      "bytes": 725,
+      "mode": "0644",
+      "path": "FILE_CUSTODY_FIX_RESULTS.json",
+      "sha256": "2b51a58fabee380c57e8e3e59481949baa57037aece39a71289423d3142505b4"
+    },
+    {
+      "bytes": 6146,
+      "mode": "0644",
+      "path": "PLAN.md",
+      "sha256": "5bd6e0c6ff66719bc057d8f1bbc8adcd70ffcf726557aa25cd5c6cd72db5e300"
+    },
+    {
+      "bytes": 12016,
+      "mode": "0644",
+      "path": "README.md",
+      "sha256": "acfaffc1cbadb7e4a7b134de1fe722559573e80fc9f41f222ba9e6cda1433af9"
+    },
+    {
+      "bytes": 4959,
+      "mode": "0644",
+      "path": "RECOVERY_MAP.json",
+      "sha256": "6143c31a070e63ba7515bf020da828b295eae832ed0c92237463bbf873251d85"
+    },
+    {
+      "bytes": 33051,
+      "mode": "0644",
+      "path": "SOURCE_CLOSURE.json",
+      "sha256": "77a9e8437f6da55864552be223711fd90a4386594cf6abe8c254cedb19b2ada0"
+    },
+    {
+      "bytes": 5788,
+      "mode": "0644",
+      "path": "VALIDATION.md",
+      "sha256": "93908a1463d67506753f03ae7a584fcfdad78aa683870a74f1b57ecb73bb3fca"
+    },
+    {
+      "bytes": 3269,
+      "mode": "0644",
+      "path": "binding_adapter.py",
+      "sha256": "9e2988fa416aaa828c6ef4b77f7da4ab8a62eb1cb9d64e9b791949a794dcaeed"
+    },
+    {
+      "bytes": 19148,
+      "mode": "0644",
+      "path": "control_publication.js",
+      "sha256": "a338b12d6b28b1c01645bcba0359efb558ef41824ab281957ddcd6fc71ca8de8"
+    },
+    {
+      "bytes": 756,
+      "mode": "0644",
+      "path": "file-custody-green.txt",
+      "sha256": "7c38221d68a5c9a6e12597a629eb1a1a8efdda6beef5c094a9d967ae068dcb70"
+    },
+    {
+      "bytes": 4642,
+      "mode": "0644",
+      "path": "file-custody-red.txt",
+      "sha256": "78e6952dab724cd65bc34beabdd42159e44ac8eef5d80268cf64a68c71d1521c"
+    },
+    {
+      "bytes": 3657,
+      "mode": "0644",
+      "path": "history/95a-recovered/REVIEW.txt",
+      "sha256": "b07b5f92c5648746c8d0821c554f82bb3b89066c1bf0c5b3031c2d42ba28669d"
+    },
+    {
+      "bytes": 1339,
+      "mode": "0644",
+      "path": "history/95a-recovered/REVIEW_RECEIPT.json",
+      "sha256": "8f0df9b1be6e2fbaefe269a1d01188e7295d78e342a5dc687a19a571a9686534"
+    },
+    {
+      "bytes": 973,
+      "mode": "0644",
+      "path": "history/95a-recovered/original-four.log",
+      "sha256": "a1a50136c081d7157cdd0d00507923878ce909c13bb85283976c3b61125aeab6"
+    },
+    {
+      "bytes": 14881,
+      "mode": "0644",
+      "path": "receiving_session.js",
+      "sha256": "d3466df91888484c09b8f4fdcc7031576be448c012ff654900239dac80980c1f"
+    },
+    {
+      "bytes": 14126,
+      "mode": "0644",
+      "path": "recovery-first-green-attempt.txt",
+      "sha256": "4d281bad544469662db4491921963149c6c09776b34568d115c64423a64b040d"
+    },
+    {
+      "bytes": 3557,
+      "mode": "0644",
+      "path": "recovery-functions-green.txt",
+      "sha256": "b61d8b57c8c0977c5c86919a830db4b222c83b30b7183a70755fb4ad0f556cb3"
+    },
+    {
+      "bytes": 779,
+      "mode": "0644",
+      "path": "recovery-interface.txt",
+      "sha256": "442f6c506988f25c06575309dacbcc89f8c4f34353213b5bbd6b2e83784758a8"
+    },
+    {
+      "bytes": 1011,
+      "mode": "0644",
+      "path": "recovery-optimized-red.txt",
+      "sha256": "138d9ebaaef3234d3603050de05d83aa48a63fd1d4271199efc13d216969fbec"
+    },
+    {
+      "bytes": 5939,
+      "mode": "0644",
+      "path": "recovery-python-final.txt",
+      "sha256": "9200ea224e7c286e8e76500411693b34e8ca2657d4e96109503983908842b273"
+    },
+    {
+      "bytes": 16685,
+      "mode": "0644",
+      "path": "recovery-red.txt",
+      "sha256": "83dc31885e47d12b8bebe0b0b78e1a4396aae476cdf02b6ccc231dafcd7b7daa"
+    },
+    {
+      "bytes": 5605,
+      "mode": "0644",
+      "path": "recovery-runtime-green-attempt.txt",
+      "sha256": "bed59f1c2d2cb245cacc904d8a7b86a56439bf489926a7c67786e06adf6adf92"
+    },
+    {
+      "bytes": 10153,
+      "mode": "0644",
+      "path": "recovery-runtime-red.txt",
+      "sha256": "7ac6c5de42167601c52b8314a387508efecdaf7a9434c2b0cd0271962fc41877"
+    },
+    {
+      "bytes": 35658,
+      "mode": "0644",
+      "path": "semantic_receiver.py",
+      "sha256": "9ad95ee8a9c696548501a0404d1029ab5ff79f070a88c2e22f9a44619c47716b"
+    },
+    {
+      "bytes": 3121,
+      "mode": "0644",
+      "path": "test_file_custody_recovery.py",
+      "sha256": "e9b18cfb3abe61bcb0ea4c1d5188f13afd8e50a586506ce9a2b40e04372b9cd8"
+    },
+    {
+      "bytes": 1686,
+      "mode": "0644",
+      "path": "test_fixture_worker.py",
+      "sha256": "6ceb239bc78df1818af1968758d1af06fc4d82b96c298c81b0b7870e050c909b"
+    },
+    {
+      "bytes": 6744,
+      "mode": "0644",
+      "path": "test_new_module_interface.mjs",
+      "sha256": "22caaa62007acc8cc1787a238b168c935d2d623bd6ee5398c7d82973a8d20440"
+    },
+    {
+      "bytes": 9648,
+      "mode": "0644",
+      "path": "test_runtime_recovery.py",
+      "sha256": "a1a95ec1d46b254ffdb50ad2b7af6ef1be34cf7b9da42172da246b89cd83baec"
+    },
+    {
+      "bytes": 17953,
+      "mode": "0644",
+      "path": "test_semantic_recovery.py",
+      "sha256": "0e53867cd7de378ccc6d98e578c28dd32c9c2a7a2d822c2055d402612975c253"
+    },
+    {
+      "bytes": 14529,
+      "mode": "0644",
+      "path": "test_support.py",
+      "sha256": "6d796fc68edbadac39c454b3f1cac5142bf0f9e6548501619e71f1327e4f8798"
+    },
+    {
+      "bytes": 1773,
+      "mode": "0644",
+      "path": "verify_closure.py",
+      "sha256": "3b903a1ba2a23bdf9d05a3f31a49cd3809fdd261fa594e350463d2aefe58391d"
+    }
+  ],
+  "new_python_tests": 36,
+  "new_source_review_required": true,
+  "new_v8_interface_tests": 7,
+  "old_candidate_identity_reused": false,
+  "original_acceptance": false,
+  "production_bound_positive_qualified": false,
+  "qualification_layers": {
+    "correction_distinct_review_required": true,
+    "correction_focused_pass": 4,
+    "correction_new_methods": 3,
+    "initial_candidate": "068db6d3ab91f51f95d3751f4fe933c7102cf7c1",
+    "initial_python_pass": 33,
+    "initial_v8_pass": 7,
+    "unaffected_qualification_reused": true
+  },
+  "schema": "dg16.recovered-semantic-source-pins.v1",
+  "source_authors": [
+    "/root",
+    "/root/dg16_contract_check"
+  ],
+  "source_closure": {
+    "bytes": 33051,
+    "sha256": "77a9e8437f6da55864552be223711fd90a4386594cf6abe8c254cedb19b2ada0"
+  }
+}

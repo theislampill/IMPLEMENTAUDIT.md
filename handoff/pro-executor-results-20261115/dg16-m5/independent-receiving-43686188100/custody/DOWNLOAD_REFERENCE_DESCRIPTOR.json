@@ -1,0 +1,17 @@
+{
+  "actual_tool_result": {
+    "bytes": 1940,
+    "sha256": "c319c647c12221bed82c9c3f7d9ab45eace801b961982421d22cf0ac6e2f38ba"
+  },
+  "archive_name": "dg16-installed-runtime05-43686188100-1.zip",
+  "artifact_id": 14151065080,
+  "authentication_boundary": "ACTUAL_SUCCESSOR_TOOL_CALL_AND_INDEPENDENT_PROVIDER_RECEIVING_REQUIRED",
+  "authority": "NONE",
+  "content_blocks": 1,
+  "file_reference_identifier_retained": false,
+  "mime_type": "application/zip",
+  "nested_structure_present": true,
+  "schema": "dg16.g2-safe-download-result.v1",
+  "signed_url_retained": false,
+  "unstructured_text_retained": false
+}

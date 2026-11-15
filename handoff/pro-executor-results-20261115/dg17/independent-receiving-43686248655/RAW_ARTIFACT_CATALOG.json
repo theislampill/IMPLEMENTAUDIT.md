@@ -1,0 +1,45 @@
+{
+  "total_count": 2,
+  "artifacts": [
+    {
+      "id": 14150851650,
+      "node_id": "MDg6QXJ0aWZhY3QxNDE1MDg1MTY1MA==",
+      "name": "dg17-linux-source-only",
+      "size_in_bytes": 11013,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14150851650",
+      "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14150851650/zip",
+      "expired": false,
+      "digest": "sha256:1b9fb65d13a011c64f5fd4c2d2df5316e1a7c4f71b99665ae9d843f911cfac28",
+      "created_at": "2026-11-15T06:37:30Z",
+      "updated_at": "2026-11-15T06:37:30Z",
+      "expires_at": "2026-11-22T06:37:29Z",
+      "workflow_run": {
+        "id": 43686248655,
+        "repository_id": 1243475954,
+        "head_repository_id": 1243475954,
+        "head_branch": "engineering/pro-executor-dg17-source-20261115",
+        "head_sha": "a297957be11feb494c0ec467235794a1e0c54751"
+      }
+    },
+    {
+      "id": 14150317766,
+      "node_id": "MDg6QXJ0aWZhY3QxNDE1MDMxNzc2Ng==",
+      "name": "dg17-windows-store-source-only",
+      "size_in_bytes": 3351,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14150317766",
+      "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14150317766/zip",
+      "expired": false,
+      "digest": "sha256:14df48f5cd170301efa114f361ebfcf1a1399f91631c418e3fc6852ada77136e",
+      "created_at": "2026-11-15T06:37:23Z",
+      "updated_at": "2026-11-15T06:37:23Z",
+      "expires_at": "2026-11-22T06:37:22Z",
+      "workflow_run": {
+        "id": 43686248655,
+        "repository_id": 1243475954,
+        "head_repository_id": 1243475954,
+        "head_branch": "engineering/pro-executor-dg17-source-20261115",
+        "head_sha": "a297957be11feb494c0ec467235794a1e0c54751"
+      }
+    }
+  ]
+}

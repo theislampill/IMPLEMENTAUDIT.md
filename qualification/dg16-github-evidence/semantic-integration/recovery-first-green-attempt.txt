@@ -1,0 +1,130 @@
+test_bound_source_is_only_original_five_assignment_transform (test_semantic_recovery.NewSource.test_bound_source_is_only_original_five_assignment_transform) ... ok
+test_changed_original_source_refuses_before_loading (test_semantic_recovery.NewSource.test_changed_original_source_refuses_before_loading) ... ok
+test_checked_file_rejects_symlink_hardlink_and_changed_path (test_semantic_recovery.NewSource.test_checked_file_rejects_symlink_hardlink_and_changed_path) ... ok
+test_control_preparation_preserves_original_payload_tree_and_publication_request (test_semantic_recovery.NewSource.test_control_preparation_preserves_original_payload_tree_and_publication_request) ... ok
+test_control_preparation_refuses_unreviewed_changed_payload_overlay_and_expiry (test_semantic_recovery.NewSource.test_control_preparation_refuses_unreviewed_changed_payload_overlay_and_expiry) ... ok
+test_control_readback_runs_original_validator_and_never_issues_decisions (test_semantic_recovery.NewSource.test_control_readback_runs_original_validator_and_never_issues_decisions) ... ok
+test_duplicate_nonfinite_partial_error_and_unknown_log_envelopes_refuse (test_semantic_recovery.NewSource.test_duplicate_nonfinite_partial_error_and_unknown_log_envelopes_refuse) ... ok
+test_inspect_adapter_calls_original_inspect_and_requires_terminal_log (test_semantic_recovery.NewSource.test_inspect_adapter_calls_original_inspect_and_requires_terminal_log) ... ok
+test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) ... 
+  test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='state') ... ERROR
+  test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='disposition') ... ERROR
+  test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='actual_live_evidence_reviewed') ... ERROR
+  test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='receiver_binding_sha256') ... ERROR
+  test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='request_sha256') ... ERROR
+  test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='proof_sha256') ... ERROR
+test_original_control_rejects_missing_extra_or_changed_review_members (test_semantic_recovery.NewSource.test_original_control_rejects_missing_extra_or_changed_review_members) ... 
+  test_original_control_rejects_missing_extra_or_changed_review_members (test_semantic_recovery.NewSource.test_original_control_rejects_missing_extra_or_changed_review_members) (case='changed') ... ERROR
+test_original_control_rejects_root_fields_issuer_review_body_and_request_proof_changes (test_semantic_recovery.NewSource.test_original_control_rejects_root_fields_issuer_review_body_and_request_proof_changes) ... ok
+test_original_control_requires_all_actual_authors_and_distinct_reviewer (test_semantic_recovery.NewSource.test_original_control_requires_all_actual_authors_and_distinct_reviewer) ... ok
+test_original_control_verification_prefix_accepts_complete_inert_inputs_without_issuing (test_semantic_recovery.NewSource.test_original_control_verification_prefix_accepts_complete_inert_inputs_without_issuing) ... ok
+test_original_inspect_rejects_historical_code_mismatch (test_semantic_recovery.NewSource.test_original_inspect_rejects_historical_code_mismatch) ... ok
+test_original_seven_member_log_join_accepts_only_complete_matching_envelopes (test_semantic_recovery.NewSource.test_original_seven_member_log_join_accepts_only_complete_matching_envelopes) ... ok
+test_real_connector_log_wrapper_shape_preserves_exact_text (test_semantic_recovery.NewSource.test_real_connector_log_wrapper_shape_preserves_exact_text) ... ok
+test_retained_failed_archive_metadata_joins_without_relabeling_source (test_semantic_recovery.NewSource.test_retained_failed_archive_metadata_joins_without_relabeling_source) ... ok
+test_stop_is_only_local_preparation_and_issues_no_review_consumption_or_publication_request (test_semantic_recovery.NewSource.test_stop_is_only_local_preparation_and_issues_no_review_consumption_or_publication_request) ... ok
+test_unbound_or_changed_installation_fails_closed (test_semantic_recovery.NewSource.test_unbound_or_changed_installation_fails_closed) ... ok
+
+======================================================================
+ERROR: test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 161, in test_original_control_rejects_current_seal_with_invalid_final
+    (f.review/'FINAL.json').write_bytes(F.encode(f.final))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/INERT_TEST_qs259n9a/tmpyck3yg8r/review/FINAL.json'
+
+======================================================================
+ERROR: test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='disposition')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 161, in test_original_control_rejects_current_seal_with_invalid_final
+    (f.review/'FINAL.json').write_bytes(F.encode(f.final))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/INERT_TEST_qs259n9a/tmpr1xn6rd9/review/FINAL.json'
+
+======================================================================
+ERROR: test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='actual_live_evidence_reviewed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 161, in test_original_control_rejects_current_seal_with_invalid_final
+    (f.review/'FINAL.json').write_bytes(F.encode(f.final))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/INERT_TEST_qs259n9a/tmp317z5fbr/review/FINAL.json'
+
+======================================================================
+ERROR: test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='receiver_binding_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 161, in test_original_control_rejects_current_seal_with_invalid_final
+    (f.review/'FINAL.json').write_bytes(F.encode(f.final))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/INERT_TEST_qs259n9a/tmp9xmilxtr/review/FINAL.json'
+
+======================================================================
+ERROR: test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='request_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 161, in test_original_control_rejects_current_seal_with_invalid_final
+    (f.review/'FINAL.json').write_bytes(F.encode(f.final))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/INERT_TEST_qs259n9a/tmpbif24r4q/review/FINAL.json'
+
+======================================================================
+ERROR: test_original_control_rejects_current_seal_with_invalid_final (test_semantic_recovery.NewSource.test_original_control_rejects_current_seal_with_invalid_final) (field='proof_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 161, in test_original_control_rejects_current_seal_with_invalid_final
+    (f.review/'FINAL.json').write_bytes(F.encode(f.final))
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/INERT_TEST_qs259n9a/tmpv6wy2i_5/review/FINAL.json'
+
+======================================================================
+ERROR: test_original_control_rejects_missing_extra_or_changed_review_members (test_semantic_recovery.NewSource.test_original_control_rejects_missing_extra_or_changed_review_members) (case='changed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_semantic_recovery.py", line 150, in test_original_control_rejects_missing_extra_or_changed_review_members
+    elif case=='changed':(f.review/'FINAL.json').write_bytes(b'{}')
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/INERT_TEST_6zhvcren/tmph2wir4lm/review/FINAL.json'
+
+----------------------------------------------------------------------
+Ran 19 tests in 1.017s
+
+FAILED (errors=7)

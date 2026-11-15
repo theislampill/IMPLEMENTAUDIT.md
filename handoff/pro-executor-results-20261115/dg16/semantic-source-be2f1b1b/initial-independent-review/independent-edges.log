@@ -1,0 +1,9 @@
+test_intent_expiry_marks_unknown_before_any_frame (__main__.IndependentEdges.test_intent_expiry_marks_unknown_before_any_frame) ... ok
+test_lost_frame_is_unknown_and_stays_spent_without_echo (__main__.IndependentEdges.test_lost_frame_is_unknown_and_stays_spent_without_echo) ... ok
+test_optimized_production_entry_refuses_before_selection (__main__.IndependentEdges.test_optimized_production_entry_refuses_before_selection) ... ok
+test_original_tree_duplicate_guard_survives_optimized_import (__main__.IndependentEdges.test_original_tree_duplicate_guard_survives_optimized_import) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.335s
+
+OK

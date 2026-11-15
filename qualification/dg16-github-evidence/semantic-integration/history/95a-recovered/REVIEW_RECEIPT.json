@@ -1,0 +1,32 @@
+{
+  "authority": "NONE",
+  "candidate": {
+    "candidate_files_including_manifest": 72,
+    "commit": "95a7a0d1981ad317ab0b6fba034875cd42e778b7",
+    "external_shape_inputs": 8,
+    "inherited_members": 95,
+    "manifest_members": 71,
+    "manifest_sha256": "0990656991c1712a2e80bcefe1a691eea389e446e78b8ebfe98b20ba5bb82a52",
+    "parent": "dd5f29a703a3b889129f28e9fc8e8d36f80e650f",
+    "source_closure_sha256": "184dd6e17618d5af07e4feb258a8d26e1903b22616bfa725b1815c1fce11758b",
+    "tree": "a5cfc611f03c3f121290f2886d70c4179014e09f"
+  },
+  "closed_finding": "DG16-SEMANTIC-01",
+  "disposition": "SOURCE_QUALIFIED_FOR_BOUNDED_ENGINEERING_PUBLICATION",
+  "inherited_review_sha256": "1b0e2a408144db562eda5a6159bcb701b2bfdea1148bcd59892d5c4e8fd671ba",
+  "original_acceptance": false,
+  "reports": [
+    {
+      "bytes": 11380,
+      "path": "/workspace/scratch/0269e6626329/dg16-review/semantic-95a7a0d1/REVIEW.json",
+      "sha256": "35fad8e96c3c84a4914bb80a066def62333b39a316c49a293b3b64a41e824fed"
+    },
+    {
+      "bytes": 3657,
+      "path": "/workspace/scratch/0269e6626329/dg16-review/semantic-95a7a0d1/REVIEW.txt",
+      "sha256": "b07b5f92c5648746c8d0821c554f82bb3b89066c1bf0c5b3031c2d42ba28669d"
+    }
+  ],
+  "reviewer": "/root/dg16_independent_review",
+  "schema": "dg16.independent-engineering-correction-review-receipt.v1"
+}

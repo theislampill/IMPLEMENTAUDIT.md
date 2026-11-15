@@ -1,0 +1,113 @@
+test_changed_archive_after_frame_returns_unknown (test_runtime_recovery.Runtime.test_changed_archive_after_frame_returns_unknown) ... FAIL
+test_control_runtime_preserves_original_checks_and_publisher_interface (test_runtime_recovery.Runtime.test_control_runtime_preserves_original_checks_and_publisher_interface) ... FAIL
+test_control_runtime_rejects_changed_frame_before_original_evidence_checks (test_runtime_recovery.Runtime.test_control_runtime_rejects_changed_frame_before_original_evidence_checks) ... FAIL
+test_control_runtime_rejects_review_final_mismatch_and_writes_no_decision (test_runtime_recovery.Runtime.test_control_runtime_rejects_review_final_mismatch_and_writes_no_decision) ... FAIL
+test_final_durable_write_crossing_request_deadline_returns_unknown (test_runtime_recovery.Runtime.test_final_durable_write_crossing_request_deadline_returns_unknown) ... FAIL
+test_live_log_substitution_and_terminal_incomplete_wrapper_refuse (test_runtime_recovery.Runtime.test_live_log_substitution_and_terminal_incomplete_wrapper_refuse) ... FAIL
+test_live_receiving_returns_data_only_and_earlier_request_deadline (test_runtime_recovery.Runtime.test_live_receiving_returns_data_only_and_earlier_request_deadline) ... FAIL
+test_one_shot_replay_never_reads_another_frame (test_runtime_recovery.Runtime.test_one_shot_replay_never_reads_another_frame) ... FAIL
+test_receipt_tamper_misattribution_parent_expiry_and_body_mismatch_refuse_before_frame (test_runtime_recovery.Runtime.test_receipt_tamper_misattribution_parent_expiry_and_body_mismatch_refuse_before_frame) ... FAIL
+test_request_expiry_during_frame_returns_unknown_without_final (test_runtime_recovery.Runtime.test_request_expiry_during_frame_returns_unknown_without_final) ... FAIL
+test_terminal_receiving_joins_all_seven_and_selects_exact_job_before_frame (test_runtime_recovery.Runtime.test_terminal_receiving_joins_all_seven_and_selects_exact_job_before_frame) ... FAIL
+test_terminal_wrong_job_refuses_before_readiness (test_runtime_recovery.Runtime.test_terminal_wrong_job_refuses_before_readiness) ... FAIL
+
+======================================================================
+FAIL: test_changed_archive_after_frame_returns_unknown (test_runtime_recovery.Runtime.test_changed_archive_after_frame_returns_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_control_runtime_preserves_original_checks_and_publisher_interface (test_runtime_recovery.Runtime.test_control_runtime_preserves_original_checks_and_publisher_interface)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_control_runtime_rejects_changed_frame_before_original_evidence_checks (test_runtime_recovery.Runtime.test_control_runtime_rejects_changed_frame_before_original_evidence_checks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_control_runtime_rejects_review_final_mismatch_and_writes_no_decision (test_runtime_recovery.Runtime.test_control_runtime_rejects_review_final_mismatch_and_writes_no_decision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_final_durable_write_crossing_request_deadline_returns_unknown (test_runtime_recovery.Runtime.test_final_durable_write_crossing_request_deadline_returns_unknown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_live_log_substitution_and_terminal_incomplete_wrapper_refuse (test_runtime_recovery.Runtime.test_live_log_substitution_and_terminal_incomplete_wrapper_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_live_receiving_returns_data_only_and_earlier_request_deadline (test_runtime_recovery.Runtime.test_live_receiving_returns_data_only_and_earlier_request_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_one_shot_replay_never_reads_another_frame (test_runtime_recovery.Runtime.test_one_shot_replay_never_reads_another_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_receipt_tamper_misattribution_parent_expiry_and_body_mismatch_refuse_before_frame (test_runtime_recovery.Runtime.test_receipt_tamper_misattribution_parent_expiry_and_body_mismatch_refuse_before_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_request_expiry_during_frame_returns_unknown_without_final (test_runtime_recovery.Runtime.test_request_expiry_during_frame_returns_unknown_without_final)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_terminal_receiving_joins_all_seven_and_selects_exact_job_before_frame (test_runtime_recovery.Runtime.test_terminal_receiving_joins_all_seven_and_selects_exact_job_before_frame)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+======================================================================
+FAIL: test_terminal_wrong_job_refuses_before_readiness (test_runtime_recovery.Runtime.test_terminal_wrong_job_refuses_before_readiness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg16-source-recovery/checkout/qualification/dg16-github-evidence/operator/test_runtime_recovery.py", line 18, in setUp
+    self.assertTrue(callable(getattr(S,'run',None)),'new receiving runtime is missing')
+AssertionError: False is not true : new receiving runtime is missing
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.001s
+
+FAILED (failures=12)
