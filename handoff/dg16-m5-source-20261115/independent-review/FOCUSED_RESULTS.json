@@ -1,0 +1,48 @@
+{
+  "GitHub_environment_fabricated": false,
+  "additional_receiver_boundary_cases": [
+    {
+      "case": "reserve_exact_limit",
+      "synthetic_status": "PASS",
+      "value": 587824
+    },
+    {
+      "case": "elapsed_exact_watchdog",
+      "synthetic_status": "PASS",
+      "value": 2400
+    },
+    {
+      "bytes": 16378,
+      "case": "complete_current_source_cross_document_conjunction",
+      "envelope_bytes": 19720,
+      "public_file_count": 9,
+      "synthetic_status": "PASS"
+    }
+  ],
+  "authority": "NONE",
+  "errors": 0,
+  "failures": 0,
+  "installed_routes_launched": 0,
+  "old_27_suite_rerun": false,
+  "original_acceptance": false,
+  "passes": 13,
+  "product_entrypoint_executions": 0,
+  "scope": "LOCAL_SYNTHETIC_SOURCE_CHECKS_ONLY; NO_HOSTED_ROUTE_EVIDENCE",
+  "selected_author_controls": [
+    "test_003_live_loader_and_whole_source_verifier",
+    "test_005_new_fixture_archive_parser_and_package_identity",
+    "test_007_archive_checksum_tamper_refuses",
+    "test_008_archive_source_drift_refuses",
+    "test_010_workflow_complete_step_chain_and_safety",
+    "test_012_complete_output_shape_and_transport",
+    "test_013_partial_failure_output_remains_unqualified",
+    "test_output_same_process_receiver",
+    "test_output_elapsed_expired",
+    "test_output_package_over_reserve",
+    "test_output_build_replay",
+    "test_module_tamper_host_support",
+    "test_manifest_tamper_refuses"
+  ],
+  "skips": 0,
+  "tests": 13
+}

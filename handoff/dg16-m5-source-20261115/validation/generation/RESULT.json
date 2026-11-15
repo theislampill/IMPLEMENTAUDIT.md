@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "/workspace/scratch/0269e6626329/m5-source/handoff/dg16-m5-source-20261115/tools/bind_current_source.py",
+    "--original-dir",
+    "/workspace/scratch/0269e6626329/m5-source-recovery/original-route-source",
+    "--source",
+    "/workspace/scratch/0269e6626329/m5-product-205aeab7",
+    "--repository",
+    "/workspace/scratch/0269e6626329/m5-source"
+  ],
+  "ended_unix": 1794722665.3466852,
+  "exit_code": 0,
+  "scope": "NEW_RECOVERY_GENERATION",
+  "started_unix": 1794722664.566989
+}

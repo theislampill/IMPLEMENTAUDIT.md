@@ -1,0 +1,56 @@
+{
+  "status": "UNFINISHED_ENVIRONMENT_UNAVAILABLE",
+  "candidate": "/workspace/scratch/0269e6626329/dg18-review/m5-ci-source-candidate",
+  "base_commit": "8890969caa6a6c370e76780597b45a73c8117337",
+  "base_tree": "40cd3ca872d6f093d9de6b8f7614e6a4c75f8031",
+  "root_continuity": "G0007 receipt 0e2316700c6202efa67ba081b701aa343225b19d",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "branch": "engineering/pro-executor-dg16-m5-source-20261115",
+  "current_files": {
+    "run.py": {
+      "bytes": 74840,
+      "sha256": "08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e"
+    },
+    "installed_runtime.py": {
+      "bytes": 29033,
+      "sha256": "e419839f1c2eb396ef13812971a2eaa4b9498cc91d42a84663a8387bb165b957"
+    },
+    "host_support.py": {
+      "bytes": 9406,
+      "sha256": "702029cbdf0b6e3d84e993e449c822286194c3c7addd482204188e7a1259f08c"
+    },
+    "host_utility.py": {
+      "bytes": 54556,
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    },
+    "SOURCE_MANIFEST.json": {
+      "bytes": 495517,
+      "sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743"
+    },
+    ".github/workflows/dg16-installed-runtime05.yml": {
+      "bytes": 16979,
+      "sha256": "874b654791f963eb457eceea382c1e8d64a17cda0d1ebb10f06b5cc10d7a186c"
+    }
+  },
+  "observed_checks": {
+    "generator": "Exit 0: all 1766 Git blob contents and modes, 167023692 total bytes, HEAD/tree, clean source verified",
+    "default_actionlint": "Exit 1: sole unknown ubuntu-26.04 label in actionlint 1.7.12",
+    "exact_observed_label_filtered_actionlint": "Exit 0 blank output; only ^label \"ubuntu-26[.]04\" is unknown[.] ignored",
+    "first_harness": "Exit 1 before tests: TypeError module not callable because Checks.run shadows unittest.TestCase.run",
+    "correction": "Process creation failed during exec-server outage; not observed"
+  },
+  "pending": [
+    "Verify scratch restored; inspect any interrupted write before mutation",
+    "Preserve first harness bytes and error",
+    "Rename cls.run/self.run adapter module references to cls.adapter/self.adapter",
+    "Pin test expected manifest to actual e912e90f... rather than assumed G220 serialization",
+    "Execute bounded test harness; retain all actual output and correct only concrete issues",
+    "Run final generator --check, candidate diff whitespace and manifest readback",
+    "Write report, exact patch/commit and evidence receipt for distinct review"
+  ],
+  "remote_writes": 0,
+  "live_route_executions": 0,
+  "source_only": true,
+  "original_acceptance": false
+}

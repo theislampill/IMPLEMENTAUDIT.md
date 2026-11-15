@@ -1,0 +1,27 @@
+[
+  {
+    "body_changes_only_derived_population": [
+      "public_project"
+    ],
+    "function_and_class_count": 35,
+    "path": "run.py"
+  },
+  {
+    "body_changes_only_derived_population": [],
+    "function_and_class_count": 16,
+    "path": "installed_runtime.py"
+  },
+  {
+    "body_changes_only_derived_population": [
+      "read_manifest",
+      "verify_source"
+    ],
+    "function_and_class_count": 14,
+    "path": "host_support.py"
+  },
+  {
+    "body_changes_only_derived_population": [],
+    "function_and_class_count": 28,
+    "path": "host_utility.py"
+  }
+]

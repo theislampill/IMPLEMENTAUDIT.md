@@ -1,0 +1,307 @@
+{
+  "authority": "NONE",
+  "controls": [
+    {
+      "case": "test_001_reproduction_and_full_source_identity",
+      "elapsed_seconds": 0.50954463700009,
+      "status": "PASS"
+    },
+    {
+      "case": "test_002_all_functions_unchanged_except_derived_population",
+      "elapsed_seconds": 0.19297131899975284,
+      "status": "PASS"
+    },
+    {
+      "case": "test_003_live_loader_and_whole_source_verifier",
+      "elapsed_seconds": 0.4377592470000309,
+      "status": "PASS"
+    },
+    {
+      "case": "test_004_exact_budgets_routes_and_authority",
+      "elapsed_seconds": 0.00019577500006562332,
+      "status": "PASS"
+    },
+    {
+      "case": "test_005_new_fixture_archive_parser_and_package_identity",
+      "elapsed_seconds": 0.028892315999655693,
+      "status": "PASS"
+    },
+    {
+      "case": "test_006_archive_extra_file_refuses",
+      "elapsed_seconds": 0.0007329439999921306,
+      "status": "PASS"
+    },
+    {
+      "case": "test_007_archive_checksum_tamper_refuses",
+      "elapsed_seconds": 0.006449089000398089,
+      "status": "PASS"
+    },
+    {
+      "case": "test_008_archive_source_drift_refuses",
+      "elapsed_seconds": 0.0053852369997002825,
+      "status": "PASS"
+    },
+    {
+      "case": "test_009_actual_local_main_fails_closed_without_admitted_host",
+      "elapsed_seconds": 0.09052981800005,
+      "status": "PASS"
+    },
+    {
+      "case": "test_010_workflow_complete_step_chain_and_safety",
+      "elapsed_seconds": 0.043157060999874375,
+      "status": "PASS"
+    },
+    {
+      "case": "test_011_real_host_feasibility_only",
+      "elapsed_seconds": 0.00062083500006338,
+      "status": "PASS"
+    },
+    {
+      "case": "test_012_complete_output_shape_and_transport",
+      "elapsed_seconds": 0.0035237850001976767,
+      "status": "PASS"
+    },
+    {
+      "case": "test_013_partial_failure_output_remains_unqualified",
+      "elapsed_seconds": 0.0816581529998075,
+      "status": "PASS"
+    },
+    {
+      "case": "test_014_fallback_minimum_transport",
+      "elapsed_seconds": 0.00011162800001329742,
+      "status": "PASS"
+    },
+    {
+      "case": "test_015_transport_extra_population_refuses",
+      "elapsed_seconds": 0.002235724999991362,
+      "status": "PASS"
+    },
+    {
+      "case": "test_016_transport_missing_required_result_refuses",
+      "elapsed_seconds": 2.030099994954071e-05,
+      "status": "PASS"
+    },
+    {
+      "case": "test_017_transport_file_limit_refuses",
+      "elapsed_seconds": 0.00014985600000727572,
+      "status": "PASS"
+    },
+    {
+      "case": "test_018_transport_aggregate_limit_refuses",
+      "elapsed_seconds": 0.0012157599999227386,
+      "status": "PASS"
+    },
+    {
+      "case": "test_019_transport_nonfinite_json_refuses",
+      "elapsed_seconds": 3.548399990904727e-05,
+      "status": "PASS"
+    },
+    {
+      "case": "test_manifest_tamper_refuses",
+      "elapsed_seconds": 0.002593074000287743,
+      "status": "PASS"
+    },
+    {
+      "case": "test_module_tamper_host_support",
+      "elapsed_seconds": 0.010152915000162466,
+      "status": "PASS"
+    },
+    {
+      "case": "test_module_tamper_host_utility",
+      "elapsed_seconds": 0.009711569999581116,
+      "status": "PASS"
+    },
+    {
+      "case": "test_module_tamper_installed_runtime",
+      "elapsed_seconds": 0.009909479000270949,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_active_step",
+      "elapsed_seconds": 0.002416266999716754,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_all_children_reaped",
+      "elapsed_seconds": 0.002126662000137003,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_build_not_observed",
+      "elapsed_seconds": 0.002100732999679167,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_build_replay",
+      "elapsed_seconds": 0.0008803450000414159,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_closing_documents_drift",
+      "elapsed_seconds": 0.002119410999966931,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_closing_route_absent",
+      "elapsed_seconds": 0.002136937000159378,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_elapsed_expired",
+      "elapsed_seconds": 0.002164068000183761,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_ending_absent",
+      "elapsed_seconds": 0.0021545540002989583,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_final_currentness",
+      "elapsed_seconds": 0.002104337999753625,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_finalized",
+      "elapsed_seconds": 0.00224680300016189,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_first_resume_absent",
+      "elapsed_seconds": 0.0022261310000430967,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_host_profile",
+      "elapsed_seconds": 0.0008610159998170275,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_host_tool_custody",
+      "elapsed_seconds": 0.000962950000030105,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_host_tool_setid",
+      "elapsed_seconds": 0.0009451130003981234,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_host_tools_incomplete",
+      "elapsed_seconds": 0.0009326340000370692,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_incomplete_steps",
+      "elapsed_seconds": 0.0020835569998780556,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_installed_parity",
+      "elapsed_seconds": 0.001234108000062406,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_installed_unchanged",
+      "elapsed_seconds": 0.002083687000322243,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_integer_bool",
+      "elapsed_seconds": 0.0008257939998657093,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_package_members_incomplete",
+      "elapsed_seconds": 0.0008589529998062062,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_package_old_source",
+      "elapsed_seconds": 0.0008321029999933671,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_package_over_reserve",
+      "elapsed_seconds": 0.0008335550000992953,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_packages_unchanged",
+      "elapsed_seconds": 0.002123756999935722,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_pending_command",
+      "elapsed_seconds": 0.002092430000175227,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_phase_child_unknown",
+      "elapsed_seconds": 0.002092430000175227,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_phase_failed",
+      "elapsed_seconds": 0.002075825000247278,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_phase_sequence",
+      "elapsed_seconds": 0.0023564480002278287,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_received_route_absent",
+      "elapsed_seconds": 0.0022127020001789788,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_receiver_currentness",
+      "elapsed_seconds": 0.0021073429998068605,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_runtime_unchanged",
+      "elapsed_seconds": 0.002130587999999989,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_same_process_receiver",
+      "elapsed_seconds": 0.002071748999696865,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_source_unchanged",
+      "elapsed_seconds": 0.002089484999942215,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_state_foreign_context",
+      "elapsed_seconds": 0.0008131239997055673,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_unexpected_route",
+      "elapsed_seconds": 0.000785682999776327,
+      "status": "PASS"
+    },
+    {
+      "case": "test_output_venv_unchanged",
+      "elapsed_seconds": 0.0021354040000005625,
+      "status": "PASS"
+    }
+  ],
+  "environment_fabricated": false,
+  "errors": 0,
+  "failures": 0,
+  "original_acceptance": false,
+  "package_input_scope": "NEW_LOCAL_FIXTURE_BODY_NOT_HISTORICAL_A_B_RECOVERY",
+  "passes": 58,
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "pyyaml": "6.0.3",
+  "schema": "dg16.m5-binding-focused-controls.v1",
+  "scope": "OFFLINE_SOURCE_BINDING_AND_SYNTHETIC_OUTPUT_SHAPES; NO_LIVE_ROUTE_EVIDENCE",
+  "skips": 0,
+  "tests": 58
+}

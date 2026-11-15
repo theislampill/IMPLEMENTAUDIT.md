@@ -1,0 +1,131 @@
+--- recovered-initial-harness
++++ current-focused-harness
+@@ -6 +6,2 @@
+-The real package parser uses the separately retained A/B package bytes. No test
++The real package parser uses one newly built local fixture package set. Historical
++A/B bodies are not recovered or requalified by these controls. No test
+@@ -56,4 +57,4 @@
+-        cls.run = module(cls.packet / 'run.py', 'current_adapter')
+-        cls.u = cls.run.load_module('host_utility', cls.run.UTILITY_SHA)
+-        cls.h = cls.run.load_module('host_support', cls.run.SUPPORT_SHA)
+-        cls.installed = cls.run.load_module('installed_runtime', cls.run.INSTALLED_SHA)
++        cls.adapter = module(cls.packet / 'run.py', 'current_adapter')
++        cls.u = cls.adapter.load_module('host_utility', cls.adapter.UTILITY_SHA)
++        cls.h = cls.adapter.load_module('host_support', cls.adapter.SUPPORT_SHA)
++        cls.installed = cls.adapter.load_module('installed_runtime', cls.adapter.INSTALLED_SHA)
+@@ -68 +69 @@
+-    def copied_packages(self, temporary, role='A'):
++    def copied_packages(self, temporary, role='NEW_FIXTURE'):
+@@ -73 +74 @@
+-            shutil.copyfile(self.packages / role / name, target / name)
++            shutil.copyfile(self.packages / name, target / name)
+@@ -77 +78 @@
+-    def package_snapshot(self, role='A'):
++    def package_snapshot(self, role='NEW_FIXTURE'):
+@@ -87 +88 @@
+-        state = self.run.fresh_state(context, Path('/fixture/source'), Path('/fixture/output'),
++        state = self.adapter.fresh_state(context, Path('/fixture/source'), Path('/fixture/output'),
+@@ -89 +90 @@
+-        state.update(completed=list(self.run.STEPS), finalized=True, finalization_attempted=True,
++        state.update(completed=list(self.adapter.STEPS), finalized=True, finalization_attempted=True,
+@@ -94 +95 @@
+-                  'manifest_sha256': self.run.MANIFEST_SHA, 'all_members_match': True}
++                  'manifest_sha256': self.adapter.MANIFEST_SHA, 'all_members_match': True}
+@@ -111 +112 @@
+-        for route in self.run.ROUTES:
++        for route in self.adapter.ROUTES:
+@@ -123 +124 @@
+-                           'rlimit_nofile': [1, 1]} for step in (*self.run.STEPS, 'finalize')]
++                           'rlimit_nofile': [1, 1]} for step in (*self.adapter.STEPS, 'finalize')]
+@@ -131 +132 @@
+-        return self.run.public_project(state, context, self.manifest)
++        return self.adapter.public_project(state, context, self.manifest)
+@@ -140 +141 @@
+-        self.assertEqual(self.run.MANIFEST_SHA, '328bfd9ba1711260d6efa19ed8fcf45651d375e7c3685b9ce50bd03f1c3803ee')
++        self.assertEqual(self.adapter.MANIFEST_SHA, 'e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743')
+@@ -168,2 +169,2 @@
+-        for name, digest in [('host_utility', self.run.UTILITY_SHA), ('host_support', self.run.SUPPORT_SHA),
+-                             ('installed_runtime', self.run.INSTALLED_SHA)]:
++        for name, digest in [('host_utility', self.adapter.UTILITY_SHA), ('host_support', self.adapter.SUPPORT_SHA),
++                             ('installed_runtime', self.adapter.INSTALLED_SHA)]:
+@@ -171 +172 @@
+-            self.run.load_module(name, digest)
++            self.adapter.load_module(name, digest)
+@@ -174 +175 @@
+-                                    'manifest_sha256': self.run.MANIFEST_SHA, 'all_members_match': True})
++                                    'manifest_sha256': self.adapter.MANIFEST_SHA, 'all_members_match': True})
+@@ -178,3 +179,3 @@
+-        self.assertEqual(self.run.ROUTES, ('plugin-codex', 'plugin-claude', 'standalone-codex', 'standalone-claude'))
+-        self.assertEqual(self.installed.ROUTES, self.run.ROUTES)
+-        self.assertEqual((self.run.RUN_SECONDS, self.run.FINAL_SECONDS, self.run.SETUP_SECONDS, self.run.BUILD_SECONDS),
++        self.assertEqual(self.adapter.ROUTES, ('plugin-codex', 'plugin-claude', 'standalone-codex', 'standalone-claude'))
++        self.assertEqual(self.installed.ROUTES, self.adapter.ROUTES)
++        self.assertEqual((self.adapter.RUN_SECONDS, self.adapter.FINAL_SECONDS, self.adapter.SETUP_SECONDS, self.adapter.BUILD_SECONDS),
+@@ -187,3 +188,2 @@
+-    def test_005_current_A_B_archive_parser_and_package_identity(self):
+-        a, b = self.package_snapshot('A'), self.package_snapshot('B')
+-        self.assertEqual(a, b)
++    def test_005_new_fixture_archive_parser_and_package_identity(self):
++        a = self.package_snapshot('NEW_FIXTURE')
+@@ -236,2 +236,2 @@
+-        self.refused(lambda: self.run.host_context(self.source, self.evidence), 'EVENT_GUARD_REFUSED')
+-        self.refused(lambda: self.run.inventory(self.u), 'HOST_RUNTIME_REFUSED')
++        self.refused(lambda: self.adapter.host_context(self.source, self.evidence), 'EVENT_GUARD_REFUSED')
++        self.refused(lambda: self.adapter.inventory(self.u), 'HOST_RUNTIME_REFUSED')
+@@ -259 +259 @@
+-        self.assertEqual([step['id'] for step in runs], [name.replace('-', '_') for name in (*self.run.STEPS, 'finalize', 'emit')])
++        self.assertEqual([step['id'] for step in runs], [name.replace('-', '_') for name in (*self.adapter.STEPS, 'finalize', 'emit')])
+@@ -261 +261 @@
+-        for step, operation in zip(runs, (*self.run.STEPS, 'finalize', 'emit')):
++        for step, operation in zip(runs, (*self.adapter.STEPS, 'finalize', 'emit')):
+@@ -277 +277 @@
+-                         [*self.run.PUBLIC_NAMES, 'ARTIFACT_MANIFEST.json'])
++                         [*self.adapter.PUBLIC_NAMES, 'ARTIFACT_MANIFEST.json'])
+@@ -281 +281 @@
+-            'phase_sequence': [name for name in (*self.run.STEPS, 'finalize', 'emit')], 'upload_names': [*self.run.PUBLIC_NAMES, 'ARTIFACT_MANIFEST.json'],
++            'phase_sequence': [name for name in (*self.adapter.STEPS, 'finalize', 'emit')], 'upload_names': [*self.adapter.PUBLIC_NAMES, 'ARTIFACT_MANIFEST.json'],
+@@ -303 +303 @@
+-        self.assertEqual(set(docs), set(self.run.PUBLIC_NAMES))
++        self.assertEqual(set(docs), set(self.adapter.PUBLIC_NAMES))
+@@ -313,2 +313,2 @@
+-        files, lines = self.run.build_transport(docs)
+-        self.assertEqual(set(files), {*self.run.PUBLIC_NAMES, 'ARTIFACT_MANIFEST.json'})
++        files, lines = self.adapter.build_transport(docs)
++        self.assertEqual(set(files), {*self.adapter.PUBLIC_NAMES, 'ARTIFACT_MANIFEST.json'})
+@@ -321,3 +321,3 @@
+-            self.assertLessEqual(len(line), self.run.ENVELOPE_LIMIT)
+-        self.assertLessEqual(sum(map(len, files.values())), self.run.TOTAL_LIMIT)
+-        self.assertLessEqual(sum(map(len, lines)), self.run.LOG_LIMIT)
++            self.assertLessEqual(len(line), self.adapter.ENVELOPE_LIMIT)
++        self.assertLessEqual(sum(map(len, files.values())), self.adapter.TOTAL_LIMIT)
++        self.assertLessEqual(sum(map(len, lines)), self.adapter.LOG_LIMIT)
+@@ -343 +343 @@
+-        docs = self.project(state, context); files, _ = self.run.build_transport(docs)
++        docs = self.project(state, context); files, _ = self.adapter.build_transport(docs)
+@@ -349 +349 @@
+-        observed = self.run.failed_state_observation(state, context, self.manifest)
++        observed = self.adapter.failed_state_observation(state, context, self.manifest)
+@@ -357 +357 @@
+-        files, lines = self.run.build_transport(documents)
++        files, lines = self.adapter.build_transport(documents)
+@@ -363 +363 @@
+-        self.refused(lambda: self.run.build_transport(docs), 'PUBLIC_POPULATION_REFUSED')
++        self.refused(lambda: self.adapter.build_transport(docs), 'PUBLIC_POPULATION_REFUSED')
+@@ -366 +366 @@
+-        self.refused(lambda: self.run.build_transport({'FAILURE.json': {}}), 'PUBLIC_POPULATION_REFUSED')
++        self.refused(lambda: self.adapter.build_transport({'FAILURE.json': {}}), 'PUBLIC_POPULATION_REFUSED')
+@@ -369 +369 @@
+-        self.refused(lambda: self.run.build_transport({'RESULT.json': {'body': 'x' * self.run.FILE_LIMIT}, 'FAILURE.json': {}}),
++        self.refused(lambda: self.adapter.build_transport({'RESULT.json': {'body': 'x' * self.adapter.FILE_LIMIT}, 'FAILURE.json': {}}),
+@@ -373,2 +373,2 @@
+-        docs = {name: {'body': 'x' * 60000} for name in self.run.PUBLIC_NAMES}
+-        self.refused(lambda: self.run.build_transport(docs), 'PUBLIC_TOTAL_BOUND')
++        docs = {name: {'body': 'x' * 60000} for name in self.adapter.PUBLIC_NAMES}
++        self.refused(lambda: self.adapter.build_transport(docs), 'PUBLIC_TOTAL_BOUND')
+@@ -378 +378 @@
+-            self.run.build_transport({'RESULT.json': {'body': float('nan')}, 'FAILURE.json': {}})
++            self.adapter.build_transport({'RESULT.json': {'body': float('nan')}, 'FAILURE.json': {}})
+@@ -482 +482,2 @@
+-              'environment_fabricated': False, 'authority': 'NONE', 'original_acceptance': False}
++              'environment_fabricated': False, 'authority': 'NONE', 'original_acceptance': False,
++              'package_input_scope': 'NEW_LOCAL_FIXTURE_BODY_NOT_HISTORICAL_A_B_RECOVERY'}

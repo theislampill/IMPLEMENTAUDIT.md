@@ -1,0 +1,51 @@
+{
+  "allowed_changes": [
+    "exact selected source commit/tree and full source manifest",
+    "derived source population and byte counts",
+    "propagated manifest/module/adapter SHA256 chain",
+    "exact engineering branch and source-only display name"
+  ],
+  "author_role": "M5 delegated source author; not independent receiver",
+  "candidate_base": "07a57141b74b5e7861a3145174582347837d075c",
+  "commission_sha256": "14a305d3d3416b5702961b800059e0a922a535173ee4016d537ea2ae6276621e",
+  "historical_packet_frozen": "m5-source-205aeab7/PACKET_RECEIPT.json sha256:445016a7e1d628ee069a4321b33993a20aee2c2371ac50ed68db392545b3ab7d",
+  "omitted": [
+    "No repeat of the completed 27 source controls or historical four-route operation",
+    "No full package suite; no product/runtime semantic mutation",
+    "No native operation, original grant, protected payload, original acceptance or closure"
+  ],
+  "original_runner_commit": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+  "owner_sources": [
+    "qualification/dg16-installed-runtime05/run.py",
+    "qualification/dg16-installed-runtime05/installed_runtime.py",
+    "qualification/dg16-installed-runtime05/host_support.py",
+    "qualification/dg16-installed-runtime05/host_utility.py",
+    "qualification/dg16-installed-runtime05/SOURCE_MANIFEST.json",
+    ".github/workflows/dg16-installed-runtime05.yml"
+  ],
+  "preserved": [
+    "all install, claim, initialize, resume, currentness, receiving and cleanup semantics",
+    "actual GitHub push/create/attempt-one admission and physical root-owned host tool custody",
+    "Ubuntu 26.04/Python 3.14.4 host guards",
+    "bounded child capture, finalization and exact public allowlist",
+    "authority NONE, original_acceptance false, no native/model effect or grant issuer",
+    "589824 cap, 2000 reserve and revision-four budget approval"
+  ],
+  "prospective_branch": "engineering/pro-executor-dg16-m5-source-20261115",
+  "recovery_boundary": "Original scratch filesystem lost. Exact published source and surviving host/log bytes reconstructed; historical 27-control raw packet and A/B bodies unavailable.",
+  "rollback": "Remove only the candidate's added files; no selected product source or remote state is changed",
+  "root_continuity": "pro-executor-01 G0008 at fda5007ee43c62168481f23d511d083d6ab51be9",
+  "schema": "dg16.m5-current-source-ci-plan.v1",
+  "scope": "Rebind only the existing original four-route source qualification machinery; no host effects until distinct review and Root create-only publication",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "verification": [
+    "Verify each original source descriptor and current clean Git source inventory",
+    "Reproduce all six files and verify exact hash chain; compare all functions with original AST",
+    "Run actual archive parser on a distinctly new current-source fixture build and adverse variants; no historical A/B recovery or reproducibility rerun",
+    "Check every workflow step, action pin, execution guard, Bash body and actionlint validation",
+    "Exercise actual public projector and transport with clearly synthetic complete, incomplete, failure and bound controls",
+    "Check unchanged live main refusal on this non-admitted local host without fabricating GitHub environment",
+    "Freeze patch, exact evidence and receipt for a distinct receiver"
+  ]
+}

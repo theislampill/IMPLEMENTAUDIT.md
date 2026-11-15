@@ -1,0 +1,53 @@
+{
+  "G220": {
+    "conclusion": "failure",
+    "env_tool_live_check_still_required": true,
+    "host_wire": {
+      "bytes": 33335,
+      "sha256": "7f775ecd0b0fa6051de24bdc3b686172b86396d955add780a6adadeee965d6d4"
+    },
+    "job": 132587057176,
+    "log_decoded_body_sha256": "180ba815fe6a08f5bfa8be50f5929f714bdc05f61f39af105f90e7364cf8c745",
+    "log_decoded_bytes": 122092,
+    "observed_tools": [
+      "bash",
+      "bwrap",
+      "git",
+      "python3"
+    ],
+    "reacquisition": false,
+    "run": 43640583300,
+    "scope": "HOST_PROFILE_FEASIBILITY_ONLY"
+  },
+  "author_new_focused_controls": {
+    "errors": 0,
+    "failures": 0,
+    "harness_and_stream_bindings_verified": true,
+    "passed": 58,
+    "skips": 0,
+    "tests": 58
+  },
+  "authority": "NONE",
+  "historical_27_control_packet": {
+    "hash_equality_of_new_fixture_does_not_recover_old_execution": true,
+    "prior_receiving_manifest_sha256_from_observed_history": "40fc19848ad5716a7944b0e6ee458b87c45e218f9aabf4510a45f52e290159a6",
+    "prior_receiving_receipt_sha256_from_observed_history": "88010959d4a869bdc4940fdf1632ef06e78c0fded6ac06d12af134858ccab62c",
+    "raw_bytes_recovered": false,
+    "rerun": false
+  },
+  "pre_outage_generated_files": {
+    "all_current_pins_match_checkpoint": true,
+    "count": 6
+  },
+  "retention_marker_screen": {
+    "files": 64,
+    "findings": [],
+    "marker_classes": [
+      "private_key_header",
+      "github_credential_shape",
+      "signed_url_shape"
+    ],
+    "scope": "Bounded marker screening only, not universal secret detection; no matched values reproduced."
+  },
+  "schema": "dg16.m5-source-review-retained-evidence.v1"
+}

@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/workspace/scratch/0269e6626329/m5-source-recovery/actionlint-1.7.12/actionlint",
+    "-no-color",
+    "-ignore",
+    "^label \"ubuntu-26[.]04\" is unknown[.]",
+    "/workspace/scratch/0269e6626329/m5-source/.github/workflows/dg16-installed-runtime05.yml"
+  ],
+  "ended_unix": 1794722830.2799132,
+  "exit_code": 0,
+  "scope": "Exact ubuntu-26.04 label diagnostic only; actual G220 host evidence retained; no runtime label change",
+  "started_unix": 1794722830.2759056,
+  "workflow_sha256": "874b654791f963eb457eceea382c1e8d64a17cda0d1ebb10f06b5cc10d7a186c"
+}

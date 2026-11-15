@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "bash",
+    "/workspace/scratch/0269e6626329/m5-product-205aeab7/scripts/build-release-asset.sh",
+    "/workspace/scratch/0269e6626329/m5-source-recovery/new-package-fixture"
+  ],
+  "cwd": "/workspace/scratch/0269e6626329/m5-product-205aeab7",
+  "environment_overrides": {
+    "LC_ALL": "C",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "/workspace/scratch/0269e6626329/m5-source-recovery/dependencies",
+    "SOURCE_DATE_EPOCH": "315532800",
+    "TZ": "UTC"
+  },
+  "scope": "One fresh two-role local package fixture solely for unfinished parser/output qualification; not recovered A/B evidence, not historical 27-control replay, not G221 canonical output",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+}

@@ -1,0 +1,105 @@
+{
+  "members": [
+    {
+      "bytes": 1147,
+      "path": "zopfli/__init__.py",
+      "sha256": "1ebcb1b823cd445c656d632bd4a45d18576534f094ee7cb1f854d9770292eb91"
+    },
+    {
+      "bytes": 1331,
+      "path": "zopfli/__pycache__/__init__.cpython-312.pyc",
+      "sha256": "49bf271551bae754df588fd25bb5a0b927dad2f7219496d5282dac17088bc82f"
+    },
+    {
+      "bytes": 559,
+      "path": "zopfli/__pycache__/_version.cpython-312.pyc",
+      "sha256": "420ed677b976404df849447554652a2f9bbf98a2c8fc67bac4e035f65e15e687"
+    },
+    {
+      "bytes": 659,
+      "path": "zopfli/__pycache__/gzip.cpython-312.pyc",
+      "sha256": "4cf23911af202b841d09048daa2319d94bd1542f34dd7cf211e27f10f4a53b46"
+    },
+    {
+      "bytes": 5847,
+      "path": "zopfli/__pycache__/png.cpython-312.pyc",
+      "sha256": "c067a78b2419fdbf0af2caf4bf4cd96246b334672e9ccd3cd798ac6300c85b2a"
+    },
+    {
+      "bytes": 641,
+      "path": "zopfli/__pycache__/zlib.cpython-312.pyc",
+      "sha256": "234fa4a6c0ba5934e05519aa72760205fccb567157ea6c97316d3ca8a23634ea"
+    },
+    {
+      "bytes": 417,
+      "path": "zopfli/_version.py",
+      "sha256": "f5844fa812b2c9985fc238c72b1d94a56dfb7320113a33fc583c488ee9f07111"
+    },
+    {
+      "bytes": 311,
+      "path": "zopfli/gzip.py",
+      "sha256": "f5ee9ea1d81a500ea170683bba821cb068ee449a49ee3265561b290a2afe9a2e"
+    },
+    {
+      "bytes": 5175,
+      "path": "zopfli/png.py",
+      "sha256": "0c2656f21bfad8bbd929c503ea83653d375490d9f77a90649c471f3373991ac8"
+    },
+    {
+      "bytes": 297,
+      "path": "zopfli/zlib.py",
+      "sha256": "72751268a2f5f1f59c27e8014d337db15cb8534e0e3b7472e4a15c3541d1c2fe"
+    },
+    {
+      "bytes": 2858240,
+      "path": "zopfli/zopfli.cpython-312-x86_64-linux-gnu.so",
+      "sha256": "eb7ca2b764ec61dee0cd250952d543754a2adb49d1930a748d522ddeca0d4693"
+    },
+    {
+      "bytes": 11341,
+      "path": "zopfli-0.2.3.post1.dist-info/COPYING",
+      "sha256": "018b1cb87efdf7a04c2fcc13d57ed63f62149113fb207b27ea13430d64f13513"
+    },
+    {
+      "bytes": 4,
+      "path": "zopfli-0.2.3.post1.dist-info/INSTALLER",
+      "sha256": "ceebae7b8927a3227e5303cf5e0f1f7b34bb542ad7250ac03fbcde36ec2f1508"
+    },
+    {
+      "bytes": 2932,
+      "path": "zopfli-0.2.3.post1.dist-info/METADATA",
+      "sha256": "fb1e96ee295e5ded044919419b8b0fcb1dae12e644a6e851dde792d404c92472"
+    },
+    {
+      "bytes": 1387,
+      "path": "zopfli-0.2.3.post1.dist-info/RECORD",
+      "sha256": "5b0b5fbacf34cebd167cc3c02ca391f4586575c3000edea8044541560aefa5d6"
+    },
+    {
+      "bytes": 0,
+      "path": "zopfli-0.2.3.post1.dist-info/REQUESTED",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 151,
+      "path": "zopfli-0.2.3.post1.dist-info/WHEEL",
+      "sha256": "39582da99cdfcc85d7b729573fdd20c4267a08a042c0a6321ccf0fa4c1233753"
+    },
+    {
+      "bytes": 7,
+      "path": "zopfli-0.2.3.post1.dist-info/top_level.txt",
+      "sha256": "f182c20df8726f9c46ae1c23d6240f12a669ecde01e1b036aa3eaeda1c13179b"
+    },
+    {
+      "bytes": 1,
+      "path": "zopfli-0.2.3.post1.dist-info/zip-safe",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    }
+  ],
+  "probe": {
+    "module": "/workspace/scratch/0269e6626329/m5-source-recovery/dependencies/zopfli/zlib.py",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "zopfli": "0.2.3.post1"
+  },
+  "scope": "New isolated dependency acquisition after scratch loss; not recovered historical dependency bytes"
+}

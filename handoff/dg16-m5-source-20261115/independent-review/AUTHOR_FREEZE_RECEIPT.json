@@ -1,0 +1,49 @@
+{
+  "all_additive": true,
+  "author_agent": "/root/dg18_independent_review",
+  "author_role": "M5 source author; not independent receiver",
+  "authority": "NONE",
+  "candidate_worktree": "/workspace/scratch/0269e6626329/m5-source",
+  "candidate_worktree_clean": true,
+  "changed_files": 65,
+  "commit": "21c53ac61f6db57f0bb8ddfdabeb254420e109c2",
+  "control_results_sha256": "231d3b1982795e7ad066811aa6335dca190b255d39e56aab9d76f06af8c45c43",
+  "controls": {
+    "errors": 0,
+    "failures": 0,
+    "passes": 58,
+    "skips": 0,
+    "tests": 58
+  },
+  "diff_check_exit_code": 0,
+  "driver_sha256": "08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e",
+  "generated_six_file_pre_outage_hashes_match": true,
+  "historical_27_controls_rerun": false,
+  "historical_A_B_recovered": false,
+  "live_four_routes_executed": false,
+  "original_acceptance": false,
+  "parent": "07a57141b74b5e7861a3145174582347837d075c",
+  "patch": {
+    "bytes": 2665684,
+    "sha256": "eec9095c2f41d67c151d0dbf2d586d0bf97b908dd70cb6a31fce8a861e735133"
+  },
+  "prospective_branch": "engineering/pro-executor-dg16-m5-source-20261115",
+  "remote_publication_performed": false,
+  "root_continuity": "pro-executor-01 G0008 at fda5007ee43c62168481f23d511d083d6ab51be9",
+  "schema": "dg16.m5-frozen-source-candidate-receipt.v1",
+  "selected_product_clean": true,
+  "selected_product_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "selected_product_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "source_packet_manifest": {
+    "bytes": 15696,
+    "member_bytes": 2286337,
+    "members": 64,
+    "path": "handoff/dg16-m5-source-20261115/SOURCE_PACKET_MANIFEST.json",
+    "sha256": "1068764f35a15d9610e8cf01dda9ea85861546e33da844d17839aac39a40a75c"
+  },
+  "source_qualification_markdown_sha256": "b3200bd362310cdfd59aa04c13f04261aa4345a72d2ef85622e69a2334bef506",
+  "source_qualification_report_sha256": "3cb17a15003c0b5db81e7d5422bee1067937f989491efdf4380fa4ff182a3cba",
+  "status": "FROZEN_FOR_DISTINCT_SOURCE_REVIEW",
+  "tree": "298bc72039ccf0ec6ed52e85594fe832818e1de1",
+  "workflow_sha256": "874b654791f963eb457eceea382c1e8d64a17cda0d1ebb10f06b5cc10d7a186c"
+}

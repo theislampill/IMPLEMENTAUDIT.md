@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "/workspace/scratch/0269e6626329/m5-source/handoff/dg16-m5-source-20261115/tools/check_current_binding.py",
+    "--repository",
+    "/workspace/scratch/0269e6626329/m5-source",
+    "--original-dir",
+    "/workspace/scratch/0269e6626329/m5-source-recovery/original-route-source",
+    "--source",
+    "/workspace/scratch/0269e6626329/m5-product-205aeab7",
+    "--packages",
+    "/workspace/scratch/0269e6626329/m5-source/handoff/dg16-m5-source-20261115/validation/new-package-fixture-build/artifacts",
+    "--evidence",
+    "/workspace/scratch/0269e6626329/m5-source/handoff/dg16-m5-source-20261115/validation/focused-controls-1"
+  ],
+  "ended_unix": 1794722774.0130904,
+  "exit_code": 0,
+  "started_unix": 1794722772.376158,
+  "stderr_sha256": "6ab0f7cc6dae6baf045e84fe083a15028276b3b812083ceefbde241ad42dc737",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "test_script_sha256": "e61288fcd5c6a2db3cfea379a65543f614bfce2165a1fcd8a960a531d86e4ceb"
+}

@@ -1,0 +1,6 @@
+Collecting zopfli==0.2.3.post1
+  Downloading zopfli-0.2.3.post1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (2.9 kB)
+Downloading zopfli-0.2.3.post1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (851 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 851.1/851.1 kB 10.5 MB/s  0:00:00
+Installing collected packages: zopfli
+Successfully installed zopfli-0.2.3.post1

@@ -1,0 +1,36 @@
+{
+  "G221_canonical_output": false,
+  "argv": [
+    "bash",
+    "/workspace/scratch/0269e6626329/m5-product-205aeab7/scripts/build-release-asset.sh",
+    "/workspace/scratch/0269e6626329/m5-source-recovery/new-package-fixture"
+  ],
+  "artifacts": [
+    {
+      "bytes": 195,
+      "name": "CHECKSUMS.txt",
+      "sha256": "111b0ce101919b0d383d2e867599566d42be5e1f9532a13c797c6d4547eb3247"
+    },
+    {
+      "bytes": 584971,
+      "name": "IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "a43f018d4d3cc6d6257eeacfd8b5b834588410564ac33b0c8022d01a0ca71e58"
+    },
+    {
+      "bytes": 580360,
+      "name": "IMPLEMENTAUDIT.skill",
+      "sha256": "d1b89ec4113b0c57d925e2f5aeec16c1baa471985b918e6fc3e54e808fad7f1e"
+    }
+  ],
+  "elapsed_seconds": 6.878196477890015,
+  "ended_unix": 1794722753.0792437,
+  "exit_code": 0,
+  "historical_A_B_recovered": false,
+  "historical_controls_rerun": false,
+  "source_after_clean": true,
+  "source_before_clean": true,
+  "started_unix": 1794722746.2010472,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "18d76d15edfd2073cf3963e3b5f41ee13ec484a11501a7b2d873d248ea2561a5",
+  "timed_out": false
+}

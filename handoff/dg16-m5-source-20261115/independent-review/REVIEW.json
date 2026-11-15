@@ -1,0 +1,170 @@
+{
+  "G220_conclusion": "failure",
+  "G220_host_feasibility_only": true,
+  "actionlint": {
+    "binary_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+    "default_exit": 1,
+    "exact_label_only_filtered_exit": 0,
+    "runtime_host_guard_changed": false,
+    "sole_diagnostic": "ubuntu-26.04 unknown to pinned validator catalog",
+    "version": "1.7.12"
+  },
+  "audit_closure": false,
+  "author": "/root/dg18_independent_review",
+  "author_focused_controls": {
+    "passes": 58,
+    "received_at_source_scope": true,
+    "tests": 58
+  },
+  "author_freeze_receipt": {
+    "bytes": 2158,
+    "sha256": "e0f50c967114c8da787361a8a8c49f88f53348728ddceacbb8df94a10ecb7d9e"
+  },
+  "authority": "NONE",
+  "blocking_findings": [],
+  "candidate": {
+    "additive_files": 65,
+    "clean_before_and_after": true,
+    "commit": "21c53ac61f6db57f0bb8ddfdabeb254420e109c2",
+    "parent": "07a57141b74b5e7861a3145174582347837d075c",
+    "tree": "298bc72039ccf0ec6ed52e85594fe832818e1de1"
+  },
+  "candidate_manifest": {
+    "bytes": 15696,
+    "mode": "0o644",
+    "sha256": "1068764f35a15d9610e8cf01dda9ea85861546e33da844d17839aac39a40a75c"
+  },
+  "disposition": "PASS_AT_BOUNDED_SOURCE_REVIEW_SCOPE",
+  "effects": {
+    "artifact_reacquisitions": 0,
+    "candidate_mutations": 0,
+    "controller_or_ledger_changes": 0,
+    "native_or_protected_operations": 0,
+    "package_builds": 0,
+    "remote_writes": 0,
+    "selected_product_mutations": 0
+  },
+  "future_hosted_receiving_plan": {
+    "bytes": 3991,
+    "path": "HOSTED_RECEIVING_PLAN.json",
+    "sha256": "e513df5d278981636bfed6aa38758fedcd33a90711916b9df271c530e52586aa"
+  },
+  "historical_bytes_recovered": false,
+  "hosted_run_executed_or_received_here": false,
+  "independent_focused_execution": {
+    "GitHub_environment_fabricated": false,
+    "additional_receiver_boundary_cases": [
+      {
+        "case": "reserve_exact_limit",
+        "synthetic_status": "PASS",
+        "value": 587824
+      },
+      {
+        "case": "elapsed_exact_watchdog",
+        "synthetic_status": "PASS",
+        "value": 2400
+      },
+      {
+        "bytes": 16378,
+        "case": "complete_current_source_cross_document_conjunction",
+        "envelope_bytes": 19720,
+        "public_file_count": 9,
+        "synthetic_status": "PASS"
+      }
+    ],
+    "authority": "NONE",
+    "errors": 0,
+    "failures": 0,
+    "installed_routes_launched": 0,
+    "old_27_suite_rerun": false,
+    "original_acceptance": false,
+    "passes": 13,
+    "product_entrypoint_executions": 0,
+    "scope": "LOCAL_SYNTHETIC_SOURCE_CHECKS_ONLY; NO_HOSTED_ROUTE_EVIDENCE",
+    "selected_author_controls": [
+      "test_003_live_loader_and_whole_source_verifier",
+      "test_005_new_fixture_archive_parser_and_package_identity",
+      "test_007_archive_checksum_tamper_refuses",
+      "test_008_archive_source_drift_refuses",
+      "test_010_workflow_complete_step_chain_and_safety",
+      "test_012_complete_output_shape_and_transport",
+      "test_013_partial_failure_output_remains_unqualified",
+      "test_output_same_process_receiver",
+      "test_output_elapsed_expired",
+      "test_output_package_over_reserve",
+      "test_output_build_replay",
+      "test_module_tamper_host_support",
+      "test_manifest_tamper_refuses"
+    ],
+    "skips": 0,
+    "tests": 13
+  },
+  "native_discovery": false,
+  "new_package_fixture_is_G221_output": false,
+  "old_27_controls_rerun": false,
+  "original_M5_remaining": [
+    "G221 canonical package/source identity join",
+    "Applicable M6/original receiving"
+  ],
+  "original_acceptance": false,
+  "original_runner_commit": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+  "publication_custody": "Root; actual exact-branch absence, create-only publication, and remote identity readback remain pending",
+  "recorded_utc": "2026-11-15T06:21:31.050116+00:00",
+  "release": false,
+  "reviewer": "/root/dg18_engineering",
+  "root_delegation": "G0008@fda5007ee43c62168481f23d511d083d6ab51be9",
+  "schema": "dg16.m5-distinct-current-source-review.v1",
+  "selected_product": {
+    "bytes": 167023692,
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "files": 1766,
+    "manifest_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "source_and_workflow_pin_closure_verified": true,
+  "source_differences": [
+    {
+      "changed_constants": [
+        "BRANCH",
+        "SOURCE_COMMIT",
+        "SOURCE_TREE",
+        "SUPPORT_SHA",
+        "INSTALLED_SHA",
+        "MANIFEST_SHA"
+      ],
+      "path": "run.py",
+      "population_only_function_changes": [
+        "public_project"
+      ],
+      "top_level_functions_and_classes": 35
+    },
+    {
+      "changed_constants": [
+        "SOURCE_COMMIT",
+        "SOURCE_TREE"
+      ],
+      "path": "installed_runtime.py",
+      "population_only_function_changes": [],
+      "top_level_functions_and_classes": 16
+    },
+    {
+      "changed_constants": [
+        "SOURCE_COMMIT",
+        "SOURCE_TREE",
+        "MANIFEST_SHA"
+      ],
+      "path": "host_support.py",
+      "population_only_function_changes": [
+        "read_manifest",
+        "verify_source"
+      ],
+      "top_level_functions_and_classes": 14
+    },
+    {
+      "changed_constants": [],
+      "path": "host_utility.py",
+      "population_only_function_changes": [],
+      "top_level_functions_and_classes": 28
+    }
+  ]
+}

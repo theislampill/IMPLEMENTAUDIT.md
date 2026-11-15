@@ -1,0 +1,8 @@
+{
+  "run_id": 43640583300,
+  "job_id": 132587057176,
+  "bytes": 33335,
+  "sha256": "7f775ecd0b0fa6051de24bdc3b686172b86396d955add780a6adadeee965d6d4",
+  "run_conclusion": "failure",
+  "scope": "Actual public host observation only; no acceptance transfer; no artifact body download"
+}

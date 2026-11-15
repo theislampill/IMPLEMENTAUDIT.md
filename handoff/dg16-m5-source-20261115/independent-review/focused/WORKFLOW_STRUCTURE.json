@@ -1,0 +1,38 @@
+{
+  "attempt_one_required": true,
+  "bash_bodies_checked": 17,
+  "event_created_required": true,
+  "permissions": {
+    "contents": "read"
+  },
+  "phase_sequence": [
+    "prepare",
+    "initialize",
+    "read-state",
+    "read-roadmap",
+    "resume",
+    "build",
+    "install",
+    "qualify-plugin-codex",
+    "receive-plugin-codex",
+    "qualify-plugin-claude",
+    "receive-plugin-claude",
+    "qualify-standalone-codex",
+    "receive-standalone-codex",
+    "qualify-standalone-claude",
+    "receive-standalone-claude",
+    "finalize",
+    "emit"
+  ],
+  "upload_names": [
+    "RESULT.json",
+    "HOST.json",
+    "SOURCE.json",
+    "PACKAGES.json",
+    "ROUTES.json",
+    "PHASES.json",
+    "FAILURE.json",
+    "CLEANUP.json",
+    "ARTIFACT_MANIFEST.json"
+  ]
+}

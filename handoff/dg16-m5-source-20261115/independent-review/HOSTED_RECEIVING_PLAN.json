@@ -1,0 +1,81 @@
+{
+  "actual_job_id": null,
+  "actual_published_head": null,
+  "actual_published_tree": null,
+  "actual_run_id": null,
+  "authority": "NONE; Root retains publication and original acceptance custody",
+  "expected_branch": "engineering/pro-executor-dg16-m5-source-20261115",
+  "host_requirements": {
+    "architecture": "x86_64",
+    "non_root": true,
+    "os": "Ubuntu 26.04",
+    "physical_custody_and_boot_checks": "unchanged original live gates",
+    "python": "3.14.4",
+    "tools": [
+      "bash",
+      "python3",
+      "git",
+      "env"
+    ]
+  },
+  "limits": {
+    "adapter_interval_seconds": 2400,
+    "cap_per_role": 589824,
+    "envelope_bytes": 262144,
+    "envelope_log_total_bytes": 1048576,
+    "finalization_reserve_seconds": 180,
+    "job_minutes": 45,
+    "per_public_file_bytes": 65536,
+    "public_total_bytes": 262144,
+    "reserve_per_role": 2000
+  },
+  "original_M5_remaining": "Actual G221 canonical package/source identity join and applicable M6/original receiving remain required; this is source-only qualification.",
+  "pre_run_dependency": "Root performs exact branch absence/create-only publication and reads back actual remote head/tree; if review artifacts are added, bind the resulting additive commit while preserving every reviewed executable/source pin.",
+  "prohibited_effects": [
+    "No rerun/dispatch or protected retry",
+    "No private command/package/diagnostic body acquisition",
+    "No secret/private key/native model operation",
+    "No controller/ledger or source change during a live run",
+    "No original M5/G221/M6/release/closure relabeling"
+  ],
+  "public_names": [
+    "RESULT.json",
+    "HOST.json",
+    "SOURCE.json",
+    "PACKAGES.json",
+    "ROUTES.json",
+    "PHASES.json",
+    "FAILURE.json",
+    "CLEANUP.json",
+    "ARTIFACT_MANIFEST.json"
+  ],
+  "receive_sequence": [
+    "Read actual run/job/step metadata for the published head; require push, exact branch, attempt one, and the actual source-only workflow identity. Never dispatch or rerun.",
+    "While live, observe only; preserve the terminal conclusion and actual first failing step/predicate or all actual step successes.",
+    "Receive only the fixed public artifact or public envelopes. Coordinate with Root to reuse any already acquired body; acquire once only when needed, validating actual metadata size/digest and archive allowlist before any extraction.",
+    "Validate the actual public manifest and all names, sizes, hashes, schemas, finite JSON values, byte bounds, and context/source/driver bindings. Preserve smaller UNQUALIFIED fallback as failure evidence.",
+    "For complete-route credit, jointly receive RESULT PASS, actual HOST admission/tool/boot facts, SOURCE before/after complete and unchanged, both PACKAGES roles under cap/reserve with source parity, four ROUTES with exact first resume/separate-process/refs-objects-receipt-documents/currentness/closing checks, complete ordered PHASES, FAILURE absent, and CLEANUP with no unknown step/command or unreaped child.",
+    "Write a distinct frozen hosted-source receipt with actual occurrence identities. Any failure remains failure; diagnose its first demonstrated predicate before proposing source changes."
+  ],
+  "receiver": "/root/dg18_engineering",
+  "reviewed_candidate": {
+    "commit": "21c53ac61f6db57f0bb8ddfdabeb254420e109c2",
+    "source_manifest_sha256": "1068764f35a15d9610e8cf01dda9ea85861546e33da844d17839aac39a40a75c",
+    "tree": "298bc72039ccf0ec6ed52e85594fe832818e1de1"
+  },
+  "routes": [
+    "plugin-codex",
+    "plugin-claude",
+    "standalone-codex",
+    "standalone-claude"
+  ],
+  "schema": "dg16.m5-hosted-source-receiving-plan.v1",
+  "selected_product": {
+    "bytes": 167023692,
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "files": 1766,
+    "manifest_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "status": "PREPARED_PENDING_ROOT_PUBLICATION_AND_ACTUAL_RUN"
+}

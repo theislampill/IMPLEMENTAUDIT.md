@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "python3",
+    "-m",
+    "pip",
+    "--isolated",
+    "--disable-pip-version-check",
+    "--no-input",
+    "install",
+    "--index-url",
+    "https://pypi.org/simple",
+    "--no-deps",
+    "--only-binary=:all:",
+    "--target",
+    "/workspace/scratch/0269e6626329/m5-source-recovery/dependencies",
+    "zopfli==0.2.3.post1"
+  ],
+  "ended_unix": 1794722688.6842272,
+  "exit_code": 0,
+  "started_unix": 1794722677.765293,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "817a8cd4d32853985f28247afbabda5c3eb40c16bcf784f2c48f1c7eb2084af6"
+}

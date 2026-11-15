@@ -1,0 +1,18 @@
+test_003_live_loader_and_whole_source_verifier (receiver_selected_source_harness.Checks.test_003_live_loader_and_whole_source_verifier) ... ok
+test_005_new_fixture_archive_parser_and_package_identity (receiver_selected_source_harness.Checks.test_005_new_fixture_archive_parser_and_package_identity) ... ok
+test_007_archive_checksum_tamper_refuses (receiver_selected_source_harness.Checks.test_007_archive_checksum_tamper_refuses) ... ok
+test_008_archive_source_drift_refuses (receiver_selected_source_harness.Checks.test_008_archive_source_drift_refuses) ... ok
+test_010_workflow_complete_step_chain_and_safety (receiver_selected_source_harness.Checks.test_010_workflow_complete_step_chain_and_safety) ... ok
+test_012_complete_output_shape_and_transport (receiver_selected_source_harness.Checks.test_012_complete_output_shape_and_transport) ... ok
+test_013_partial_failure_output_remains_unqualified (receiver_selected_source_harness.Checks.test_013_partial_failure_output_remains_unqualified) ... ok
+test_output_same_process_receiver (receiver_selected_source_harness.Checks.test_output_same_process_receiver) ... ok
+test_output_elapsed_expired (receiver_selected_source_harness.Checks.test_output_elapsed_expired) ... ok
+test_output_package_over_reserve (receiver_selected_source_harness.Checks.test_output_package_over_reserve) ... ok
+test_output_build_replay (receiver_selected_source_harness.Checks.test_output_build_replay) ... ok
+test_module_tamper_host_support (receiver_selected_source_harness.Checks.test_module_tamper_host_support) ... ok
+test_manifest_tamper_refuses (receiver_selected_source_harness.Checks.test_manifest_tamper_refuses) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.848s
+
+OK

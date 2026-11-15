@@ -1,0 +1,8 @@
+package-contract: ok
+package-contract: wrote /workspace/scratch/0269e6626329/m5-source-recovery/new-package-fixture/IMPLEMENTAUDIT.plugin.zip
+package-contract: wrote /workspace/scratch/0269e6626329/m5-source-recovery/new-package-fixture/IMPLEMENTAUDIT.skill
+package-contract: ok
+write-release-checksums: wrote /workspace/scratch/0269e6626329/m5-source-recovery/new-package-fixture/CHECKSUMS.txt
+package-contract: ok
+package-contract: ok
+write-release-checksums: check ok IMPLEMENTAUDIT.plugin.zip, IMPLEMENTAUDIT.skill

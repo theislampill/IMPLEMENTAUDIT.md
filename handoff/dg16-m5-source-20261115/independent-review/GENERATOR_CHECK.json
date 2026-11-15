@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "/workspace/scratch/0269e6626329/m5-source/handoff/dg16-m5-source-20261115/tools/bind_current_source.py",
+    "--original-dir",
+    "/workspace/scratch/0269e6626329/m5-source-recovery/original-route-source",
+    "--source",
+    "/workspace/scratch/0269e6626329/m5-product-205aeab7",
+    "--repository",
+    "/workspace/scratch/0269e6626329/m5-source",
+    "--check"
+  ],
+  "cwd": "/workspace/scratch/0269e6626329/m5-review",
+  "ended_utc": "2026-11-15T06:18:48.848148+00:00",
+  "exit_code": 0,
+  "started_utc": "2026-11-15T06:18:48.337508+00:00",
+  "stderr": {
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "bytes": 176,
+    "mode": "0o644",
+    "sha256": "e952cc0aa60a62337645209eca38acc90158cc71e183fdf0a8bc022ad9ba3db4"
+  }
+}

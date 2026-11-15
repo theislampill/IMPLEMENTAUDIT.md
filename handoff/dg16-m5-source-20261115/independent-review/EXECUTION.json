@@ -1,0 +1,14 @@
+{
+  "candidate_author": "/root/dg18_independent_review",
+  "candidate_unchanged": true,
+  "controller_changes": false,
+  "ended_utc": "2026-11-15T06:18:48.882698+00:00",
+  "historical_bodies_recovered": false,
+  "native_or_protected_effects": false,
+  "remote_effects": false,
+  "result": "PASS_AT_SOURCE_REVIEW_SCOPE",
+  "selected_product_unchanged": true,
+  "source_review_receiver": "/root/dg18_engineering",
+  "source_suite_rerun": false,
+  "started_utc": "2026-11-15T06:18:46.314573+00:00"
+}

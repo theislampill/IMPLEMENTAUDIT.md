@@ -1,0 +1,112 @@
+--- 9493cb25/run.py
++++ current/run.py
+@@ -22,3 +22,3 @@
+-BRANCH = 'pro/dg16-r5-installed-runtime-05r7-20261106'
+-SOURCE_COMMIT = '8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b'
+-SOURCE_TREE = '0da374609f7fea2463a2926f3603b976620bd10e'
++BRANCH = 'engineering/pro-executor-dg16-m5-source-20261115'
++SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
++SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
+@@ -26,3 +26,3 @@
+-SUPPORT_SHA = '17ca3afa3d32d95c39da704229a191099f789493f8b0c15b39098ffc57516166'
+-INSTALLED_SHA = '9a511c8010fd29f4c10c96d366d786660e4613e34e6fe00fdb73e0c34f2a772a'
+-MANIFEST_SHA = '466aa14af0ff6e2cde20bb2727511625b7297cfa00a3b4d529b11492f5b4486f'
++SUPPORT_SHA = '702029cbdf0b6e3d84e993e449c822286194c3c7addd482204188e7a1259f08c'
++INSTALLED_SHA = 'e419839f1c2eb396ef13812971a2eaa4b9498cc91d42a84663a8387bb165b957'
++MANIFEST_SHA = 'e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743'
+@@ -897,3 +897,3 @@
+-        'manifest_sha256':MANIFEST_SHA,'file_count':1759,'total_bytes':166402972,
+-        'before_complete':state['source_before'] == {'file_count':1759,'total_bytes':166402972,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
+-        'after_complete':state['source_after'] == {'file_count':1759,'total_bytes':166402972,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
++        'manifest_sha256':MANIFEST_SHA,'file_count':1766,'total_bytes':167023692,
++        'before_complete':state['source_before'] == {'file_count':1766,'total_bytes':167023692,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
++        'after_complete':state['source_after'] == {'file_count':1766,'total_bytes':167023692,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
+--- 9493cb25/installed_runtime.py
++++ current/installed_runtime.py
+@@ -19,2 +19,2 @@
+-SOURCE_COMMIT = '8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b'
+-SOURCE_TREE = '0da374609f7fea2463a2926f3603b976620bd10e'
++SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
++SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
+--- 9493cb25/host_support.py
++++ current/host_support.py
+@@ -12,3 +12,3 @@
+-SOURCE_COMMIT = '8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b'
+-SOURCE_TREE = '0da374609f7fea2463a2926f3603b976620bd10e'
+-MANIFEST_SHA = '466aa14af0ff6e2cde20bb2727511625b7297cfa00a3b4d529b11492f5b4486f'
++SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
++SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
++MANIFEST_SHA = 'e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743'
+@@ -38,2 +38,2 @@
+-         m['commit']==SOURCE_COMMIT and m['tree']==SOURCE_TREE and m['file_count']==1759 and
+-         m['total_bytes']==166402972 and len(m['members'])==1759,'SOURCE_MANIFEST_SHAPE_REFUSED')
++         m['commit']==SOURCE_COMMIT and m['tree']==SOURCE_TREE and m['file_count']==1766 and
++         m['total_bytes']==167023692 and len(m['members'])==1766,'SOURCE_MANIFEST_SHAPE_REFUSED')
+@@ -71 +71 @@
+-    need(observed==set(manifest) and total==166402972,'SOURCE_POPULATION_REFUSED')
++    need(observed==set(manifest) and total==167023692,'SOURCE_POPULATION_REFUSED')
+--- 9493cb25/workflow.yml
++++ current/workflow.yml
+@@ -1 +1 @@
+-name: DG16 installed runtime 05
++name: DG16 M5 current source qualification
+@@ -6 +6 @@
+-      - pro/dg16-r5-installed-runtime-05r7-20261106
++      - engineering/pro-executor-dg16-m5-source-20261115
+@@ -23 +23 @@
+-      github.ref == 'refs/heads/pro/dg16-r5-installed-runtime-05r7-20261106' &&
++      github.ref == 'refs/heads/engineering/pro-executor-dg16-m5-source-20261115' &&
+@@ -42 +42 @@
+-          ref: 8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b
++          ref: 205aeab7c93299b0666b261485ab5658d8e183de
+@@ -58 +58 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -74 +74 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -90 +90 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -106 +106 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -122 +122 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -138 +138 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -154 +154 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -170 +170 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -186 +186 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -202 +202 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -218 +218 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -234 +234 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -250 +250 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -266 +266 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -282 +282 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -299 +299 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+@@ -316 +316 @@
+-          if [[ "$actual" != 'fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0' ]]; then
++          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then

@@ -1,0 +1,42 @@
+{
+  "all_six_match": true,
+  "members": [
+    {
+      "bytes": 74840,
+      "matches_pre_outage_generated_pin": true,
+      "path": "qualification/dg16-installed-runtime05/run.py",
+      "sha256": "08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e"
+    },
+    {
+      "bytes": 29033,
+      "matches_pre_outage_generated_pin": true,
+      "path": "qualification/dg16-installed-runtime05/installed_runtime.py",
+      "sha256": "e419839f1c2eb396ef13812971a2eaa4b9498cc91d42a84663a8387bb165b957"
+    },
+    {
+      "bytes": 9406,
+      "matches_pre_outage_generated_pin": true,
+      "path": "qualification/dg16-installed-runtime05/host_support.py",
+      "sha256": "702029cbdf0b6e3d84e993e449c822286194c3c7addd482204188e7a1259f08c"
+    },
+    {
+      "bytes": 54556,
+      "matches_pre_outage_generated_pin": true,
+      "path": "qualification/dg16-installed-runtime05/host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    },
+    {
+      "bytes": 495517,
+      "matches_pre_outage_generated_pin": true,
+      "path": "qualification/dg16-installed-runtime05/SOURCE_MANIFEST.json",
+      "sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743"
+    },
+    {
+      "bytes": 16979,
+      "matches_pre_outage_generated_pin": true,
+      "path": ".github/workflows/dg16-installed-runtime05.yml",
+      "sha256": "874b654791f963eb457eceea382c1e8d64a17cda0d1ebb10f06b5cc10d7a186c"
+    }
+  ],
+  "source_reconstructed_from_immutable_Git": true
+}

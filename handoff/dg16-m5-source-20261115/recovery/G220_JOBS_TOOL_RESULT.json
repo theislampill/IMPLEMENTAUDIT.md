@@ -1,0 +1,197 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "jobs": [
+      {
+        "id": 132587057176,
+        "name": "full-registry-raw-pair",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 43640583300,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Check out the exact reviewed packet",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Check out the exact reviewed cumulative DG16 source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Provision the ordinary release dependency and verifier tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Bind source and observed native prerequisite requirements",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Claim author inspect and activate the actual fresh task",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Discover its controller in the operation checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Record the actual fresh hosted new-session boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Read STATE in one completed host action",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Read ROADMAP in a separate completed host action",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Request the fresh G0001 continuity receipt",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Verify the owner-issued resume receipt",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Require current continuity before the full operation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Qualify five changed native predicates with the two maintained cases",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Receive both actual current native cases under same-job custody",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Execute the complete current registry legacy then DAG once",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Independently re-read actual sealed captures in the live job",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 17
+          },
+          {
+            "name": "Prepare the exact actual full correspondence proof for live independent review",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18
+          },
+          {
+            "name": "Validate all nine public review files before upload",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19
+          },
+          {
+            "name": "Upload the actual bounded live review packet",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 20
+          },
+          {
+            "name": "Await actual independent review and separate root consumption within the fixed hold",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 21
+          },
+          {
+            "name": "Re-read original private custody and currentness after actual review before teardown",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 22
+          },
+          {
+            "name": "Validate all public files and encoded caps before the first line",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "Upload exactly the validated closed public population",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Read back separate encrypted diagnostic eligibility",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Upload only the separately eligible encrypted failed-stream role",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 26
+          },
+          {
+            "name": "Post Check out the exact reviewed cumulative DG16 source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          },
+          {
+            "name": "Post Check out the exact reviewed packet",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 52
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 53
+          }
+        ]
+      }
+    ]
+  },
+  "isError": false
+}

@@ -1,0 +1,36 @@
+{
+  "commit": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+  "members": [
+    {
+      "bytes": 74835,
+      "path": "qualification/dg16-installed-runtime05/run.py",
+      "sha256": "fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0"
+    },
+    {
+      "bytes": 29033,
+      "path": "qualification/dg16-installed-runtime05/installed_runtime.py",
+      "sha256": "9a511c8010fd29f4c10c96d366d786660e4613e34e6fe00fdb73e0c34f2a772a"
+    },
+    {
+      "bytes": 9406,
+      "path": "qualification/dg16-installed-runtime05/host_support.py",
+      "sha256": "17ca3afa3d32d95c39da704229a191099f789493f8b0c15b39098ffc57516166"
+    },
+    {
+      "bytes": 54556,
+      "path": "qualification/dg16-installed-runtime05/host_utility.py",
+      "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+    },
+    {
+      "bytes": 493323,
+      "path": "qualification/dg16-installed-runtime05/SOURCE_MANIFEST.json",
+      "sha256": "466aa14af0ff6e2cde20bb2727511625b7297cfa00a3b4d529b11492f5b4486f"
+    },
+    {
+      "bytes": 16958,
+      "path": ".github/workflows/dg16-installed-runtime05.yml",
+      "sha256": "f89a46811b3ddb88084f7492caa561f50329fc7712c5a6c088612c9a24efb244"
+    }
+  ],
+  "source": "Read back after outage from immutable published Git object; not recovered historical filesystem"
+}

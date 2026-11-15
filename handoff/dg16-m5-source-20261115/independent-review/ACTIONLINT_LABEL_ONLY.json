@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/workspace/scratch/0269e6626329/m5-source-recovery/actionlint-1.7.12/actionlint",
+    "-no-color",
+    "-ignore",
+    "^label \"ubuntu-26[.]04\" is unknown[.]",
+    "/workspace/scratch/0269e6626329/m5-source/.github/workflows/dg16-installed-runtime05.yml"
+  ],
+  "cwd": "/workspace/scratch/0269e6626329/m5-review",
+  "ended_utc": "2026-11-15T06:18:48.864035+00:00",
+  "exit_code": 0,
+  "started_utc": "2026-11-15T06:18:48.858344+00:00",
+  "stderr": {
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "bytes": 0,
+    "mode": "0o644",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

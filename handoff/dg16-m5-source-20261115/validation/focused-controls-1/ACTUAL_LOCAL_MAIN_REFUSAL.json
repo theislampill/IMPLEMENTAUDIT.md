@@ -1,0 +1,25 @@
+{
+  "actual_python": [
+    3,
+    12,
+    14
+  ],
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-I",
+    "-S",
+    "-B",
+    "/workspace/scratch/0269e6626329/m5-source/qualification/dg16-installed-runtime05/run.py",
+    "--step",
+    "prepare",
+    "--source",
+    "/workspace/scratch/0269e6626329/m5-product-205aeab7",
+    "--output",
+    "/tmp/m5-real-main-oiv1bnky/never-created"
+  ],
+  "environment_fabricated": false,
+  "exit_code": 1,
+  "output_created": false,
+  "stderr": "",
+  "stdout": "DG16_INSTALLED_RUNTIME_STATUS {\"status\":\"UNQUALIFIED\",\"code\":\"ADAPTER_CLOSED_REFUSAL\",\"authority\":\"NONE\"}\n"
+}

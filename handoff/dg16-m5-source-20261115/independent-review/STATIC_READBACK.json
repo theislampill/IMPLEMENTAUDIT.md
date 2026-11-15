@@ -1,0 +1,120 @@
+{
+  "all_93_functions_preserved_except_three_derived_population_bodies": true,
+  "all_additive": true,
+  "all_member_git_and_content_modes_match": true,
+  "ast": [
+    {
+      "changed_constants": [
+        "BRANCH",
+        "SOURCE_COMMIT",
+        "SOURCE_TREE",
+        "SUPPORT_SHA",
+        "INSTALLED_SHA",
+        "MANIFEST_SHA"
+      ],
+      "path": "run.py",
+      "population_only_function_changes": [
+        "public_project"
+      ],
+      "top_level_functions_and_classes": 35
+    },
+    {
+      "changed_constants": [
+        "SOURCE_COMMIT",
+        "SOURCE_TREE"
+      ],
+      "path": "installed_runtime.py",
+      "population_only_function_changes": [],
+      "top_level_functions_and_classes": 16
+    },
+    {
+      "changed_constants": [
+        "SOURCE_COMMIT",
+        "SOURCE_TREE",
+        "MANIFEST_SHA"
+      ],
+      "path": "host_support.py",
+      "population_only_function_changes": [
+        "read_manifest",
+        "verify_source"
+      ],
+      "top_level_functions_and_classes": 14
+    },
+    {
+      "changed_constants": [],
+      "path": "host_utility.py",
+      "population_only_function_changes": [],
+      "top_level_functions_and_classes": 28
+    }
+  ],
+  "candidate_commit": "21c53ac61f6db57f0bb8ddfdabeb254420e109c2",
+  "candidate_tree": "298bc72039ccf0ec6ed52e85594fe832818e1de1",
+  "changed_files": 65,
+  "manifest": {
+    "bytes": 15696,
+    "mode": "0o644",
+    "sha256": "1068764f35a15d9610e8cf01dda9ea85861546e33da844d17839aac39a40a75c"
+  },
+  "manifest_bytes": 2286337,
+  "manifest_members": 64,
+  "original_and_current_files": [
+    {
+      "byte_identical": false,
+      "current_bytes": 74840,
+      "current_sha256": "08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e",
+      "original_bytes": 74835,
+      "original_sha256": "fbcb15e3c154b6558ffdac49cb86cccc8a727c67d668b3718bbda5d1a0e866c0",
+      "path": "qualification/dg16-installed-runtime05/run.py"
+    },
+    {
+      "byte_identical": false,
+      "current_bytes": 29033,
+      "current_sha256": "e419839f1c2eb396ef13812971a2eaa4b9498cc91d42a84663a8387bb165b957",
+      "original_bytes": 29033,
+      "original_sha256": "9a511c8010fd29f4c10c96d366d786660e4613e34e6fe00fdb73e0c34f2a772a",
+      "path": "qualification/dg16-installed-runtime05/installed_runtime.py"
+    },
+    {
+      "byte_identical": false,
+      "current_bytes": 9406,
+      "current_sha256": "702029cbdf0b6e3d84e993e449c822286194c3c7addd482204188e7a1259f08c",
+      "original_bytes": 9406,
+      "original_sha256": "17ca3afa3d32d95c39da704229a191099f789493f8b0c15b39098ffc57516166",
+      "path": "qualification/dg16-installed-runtime05/host_support.py"
+    },
+    {
+      "byte_identical": true,
+      "current_bytes": 54556,
+      "current_sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+      "original_bytes": 54556,
+      "original_sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c",
+      "path": "qualification/dg16-installed-runtime05/host_utility.py"
+    },
+    {
+      "byte_identical": false,
+      "current_bytes": 495517,
+      "current_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+      "original_bytes": 493323,
+      "original_sha256": "466aa14af0ff6e2cde20bb2727511625b7297cfa00a3b4d529b11492f5b4486f",
+      "path": "qualification/dg16-installed-runtime05/SOURCE_MANIFEST.json"
+    },
+    {
+      "byte_identical": false,
+      "current_bytes": 16979,
+      "current_sha256": "874b654791f963eb457eceea382c1e8d64a17cda0d1ebb10f06b5cc10d7a186c",
+      "original_bytes": 16958,
+      "original_sha256": "f89a46811b3ddb88084f7492caa561f50329fc7712c5a6c088612c9a24efb244",
+      "path": ".github/workflows/dg16-installed-runtime05.yml"
+    }
+  ],
+  "originals_independently_read_from_git_commit": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+  "parent": "07a57141b74b5e7861a3145174582347837d075c",
+  "selected_product": {
+    "bytes": 167023692,
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "files": 1766,
+    "manifest_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "workflow_exact_binding_substitution_only": true
+}

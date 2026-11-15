@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "python3",
+    "-m",
+    "pip",
+    "--isolated",
+    "--disable-pip-version-check",
+    "--no-input",
+    "install",
+    "--index-url",
+    "https://pypi.org/simple",
+    "--no-deps",
+    "--only-binary=:all:",
+    "--target",
+    "/workspace/scratch/0269e6626329/m5-source-recovery/dependencies",
+    "zopfli==0.2.3.post1"
+  ],
+  "scope": "Isolated exact pinned dependency for one new package parser fixture; no system install; no historical control replay."
+}

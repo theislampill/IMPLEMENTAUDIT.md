@@ -1,0 +1,84 @@
+{
+  "authority": "NONE",
+  "candidate_base": {
+    "commit": "07a57141b74b5e7861a3145174582347837d075c",
+    "tree": "32592f08a5919299f0d1e3b935a00a99ccf684d5"
+  },
+  "current_fixture": "One new canonical two-role build for unfinished parser/output controls. Its hashes match prior recorded package pins; it is not recovered A/B execution, a reproducibility rerun, G221 canonical output or installed-route evidence.",
+  "historical_27_control_packet": {
+    "historically_reported_controls": 27,
+    "historically_reported_passes": 27,
+    "manifest_sha256": "a9d96b36389328dabf86f3201ab727d10095ea61c0f7de6b2125b2f5e2ee9b6a",
+    "prior_receiving_not_replaced": true,
+    "raw_body_recovery_claim": false,
+    "receipt_sha256": "445016a7e1d628ee069a4321b33993a20aee2c2371ac50ed68db392545b3ab7d",
+    "rerun_after_loss": false
+  },
+  "metadata_wrappers": "New JSON serialization of surviving actual tool-result objects; not original raw HTTP response bytes. The job-log wrapper preserves the exact decoded body without trimming.",
+  "no_GitHub_environment_fabricated": true,
+  "no_controller_claim_by_author": true,
+  "no_native_episode": true,
+  "no_remote_publication": true,
+  "original_acceptance": false,
+  "preserved_prior_failures": [
+    {
+      "cause": "Checks.run module attribute shadowed unittest.TestCase.run",
+      "correction": "Module attribute and references renamed to adapter before current focused controls",
+      "diagnostic": "TypeError: 'module' object is not callable",
+      "event": "Pre-outage first new harness invocation",
+      "observed_exit_code": 1,
+      "source_of_observation": "Retained tool result; original raw result files were lost",
+      "tests_executed": 0
+    },
+    {
+      "cause": "Incorrect assumption that current M5 serialization hash equals G220 manifest hash",
+      "correction": "Expected M5 manifest pin corrected; full Git blob and actual file population independently verified",
+      "event": "Pre-outage expected manifest literal",
+      "observed_current_pin": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+      "test_failure_claim": false
+    },
+    {
+      "cause": "Exec-server transport disconnected; process creation recovery timed out after 45 seconds",
+      "event": "Interrupted pre-outage correction",
+      "execution_observed": false
+    },
+    {
+      "cause": "Author supplied -color never; correct flag is -no-color; no workflow diagnosis from that invocation",
+      "diagnostic": "could not read \"never\": open never: no such file or directory",
+      "event": "First pre-outage actionlint invocation",
+      "observed_exit_code": 3
+    },
+    {
+      "cause": "Version does not recognize ubuntu-26.04 label",
+      "event": "Actionlint 1.7.12 default, before and after recovery",
+      "observed_exit_code": 1,
+      "resolution": "Only exact unknown-label diagnostic is filtered; actual immutable G220 HOST observation proves label/profile existed. Runtime guards unchanged."
+    }
+  ],
+  "root_continuity": "pro-executor-01 G0008 at fda5007ee43c62168481f23d511d083d6ab51be9",
+  "schema": "dg16.m5-scratch-recovery.v1",
+  "source_reconstruction": "Original published Git objects at 9493cb25 and exact selected product 205aeab7; generator and initial harness/PLAN reconstructed from successful pre-outage apply_patch inputs retained in conversation",
+  "source_reconstruction_matches": "All six generated candidate sizes/SHA256 exactly match the pre-outage checkpoint; see validation/REGENERATED_PIN_COMPARISON.json",
+  "status": "FACTUAL_RECOVERY_AND_SOURCE_RECONSTRUCTION",
+  "surviving_decoded_job_log": {
+    "bytes": 122092,
+    "characters": 122090,
+    "path": "recovery/G220_JOB_LOG.json",
+    "reacquired": false,
+    "serialization": "Lossless JSON utf8 field; decoded exact UTF-8 body has the stated bytes/hash, including timestamp-line trailing spaces",
+    "sha256": "180ba815fe6a08f5bfa8be50f5929f714bdc05f61f39af105f90e7364cf8c745",
+    "store": "m5_ci_actual_g220_log.structuredContent.content"
+  },
+  "surviving_exact_host_wire": {
+    "bytes": 33335,
+    "path": "host-observation/G220_HOST_WIRE.json",
+    "reacquired": false,
+    "sha256": "7f775ecd0b0fa6051de24bdc3b686172b86396d955add780a6adadeee965d6d4",
+    "store": "m5_host_descriptor.utf8_json"
+  },
+  "unrecovered_in_this_packet": [
+    "Historical A/B archive bodies",
+    "Historical complete 914-file / 18,935,374-byte packet and original manifest body",
+    "Historical raw 27-control stdout/stderr/results and retained fixture population"
+  ]
+}

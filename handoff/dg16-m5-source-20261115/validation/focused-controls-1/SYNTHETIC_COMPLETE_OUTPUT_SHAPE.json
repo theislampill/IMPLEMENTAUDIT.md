@@ -1,0 +1,530 @@
+{
+  "documents": {
+    "CLEANUP.json": {
+      "all_recorded_step_children_reaped": true,
+      "final_bookends_complete": true,
+      "original_acceptance": false,
+      "parent_final_currentness": true,
+      "private_outputs_uploaded": false,
+      "private_retention": "LIVE_EPHEMERAL_HOST_ONLY; UNKNOWN_INTERRUPTION_IS_NOT_PROOF_OF_ABSENCE",
+      "schema": "dg16.installed-runtime-cleanup.v1",
+      "unknown_pending_command": false,
+      "unknown_pending_step": false
+    },
+    "FAILURE.json": {
+      "failed_commands": [],
+      "failures": [],
+      "present": false,
+      "raw_diagnostics_private": true,
+      "schema": "dg16.installed-runtime-failure.v1"
+    },
+    "HOST.json": {
+      "observation": {
+        "architecture": "x86_64",
+        "boot_identity_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "image_os": "ubuntu26",
+        "image_version": "00000000.0.0",
+        "kernel": "0-fixture",
+        "os": {
+          "ID": "ubuntu",
+          "VERSION_ID": "26.04"
+        },
+        "python_version": [
+          3,
+          14,
+          4
+        ],
+        "tools": {
+          "bash": {
+            "bytes": 1,
+            "canonical": "/usr/bin/bash",
+            "root_owned_nonwritable_chain": true,
+            "setid_or_file_capabilities": false,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "env": {
+            "bytes": 1,
+            "canonical": "/usr/bin/env",
+            "root_owned_nonwritable_chain": true,
+            "setid_or_file_capabilities": false,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "git": {
+            "bytes": 1,
+            "canonical": "/usr/bin/git",
+            "root_owned_nonwritable_chain": true,
+            "setid_or_file_capabilities": false,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "python3": {
+            "bytes": 1,
+            "canonical": "/usr/bin/python3.14",
+            "root_owned_nonwritable_chain": true,
+            "setid_or_file_capabilities": false,
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "uid": 1001
+      },
+      "schema": "dg16.installed-runtime-host.v1",
+      "setup": {
+        "alias_and_ancestor_count": 1,
+        "aliases_and_ancestors_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "bytes": 1,
+        "canonical": "/usr/bin/sudo",
+        "elapsed_seconds": 1,
+        "mode": 2541,
+        "module_bytes": 1,
+        "module_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "status": "COMPLETED",
+        "uid": 0,
+        "watchdog_seconds": 600,
+        "zopfli_version": "0.2.3.post1"
+      },
+      "toolchain_bookends_equal": true,
+      "venv": {
+        "before_manifest_sha256": "5fc1430f73f12f651e59e0cdbcec6b987a6109914656434dc40d51206ac47540",
+        "closing_manifest_equal": true,
+        "file_or_alias_count": 1,
+        "total_file_bytes": 1
+      }
+    },
+    "PACKAGES.json": {
+      "all_installed_populations_unchanged": true,
+      "artifacts": [
+        {
+          "bytes": 584971,
+          "cap_bytes": 589824,
+          "complete_inventory_and_source_parity": true,
+          "expanded_bytes": 2092027,
+          "inventory_members": 74,
+          "member_bytes_modes_sha256": "5f49d3d5ca5f423ee1b0a78dd9ccb2cdfe932682e14f7ac63ac324bb974627db",
+          "members": 75,
+          "name": "IMPLEMENTAUDIT.plugin.zip",
+          "reserve_bytes": 2000,
+          "role": "canonical_plugin",
+          "sha256": "a43f018d4d3cc6d6257eeacfd8b5b834588410564ac33b0c8022d01a0ca71e58"
+        },
+        {
+          "bytes": 580360,
+          "cap_bytes": 589824,
+          "complete_inventory_and_source_parity": true,
+          "expanded_bytes": 2087353,
+          "inventory_members": 71,
+          "member_bytes_modes_sha256": "e2b2a91441b4872f5c0b7bce78c8d2e12fb1da59aa6d3e293d6385dcf593bc25",
+          "members": 72,
+          "name": "IMPLEMENTAUDIT.skill",
+          "reserve_bytes": 2000,
+          "role": "standalone_compatibility",
+          "sha256": "d1b89ec4113b0c57d925e2f5aeec16c1baa471985b918e6fc3e54e808fad7f1e"
+        }
+      ],
+      "build_command_reservations": 1,
+      "build_completion_unknown": false,
+      "build_started_observed": true,
+      "native_discovery_claimed": false,
+      "packages_unchanged": true,
+      "schema": "dg16.installed-runtime-packages.v1",
+      "source": {
+        "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+        "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+      }
+    },
+    "PHASES.json": {
+      "memory_acceptance_threshold_claimed": false,
+      "phases": [
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "prepare",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "initialize",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "read-state",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "read-roadmap",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "resume",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "build",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "install",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "qualify-plugin-codex",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "receive-plugin-codex",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "qualify-plugin-claude",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "receive-plugin-claude",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "qualify-standalone-codex",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "receive-standalone-codex",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "qualify-standalone-claude",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "receive-standalone-claude",
+          "status": "COMPLETED"
+        },
+        {
+          "command_count": 0,
+          "elapsed_seconds": 0,
+          "own_children_reaped": true,
+          "own_max_rss_kib": 0,
+          "reaped_child_max_rss_kib": 0,
+          "rlimit_nofile": [
+            1,
+            1
+          ],
+          "stage": "finalize",
+          "status": "COMPLETED"
+        }
+      ],
+      "rss_scope": "PER_ADAPTER_PROCESS_AND_MAX_REAPED_CHILD_NOT_AGGREGATE_JOB_PEAK",
+      "schema": "dg16.installed-runtime-phases.v1"
+    },
+    "RESULT.json": {
+      "audit_closure": false,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "budget_revision": 4,
+      "canonical_registry_claim": false,
+      "captured_bytes": 0,
+      "checkout_and_artifact_transport_outside_interval": true,
+      "command_count": 1,
+      "elapsed_seconds": 1,
+      "elapsed_subtraction": 0,
+      "finalization_reserve_seconds": 180,
+      "governed_phase_completion_claimed": false,
+      "installed_routes_received": 4,
+      "interval": "FIRST_ADAPTER_BOOTSTRAP_THROUGH_FINAL_BOOKENDS_AND_OWNED_CHILD_CLEANUP",
+      "mechanical_independence": "DISTINCT_SAME_SUBJECT_PROCESS_ONLY",
+      "native_application_discovery": false,
+      "original_acceptance": false,
+      "original_predicates": [
+        "R35-Q04",
+        "R35-Q05"
+      ],
+      "parent_final_currentness": true,
+      "performance_threshold_claimed": false,
+      "private_command_ledger_sha256": "731c1fb28dd13e87c5e584806fa115073f4706db53fc0a6e570ac9becc524cfa",
+      "public_release": false,
+      "release_family": "v0.4.0.0",
+      "run_id": "NOT_A_GITHUB_RUN",
+      "runtime_version": "0.4.0",
+      "schema": "dg16.installed-runtime-result.v1",
+      "scope": "FOUR_LINUX_ISOLATED_INSTALLED_INITIALIZATION_AND_FIRST_NORMAL_CONTINUITY_CHAINS",
+      "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+      "source_manifest_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+      "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+      "status": "PASS",
+      "test_fixture": "SYNTHETIC_OUTPUT_SHAPE_ONLY",
+      "watchdog_seconds": 2400,
+      "whole_cell_claim": false,
+      "windows": false
+    },
+    "ROUTES.json": {
+      "authority": "NONE",
+      "routes": [
+        {
+          "authority_objects_manifest_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "authority_ref_count": 1,
+          "closing_currentness": true,
+          "closing_refs_and_documents_unchanged": true,
+          "distinct_receiver_process": true,
+          "document_count": 1,
+          "document_population_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "first_normal_resume_verified": true,
+          "governed_phase_completion_claimed": false,
+          "installed_manifest_sha256": "5f49d3d5ca5f423ee1b0a78dd9ccb2cdfe932682e14f7ac63ac324bb974627db",
+          "installed_members": 75,
+          "readback_request_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "receipt_body_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "receiver_final_currentness": true,
+          "refs_objects_receipt_documents_received": true,
+          "route": "plugin-codex",
+          "status": "RECEIVED"
+        },
+        {
+          "authority_objects_manifest_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "authority_ref_count": 1,
+          "closing_currentness": true,
+          "closing_refs_and_documents_unchanged": true,
+          "distinct_receiver_process": true,
+          "document_count": 1,
+          "document_population_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "first_normal_resume_verified": true,
+          "governed_phase_completion_claimed": false,
+          "installed_manifest_sha256": "5f49d3d5ca5f423ee1b0a78dd9ccb2cdfe932682e14f7ac63ac324bb974627db",
+          "installed_members": 75,
+          "readback_request_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "receipt_body_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "receiver_final_currentness": true,
+          "refs_objects_receipt_documents_received": true,
+          "route": "plugin-claude",
+          "status": "RECEIVED"
+        },
+        {
+          "authority_objects_manifest_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "authority_ref_count": 1,
+          "closing_currentness": true,
+          "closing_refs_and_documents_unchanged": true,
+          "distinct_receiver_process": true,
+          "document_count": 1,
+          "document_population_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "first_normal_resume_verified": true,
+          "governed_phase_completion_claimed": false,
+          "installed_manifest_sha256": "e2b2a91441b4872f5c0b7bce78c8d2e12fb1da59aa6d3e293d6385dcf593bc25",
+          "installed_members": 72,
+          "readback_request_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "receipt_body_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "receiver_final_currentness": true,
+          "refs_objects_receipt_documents_received": true,
+          "route": "standalone-codex",
+          "status": "RECEIVED"
+        },
+        {
+          "authority_objects_manifest_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "authority_ref_count": 1,
+          "closing_currentness": true,
+          "closing_refs_and_documents_unchanged": true,
+          "distinct_receiver_process": true,
+          "document_count": 1,
+          "document_population_sha256": "122570b95c13d2e754883f8bafbb1d7b35c7ccbb70f722b934e7b51686047924",
+          "first_normal_resume_verified": true,
+          "governed_phase_completion_claimed": false,
+          "installed_manifest_sha256": "e2b2a91441b4872f5c0b7bce78c8d2e12fb1da59aa6d3e293d6385dcf593bc25",
+          "installed_members": 72,
+          "readback_request_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+          "receipt_body_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "receiver_final_currentness": true,
+          "refs_objects_receipt_documents_received": true,
+          "route": "standalone-claude",
+          "status": "RECEIVED"
+        }
+      ],
+      "schema": "dg16.installed-runtime-routes.v1"
+    },
+    "SOURCE.json": {
+      "after_complete": true,
+      "before_complete": true,
+      "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+      "file_count": 1766,
+      "manifest_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+      "parent_runtime_unchanged": true,
+      "schema": "dg16.installed-runtime-source.v1",
+      "source_unchanged": true,
+      "total_bytes": 167023692,
+      "tracked_product_mutations_authorized": false,
+      "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+    }
+  },
+  "scope": "SYNTHETIC_UNIT_TEST_ONLY_NOT_HOSTED_RESULT",
+  "transport_envelope_bytes": 19720,
+  "transport_files": [
+    {
+      "bytes": 403,
+      "name": "CLEANUP.json",
+      "sha256": "b03566055b551a47dcc81a4c986fda5b64e6a89326735269a06312c6b6fb7887"
+    },
+    {
+      "bytes": 150,
+      "name": "FAILURE.json",
+      "sha256": "5ca7e2247359a1f58287856dc8acec02af30737b84d5dc076ed0cfc4179f6558"
+    },
+    {
+      "bytes": 2290,
+      "name": "HOST.json",
+      "sha256": "81da17e743ecb8abf485dcf87bf74a9f2d924e5804661b655079baa59e3d45cb"
+    },
+    {
+      "bytes": 1413,
+      "name": "PACKAGES.json",
+      "sha256": "1ff6b51cbb54ea56859f102f2ec572b0cee6d7008dbbc0b6ec1311d60be0f54f"
+    },
+    {
+      "bytes": 4748,
+      "name": "PHASES.json",
+      "sha256": "39e7ac7dee22adaf7632f5e80365f72c300cd1159e06429f456b7f753fdb56f1"
+    },
+    {
+      "bytes": 1516,
+      "name": "RESULT.json",
+      "sha256": "5d005fc4843facae23ef4766a577b1b4fb91526793f693e0b0ce0c5a8a6c1f4b"
+    },
+    {
+      "bytes": 4086,
+      "name": "ROUTES.json",
+      "sha256": "6d2b3fd81fe0dedf2699c7720c8ac381ec050f44189b479c738bb7b4b02ea4cf"
+    },
+    {
+      "bytes": 466,
+      "name": "SOURCE.json",
+      "sha256": "076255de7761412fb274eeb46d5f763302dd83a548c12d58e2584ff89127c89b"
+    }
+  ],
+  "transport_total_bytes": 16378
+}

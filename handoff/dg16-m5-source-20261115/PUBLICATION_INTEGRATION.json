@@ -1,0 +1,145 @@
+{
+  "copied_files": 26,
+  "copied_members": [
+    {
+      "bytes": 671,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/ACTIONLINT_DEFAULT.json",
+      "sha256": "607c08ad7fe3d1d802d60c62dcbb212574f813c24434a207f42fb50989e6dba9"
+    },
+    {
+      "bytes": 0,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/ACTIONLINT_DEFAULT.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 909,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/ACTIONLINT_DEFAULT.stdout.txt",
+      "sha256": "76193bbc549ea2c0411c5f730823d788ec0afe24dbb7e53f77f08452493bede4"
+    },
+    {
+      "bytes": 731,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/ACTIONLINT_LABEL_ONLY.json",
+      "sha256": "d20b01aa4a64aed967cd313466bbef63f51ed296394c5d18c6efbf449d9a9eef"
+    },
+    {
+      "bytes": 0,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/ACTIONLINT_LABEL_ONLY.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 0,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/ACTIONLINT_LABEL_ONLY.stdout.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2158,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/AUTHOR_FREEZE_RECEIPT.json",
+      "sha256": "e0f50c967114c8da787361a8a8c49f88f53348728ddceacbb8df94a10ecb7d9e"
+    },
+    {
+      "bytes": 497,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/EXECUTION.json",
+      "sha256": "4f2dadc47b66871452706362c2fab4114852ab0101308e855b399b957cae91d3"
+    },
+    {
+      "bytes": 1448,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/FOCUSED_RESULTS.json",
+      "sha256": "e8c0ba05a457ec6aaa6b20da97ba519199dffd157f8dce1ee3733437b35f8235"
+    },
+    {
+      "bytes": 1756,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/FOCUSED_TESTS.stderr.txt",
+      "sha256": "1a0a217ad41cf006574baf8dc67eb3750b947a28561205ab18d182fb086a5b92"
+    },
+    {
+      "bytes": 933,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/GENERATOR_CHECK.json",
+      "sha256": "272b987e757ca88cc1c82a1cbf08bdc392c06de06cee73a925f25e98269d4f09"
+    },
+    {
+      "bytes": 0,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/GENERATOR_CHECK.stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 176,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/GENERATOR_CHECK.stdout.txt",
+      "sha256": "e952cc0aa60a62337645209eca38acc90158cc71e183fdf0a8bc022ad9ba3db4"
+    },
+    {
+      "bytes": 1651,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/HISTORY_AND_AUTHOR_EVIDENCE.json",
+      "sha256": "f47920b4ad7ae81b79bd6002d83fd6e72782e4f0e59e14b1a1de3fda667649a2"
+    },
+    {
+      "bytes": 3991,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/HOSTED_RECEIVING_PLAN.json",
+      "sha256": "e513df5d278981636bfed6aa38758fedcd33a90711916b9df271c530e52586aa"
+    },
+    {
+      "bytes": 5412,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/REVIEW.json",
+      "sha256": "228f5399c8733a1dbfef3fc080d3f5ae98ebf2c65bda022f1d3eb76c803e2a7e"
+    },
+    {
+      "bytes": 11390,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/REVIEW.md",
+      "sha256": "256ab89acdb27b394cd60d4966b709ac54811855164c6241d4bbb61719b8988c"
+    },
+    {
+      "bytes": 4222,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/STATIC_READBACK.json",
+      "sha256": "6ae774d4aabf67ffb71b593ed43680e55446230b0555e3a652f4e410e3375af0"
+    },
+    {
+      "bytes": 30370,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/focused/ACTUAL_PACKAGE_PARSE_NEW_FIXTURE.json",
+      "sha256": "ac17df6bda30966fb60636a2b0229f00e2a3f6314fa7d99ba31b4f22433bafa8"
+    },
+    {
+      "bytes": 171,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/focused/ACTUAL_SOURCE_VERIFICATION.json",
+      "sha256": "e4ecc371fff436afa71aa63b4505d939537eaa564170b5f66cd4ec4139a0d72f"
+    },
+    {
+      "bytes": 18472,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/focused/SYNTHETIC_COMPLETE_OUTPUT_SHAPE.json",
+      "sha256": "8ad01dbd7a01f69fe323e14bb8a8292e2dd624fb6904495f36fb98d3f5206a89"
+    },
+    {
+      "bytes": 14780,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/focused/SYNTHETIC_FAILURE_OUTPUT_SHAPE.json",
+      "sha256": "10778b4e7903d59e445f9d2078481f093728ce034dd8cfb84f3339eb169b3061"
+    },
+    {
+      "bytes": 764,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/focused/WORKFLOW_STRUCTURE.json",
+      "sha256": "e8cd7c98f02860a54b3f322b0be3d19fbb67116652f82934bb4ccbb44d26e356"
+    },
+    {
+      "bytes": 15777,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/review_candidate.py",
+      "sha256": "f1e08a3a396e71e4bfdb80d46202907e2f677f3c45666e68a50cfda1c3e15c1b"
+    },
+    {
+      "bytes": 3158,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/RECEIPT.json",
+      "sha256": "6aa6778a4cc78112bc20ec23dde2ae0d73c9129a2c08e7d67c49d5321e273ed8"
+    },
+    {
+      "bytes": 5315,
+      "path": "handoff/dg16-m5-source-20261115/independent-review/MANIFEST.json",
+      "sha256": "e2c32bc1e679dad4e41256ba7d912c946325e08c25c7c63eeba6f7e7ce0371cd"
+    }
+  ],
+  "executor": "PRO-EXECUTOR-01",
+  "native_or_protected_effects": 0,
+  "original_acceptance": false,
+  "publication": "Root will create only the exact absent engineering branch, then independently receive real hosted routes.",
+  "review_disposition": "PASS_AT_BOUNDED_SOURCE_REVIEW_SCOPE",
+  "reviewed_source_commit": "21c53ac61f6db57f0bb8ddfdabeb254420e109c2",
+  "reviewed_source_tree": "298bc72039ccf0ec6ed52e85594fe832818e1de1",
+  "reviewer": "/root/dg18_engineering",
+  "schema": "dg16.m5-reviewed-publication-integration.v1",
+  "source_files_modified": false
+}
