@@ -52,6 +52,11 @@ def main():
     subject, raw = out / 'subject', out / 'raw'
     subject.mkdir()
     raw.mkdir()
+    # The actual hosted TEMP/TMP use 8.3 aliases; pass canonical physical names
+    # to the unchanged reader instead of relaxing its alias refusal.
+    inherited_temp_paths = {name: os.environ[name] for name in ('TEMP', 'TMP') if name in os.environ}
+    for name, value in inherited_temp_paths.items():
+        os.environ[name] = str(driver.physical(value))
     env = driver.environment(tools)
     env.update(GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL=os.devnull, GIT_TERMINAL_PROMPT='0')
     request = {'source_root': str(source), 'subject_root': str(subject),
@@ -61,7 +66,8 @@ def main():
               'source_head': SOURCE_HEAD, 'source_tree': SOURCE_TREE,
               'controller': args.controller, 'protected_execute_called': False,
               'original_acceptance_delta': 0, 'automatic_retry': False,
-              'maintained_environment': driver.environment(tools)}
+              'maintained_environment': driver.environment(tools),
+              'inherited_temp_paths': inherited_temp_paths}
     ordinal = 0
 
     def command(argv, label):

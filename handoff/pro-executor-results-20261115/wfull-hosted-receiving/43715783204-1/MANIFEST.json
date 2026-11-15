@@ -1,0 +1,64 @@
+{
+  "members": {
+    "ARTIFACT_MANIFEST.json": {
+      "bytes": 5763,
+      "sha256": "05b87f293e9d13c996c57a2a00f11ccd1f3768ebb3d17706953cf139c9ba2f6c"
+    },
+    "PUBLICATION_INDEPENDENT_RECEIVING.json": {
+      "bytes": 2571,
+      "sha256": "dcfb3c4aded24a3751e4be13149bdc7b252ddf393040be4fcfd1b7b4e2b5a798"
+    },
+    "RECEIVING.json": {
+      "bytes": 22139,
+      "sha256": "711135a032b7813ffdae2dc1ee334a075dee21cbc7ae3b548d2f55f2ffe6d502"
+    },
+    "RECEIVING.md": {
+      "bytes": 3188,
+      "sha256": "d89543ffc67ece7cc883defe36c106e05e6c1b17796a475eecc841b7a947771d"
+    },
+    "SUBJECT_MANIFEST.json": {
+      "bytes": 24448,
+      "sha256": "237fcaf7ba661ba649e5c8bc9f1d45b216d4e7fd20c8d9651a63232fc914a803"
+    },
+    "artifact/PREPARATION.json": {
+      "bytes": 1312,
+      "sha256": "75a48b8da3804410bec861c8b8a9baac3c68b60bb42ed3fc09fe58a4990dec4b"
+    },
+    "artifact/raw/009-activate-exact.json": {
+      "bytes": 735,
+      "sha256": "3920694894f7c992c8a729e14937ad60aff8efbb2c2d83c29f7655bae51267b2"
+    },
+    "artifact/raw/009-activate-exact.stderr": {
+      "bytes": 233,
+      "sha256": "f96b70f427cca6b64ad5e275fc76826ff9a38ee2ca173ddc2a6de28585934b8d"
+    },
+    "dg18-w-full-preparation-43715783204-1.zip": {
+      "bytes": 612663,
+      "sha256": "4bb9cce7c9c239c49b02b973d53d884a810d9709c0d77b1309680a9c976fac6e"
+    },
+    "job_logs.log": {
+      "bytes": 30172,
+      "sha256": "6f328d2a880a47b9f7bc7129f432bc77be4da761569c14ed113cb11594b252ba"
+    },
+    "provider_commit.json": {
+      "bytes": 1714,
+      "sha256": "75ee313ca33c048c3ab92de2a9350656366c5b64315823ed951248dca5ec6261"
+    },
+    "provider_ref.json": {
+      "bytes": 494,
+      "sha256": "571cf2fb987fedcc338a3d003418a022dc101db00c71520d4be41f148425be7e"
+    },
+    "run_detail.json": {
+      "bytes": 14172,
+      "sha256": "b043c8f4b503842dee8e11084475ec45cd56497623f5ebf11814d29b3602aaf3"
+    }
+  },
+  "original_acceptance_delta": 0,
+  "original_archive_preserved": true,
+  "private_materialization_transport_metadata_excluded": true,
+  "protected_execute": false,
+  "run_attempt": 1,
+  "run_id": 43715783204,
+  "schema": "pro.dg18.public-failed-preparation-evidence.v1",
+  "status": "RECEIVED_PREPARATION_FAILURE_NO_OPERATION_RECORD"
+}

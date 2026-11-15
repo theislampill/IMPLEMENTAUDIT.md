@@ -1,0 +1,61 @@
+{
+  "actual_corrected_windows_result": "NOT_RUN",
+  "actual_failure_receiving_sha256": "711135a032b7813ffdae2dc1ee334a075dee21cbc7ae3b548d2f55f2ffe6d502",
+  "actual_failure_run": 43715783204,
+  "author": "/root",
+  "decision": "CONSUME_EXACT_SOURCE_REVIEW_FOR_ORDINARY_PREPARATION_ONLY",
+  "executor": "PRO-EXECUTOR-01",
+  "fresh_protected_grant_issued": false,
+  "independent_review": {
+    "bytes": 8877,
+    "reviewer": "/root/dg16_m5_original_receiving",
+    "sha256": "e9441a5b9b8af0f22356168dcf6853a632c6f60390eb31686f5777d6068bd7b8"
+  },
+  "original_acceptance_delta": 0,
+  "original_failed_artifact_preserved": true,
+  "original_requirement": "R0039/#215 F0 and F5-F7: actual migrated Windows subject, whole functional W-FULL and unchanged 60000 ms / 201326592 byte kernel peak aggregate limits. This change corrects actual ordinary preparation input spelling only.",
+  "product_source_changed": false,
+  "protected_execute": false,
+  "received_utc": "2026-11-15T13:00:13.709445+00:00",
+  "retained_limits": [
+    "No native model substitution",
+    "No automatic protected retry",
+    "No grant reuse",
+    "Fresh exact operation-specific owner grant and all applicable owner-original gates remain"
+  ],
+  "schema": "pro.dg18.executor-temp-correction-receiving.v1",
+  "source": {
+    "after": {
+      "bytes": 12168,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "sha256": "b57a6c7ae99e0d75d9a2ceb142138eefd2a93175016b404b45dd13857d1f62d0"
+    },
+    "before": {
+      "bytes": 11749,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_PREPARE_BEFORE_TEMP_CORRECTION.py",
+      "sha256": "2c1653a7ce42a8b3909822d67c2438df36fa4bb06de11bf7f96139f1692a9bbd"
+    },
+    "correction_record": {
+      "bytes": 1473,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/TEMP_PATH_CORRECTION.json",
+      "sha256": "4ab1596eb78e0a356996d50059418f915de3f1ef1bd5fc926e0d213ab6bd1e8e"
+    },
+    "readme": {
+      "bytes": 8945,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+      "sha256": "e0ead1d8a096e9c9e1b53e854967d3d828e5efc7af44d0263a2d07d18c774eba"
+    },
+    "selected_product_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "selected_product_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "unchanged_task_bodies": {
+      "bytes": 6653,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+    },
+    "unchanged_workflow": {
+      "bytes": 4379,
+      "path": "/workspace/scratch/0269e6626329/dg18/.github/workflows/dg18-w-full-minimal-prepare.yml",
+      "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+    }
+  }
+}

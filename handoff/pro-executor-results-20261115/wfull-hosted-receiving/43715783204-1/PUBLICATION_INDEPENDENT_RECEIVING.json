@@ -1,0 +1,51 @@
+{
+  "authority": "NONE",
+  "branch": "engineering/pro-dg18-w-full-minimal-20261115",
+  "commit": "2728929b536c2404ebb5a6e8778503f6aac40f34",
+  "disposition": "RECEIVED_EXACT_REVIEWED_PREPARATION_SOURCE_PUBLICATION",
+  "exact_review": {
+    "bytes": 14224,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_MINIMAL_SOURCE_REVIEW.json",
+    "sha256": "2fdc970ffb6dc3ea1420bcc43fbacb0175d6c8d3d8b5f5ee9e6640c3a87a2dd3"
+  },
+  "limits": [
+    "Engineering source publication only. The ensuing actual preparation failed and is separately recorded.",
+    "Source review and publication create no grant, native result or original award."
+  ],
+  "local_candidate": "507ec73d24ffe1e2b921e20ea4dbc38c320e5522",
+  "original_awards": [],
+  "predicates": {
+    "actual_provider_ref_and_commit_received": true,
+    "exact_tree_and_sole_parent": true,
+    "executor_source_receiving_preserves_no_execute_grant": true,
+    "nine_payload_entries_match_local_candidate_blobs_modes_and_entire_base_overlay": true,
+    "six_source_bodies_match_reviewed_freeze_at_publication": true,
+    "two_published_review_copies_equal_independent_originals": true
+  },
+  "provider_commit": {
+    "bytes": 1714,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION/provider_commit.json",
+    "sha256": "75ee313ca33c048c3ab92de2a9350656366c5b64315823ed951248dca5ec6261"
+  },
+  "provider_ref": {
+    "bytes": 494,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION/provider_ref.json",
+    "sha256": "571cf2fb987fedcc338a3d003418a022dc101db00c71520d4be41f148425be7e"
+  },
+  "received_utc": "2026-11-15T12:54:53.987986+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "publisher": false,
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.dg18.wfull-publication-independent-receiving.v1",
+  "sole_parent": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "tree": "39f098b04aea81f872d5834b235abf9b9d08f2ce",
+  "tree_request": {
+    "bytes": 59937,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_MINIMAL_CREATE_TREE.json",
+    "sha256": "482290a118c72610315b62171b625cac5724ff9ea6c88feccdfcac088835bc02"
+  }
+}

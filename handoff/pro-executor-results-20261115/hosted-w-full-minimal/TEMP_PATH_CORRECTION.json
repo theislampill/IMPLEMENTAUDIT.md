@@ -1,0 +1,25 @@
+{
+  "actual_corrected_Windows_result": "NOT_RUN",
+  "actual_failed_run": 43715783204,
+  "actual_predicate": "directory spelling aliases a different canonical long name",
+  "after": {
+    "bytes": 12168,
+    "sha256": "b57a6c7ae99e0d75d9a2ceb142138eefd2a93175016b404b45dd13857d1f62d0"
+  },
+  "authority": "SOURCE_ENGINEERING_ONLY",
+  "before": {
+    "bytes": 11749,
+    "sha256": "2c1653a7ce42a8b3909822d67c2438df36fa4bb06de11bf7f96139f1692a9bbd"
+  },
+  "change": "Canonicalize only existing TEMP and TMP through existing driver.physical before producing the maintained environment; retain inherited spellings. No reader/custody/runtime/limit change.",
+  "diagnosis": "Existing initialization passes tempfile-created validation target to unchanged Windows directory custody. Inherited 8.3 TEMP/TMP is a source-supported diagnosis; exact failing component was not printed, so affected-gate result must confirm it.",
+  "existing_product_modified": false,
+  "failure_scope": "INITIALIZATION_VALIDATION_BEFORE_BINDING_AND_BEFORE_FIRST_RESUME_OR_ROTATION",
+  "initial_edit_attempt": "ASSERTION_REFUSED_WRONG_EXPECTED_TEXT_BEFORE_ANY_FILE_WRITE; exact original source hash re-read unchanged",
+  "native_effect_replay": false,
+  "new_native_or_protected_operation": false,
+  "observed_inherited_TEMP_TMP": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp",
+  "previous_qualified_source_reused": true,
+  "schema": "pro.dg18.wfull-temporary-path-correction.v1",
+  "syntax_check": "PASS"
+}

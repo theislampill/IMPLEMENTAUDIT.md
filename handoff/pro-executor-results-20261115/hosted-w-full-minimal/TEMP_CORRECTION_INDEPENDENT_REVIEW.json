@@ -1,0 +1,153 @@
+{
+  "authority": "NONE",
+  "blocking_findings": [],
+  "causal_review": {
+    "actual_observation": "Run43715783204 attempt1 failed at activation command009; actual TEMP and TMP both used C:\\Users\\RUNNER~1\\AppData\\Local\\Temp. Commands001-008 succeeded, and archived controller activation/currentness refs are absent.",
+    "maintained_route": [
+      "activate_controller_initialization invokes _validate_initialized_content before activation update_refs",
+      "_validate_initialized_content creates its content-copy target through tempfile.TemporaryDirectory",
+      "_initialization_validator passes that exact path as the validator run root",
+      "validate-run-root.sh uses the supplied run root without canonical normalization",
+      "read-canonical-pair.materialize_pair first acquires directory(run_arg)",
+      "canonical_custody.Directory compares each supplied component path to GetFinalPathNameByHandleW long name and emits the actual observed refusal"
+    ],
+    "qualification": "Exact rejected absolute component was not logged. Actual environment plus maintained source control flow support the narrow temp-ancestry diagnosis; corrected Windows observation is still required."
+  },
+  "disposition": "PASS_EXACT_TEMP_PATH_CORRECTION_SOURCE_ONLY",
+  "document_scope": {
+    "actual_corrected_Windows_result": "NOT_RUN",
+    "initial_edit_assertion_refusal": "Author-reported in correction metadata; receiver independently verified the retained before body equals the original reviewed digest.",
+    "later_correction_identified_separately": true,
+    "original_SOURCE_CHECKS_and_INDEPENDENT_SOURCE_REVIEW_explicitly_retained_at_2728929b": true,
+    "original_failed_subject_and_raw_preserved": true
+  },
+  "exact_change": {
+    "code_bytes_added_net": 419,
+    "code_regions": [
+      "Before the first maintained environment(tools), retain only present TEMP/TMP values, resolve each through existing driver.physical, and put only their canonical spellings back in this wrapper process environment.",
+      "Add inherited_temp_paths to PREPARATION.json; maintained_environment remains the actual sanitized driver output."
+    ],
+    "complete_delta_verified_by_inverse_reconstruction": true,
+    "documentation_append_bytes": 1418,
+    "product_skills_scripts_fixtures_diff_from_selected_source": [],
+    "readme_prior_body_unchanged": true,
+    "unchanged_source_files": [
+      "task_bodies.py",
+      ".github/workflows/dg18-w-full-minimal-prepare.yml",
+      "SOURCE_CHECKS.json",
+      "SOURCE_ORIGINS.json"
+    ]
+  },
+  "operations": {
+    "grants": 0,
+    "native_operations": 0,
+    "preflight_runs": 0,
+    "qualified_suite_reruns": 0,
+    "source_edits": 0,
+    "source_execution": 0,
+    "workflow_launches": 0
+  },
+  "original_acceptance_delta": 0,
+  "original_awards": [],
+  "preserved_semantics": {
+    "actual_canonical_environment_is_retained_and_hashable_by_existing_consumer": true,
+    "fresh_subject_controller_derive_from_new_run_identity": true,
+    "no_inherited_environment_or_credentials_dump": true,
+    "no_native_directory_guard_relaxation": true,
+    "no_old_subject_activation_effect_replayed": true,
+    "only_existing_TEMP_TMP_values_modified": true,
+    "ordinary_preparation_still_stops_before_execute": true,
+    "physical_checker_rejects_symlink_reparse_before_resolving": true,
+    "prepared_source_subject_tool_and_currentness_comparisons_unchanged": true,
+    "windows_envelope_60000_ms_201326592_bytes_unchanged": true,
+    "workflow_attempt1_branch_and_path_gates_unchanged": true
+  },
+  "prior_evidence": {
+    "actual_failure_receiving": {
+      "bytes": 22139,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION/RECEIVING.json",
+      "sha256": "711135a032b7813ffdae2dc1ee334a075dee21cbc7ae3b548d2f55f2ffe6d502"
+    },
+    "actual_failure_stderr": {
+      "bytes": 233,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION/artifact/raw/009-activate-exact.stderr",
+      "sha256": "f96b70f427cca6b64ad5e275fc76826ff9a38ee2ca173ddc2a6de28585934b8d"
+    },
+    "actual_preparation": {
+      "bytes": 1312,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION/artifact/PREPARATION.json",
+      "sha256": "75a48b8da3804410bec861c8b8a9baac3c68b60bb42ed3fc09fe58a4990dec4b"
+    },
+    "original_source_publication": {
+      "bytes": 2571,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION/PUBLICATION_INDEPENDENT_RECEIVING.json",
+      "sha256": "dcfb3c4aded24a3751e4be13149bdc7b252ddf393040be4fcfd1b7b4e2b5a798"
+    },
+    "original_source_review": {
+      "bytes": 14224,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_MINIMAL_SOURCE_REVIEW.json",
+      "sha256": "2fdc970ffb6dc3ea1420bcc43fbacb0175d6c8d3d8b5f5ee9e6640c3a87a2dd3"
+    },
+    "preserved_subject": {
+      "bytes": 2406400,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION/artifact/SUBJECT.tar",
+      "sha256": "7c6690005e55e0ec14f3d6ed2efd24aeb9a0c42e7409eb7841ac6bb19189e1f2"
+    }
+  },
+  "received_predicates": [
+    "The complete code delta is exactly the stated five-line environment normalization plus one report field; inverse removal reproduces the exact original bytes.",
+    "The correction uses the existing physical-path owner, then the existing sanitized environment producer, without changing product custody or adding another currentness writer.",
+    "Unchanged workflow/task author/origin records and product source retain their prior reviewed scope.",
+    "The README append distinguishes the real failed result, the source-supported diagnosis and the unobserved corrected outcome.",
+    "Failed artifact and exact original source review remain retained and are not relabeled as success."
+  ],
+  "remaining_gates": [
+    "One actually received successful ordinary preparation is required to supply a real OPERATION.json and exact hash.",
+    "No green Windows result is inferred from this static source review.",
+    "Any protected execute remains subject to a fresh exact owner grant, authentic concurrent owner originals, unchanged prepared-source/subject/tool/environment/currentness checks, actual measurement and independent receiving."
+  ],
+  "reviewed_utc": "2026-11-15T12:56:47.315707+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authoring_context_reused": false,
+    "distinct_correction_author": "/root",
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.dg18.wfull-temp-correction-independent-review.v1",
+  "subject": {
+    "after": {
+      "bytes": 12168,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "sha256": "b57a6c7ae99e0d75d9a2ceb142138eefd2a93175016b404b45dd13857d1f62d0"
+    },
+    "before": {
+      "bytes": 11749,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_PREPARE_BEFORE_TEMP_CORRECTION.py",
+      "sha256": "2c1653a7ce42a8b3909822d67c2438df36fa4bb06de11bf7f96139f1692a9bbd"
+    },
+    "correction_record": {
+      "bytes": 1473,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/TEMP_PATH_CORRECTION.json",
+      "sha256": "4ab1596eb78e0a356996d50059418f915de3f1ef1bd5fc926e0d213ab6bd1e8e"
+    },
+    "readme": {
+      "bytes": 8945,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+      "sha256": "e0ead1d8a096e9c9e1b53e854967d3d828e5efc7af44d0263a2d07d18c774eba"
+    },
+    "selected_product_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "selected_product_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "unchanged_task_bodies": {
+      "bytes": 6653,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+    },
+    "unchanged_workflow": {
+      "bytes": 4379,
+      "path": "/workspace/scratch/0269e6626329/dg18/.github/workflows/dg18-w-full-minimal-prepare.yml",
+      "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+    }
+  }
+}

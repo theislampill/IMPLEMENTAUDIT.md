@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+    "--noprofile",
+    "--norc",
+    "D:\\a\\_temp\\dg18-w-full-43715783204-1\\subject\\skills\\implementaudit\\scripts\\claim-run.sh",
+    "--activate-controller",
+    "dg18-w-full-43715783204-1",
+    "--run-root",
+    ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-lsKPTx",
+    "--expected-initialization",
+    "refs/implementaudit/controller-initializations/dg18-w-full-43715783204-1/3b53be67c9312f7843ac1115795d9995@9f2cd7fb04e960a0557b421a1951a1bb0bf95476"
+  ],
+  "exit_code": 1,
+  "stderr_sha256": "f96b70f427cca6b64ad5e275fc76826ff9a38ee2ca173ddc2a6de28585934b8d",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

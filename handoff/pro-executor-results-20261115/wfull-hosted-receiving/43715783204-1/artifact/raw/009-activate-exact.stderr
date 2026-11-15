@@ -1,0 +1,2 @@
+claim-run.sh: initialization validation refused: read-canonical-pair: directory spelling aliases a different canonical long name
+validate-run-root: ERROR: canonical pair selection refused; root compatibility fallback is forbidden

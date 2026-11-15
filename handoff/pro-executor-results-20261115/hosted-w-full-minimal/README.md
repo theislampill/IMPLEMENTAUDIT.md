@@ -59,3 +59,11 @@ A later `windows-2022` job must actually supply the same selected executable byt
 This is bounded setup-source engineering. Existing accepted Windows/Linux suites and historical native episodes are not replayed. New static/source-binding checks and independent source review are recorded separately. A source review or a prepared `OPERATION.json` is not a measured W-FULL result.
 
 The actual first setup rotation and the following explicit manual-resume boundary supply the current migrated subject required by F0/F5–F7; they are ordinary preparation of this newly owned subject. They supply no historical host compaction. Original criterion 5 and whole R0039/DG18 acceptance remain open.
+
+## Actual first hosted result and bounded correction
+
+Run `43715783204`, attempt 1, at source `2728929b536c2404ebb5a6e8778503f6aac40f34` reached the actual Windows initializer and refused at `activate-exact`: `directory spelling aliases a different canonical long name`. The artifact retained the failure, exact source and new subject. It reached no first resume, rotation, manual invalidation or maintained prepare; no operation hash exists from this run.
+
+The recorded TEMP/TMP values use the runner's `RUNNER~1` short name. The existing initializer passes its actual temporary validation copy to the unchanged canonical directory reader, which requires the canonical long name. The source-supported correction canonicalizes only those two existing environment paths through the maintained `physical` function before creating the maintained subprocess environment, and retains the original spellings. The no-link/reparse and native canonical-name checks remain unchanged. No product source or budget changed. The exact failed component was not printed; the next affected Windows observation must establish the correction's actual result.
+
+`SOURCE_CHECKS.json` and `INDEPENDENT_SOURCE_REVIEW.*` remain the original source records at `2728929b`. `TEMP_PATH_CORRECTION.json` identifies this later narrow source change. It is not an actual successful Windows result, a protected retry, or an original acceptance claim.
