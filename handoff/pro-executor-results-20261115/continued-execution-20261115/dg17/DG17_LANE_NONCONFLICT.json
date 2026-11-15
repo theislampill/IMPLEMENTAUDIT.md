@@ -1,0 +1,17 @@
+{
+  "G132_subject_or_operations_touched": false,
+  "UNKNOWN_replays": 0,
+  "actor": "/root/dg17_recovery",
+  "basis": "Current Root delegation advances DG17 original predicates through ordinary isolated work; native grants and remote writes remain with Root.",
+  "continuation_constraint": "This lane remains on ordinary local source/evidence work under its existing delegation and does not use G132 or DG18 protected/native resources.",
+  "native_or_protected_resource_slot_requested_or_held": false,
+  "owned_hosted_jobs_launched": 0,
+  "owned_model_turns_launched": 0,
+  "owned_native_processes_launched": 0,
+  "owned_ordinary_commands": "All completed; three isolated installer invocations plus read-only receiving and detached-checkout preparation",
+  "principal": "PRO-EXECUTOR-01 through Root delegation",
+  "protected_grants_minted_or_consumed": 0,
+  "protected_launches": 0,
+  "recorded_utc": "2026-11-15T21:31:56.903727+00:00",
+  "scope": "Observed DG17 lane resource use for this interval; not a whole-host census or a future native grant"
+}

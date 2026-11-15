@@ -1,0 +1,8 @@
+package-contract: ok
+install-claude-from-release: FILE-COPY WORKAROUND.
+install-claude-from-release: copied IMPLEMENTAUDIT.skill files into /workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-claude/host/skills/implementaudit
+install-claude-from-release: sha256 7448f11bfa8f69b8e485bffc304bb0a4cd12d82cfd3f64d6c2869a821a59bd6d
+install-claude-from-release: NOTICE: This is a file-copy workaround only.
+install-claude-from-release: NOTICE: It is NOT proof that Claude Desktop can import the .skill.
+install-claude-from-release: NOTICE: To test actual import, use Claude Desktop import UI.
+install-claude-from-release: NOTICE: After file-copy, restart Claude Desktop to reload.

@@ -1,0 +1,26 @@
+{
+  "label": "clone-exact-source",
+  "argv": [
+    "/usr/bin/git",
+    "-c",
+    "core.hooksPath=/dev/null",
+    "clone",
+    "--quiet",
+    "--shared",
+    "--no-checkout",
+    "/workspace/scratch/7fbb79f74aa4/recovery/repo",
+    "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/source"
+  ],
+  "cwd": null,
+  "started_utc": "2026-11-15T21:26:18.975145+00:00",
+  "elapsed_seconds": 1.2249076410007547,
+  "exit_code": 0,
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 482,
+    "sha256": "80971547c9b16697fc7a8e05595d9c1eb193a2b6abfa8c18f4d1ddff003e935c"
+  }
+}

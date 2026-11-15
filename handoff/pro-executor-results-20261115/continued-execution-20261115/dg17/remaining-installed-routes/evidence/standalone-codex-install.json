@@ -1,0 +1,25 @@
+{
+  "label": "standalone-codex-install",
+  "argv": [
+    "/usr/bin/bash",
+    "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source/scripts/install-codex-from-release.sh",
+    "--asset",
+    "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/IMPLEMENTAUDIT.skill",
+    "--checksum",
+    "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/CHECKSUMS.txt",
+    "--codex-home",
+    "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-codex/host"
+  ],
+  "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+  "started_utc": "2026-11-15T21:28:19.860663+00:00",
+  "elapsed_seconds": 0.24492519400519086,
+  "exit_code": 0,
+  "stdout": {
+    "bytes": 340,
+    "sha256": "3dab55aa05053e18cdf1e5b61810f259af0aac56062940264db9a63b780f12b3"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

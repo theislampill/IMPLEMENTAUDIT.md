@@ -1,0 +1,21 @@
+{
+  "accepting_rerun_performed": false,
+  "actual_failed_relation_witness": "UNAVAILABLE_FROM_RETAINED_ORIGINAL_PACKET",
+  "actual_qualified_runtime_sha256": "e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b",
+  "after_workflow_sha256": "355e094f3352a4890af1b91ec28939be8c63d2679aeb7bb5c74776f8c9db56af",
+  "base_commit": "bc3c8e6feca551d7eaafea071b5d4a6e5868de36",
+  "before_workflow_sha256": "ef2e6a22da49d300eb54929ef29fdcec41378bb2191fa9fbd910f16631e25906",
+  "changed_file": ".github/workflows/dg16-r5-full-g2.yml",
+  "current_workflow_runtime_pins": 19,
+  "exact_hash_substitutions": 19,
+  "historical_G2_acceptance": false,
+  "native_or_policy_adoption_reissued": false,
+  "other_workflow_bytes_unchanged": true,
+  "protected_host21_ref_untouched": true,
+  "runtime_body_sha256_matches_all19_guards": true,
+  "source_code_changed": false,
+  "source_repair_already_published": "fb1e78769cf4932741e1c2c9664c02d14413fb24",
+  "stale_workflow_runtime_pins": 0,
+  "workflow_branch_and_before_guard_unchanged": true,
+  "workflow_yaml_parse": "PASS"
+}

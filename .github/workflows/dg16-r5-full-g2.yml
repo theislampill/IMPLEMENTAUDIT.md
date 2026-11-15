@@ -87,7 +87,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -103,7 +103,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -119,7 +119,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -135,7 +135,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -151,7 +151,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -167,7 +167,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -183,7 +183,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -199,7 +199,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -215,7 +215,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -231,7 +231,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -247,7 +247,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -264,7 +264,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -280,7 +280,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -297,7 +297,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -313,7 +313,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          [[ "$actual" == '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]] || exit 1
+          [[ "$actual" == 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]] || exit 1
           /usr/bin/python3 -I -S -B "$adapter" --step prepare-review \
             --source "$GITHUB_WORKSPACE/qualified-source" \
             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -326,7 +326,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          [[ "$actual" == '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]] || exit 1
+          [[ "$actual" == 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]] || exit 1
           /usr/bin/python3 -I -S -B "$adapter" --emit-review \
             --source "$GITHUB_WORKSPACE/qualified-source" \
             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -360,7 +360,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          [[ "$actual" == '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]] || exit 1
+          [[ "$actual" == 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]] || exit 1
           /usr/bin/python3 -I -S -B "$adapter" --step hold \
             --source "$GITHUB_WORKSPACE/qualified-source" \
             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -374,7 +374,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -391,7 +391,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58' ]]; then
+          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi

@@ -1,0 +1,25 @@
+{
+  "label": "standalone-claude-install",
+  "argv": [
+    "/usr/bin/bash",
+    "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source/scripts/install-claude-from-release.sh",
+    "--asset",
+    "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/IMPLEMENTAUDIT.skill",
+    "--checksum",
+    "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/CHECKSUMS.txt",
+    "--claude-skills-dir",
+    "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-claude/host/skills/implementaudit"
+  ],
+  "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+  "started_utc": "2026-11-15T21:28:20.129330+00:00",
+  "elapsed_seconds": 0.2022591690038098,
+  "exit_code": 0,
+  "stdout": {
+    "bytes": 745,
+    "sha256": "40dc966e869cd15a5a0b35f35c7364d4c16b8a490aa81a1fcc6bb29601c7a8b6"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

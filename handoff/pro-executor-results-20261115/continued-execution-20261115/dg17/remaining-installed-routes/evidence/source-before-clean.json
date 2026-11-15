@@ -1,0 +1,21 @@
+{
+  "label": "source-before-clean",
+  "argv": [
+    "/usr/bin/git",
+    "status",
+    "--porcelain=v1",
+    "--untracked-files=all"
+  ],
+  "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+  "started_utc": "2026-11-15T21:28:19.539840+00:00",
+  "elapsed_seconds": 0.06701366800552933,
+  "exit_code": 0,
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

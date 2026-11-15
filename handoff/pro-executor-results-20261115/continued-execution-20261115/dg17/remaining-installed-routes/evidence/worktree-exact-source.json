@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "/usr/bin/git",
+    "-c",
+    "core.hooksPath=/dev/null",
+    "worktree",
+    "add",
+    "--quiet",
+    "--detach",
+    "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+    "a297957be11feb494c0ec467235794a1e0c54751"
+  ],
+  "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/repo",
+  "started_utc": "2026-11-15T21:27:48.063954+00:00",
+  "elapsed_seconds": 1.040459005998855,
+  "exit_code": 0,
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reason": "Use the source repository object store directly after local shared-clone preparation omitted the required commit object; original failure retained."
+}

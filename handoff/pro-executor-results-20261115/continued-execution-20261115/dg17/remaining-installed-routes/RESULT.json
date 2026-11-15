@@ -1,0 +1,255 @@
+{
+  "archives": {
+    "IMPLEMENTAUDIT.plugin.zip": {
+      "bytes": 588580,
+      "sha256": "706afde44df992282a43d59e3affa412f0e9ca2dc09f0de1dfc212223751f1e2"
+    },
+    "IMPLEMENTAUDIT.skill": {
+      "bytes": 583966,
+      "sha256": "7448f11bfa8f69b8e485bffc304bb0a4cd12d82cfd3f64d6c2869a821a59bd6d"
+    }
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+      "elapsed_seconds": 0.004426876002980862,
+      "exit_code": 0,
+      "label": "source-before",
+      "started_utc": "2026-11-15T21:28:19.534992+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 82,
+        "sha256": "926d49a08ccdd317f451303ad75506ef016f4a5282777ae79b538f426d4cbad2"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+      "elapsed_seconds": 0.06701366800552933,
+      "exit_code": 0,
+      "label": "source-before-clean",
+      "started_utc": "2026-11-15T21:28:19.539840+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source/scripts/install-plugin-from-release.sh",
+        "--asset",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/IMPLEMENTAUDIT.plugin.zip",
+        "--checksum",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/CHECKSUMS.txt",
+        "--host",
+        "claude",
+        "--host-root",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/plugin-claude/host"
+      ],
+      "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+      "elapsed_seconds": 0.2228158719954081,
+      "exit_code": 0,
+      "label": "plugin-claude-install",
+      "started_utc": "2026-11-15T21:28:19.608226+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 584,
+        "sha256": "8b007b1401d19867b0f77a681a3e5d34eef134670f9b67c825a2f64a3a0ef1aa"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source/scripts/install-codex-from-release.sh",
+        "--asset",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/IMPLEMENTAUDIT.skill",
+        "--checksum",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/CHECKSUMS.txt",
+        "--codex-home",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-codex/host"
+      ],
+      "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+      "elapsed_seconds": 0.24492519400519086,
+      "exit_code": 0,
+      "label": "standalone-codex-install",
+      "started_utc": "2026-11-15T21:28:19.860663+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 340,
+        "sha256": "3dab55aa05053e18cdf1e5b61810f259af0aac56062940264db9a63b780f12b3"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source/scripts/install-claude-from-release.sh",
+        "--asset",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/IMPLEMENTAUDIT.skill",
+        "--checksum",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/actual-43755213314/artifact/packages/CHECKSUMS.txt",
+        "--claude-skills-dir",
+        "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-claude/host/skills/implementaudit"
+      ],
+      "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+      "elapsed_seconds": 0.2022591690038098,
+      "exit_code": 0,
+      "label": "standalone-claude-install",
+      "started_utc": "2026-11-15T21:28:20.129330+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 745,
+        "sha256": "40dc966e869cd15a5a0b35f35c7364d4c16b8a490aa81a1fcc6bb29601c7a8b6"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+      "elapsed_seconds": 0.0032011799994506873,
+      "exit_code": 0,
+      "label": "source-after",
+      "started_utc": "2026-11-15T21:28:20.352853+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 82,
+        "sha256": "926d49a08ccdd317f451303ad75506ef016f4a5282777ae79b538f426d4cbad2"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/workspace/scratch/7fbb79f74aa4/recovery/dg17-original-installs-source",
+      "elapsed_seconds": 0.00788857900624862,
+      "exit_code": 0,
+      "label": "source-after-clean",
+      "started_utc": "2026-11-15T21:28:20.356220+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "currentness_invocations": 0,
+  "inherited_canonical_codex_run": 43755213314,
+  "model_turns": 0,
+  "native_operations": 0,
+  "original14_custody_unknown_differences": 14,
+  "original_DG17_acceptance": false,
+  "package_builds": 0,
+  "preparation_failure_preserved": {
+    "command": "checkout-exact-source",
+    "correction": "clean detached worktree uses actual existing source object store",
+    "exit_code": 128,
+    "reason": "required object absent from shared-clone destination",
+    "source_or_installer_failure": false
+  },
+  "routes": [
+    {
+      "archive": "IMPLEMENTAUDIT.plugin.zip",
+      "currentness_or_yield_consumption": false,
+      "installed_root": "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/plugin-claude/host/plugins/implementaudit",
+      "inventory_sha256": "b9a5174a4be66fa4c984621ebfdc7b15308865222b4fe3c77cf693cf143b800a",
+      "members": 75,
+      "native_discovery": false,
+      "population_bytes_hash_modes_match": true,
+      "route": "plugin-claude"
+    },
+    {
+      "archive": "IMPLEMENTAUDIT.skill",
+      "currentness_or_yield_consumption": false,
+      "installed_root": "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-codex/host/skills/implementaudit",
+      "inventory_sha256": "283c9b51393904c66be108f7b1f03aeccaae527caece9fda1893eaf3f816cde9",
+      "members": 72,
+      "native_discovery": false,
+      "population_bytes_hash_modes_match": true,
+      "route": "standalone-codex"
+    },
+    {
+      "archive": "IMPLEMENTAUDIT.skill",
+      "currentness_or_yield_consumption": false,
+      "installed_root": "/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-claude/host/skills/implementaudit",
+      "inventory_sha256": "283c9b51393904c66be108f7b1f03aeccaae527caece9fda1893eaf3f816cde9",
+      "members": 72,
+      "native_discovery": false,
+      "population_bytes_hash_modes_match": true,
+      "route": "standalone-claude"
+    }
+  ],
+  "scope": "T11_EXISTING_ISOLATED_INSTALL_COPY_AND_PARITY_ONLY",
+  "source": {
+    "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "worktree_state": "clean"
+  },
+  "source_and_archives_unchanged": true,
+  "source_owners": {
+    "package/implementaudit-package.json": {
+      "bytes": 5617,
+      "sha256": "c4844781b4063e02f8fbe33dea67937d3efb3c913f726583c10a0d41387f9c2e"
+    },
+    "scripts/check-package-contract.sh": {
+      "bytes": 448,
+      "sha256": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc"
+    },
+    "scripts/install-claude-from-release.sh": {
+      "bytes": 26749,
+      "sha256": "1317e8ee9d82e061d9e627458eb2efa86013aefa7e000d2fe88652d20036c260"
+    },
+    "scripts/install-codex-from-release.sh": {
+      "bytes": 25586,
+      "sha256": "bc6b272b43128257956e7b2472f6c106774aae12c2f10586052998ceace606de"
+    },
+    "scripts/install-plugin-from-release.sh": {
+      "bytes": 3158,
+      "sha256": "fa06b9059be0649865af75b7e11ba4a81bb0e3d284b2a1f039092e8f9d9b111a"
+    },
+    "scripts/package-contract.py": {
+      "bytes": 46034,
+      "sha256": "506d52a9e12261c295a1bf0fe16e4cf4c382ec06335feeb8806f404396568c1f"
+    }
+  },
+  "status": "THREE_REMAINING_EXISTING_ISOLATED_INSTALL_ROUTES_PASSED"
+}

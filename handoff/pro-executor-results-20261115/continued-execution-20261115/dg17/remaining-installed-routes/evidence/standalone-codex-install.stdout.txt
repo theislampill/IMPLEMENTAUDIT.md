@@ -1,0 +1,3 @@
+package-contract: ok
+install-codex-from-release: installed IMPLEMENTAUDIT.skill into /workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/standalone-codex/host/skills/implementaudit
+install-codex-from-release: sha256 7448f11bfa8f69b8e485bffc304bb0a4cd12d82cfd3f64d6c2869a821a59bd6d
