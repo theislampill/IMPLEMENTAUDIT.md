@@ -1,0 +1,148 @@
+{
+  "activation": {
+    "binding_record_oid": "e526704a6f4da0fd73f879032f094b1ba3a9ab64",
+    "controller_oid": "c0bbd94dbe958df4718224fea06a0560308c00b4",
+    "status": "BOUND_ELIGIBLE_FOR_NORMAL_CURRENTNESS"
+  },
+  "authority": "NONE",
+  "authority_tuple": {
+    "fresh_slots": {
+      "archive_ref_oid": null,
+      "epoch_ref_oid": null,
+      "generation_path_exists": false,
+      "publication_ref_oid": null,
+      "receipt_ref_oid": null
+    },
+    "marker_oid": "5e4a417ccb5ae474800a715287b3730b4dc2fa11",
+    "newer_boundary": "manual-resume",
+    "newer_event": "dg18-w-full-43717382372-1-actual-manual-resume",
+    "newer_invalidation_token": "refs/implementaudit/continuity-invalidations/dg18-w-full-43717382372-1@9ada157f33eeb08f081b061a39f7833ecc88e5d7",
+    "next_epoch": "G0003",
+    "pointer_token": "refs/implementaudit/current-generations/dg18-w-full-43717382372-1@6fc001e005668b819b0f331bf14ae6e28f0a153a",
+    "predecessor_receipt": "refs/implementaudit/continuity-receipts/dg18-w-full-43717382372-1/G0001@7914737184deccaf3b8def3def2691673a1b73c6",
+    "receipt_fields": 14,
+    "receipt_token": "refs/implementaudit/continuity-receipts/dg18-w-full-43717382372-1/G0002@07e97a7824a0aac2edec1e6c38917e4e52d8811a"
+  },
+  "grant_issued": false,
+  "historical_calibration_preserved": {
+    "maximum_memory_bytes": 67108864,
+    "maximum_runtime_ms": 5000,
+    "population_id": "R0039-F1-CAL-v2",
+    "scope": "first rotation retained calibration provenance; no new host qualification or replacement of prospective W-FULL envelope"
+  },
+  "limits": {
+    "baseline_subtraction_bytes": 0,
+    "basis": "unchanged selected check-r0039-windows-resume.py; measurement remains prospective",
+    "maximum_aggregate_job_committed_bytes": 201326592,
+    "maximum_ms": 60000
+  },
+  "measurement_exists": false,
+  "operation": {
+    "bytes": 43816,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43717382372/artifact/operation/OPERATION.json",
+    "sha256": "489cd0b2c1e0adee6d8497fc68076b814bf78609baa6b6d74eac6aed6cfa39f0"
+  },
+  "original_awards": [],
+  "preflight": {
+    "STATE_ROADMAP_raw_bodies_equal_archived_immutable_G0002": true,
+    "all_next_G0003_effect_slots_absent": true,
+    "all_retained_file_and_ref_bindings_equal_archive": true,
+    "archived_manifest_entries_verified": 8,
+    "intended_stale_currentness_refusal": true,
+    "payloads_equal_operation_record": true,
+    "raw_exits": [
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  "prepared_command": [
+    "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+    "--noprofile",
+    "--norc",
+    "D:\\a\\_temp\\dg18-w-full-43717382372-1\\subject\\skills\\implementaudit\\scripts\\claim-run.sh",
+    "--resume-controller",
+    "dg18-w-full-43717382372-1",
+    "--boundary",
+    "manual-resume",
+    "--epoch",
+    "G0003",
+    "--expected-pointer",
+    "refs/implementaudit/current-generations/dg18-w-full-43717382372-1@6fc001e005668b819b0f331bf14ae6e28f0a153a",
+    "--expected-invalidation",
+    "refs/implementaudit/continuity-invalidations/dg18-w-full-43717382372-1@9ada157f33eeb08f081b061a39f7833ecc88e5d7"
+  ],
+  "request": {
+    "controller": "dg18-w-full-43717382372-1",
+    "source_head": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "source_root": "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\qualified-source",
+    "source_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "subject_root": "D:\\a\\_temp\\dg18-w-full-43717382372-1\\subject",
+    "tools": {
+      "bash": {
+        "path": "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+        "sha256": "5490d0da5e7cf9d92068cc48fcc590f2bcf8564add8ff91c3b5fe541eb2d72e3"
+      },
+      "git": {
+        "path": "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+        "sha256": "9bf8ee81d79f38a11eaf7799499a634c46a718e009a4a9b2b20b115804643302"
+      },
+      "python": {
+        "path": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+      }
+    }
+  },
+  "schema": "pro.dg18.actual-prepared-operation-join.v1",
+  "source_environment": {
+    "environment_sha256": "5cf5704f76cd84431436de4162476bbfefaeef571d67f9f057aa5c4d91b47efd",
+    "maintained_environment": {
+      "IMPLEMENTAUDIT_PYTHON": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+      "LC_ALL": "C",
+      "MSYS2_ARG_CONV_EXCL": "*",
+      "PATH": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64;C:\\Program Files\\Git\\ucrt64\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Windows\\System32",
+      "PATHEXT": ".COM;.EXE;.BAT;.CMD",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "SystemRoot": "C:\\Windows",
+      "TEMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp",
+      "TMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp",
+      "WINDIR": "C:\\Windows"
+    },
+    "recorder_descriptors_equal_selected_source": 3,
+    "runtime_descriptors_equal_archive_and_selected_source": 44,
+    "subject_status_at_actual_preflight": "",
+    "tools": {
+      "bash": {
+        "path": "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+        "sha256": "5490d0da5e7cf9d92068cc48fcc590f2bcf8564add8ff91c3b5fe541eb2d72e3"
+      },
+      "git": {
+        "path": "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+        "sha256": "9bf8ee81d79f38a11eaf7799499a634c46a718e009a4a9b2b20b115804643302"
+      },
+      "python": {
+        "path": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+      }
+    }
+  },
+  "subject": {
+    "archive": {
+      "bytes": 3911680,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43717382372/artifact/SUBJECT.tar",
+      "sha256": "5b1249dc4558880127624448719ff19d16b61ef05e82b06a7f7d478bc2cb1b58"
+    },
+    "archive_directories": 67,
+    "archive_files": 156,
+    "archive_members": 223,
+    "claim_id": "549472f46f6ced3c1fe47e72daa2409c",
+    "controller": "dg18-w-full-43717382372-1",
+    "copied_skills_files_equal_source": 70,
+    "git_objects_verified": 23,
+    "head": "de648082f329d5afffe06b1be9035dbde9bf67bb",
+    "run_relative": ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-iiS1Ed",
+    "tree": "67272a0f396f9c715813bf790a5b324bd4d6e054"
+  },
+  "whole_native_operation_executed": false
+}

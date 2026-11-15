@@ -1,0 +1,32 @@
+{
+  "command": [
+    "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-B",
+    "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\qualified-source\\scripts\\run-r0039-windows-resume.py",
+    "prepare",
+    "--source",
+    "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\qualified-source",
+    "--repo",
+    "D:\\a\\_temp\\dg18-w-full-43717382372-1\\subject",
+    "--controller",
+    "dg18-w-full-43717382372-1",
+    "--source-head",
+    "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "--source-tree",
+    "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "--bash",
+    "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+    "--python",
+    "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+    "--git",
+    "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+    "--out",
+    "D:\\a\\_temp\\dg18-w-full-43717382372-1\\operation"
+  ],
+  "exit_code": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "1cacff3f44999139b9c380f1cc52d9a4877cbdf092db3d1c66c6ed8be34c38d2"
+}

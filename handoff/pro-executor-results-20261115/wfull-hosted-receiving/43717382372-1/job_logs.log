@@ -1,0 +1,369 @@
+﻿2026-11-15T13:07:58.9502773Z Current runner version: '2.338.2'
+2026-11-15T13:07:58.9535584Z ##[group]Runner Image Provisioner
+2026-11-15T13:07:58.9536683Z Hosted Compute Agent
+2026-11-15T13:07:58.9537427Z Version: 20261103.629
+2026-11-15T13:07:58.9538276Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-15T13:07:58.9539228Z Build Date: 2026-11-03T17:26:59Z
+2026-11-15T13:07:58.9540161Z Worker ID: {fca9e722-37f0-4e14-a4be-311955fb73bd}
+2026-11-15T13:07:58.9541092Z Region: northcentralus
+2026-11-15T13:07:58.9541786Z Cloud: Azure
+2026-11-15T13:07:58.9542450Z ##[endgroup]
+2026-11-15T13:07:58.9544120Z ##[group]Operating System
+2026-11-15T13:07:58.9544915Z Microsoft Windows Server 2022
+2026-11-15T13:07:58.9545657Z 10.0.20348
+2026-11-15T13:07:58.9546206Z Datacenter
+2026-11-15T13:07:58.9546778Z ##[endgroup]
+2026-11-15T13:07:58.9547348Z ##[group]Runner Image
+2026-11-15T13:07:58.9547889Z Image: windows-2022
+2026-11-15T13:07:58.9548391Z Version: 20261112.366.7
+2026-11-15T13:07:58.9550030Z Included Software: https://github.com/actions/runner-images/blob/win22/20261112.366/images/windows/Windows2022-Readme.md
+2026-11-15T13:07:58.9551756Z Image Release: https://github.com/actions/runner-images/releases/tag/win22%2F20261112.366
+2026-11-15T13:07:58.9552627Z ##[endgroup]
+2026-11-15T13:07:58.9553629Z ##[group]GITHUB_TOKEN Permissions
+2026-11-15T13:07:58.9556324Z Contents: read
+2026-11-15T13:07:58.9556851Z Metadata: read
+2026-11-15T13:07:58.9557332Z ##[endgroup]
+2026-11-15T13:07:58.9559334Z Secret source: Actions
+2026-11-15T13:07:58.9560118Z Cache mode: write
+2026-11-15T13:07:58.9560739Z Prepare workflow directory
+2026-11-15T13:07:58.9918924Z Prepare all required actions
+2026-11-15T13:07:58.9976138Z Getting action download info
+2026-11-15T13:07:59.2650594Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-15T13:07:59.3755557Z Download action repository 'actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-15T13:07:59.4942349Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-15T13:07:59.7916720Z Complete job name: prepare-existing-operation
+2026-11-15T13:07:59.9490351Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-15T13:07:59.9492078Z with:
+2026-11-15T13:07:59.9492732Z   ref: 3cf46cd944fc4c30a1f4b53c0c39a25aca0eadfd
+2026-11-15T13:07:59.9493364Z   path: packet
+2026-11-15T13:07:59.9493836Z   fetch-depth: 1
+2026-11-15T13:07:59.9494306Z   persist-credentials: false
+2026-11-15T13:07:59.9494876Z   set-safe-directory: false
+2026-11-15T13:07:59.9495427Z   submodules: false
+2026-11-15T13:07:59.9495884Z   lfs: false
+2026-11-15T13:07:59.9496402Z   repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:07:59.9500418Z   token: ***
+2026-11-15T13:07:59.9501033Z   ssh-strict: true
+2026-11-15T13:07:59.9501698Z   ssh-user: git
+2026-11-15T13:07:59.9502244Z   clean: true
+2026-11-15T13:07:59.9502738Z   sparse-checkout-cone-mode: true
+2026-11-15T13:07:59.9503264Z   fetch-tags: false
+2026-11-15T13:07:59.9503711Z   show-progress: true
+2026-11-15T13:07:59.9504195Z   allow-unsafe-pr-checkout: false
+2026-11-15T13:07:59.9505163Z env:
+2026-11-15T13:07:59.9505611Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:07:59.9506123Z   GIT_CONFIG_COUNT: 1
+2026-11-15T13:07:59.9506651Z   GIT_CONFIG_KEY_0: core.autocrlf
+2026-11-15T13:07:59.9507198Z   GIT_CONFIG_VALUE_0: false
+2026-11-15T13:07:59.9507687Z ##[endgroup]
+2026-11-15T13:08:00.1103415Z Syncing repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:08:00.1105173Z ##[group]Getting Git version info
+2026-11-15T13:08:00.1105953Z Working directory is 'D:\a\IMPLEMENTAUDIT.md\IMPLEMENTAUDIT.md\packet'
+2026-11-15T13:08:00.2037057Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-15T13:08:00.5736690Z git version 2.56.1.windows.1
+2026-11-15T13:08:00.5776961Z ##[endgroup]
+2026-11-15T13:08:00.5787288Z ##[group]Initializing the repository
+2026-11-15T13:08:00.5796003Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\IMPLEMENTAUDIT.md\IMPLEMENTAUDIT.md\packet
+2026-11-15T13:08:00.6825627Z Initialized empty Git repository in D:/a/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/packet/.git/
+2026-11-15T13:08:00.6867198Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:08:00.7453058Z ##[endgroup]
+2026-11-15T13:08:00.7454763Z ##[group]Disabling automatic garbage collection
+2026-11-15T13:08:00.7461811Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-15T13:08:00.7933381Z ##[endgroup]
+2026-11-15T13:08:00.7934974Z ##[group]Setting up auth
+2026-11-15T13:08:00.7946928Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:08:00.8258643Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-15T13:08:02.1525044Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:08:02.1829449Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-15T13:08:02.6779849Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:08:02.7097919Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-15T13:08:03.1806779Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-15T13:08:03.2120956Z ##[endgroup]
+2026-11-15T13:08:03.2121991Z ##[group]Fetching the repository
+2026-11-15T13:08:03.2135381Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 3cf46cd944fc4c30a1f4b53c0c39a25aca0eadfd
+2026-11-15T13:08:06.1996979Z From https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:08:06.1997669Z  * branch            3cf46cd944fc4c30a1f4b53c0c39a25aca0eadfd -> FETCH_HEAD
+2026-11-15T13:08:06.2035653Z ##[endgroup]
+2026-11-15T13:08:06.2036202Z ##[group]Determining the checkout info
+2026-11-15T13:08:06.2037998Z ##[endgroup]
+2026-11-15T13:08:06.2052252Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-15T13:08:06.2487227Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-15T13:08:06.2791303Z ##[group]Checking out the ref
+2026-11-15T13:08:06.2803559Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force 3cf46cd944fc4c30a1f4b53c0c39a25aca0eadfd
+2026-11-15T13:08:07.0810374Z Note: switching to '3cf46cd944fc4c30a1f4b53c0c39a25aca0eadfd'.
+2026-11-15T13:08:07.0810861Z 
+2026-11-15T13:08:07.0811190Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-15T13:08:07.0812598Z changes and commit them, and you can discard any commits you make in this
+2026-11-15T13:08:07.0814201Z state without impacting any branches by switching back to a branch.
+2026-11-15T13:08:07.0814513Z 
+2026-11-15T13:08:07.0814719Z If you want to create a new branch to retain commits you create, you may
+2026-11-15T13:08:07.0815215Z do so (now or later) by using -c with the switch command. Example:
+2026-11-15T13:08:07.0815541Z 
+2026-11-15T13:08:07.0815752Z   git switch -c <new-branch-name>
+2026-11-15T13:08:07.0815944Z 
+2026-11-15T13:08:07.0816128Z Or undo this operation with:
+2026-11-15T13:08:07.0816308Z 
+2026-11-15T13:08:07.0816462Z   git switch -
+2026-11-15T13:08:07.0816605Z 
+2026-11-15T13:08:07.0816862Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-15T13:08:07.0818151Z 
+2026-11-15T13:08:07.0818471Z HEAD is now at 3cf46cd Create the actual W-FULL evidence directory before exclusive writes
+2026-11-15T13:08:07.0926059Z ##[endgroup]
+2026-11-15T13:08:07.1378303Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-15T13:08:07.1661452Z 3cf46cd944fc4c30a1f4b53c0c39a25aca0eadfd
+2026-11-15T13:08:07.1698501Z ##[group]Removing auth
+2026-11-15T13:08:07.1707319Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:08:07.2012845Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-15T13:08:07.7224668Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:08:07.7502518Z http.https://github.com/.extraheader
+2026-11-15T13:08:07.7538375Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2026-11-15T13:08:07.7844858Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-15T13:08:08.2489245Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:08:08.2801872Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-15T13:08:08.7860749Z ##[endgroup]
+2026-11-15T13:08:08.8223261Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-15T13:08:08.8223799Z with:
+2026-11-15T13:08:08.8224126Z   ref: ef7bfa0590876f6a92ebe3dcdc833829f0d43c09
+2026-11-15T13:08:08.8224564Z   path: qualified-source
+2026-11-15T13:08:08.8224888Z   fetch-depth: 1
+2026-11-15T13:08:08.8225172Z   persist-credentials: false
+2026-11-15T13:08:08.8225528Z   set-safe-directory: false
+2026-11-15T13:08:08.8225838Z   submodules: false
+2026-11-15T13:08:08.8226111Z   lfs: false
+2026-11-15T13:08:08.8226471Z   repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:08:08.8228816Z   token: ***
+2026-11-15T13:08:08.8229117Z   ssh-strict: true
+2026-11-15T13:08:08.8229404Z   ssh-user: git
+2026-11-15T13:08:08.8229669Z   clean: true
+2026-11-15T13:08:08.8229983Z   sparse-checkout-cone-mode: true
+2026-11-15T13:08:08.8230338Z   fetch-tags: false
+2026-11-15T13:08:08.8230650Z   show-progress: true
+2026-11-15T13:08:08.8230958Z   allow-unsafe-pr-checkout: false
+2026-11-15T13:08:08.8231400Z env:
+2026-11-15T13:08:08.8231688Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:08:08.8232116Z   GIT_CONFIG_COUNT: 1
+2026-11-15T13:08:08.8232437Z   GIT_CONFIG_KEY_0: core.autocrlf
+2026-11-15T13:08:08.8232775Z   GIT_CONFIG_VALUE_0: false
+2026-11-15T13:08:08.8233103Z ##[endgroup]
+2026-11-15T13:08:08.9476404Z Syncing repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:08:08.9483503Z ##[group]Getting Git version info
+2026-11-15T13:08:08.9484137Z Working directory is 'D:\a\IMPLEMENTAUDIT.md\IMPLEMENTAUDIT.md\qualified-source'
+2026-11-15T13:08:09.0210461Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-15T13:08:09.0576362Z git version 2.56.1.windows.1
+2026-11-15T13:08:09.0617077Z ##[endgroup]
+2026-11-15T13:08:09.0624586Z ##[group]Initializing the repository
+2026-11-15T13:08:09.0635729Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\IMPLEMENTAUDIT.md\IMPLEMENTAUDIT.md\qualified-source
+2026-11-15T13:08:09.0984625Z Initialized empty Git repository in D:/a/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/.git/
+2026-11-15T13:08:09.1026775Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:08:09.1384786Z ##[endgroup]
+2026-11-15T13:08:09.1385516Z ##[group]Disabling automatic garbage collection
+2026-11-15T13:08:09.1394970Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-15T13:08:09.1706689Z ##[endgroup]
+2026-11-15T13:08:09.1707198Z ##[group]Setting up auth
+2026-11-15T13:08:09.1720518Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:08:09.2030412Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-15T13:08:09.7408692Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:08:09.7716530Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-15T13:08:10.2254817Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:08:10.2573812Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-15T13:08:10.7094791Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-15T13:08:10.7409065Z ##[endgroup]
+2026-11-15T13:08:10.7409680Z ##[group]Fetching the repository
+2026-11-15T13:08:10.7430466Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin ef7bfa0590876f6a92ebe3dcdc833829f0d43c09
+2026-11-15T13:08:12.9709225Z From https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:08:12.9709807Z  * branch            ef7bfa0590876f6a92ebe3dcdc833829f0d43c09 -> FETCH_HEAD
+2026-11-15T13:08:12.9744265Z ##[endgroup]
+2026-11-15T13:08:12.9744847Z ##[group]Determining the checkout info
+2026-11-15T13:08:12.9746644Z ##[endgroup]
+2026-11-15T13:08:12.9755867Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-15T13:08:13.0101235Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-15T13:08:13.0401362Z ##[group]Checking out the ref
+2026-11-15T13:08:13.0412043Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force ef7bfa0590876f6a92ebe3dcdc833829f0d43c09
+2026-11-15T13:08:13.8278994Z Note: switching to 'ef7bfa0590876f6a92ebe3dcdc833829f0d43c09'.
+2026-11-15T13:08:13.8279474Z 
+2026-11-15T13:08:13.8279952Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-15T13:08:13.8280618Z changes and commit them, and you can discard any commits you make in this
+2026-11-15T13:08:13.8281368Z state without impacting any branches by switching back to a branch.
+2026-11-15T13:08:13.8281836Z 
+2026-11-15T13:08:13.8282120Z If you want to create a new branch to retain commits you create, you may
+2026-11-15T13:08:13.8282876Z do so (now or later) by using -c with the switch command. Example:
+2026-11-15T13:08:13.8283311Z 
+2026-11-15T13:08:13.8283523Z   git switch -c <new-branch-name>
+2026-11-15T13:08:13.8283812Z 
+2026-11-15T13:08:13.8284011Z Or undo this operation with:
+2026-11-15T13:08:13.8284259Z 
+2026-11-15T13:08:13.8284438Z   git switch -
+2026-11-15T13:08:13.8284675Z 
+2026-11-15T13:08:13.8285041Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-15T13:08:13.8285558Z 
+2026-11-15T13:08:13.8285898Z HEAD is now at ef7bfa0 Correct DG18 diagnostic inventory after actual hosted failure
+2026-11-15T13:08:13.8384367Z ##[endgroup]
+2026-11-15T13:08:13.8715248Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-15T13:08:13.8990817Z ef7bfa0590876f6a92ebe3dcdc833829f0d43c09
+2026-11-15T13:08:13.9026084Z ##[group]Removing auth
+2026-11-15T13:08:13.9034669Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:08:13.9331222Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-15T13:08:14.4242512Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:08:14.4520596Z http.https://github.com/.extraheader
+2026-11-15T13:08:14.4557448Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2026-11-15T13:08:14.4862175Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-15T13:08:14.9536917Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:08:14.9848252Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-15T13:08:15.4697281Z ##[endgroup]
+2026-11-15T13:08:15.5016160Z ##[group]Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+2026-11-15T13:08:15.5016682Z with:
+2026-11-15T13:08:15.5016970Z   python-version: 3.12.10
+2026-11-15T13:08:15.5017300Z   architecture: x64
+2026-11-15T13:08:15.5017570Z   check-latest: false
+2026-11-15T13:08:15.5019902Z   token: ***
+2026-11-15T13:08:15.5020177Z   update-environment: true
+2026-11-15T13:08:15.5020534Z   allow-prereleases: false
+2026-11-15T13:08:15.5020852Z   freethreaded: false
+2026-11-15T13:08:15.5021109Z env:
+2026-11-15T13:08:15.5021398Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:08:15.5021723Z ##[endgroup]
+2026-11-15T13:08:15.6529039Z ##[group]Installed versions
+2026-11-15T13:08:15.6625799Z (node:5964) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-15T13:08:15.6626687Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-15T13:08:15.6627569Z Successfully set up CPython (3.12.10)
+2026-11-15T13:08:15.6629016Z ##[endgroup]
+2026-11-15T13:08:15.6925848Z ##[group]Run $ErrorActionPreference = 'Stop'
+2026-11-15T13:08:15.6926499Z [36;1m$ErrorActionPreference = 'Stop'[0m
+2026-11-15T13:08:15.6927169Z [36;1m$gitCandidates = @('C:\Program Files\Git\ucrt64\bin\git.exe', 'C:\Program Files\Git\mingw64\bin\git.exe')[0m
+2026-11-15T13:08:15.6927957Z [36;1m$directGit = $gitCandidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1[0m
+2026-11-15T13:08:15.6928676Z [36;1mif (-not $directGit) { throw 'No existing qualified direct Git image exists.' }[0m
+2026-11-15T13:08:15.6929251Z [36;1m$source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'[0m
+2026-11-15T13:08:15.6929959Z [36;1m$author = Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py'[0m
+2026-11-15T13:08:15.6930797Z [36;1m$out = Join-Path $env:RUNNER_TEMP ('dg18-w-full-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT)[0m
+2026-11-15T13:08:15.6931591Z [36;1m$controller = 'dg18-w-full-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT[0m
+2026-11-15T13:08:15.6932125Z [36;1m& $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $author `[0m
+2026-11-15T13:08:15.6932579Z [36;1m  --source $source --python $env:DG18_PHYSICAL_PYTHON `[0m
+2026-11-15T13:08:15.6933099Z [36;1m  --bash 'C:\Program Files\Git\usr\bin\bash.exe' --git $directGit `[0m
+2026-11-15T13:08:15.6933560Z [36;1m  --out $out --controller $controller `[0m
+2026-11-15T13:08:15.6934911Z [36;1m  --preparation-authorization-reference 'Owner-designated PRO-EXECUTOR-01: unified commission A.1 and explicit ordinary hosted preparation direction; no native execute grant. https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/e4cba42cb5704f00b78d64e43f5da88501c28229/handoff/dg16-dg18-findings-20261115/PRO_UNIFIED_COMMISSION.md'[0m
+2026-11-15T13:08:15.6937030Z [36;1mif ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }[0m
+2026-11-15T13:08:15.7040510Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-15T13:08:15.7040965Z env:
+2026-11-15T13:08:15.7041329Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:08:15.7041817Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:08:15.7042392Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-15T13:08:15.7042933Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:08:15.7043452Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:08:15.7043943Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:08:15.7044465Z   DG18_PHYSICAL_PYTHON: C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe
+2026-11-15T13:08:15.7044901Z ##[endgroup]
+2026-11-15T13:09:25.9381297Z {
+2026-11-15T13:09:25.9381937Z   "authority": "PREPARATION_ONLY",
+2026-11-15T13:09:25.9382429Z   "automatic_retry": false,
+2026-11-15T13:09:25.9382856Z   "controller": "dg18-w-full-43717382372-1",
+2026-11-15T13:09:25.9383304Z   "inherited_temp_paths": {
+2026-11-15T13:09:25.9383715Z     "TEMP": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp",
+2026-11-15T13:09:25.9384126Z     "TMP": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp"
+2026-11-15T13:09:25.9384451Z   },
+2026-11-15T13:09:25.9384711Z   "last_step": "maintained-prepare",
+2026-11-15T13:09:25.9385078Z   "maintained_environment": {
+2026-11-15T13:09:25.9385556Z     "IMPLEMENTAUDIT_PYTHON": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+2026-11-15T13:09:25.9386032Z     "LC_ALL": "C",
+2026-11-15T13:09:25.9386301Z     "MSYS2_ARG_CONV_EXCL": "*",
+2026-11-15T13:09:25.9387077Z     "PATH": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64;C:\\Program Files\\Git\\ucrt64\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Windows\\System32",
+2026-11-15T13:09:25.9387838Z     "PATHEXT": ".COM;.EXE;.BAT;.CMD",
+2026-11-15T13:09:25.9388160Z     "PYTHONDONTWRITEBYTECODE": "1",
+2026-11-15T13:09:25.9388508Z     "SystemRoot": "C:\\Windows",
+2026-11-15T13:09:25.9390826Z     "TEMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp",
+2026-11-15T13:09:25.9391316Z     "TMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp",
+2026-11-15T13:09:25.9391688Z     "WINDIR": "C:\\Windows"
+2026-11-15T13:09:25.9391943Z   },
+2026-11-15T13:09:25.9392209Z   "original_acceptance_delta": 0,
+2026-11-15T13:09:25.9392527Z   "plan": {
+2026-11-15T13:09:25.9392864Z     "plan": "D:\\a\\_temp\\dg18-w-full-43717382372-1\\operation\\OPERATION.json",
+2026-11-15T13:09:25.9393448Z     "sha256": "489cd0b2c1e0adee6d8497fc68076b814bf78609baa6b6d74eac6aed6cfa39f0",
+2026-11-15T13:09:25.9393943Z     "status": "PREPARED_ONLY_ENTITLED_EXECUTOR_REQUIRED"
+2026-11-15T13:09:25.9394325Z   },
+2026-11-15T13:09:25.9394592Z   "protected_execute_called": false,
+2026-11-15T13:09:25.9395048Z   "run_relative": ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-iiS1Ed",
+2026-11-15T13:09:25.9395586Z   "source_head": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+2026-11-15T13:09:25.9396036Z   "source_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+2026-11-15T13:09:25.9396433Z   "status": "PREPARED_ONLY_EXACT_OWNER_GRANT_REQUIRED",
+2026-11-15T13:09:25.9396783Z   "subject_archive": {
+2026-11-15T13:09:25.9397139Z     "bytes": 3911680,
+2026-11-15T13:09:25.9397542Z     "path": "D:\\a\\_temp\\dg18-w-full-43717382372-1\\SUBJECT.tar",
+2026-11-15T13:09:25.9398023Z     "sha256": "5b1249dc4558880127624448719ff19d16b61ef05e82b06a7f7d478bc2cb1b58"
+2026-11-15T13:09:25.9398417Z   },
+2026-11-15T13:09:25.9398736Z   "subject_head": "de648082f329d5afffe06b1be9035dbde9bf67bb",
+2026-11-15T13:09:25.9399332Z   "subject_root": "D:\\a\\_temp\\dg18-w-full-43717382372-1\\subject",
+2026-11-15T13:09:25.9399780Z   "subject_tree": "67272a0f396f9c715813bf790a5b324bd4d6e054",
+2026-11-15T13:09:25.9400164Z   "tools": {
+2026-11-15T13:09:25.9400423Z     "bash": {
+2026-11-15T13:09:25.9400728Z       "path": "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+2026-11-15T13:09:25.9401230Z       "sha256": "5490d0da5e7cf9d92068cc48fcc590f2bcf8564add8ff91c3b5fe541eb2d72e3"
+2026-11-15T13:09:25.9402122Z     },
+2026-11-15T13:09:25.9402356Z     "git": {
+2026-11-15T13:09:25.9402640Z       "path": "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+2026-11-15T13:09:25.9403128Z       "sha256": "9bf8ee81d79f38a11eaf7799499a634c46a718e009a4a9b2b20b115804643302"
+2026-11-15T13:09:25.9403573Z     },
+2026-11-15T13:09:25.9403843Z     "python": {
+2026-11-15T13:09:25.9404193Z       "path": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+2026-11-15T13:09:25.9404688Z       "sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+2026-11-15T13:09:25.9405130Z     }
+2026-11-15T13:09:25.9405350Z   }
+2026-11-15T13:09:25.9405569Z }
+2026-11-15T13:09:25.9955105Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-15T13:09:25.9955726Z with:
+2026-11-15T13:09:25.9956157Z   name: dg18-w-full-preparation-43717382372-1
+2026-11-15T13:09:25.9956534Z   if-no-files-found: error
+2026-11-15T13:09:25.9956889Z   retention-days: 7
+2026-11-15T13:09:25.9957723Z   path: D:\a\_temp/dg18-w-full-43717382372-1/PREPARATION.json
+D:\a\_temp/dg18-w-full-43717382372-1/SUBJECT.tar
+D:\a\_temp/dg18-w-full-43717382372-1/raw/**
+D:\a\_temp/dg18-w-full-43717382372-1/operation/**
+
+2026-11-15T13:09:25.9958529Z   compression-level: 6
+2026-11-15T13:09:25.9958830Z   overwrite: false
+2026-11-15T13:09:25.9959141Z   include-hidden-files: false
+2026-11-15T13:09:25.9959437Z env:
+2026-11-15T13:09:25.9959796Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:09:25.9960200Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:09:25.9960761Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-15T13:09:25.9961390Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:09:25.9961892Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:09:25.9962357Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-15T13:09:25.9962757Z ##[endgroup]
+2026-11-15T13:09:26.1944957Z (node:3680) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-15T13:09:26.1945807Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-15T13:09:26.2327012Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-15T13:09:26.2330142Z The least common ancestor is D:\a\_temp\dg18-w-full-43717382372-1. This will be the root directory of the artifact
+2026-11-15T13:09:26.2330998Z With the provided path, there will be 72 files uploaded
+2026-11-15T13:09:26.2335683Z Artifact name is valid!
+2026-11-15T13:09:26.2338179Z Root directory input is valid!
+2026-11-15T13:09:26.4664939Z Beginning upload of artifact content to blob storage
+2026-11-15T13:09:26.6624887Z (node:3680) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-15T13:09:27.0066700Z Uploaded bytes 1132193
+2026-11-15T13:09:27.0433786Z Finished uploading artifact content to blob storage!
+2026-11-15T13:09:27.0435156Z SHA256 digest of uploaded artifact zip is 2e32a722f4e57671328858f5b91a3fe8f8deacb18cd6f9ab45a6b0851c2d280b
+2026-11-15T13:09:27.0437401Z Finalizing artifact upload
+2026-11-15T13:09:27.4010229Z Artifact dg18-w-full-preparation-43717382372-1.zip successfully finalized. Artifact ID 14163012153
+2026-11-15T13:09:27.4011623Z Artifact dg18-w-full-preparation-43717382372-1 has been successfully uploaded! Final size is 1132193 bytes. Artifact ID is 14163012153
+2026-11-15T13:09:27.4020512Z Artifact download URL: https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43717382372/artifacts/14163012153
+2026-11-15T13:09:27.4368202Z Post job cleanup.
+2026-11-15T13:09:27.5821534Z (node:6468) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-15T13:09:27.5822277Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-15T13:09:27.6107337Z Post job cleanup.
+2026-11-15T13:09:27.8059097Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-15T13:09:27.8348826Z git version 2.56.1.windows.1
+2026-11-15T13:09:27.8406060Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:09:27.8730760Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-15T13:09:28.3817806Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:09:28.4144707Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-15T13:09:28.9201862Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:09:28.9523475Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-15T13:09:29.5256602Z Post job cleanup.
+2026-11-15T13:09:29.7137482Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-15T13:09:29.7422025Z git version 2.56.1.windows.1
+2026-11-15T13:09:29.7481134Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:09:29.7798616Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-15T13:09:30.3311645Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:09:30.3628946Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-15T13:09:30.8916659Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:09:30.9249542Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-15T13:09:31.4594210Z Cleaning up orphan processes
+2026-11-15T13:09:31.5141344Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

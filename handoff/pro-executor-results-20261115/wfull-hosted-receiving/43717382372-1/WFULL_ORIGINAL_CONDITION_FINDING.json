@@ -1,0 +1,89 @@
+{
+  "actual_preparation_receiving": {
+    "bytes": 41573,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43717382372/RECEIVING.json",
+    "sha256": "fc24a2587a3c1e3f28b1bb26c3c48ef15f0501d8810eef55971c4ebe0c37b5ea"
+  },
+  "authority": "NONE",
+  "disposition": "ORIGINAL_HAS_NO_TWO_OWNER_WINDOW_CONJUNCT_COMMISSION_CONDITION_NEEDS_EXPLICIT_DISPOSITION_IN_EXISTING_NATIVE_GRANT",
+  "exact_prepared_operation": {
+    "bytes": 43816,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43717382372/artifact/operation/OPERATION.json",
+    "sha256": "489cd0b2c1e0adee6d8497fc68076b814bf78609baa6b6d74eac6aed6cfa39f0"
+  },
+  "findings": [
+    {
+      "finding": "Current issue #215 and its sole criterion-5 amendment do not require two concurrent DG16/DG17 owner originals or a common live window. Their actual compaction population, source/custody/effect/receiving obligations and prospective Windows envelope remain binding. The concurrency language for a concurrent writer is a negative transactional control, not a two-owner live scheduling requirement.",
+      "id": "ORIGINAL_SCOPE",
+      "locators": [
+        "issue215 Complete original R0039 acceptance",
+        "issue215 Performance qualification",
+        "comment5638756120 Required controls"
+      ]
+    },
+    {
+      "finding": "The commission C W-FULL row expressly requires a native Windows host measurement plus two concurrent DG16/DG17 owner originals. This is an added owner commission condition, not text derived from original #215. Commission A.3 separately requires a fresh native grant naming the exact operation record.",
+      "id": "COMMISSION_SCOPE",
+      "locators": [
+        "commission A.3 Native launch grants",
+        "commission C DG18 W-FULL row"
+      ]
+    },
+    {
+      "finding": "Implementation-specific common-window machinery can be retired under the latest owner-directed engineering scope as reported by Root. That does not by itself establish that the explicit two-owner commission condition was waived. No concurrent records exist in this receiving and none are inferred.",
+      "id": "RETIREMENT_BOUND",
+      "limitation": "The latest owner direction is supplied by Root in this session; this receiver does not enlarge its authority or claim a more specific waiver than the supplied words."
+    },
+    {
+      "finding": "Resolve the commission row in the already-required single exact native operation grant: the owner can expressly retire that added condition for this operation, or retain it and name authentic applicable evidence. No separate campaign, manufactured concurrent originals, or additional approval workflow is required by this finding.",
+      "id": "MINIMAL_DISPOSITION"
+    }
+  ],
+  "grant_issued": false,
+  "native_execute": false,
+  "operation_changed": false,
+  "original_awards": [],
+  "received_utc": "2026-11-15T13:21:41.697781+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authoring_context_reused": false,
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.dg18.wfull-original-condition-independent-finding.v1",
+  "sources": {
+    "comment5638756120_body": {
+      "bytes": 4943,
+      "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+    },
+    "comment5638756120_provider_readback": {
+      "bytes": 6675,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_ORIGINAL_COMMENT5638756120_READBACK.json",
+      "sha256": "29ccdd9234c7c2dc65c414b85a342321c84054ea8ae53cf4d172ae469c11749e"
+    },
+    "commission": {
+      "bytes": 15837,
+      "git_commit": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+      "path": "handoff/dg16-dg18-findings-20261115/PRO_UNIFIED_COMMISSION.md",
+      "sha256": "dd39e59d9a1b70c11630773b02a747321196fe1d6fb5ed113b37184e647e96c3"
+    },
+    "issue215_exact_body": {
+      "bytes": 35566,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/ISSUE215_CURRENT.md",
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    },
+    "issue215_provider_readback": {
+      "bytes": 38565,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_ORIGINAL_ISSUE215_READBACK.json",
+      "sha256": "8dd89347ca45204e19f2c3053ba9d7c7129d4db6581d2bd8bf0a8bc7cad5e5cf"
+    },
+    "issue215_updated_at": "2026-10-23T07:25:46Z"
+  },
+  "unchanged_native_limits": {
+    "baseline_subtraction_bytes": 0,
+    "complete_process_and_descendant_accounting_required": true,
+    "maximum_aggregate_job_committed_bytes": 201326592,
+    "maximum_ms": 60000
+  }
+}

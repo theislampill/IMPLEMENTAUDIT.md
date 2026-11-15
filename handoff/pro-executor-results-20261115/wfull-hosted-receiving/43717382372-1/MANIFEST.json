@@ -1,0 +1,80 @@
+{
+  "members": {
+    "ARTIFACT_MANIFEST.json": {
+      "bytes": 14010,
+      "sha256": "8f5025a38ceabfe9062bfb12260547479bce3170bef5ee1ee6c48266dd5f52b0"
+    },
+    "OPERATION_JOIN.json": {
+      "bytes": 6530,
+      "sha256": "9916eeb47a565906f495642b88c92a810f453a8b59a5ed3bcfe56c6ae600e5c2"
+    },
+    "PUBLICATION_INDEPENDENT_RECEIVING.json": {
+      "bytes": 2670,
+      "sha256": "ca96a4a1e551f1d8e23f9b3f7c9fbd0ec759d1f23d56b52ad3d914e9f3885a8d"
+    },
+    "RECEIVING.json": {
+      "bytes": 41573,
+      "sha256": "fc24a2587a3c1e3f28b1bb26c3c48ef15f0501d8810eef55971c4ebe0c37b5ea"
+    },
+    "RECEIVING.md": {
+      "bytes": 4019,
+      "sha256": "f0b54d0b6508adca0249a55bbef913414f2b69961934de5b3af316d0396f2a9e"
+    },
+    "SUBJECT_MANIFEST.json": {
+      "bytes": 43501,
+      "sha256": "99f2b6b487cd7aafb268926ce8deab510e360b9d48e1cb5a188b3589e8311082"
+    },
+    "WFULL_ORIGINAL_CONDITION_FINDING.json": {
+      "bytes": 5035,
+      "sha256": "e7c4ab1d8cf8592b7b09eb9abeac64558a63e34d525facba20388d59254b4820"
+    },
+    "WFULL_ORIGINAL_CONDITION_FINDING.md": {
+      "bytes": 1966,
+      "sha256": "23fb3866b78ea5ce3188075874d861e2511a3f3d9f0b83ec27bdfa35835e3cbb"
+    },
+    "artifact/PREPARATION.json": {
+      "bytes": 2435,
+      "sha256": "ff9ceabce426620da92c61b70cda278d606d9c8a9c77a875acb35e76c6a3b94e"
+    },
+    "artifact/operation/OPERATION.json": {
+      "bytes": 43816,
+      "sha256": "489cd0b2c1e0adee6d8497fc68076b814bf78609baa6b6d74eac6aed6cfa39f0"
+    },
+    "artifact/raw/019-maintained-prepare.json": {
+      "bytes": 1080,
+      "sha256": "e1018b7d84c356b3c06f55ea3f30548aa8170e607d702792f0ce3ba57052e965"
+    },
+    "artifact/raw/019-maintained-prepare.stdout": {
+      "bytes": 224,
+      "sha256": "1cacff3f44999139b9c380f1cc52d9a4877cbdf092db3d1c66c6ed8be34c38d2"
+    },
+    "dg18-w-full-preparation-43717382372-1.zip": {
+      "bytes": 1132193,
+      "sha256": "2e32a722f4e57671328858f5b91a3fe8f8deacb18cd6f9ab45a6b0851c2d280b"
+    },
+    "final_run.json": {
+      "bytes": 13972,
+      "sha256": "5312ac811eb3d1383b0af653dce696e91cefc3cac9d49baef2c4bfc91eea8cf9"
+    },
+    "job_logs.log": {
+      "bytes": 32401,
+      "sha256": "092a36284558c2dcfdfbba70612bb4af32a844292ddefc65941ee139bf5980f6"
+    },
+    "provider_commit.json": {
+      "bytes": 1516,
+      "sha256": "03ba9c8bce030a97cab2b0a0296436ef80406d1f645ae24a1e378722d4050655"
+    },
+    "provider_ref.json": {
+      "bytes": 494,
+      "sha256": "6eedc5fd2c430a6c3a41797d9e1bc5f5e1391ad1b39b99d212d6d48bf8624ccf"
+    }
+  },
+  "original_acceptance_delta": 0,
+  "original_archive_preserved": true,
+  "private_materialization_transport_metadata_excluded": true,
+  "protected_execute": false,
+  "run_attempt": 1,
+  "run_id": 43717382372,
+  "schema": "pro.dg18.public-successful-preparation-evidence.v1",
+  "status": "RECEIVED_EXACT_PREPARED_OPERATION_NO_EXECUTE_GRANT"
+}
