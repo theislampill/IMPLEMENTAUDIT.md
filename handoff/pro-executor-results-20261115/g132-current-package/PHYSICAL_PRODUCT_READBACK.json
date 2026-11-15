@@ -1,0 +1,21 @@
+{
+  "actor": "PRO-EXECUTOR-01",
+  "all_actual_file_bytes_modes_and_git_blobs_match": true,
+  "authority": "NONE",
+  "bytes": 167022772,
+  "commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "effects": "READ_ONLY_SOURCE_CLOSURE",
+  "elapsed_seconds": 0.6973087780024798,
+  "errors": [],
+  "files": 1766,
+  "manifest": {
+    "bytes": 495602,
+    "sha256": "7cd236053a3f27003aad3d3cd30b37ef95b09b0eea786f5896155af1498d8117"
+  },
+  "observed_utc": "2026-11-15T11:48:35.841700+00:00",
+  "original_awards": [],
+  "schema": "pro.g132.physical-product-readback.v1",
+  "source_root": "/workspace/scratch/0269e6626329/g132-maintained-source",
+  "tracked_clean": true,
+  "tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"
+}

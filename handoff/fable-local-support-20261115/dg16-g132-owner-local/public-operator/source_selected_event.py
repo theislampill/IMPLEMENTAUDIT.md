@@ -69,9 +69,9 @@ def module(row):
 
 def selected(raw):
     v=parse(raw)
-    fields={'schema','purpose','product_commit','product_tree','host_tree','phase_sha256',
+    fields={'schema','successor','purpose','product_commit','product_tree','host_tree','phase_sha256',
             'receiver','event_owner','recipient_owner','assembler_owner','private_input_directory','root_source_receiving'}
-    need(type(v) is dict and set(v)==fields and v['schema']=='dg16.native-event-source-selection.v1','EXACT_SELECTION')
+    need(type(v) is dict and set(v)==fields and v['schema']=='dg16.native-event-source-selection.v1' and v['successor']=='PRO-EXECUTOR-01, designated by owner','EXACT_SELECTION')
     need(v['purpose'] in ('DONOR_PREFLIGHT_ONLY','FINAL_ORIGINAL_ACCEPTANCE'),'SELECTION_PURPOSE')
     for key in ('product_commit','product_tree','host_tree'):
         need(type(v[key]) is str and re.fullmatch('[0-9a-f]{40}',v[key]) is not None,'FULL_SUBJECT_ID')

@@ -15,7 +15,7 @@ BROKER_SHA='827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed'
 PROFILE='ROOT_SUPPORTED_GITHUB_FETCH_ARTIFACT_LIST_FILE_BROKER_V2'
 REPRESENTATION='SUPPORTED_COMPLETE_RUN_ARTIFACT_LIST_SELECTED_V1'
 CORE='tree/qualification/dg16-r5-g1-hosted-episode/'
-AUTHOR_PINS = {'author/compose.py': 'd777e5c211385b36bebc089b413395e86ea8066ddaece020e6e27cd05a525cdd', 'author/workflow.py': '2c4348240873c9c7d816574044d6a10331805da14695438bfd5a3299da61c470', 'author/sender_assembly.py': '604922c0ee2091d2698e97915cda1636e98036389ad6302f4f976d93f43d6884', 'inputs/TEMPLATE_INDEX.json': '8a6ec388b489ce8f09d1f9b91119de175d7b439486dc5492a5d94d6c5106eddb'}
+AUTHOR_PINS = {'author/compose.py': 'c1761dcffba337c1e26c9cf5077620184896f1e30fcc107ca4210884e4be0a3e', 'author/sender_assembly.py': '6436ef140b7b5adda941c978358ad75fbc0529883090e1f90f1533da03e11344', 'author/workflow.py': '2c4348240873c9c7d816574044d6a10331805da14695438bfd5a3299da61c470', 'inputs/TEMPLATE_INDEX.json': 'c42fc587c8fd8be787e0dd868885b459e8db7213a319efd3b5161a83b495679f'}
 sha=lambda b:hashlib.sha256(b).hexdigest()
 desc=lambda b:dict(bytes=len(b),sha256=sha(b))
 encode=lambda v:(json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False)+'\n').encode()
@@ -126,7 +126,7 @@ def dispatcher_requirements(dispatcher_source,late_packet,selection,late_receivi
     Root owns Windows/WSL helper adaptation/installation and real dispatch
     admission. This function emits an authority-NONE requirements object only.
     """
-    need(sha(dispatcher_source)=='14e9a31aff1220490c3c63e04b9fd8b4ef5a3cc6569f8e4e68af18197b70be80','CURRENT04_CORRECTED_DISPATCHER_DERIVER_PIN')
+    need(sha(dispatcher_source)=='c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad','CURRENT04_CORRECTED_DISPATCHER_DERIVER_PIN')
     m=types.ModuleType('current04_dispatcher_requirements');m.__file__='/immutable-author/bind_dispatcher.py'
     exec(compile(dispatcher_source,m.__file__,'exec'),m.__dict__)
     m.Path=PurePosixPath

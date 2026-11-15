@@ -1,0 +1,40 @@
+{
+  "authority": "NONE",
+  "live_sender_changed_pins_received": [
+    "pipeline",
+    "binary",
+    "resolver"
+  ],
+  "operator_members_received": 141,
+  "operator_pins_sha256": "1dc89a4db2db5737edcf5b5896485798d4fe2a40c6860b4f089c79b220da48c3",
+  "pipeline_binary_gate": "ACTUAL_INPUT_RECEIVED",
+  "previous_whitespace_check": {
+    "actual_exit_code": 0,
+    "command": "git -c core.whitespace=cr-at-eol diff --check",
+    "reason": "PRESERVE_REVIEWED_CRLF_BYTES"
+  },
+  "protected_or_native_effects": false,
+  "results": [
+    {
+      "actual_call_line": 222,
+      "actual_resolver_sha256": "e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149",
+      "elapsed_seconds": 0.000546513001609128,
+      "result": "ACTUAL_INPUT_RECEIVED",
+      "source": "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/binary_publish_v3.py",
+      "source_sha256": "7143a193ac02131b4efed80b2ff80f53d9fb64540bff40284049265c1223eff4",
+      "wrong_pin_refused": "ACTUAL_SOURCE_INPUT_PIN"
+    },
+    {
+      "actual_call_line": 237,
+      "actual_resolver_sha256": "e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149",
+      "elapsed_seconds": 0.0004520210022747051,
+      "result": "ACTUAL_INPUT_RECEIVED",
+      "source": "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/root_pipeline_inputs_v2.py",
+      "source_sha256": "347205482ab76b60fb9b9fddda0c316240cb7c0ef5a711ed47c5ccd86eeed49b",
+      "wrong_pin_refused": "ROOT_SELECTED_INPUT_HASH"
+    }
+  ],
+  "schema": "pro.g132.resolver-binding-green.v1",
+  "scope": "REAL_PHYSICAL_FILE_READ_GATES_AND_CHANGED_TRANSITIVE_BINDINGS_ONLY",
+  "source_selection_sha256": "3ba27feca194e0ad36c8600756d3f74733f0b82385f69d24203c92e76030b77f"
+}

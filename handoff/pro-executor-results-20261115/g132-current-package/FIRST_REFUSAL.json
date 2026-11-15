@@ -1,0 +1,26 @@
+{
+  "actual_function": "receive_flat_nonpackage_successor",
+  "actual_retained_m5_bodies": {
+    "M5_RECEIPT.json": {
+      "bytes": 2873,
+      "sha256": "607f7fa15726a72954ccbe14d539e8c7422e13f848cd1146712967de7c246840"
+    },
+    "M5_RECEIVING.json": {
+      "bytes": 22867,
+      "sha256": "73bfbab6178344e90a116d50218f43766079a1f4c4e501e2bf9839841c0200f5"
+    },
+    "M5_SOURCE_MANIFEST.json": {
+      "bytes": 495517,
+      "sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743"
+    }
+  },
+  "elapsed_seconds": 5.569299901253544e-05,
+  "first_failing_predicate": "UNCHANGED_EVIDENCE_POPULATION",
+  "missing_historical_demand": "SOURCE_ACQUISITION_08E6.json",
+  "original_awards": [],
+  "protected_effects": 0,
+  "result": "REFUSED",
+  "schema": "pro.g132.package-input-population-reproduction.v1",
+  "scope": "TEST_ONLY_INCOMPLETE_INPUT_POPULATION_NO_ROOT_ADOPTION",
+  "source_changed": false
+}

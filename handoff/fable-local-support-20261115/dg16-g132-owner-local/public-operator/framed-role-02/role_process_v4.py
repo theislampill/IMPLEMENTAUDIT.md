@@ -16,9 +16,9 @@ import types
 import urllib.parse
 
 ISSUER = 'PRO-EXECUTOR-01'
-ROLE_ROOT = Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02')
-RECEIVER_SHA = '5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab'
-RESOLVER_SHA = '377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b'
+ROLE_ROOT = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
+RECEIVER_SHA = '0676910949eec3aada03d5c5feb37df88daebf217256f17fb46f6a0b8c22a1a7'
+RESOLVER_SHA = 'e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149'
 PROFILE = 'ONE_PINNED_G1_FRAMED_TTY_ROLE_V1'
 
 
@@ -203,10 +203,10 @@ def main(argv=None):
     config_raw = owned_read(argv[1], 65536)
     need(digest(config_raw) == argv[3], 'ACTUAL_CONFIGURATION_CHANGED')
     c = parse(config_raw)
-    fields = {'schema','issuer_thread','phase','context','session_directory','deadline_unix_ms',
+    fields = {'schema','issuer_thread','successor','phase','context','session_directory','deadline_unix_ms',
               'admission','initial_session','actual_root_decision'}
     need(type(c) is dict and set(c) == fields and c['schema'] == 'dg16.g1-framed-role-configuration.v1'
-         and c['issuer_thread'] == ISSUER, 'EXACT_ROOT_CONFIGURATION')
+         and c['issuer_thread'] == ISSUER and c['successor'] == 'PRO-EXECUTOR-01, designated by owner', 'EXACT_ROOT_CONFIGURATION')
     def bound_input(row, maximum):
         need(type(row) is dict and set(row) == {'path','sha256'}, 'EXACT_INPUT_DESCRIPTOR')
         body = owned_read(row['path'], maximum)
@@ -214,7 +214,7 @@ def main(argv=None):
         return body
     context_raw = bound_input(c['context'], 16384)
     admission = parse(bound_input(c['admission'], 65536))
-    expected = dict(schema='dg16.g1-framed-role-admission.v1', issuer_thread=ISSUER,
+    expected = dict(schema='dg16.g1-framed-role-admission.v1', issuer_thread=ISSUER, successor='PRO-EXECUTOR-01, designated by owner',
                     status='ADMIT_ONE_ROOT_FRAMED_ARTIFACT_ROLE', profile=PROFILE,
                     phase=c['phase'], context=c['context'], session_directory=c['session_directory'],
                     deadline_unix_ms=c['deadline_unix_ms'], receiver_sha256=RECEIVER_SHA,

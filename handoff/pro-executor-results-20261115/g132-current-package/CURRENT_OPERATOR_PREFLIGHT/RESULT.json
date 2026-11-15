@@ -1,0 +1,70 @@
+{
+  "actual_uid": 1000,
+  "all_passed": true,
+  "five_future_Root_bodies_created": false,
+  "host_tree": "e81ffaf2959df5da5a6203b66b0b3e0819eae82c",
+  "native_or_provider_or_control_effects": 0,
+  "operator_index_sha256": "d818380a4c886f5c62ee25eb647a70307dd0c287c761b32ef192f61f2d32c77c",
+  "original_awards": [],
+  "phase_sha256": "06a1cd10de8c918e0e2f214cbadf43538f7bc7f2bd4d45e9e241e2aec44e3ae9",
+  "protected_launch": false,
+  "results": [
+    {
+      "command": [
+        "python",
+        "-I",
+        "-S",
+        "-B",
+        "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/source_selected_event.py",
+        "--selection",
+        "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/SOURCE_SELECTION.json",
+        "--selection-sha256",
+        "3ba27feca194e0ad36c8600756d3f74733f0b82385f69d24203c92e76030b77f",
+        "preflight"
+      ],
+      "elapsed_seconds": 0.22728122500120662,
+      "exit_code": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 424,
+        "sha256": "5fb92d87b48486788db565a3b2193065ff25482eed19ed16dbbba17da6085a9b"
+      }
+    },
+    {
+      "command": [
+        "python",
+        "-I",
+        "-S",
+        "-B",
+        "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/assemble_actual.py",
+        "--stage",
+        "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01",
+        "--host-phase",
+        "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase",
+        "--root-reader",
+        "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/author/receiver.py",
+        "--dispatcher-source",
+        "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/dispatcher-templates-02/bind_dispatcher.py",
+        "--private-inputs",
+        "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+        "--preflight"
+      ],
+      "elapsed_seconds": 0.15731795199826593,
+      "exit_code": 0,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 286,
+        "sha256": "f5313ed954c02d455c527a62e4c32abf5ba02dd236c09db9244de54d1bf0dbad"
+      }
+    }
+  ],
+  "schema": "pro.g132.current-operator-preflight.v1",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "timing_scope": "Actual read-only selected source/private-input/author/dispatcher preflight; no claim of live provider/Root-effect-chain timing"
+}

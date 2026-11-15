@@ -1,4 +1,4 @@
-PRIOR_PACKAGE_ADDED_SOURCE_PATHS = {'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-runtime-default-acl-execution-profile.json': {'bytes': 9118, 'git_blob': '7659b8fd51325fe67ae708f79844838933cc32c3', 'mode': '100644', 'path': 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-runtime-default-acl-execution-profile.json', 'sha256': '94782c8c05f766d0cc0eeeb75d00352e9e5ff7fa1bd2e0968b5a580daff09256'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-runtime-directory-mode-execution-profile.json': {'bytes': 9327, 'git_blob': 'ee8dcfa6c0fb69380519fd027ebfe962873871df', 'mode': '100644', 'path': 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-runtime-directory-mode-execution-profile.json', 'sha256': '5a70e74151d2daa2813a7ee3b3ca1188a76ceb3d3354af01a35b30a1f1ecfaa0'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-template-population-execution-profile.json': {'bytes': 8814, 'git_blob': '8d476837e7dfd9111020f57c8909b3b60058eb91', 'mode': '100644', 'path': 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-template-population-execution-profile.json', 'sha256': '96f64a192d0e91bda5d740d674c05329c5ef805ddf6cbe50b0fc6b87f30839fa'}, 'test-support/native-operational-source-history/.gitattributes': {'bytes': 16, 'git_blob': 'fb3a3ee9a76633276ee98fc481ec81f33ee87708', 'mode': '100644', 'path': 'test-support/native-operational-source-history/.gitattributes', 'sha256': '109c335ccc45c5e25b7ba68292d6373b2ac6d5d18a9d0959f4bce0fdfcf39984'}, 'test-support/native-operational-source-history/fixtures/canonical-state-rotation/query-cursor-cases.json.fixture': {'bytes': 551, 'git_blob': '65ae7243b999979598a4f34e85d985d0006e6ba9', 'mode': '100644', 'path': 'test-support/native-operational-source-history/fixtures/canonical-state-rotation/query-cursor-cases.json.fixture', 'sha256': '06722d72bc3b7ebda17cd60b269c6547a73dc01eb665e43864478322ad65ad6d'}, 'test-support/native-operational-source-history/manifest.json': {'bytes': 2947, 'git_blob': '2792cfdadf97fb6b5247aec21c3e51055ee94c8a', 'mode': '100644', 'path': 'test-support/native-operational-source-history/manifest.json', 'sha256': 'fbf2b863a95e70fc6621bcbeb60641b722287b10ace78c14552e677e121dd44c'}, 'test-support/native-operational-source-history/skills/audit-state/SKILL.md.fixture': {'bytes': 15705, 'git_blob': '6da5dd98e3cfb8a2ec437452cfa97418d6567a69', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/audit-state/SKILL.md.fixture', 'sha256': '77098bf79bf8149ba956a426f2594ea76ecc37b7ce85c243fefcfaeaaf2afabc'}, 'test-support/native-operational-source-history/skills/implementaudit/SKILL.md.fixture': {'bytes': 21974, 'git_blob': '0f60d91ba82adecacf7334ef56d42ed9c35b9676', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/SKILL.md.fixture', 'sha256': '1d0adf2a8c5bf8d984ae689b95e1742558bb6af53f0473e6409aa99b1256d208'}, 'test-support/native-operational-source-history/skills/implementaudit/references/route-obligations.md.fixture': {'bytes': 24980, 'git_blob': 'f54b3a07a18cd99abe476f2ad05a47f0e39d57c5', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/references/route-obligations.md.fixture', 'sha256': 'df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/canonical_hot_projection.py.fixture': {'bytes': 12058, 'git_blob': 'f279932d75a51f6b0cd0ec084b2f9cdb073fad00', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/canonical_hot_projection.py.fixture', 'sha256': '0c5fb125e59b3493c2f3c9baf6a7704ccb2b5fc486f9363a028055f3d6cfad7c'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/claim-run-combined.sh.fixture': {'bytes': 96708, 'git_blob': '56da15476e168606963b7a39830700ced6ad5686', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/claim-run-combined.sh.fixture', 'sha256': '9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/claim-run.sh.fixture': {'bytes': 96055, 'git_blob': 'd94887ca3a413a279c986a35ebd220c43c3ef0d0', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/claim-run.sh.fixture', 'sha256': '07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/compile-work-graph.py.fixture': {'bytes': 124875, 'git_blob': '3d18c445e5d41e80c515c9251da2260af8c53947', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/compile-work-graph.py.fixture', 'sha256': '37c5d68830e9f2d0034ada3f661de7b48393c8ab265f611ef5412e8f41ffba8f'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/rotate-canonical-state.py.fixture': {'bytes': 262594, 'git_blob': '49c305b4979f0eaa292d0ccb7ef1047d32333364', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/rotate-canonical-state.py.fixture', 'sha256': 'd0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/route-transaction.py.fixture': {'bytes': 335077, 'git_blob': '7969902b1bb8dae192a4dcef795d93ba216229b3', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/route-transaction.py.fixture', 'sha256': '6e92da026b597bad2946ee7feff71e73ebaf91d0509ccb3a6d5ea1fabe7e08e3'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/route_request_policy.py.fixture': {'bytes': 5191, 'git_blob': 'cc7cf0eca3ea04702178327a564ec06e12b61d10', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/route_request_policy.py.fixture', 'sha256': 'ea69123930803e428630b51565b6c7f58d079262f3feda34d95c31f0fdd6375f'}, 'test-support/native-operational-source-history/skills/implementaudit/scripts/validate-run-root.sh.fixture': {'bytes': 75292, 'git_blob': '1f9f422c291ce0169e89a66dfb2b5443d0a15629', 'mode': '100644', 'path': 'test-support/native-operational-source-history/skills/implementaudit/scripts/validate-run-root.sh.fixture', 'sha256': 'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'}, 'test-support/r5-c5-source-history/source5c7e/scripts/qualify-work-graph-verifier.py': {'bytes': 265973, 'git_blob': '958117710a7a6ca6596c529d8b4fe310e4ea6ffb', 'mode': '100644', 'path': 'test-support/r5-c5-source-history/source5c7e/scripts/qualify-work-graph-verifier.py', 'sha256': 'cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c'}, 'test-support/r5-runtime-default-acl-source/work-graph-c5-executor.py': {'bytes': 103819, 'git_blob': 'ec0df169599ca9393dff1983519aeb73b8e29bf6', 'mode': '100644', 'path': 'test-support/r5-runtime-default-acl-source/work-graph-c5-executor.py', 'sha256': 'b2ca6122d61d3238c853fdbf1d1c6b23e7808b2dbd18e241d41e3b310c44145a'}, 'test-support/r5-runtime-directory-mode-source/work-graph-c5-executor.py': {'bytes': 108100, 'git_blob': 'a980fc5b304970b6fb03fd075231ce4fa47b1289', 'mode': '100644', 'path': 'test-support/r5-runtime-directory-mode-source/work-graph-c5-executor.py', 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'test-support/r5-runtime-directory-reason-source/work-graph-c5-executor.py': {'bytes': 85522, 'git_blob': '4e69769f6140ccd1d0480d6400cbd1675a7527d9', 'mode': '100644', 'path': 'test-support/r5-runtime-directory-reason-source/work-graph-c5-executor.py', 'sha256': '3a870369ca48a489348d27dc111faf29131f0026061ff703c693fe9297d46084'}}
+PRIOR_PACKAGE_ADDED_SOURCE_PATHS = {}
 #!/usr/bin/env python3
 """Prospective DG16 G3 receiving in the selected G1 job's actual custody.
 
@@ -34,7 +34,7 @@ COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 COMPILER_SHA = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
 COMPILER_BYTES = 262144
 OWNER = 'skills/implementaudit/scripts/claim-run.sh'
-SCOPE_SHA = '440e2635ff7761631b7b34ff7997256b97fbd2968b3b7bd310b197ea2741b3a2'
+SCOPE_SHA = '8c08f2aecd34f582f3662b5bc83b3d3a27cee33d2f17711ced868a1d7b11c96a'
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
 JOB_BRANCH = 'pro/dg16-g1-original-g3-32-20261114'
 CONTROL_BRANCH = 'pro/dg16-g1-g3-control-32-20261114'
@@ -680,7 +680,7 @@ def receive_unchanged_package_successor(acquired, basis, bodies):
     return relation
 
 
-PRIOR_PACKAGE_SOURCE_ROWS = {'fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py': {'bytes': 33063, 'git_blob': '259dcc4c6275010385858f51c3efed837163e3fd', 'mode': '100644', 'path': 'fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py', 'sha256': 'e166953fae131a4aa0e35d4a0ca694ae9bcc918ef7e5e66e21d230ab3bbeb6cf'}, 'fixtures/operational-evidence/native-currentness-cost-controls.py': {'bytes': 23373, 'git_blob': 'e576eec83592737a283a9576009e1ec668a0407f', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-currentness-cost-controls.py', 'sha256': '0c95f6c6d947ee65c6e57313adfeed22c71874f1ab35969a075e5ef83596f249'}, 'fixtures/operational-evidence/native-episode-controls/native_test_support.py': {'bytes': 7676, 'git_blob': '5f8fc9767b2a475288dd144c61378ec118e9dc74', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-episode-controls/native_test_support.py', 'sha256': '4ba12ed3ff835ccfc154d6361b69fd44b19154a3ad4ff9282986e5bb1050613a'}, 'fixtures/operational-evidence/native-episode-controls/test_existing_owner_additions.py': {'bytes': 9368, 'git_blob': 'f24a707a497a5438435afd6d5b0ae84ceeb35f68', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-episode-controls/test_existing_owner_additions.py', 'sha256': 'f20a823bcc915c9919b69cd178e3e334a410e5a58ce7c000b96f94eda34f8e16'}, 'fixtures/operational-evidence/native-episode-controls/test_pending_integration.py': {'bytes': 3756, 'git_blob': 'e1ce5a4aebc613f76840919554e470d3f9e9d477', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-episode-controls/test_pending_integration.py', 'sha256': '29c8ea17cf65c3f73e253e731f043a12ff6b15e10324a478be78e9e38b2a85ae'}, 'fixtures/operational-evidence/native-observation-cost-controls.py': {'bytes': 38789, 'git_blob': 'a9e5a3e6b43f1fc2cba51efc2b926a1215e2626e', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-observation-cost-controls.py', 'sha256': '9c205e121de150e3f50178399556a5fb5b94659a99b018c1d7d708b259ee1c96'}, 'fixtures/operational-evidence/native-peer-controls.py': {'bytes': 58425, 'git_blob': '705e40c7f6f8e0301378ac65d83dd7f62f591800', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-peer-controls.py', 'sha256': 'd421f79b36c04514796f66bbae0ae0c792ca60239b3d63305de7c1b4191a9bc9'}, 'fixtures/operational-evidence/native-source/.gitattributes': {'bytes': 16, 'git_blob': 'fb3a3ee9a76633276ee98fc481ec81f33ee87708', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/.gitattributes', 'sha256': '109c335ccc45c5e25b7ba68292d6373b2ac6d5d18a9d0959f4bce0fdfcf39984'}, 'fixtures/operational-evidence/native-source/fixtures/canonical-state-rotation/query-cursor-cases.json.fixture': {'bytes': 551, 'git_blob': '65ae7243b999979598a4f34e85d985d0006e6ba9', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/fixtures/canonical-state-rotation/query-cursor-cases.json.fixture', 'sha256': '06722d72bc3b7ebda17cd60b269c6547a73dc01eb665e43864478322ad65ad6d'}, 'fixtures/operational-evidence/native-source/manifest.json': {'bytes': 2947, 'git_blob': '2792cfdadf97fb6b5247aec21c3e51055ee94c8a', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/manifest.json', 'sha256': 'fbf2b863a95e70fc6621bcbeb60641b722287b10ace78c14552e677e121dd44c'}, 'fixtures/operational-evidence/native-source/skills/audit-state/SKILL.md.fixture': {'bytes': 15705, 'git_blob': '6da5dd98e3cfb8a2ec437452cfa97418d6567a69', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/audit-state/SKILL.md.fixture', 'sha256': '77098bf79bf8149ba956a426f2594ea76ecc37b7ce85c243fefcfaeaaf2afabc'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/SKILL.md.fixture': {'bytes': 21974, 'git_blob': '0f60d91ba82adecacf7334ef56d42ed9c35b9676', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/SKILL.md.fixture', 'sha256': '1d0adf2a8c5bf8d984ae689b95e1742558bb6af53f0473e6409aa99b1256d208'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/references/route-obligations.md.fixture': {'bytes': 24980, 'git_blob': 'f54b3a07a18cd99abe476f2ad05a47f0e39d57c5', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/references/route-obligations.md.fixture', 'sha256': 'df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/canonical_hot_projection.py.fixture': {'bytes': 12058, 'git_blob': 'f279932d75a51f6b0cd0ec084b2f9cdb073fad00', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/canonical_hot_projection.py.fixture', 'sha256': '0c5fb125e59b3493c2f3c9baf6a7704ccb2b5fc486f9363a028055f3d6cfad7c'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run-combined.sh.fixture': {'bytes': 96708, 'git_blob': '56da15476e168606963b7a39830700ced6ad5686', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run-combined.sh.fixture', 'sha256': '9665ba20e02c02882f3172549e90d78e790c6c0133cd31749a30e1d29c3cc0ce'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run.sh.fixture': {'bytes': 96055, 'git_blob': 'd94887ca3a413a279c986a35ebd220c43c3ef0d0', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/claim-run.sh.fixture', 'sha256': '07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/compile-work-graph.py.fixture': {'bytes': 124875, 'git_blob': '3d18c445e5d41e80c515c9251da2260af8c53947', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/compile-work-graph.py.fixture', 'sha256': '37c5d68830e9f2d0034ada3f661de7b48393c8ab265f611ef5412e8f41ffba8f'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/rotate-canonical-state.py.fixture': {'bytes': 262594, 'git_blob': '49c305b4979f0eaa292d0ccb7ef1047d32333364', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/rotate-canonical-state.py.fixture', 'sha256': 'd0a1ce2889e98afa37637777a9cc624ff931700dab8b1468b34e5c201cf46460'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/route-transaction.py.fixture': {'bytes': 335077, 'git_blob': '7969902b1bb8dae192a4dcef795d93ba216229b3', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/route-transaction.py.fixture', 'sha256': '6e92da026b597bad2946ee7feff71e73ebaf91d0509ccb3a6d5ea1fabe7e08e3'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/route_request_policy.py.fixture': {'bytes': 5191, 'git_blob': 'cc7cf0eca3ea04702178327a564ec06e12b61d10', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/route_request_policy.py.fixture', 'sha256': 'ea69123930803e428630b51565b6c7f58d079262f3feda34d95c31f0fdd6375f'}, 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/validate-run-root.sh.fixture': {'bytes': 75292, 'git_blob': '1f9f422c291ce0169e89a66dfb2b5443d0a15629', 'mode': '100644', 'path': 'fixtures/operational-evidence/native-source/skills/implementaudit/scripts/validate-run-root.sh.fixture', 'sha256': 'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'}, 'fixtures/operational-evidence/ordinary-native-controls.py': {'bytes': 59903, 'git_blob': '1bca51db0d063cd5f37f918933601c95768916e4', 'mode': '100644', 'path': 'fixtures/operational-evidence/ordinary-native-controls.py', 'sha256': 'd6e7c6be2c7e3506688c85c0445e9fc6fbe20a4c028a60dbaf46dc9aca95cfbe'}, 'fixtures/operational-evidence/run-contract-bank.py': {'bytes': 2694, 'git_blob': '1b3645546b38a2425034c503bb1074b4531150ed', 'mode': '100644', 'path': 'fixtures/operational-evidence/run-contract-bank.py', 'sha256': 'aa3d076376642370cefb563ca0761b0e8e9d2252a6b9f1ea0b12c9d2ce0d80eb'}, 'fixtures/package-contract/installed_modes_test.py': {'bytes': 7529, 'git_blob': 'e1a7405092d93ba53f4aa8ea79cd399e9ef41fce', 'mode': '100644', 'path': 'fixtures/package-contract/installed_modes_test.py', 'sha256': '834b64a1bb8dc9a58c0ded006b5fa390a0022a77b7e6003d89a6bcc4536bc368'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 49927, 'git_blob': 'bbc8b4749ede8e3a389dcbd29cc0fbdd92186fc1', 'mode': '100644', 'path': 'scripts/load-work-graph-c5-executor.py', 'sha256': '2989ba6cb8da6f52f9a2f94f27d141a931a0bffb8ebd03172091b170646d8017'}, 'scripts/qualify-work-graph-c5-setup.py': {'bytes': 78790, 'git_blob': '14f3e82c827cf0903fc6b611849e5be9cae5855c', 'mode': '100755', 'path': 'scripts/qualify-work-graph-c5-setup.py', 'sha256': '5caa2b1771c41b9c13328b44c72b45ff73d65832b6892cc6bc61cfb54bd6cbf1'}, 'tests/c5-selected-source-fixture.py': {'bytes': 10390, 'git_blob': 'c8b287380ceda1227ae948ba95a0462e03cb0528', 'mode': '100644', 'path': 'tests/c5-selected-source-fixture.py', 'sha256': '207a29c33806bb613b2436f420d2adc99e32045cfd234bb2a643d309d153950b'}, 'tests/composite-source-cases.py': {'bytes': 164145, 'git_blob': '930504e580686546e734e0963834560dbbd1003e', 'mode': '100644', 'path': 'tests/composite-source-cases.py', 'sha256': 'bf322d185c905ff0c7b5c35228b89daf81d6a800e489bc3c0a0315ca9bd59e53'}, 'tests/work-graph-action-selection-cases.py': {'bytes': 18600, 'git_blob': '76012c4268337c27f7fa1e5d472729d78e226027', 'mode': '100644', 'path': 'tests/work-graph-action-selection-cases.py', 'sha256': 'b14f0259eadbeebcc5e46ad2edf5bc3daf0910c6a69012793a3399cb3c62c676'}, 'tests/work-graph-custody-append-cases.py': {'bytes': 38387, 'git_blob': '4220e7eed133b28f38649273b540994dbc0a322e', 'mode': '100644', 'path': 'tests/work-graph-custody-append-cases.py', 'sha256': '01069c4b2a5b3c4659c2c8a7340b656ef5db6f712a49f54f5475513d891f0e31'}, 'tests/work-graph-mini-audit-loop-cases.py': {'bytes': 30472, 'git_blob': '243fa0da1d4bcacc9eb2847e43d16086629239e3', 'mode': '100644', 'path': 'tests/work-graph-mini-audit-loop-cases.py', 'sha256': 'b69705bf777c37e3d7c6d55a82eafefcf62705975e74f6b97311abcb25ea2787'}, 'tests/work-graph-planner-copy-cases.py': {'bytes': 15203, 'git_blob': '2211e3b42af0a645856e0dffa827d7d5f6813599', 'mode': '100644', 'path': 'tests/work-graph-planner-copy-cases.py', 'sha256': 'e585d537539f92305262cee8ae146a9ad0c5051381a4e45b8b944badd7cd1cac'}}
+PRIOR_PACKAGE_SOURCE_ROWS = {'tests/work-graph-custody-append-cases.py': {'bytes': 38668, 'git_blob': '8bd264188901d5ae64078ce0583ff5aa6889d8f7', 'mode': '100644', 'path': 'tests/work-graph-custody-append-cases.py', 'sha256': 'b23228b9037819a0483b213aa4296e9a1f0d718a0c126095837395d11d649a51'}, 'tests/work-graph-pending-settlement-cases.py': {'bytes': 32632, 'git_blob': '16dbe3116e0c5ca4b380ae76dc5748d466a01077', 'mode': '100644', 'path': 'tests/work-graph-pending-settlement-cases.py', 'sha256': '185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085'}}
 
 def receive_exact_cumulative_source_rows(selected, changes):
     """Receive every exact modification/addition/deletion once, without effects."""
@@ -700,12 +700,10 @@ def receive_exact_cumulative_source_rows(selected, changes):
 
 
 def receive_flat_nonpackage_successor(acquired, basis, bodies):
-    """Receive final nonshipping-source applicability without relabelling actual08e package observations.
+    """Receive actual M5 packages and the complete test-only source relation.
 
-    The original v2 consumer executes unchanged against exact original inputs.
-    Its historical manifest is reconstructed only as an exact digest-checked byte
-    projection of the current manifest plus the exact retained source rows, including deleted paths.
-    No path, native, build, installation, currentness or authority effect occurs.
+    Existing package observations retain their actual205 source identity. This
+    reader neither recreates missing historical evidence nor repeats a build.
     """
     exact(acquired, ('schema','authority','status','commit','tree','files','bytes','manifest_sha256',
         'errors','original_awards','package_relation','evidence','evidence_bodies'), 'UNCHANGED_ACQUISITION_FIELDS')
@@ -715,7 +713,8 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
          and acquired['files']==SOURCE_FILES and acquired['bytes']==SOURCE_BYTES
          and acquired['errors']==[] and acquired['original_awards']==[], 'UNCHANGED_SOURCE_SUBJECT')
     names=('INDEPENDENT_RECEIVING.json','PHYSICAL_PRODUCT_READBACK.json','PRODUCT_PUBLICATION_RECEIVING.json',
-           'ROOT_PACKAGE_SOURCE_APPLICABILITY.json','ROOT_SOURCE_CURRENTNESS.json','SOURCE_ACQUISITION_08E6.json')
+           'ROOT_PACKAGE_SOURCE_APPLICABILITY.json','ROOT_SOURCE_CURRENTNESS.json',
+           'M5_RECEIPT.json','M5_RECEIVING.json','M5_SOURCE_MANIFEST.json')
     exact(acquired['evidence'],names,'UNCHANGED_EVIDENCE_POPULATION')
     exact(acquired['evidence_bodies'],names,'UNCHANGED_EVIDENCE_POPULATION')
     raw={}
@@ -725,23 +724,20 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
         body=text.encode('utf8');need(dict(bytes=len(body),sha256=sha(body))==acquired['evidence'][name],
                                      'UNCHANGED_EVIDENCE_BODY_PIN')
         raw[name]=body
-    prior_raw=raw['SOURCE_ACQUISITION_08E6.json']
-    need(dict(bytes=len(prior_raw),sha256=sha(prior_raw))==dict(bytes=536265,
-         sha256='e7955048bc9957240284b2bfb82439d9abf5ec456522ea48bc4792929540f5be'), 'ACTUAL_PRIOR_ACQUISITION_PIN')
-    prior=parse(prior_raw)
-    relation=acquired['package_relation']
-    need(relation==basis['retained_package_relation']
-         and relation==dict(schema='dg16.nonshipping-source-package-applicability.v1',
-             selected_source=dict(commit=SOURCE_COMMIT,tree=SOURCE_TREE),
-             observed_package_source=dict(commit='08e6faa9a71fc09996a32e114346dce6508ef656',
-                 tree='83165996af29c20f526f53a9dc6c4d8edfec4be5'),
-             dependency_files=79,changed_dependencies=0,package_leg='NOT_TRIGGERED',
-             changed_project_paths=sorted(set(PRIOR_PACKAGE_SOURCE_ROWS)|set(PRIOR_PACKAGE_ADDED_SOURCE_PATHS)),
-             retained_prior_acquisition=dict(bytes=len(prior_raw),sha256=sha(prior_raw)),
-             current_root_applicability=acquired['evidence']['ROOT_PACKAGE_SOURCE_APPLICABILITY.json'],
-             independent_receiving=acquired['evidence']['INDEPENDENT_RECEIVING.json'],
-             full_Q04_Q05=False,native_discovery='UNVERIFIED',no_new_build_or_copy=True,original_awards=[]),
-         'UNCHANGED_PACKAGE_RELATION_SCOPE')
+    # These are already independently received public originals, not assertions
+    # reconstructed for this operation. A changed body cannot substitute for one.
+    retained={
+        'M5_RECEIPT.json':dict(bytes=2873,sha256='607f7fa15726a72954ccbe14d539e8c7422e13f848cd1146712967de7c246840'),
+        'M5_RECEIVING.json':dict(bytes=22867,sha256='73bfbab6178344e90a116d50218f43766079a1f4c4e501e2bf9839841c0200f5'),
+        'M5_SOURCE_MANIFEST.json':dict(bytes=495517,sha256='e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743')}
+    need(all(acquired['evidence'][n]==d for n,d in retained.items()),'ACTUAL_RETAINED_M5_BODY_PINS')
+    receipt=parse(raw['M5_RECEIPT.json']);technical=parse(raw['M5_RECEIVING.json'])
+    observed=dict(commit='205aeab7c93299b0666b261485ab5658d8e183de',tree='9ffbaf95080092bf4a45b8772a97ed16068544a7')
+    need(receipt['current_four_route_conjunction_received'] is True
+         and receipt['source']==technical['source'] and technical['packages']['source']==observed
+         and receipt['technical_receiving_record']['bytes']==retained['M5_RECEIVING.json']['bytes']
+         and receipt['technical_receiving_record']['sha256']==retained['M5_RECEIVING.json']['sha256'],
+         'ACTUAL_RETAINED_M5_RECEIVING_JOIN')
     manifest_raw=read_file(Path(__file__).with_name('SOURCE_MANIFEST.json'),FILE_LIMIT)
     manifest=parse(manifest_raw)
     need(sha(manifest_raw)==acquired['manifest_sha256']==basis['source_inventory_sha256']
@@ -751,39 +747,26 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
     selected={r['path']:r for r in manifest['members']}
     need(len(selected)==len(manifest['members'])==SOURCE_FILES
          and sum(r['bytes'] for r in selected.values())==SOURCE_BYTES,'UNCHANGED_CURRENT_SOURCE_POPULATION')
-    need(all(selected.get(name)==row for name,row in PRIOR_PACKAGE_ADDED_SOURCE_PATHS.items()),'EXACT_ADDED_SOURCE_MEMBER')
-    fixed='fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py'
-    need(selected[fixed]['bytes']==33227
-         and selected[fixed]['sha256']=='528f1e693d0745b90a8ea2ededd570962f929e8f2c76b115c6e011386a03e0f7',
-         'UNCHANGED_EXACT_FIXTURE_REPAIR')
-    # Exact original body, not a newly asserted historical result. The digest
-    # fails if any source member/header/encoding differs from the actual input.
-    old_manifest=parse(manifest_raw)
-    old_manifest.update(commit='08e6faa9a71fc09996a32e114346dce6508ef656',
-        tree='83165996af29c20f526f53a9dc6c4d8edfec4be5',
-        parent_commit='7e2b00b3a2a16fc6033a5eabe4fc795f6249366f',
-        parent_tree='6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e',file_count=1759,total_bytes=166407923)
-    old_rows={r['path']:r for r in old_manifest['members'] if r['path'] not in PRIOR_PACKAGE_ADDED_SOURCE_PATHS}
-    # A removed current path still contributes its exact historical before row.
-    old_rows.update(PRIOR_PACKAGE_SOURCE_ROWS)
-    old_manifest['members']=[dict(old_rows[name]) for name in sorted(old_rows)]
-    old_manifest_raw=(json.dumps(old_manifest,sort_keys=True,indent=2,ensure_ascii=True,allow_nan=False)+'\n').encode()
-    need(len(old_manifest_raw)==493409 and sha(old_manifest_raw)==
-         '8c797c64fc9ec276c9d97a8dab68f35ccb8f32cb9c767002e994b66ca6a7cc56','ACTUAL_PRIOR_MANIFEST_BYTES')
-    # Isolate the original v2 globals; never mutate the current module/reader.
-    def historical_read(path,maximum):
-        need(Path(path)==Path(__file__).with_name('SOURCE_MANIFEST.json')
-             and len(old_manifest_raw)<=maximum,'PRIOR_MANIFEST_ONLY_READER')
-        return old_manifest_raw
-    environment=dict(globals(),SOURCE_COMMIT=old_manifest['commit'],SOURCE_TREE=old_manifest['tree'],
-        SOURCE_PARENT=old_manifest['parent_commit'],SOURCE_FILES=old_manifest['file_count'],
-        SOURCE_BYTES=old_manifest['total_bytes'],read_file=historical_read)
-    original=types.FunctionType(receive_current_package_relation.__code__,environment,
-                               'receive_actual_prior_v2_package_relation')
-    old_basis=dict(basis,retained_package_relation=prior['package_relation'],
-                   source_inventory_sha256=sha(old_manifest_raw))
-    old_bodies=dict(bodies,**{'SOURCE_ACQUISITION.json':prior_raw})
-    need(original(prior,old_basis,old_bodies)==prior['package_relation'],'ACTUAL_PRIOR_V2_RECEIVING')
+    previous_manifest=parse(raw['M5_SOURCE_MANIFEST.json'])
+    previous={r['path']:r for r in previous_manifest['members']}
+    need(set(previous)==set(selected) and len(previous)==len(previous_manifest['members'])==1766
+         and previous_manifest['commit']==observed['commit'] and previous_manifest['tree']==observed['tree']
+         and previous_manifest['total_bytes']==sum(r['bytes'] for r in previous.values())==167023692,
+         'ACTUAL_M5_COMPLETE_SOURCE_POPULATION')
+    changed=sorted(p for p in selected if selected[p]!=previous[p])
+    need(changed==['tests/work-graph-custody-append-cases.py','tests/work-graph-pending-settlement-cases.py']
+         and PRIOR_PACKAGE_SOURCE_ROWS=={p:previous[p] for p in changed}
+         and PRIOR_PACKAGE_ADDED_SOURCE_PATHS=={},'EXACT_TEST_ONLY_SOURCE_DIFFERENCE')
+    relation=acquired['package_relation']
+    need(relation==basis['retained_package_relation']
+         and relation==dict(schema='dg16.nonshipping-source-package-applicability.v1',
+             selected_source=dict(commit=SOURCE_COMMIT,tree=SOURCE_TREE),observed_package_source=observed,
+             unchanged_source_members=len(selected)-len(changed),changed_dependencies=0,package_leg='NOT_TRIGGERED',
+             changed_project_paths=changed,retained_package_receiving=retained['M5_RECEIPT.json'],
+             current_root_applicability=acquired['evidence']['ROOT_PACKAGE_SOURCE_APPLICABILITY.json'],
+             independent_receiving=acquired['evidence']['INDEPENDENT_RECEIVING.json'],
+             full_Q04_Q05=False,native_discovery='UNVERIFIED',no_new_build_or_copy=True,original_awards=[]),
+         'UNCHANGED_PACKAGE_RELATION_SCOPE')
     currentness=parse(raw['ROOT_SOURCE_CURRENTNESS.json'])
     need(currentness['commit']==SOURCE_COMMIT and currentness['tree']==SOURCE_TREE
          and currentness['parent_commit']==SOURCE_PARENT and currentness['files']==SOURCE_FILES
@@ -792,32 +775,22 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
          'ACTUAL_ROOT_SELECTED_SOURCE_RECEIVING')
     root=parse(raw['ROOT_PACKAGE_SOURCE_APPLICABILITY.json'])
     need(root['schema']=='dg16.original-final-source-package-applicability.v1'
-         and root['issuer']=='01a1953f-a15b-7811-aa72-3538ebb03562'
+         and root['issuer']=='PRO-EXECUTOR-01' and root.get('successor')=='PRO-EXECUTOR-01, designated by owner'
          and root['decision']=='ACCEPT_NAMED_SOURCE_DELTAS_WITH_NO_SHIPPED_DEPENDENCY_CHANGE'
-         and root['selected_source']==relation['selected_source']
-         and root['observed_package_source']==relation['observed_package_source']
+         and root['selected_source']==relation['selected_source'] and root['observed_package_source']==observed
          and root['source_manifest']==dict(bytes=len(manifest_raw),sha256=sha(manifest_raw))
          and root['current_source_receiving']==relation['independent_receiving']
-         and root['unchanged_dependency_count']==79 and root['changed_package_dependencies']==[]
-         and sorted(r['path'] for r in root['actual_source_changes_vs_observed_package'])==sorted(set(PRIOR_PACKAGE_SOURCE_ROWS)|set(PRIOR_PACKAGE_ADDED_SOURCE_PATHS)) and root['package_leg']=='NOT_TRIGGERED'
-         and root['current_build_or_copy_observations']==0 and root['full_Q04_Q05'] is False
-         and root['native_runtime_discovery']=='UNVERIFIED' and root['original_awards']==[]
-         and root['current_build_or_copy_observations']==0,'ACTUAL_ROOT_UNCHANGED_PACKAGE_SCOPE')
+         and root['unchanged_source_members']==1764 and root['changed_package_dependencies']==[]
+         and root['package_leg']=='NOT_TRIGGERED' and root['current_build_or_copy_observations']==0
+         and root['full_Q04_Q05'] is False and root['native_runtime_discovery']=='UNVERIFIED'
+         and root['original_awards']==[] and root['other_effects'] is False,
+         'ACTUAL_ROOT_UNCHANGED_PACKAGE_SCOPE')
     need(root['direct_parent']==dict(commit=SOURCE_PARENT,tree=manifest['parent_tree']), 'ACTUAL_ROOT_DIRECT_PARENT')
     receive_exact_cumulative_source_rows(selected, root['actual_source_changes_vs_observed_package'])
-    prior_evidence=prior['evidence_bodies']
-    prior_root=prior_evidence['ROOT_PACKAGE_RECEIVING.json'].encode('utf8')
-    need(root['previous_package_receiving']==dict(bytes=len(prior_root),sha256=sha(prior_root))
-         and root['archives']==parse(prior_root)['two_archives'],'UNCHANGED_ARCHIVE_PROVENANCE')
-    dep_raw=prior_evidence['APPLICABILITY.json'].encode('utf8')
-    deps=parse(dep_raw)['dependencies'];need(len(deps)==79 and len({r['path'] for r in deps})==79
-         and root['unchanged_consumer_dependency_index']==dict(bytes=len(dep_raw),sha256=sha(dep_raw))
-         and fixed not in {r['path'] for r in deps},'UNCHANGED_79_DEPENDENCY_INDEX')
-    for row in deps:
-        now=selected[row['path']]
-        need(row['after']==dict(bytes=now['bytes'],sha256=now['sha256'],
-             mode=format(int(now['mode'],8)&0o777,'04o')),'UNCHANGED_PACKAGE_DEPENDENCY_BODY')
+    need(root['previous_package_receiving']==retained['M5_RECEIPT.json']
+         and root['archives']==technical['packages']['artifacts'],'UNCHANGED_ARCHIVE_PROVENANCE')
     return relation
+
 
 
 
@@ -1515,11 +1488,11 @@ def receive(api, diagnostic):
 
 def validate_decision(raw, request, request_sha, now_unix_ms):
     value = parse(raw, DECISION_LIMIT)
-    exact(value, ('schema', 'issuer', 'action', 'request_sha256', 'run_id', 'attempt', 'nonce',
+    exact(value, ('schema', 'issuer', 'successor', 'action', 'request_sha256', 'run_id', 'attempt', 'nonce',
         'source_commit', 'source_tree', 'graph_sha256', 'dispatch_sha256', 'join_sha256', 'outputs',
         'consumed_nodes', 'decision_before', 'decision_after', 'owner_arrangement', 'full_g2',
         'original_awards', 'issued_unix_ms', 'expires_unix_ms'))
-    need(value['schema'] == 'dg16.g3-root-consumption-decision.v2' and value['issuer'] == 'R5_ROOT_GOVERNOR'
+    need(value['schema'] == 'dg16.g3-root-consumption-decision.v2' and value['issuer'] == 'R5_ROOT_GOVERNOR' and value['successor'] == 'PRO-EXECUTOR-01, designated by owner'
          and value['action'] == 'CONSUME_COMPONENT_RETURNS_ONLY' and value['request_sha256'] == digest(request_sha),
          'ROOT_DECISION_ACTION_OR_REQUEST')
     for key in ('run_id', 'attempt', 'nonce', 'source_commit', 'source_tree', 'graph_sha256',
@@ -1991,11 +1964,11 @@ def validate_row_decisions(rows,gates):
 
 def validate_final_decision(raw,request,request_sha,now_unix_ms):
     value=parse(raw,16384)
-    exact(value,('schema','issuer','action','request_sha256','run_id','attempt','nonce','source_commit','source_tree',
+    exact(value,('schema','issuer','successor','action','request_sha256','run_id','attempt','nonce','source_commit','source_tree',
         'final_graph_sha256','current_receipt_sha256','proofs','independent_review_sha256','source_applicability_review_sha256',
         'original_rows','gate_decisions','whole_DG16_awarded','full_g2','v041_admission','global_liveness',
         'retirement_or_transfer','issued_unix_ms','expires_unix_ms'))
-    need(value['schema']=='dg16.g3-root-original-decision.v2' and value['issuer']=='R5_ROOT_GOVERNOR'
+    need(value['schema']=='dg16.g3-root-original-decision.v2' and value['issuer']=='R5_ROOT_GOVERNOR' and value['successor']=='PRO-EXECUTOR-01, designated by owner'
          and value['action']=='RECEIVE_EXACT_ORIGINAL_IDS_AND_GATES' and value['request_sha256']==digest(request_sha),
          'FINAL_ROOT_DECISION_ACTION')
     for key in ('run_id','attempt','nonce','source_commit','source_tree','final_graph_sha256','current_receipt_sha256',

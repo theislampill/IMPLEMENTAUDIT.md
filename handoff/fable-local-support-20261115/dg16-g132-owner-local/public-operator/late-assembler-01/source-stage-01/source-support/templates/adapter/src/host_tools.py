@@ -207,11 +207,11 @@ def validate_adoption(raw,observation_raw,binding,now_ms):
     observation=P.parse(observation_raw,MAX_BODY);v=P.parse(raw,MAX_BODY)
     P.need(observation.get('schema')=='dg16.same-host-fixed-tool-observation.v2' and 'host_profile' in observation,'HOST_PROFILE_CHANGED')
     _profile_policy(binding).validate_g1_host_profile(observation['host_profile'])
-    keys=('schema','issuer','operation','context','source_commit','source_tree','carrier_binding_sha256','input_index_sha256',
+    keys=('schema','issuer','successor','operation','context','source_commit','source_tree','carrier_binding_sha256','input_index_sha256',
       'public_manifest_sha256','bootstrap_admission_sha256','observation','nonce','host_identity','tools','issued_unix_ms',
       'expires_unix_ms','command_scope','automatic_retry','crypto_capability_claim','core_or_native_effect_grant','original_awards','host_profile')
     P.exact(v,keys)
-    wanted=dict(schema='dg16.same-host-fixed-tool-root-adoption.v2',issuer='R5_ROOT_GOVERNOR',
+    wanted=dict(schema='dg16.same-host-fixed-tool-root-adoption.v2',issuer='R5_ROOT_GOVERNOR',successor='PRO-EXECUTOR-01, designated by owner',
       operation='ADOPT_FIXED_SAME_HOST_TOOL_BODIES',observation=P.descriptor(observation_raw),
       command_scope=['recipient','decrypt'],automatic_retry=False,crypto_capability_claim=False,
       core_or_native_effect_grant=False,original_awards=[])

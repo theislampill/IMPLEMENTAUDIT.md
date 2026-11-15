@@ -1,0 +1,81 @@
+{
+  "base_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "branch": "engineering/pro-g132-current-host-20261115",
+  "branch_observation": "AUTHENTIC_GITHUB_404_BEFORE_PUBLICATION",
+  "create_branch_calls": 1,
+  "create_commit_calls": 1,
+  "create_tree_calls": 1,
+  "created_commit": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+  "created_tree": "e81ffaf2959df5da5a6203b66b0b3e0819eae82c",
+  "expected_tree": "e81ffaf2959df5da5a6203b66b0b3e0819eae82c",
+  "independent_review": {
+    "bytes": 28027,
+    "sha256": "c7b8af0f25faacda3e3765b3ef137a4f9533a6bfd98d90a921034c93f1f94139"
+  },
+  "protected_launch_authorized": false,
+  "protected_ref_touched": false,
+  "public_overlay_files": 49,
+  "readback": {
+    "commit": {
+      "author": {
+        "date": "2026-11-15T12:17:39Z",
+        "email": "theislampill@gmail.com",
+        "name": "theIslampill"
+      },
+      "committer": {
+        "date": "2026-11-15T12:17:39Z",
+        "email": "theislampill@gmail.com",
+        "name": "theIslampill"
+      },
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/434f12f038da9420f9addaf2fed7178e1e41e20f",
+      "message": "Bind reviewed current G132 source and Root successor composition\n\nsuccessor: PRO-EXECUTOR-01, designated by owner\n\nR35-P01/Q04/Q05: use authentic retained M5 evidence and the exact two-test-file source comparison. Preserve actual package source, native/effect gates and all original limits. Independent host review c7b8af0f25faacda3e3765b3ef137a4f9533a6bfd98d90a921034c93f1f94139; phase 06a1cd10de8c918e0e2f214cbadf43538f7bc7f2bd4d45e9e241e2aec44e3ae9.\n\nEngineering publication only. No protected launch, native result or original acceptance.",
+      "node_id": "C_kwDOSh3v8toAKDQzNGYxMmYwMzhkYTk0MjBmOWFkZGFmMmZlZDcxNzhlMWU0MWUyMGY",
+      "parents": [
+        {
+          "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+          "sha": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+          "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e76a07b2bae7c945e5a9d529ed8cf9069f4c9064"
+        }
+      ],
+      "sha": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+      "tree": {
+        "sha": "e81ffaf2959df5da5a6203b66b0b3e0819eae82c",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/e81ffaf2959df5da5a6203b66b0b3e0819eae82c"
+      },
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/434f12f038da9420f9addaf2fed7178e1e41e20f",
+      "verification": {
+        "payload": null,
+        "reason": "unsigned",
+        "signature": null,
+        "verified": false,
+        "verified_at": null
+      }
+    },
+    "observed_at": "2026-11-15T12:18:01.339Z",
+    "ref": {
+      "node_id": "REF_kwDOSh3v8toANXJlZnMvaGVhZHMvZW5naW5lZXJpbmcvcHJvLWcxMzItY3VycmVudC1ob3N0LTIwMjYxMTE1",
+      "object": {
+        "sha": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+        "type": "commit",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/434f12f038da9420f9addaf2fed7178e1e41e20f"
+      },
+      "ref": "refs/heads/engineering/pro-g132-current-host-20261115",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/engineering/pro-g132-current-host-20261115"
+    }
+  },
+  "recorded_utc": "2026-11-15T12:17:11.193096+00:00",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "request": {
+    "bytes": 1591693,
+    "sha256": "402756c215a1ec7ef4442a37c5c0dd29890c765bdd75c9663ebf834f1e8a2fde"
+  },
+  "root_source_receiving": {
+    "bytes": 2374,
+    "sha256": "1ebe7d18dfd5bdac49055dce01460477e6e55fc620c96b1e345ac98d626908a4"
+  },
+  "schema": "pro.g132.current-host-publication-action.v1",
+  "sole_parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "status": "PUBLISHED_AND_REF_READ_BACK",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "unknown_effect_retry": false
+}

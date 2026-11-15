@@ -1,0 +1,42 @@
+{
+  "actual_offline_preflight_seconds": [
+    0.227281225,
+    0.157317952
+  ],
+  "author": "/root",
+  "decision": "CONSUME_EXACT_REVIEWED_OPERATOR_SOURCE_ONLY",
+  "host_commit": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+  "host_tree": "e81ffaf2959df5da5a6203b66b0b3e0819eae82c",
+  "independent_review": {
+    "bytes": 10817,
+    "sha256": "8f73a3ee2a89f729f2b60b987698dea2c13f06c36bb906363327fb853c2c4d81"
+  },
+  "independent_reviewer": "/root/dg16_m5_original_receiving",
+  "launch_go": false,
+  "live_root_api_chain_timing": "UNMEASURED",
+  "native_effects": false,
+  "operator_pins_sha256": "1dc89a4db2db5737edcf5b5896485798d4fe2a40c6860b4f089c79b220da48c3",
+  "original_awards": [],
+  "original_clauses": [
+    "R35-P01",
+    "R35-Q04",
+    "R35-Q05"
+  ],
+  "phase_sha256": "06a1cd10de8c918e0e2f214cbadf43538f7bc7f2bd4d45e9e241e2aec44e3ae9",
+  "prior_broad_review": {
+    "bytes": 31948,
+    "sha256": "5d3ec1ade8ada94290cb5e50076ffc8649b6b603bf11eec2d5eec851db7e1346"
+  },
+  "prior_failed_stale_pin_findings_preserved": true,
+  "protected_ref_touched": false,
+  "recorded_utc": "2026-11-15T12:39:06.103164+00:00",
+  "required_remaining": [
+    "exact owner protected launch go and applicable queue/floor disposition",
+    "fresh actual same-run Root bodies and sender/currentness controls",
+    "original G1/G3/native/full comparison/receiving predicates"
+  ],
+  "schema": "pro.g132.current-operator-root-source-receiving.v1",
+  "source_selection_sha256": "3ba27feca194e0ad36c8600756d3f74733f0b82385f69d24203c92e76030b77f",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "unchanged_original_limits": true
+}

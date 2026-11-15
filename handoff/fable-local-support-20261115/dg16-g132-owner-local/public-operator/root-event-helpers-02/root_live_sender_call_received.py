@@ -15,19 +15,19 @@ import sys
 import time
 import types
 
-BASE = '/home/agent/pr255-g132-root-20261114-01/public-tools-source-01'
+BASE = '/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator'
 ROOT = 'PRO-EXECUTOR-01'
 FINAL = BASE + '/root-final-operators-01'
 PIPELINE = FINAL + '/root_pipeline_inputs_v2.py'
 PINS = {
-    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', 'a9ff304d5506b8b751a6b8edd05f15bdc0d3b44efab968d016ea5d347abdcc38'),
-    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', '1f7612be70f93aaa201c36c349a3ee2bb6610cbe1fcf37c6b73210a4ca65b9c3'),
-    'binder': (BASE+'/dispatcher-templates-02/bind_dispatcher.py', '14e9a31aff1220490c3c63e04b9fd8b4ef5a3cc6569f8e4e68af18197b70be80'),
-    'pipeline': (PIPELINE, '8945010eb4579f42463a15b980a5693cef3aba8467e3e9e5e4ef640836212618'),
-    'binary': (FINAL+'/binary_publish_v3.py', 'a7e8a5694bf1ed417c5a3849db667e2fd95795b86d2152ed632abd40757de5fc'),
-    'journal': (FINAL+'/control_process_v3.py', '5c36d0323ded3ec8d11fd34afa8664728e5e2490e46f8c0f4ac08a5d719bd5b5'),
+    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', '33579984c5e5d05f8e801fd75187886c38a604c6622cd1e4097412b565af9ad3'),
+    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', '58c148499349a40f9471a2a1371710daa2e5a1728856a09042702bd4c068cbf6'),
+    'binder': (BASE+'/dispatcher-templates-02/bind_dispatcher.py', 'c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad'),
+    'pipeline': (PIPELINE, '347205482ab76b60fb9b9fddda0c316240cb7c0ef5a711ed47c5ccd86eeed49b'),
+    'binary': (FINAL+'/binary_publish_v3.py', '7143a193ac02131b4efed80b2ff80f53d9fb64540bff40284049265c1223eff4'),
+    'journal': (FINAL+'/control_process_v3.py', 'e3b48846c8c260548fab8b8d4822bb856ff19c7d95f10ceaa39ea88a404c86c3'),
     'decoder': (FINAL+'/file_readback.py', 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'),
-    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', '377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b'),
+    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', 'e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149'),
 }
 LOADER = "import hashlib,os,pathlib,stat,sys; p=pathlib.Path(sys.argv[1]); pin=sys.argv[2]; mark=lambda s:(s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_uid,s.st_gid,s.st_size,s.st_mtime_ns,s.st_ctime_ns); s=p.lstat(); assert stat.S_ISREG(s.st_mode) and s.st_nlink==1 and s.st_uid==os.geteuid() and stat.S_IMODE(s.st_mode) in (0o400,0o444) and 0<s.st_size<=1048576; fd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC); opened=os.fstat(fd); assert mark(opened)==mark(s) and stat.S_ISREG(opened.st_mode) and not os.listxattr(fd); raw=os.pread(fd,s.st_size+1,0); assert len(raw)==s.st_size and hashlib.sha256(raw).hexdigest()==pin and mark(os.fstat(fd))==mark(s) and mark(p.lstat())==mark(s); os.close(fd); sys.argv=[str(p),*sys.argv[3:]]; exec(compile(raw,str(p),'exec'),{'__name__':'__main__','__file__':str(p)})"
 
@@ -286,10 +286,11 @@ def terminal_component(terminal, session_id, exit_code):
 def issue(P, expected, requirements_row, output, issuance_record, reference):
     """Explicit Root invocation, not a requirements-to-authority inference."""
     reference = decision_ref(reference)
+    need(expected.get('successor') == 'PRO-EXECUTOR-01, designated by owner', 'ACTUAL_ROOT_SUCCESSOR_REQUIRED')
     need(Path(output) != Path(issuance_record), 'SEPARATE_ISSUANCE_RECORD')
     P.fresh_path(output); P.fresh_path(issuance_record)
     P.write_file(output, P.encode(expected))
-    record = dict(schema='dg16.root-explicit-issuance-record.v1', issuer_thread=ROOT,
+    record = dict(schema='dg16.root-explicit-issuance-record.v1', issuer_thread=ROOT,successor='PRO-EXECUTOR-01, designated by owner',
                   root_decision_ref=reference, requirements=requirements_row, issued=P.row(output),
                   issued_unix_ms=time.time_ns()//1000000, authentication='ROOT_NATIVE_HISTORY_SEPARATE',
                   automatic_retry=False, original_awards=[])
@@ -341,7 +342,7 @@ def main():
         elif a.action in ('check-late','receive-late','sender-command'):
             result = late(P, a.episode, digest(a.manifest_sha256))
             if a.action == 'receive-late':
-                result.update(schema='dg16.root-actual-late-source-receiving.v1',issuer_thread=ROOT,
+                result.update(schema='dg16.root-actual-late-source-receiving.v1',issuer_thread=ROOT,successor='PRO-EXECUTOR-01, designated by owner',
                               root_decision_ref=decision_ref(a.root_decision_ref),decision='ACCEPT_EXACT_SOURCE_ONLY',
                               authentication='ROOT_NATIVE_HISTORY_SEPARATE',sender_started=False)
                 P.write_file(a.output, P.encode(result)); result = dict(authority='NONE',receiving=P.row(a.output))
@@ -367,7 +368,7 @@ def main():
         elif a.action == 'receive-sender-terminal':
             terminal=P.parse(P.read(a.terminal,65536,digest(a.terminal_sha256)))
             terminal_component(terminal,a.native_session_id,a.actual_exit_code)
-            result=dict(schema='dg16.root-sender-terminal-component-receiving.v1',issuer_thread=ROOT,
+            result=dict(schema='dg16.root-sender-terminal-component-receiving.v1',issuer_thread=ROOT,successor='PRO-EXECUTOR-01, designated by owner',
                         root_decision_ref=decision_ref(a.root_decision_ref),terminal=P.row(a.terminal,a.terminal_sha256),
                         actual_native_session_id=a.native_session_id,actual_exit_code=a.actual_exit_code,
                         decision='ACCEPT_ACTUAL_TERMINAL_COMPONENT_ONLY',authentication='ROOT_NATIVE_HISTORY_SEPARATE',

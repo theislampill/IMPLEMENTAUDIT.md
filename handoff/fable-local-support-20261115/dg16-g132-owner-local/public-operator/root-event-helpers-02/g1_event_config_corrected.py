@@ -8,14 +8,14 @@ import argparse,hashlib,json,os,re,stat,sys,time,types
 from pathlib import Path,PurePosixPath
 
 ISSUER='PRO-EXECUTOR-01'
-ROOT=PurePosixPath('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02')
-ROLE_PATH='/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/framed-role-02/role_process_v4.py'
-CONTROL_PATH='/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/root-control-v5/control_process_v5.py'
-RECEIVER_SHA='5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab'
-RESOLVER_SHA='377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b'
-ROLE_SHA='2b2d7ec31106d27fc812990cff256fc0707671c46b30a77d20e9e03a15ad183d'
-CONTROL_SHA='96754f33c376e49bb20a4441aded2126c79bd2841d79234bd64a974b5487a566'
-BINARY_JOURNAL_DEPENDENCY_SHA='5c36d0323ded3ec8d11fd34afa8664728e5e2490e46f8c0f4ac08a5d719bd5b5'
+ROOT=PurePosixPath('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
+ROLE_PATH='/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/framed-role-02/role_process_v4.py'
+CONTROL_PATH='/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/root-control-v5/control_process_v5.py'
+RECEIVER_SHA = '0676910949eec3aada03d5c5feb37df88daebf217256f17fb46f6a0b8c22a1a7'
+RESOLVER_SHA = 'e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149'
+ROLE_SHA = '68d01cf148a2733123efa6095f961baacb804561343d7476a68046ac9fe36cc4'
+CONTROL_SHA = '4b2ebae5c245808643cabaf3bdf046e378dfaca8a6b6ba22d6487abfc22eb63f'
+BINARY_JOURNAL_DEPENDENCY_SHA = 'e3b48846c8c260548fab8b8d4822bb856ff19c7d95f10ceaa39ea88a404c86c3'
 CONTROL_READBACK_SHA='a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
 FILE_READBACK_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
 CALLBACK_SHA='7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734'
@@ -79,9 +79,9 @@ def role_documents(R,s,phase,c,opened,ends,out,shell_title,now,initial_session=N
  if initial_session is not None:inside(initial_session,ROOT/'sessions')
  ctx=encode(c);need(len(ctx)<=16384,'CONTEXT_SIZE');context_row={'path':str(out/'CONTEXT.json'),'sha256':sha(ctx)}
  session=str(ROOT/'sessions'/out.name)
- grant=dict(schema='dg16.g1-framed-role-admission.v1',issuer_thread=ISSUER,status='ADMIT_ONE_ROOT_FRAMED_ARTIFACT_ROLE',profile='ONE_PINNED_G1_FRAMED_TTY_ROLE_V1',phase=phase,context=context_row,session_directory=session,deadline_unix_ms=ends,receiver_sha256=RECEIVER_SHA,resolver_sha256=RESOLVER_SHA,automatic_retry=False,original_awards=[])
+ grant=dict(schema='dg16.g1-framed-role-admission.v1',issuer_thread=ISSUER,successor='PRO-EXECUTOR-01, designated by owner',status='ADMIT_ONE_ROOT_FRAMED_ARTIFACT_ROLE',profile='ONE_PINNED_G1_FRAMED_TTY_ROLE_V1',phase=phase,context=context_row,session_directory=session,deadline_unix_ms=ends,receiver_sha256=RECEIVER_SHA,resolver_sha256=RESOLVER_SHA,automatic_retry=False,original_awards=[])
  admission=encode(grant)
- config=dict(schema='dg16.g1-framed-role-configuration.v1',issuer_thread=ISSUER,phase=phase,context=context_row,session_directory=session,deadline_unix_ms=ends,admission={'path':str(out/'ROLE_ADMISSION.json'),'sha256':sha(admission)},initial_session=initial_session,actual_root_decision=actual_root_decision)
+ config=dict(schema='dg16.g1-framed-role-configuration.v1',issuer_thread=ISSUER,successor='PRO-EXECUTOR-01, designated by owner',phase=phase,context=context_row,session_directory=session,deadline_unix_ms=ends,admission={'path':str(out/'ROLE_ADMISSION.json'),'sha256':sha(admission)},initial_session=initial_session,actual_root_decision=actual_root_decision)
  raw=encode(config);need(len(raw)<=65536 and len(admission)<=65536,'ROLE_CONFIGURATION_SIZE')
  return {'CONTEXT.json':ctx,'ROLE_ADMISSION.json':admission,'ROLE_CONFIGURATION.json':raw,
   'WINDOWS_SELECTION.json':encode(selection('role',out/'ROLE_CONFIGURATION.json',raw,shell_title))}
@@ -155,9 +155,9 @@ def control_documents(R,s,got,body,parent_sha,parent_raw,opened,ends,out,shell_t
  else:need(all(v is None for v in (initial_control,initial_session,initial_body_row,initial_publication_row)),'NO_UNRELATED_INITIAL_CONTROL')
  body_row={'path':str(out/'DECISION.json'),'sha256':sha(body)};parent_row={'path':str(out/'PARENT_REF_RESULT.json'),'sha256':sha(parent_raw)}
  journal=str(ROOT/'control-sessions'/out.name)
- grant=dict(schema='dg16.g1-root-control-publication-admission.v2',issuer_thread=ISSUER,status='ADMIT_EXACT_THREE_GUARDED_CONTROL_WRITES_AND_READBACK',phase=got['phase'],context=got['context'],body=body_row,artifact_receiving=R.desc(R.encode(got['receipt'])),parent_sha=parent_sha,parent_ref_result=parent_row,plan_contract_sha256=R.sha(R.encode({k:v for k,v in plan.items() if k!='root_body_validation_at_unix_ms'})),journal_directory=journal,deadline_unix_ms=ends,tools=plan['supported_tool_order'],readback_contract=dict(metadata_tool='mcp__codex_apps__github_fetch',file_tool='mcp__codex_apps__github_fetch_file',immutable_published_commit=True,file_decoder_sha256=FILE_READBACK_SHA,receiver_adapter_sha256=CONTROL_READBACK_SHA,maximum_frame_seconds=45),automatic_retry=False,original_awards=[])
+ grant=dict(schema='dg16.g1-root-control-publication-admission.v2',issuer_thread=ISSUER,successor='PRO-EXECUTOR-01, designated by owner',status='ADMIT_EXACT_THREE_GUARDED_CONTROL_WRITES_AND_READBACK',phase=got['phase'],context=got['context'],body=body_row,artifact_receiving=R.desc(R.encode(got['receipt'])),parent_sha=parent_sha,parent_ref_result=parent_row,plan_contract_sha256=R.sha(R.encode({k:v for k,v in plan.items() if k!='root_body_validation_at_unix_ms'})),journal_directory=journal,deadline_unix_ms=ends,tools=plan['supported_tool_order'],readback_contract=dict(metadata_tool='mcp__codex_apps__github_fetch',file_tool='mcp__codex_apps__github_fetch_file',immutable_published_commit=True,file_decoder_sha256=FILE_READBACK_SHA,receiver_adapter_sha256=CONTROL_READBACK_SHA,maximum_frame_seconds=45),automatic_retry=False,original_awards=[])
  admission=encode(grant)
- cfg=dict(schema='dg16.g1-root-control-driver-configuration.v2',issuer_thread=ISSUER,artifact_session=artifact_session,initial_session=initial_session,initial_body=initial_body_row,initial_publication=initial_publication_row,body=body_row,parent_sha=parent_sha,parent_ref_result=parent_row,deadline_unix_ms=ends,journal_directory=journal,admission={'path':str(out/'CONTROL_ADMISSION.json'),'sha256':sha(admission)})
+ cfg=dict(schema='dg16.g1-root-control-driver-configuration.v2',issuer_thread=ISSUER,successor='PRO-EXECUTOR-01, designated by owner',artifact_session=artifact_session,initial_session=initial_session,initial_body=initial_body_row,initial_publication=initial_publication_row,body=body_row,parent_sha=parent_sha,parent_ref_result=parent_row,deadline_unix_ms=ends,journal_directory=journal,admission={'path':str(out/'CONTROL_ADMISSION.json'),'sha256':sha(admission)})
  if parent_state is not None:
   host_row={'path':str(out/'HOST_PUBLICATION_RECEIVING.json'),'sha256':sha(publication)}
   grant['host_publication']=host_row;admission=encode(grant);cfg['host_publication']=host_row;cfg['admission']['sha256']=sha(admission)
@@ -185,7 +185,7 @@ def write_documents(out,files):
    os.fsync(fd)
   finally:os.close(fd)
   need(read(p,max(1,len(raw)))==raw,'EXACT_ISSUANCE_READBACK')
- receipt=encode(dict(schema='dg16.g1-root-event-issuance-readback.v1',issuer_thread=ISSUER,files={n:desc(b) for n,b in files.items()},actual_native_root_invocation_required=True,provider_or_control_calls_performed=False))
+ receipt=encode(dict(schema='dg16.g1-root-event-issuance-readback.v1',issuer_thread=ISSUER,successor='PRO-EXECUTOR-01, designated by owner',files={n:desc(b) for n,b in files.items()},actual_native_root_invocation_required=True,provider_or_control_calls_performed=False))
  p=out/'ISSUANCE_READBACK.json';fd=os.open(p,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW|os.O_CLOEXEC,0o600)
  try:
   os.fchmod(fd,0o600);v=memoryview(receipt)

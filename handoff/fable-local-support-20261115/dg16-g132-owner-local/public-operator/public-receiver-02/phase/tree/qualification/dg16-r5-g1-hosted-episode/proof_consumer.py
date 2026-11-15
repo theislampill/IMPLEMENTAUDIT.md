@@ -29,7 +29,7 @@ TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
 SOURCE_PARENT = '8c393aa0d415e3bb4f25d333316b3abaf498e5af'
 COMPILER_SHA = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
 OWNER_SHA = '9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3'
-SCOPE_SHA = '440e2635ff7761631b7b34ff7997256b97fbd2968b3b7bd310b197ea2741b3a2'
+SCOPE_SHA = '8c08f2aecd34f582f3662b5bc83b3d3a27cee33d2f17711ced868a1d7b11c96a'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
 ROOT, PHASE, JOIN = 'R5_ROOT', 'DG16_CURRENT', 'DG16_COMPONENT_JOIN'
 PAIR, SCOPE = 'G1_ORIGINAL_PAIR', 'HOST_SCOPE_RECEIVING'
@@ -232,7 +232,7 @@ INITIAL_FIELDS = '''schema authority source_commit source_tree source_parent run
 SCOPE_FIELDS = '''schema authority source_commit source_tree run_id attempt graph_sha256 dispatch_sha256 original_scope_sha256 complete_input_key selected_tracked_source_files selected_tracked_source_bytes scope_obligations ancestors actual_complete_source_files actual_complete_source_bytes selected required_join root node_count original_total observed_affinity_count capacity_units host_capacity operator_ceiling reserve active_owned_task_slots independence owner_arrangement received_input_bodies natural_transition full_g2 original_awards future_adoption result root_decision_before'''.split()
 G1_FIELDS = '''schema authority source_commit source_tree status original_G1_award original_acceptance actual_raw_comparison_sha256 operation_result_sha256 same_checkout_current original_operation_complete private_raw_publication'''.split()
 FINAL_FIELDS = '''schema authority source_commit source_tree source_parent run_id attempt nonce control_branch control_path original_scope_sha256 initial_request_sha256 proofs initial_graph_sha256 final_graph_sha256 continuity_generation current_receipt_sha256 component_return_nodes consumed_join root actual_stale_result final_selected original_ids original_scopes g1_facts retained_original_total g1_input_scope g1_complete_input_key g3_current_scope input_change_reason actual_original_awards original_scope v041_admission global_liveness retirement_or_transfer full_g2 whole_DG16_awarded shared_window_started_unix_ms issued_unix_ms expires_unix_ms shared_window_seconds status'''.split()
-ROOT_FIELDS = '''schema issuer action request_sha256 run_id attempt nonce source_commit source_tree graph_sha256 dispatch_sha256 join_sha256 consumed_nodes outputs decision_before decision_after owner_arrangement original_awards full_g2 issued_unix_ms expires_unix_ms'''.split()
+ROOT_FIELDS = '''schema issuer successor action request_sha256 run_id attempt nonce source_commit source_tree graph_sha256 dispatch_sha256 join_sha256 consumed_nodes outputs decision_before decision_after owner_arrangement original_awards full_g2 issued_unix_ms expires_unix_ms'''.split()
 PIN_FIELDS = '''schema source_commit source_tree scope_sha256 adverse_sha256 compiler_sha256 owner_sha256 scope_module_sha256 consumer_sha256 initial_control_branch'''.split()
 
 def pins_contract(pins):
@@ -308,7 +308,7 @@ def validate_first(initial_raw,scope_raw,g1_raw,pins,scope_basis):
 
 def validate_root(raw,initial_raw,initial):
     root=parse(raw,canonical=True,maximum=8192);exact(root,ROOT_FIELDS)
-    require(root['schema']=='dg16.g3-root-consumption-decision.v2' and root['issuer']=='R5_ROOT_GOVERNOR' and
+    require(root['schema']=='dg16.g3-root-consumption-decision.v2' and root['issuer']=='R5_ROOT_GOVERNOR' and root['successor']=='PRO-EXECUTOR-01, designated by owner' and
             root['action']=='CONSUME_COMPONENT_RETURNS_ONLY' and root['request_sha256']==sha(initial_raw),'ROOT_CONTROL_REFUSED')
     for key in ('run_id','attempt','nonce','source_commit','source_tree','graph_sha256','dispatch_sha256','join_sha256','decision_before','decision_after','full_g2','expires_unix_ms'):
         require(type(root[key]) is type(initial[key]) and root[key]==initial[key],'ROOT_REQUEST_BINDING_REFUSED')

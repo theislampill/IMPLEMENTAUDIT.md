@@ -1,0 +1,335 @@
+{
+  "actual_source_delta": {
+    "body_bytes": 3058,
+    "body_sha256": "ab116381f324d8aa849228ea908961d0c6cd412bf73d2c86b45b9b0e2a56ba32",
+    "byte_and_mode_identical_files": 1764,
+    "changed_files": [
+      {
+        "after": {
+          "bytes": 38548,
+          "git_blob": "0f0e506f1326ce4e7292a9098630572f106cf066",
+          "mode": "100644",
+          "sha256": "27778637f12ab271be59ac75db51de047fe28020fa9558153688748b2e5393df"
+        },
+        "before": {
+          "bytes": 38668,
+          "git_blob": "8bd264188901d5ae64078ce0583ff5aa6889d8f7",
+          "mode": "100644",
+          "sha256": "b23228b9037819a0483b213aa4296e9a1f0d718a0c126095837395d11d649a51"
+        },
+        "path": "tests/work-graph-custody-append-cases.py"
+      },
+      {
+        "after": {
+          "bytes": 31832,
+          "git_blob": "6db82217dd48a26550b01b8aa4fc789a893dfd43",
+          "mode": "100644",
+          "sha256": "9138a53bf456e2563be10fe498ec2255efc0a6e788cd1099168228b5e0025b64"
+        },
+        "before": {
+          "bytes": 32632,
+          "git_blob": "16dbe3116e0c5ca4b380ae76dc5748d466a01077",
+          "mode": "100644",
+          "sha256": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+        },
+        "path": "tests/work-graph-pending-settlement-cases.py"
+      }
+    ],
+    "files_added": 0,
+    "files_removed": 0,
+    "git_command": [
+      "git",
+      "-c",
+      "core.abbrev=40",
+      "diff",
+      "--no-ext-diff",
+      "--no-textconv",
+      "--no-color",
+      "--full-index",
+      "205aeab7c93299b0666b261485ab5658d8e183de",
+      "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+      "--"
+    ],
+    "mode_changes": 0,
+    "qualification_behavior_equivalence_claimed": false,
+    "semantics": [
+      "Custody test removes explicit future mtime adjustment after writing replacement bytes.",
+      "Pending settlement test removes warning imports, scoped fork warning capture and warning-content assertion."
+    ]
+  },
+  "authority": "NONE",
+  "disposition": "RECEIVED_CLOSED_TEST_ONLY_SOURCE_PACKAGE_RELATIONSHIP",
+  "frozen_utc": "2026-11-15T11:52:58.657345Z",
+  "operations": {
+    "accepted_route_replays": 0,
+    "artifact_downloads": 0,
+    "commits": 0,
+    "output_written": "independent-source-relationship.json only",
+    "package_rebuilds": 0,
+    "publications": 0,
+    "qualification_test_runs": 0,
+    "remote_actions": 0,
+    "source_edits": 0
+  },
+  "package_dependency_relation": {
+    "all_79_member_records_identical": true,
+    "canonical_member_record_body": {
+      "bytes": 17274,
+      "files": 79,
+      "serialization": "UTF-8 json.dumps(path-sorted source-manifest member records, sort_keys=True, separators=(comma,colon)) plus LF",
+      "sha256": "e0e1f081b304a41652e75b2db480de912766bd2850d8dd2a29120e8c6cadbbe2",
+      "source_bytes": 2155251
+    },
+    "cap_bytes_each_role": 589824,
+    "derivation": {
+      "all_manifest_paths_below": "skills/implementaudit/",
+      "host_manifest_paths": [
+        ".claude-plugin/marketplace.json",
+        ".claude-plugin/plugin.json",
+        ".codex-plugin/plugin.json"
+      ],
+      "internal_skill_paths": [
+        "skills/audit-state/SKILL.md",
+        "skills/audit-assess/SKILL.md",
+        "skills/audit-implement/SKILL.md",
+        "skills/audit-andon/SKILL.md"
+      ],
+      "producer_paths": [
+        "scripts/build-release-asset.sh",
+        "scripts/check-package-contract.sh",
+        "scripts/package-contract.py",
+        "scripts/write-release-checksums.sh",
+        "requirements-release.txt",
+        "package/implementaudit-package.json"
+      ]
+    },
+    "interpretation": "Shipping payload, projection rules, builder inputs, package contract, installer implementation and admitted budget policy are unchanged across this exact closed two-test delta. The generated inventory remains source-bound to the actual producer.",
+    "original_closed_dependency_path_population": {
+      "bytes": 23303,
+      "commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "path": "recovery/contracts/evidence/package/PACKAGE_DEPENDENCY_COMPARISON.json",
+      "sha256": "f053d812d02a3b9ecd86a6122d9903f2f6f1484a399beaeac9a96760c32a3e74"
+    },
+    "producer_records": [
+      {
+        "bytes": 29407,
+        "git_blob": "1dab40ddffb41113ebe166978f004457bb585636",
+        "mode": "100755",
+        "path": "scripts/build-release-asset.sh",
+        "sha256": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708"
+      },
+      {
+        "bytes": 448,
+        "git_blob": "bd416a140dfa5dec0a8baca4ef9acc4230fd86a4",
+        "mode": "100755",
+        "path": "scripts/check-package-contract.sh",
+        "sha256": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc"
+      },
+      {
+        "bytes": 45774,
+        "git_blob": "31020bde2b515a163b19ce51a172c835ef8cbc4e",
+        "mode": "100755",
+        "path": "scripts/package-contract.py",
+        "sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960"
+      },
+      {
+        "bytes": 2177,
+        "git_blob": "6546f9a2138cd7d606a9e2a8be931fead3ed147c",
+        "mode": "100755",
+        "path": "scripts/write-release-checksums.sh",
+        "sha256": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e"
+      },
+      {
+        "bytes": 20,
+        "git_blob": "9a8fb8c657eae96b270cf7c089cbed39463cd379",
+        "mode": "100644",
+        "path": "requirements-release.txt",
+        "sha256": "cfb500c2279c57e8af17a1a4db8a5f43878160a06f7e6de655d39bfa2e7f0117"
+      },
+      {
+        "bytes": 5028,
+        "git_blob": "eee4eac2dc581a8a8b924966d36cbbb1acd2e133",
+        "mode": "100644",
+        "path": "package/implementaudit-package.json",
+        "sha256": "4d5db5bb9d5d686528d03d50b8ecf949909b753d0e572f25437fb324505ca5a5"
+      }
+    ],
+    "reserve_bytes_each_role": 2000,
+    "same_path_population": true,
+    "unchanged_admitted_budget_policy": {
+      "bytes": 1881,
+      "git_blob": "5ee7aae0a576cec74da8c50b6d3936eea889f136",
+      "mode": "100644",
+      "path": "package/budgets/pr255-v4-owner-approval.md",
+      "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
+    },
+    "unchanged_installer_records": [
+      {
+        "bytes": 25586,
+        "git_blob": "9c3204127038f488bda102e6ee054bdd60dd378e",
+        "mode": "100644",
+        "path": "scripts/install-codex-from-release.sh",
+        "sha256": "bc6b272b43128257956e7b2472f6c106774aae12c2f10586052998ceace606de"
+      },
+      {
+        "bytes": 26749,
+        "git_blob": "48d4ad686ac6cf352d72a5ef391d3dc8dd8f598e",
+        "mode": "100644",
+        "path": "scripts/install-claude-from-release.sh",
+        "sha256": "1317e8ee9d82e061d9e627458eb2efa86013aefa7e000d2fe88652d20036c260"
+      },
+      {
+        "bytes": 3158,
+        "git_blob": "8ea1c87f904641db8b1e05586ae45d6fd6ba6499",
+        "mode": "100755",
+        "path": "scripts/install-plugin-from-release.sh",
+        "sha256": "fa06b9059be0649865af75b7e11ba4a81bb0e3d284b2a1f039092e8f9d9b111a"
+      }
+    ]
+  },
+  "package_producer_source": {
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "file_count": 1766,
+    "manifest": {
+      "bytes": 495517,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/M5_SOURCE_MANIFEST.json",
+      "sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743"
+    },
+    "manifest_all_entries_match_immutable_git_tree": true,
+    "total_bytes": 167023692,
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "receiver": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authored_consumer": false,
+    "authoring_context_reused": false,
+    "basis": "Independently read immutable Git objects, complete retained source manifests, physical detached worktree, actual local archive bodies and retained distinct provider-receiving bodies. Parent-supplied identities were checked; the new consumer implementation was not used as evidence. Ordinary bounded receiving; not an internal audit-assess envelope.",
+    "consumer_author": "/root",
+    "distinct_from_consumer_author": true,
+    "requested_model": "GPT-6 Astra Pro"
+  },
+  "required_identity_limits": [
+    "Both archive inventories retain actual producer 205aeab7c93299b0666b261485ab5658d8e183de/tree9ffbaf95080092bf4a45b8772a97ed16068544a7. They are not relabelled as e76a07b2 packages.",
+    "package-contract.py verify_artifact requires embedded inventory source to equal source_identity(root), and release installers require the archive inventory exact source checkout. This receipt does not waive that predicate or claim these archives pass it from the e76 checkout.",
+    "A fresh build under e76 would embed a different source identity; no hypothetical fresh archive byte identity is asserted.",
+    "Retained four-route source205 execution remains its actual scope. This static relationship is not new G132 route execution, native discovery, Windows qualification, helper-dispatch qualification or an original M5/Q04/Q05/G2/M6/whole-DG16 award.",
+    "The two changed tests have different test behavior. No transfer of their execution outcomes or new canonical full-operation result is made here."
+  ],
+  "retained_actual_receiving": {
+    "artifact": {
+      "bytes": 6847,
+      "id": 14151065080,
+      "name": "dg16-installed-runtime05-43686188100-1",
+      "public_files": 9,
+      "public_uncompressed_bytes": 17149,
+      "sha256": "897340c804241024f7be059adf0df717279d642add529c08eaa1b7851e5f3594"
+    },
+    "attempt": 1,
+    "basis": "Retained actual provider receiving and public identity join. Local fixture bodies equal the received hosted package identities; hosted private archive bodies were not downloaded by this receiver.",
+    "disposition": "RECEIVED_CURRENT_SOURCE_FOUR_ROUTE_HOSTED_QUALIFICATION",
+    "job_id": 132727043728,
+    "receipt": {
+      "bytes": 2873,
+      "path": "/workspace/scratch/0269e6626329/dg16/handoff/pro-executor-results-20261115/dg16-m5/independent-receiving-43686188100/RECEIPT.json",
+      "sha256": "607f7fa15726a72954ccbe14d539e8c7422e13f848cd1146712967de7c246840"
+    },
+    "receiver": "/root/dg18_engineering",
+    "receiving_body": {
+      "bytes": 22867,
+      "path": "/workspace/scratch/0269e6626329/dg16/handoff/pro-executor-results-20261115/dg16-m5/independent-receiving-43686188100/RECEIVING.json",
+      "sha256": "73bfbab6178344e90a116d50218f43766079a1f4c4e501e2bf9839841c0200f5"
+    },
+    "run_id": 43686188100,
+    "workflow_commit": "c073689e315b4db7c26e5a95c9024a34b1e560b7",
+    "workflow_tree": "8d5502db6ea1f303f6345ded74cf1a0ae1dd3e94"
+  },
+  "retained_packages": [
+    {
+      "bytes": 584971,
+      "cap_bytes": 589824,
+      "complete_inventory_and_source_parity": true,
+      "expanded_bytes": 2092027,
+      "independent_local_crc_inventory_hashes_and_modes_verified": true,
+      "inventory_body": {
+        "bytes": 14602,
+        "sha256": "a69a67b12c12d387ac70d5741ee0f91156880d146edb0a289033f3c08a2c3330"
+      },
+      "inventory_members": 74,
+      "inventory_source": {
+        "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+        "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+        "worktree_state": "clean"
+      },
+      "local_body_path": "/workspace/scratch/0269e6626329/m5-source/handoff/dg16-m5-source-20261115/validation/new-package-fixture-build/artifacts/IMPLEMENTAUDIT.plugin.zip",
+      "member_bytes_modes_sha256": "5f49d3d5ca5f423ee1b0a78dd9ccb2cdfe932682e14f7ac63ac324bb974627db",
+      "members": 75,
+      "name": "IMPLEMENTAUDIT.plugin.zip",
+      "remaining_after_reserve_bytes": 2853,
+      "reserve_bytes": 2000,
+      "role": "canonical_plugin",
+      "sha256": "a43f018d4d3cc6d6257eeacfd8b5b834588410564ac33b0c8022d01a0ca71e58"
+    },
+    {
+      "bytes": 580360,
+      "cap_bytes": 589824,
+      "complete_inventory_and_source_parity": true,
+      "expanded_bytes": 2087353,
+      "independent_local_crc_inventory_hashes_and_modes_verified": true,
+      "inventory_body": {
+        "bytes": 12702,
+        "sha256": "61f296f1d39360205424cddf027cdf12542a7781797af764b6959329420c3190"
+      },
+      "inventory_members": 71,
+      "inventory_source": {
+        "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+        "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+        "worktree_state": "clean"
+      },
+      "local_body_path": "/workspace/scratch/0269e6626329/m5-source/handoff/dg16-m5-source-20261115/validation/new-package-fixture-build/artifacts/IMPLEMENTAUDIT.skill",
+      "member_bytes_modes_sha256": "e2b2a91441b4872f5c0b7bce78c8d2e12fb1da59aa6d3e293d6385dcf593bc25",
+      "members": 72,
+      "name": "IMPLEMENTAUDIT.skill",
+      "remaining_after_reserve_bytes": 7464,
+      "reserve_bytes": 2000,
+      "role": "standalone_compatibility",
+      "sha256": "d1b89ec4113b0c57d925e2f5aeec16c1baa471985b918e6fc3e54e808fad7f1e"
+    }
+  ],
+  "schema": "dg16.g132-independent-source-package-relationship.v1",
+  "scope": {
+    "criteria": [
+      "R35-P01",
+      "R35-Q04",
+      "R35-Q05"
+    ],
+    "criterion_source": {
+      "bytes": 18760,
+      "commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "path": "recovery/contracts/original/R0035_209_CRITERIA_INDEX.md",
+      "sha256": "314e772874b2490aefcd20826d82cf1d093d2a64ecc673b90f9e28461e431948"
+    },
+    "full_Q04_Q05_received": false,
+    "native_or_hosted_G132_award": false,
+    "new_original_awards": [],
+    "package_leg": "NOT_TRIGGERED_FOR_THIS_CLOSED_TEST_ONLY_SOURCE_DELTA",
+    "relationship_only": true
+  },
+  "selected_product_source": {
+    "clean_at_read_and_closing_read": true,
+    "commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "detached": true,
+    "every_physical_file_size_sha256_git_blob_and_mode_matches_manifest": true,
+    "file_count": 1766,
+    "identity_kind": "ACTUAL_LOCAL_GIT_WORKTREE; NO_NEW_NATIVE_PROVIDER_IDENTITY_CLAIM",
+    "manifest": {
+      "bytes": 495602,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/SELECTED_SOURCE_MANIFEST.json",
+      "sha256": "7cd236053a3f27003aad3d3cd30b37ef95b09b0eea786f5896155af1498d8117"
+    },
+    "manifest_all_entries_match_immutable_git_tree": true,
+    "total_bytes": 167022772,
+    "tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+    "worktree": "/workspace/scratch/0269e6626329/g132-maintained-source"
+  }
+}

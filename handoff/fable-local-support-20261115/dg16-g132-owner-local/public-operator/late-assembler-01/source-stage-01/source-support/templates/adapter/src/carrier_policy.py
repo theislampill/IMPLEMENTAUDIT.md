@@ -191,7 +191,7 @@ def load():
     admission_raw,admission_record=F.read_file(base/'CARRIER_ADMISSION.json',MAX_INDEX)
     need(descriptor(admission_raw)==v['carrier_admission'],'CARRIER_ADMISSION_BODY_PIN')
     admission=parse(admission_raw,MAX_INDEX)
-    expected=dict(schema='dg16.core-private-carrier-root-admission.v2',issuer='R5_ROOT_GOVERNOR',
+    expected=dict(schema='dg16.core-private-carrier-root-admission.v2',issuer='R5_ROOT_GOVERNOR',successor='PRO-EXECUTOR-01, designated by owner',
         operation='ONE_FIXED_TOOL_BOOTSTRAP_ONE_FRESH_RECIPIENT_ONE_PRIVATE_TRANSFER',source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,
         workflow_branch=v['branch'],workflow_path=v['workflow_path'],workflow_sha256=v['workflow_sha256'],
         control_branch=v['control_branch'],control_parent=v['control_parent'],input_index_sha256=sha(index_raw),

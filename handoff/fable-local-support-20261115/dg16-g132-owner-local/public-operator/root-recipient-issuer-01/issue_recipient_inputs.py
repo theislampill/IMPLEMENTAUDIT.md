@@ -14,10 +14,10 @@ import sys
 import time
 import types
 
-BASE = Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01')
+BASE = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator')
 RECEIVER = BASE / 'public-receiver-02'
 READER = RECEIVER / 'author/receiver.py'
-READER_SHA = '5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab'
+READER_SHA = '0676910949eec3aada03d5c5feb37df88daebf217256f17fb46f6a0b8c22a1a7'
 HOST_COMMIT = 'f9ba187e8f5520956f0f16cf13c0a706e8360b96'
 HOST_TREE = '8390375505282e602759c7976b6bca82a44d5737'
 
@@ -83,7 +83,7 @@ def derive(R, source, received, archive, publication, packet, issued, nonce, uid
     limit = min(q['expires_unix_ms'], issued + source.binding['limits']['acquisition_seconds'] * 1000)
     require(q['issued_unix_ms'] <= issued < limit, 'RECIPIENT_WINDOW_CLOSED')
     require(q['nonce'] != nonce and len(nonce) == 64, 'DISTINCT_OPERATION_NONCE_REQUIRED')
-    common = dict(source_commit=source.P.SOURCE_COMMIT, source_tree=source.P.SOURCE_TREE,
+    common = dict(successor='PRO-EXECUTOR-01, designated by owner', source_commit=source.P.SOURCE_COMMIT, source_tree=source.P.SOURCE_TREE,
                   carrier_binding_sha256=R.sha(source.binding_raw),
                   input_index_sha256=source.binding['input_index']['sha256'],
                   artifact_id=receipt['provider']['artifact_id'], artifact=R.desc(archive), original_awards=[])
@@ -96,7 +96,7 @@ def derive(R, source, received, archive, publication, packet, issued, nonce, uid
     op = dict(common, schema='dg16.pro-private-sender-operation.v1', context=ctx, nonce=nonce,
               issued_unix_ms=issued, expires_unix_ms=limit, sender_uid=uid, sender_gid=gid)
     composition = R.parse(source.body(R.CORE+'carrier/PRO_SENDER_COMPOSITION.json'))
-    admission = dict(schema='dg16.pro-private-sender-root-admission.v1', issuer='R5_ROOT_GOVERNOR',
+    admission = dict(schema='dg16.pro-private-sender-root-admission.v1', issuer='R5_ROOT_GOVERNOR', successor='PRO-EXECUTOR-01, designated by owner',
                      operation_sha256=R.sha(R.encode(op)), capture_profile=composition['capture_profile'],
                      provider_profile=source.B.PROFILE, source_commit=source.P.SOURCE_COMMIT,
                      source_tree=source.P.SOURCE_TREE, carrier_binding_sha256=common['carrier_binding_sha256'],

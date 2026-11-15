@@ -700,12 +700,10 @@ def receive_exact_cumulative_source_rows(selected, changes):
 
 
 def receive_flat_nonpackage_successor(acquired, basis, bodies):
-    """Receive final nonshipping-source applicability without relabelling actual08e package observations.
+    """Receive actual M5 packages and the complete test-only source relation.
 
-    The original v2 consumer executes unchanged against exact original inputs.
-    Its historical manifest is reconstructed only as an exact digest-checked byte
-    projection of the current manifest plus the exact retained source rows, including deleted paths.
-    No path, native, build, installation, currentness or authority effect occurs.
+    Existing package observations retain their actual205 source identity. This
+    reader neither recreates missing historical evidence nor repeats a build.
     """
     exact(acquired, ('schema','authority','status','commit','tree','files','bytes','manifest_sha256',
         'errors','original_awards','package_relation','evidence','evidence_bodies'), 'UNCHANGED_ACQUISITION_FIELDS')
@@ -715,7 +713,8 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
          and acquired['files']==SOURCE_FILES and acquired['bytes']==SOURCE_BYTES
          and acquired['errors']==[] and acquired['original_awards']==[], 'UNCHANGED_SOURCE_SUBJECT')
     names=('INDEPENDENT_RECEIVING.json','PHYSICAL_PRODUCT_READBACK.json','PRODUCT_PUBLICATION_RECEIVING.json',
-           'ROOT_PACKAGE_SOURCE_APPLICABILITY.json','ROOT_SOURCE_CURRENTNESS.json','SOURCE_ACQUISITION_08E6.json')
+           'ROOT_PACKAGE_SOURCE_APPLICABILITY.json','ROOT_SOURCE_CURRENTNESS.json',
+           'M5_RECEIPT.json','M5_RECEIVING.json','M5_SOURCE_MANIFEST.json')
     exact(acquired['evidence'],names,'UNCHANGED_EVIDENCE_POPULATION')
     exact(acquired['evidence_bodies'],names,'UNCHANGED_EVIDENCE_POPULATION')
     raw={}
@@ -725,23 +724,20 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
         body=text.encode('utf8');need(dict(bytes=len(body),sha256=sha(body))==acquired['evidence'][name],
                                      'UNCHANGED_EVIDENCE_BODY_PIN')
         raw[name]=body
-    prior_raw=raw['SOURCE_ACQUISITION_08E6.json']
-    need(dict(bytes=len(prior_raw),sha256=sha(prior_raw))==dict(bytes=536265,
-         sha256='e7955048bc9957240284b2bfb82439d9abf5ec456522ea48bc4792929540f5be'), 'ACTUAL_PRIOR_ACQUISITION_PIN')
-    prior=parse(prior_raw)
-    relation=acquired['package_relation']
-    need(relation==basis['retained_package_relation']
-         and relation==dict(schema='dg16.nonshipping-source-package-applicability.v1',
-             selected_source=dict(commit=SOURCE_COMMIT,tree=SOURCE_TREE),
-             observed_package_source=dict(commit='08e6faa9a71fc09996a32e114346dce6508ef656',
-                 tree='83165996af29c20f526f53a9dc6c4d8edfec4be5'),
-             dependency_files=79,changed_dependencies=0,package_leg='NOT_TRIGGERED',
-             changed_project_paths=sorted(set(PRIOR_PACKAGE_SOURCE_ROWS)|set(PRIOR_PACKAGE_ADDED_SOURCE_PATHS)),
-             retained_prior_acquisition=dict(bytes=len(prior_raw),sha256=sha(prior_raw)),
-             current_root_applicability=acquired['evidence']['ROOT_PACKAGE_SOURCE_APPLICABILITY.json'],
-             independent_receiving=acquired['evidence']['INDEPENDENT_RECEIVING.json'],
-             full_Q04_Q05=False,native_discovery='UNVERIFIED',no_new_build_or_copy=True,original_awards=[]),
-         'UNCHANGED_PACKAGE_RELATION_SCOPE')
+    # These are already independently received public originals, not assertions
+    # reconstructed for this operation. A changed body cannot substitute for one.
+    retained={
+        'M5_RECEIPT.json':dict(bytes=2873,sha256='607f7fa15726a72954ccbe14d539e8c7422e13f848cd1146712967de7c246840'),
+        'M5_RECEIVING.json':dict(bytes=22867,sha256='73bfbab6178344e90a116d50218f43766079a1f4c4e501e2bf9839841c0200f5'),
+        'M5_SOURCE_MANIFEST.json':dict(bytes=495517,sha256='e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743')}
+    need(all(acquired['evidence'][n]==d for n,d in retained.items()),'ACTUAL_RETAINED_M5_BODY_PINS')
+    receipt=parse(raw['M5_RECEIPT.json']);technical=parse(raw['M5_RECEIVING.json'])
+    observed=dict(commit='205aeab7c93299b0666b261485ab5658d8e183de',tree='9ffbaf95080092bf4a45b8772a97ed16068544a7')
+    need(receipt['current_four_route_conjunction_received'] is True
+         and receipt['source']==technical['source'] and technical['packages']['source']==observed
+         and receipt['technical_receiving_record']['bytes']==retained['M5_RECEIVING.json']['bytes']
+         and receipt['technical_receiving_record']['sha256']==retained['M5_RECEIVING.json']['sha256'],
+         'ACTUAL_RETAINED_M5_RECEIVING_JOIN')
     manifest_raw=read_file(Path(__file__).with_name('SOURCE_MANIFEST.json'),FILE_LIMIT)
     manifest=parse(manifest_raw)
     need(sha(manifest_raw)==acquired['manifest_sha256']==basis['source_inventory_sha256']
@@ -751,39 +747,26 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
     selected={r['path']:r for r in manifest['members']}
     need(len(selected)==len(manifest['members'])==SOURCE_FILES
          and sum(r['bytes'] for r in selected.values())==SOURCE_BYTES,'UNCHANGED_CURRENT_SOURCE_POPULATION')
-    need(all(selected.get(name)==row for name,row in PRIOR_PACKAGE_ADDED_SOURCE_PATHS.items()),'EXACT_ADDED_SOURCE_MEMBER')
-    fixed='fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py'
-    need(selected[fixed]['bytes']==33227
-         and selected[fixed]['sha256']=='528f1e693d0745b90a8ea2ededd570962f929e8f2c76b115c6e011386a03e0f7',
-         'UNCHANGED_EXACT_FIXTURE_REPAIR')
-    # Exact original body, not a newly asserted historical result. The digest
-    # fails if any source member/header/encoding differs from the actual input.
-    old_manifest=parse(manifest_raw)
-    old_manifest.update(commit='08e6faa9a71fc09996a32e114346dce6508ef656',
-        tree='83165996af29c20f526f53a9dc6c4d8edfec4be5',
-        parent_commit='7e2b00b3a2a16fc6033a5eabe4fc795f6249366f',
-        parent_tree='6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e',file_count=1759,total_bytes=166407923)
-    old_rows={r['path']:r for r in old_manifest['members'] if r['path'] not in PRIOR_PACKAGE_ADDED_SOURCE_PATHS}
-    # A removed current path still contributes its exact historical before row.
-    old_rows.update(PRIOR_PACKAGE_SOURCE_ROWS)
-    old_manifest['members']=[dict(old_rows[name]) for name in sorted(old_rows)]
-    old_manifest_raw=(json.dumps(old_manifest,sort_keys=True,indent=2,ensure_ascii=True,allow_nan=False)+'\n').encode()
-    need(len(old_manifest_raw)==493409 and sha(old_manifest_raw)==
-         '8c797c64fc9ec276c9d97a8dab68f35ccb8f32cb9c767002e994b66ca6a7cc56','ACTUAL_PRIOR_MANIFEST_BYTES')
-    # Isolate the original v2 globals; never mutate the current module/reader.
-    def historical_read(path,maximum):
-        need(Path(path)==Path(__file__).with_name('SOURCE_MANIFEST.json')
-             and len(old_manifest_raw)<=maximum,'PRIOR_MANIFEST_ONLY_READER')
-        return old_manifest_raw
-    environment=dict(globals(),SOURCE_COMMIT=old_manifest['commit'],SOURCE_TREE=old_manifest['tree'],
-        SOURCE_PARENT=old_manifest['parent_commit'],SOURCE_FILES=old_manifest['file_count'],
-        SOURCE_BYTES=old_manifest['total_bytes'],read_file=historical_read)
-    original=types.FunctionType(receive_current_package_relation.__code__,environment,
-                               'receive_actual_prior_v2_package_relation')
-    old_basis=dict(basis,retained_package_relation=prior['package_relation'],
-                   source_inventory_sha256=sha(old_manifest_raw))
-    old_bodies=dict(bodies,**{'SOURCE_ACQUISITION.json':prior_raw})
-    need(original(prior,old_basis,old_bodies)==prior['package_relation'],'ACTUAL_PRIOR_V2_RECEIVING')
+    previous_manifest=parse(raw['M5_SOURCE_MANIFEST.json'])
+    previous={r['path']:r for r in previous_manifest['members']}
+    need(set(previous)==set(selected) and len(previous)==len(previous_manifest['members'])==1766
+         and previous_manifest['commit']==observed['commit'] and previous_manifest['tree']==observed['tree']
+         and previous_manifest['total_bytes']==sum(r['bytes'] for r in previous.values())==167023692,
+         'ACTUAL_M5_COMPLETE_SOURCE_POPULATION')
+    changed=sorted(p for p in selected if selected[p]!=previous[p])
+    need(changed==['tests/work-graph-custody-append-cases.py','tests/work-graph-pending-settlement-cases.py']
+         and PRIOR_PACKAGE_SOURCE_ROWS=={p:previous[p] for p in changed}
+         and PRIOR_PACKAGE_ADDED_SOURCE_PATHS=={},'EXACT_TEST_ONLY_SOURCE_DIFFERENCE')
+    relation=acquired['package_relation']
+    need(relation==basis['retained_package_relation']
+         and relation==dict(schema='dg16.nonshipping-source-package-applicability.v1',
+             selected_source=dict(commit=SOURCE_COMMIT,tree=SOURCE_TREE),observed_package_source=observed,
+             unchanged_source_members=len(selected)-len(changed),changed_dependencies=0,package_leg='NOT_TRIGGERED',
+             changed_project_paths=changed,retained_package_receiving=retained['M5_RECEIPT.json'],
+             current_root_applicability=acquired['evidence']['ROOT_PACKAGE_SOURCE_APPLICABILITY.json'],
+             independent_receiving=acquired['evidence']['INDEPENDENT_RECEIVING.json'],
+             full_Q04_Q05=False,native_discovery='UNVERIFIED',no_new_build_or_copy=True,original_awards=[]),
+         'UNCHANGED_PACKAGE_RELATION_SCOPE')
     currentness=parse(raw['ROOT_SOURCE_CURRENTNESS.json'])
     need(currentness['commit']==SOURCE_COMMIT and currentness['tree']==SOURCE_TREE
          and currentness['parent_commit']==SOURCE_PARENT and currentness['files']==SOURCE_FILES
@@ -792,32 +775,22 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
          'ACTUAL_ROOT_SELECTED_SOURCE_RECEIVING')
     root=parse(raw['ROOT_PACKAGE_SOURCE_APPLICABILITY.json'])
     need(root['schema']=='dg16.original-final-source-package-applicability.v1'
-         and root['issuer']=='01a1953f-a15b-7811-aa72-3538ebb03562'
+         and root['issuer']=='PRO-EXECUTOR-01' and root.get('successor')=='PRO-EXECUTOR-01, designated by owner'
          and root['decision']=='ACCEPT_NAMED_SOURCE_DELTAS_WITH_NO_SHIPPED_DEPENDENCY_CHANGE'
-         and root['selected_source']==relation['selected_source']
-         and root['observed_package_source']==relation['observed_package_source']
+         and root['selected_source']==relation['selected_source'] and root['observed_package_source']==observed
          and root['source_manifest']==dict(bytes=len(manifest_raw),sha256=sha(manifest_raw))
          and root['current_source_receiving']==relation['independent_receiving']
-         and root['unchanged_dependency_count']==79 and root['changed_package_dependencies']==[]
-         and sorted(r['path'] for r in root['actual_source_changes_vs_observed_package'])==sorted(set(PRIOR_PACKAGE_SOURCE_ROWS)|set(PRIOR_PACKAGE_ADDED_SOURCE_PATHS)) and root['package_leg']=='NOT_TRIGGERED'
-         and root['current_build_or_copy_observations']==0 and root['full_Q04_Q05'] is False
-         and root['native_runtime_discovery']=='UNVERIFIED' and root['original_awards']==[]
-         and root['current_build_or_copy_observations']==0,'ACTUAL_ROOT_UNCHANGED_PACKAGE_SCOPE')
+         and root['unchanged_source_members']==1764 and root['changed_package_dependencies']==[]
+         and root['package_leg']=='NOT_TRIGGERED' and root['current_build_or_copy_observations']==0
+         and root['full_Q04_Q05'] is False and root['native_runtime_discovery']=='UNVERIFIED'
+         and root['original_awards']==[] and root['other_effects'] is False,
+         'ACTUAL_ROOT_UNCHANGED_PACKAGE_SCOPE')
     need(root['direct_parent']==dict(commit=SOURCE_PARENT,tree=manifest['parent_tree']), 'ACTUAL_ROOT_DIRECT_PARENT')
     receive_exact_cumulative_source_rows(selected, root['actual_source_changes_vs_observed_package'])
-    prior_evidence=prior['evidence_bodies']
-    prior_root=prior_evidence['ROOT_PACKAGE_RECEIVING.json'].encode('utf8')
-    need(root['previous_package_receiving']==dict(bytes=len(prior_root),sha256=sha(prior_root))
-         and root['archives']==parse(prior_root)['two_archives'],'UNCHANGED_ARCHIVE_PROVENANCE')
-    dep_raw=prior_evidence['APPLICABILITY.json'].encode('utf8')
-    deps=parse(dep_raw)['dependencies'];need(len(deps)==79 and len({r['path'] for r in deps})==79
-         and root['unchanged_consumer_dependency_index']==dict(bytes=len(dep_raw),sha256=sha(dep_raw))
-         and fixed not in {r['path'] for r in deps},'UNCHANGED_79_DEPENDENCY_INDEX')
-    for row in deps:
-        now=selected[row['path']]
-        need(row['after']==dict(bytes=now['bytes'],sha256=now['sha256'],
-             mode=format(int(now['mode'],8)&0o777,'04o')),'UNCHANGED_PACKAGE_DEPENDENCY_BODY')
+    need(root['previous_package_receiving']==retained['M5_RECEIPT.json']
+         and root['archives']==technical['packages']['artifacts'],'UNCHANGED_ARCHIVE_PROVENANCE')
     return relation
+
 
 
 
@@ -1515,11 +1488,11 @@ def receive(api, diagnostic):
 
 def validate_decision(raw, request, request_sha, now_unix_ms):
     value = parse(raw, DECISION_LIMIT)
-    exact(value, ('schema', 'issuer', 'action', 'request_sha256', 'run_id', 'attempt', 'nonce',
+    exact(value, ('schema', 'issuer', 'successor', 'action', 'request_sha256', 'run_id', 'attempt', 'nonce',
         'source_commit', 'source_tree', 'graph_sha256', 'dispatch_sha256', 'join_sha256', 'outputs',
         'consumed_nodes', 'decision_before', 'decision_after', 'owner_arrangement', 'full_g2',
         'original_awards', 'issued_unix_ms', 'expires_unix_ms'))
-    need(value['schema'] == 'dg16.g3-root-consumption-decision.v2' and value['issuer'] == 'R5_ROOT_GOVERNOR'
+    need(value['schema'] == 'dg16.g3-root-consumption-decision.v2' and value['issuer'] == 'R5_ROOT_GOVERNOR' and value['successor'] == 'PRO-EXECUTOR-01, designated by owner'
          and value['action'] == 'CONSUME_COMPONENT_RETURNS_ONLY' and value['request_sha256'] == digest(request_sha),
          'ROOT_DECISION_ACTION_OR_REQUEST')
     for key in ('run_id', 'attempt', 'nonce', 'source_commit', 'source_tree', 'graph_sha256',
@@ -1991,11 +1964,11 @@ def validate_row_decisions(rows,gates):
 
 def validate_final_decision(raw,request,request_sha,now_unix_ms):
     value=parse(raw,16384)
-    exact(value,('schema','issuer','action','request_sha256','run_id','attempt','nonce','source_commit','source_tree',
+    exact(value,('schema','issuer','successor','action','request_sha256','run_id','attempt','nonce','source_commit','source_tree',
         'final_graph_sha256','current_receipt_sha256','proofs','independent_review_sha256','source_applicability_review_sha256',
         'original_rows','gate_decisions','whole_DG16_awarded','full_g2','v041_admission','global_liveness',
         'retirement_or_transfer','issued_unix_ms','expires_unix_ms'))
-    need(value['schema']=='dg16.g3-root-original-decision.v2' and value['issuer']=='R5_ROOT_GOVERNOR'
+    need(value['schema']=='dg16.g3-root-original-decision.v2' and value['issuer']=='R5_ROOT_GOVERNOR' and value['successor']=='PRO-EXECUTOR-01, designated by owner'
          and value['action']=='RECEIVE_EXACT_ORIGINAL_IDS_AND_GATES' and value['request_sha256']==digest(request_sha),
          'FINAL_ROOT_DECISION_ACTION')
     for key in ('run_id','attempt','nonce','source_commit','source_tree','final_graph_sha256','current_receipt_sha256',

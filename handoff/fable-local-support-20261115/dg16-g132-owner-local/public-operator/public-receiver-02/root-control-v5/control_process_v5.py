@@ -16,9 +16,9 @@ import types
 import urllib.parse
 
 ISSUER = 'PRO-EXECUTOR-01'
-ROOT = Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02')
-RECEIVER_SHA = '5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab'
-RESOLVER_SHA = '377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b'
+ROOT = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
+RECEIVER_SHA = '0676910949eec3aada03d5c5feb37df88daebf217256f17fb46f6a0b8c22a1a7'
+RESOLVER_SHA = 'e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149'
 CONTROL_READBACK_SHA = 'a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
 FILE_READBACK_SHA = 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
 CAP = 32*1024**2
@@ -235,9 +235,9 @@ def main(argv=None):
          and re.fullmatch('[0-9a-f]{64}',args[3]), 'ACTUAL_ROOT_CONFIGURATION_REQUIRED')
     config_raw=read_owned(args[1],65536);need(sha(config_raw)==args[3],'CONFIGURATION_PIN')
     c=parse(config_raw)
-    need(set(c)-({'host_publication'} if 'host_publication' in c else set())=={'schema','issuer_thread','artifact_session','initial_session','initial_body','initial_publication',
+    need(set(c)-({'host_publication'} if 'host_publication' in c else set())=={'schema','issuer_thread','successor','artifact_session','initial_session','initial_body','initial_publication',
          'body','parent_sha','parent_ref_result','deadline_unix_ms','journal_directory','admission'}
-         and c['schema']=='dg16.g1-root-control-driver-configuration.v2' and c['issuer_thread']==ISSUER, 'EXACT_CONTROL_CONFIGURATION')
+         and c['schema']=='dg16.g1-root-control-driver-configuration.v2' and c['issuer_thread']==ISSUER and c['successor']=='PRO-EXECUTOR-01, designated by owner', 'EXACT_CONTROL_CONFIGURATION')
     def bound(row,maximum):
         need(type(row) is dict and set(row)=={'path','sha256'},'EXACT_INPUT_DESCRIPTOR')
         raw=read_owned(row['path'],maximum);need(sha(raw)==row['sha256'],'ACTUAL_ROOT_INPUT_PIN');return raw
@@ -283,7 +283,7 @@ def main(argv=None):
     need(selected_parent['commit_parent_sha']==c['parent_sha'],'ACTUAL_CONTROL_PARENT_REF')
     plan=R.publication_plan(s,received,body,c['parent_sha'],now,initial_control,parent_state=parent_state)
     grant=parse(bound(c['admission'],65536))
-    expected=dict(schema='dg16.g1-root-control-publication-admission.v2',issuer_thread=ISSUER,
+    expected=dict(schema='dg16.g1-root-control-publication-admission.v2',issuer_thread=ISSUER,successor='PRO-EXECUTOR-01, designated by owner',
         status='ADMIT_EXACT_THREE_GUARDED_CONTROL_WRITES_AND_READBACK',phase=received['phase'],context=received['context'],
         body=c['body'],artifact_receiving=R.desc(R.encode(received['receipt'])),parent_sha=c['parent_sha'],parent_ref_result=c['parent_ref_result'],
         plan_contract_sha256=R.sha(R.encode({k:v for k,v in plan.items() if k!='root_body_validation_at_unix_ms'})),

@@ -1,0 +1,26 @@
+{
+  "actual_host": "a33b8d1cdb967124b1b0d4fe877cf9b283304798",
+  "actual_overlay_files": 49,
+  "elapsed_seconds": 0.0438616749997891,
+  "expected_tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+  "first_failure": {
+    "elapsed_seconds": 0.008457092000753619,
+    "first_failing_predicate": "ACTUAL_BASE_MANIFEST",
+    "result": "REFUSED"
+  },
+  "old_qualified_tests_rerun": 0,
+  "original_awards": [],
+  "provider_mutations": 0,
+  "result": "PASS_EXACT_A33_TREE_RECONSTRUCTED_FROM_ACTUAL_PUBLIC_OVERLAY",
+  "schema": "pro.g132.recovered-publication-current-source-qualification.v1",
+  "sole_parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_after": {
+    "bytes": 3126,
+    "sha256": "6ee8710d52c4096fd3738f3b5b33a99e163d69167735e04316f1b902864be446"
+  },
+  "source_before": {
+    "bytes": 3126,
+    "sha256": "279b812cbd414d84cb2e179c8601212e396fb81e5c8dff81d346aafa2d99cb2a"
+  },
+  "source_scope": "EXISTING_PURE_BINDER_CURRENT_PARENT_COUNT_AND_BYTE_LITERALS_ONLY"
+}

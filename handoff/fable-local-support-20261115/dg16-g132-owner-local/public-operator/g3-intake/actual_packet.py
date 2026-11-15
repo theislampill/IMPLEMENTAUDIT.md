@@ -15,11 +15,11 @@ import sys
 import time
 import types
 
-READER = Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/author/receiver.py')
-READER_SHA = '5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab'
-PHASE_SHA = '39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e'
-PROOF_SHA = '9a88f98e46290d9cc83cd83a1e4ee4ba9070ea76edc2d52b4d8bee4395ac436b'
-G3_SHA = 'd77406e9951ae0e8c47fa151e909fe89bbfe3472bf38b204c34cd931be3e6be5'
+READER = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/author/receiver.py')
+READER_SHA = '0676910949eec3aada03d5c5feb37df88daebf217256f17fb46f6a0b8c22a1a7'
+PHASE_SHA = '06a1cd10de8c918e0e2f214cbadf43538f7bc7f2bd4d45e9e241e2aec44e3ae9'
+PROOF_SHA = 'a760c0f381da40d4b01c46146fbb947aa919bedb59fbf2758dcc68d5c606a0a5'
+G3_SHA = 'b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad'
 SOURCE = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'
 TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
 

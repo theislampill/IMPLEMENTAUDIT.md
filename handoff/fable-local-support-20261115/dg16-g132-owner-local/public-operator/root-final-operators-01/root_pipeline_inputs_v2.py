@@ -14,10 +14,10 @@ import sys
 import time
 import types
 
-BASE = Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01')
+BASE = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator')
 FINAL = BASE / 'root-final-operators-01'
 BINARY = FINAL / 'binary_publish_v3.py'
-BINARY_SHA = 'a7e8a5694bf1ed417c5a3849db667e2fd95795b86d2152ed632abd40757de5fc'
+BINARY_SHA = '7143a193ac02131b4efed80b2ff80f53d9fb64540bff40284049265c1223eff4'
 CONTROL = FINAL / 'control_process_v3.py'
 RESOLVER = BASE / 'public-receiver-02/author/resolve_artifact.py'
 ISSUER = 'PRO-EXECUTOR-01'
@@ -181,7 +181,7 @@ def dispatcher_selection(args):
 
 
 def expected_admission(B, plan, config, receiving_raw, manifest_raw, terminal_raw):
-    return dict(schema='dg16.root-binary-cipher-publication-admission.v2', issuer_thread=ISSUER,
+    return dict(schema='dg16.root-binary-cipher-publication-admission.v2', issuer_thread=ISSUER, successor='PRO-EXECUTOR-01, designated by owner',
                 context=plan['context'], branch=plan['branch'], parent_sha=plan['parent_sha'],
                 sender_receiving=desc(receiving_raw), sender_install_manifest=desc(manifest_raw),
                 sender_terminal=desc(terminal_raw), parent_ref_result=config['parent_ref_result'],
@@ -227,14 +227,14 @@ def publication_inputs(args):
     need(parent.get('ref') == 'refs/heads/'+plan['branch'] and parent.get('object', {}).get('type') == 'commit'
          and parent['object']['sha'] == plan['parent_sha'], 'ACTUAL_EXPECTED_PARENT_REF')
     journal = journal_path(args.journal_directory)
-    config = dict(issuer_thread=ISSUER, control_driver_path=str(CONTROL), resolver_path=str(RESOLVER),
+    config = dict(issuer_thread=ISSUER, successor='PRO-EXECUTOR-01, designated by owner', control_driver_path=str(CONTROL), resolver_path=str(RESOLVER),
                   sender_entry=row(entry_path), sender_install_manifest=row(assembled/'ROOT_SENDER_INSTALL_MANIFEST.json'),
                   sender_terminal=row(args.sender_terminal, args.sender_terminal_sha256),
                   sender_receiving=row(args.sender_receiving, args.sender_receiving_sha256),
                   parent_ref_result=parent_row, journal_directory=str(journal), deadline_unix_ms=plan['expires_unix_ms'])
     # Verify the exact frozen executable dependencies without invoking their CLIs.
     read(CONTROL, 1024**2, B.CONTROL_DRIVER_SHA)
-    read(RESOLVER, 1024**2, '377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b')
+    read(RESOLVER, 1024**2, 'e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149')
     q = m.policy.parse(request, m.policy.MAX_REQUEST)
     purpose = dict(request_nonce=q['nonce'], recipient_sha256=q['recipient_sha256'],
                    input_index_sha256=q['input_index_sha256'])

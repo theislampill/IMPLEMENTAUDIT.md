@@ -1,0 +1,25 @@
+{
+  "author": "/root",
+  "external_operator_review": "PENDING_FINAL_FROZEN_SOURCE",
+  "historical_selection_retained": {
+    "bytes": 1654,
+    "sha256": "8ee1f018a4d72af308d316ee70fa24b7c2c0a9dcc8124f9603c06624ccbd004f"
+  },
+  "host_independent_review": "c7b8af0f25faacda3e3765b3ef137a4f9533a6bfd98d90a921034c93f1f94139",
+  "host_tree": "e81ffaf2959df5da5a6203b66b0b3e0819eae82c",
+  "issued_utc": "2026-11-15T12:20:32.622186+00:00",
+  "native_effects": 0,
+  "original_awards": [],
+  "owner_launch_go_received": false,
+  "protected_launches": 0,
+  "purpose": "FINAL_ORIGINAL_ACCEPTANCE",
+  "purpose_is_not_launch_grant": true,
+  "reviewed_host_commit": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+  "schema": "pro.g132.current-source-selection-issuance.v1",
+  "selection": {
+    "bytes": 1952,
+    "sha256": "3ba27feca194e0ad36c8600756d3f74733f0b82385f69d24203c92e76030b77f"
+  },
+  "selection_source": "Root reviewed full exact proposal and actual module/Root-source-receipt hash joins before issuing these bytes.",
+  "successor": "PRO-EXECUTOR-01, designated by owner"
+}

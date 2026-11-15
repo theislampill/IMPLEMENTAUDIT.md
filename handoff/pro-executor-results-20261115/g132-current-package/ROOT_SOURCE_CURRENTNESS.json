@@ -1,0 +1,22 @@
+{
+  "author": "/root",
+  "bytes": 167022772,
+  "commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "effect_grant": false,
+  "files": 1766,
+  "issuer": "PRO-EXECUTOR-01",
+  "manifest_sha256": "7cd236053a3f27003aad3d3cd30b37ef95b09b0eea786f5896155af1498d8117",
+  "original_awards": [],
+  "package_relation": {
+    "bytes": 4078,
+    "sha256": "873ab81db73ccc8fa9238c628ee75f6f83cf7a7627e80a88e46e4817304bd16d"
+  },
+  "parent_commit": "8c393aa0d415e3bb4f25d333316b3abaf498e5af",
+  "physical_receiving": {
+    "bytes": 717,
+    "sha256": "d9215bf843ab1f30dc141a93d913318ef978acd6aa17083b1423451d0572a351"
+  },
+  "schema": "pro.g132.actual-root-source-currentness.v1",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"
+}

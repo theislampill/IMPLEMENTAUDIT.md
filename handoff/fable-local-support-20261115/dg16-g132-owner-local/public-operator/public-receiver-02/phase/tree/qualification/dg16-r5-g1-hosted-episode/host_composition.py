@@ -9,7 +9,7 @@ import re
 
 E = _HOST_EVIDENCE_IO
 R = _ROOT_PLACEMENT
-BINDING_SHA256 = 'b7655cfa613f23020bfad029441086e91082e27438337dcd6d7074237fe6a069'
+BINDING_SHA256 = '40ba4c804c92fce31dcc2326da3a888f743f62bf4b88fc1dee3591a7a6db4bf1'
 SOURCE_COMMIT = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'
 SOURCE_TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
 CORE_SCOPE = 'CORE_G1_Q06_NATURAL_L04_SEPARATE'
@@ -82,11 +82,11 @@ def require_launch(packet, source, output, context, g3, *, phase='live'):
     # favorable status supplied by this program. Its exact bytes must have been
     # bound in the reviewed composition, including these exact input digests.
     admission = E.parse(bodies['root_admission'])
-    E.need(type(admission) is dict and set(admission) == {'schema', 'issuer', 'source_commit', 'source_tree',
+    E.need(type(admission) is dict and set(admission) == {'schema', 'issuer', 'successor', 'source_commit', 'source_tree',
            'workflow_branch', 'run_attempt', 'automatic_retry', 'original_awards', 'prospective_operation',
            'component_scope', 'input_sha256'}, 'CORE_ADMISSION_FIELDS')
     E.need(admission.get('schema') == 'dg16.current-core-host-root-admission.v1'
-           and admission['issuer'] == 'R5_ROOT_GOVERNOR' and admission['component_scope'] == CORE_SCOPE
+           and admission['issuer'] == 'R5_ROOT_GOVERNOR' and admission['successor'] == 'PRO-EXECUTOR-01, designated by owner' and admission['component_scope'] == CORE_SCOPE
            and admission.get('source_commit') == SOURCE_COMMIT and admission.get('source_tree') == SOURCE_TREE
            and admission.get('workflow_branch') == context['branch']
            and admission.get('run_attempt') == 1 and admission.get('automatic_retry') is False
@@ -97,16 +97,17 @@ def require_launch(packet, source, output, context, g3, *, phase='live'):
            'ROOT_ADMISSION_BODY_BINDING')
     adopted = E.parse(bodies['native_applicability_adoption'])
     E.need(adopted.get('schema') == 'dg16.current-native-applicability-root-adoption.v1'
+           and adopted.get('successor') == 'PRO-EXECUTOR-01, designated by owner'
            and adopted.get('source_commit') == SOURCE_COMMIT and adopted.get('source_tree') == SOURCE_TREE
            and adopted.get('applicability_sha256') == E.sha(E.read_packet(packet / 'NATIVE_SOURCE_APPLICABILITY.json'))
            and adopted.get('unchanged_members') == 86 and adopted.get('changed_members') == 3
            and adopted.get('windows_qualification') == 'DG18_SEPARATE'
            and adopted.get('original_awards') == [], 'NATIVE_APPLICABILITY_ADOPTION_REQUIRED')
     placement = E.parse(bodies['placement_receiving'])
-    E.need(type(placement) is dict and set(placement) == {'schema', 'source_commit', 'source_tree',
+    E.need(type(placement) is dict and set(placement) == {'schema', 'successor', 'source_commit', 'source_tree',
         'observed_source_commit', 'placement', 'status', 'cause', 'original_awards', 'evidence_scope',
         'evidence_index_sha256', 'source_applicability_sha256', 'native_transfer'}, 'WORKING_PLACEMENT_FIELDS')
-    E.need(placement == dict(schema='dg16.actual-working-root-placement-receiving.v1',
+    E.need(placement == dict(schema='dg16.actual-working-root-placement-receiving.v1', successor='PRO-EXECUTOR-01, designated by owner',
         source_commit=SOURCE_COMMIT, source_tree=SOURCE_TREE,
         observed_source_commit='3e0f4b6d05eb086017ce721d40459fdbd68714dd', placement=value['placement'],
         status='ACTUAL_ROOT_ISLAND_FD_ROUTE_RECEIVED_AT_DIAGNOSTIC_SCOPE', cause='UNPROVED', original_awards=[],

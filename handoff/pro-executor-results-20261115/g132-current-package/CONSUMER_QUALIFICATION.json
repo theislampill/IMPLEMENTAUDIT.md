@@ -1,0 +1,56 @@
+{
+  "actual_acquisition": {
+    "bytes": 593285,
+    "sha256": "265325e29418163caeb27e13f4a66b32e1e5c0e4f3ad72cbef9bfff72a3b3bbf"
+  },
+  "actual_bound_consumer": {
+    "bytes": 153487,
+    "sha256": "2a3201969654f317e343526398fa7950d296a5f465f7ae8fcafc77303874ff3c"
+  },
+  "checks": [
+    {
+      "elapsed_seconds": 0.007237334000819828,
+      "name": "actual_current_m5_source_package_relation",
+      "result": "PASS"
+    },
+    {
+      "first_failing_predicate": "ACTUAL_RETAINED_M5_BODY_PINS",
+      "name": "altered_m5_receipt_even_with_recomputed_descriptor",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "first_failing_predicate": "UNCHANGED_SOURCE_SUBJECT",
+      "name": "foreign_selected_source",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "first_failing_predicate": "ACTUAL_ROOT_UNCHANGED_PACKAGE_SCOPE",
+      "name": "historical_root_issuer_substitution",
+      "result": "REFUSED_AS_REQUIRED"
+    },
+    {
+      "first_failing_predicate": "EXACT_TEST_ONLY_SOURCE_DIFFERENCE",
+      "name": "omitted_actual_test_difference",
+      "result": "REFUSED_AS_REQUIRED"
+    }
+  ],
+  "literal_binder": {
+    "bytes": 26215,
+    "sha256": "d777e5c211385b36bebc089b413395e86ea8066ddaece020e6e27cd05a525cdd"
+  },
+  "native_effects": 0,
+  "old_qualification_tests_rerun": 0,
+  "original_awards": [],
+  "package_rebuilds": 0,
+  "protected_launches": 0,
+  "schema": "pro.g132.current-package-consumer-qualification.v1",
+  "scope": "ACTUAL_RETAINED_PUBLIC_INPUTS_AND_BOUNDED_NEW_READER_CONTROLS_ONLY",
+  "source_manifest": {
+    "bytes": 495602,
+    "sha256": "7cd236053a3f27003aad3d3cd30b37ef95b09b0eea786f5896155af1498d8117"
+  },
+  "source_template": {
+    "bytes": 157339,
+    "sha256": "fdf9217dff37328b2b58834a62c525e4976a6be86d4d763fa8daccfc627879f7"
+  }
+}

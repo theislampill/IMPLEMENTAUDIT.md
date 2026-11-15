@@ -1,0 +1,119 @@
+{
+  "actor": "/root",
+  "files": [
+    {
+      "after": {
+        "bytes": 26474,
+        "sha256": "c1761dcffba337c1e26c9cf5077620184896f1e30fcc107ca4210884e4be0a3e"
+      },
+      "before": {
+        "bytes": 26215,
+        "sha256": "b5c8fef1aa67e40cf8fd73a446288dfa57eb86a2c174f05465cf2eba3526b91b"
+      },
+      "path": "author/compose.py",
+      "replacement_sites": 5
+    },
+    {
+      "after": {
+        "bytes": 9661,
+        "sha256": "13a103e79ee4a8204414e69de4ef7aaef6a3273454e44721f41ae5d10c763e4e"
+      },
+      "before": {
+        "bytes": 9434,
+        "sha256": "a2906b72e91a818f1f8dffc4c2690f048ceb6bfe43f77bed634189d7046d5f8f"
+      },
+      "path": "templates/core/host_composition.py",
+      "replacement_sites": 5
+    },
+    {
+      "after": {
+        "bytes": 16852,
+        "sha256": "f204f798b76f6406eaffed71fde3220a650d90c7556767ed6cb8822fe074e710"
+      },
+      "before": {
+        "bytes": 16789,
+        "sha256": "0d9d358f2d727b601951832931ca7c0de515b949c9514466fef4381f33643bea"
+      },
+      "path": "templates/core/root_placement.py",
+      "replacement_sites": 2
+    },
+    {
+      "after": {
+        "bytes": 13520,
+        "sha256": "2efb8f099fb65fad82a8d06712bb96e98c9d14712d1bd62c6c2f73208b2c22ea"
+      },
+      "before": {
+        "bytes": 13471,
+        "sha256": "639ea27e92cc34ce75c223e8b44f0cf0a7d031159c78cea183b4423d85e20661"
+      },
+      "path": "templates/adapter/src/carrier_policy.py",
+      "replacement_sites": 1
+    },
+    {
+      "after": {
+        "bytes": 9420,
+        "sha256": "6436ef140b7b5adda941c978358ad75fbc0529883090e1f90f1533da03e11344"
+      },
+      "before": {
+        "bytes": 9221,
+        "sha256": "604922c0ee2091d2698e97915cda1636e98036389ad6302f4f976d93f43d6884"
+      },
+      "path": "author/sender_assembly.py",
+      "replacement_sites": 5
+    },
+    {
+      "after": {
+        "bytes": 4826,
+        "sha256": "cd0590129c6eb273c310bd9b2831d1f49b8926c2025130c92a0631ddd76a9090"
+      },
+      "before": {
+        "bytes": 4705,
+        "sha256": "8cf06304d36c169f6ea786df99d447680a146e49ef80866cca2431bb95d67906"
+      },
+      "path": "templates/adapter/src/sender_policy.py",
+      "replacement_sites": 3
+    },
+    {
+      "after": {
+        "bytes": 30540,
+        "sha256": "592abac42d2f679bc440b12734c1f3473713cf7c874ad0e08ad97b176b96cb7d"
+      },
+      "before": {
+        "bytes": 30479,
+        "sha256": "f11a7c63ddd41219be52e3e90deac43c3d31b3332ec38736afac302ac9896228"
+      },
+      "path": "templates/adapter/src/host_tools.py",
+      "replacement_sites": 2
+    },
+    {
+      "after": {
+        "bytes": 157558,
+        "sha256": "057d44bd8ee10595451b37ed59d955c64b1b3e4ac64256e51b42bdf8fead7650"
+      },
+      "before": {
+        "bytes": 157339,
+        "sha256": "fdf9217dff37328b2b58834a62c525e4976a6be86d4d763fa8daccfc627879f7"
+      },
+      "path": "templates/core/g3_receiving.py",
+      "replacement_sites": 5
+    },
+    {
+      "after": {
+        "bytes": 64350,
+        "sha256": "ce183f4e18f16368c348af2c170c7d23e330eff455deeb104f5051e1931f6e86"
+      },
+      "before": {
+        "bytes": 64278,
+        "sha256": "ea16456ca80cdfcd86305fb99c91ad838e91c41f40537e8836c9fdb887f2f12f"
+      },
+      "path": "templates/core/proof_consumer.py",
+      "replacement_sites": 2
+    }
+  ],
+  "original_awards": [],
+  "protected_effects": 0,
+  "requirement": "Owner commission A.2 exact per-record successor statement",
+  "schema": "pro.g132.current-successor-source-delta.v1",
+  "scope": "Single literal metadata field only; original scope, authority and effect limits retained",
+  "successor": "PRO-EXECUTOR-01, designated by owner"
+}

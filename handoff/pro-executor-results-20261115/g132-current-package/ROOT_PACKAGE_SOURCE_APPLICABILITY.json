@@ -1,0 +1,109 @@
+{
+  "actual_source_changes_vs_observed_package": [
+    {
+      "after": {
+        "bytes": 38548,
+        "git_blob": "0f0e506f1326ce4e7292a9098630572f106cf066",
+        "mode": "100644",
+        "path": "tests/work-graph-custody-append-cases.py",
+        "sha256": "27778637f12ab271be59ac75db51de047fe28020fa9558153688748b2e5393df"
+      },
+      "before": {
+        "bytes": 38668,
+        "git_blob": "8bd264188901d5ae64078ce0583ff5aa6889d8f7",
+        "mode": "100644",
+        "path": "tests/work-graph-custody-append-cases.py",
+        "sha256": "b23228b9037819a0483b213aa4296e9a1f0d718a0c126095837395d11d649a51"
+      },
+      "path": "tests/work-graph-custody-append-cases.py"
+    },
+    {
+      "after": {
+        "bytes": 31832,
+        "git_blob": "6db82217dd48a26550b01b8aa4fc789a893dfd43",
+        "mode": "100644",
+        "path": "tests/work-graph-pending-settlement-cases.py",
+        "sha256": "9138a53bf456e2563be10fe498ec2255efc0a6e788cd1099168228b5e0025b64"
+      },
+      "before": {
+        "bytes": 32632,
+        "git_blob": "16dbe3116e0c5ca4b380ae76dc5748d466a01077",
+        "mode": "100644",
+        "path": "tests/work-graph-pending-settlement-cases.py",
+        "sha256": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+      },
+      "path": "tests/work-graph-pending-settlement-cases.py"
+    }
+  ],
+  "archives": [
+    {
+      "bytes": 584971,
+      "cap_bytes": 589824,
+      "complete_inventory_and_source_parity": true,
+      "expanded_bytes": 2092027,
+      "inventory_members": 74,
+      "member_bytes_modes_sha256": "5f49d3d5ca5f423ee1b0a78dd9ccb2cdfe932682e14f7ac63ac324bb974627db",
+      "members": 75,
+      "name": "IMPLEMENTAUDIT.plugin.zip",
+      "reserve_bytes": 2000,
+      "role": "canonical_plugin",
+      "sha256": "a43f018d4d3cc6d6257eeacfd8b5b834588410564ac33b0c8022d01a0ca71e58"
+    },
+    {
+      "bytes": 580360,
+      "cap_bytes": 589824,
+      "complete_inventory_and_source_parity": true,
+      "expanded_bytes": 2087353,
+      "inventory_members": 71,
+      "member_bytes_modes_sha256": "e2b2a91441b4872f5c0b7bce78c8d2e12fb1da59aa6d3e293d6385dcf593bc25",
+      "members": 72,
+      "name": "IMPLEMENTAUDIT.skill",
+      "reserve_bytes": 2000,
+      "role": "standalone_compatibility",
+      "sha256": "d1b89ec4113b0c57d925e2f5aeec16c1baa471985b918e6fc3e54e808fad7f1e"
+    }
+  ],
+  "author": "/root",
+  "changed_package_dependencies": [],
+  "current_build_or_copy_observations": 0,
+  "current_source_receiving": {
+    "bytes": 14512,
+    "sha256": "9c0fa5691816cb4fdd667fc98d75a1ea202ff551a173b93d136c1c7011c08acd"
+  },
+  "decision": "ACCEPT_NAMED_SOURCE_DELTAS_WITH_NO_SHIPPED_DEPENDENCY_CHANGE",
+  "direct_parent": {
+    "commit": "8c393aa0d415e3bb4f25d333316b3abaf498e5af",
+    "tree": "cd271e06daad96da73e45b9ecb6e2529a6046e33"
+  },
+  "effect_grant": false,
+  "full_Q04_Q05": false,
+  "issued_utc": "2026-11-15T11:54:07.295977+00:00",
+  "issuer": "PRO-EXECUTOR-01",
+  "limits": [
+    "Actual archives and installed routes remain bound to source205; no e76 rebuild or exact-source installer result is claimed.",
+    "Only the closed test-only delta package-leg applicability is adopted. Original accepting operations and fresh host gates remain."
+  ],
+  "native_runtime_discovery": "UNVERIFIED",
+  "observed_package_source": {
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "original_awards": [],
+  "other_effects": false,
+  "package_leg": "NOT_TRIGGERED",
+  "previous_package_receiving": {
+    "bytes": 2873,
+    "sha256": "607f7fa15726a72954ccbe14d539e8c7422e13f848cd1146712967de7c246840"
+  },
+  "schema": "dg16.original-final-source-package-applicability.v1",
+  "selected_source": {
+    "commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"
+  },
+  "source_manifest": {
+    "bytes": 495602,
+    "sha256": "7cd236053a3f27003aad3d3cd30b37ef95b09b0eea786f5896155af1498d8117"
+  },
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "unchanged_source_members": 1764
+}

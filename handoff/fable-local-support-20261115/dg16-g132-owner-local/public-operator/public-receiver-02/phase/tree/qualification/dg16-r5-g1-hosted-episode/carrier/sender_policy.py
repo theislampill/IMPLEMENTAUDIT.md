@@ -34,10 +34,10 @@ def load(binding,context,artifact_id,archive):
         P.need(P.descriptor(body)==v[name],'PRO_SENDER_ACTUAL_BODY_PIN')
         bodies[name]=body;records[name]=physical
     op=P.parse(bodies['operation'],P.MAX_INDEX)
-    P.exact(op,('schema','context','source_commit','source_tree','carrier_binding_sha256','input_index_sha256',
+    P.exact(op,('schema','successor','context','source_commit','source_tree','carrier_binding_sha256','input_index_sha256',
       'artifact_id','artifact','nonce','issued_unix_ms','expires_unix_ms','sender_uid','sender_gid','original_awards'))
     P.context(context);P.digest(op['nonce']);P.integer(artifact_id,1,10**20)
-    P.need(op['schema']=='dg16.pro-private-sender-operation.v1' and op['context']==context
+    P.need(op['schema']=='dg16.pro-private-sender-operation.v1' and op['successor']=='PRO-EXECUTOR-01, designated by owner' and op['context']==context
       and op['source_commit']==binding['source_commit'] and op['source_tree']==binding['source_tree']
       and op['carrier_binding_sha256']==P.sha(binding['_binding_raw'])
       and op['input_index_sha256']==P.C.check_index(binding['_index']) and op['artifact_id']==artifact_id
@@ -47,7 +47,7 @@ def load(binding,context,artifact_id,archive):
     P.need(op['issued_unix_ms']<=int(time.time()*1000)<op['expires_unix_ms'],'PRO_SENDER_OPERATION_EXPIRED')
     P.need(type(op['sender_uid']) is int and op['sender_uid']>0 and os.getuid()==os.geteuid()==op['sender_uid']
       and type(op['sender_gid']) is int and os.getgid()==os.getegid()==op['sender_gid'],'PRO_SENDER_ACTUAL_NONROOT_IDENTITY')
-    expected=dict(schema='dg16.pro-private-sender-root-admission.v1',issuer='R5_ROOT_GOVERNOR',
+    expected=dict(schema='dg16.pro-private-sender-root-admission.v1',issuer='R5_ROOT_GOVERNOR',successor='PRO-EXECUTOR-01, designated by owner',
       operation_sha256=P.sha(bodies['operation']),capture_profile=CAPTURE_PROFILE,provider_profile=PROVIDER_PROFILE,
       source_commit=binding['source_commit'],source_tree=binding['source_tree'],
       carrier_binding_sha256=P.sha(binding['_binding_raw']),limits=binding['limits'],

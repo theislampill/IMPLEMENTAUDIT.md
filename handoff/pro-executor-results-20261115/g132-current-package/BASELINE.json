@@ -1,0 +1,24 @@
+{
+  "actor": "PRO-EXECUTOR-01",
+  "defect": "Current v4 reader requires unavailable historical08e6 acquisition and old Root UUID despite authentic independently received current M5 packages and exact test-only source relation.",
+  "function": {
+    "bytes": 9276,
+    "sha256": "da2269e043189ce4f8aa96745cdf46797fcf7857a6d764adbd6a9e50c6be8e4a"
+  },
+  "module": {
+    "bytes": 159401,
+    "sha256": "181f08e2bda20c5cbd08fe091eaa4c9207297510ffa4b64750a6543e545eabb0"
+  },
+  "original_awards": [],
+  "original_clauses": [
+    "R35-P01 exact current authority/source",
+    "R35-Q04 actual package/inventory/installation evidence",
+    "R35-Q05 applicable package leg for shipped changes"
+  ],
+  "protected_launches": 0,
+  "schema": "pro.g132.current-package-source-baseline.v1",
+  "scope": "Replace only v4 historical acquisition replay with exact existing M5 bodies and complete source comparison; retain v1-v3 and historical PACKAGE records unchanged.",
+  "source_commit": "a2a590f4803e4ea86617cba64037b96cac380e64",
+  "source_tree": "63a25e4f941afabc1563b19a27a86ee8ba85276f",
+  "tests_repeated": 0
+}

@@ -1,0 +1,73 @@
+{
+  "authority": "NONE",
+  "changes": [
+    {
+      "after": {
+        "bytes": 20775,
+        "sha256": "7143a193ac02131b4efed80b2ff80f53d9fb64540bff40284049265c1223eff4"
+      },
+      "before": {
+        "bytes": 20775,
+        "sha256": "b6871591ebb01912a30cb6cc4dc2e19fbef1a97537fec91c8ed54c6e5c025c98"
+      },
+      "exact_substitutions": [
+        [
+          "377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b",
+          "e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149"
+        ]
+      ],
+      "path": "root-final-operators-01/binary_publish_v3.py"
+    },
+    {
+      "after": {
+        "bytes": 16004,
+        "sha256": "347205482ab76b60fb9b9fddda0c316240cb7c0ef5a711ed47c5ccd86eeed49b"
+      },
+      "before": {
+        "bytes": 16004,
+        "sha256": "beab1f6f567589542d9e5a320edc8571e27b923e7c86e3718db9f55131b07d00"
+      },
+      "exact_substitutions": [
+        [
+          "377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b",
+          "e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149"
+        ],
+        [
+          "b6871591ebb01912a30cb6cc4dc2e19fbef1a97537fec91c8ed54c6e5c025c98",
+          "7143a193ac02131b4efed80b2ff80f53d9fb64540bff40284049265c1223eff4"
+        ]
+      ],
+      "path": "root-final-operators-01/root_pipeline_inputs_v2.py"
+    },
+    {
+      "after": {
+        "bytes": 28372,
+        "sha256": "be8639be6c81bba4e3b9f896ed0fce5bfb5db3bed0e272c8d033ad9c109b3846"
+      },
+      "before": {
+        "bytes": 28372,
+        "sha256": "9387ba5f04d6c7477c7643974942bca9dc9ff9824d37adcad21ceecf51ad85d0"
+      },
+      "exact_substitutions": [
+        [
+          "b6871591ebb01912a30cb6cc4dc2e19fbef1a97537fec91c8ed54c6e5c025c98",
+          "7143a193ac02131b4efed80b2ff80f53d9fb64540bff40284049265c1223eff4"
+        ],
+        [
+          "beab1f6f567589542d9e5a320edc8571e27b923e7c86e3718db9f55131b07d00",
+          "347205482ab76b60fb9b9fddda0c316240cb7c0ef5a711ed47c5ccd86eeed49b"
+        ]
+      ],
+      "path": "root-event-helpers-02/root_live_sender_call_received.py"
+    }
+  ],
+  "host_phase_source_selection_changed": false,
+  "member_count": 141,
+  "operator_pins": {
+    "bytes": 26641,
+    "sha256": "1dc89a4db2db5737edcf5b5896485798d4fe2a40c6860b4f089c79b220da48c3"
+  },
+  "protected_or_native_effects": false,
+  "schema": "pro.g132.resolver-binding-correction.v1",
+  "scope": "TWO_DEMONSTRATED_STALE_RESOLVER_LITERALS_AND_TRANSITIVE_PINS_ONLY"
+}

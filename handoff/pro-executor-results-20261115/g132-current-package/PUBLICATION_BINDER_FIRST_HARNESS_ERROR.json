@@ -1,0 +1,8 @@
+{
+  "accepting_operation": false,
+  "correction": "Use actual49 public overlay population; do not replay metadata copy.",
+  "error": "Root probe expected50 overlay names; actual exact Git diff has49. Stopped before binder invocation or source correction.",
+  "exit_code": 1,
+  "provider_mutations": 0,
+  "source_files_copied": "8 exact public JSON counterparts plus5 retained helpers; ORIGINAL_SCOPE then newly bound as documented."
+}

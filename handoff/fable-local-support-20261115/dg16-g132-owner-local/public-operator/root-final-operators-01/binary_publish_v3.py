@@ -5,11 +5,11 @@ post-encryption files and executes five exact admitted MCP writes/readbacks.
 """
 import argparse,ast,base64,hashlib,json,os,re,stat,sys,time,types,urllib.parse
 from pathlib import Path
-ROOT=Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02')
+ROOT=Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
 ISSUER='PRO-EXECUTOR-01'
 MAX_RESULT=4*1024**2
 FILE_READER_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
-CONTROL_DRIVER_SHA='5c36d0323ded3ec8d11fd34afa8664728e5e2490e46f8c0f4ac08a5d719bd5b5'
+CONTROL_DRIVER_SHA = 'e3b48846c8c260548fab8b8d4822bb856ff19c7d95f10ceaa39ea88a404c86c3'
 READBACK_PROFILE='FIRST_PARTY_BASE64_FILE_AT_PUBLISHED_COMMIT'
 FRAME_SECONDS=45
 ARGUMENT_CHUNK_BYTES=8192
@@ -195,7 +195,7 @@ def main():
  args=a.parse_args()
  if args.command=='read-arguments-chunk':print(encode(chunk(args.intent,args.intent_sha256,args.offset,args.count,args.control_driver)).decode(),end='');return
  need(sys.stdin.isatty(),'EXISTING_NOECHO_TTY_REQUIRED')
- cfg=parse(read_exact(args.configuration,65536,args.configuration_sha256));need(cfg['issuer_thread']==ISSUER,'ACTUAL_ROOT_ISSUER_CONFIGURATION')
+ cfg=parse(read_exact(args.configuration,65536,args.configuration_sha256));need(cfg['issuer_thread']==ISSUER and cfg.get('successor')=='PRO-EXECUTOR-01, designated by owner','ACTUAL_ROOT_ISSUER_CONFIGURATION')
  def bound(name,maxbytes):
   row=cfg[name];return read_exact(row['path'],maxbytes,row['sha256'])
  D=driver_module(cfg['control_driver_path']);entry_raw=bound('sender_entry',1024**2);install_raw=bound('sender_install_manifest',4*1024**2);manifest=parse(install_raw)
@@ -214,12 +214,12 @@ def main():
  parent=unwrap(bound('parent_ref_result',MAX_RESULT),'https://api.github.com/repos/'+p['repository']+'/git/ref/heads/'+urllib.parse.quote(p['branch'],safe='/'))
  need(parent.get('ref')=='refs/heads/'+p['branch'] and parent.get('object',{}).get('type')=='commit' and parent['object']['sha']==p['parent_sha'],'ACTUAL_EXPECTED_PARENT_REF')
  receiving_raw=bound('sender_receiving',4*1024**2);admission=parse(bound('admission',65536))
- expected=dict(schema='dg16.root-binary-cipher-publication-admission.v2',issuer_thread=ISSUER,context=p['context'],branch=p['branch'],parent_sha=p['parent_sha'],
+ expected=dict(schema='dg16.root-binary-cipher-publication-admission.v2',issuer_thread=ISSUER,successor='PRO-EXECUTOR-01, designated by owner',context=p['context'],branch=p['branch'],parent_sha=p['parent_sha'],
   sender_receiving=desc(receiving_raw),sender_install_manifest=desc(install_raw),sender_terminal=desc(terminal_raw),parent_ref_result=cfg['parent_ref_result'],files=p['files'],request=p['request'],
   readback_profile=READBACK_PROFILE,file_reader_source_sha256=FILE_READER_SHA,frame_seconds=FRAME_SECONDS,argument_chunk_bytes=ARGUMENT_CHUNK_BYTES,
   expected_tree=p['expected_tree'],journal_directory=cfg['journal_directory'],deadline_unix_ms=p['expires_unix_ms'],tools=list(TOOLS),automatic_retry=False,private_key_operation=False,original_awards=[])
  need(admission==expected and now()<p['expires_unix_ms'],'ACTUAL_ROOT_BINARY_PUBLICATION_ADMISSION')
- Rraw=read_exact(cfg['resolver_path'],1024**2,'377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
+ Rraw=read_exact(cfg['resolver_path'],1024**2,'e42fa2108e726597b3fa478ecdb8cbb0b0fc06695b12d176fa3add93581e3149');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
  journal=D.Journal(cfg['journal_directory'])
  try:
   def current_source():m.carrier.current_binding(binding);m.sender_policy.current(selection);loader.current()
