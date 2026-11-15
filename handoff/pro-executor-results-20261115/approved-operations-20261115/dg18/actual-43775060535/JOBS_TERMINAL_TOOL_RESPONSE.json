@@ -1,0 +1,116 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "jobs": [
+      {
+        "id": 132999386253,
+        "name": "execute-received-operation",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 43775060535,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Check out the reviewed continuation and actual external references",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Require the sole guarded continuation push and actual external references",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Check out the unchanged qualified runtime at its original path",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Select the original physical Python runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Receive the exact previously unexecuted operation artifact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Restore exact paths, bodies, refs and current source without creating a boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Execute the separately entitled exact G0003 owner operation once",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 8
+          },
+          {
+            "name": "Retain the actual restored subject after success or failure without replay",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Retain original operation outputs, process accounting and actual task state",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Post Select the original physical Python runtime",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18
+          },
+          {
+            "name": "Post Check out the unchanged qualified runtime at its original path",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Post Check out the reviewed continuation and actual external references",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          }
+        ]
+      },
+      {
+        "id": 132999387633,
+        "name": "prepare-existing-operation",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 43775060535,
+        "logs_url": null,
+        "steps": null
+      }
+    ]
+  },
+  "isError": false
+}

@@ -1,0 +1,130 @@
+{
+  "additive_error_class_code_requires_consumer_logic_change": false,
+  "affected_count_including_resolver_and_operator_index": 11,
+  "affected_source_and_index_paths": [
+    "OPERATOR_PINS.json",
+    "SOURCE_SELECTION.json",
+    "framed-role-02/control_process_v3.py",
+    "framed-role-02/role_process_v4.py",
+    "public-receiver-02/author/resolve_artifact.py",
+    "public-receiver-02/root-control-v5/control_process_v5.py",
+    "root-event-helpers-02/g1_event_config_corrected.py",
+    "root-event-helpers-02/root_live_sender_call_received.py",
+    "root-final-operators-01/binary_publish_v3.py",
+    "root-final-operators-01/control_process_v3.py",
+    "root-final-operators-01/root_pipeline_inputs_v2.py"
+  ],
+  "base": "198a0495e486a5cc79534aa42fa984516ad16d67",
+  "base_tree": "e7024697702307712798501554a894c2fe94d0d0",
+  "candidate_only_modified_path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/author/resolve_artifact.py",
+  "diff": {
+    "bytes": 5498,
+    "sha256": "150d130068da873d529fd04473fdadc00fafb7a7a72fb75bfe003732d756fbe1"
+  },
+  "direct_runtime_caller_count": 8,
+  "direct_runtime_callers": [
+    "framed-role-02/control_process_v3.py",
+    "framed-role-02/role_process_v4.py",
+    "public-receiver-02/root-control-v5/control_process_v5.py",
+    "root-event-helpers-02/g1_event_config_corrected.py",
+    "root-event-helpers-02/root_live_sender_call_received.py",
+    "root-final-operators-01/binary_publish_v3.py",
+    "root-final-operators-01/control_process_v3.py",
+    "root-final-operators-01/root_pipeline_inputs_v2.py"
+  ],
+  "existing_acceptance_status_and_code_unchanged": true,
+  "git_diff_check": true,
+  "live_index_unchanged": {
+    "bytes": 27159,
+    "sha256": "c7ac3f5a95dec2c05f10201d96429c27d3e9d5e19f6d1a8051c3c14912b90309"
+  },
+  "live_resolver_unchanged": {
+    "bytes": 11390,
+    "sha256": "35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22"
+  },
+  "operational_candidate_pin_closure": "NOT_CLAIMED; existing pins intentionally remain at frozen predecessor",
+  "original_awards": [],
+  "outcome_consumers": [
+    {
+      "check": "outcome.get('status') == 'RECEIVED'",
+      "function": "run_role",
+      "lines": "122-129",
+      "path": "framed-role-02/role_process_v4.py",
+      "receipt": "passed through without a closed key-set check"
+    },
+    {
+      "check": "result['status'] == 'RECEIVED'",
+      "function": "main",
+      "path": "public-receiver-02/author/resolve_artifact.py",
+      "receipt": "serialized whole; no closed key-set check"
+    }
+  ],
+  "pin_dependency_edges": {
+    "SOURCE_SELECTION.json": [
+      "OPERATOR_PINS.json"
+    ],
+    "framed-role-02/control_process_v3.py": [
+      "OPERATOR_PINS.json",
+      "root-event-helpers-02/g1_event_config_corrected.py",
+      "root-event-helpers-02/root_live_sender_call_received.py",
+      "root-final-operators-01/binary_publish_v3.py"
+    ],
+    "framed-role-02/role_process_v4.py": [
+      "OPERATOR_PINS.json",
+      "root-event-helpers-02/g1_event_config_corrected.py"
+    ],
+    "public-receiver-02/author/resolve_artifact.py": [
+      "OPERATOR_PINS.json",
+      "framed-role-02/control_process_v3.py",
+      "framed-role-02/role_process_v4.py",
+      "public-receiver-02/root-control-v5/control_process_v5.py",
+      "root-event-helpers-02/g1_event_config_corrected.py",
+      "root-event-helpers-02/root_live_sender_call_received.py",
+      "root-final-operators-01/binary_publish_v3.py",
+      "root-final-operators-01/control_process_v3.py",
+      "root-final-operators-01/root_pipeline_inputs_v2.py"
+    ],
+    "public-receiver-02/root-control-v5/control_process_v5.py": [
+      "OPERATOR_PINS.json",
+      "root-event-helpers-02/g1_event_config_corrected.py"
+    ],
+    "root-event-helpers-02/g1_event_config_corrected.py": [
+      "OPERATOR_PINS.json",
+      "SOURCE_SELECTION.json"
+    ],
+    "root-event-helpers-02/root_live_sender_call_received.py": [
+      "OPERATOR_PINS.json"
+    ],
+    "root-final-operators-01/binary_publish_v3.py": [
+      "OPERATOR_PINS.json",
+      "root-event-helpers-02/root_live_sender_call_received.py",
+      "root-final-operators-01/root_pipeline_inputs_v2.py"
+    ],
+    "root-final-operators-01/control_process_v3.py": [
+      "OPERATOR_PINS.json",
+      "root-event-helpers-02/g1_event_config_corrected.py",
+      "root-event-helpers-02/root_live_sender_call_received.py",
+      "root-final-operators-01/binary_publish_v3.py"
+    ],
+    "root-final-operators-01/root_pipeline_inputs_v2.py": [
+      "OPERATOR_PINS.json",
+      "root-event-helpers-02/root_live_sender_call_received.py"
+    ]
+  },
+  "pin_propagation_performed": false,
+  "protected_effects": false,
+  "resolver": {
+    "after": {
+      "bytes": 12229,
+      "sha256": "8da0acdb81c9cbebd8fbc3cfd1f79c31222e8c93260930738e7ccd803abb5226"
+    },
+    "before": {
+      "bytes": 11390,
+      "sha256": "35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22"
+    },
+    "path": "public-receiver-02/author/resolve_artifact.py"
+  },
+  "schema": "dg16.g132-resolver-correction-pin-impact.v1",
+  "scope": "READ_ONLY_IMPACT_INVENTORY; NO PIN PROPAGATION",
+  "syntax_compile": true
+}

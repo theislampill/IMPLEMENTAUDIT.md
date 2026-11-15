@@ -1,0 +1,95 @@
+{
+  "received_utc": "2026-11-15T23:37:06.124160+00:00",
+  "run_id": 43775060535,
+  "attempt": 1,
+  "job_id": 132999386253,
+  "workflow_commit": "acc54478991a5a0e2193e12af5d76ecffd266188",
+  "workflow_tree": "526677cf81c2160f58cf2913c13250924c477012",
+  "source_commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "source_tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+  "operation_sha256": "e0ac5d2992e44b45e838802c571fa84e27542aa72afab6ebb05c015e3207ec23",
+  "artifact_id": 14186060941,
+  "artifact": {
+    "bytes": 1292527,
+    "sha256": "cd56c78ed6b80959d229275da6ef1c7bd02b012b053989fc28d23722a83c6a18"
+  },
+  "zip_members": 70,
+  "complete_job_log": {
+    "bytes": 41522,
+    "sha256": "62cf05b7e2f9a82facc7bba53ff9c29c5688d41ae4a3b06ccba355602391c2d8"
+  },
+  "actual_disposition": {
+    "automatic_retry": false,
+    "cleanup_or_compensation": false,
+    "detail": "invalid or over-envelope aggregate Job committed memory",
+    "ended_utc": "2026-11-15T23:31:08.203656+00:00",
+    "exception": "QualificationError",
+    "status": "OWNER_LAUNCH_ATTEMPTED_UNQUALIFIED"
+  },
+  "elapsed_ms": 29961.0286,
+  "time_limit_ms": 60000,
+  "peak_job_committed_bytes": 250466304,
+  "peak_single_process_committed_bytes": 56119296,
+  "job_limit_bytes": 201326592,
+  "memory_excess_bytes": 49139712,
+  "memory_excess_percent": 24.407958984375,
+  "process_accounting": {
+    "NEW_PROCESS": 2340,
+    "EXIT_PROCESS": 2340,
+    "ACTIVE_PROCESS_ZERO": 1
+  },
+  "ordered_lifetimes_reconciled_to_kernel_total": true,
+  "kernel_total_processes": 2340,
+  "terminal_active_processes": 0,
+  "cleanup_complete": true,
+  "observed_processes": 2340,
+  "observation_failures": 0,
+  "process_image_counts": {
+    "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 57,
+    "C:\\Windows\\System32\\conhost.exe": 1,
+    "C:\\Program Files\\Git\\usr\\bin\\cygpath.exe": 3,
+    "C:\\Program Files\\Git\\usr\\bin\\readlink.exe": 1,
+    "C:\\Program Files\\Git\\usr\\bin\\tr.exe": 1,
+    "C:\\Program Files\\Git\\usr\\bin\\od.exe": 1,
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe": 1,
+    "C:\\Program Files\\Git\\usr\\bin\\dirname.exe": 4,
+    "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 4,
+    "C:\\Program Files\\Git\\cmd\\git.exe": 1120,
+    "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1141,
+    "C:\\Program Files\\Git\\bin\\bash.exe": 3,
+    "C:\\Program Files\\Git\\usr\\bin\\grep.exe": 3
+  },
+  "native_control": {
+    "elapsed_ms": 1117.7383,
+    "peak_job_committed_bytes": 95350784,
+    "peak_single_process_committed_bytes": 41234432,
+    "accounting": {
+      "NEW_PROCESS": 5,
+      "EXIT_PROCESS": 5,
+      "ACTIVE_PROCESS_ZERO": 1
+    }
+  },
+  "current_pointer_token": "refs/implementaudit/current-generations/dg18-w-full-43721708486-1@db4886253d0ed4a596aba8da111798f42ef954ec",
+  "current_receipt_token": "refs/implementaudit/continuity-receipts/dg18-w-full-43721708486-1/G0003@6eb7f743aa3c41537f4e01a486f8c977a793502c",
+  "receipt": {
+    "bytes": 784,
+    "sha256": "be9c26ba2edd928958f285f06b96dccbb85a5fbe7630d66bd7d5377e8d920b5e"
+  },
+  "permanent_marker_oid": "8126b77007aeb74d1fde5a0da86a7e8de8f4b255",
+  "original14_receipt_and_preserved_payloads_consistent": true,
+  "retained_original_files": 6,
+  "retained_original_refs": 25,
+  "post_attempt_owner_ref_projection": 38,
+  "post_attempt_all_loose_implementaudit_refs": 40,
+  "runtime_files_unchanged": 44,
+  "subject_capture_archive": {
+    "bytes": 4505600,
+    "sha256": "c1a1d4ff1d1b4553360fd933851b33db4f2adaf16f6e4f05e852b65b3e8b25ce"
+  },
+  "subject_capture_members": 263,
+  "subject_capture_files": 186,
+  "boundary_consumed": true,
+  "automatic_retry": false,
+  "reception_scope": "Actual original outputs only; no source mutation, owner invocation, new native operation, retry, limit change or whole-issue acceptance",
+  "receiver_comparison_note": "A receiver assertion initially compared all 40 loose implementaudit refs with the recorder's 38-ref owner projection. The two additional initialization refs are outside refs() by design. Exact maintained projection matches; no source or original evidence was changed."
+}

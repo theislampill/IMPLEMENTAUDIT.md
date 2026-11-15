@@ -1,0 +1,41 @@
+{
+  "base": "a9a7b019e2bf867ba45a2b68e704c2860929d240",
+  "checks": {
+    "actual_launch_inputs": "NOT_AUTHORED_BY_THIS_LANE",
+    "diff_whitespace": "PASS",
+    "exact_two_additions_three_modifications_from_sole_parent_a9": true,
+    "helper_reverse_reference_declaration_reconstructs_exact_a9_body": true,
+    "owner_native_or_test_invocations": 0,
+    "powershell_runtime": "NOT_RUN",
+    "python_parse_compile_without_import": "PASS",
+    "root_g132_disjointness": "REQUIRED_BEFORE_LAUNCH",
+    "source775_and_e0ac_and_measurement_path_unchanged": true,
+    "workflow_outside_single_input_gate_unchanged": true,
+    "yaml_parse": "PASS"
+  },
+  "files": [
+    {
+      "bytes": 14107,
+      "path": ".github/workflows/dg18-w-full-minimal-prepare.yml",
+      "sha256": "3f98b3c9b7e6707b04d78e77d4f7a246a0773af351c3c9f01572fbcebdf169b8"
+    },
+    {
+      "bytes": 11897,
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-continuation/restore.py",
+      "sha256": "ec05cbf3ebbfc2b6b5e753b9b78bb219f207b8b3fc34b9d3a88b6da54b484574"
+    },
+    {
+      "bytes": 11400,
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-continuation/README.md",
+      "sha256": "49ad3bd07b9089c7b1a8c69843343051d9d8962a604ea26a2b72e1e5faee60aa"
+    }
+  ],
+  "operation_sha256": "e0ac5d2992e44b45e838802c571fa84e27542aa72afab6ebb05c015e3207ec23",
+  "patch": {
+    "bytes": 13413,
+    "path": "WFULL_RETIREMENT.diff",
+    "sha256": "0a5f8f53a42ccbe3a08933ac7f01c0ec8a822acc46a7fcce2a1bb7ec0485966b"
+  },
+  "runtime_commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "scope": "ORDINARY_SOURCE_RETIREMENT_ONLY; NO REF UPDATE OR NATIVE LAUNCH"
+}
