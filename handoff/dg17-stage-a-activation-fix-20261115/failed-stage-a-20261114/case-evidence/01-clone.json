@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Program Files\\Git\\cmd\\git.exe",
+    "-c",
+    "core.longpaths=true",
+    "clone",
+    "--shared",
+    "--single-branch",
+    "--no-checkout",
+    "--branch",
+    "engineering/pr255-owner-execution-20261112",
+    "C:\\Users\\theis\\.codex\\worktrees\\pr255-owner-execution-20261112\\IMPLEMENTAUDIT",
+    "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\case-native-01\\source"
+  ],
+  "cwd": "C:\\Users\\theis\\.codex\\worktrees\\pr255-owner-execution-20261112\\IMPLEMENTAUDIT",
+  "exit": 0,
+  "stdout": "",
+  "stderr": "Cloning into 'C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\case-native-01\\source'...\ndone.\n"
+}

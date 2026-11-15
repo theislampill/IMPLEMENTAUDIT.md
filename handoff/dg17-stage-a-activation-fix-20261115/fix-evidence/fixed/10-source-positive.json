@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-fixed-01\\source\\skills\\implementaudit\\scripts\\validate-run-root.sh",
+    "--nonterminal-yield",
+    "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-fixed-01\\source\\.IMPLEMENTAUDIT\\runs\\dg17-y04-current-positive-zsJX7w"
+  ],
+  "cwd": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-fixed-01\\source",
+  "exit": 0,
+  "stdout": "validate-run-root: nonterminal yield record ok (source-only; host enforcement unavailable)\r\nvalidate-run-root: ok\n",
+  "stderr": ""
+}

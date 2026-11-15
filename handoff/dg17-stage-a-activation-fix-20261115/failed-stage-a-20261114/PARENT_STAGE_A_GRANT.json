@@ -1,0 +1,7 @@
+{
+  "issuer": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "operation_sha256": "9b8712288d8ca4be1ac460d90c3b6dfd49b230b44e34c006f16961340a631d39",
+  "owner_approval_sha256": "05a0767e4a4a72eb7ff13f11bf9341a270b46954bab0e8e57e3e6c7bfa411aff",
+  "resource_ack_received": true,
+  "stage": "A"
+}

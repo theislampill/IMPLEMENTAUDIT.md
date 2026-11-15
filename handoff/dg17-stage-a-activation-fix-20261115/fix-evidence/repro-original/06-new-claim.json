@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-repro-01\\source\\skills\\implementaudit\\scripts\\claim-run.sh",
+    "--controller",
+    "dg17-windows-stop-t12-20261114-01",
+    "dg17-y04-current-positive"
+  ],
+  "cwd": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-repro-01\\source",
+  "exit": 0,
+  "stdout": ".IMPLEMENTAUDIT/runs/dg17-y04-current-positive-53QeWA\n",
+  "stderr": "claim-run.sh: initialization pending; token=refs/implementaudit/controller-initializations/dg17-windows-stop-t12-20261114-01/a288fa664ccba8cd082eab1a0ca20932@48bfa2560083b3209b029823042321dee732baa8; no currentness authority\r\n"
+}

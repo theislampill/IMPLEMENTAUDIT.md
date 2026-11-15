@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "C:\\Program Files\\Git\\cmd\\git.exe",
+    "for-each-ref",
+    "refs/implementaudit/"
+  ],
+  "cwd": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-fixed-01\\source",
+  "exit": 0,
+  "stdout": "3a47752c584b6563f21f2392a3725bc6e9dade32 blob\trefs/implementaudit/continuity-receipts/dg17-windows-stop-t12-20261114-01/G0001\nc11da8e4334303e0fa689d66a4cd98b16d6d6d2d blob\trefs/implementaudit/controller-initialization-bindings/dg17-windows-stop-t12-20261114-01/26b844bc166395a4d3fb4d65c6b68484\n81f0f5bf99934da260cf32c71dd7c4947ae8216d blob\trefs/implementaudit/controller-initializations/dg17-windows-stop-t12-20261114-01/26b844bc166395a4d3fb4d65c6b68484\n9be52bbdfa8fb37c57cc0a50d860bcfff3e63b0a blob\trefs/implementaudit/controllers/dg17-windows-stop-t12-20261114-01\n",
+  "stderr": ""
+}

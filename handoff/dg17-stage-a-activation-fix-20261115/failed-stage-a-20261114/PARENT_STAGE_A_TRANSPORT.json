@@ -1,0 +1,6 @@
+{
+  "exit": 1,
+  "stdout": "{\"exit_code\": 1, \"elapsed_ms\": 7607.9727, \"terminal_active_processes\": 0, \"terminal_breakaway_allowed\": false, \"assigned_before_resume\": true}\r\n",
+  "stderr": "",
+  "completed_utc": "2026-11-14T23:30:19.701203+00:00"
+}

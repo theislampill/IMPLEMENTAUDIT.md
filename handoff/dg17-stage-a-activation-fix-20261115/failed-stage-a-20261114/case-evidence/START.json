@@ -1,0 +1,18 @@
+{
+  "operation_sha256": "9b8712288d8ca4be1ac460d90c3b6dfd49b230b44e34c006f16961340a631d39",
+  "owner_approval": {
+    "bytes": 1634,
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\OWNER_AUTHORIZATION.json",
+    "sha256": "05a0767e4a4a72eb7ff13f11bf9341a270b46954bab0e8e57e3e6c7bfa411aff"
+  },
+  "parent_grant": {
+    "issuer": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+    "operation_sha256": "9b8712288d8ca4be1ac460d90c3b6dfd49b230b44e34c006f16961340a631d39",
+    "owner_approval_sha256": "05a0767e4a4a72eb7ff13f11bf9341a270b46954bab0e8e57e3e6c7bfa411aff",
+    "resource_ack_received": true,
+    "stage": "A"
+  },
+  "window_start_ns": 440113961160800,
+  "window_total_seconds": 900,
+  "model_turns": 0
+}

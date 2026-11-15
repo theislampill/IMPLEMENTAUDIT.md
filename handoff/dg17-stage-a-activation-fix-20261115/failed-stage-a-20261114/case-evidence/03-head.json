@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "C:\\Program Files\\Git\\cmd\\git.exe",
+    "rev-parse",
+    "HEAD"
+  ],
+  "cwd": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\case-native-01\\source",
+  "exit": 0,
+  "stdout": "b0fcb565d1c81900899181d4607e2f3a8cc621a6\n",
+  "stderr": ""
+}

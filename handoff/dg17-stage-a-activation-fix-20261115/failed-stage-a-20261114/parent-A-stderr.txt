@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "C:\workspace\ai\improveimplementaudit\plans\astra-successor-recovery-20261112\engineering-return-20261113-01\sol-dg17-approved-source-20261114-01\author\stage_a.py", line 181, in <module>
+    ap=argparse.ArgumentParser();ap.add_argument('--grant',type=Path,required=True);ap.add_argument('--window-start-ns',type=int,required=True);main(ap.parse_args())
+                                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\ai\improveimplementaudit\plans\astra-successor-recovery-20261112\engineering-return-20261113-01\sol-dg17-approved-source-20261114-01\author\stage_a.py", line 93, in main
+    token=command('07-source-bootstrap',claim+['--resume-controller',controller,'--boundary','manual-resume','--epoch','G0001'],repo)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\workspace\ai\improveimplementaudit\plans\astra-successor-recovery-20261112\engineering-return-20261113-01\sol-dg17-approved-source-20261114-01\author\stage_a.py", line 77, in command
+    if r.returncode:raise RuntimeError('source helper refused '+name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: source helper refused 07-source-bootstrap

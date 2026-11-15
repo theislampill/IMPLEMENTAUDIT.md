@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "C:\\Program Files\\Git\\cmd\\git.exe",
+    "rev-parse",
+    "HEAD^{tree}"
+  ],
+  "cwd": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-adverse-no-activate\\source",
+  "exit": 0,
+  "stdout": "539af162fd0d22b0dc30b1da18957b6cfbdb7cc1\n",
+  "stderr": ""
+}

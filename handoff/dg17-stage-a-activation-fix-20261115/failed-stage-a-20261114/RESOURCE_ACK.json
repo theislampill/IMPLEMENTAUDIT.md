@@ -1,0 +1,17 @@
+{
+  "schema": "root.DG17.actual-resource-window-ack.v1",
+  "utc": "2026-11-14T23:30:11.611153+00:00",
+  "actor": "/root",
+  "owner_quiet_confirmation": "Direct user: Quiet window available now",
+  "host": "3701MEDIA",
+  "build": "26200",
+  "owned_conflicting_operations": [],
+  "G220": "Terminalfailure; transportreceivingcomplete, no liveconsumptionwindow",
+  "G132": "Notlaunched",
+  "DG18": "No admittedwindow",
+  "independent_receiver": "/root/g207_installed_modes_source viaSol; reconfirmed dedicatednext15min",
+  "Root_and_Sol_other_work_paused": true,
+  "host_observations": "QUIET_HOST_OBSERVATION.json and QUIET_HOST_RECHECK.json plus currentreadonlysamples retained; normalbackgroundactivity not globalidleness",
+  "no_numeric_quiet_threshold_invented": true,
+  "original_limits_unchanged": true
+}

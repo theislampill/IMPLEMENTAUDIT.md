@@ -1,0 +1,13 @@
+## probe: --current-controller (the owner_call inside discover())
+exit=128
+## git rev-parse --verify refs/implementaudit/controllers/dg17-windows-stop-t12-20261114-01
+fatal: Needed a single revision
+exit=128
+## refs/implementaudit/*
+48bfa2560083b3209b029823042321dee732baa8 blob	refs/implementaudit/controller-initializations/dg17-windows-stop-t12-20261114-01/a288fa664ccba8cd082eab1a0ca20932
+## --inspect-controller-initialization
+{"authority_ceiling":"EVIDENCE_ONLY_NO_EXECUTION_OR_CONTINUITY","binding_record_oid":null,"claim_id":"a288fa664ccba8cd082eab1a0ca20932","controller":"dg17-windows-stop-t12-20261114-01","current_controller_oid":null,"initialization_token":"refs/implementaudit/controller-initializations/dg17-windows-stop-t12-20261114-01/a288fa664ccba8cd082eab1a0ca20932@48bfa2560083b3209b029823042321dee732baa8","missing_files":[],"predecessor_kind":"NONE","prepared_source_head":"b0fcb565d1c81900899181d4607e2f3a8cc621a6","run_root":".IMPLEMENTAUDIT/runs/dg17-y04-current-positive-53QeWA","schema":"implementaudit.controller-initialization-inspection.v1"}
+exit=0
+## --activate-controller on stage_a.py's unmodified STATE/ROADMAP
+claim-run.sh: initialized STATE does not bind the real run and source baseline
+exit=1

@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "C:\\Program Files\\Git\\bin\\bash.exe",
+    "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-fixed-01\\source\\skills\\implementaudit\\scripts\\claim-run.sh",
+    "--activate-controller",
+    "dg17-windows-stop-t12-20261114-01",
+    "--run-root",
+    ".IMPLEMENTAUDIT/runs/dg17-y04-current-positive-zsJX7w",
+    "--expected-initialization",
+    "refs/implementaudit/controller-initializations/dg17-windows-stop-t12-20261114-01/26b844bc166395a4d3fb4d65c6b68484@81f0f5bf99934da260cf32c71dd7c4947ae8216d"
+  ],
+  "cwd": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-step07\\case-fixed-01\\source",
+  "exit": 0,
+  "stdout": "{\"authority_ceiling\":\"ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY\",\"binding_record_oid\":\"c11da8e4334303e0fa689d66a4cd98b16d6d6d2d\",\"controller_oid\":\"9be52bbdfa8fb37c57cc0a50d860bcfff3e63b0a\",\"initialization_token\":\"refs/implementaudit/controller-initializations/dg17-windows-stop-t12-20261114-01/26b844bc166395a4d3fb4d65c6b68484@81f0f5bf99934da260cf32c71dd7c4947ae8216d\",\"run_population\":{\"directories\":[\".\",\"phases\"],\"files\":[{\"bytes\":674,\"mode\":438,\"path\":\".claimed\",\"sha256\":\"ea1c162025152ec734265f5e18bcde3a233ee4b1e183e532e6456106d19fc2ea\"},{\"bytes\":48,\"mode\":438,\"path\":\".controller\",\"sha256\":\"7049bda51c36134ded29cbef4db5f365b2a99f53b4b01a1eea7269a4cbd0fa04\"},{\"bytes\":74155,\"mode\":438,\"path\":\"PROTOCOL.md\",\"sha256\":\"24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c\"},{\"bytes\":376,\"mode\":438,\"path\":\"ROADMAP.md\",\"sha256\":\"60e5995c6d063ea0b2b2f85714b80dc32a4ef430ffce2c222d40913847a6b9d6\"},{\"bytes\":1842,\"mode\":438,\"path\":\"STATE.md\",\"sha256\":\"dfdea663069590f9e94bbda37b4d2ba03ee885d9a31836dffd65e073e41b9d3a\"},{\"bytes\":6380,\"mode\":438,\"path\":\"THINKING.md\",\"sha256\":\"a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba\"},{\"bytes\":740,\"mode\":438,\"path\":\"context.md\",\"sha256\":\"19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a\"},{\"bytes\":4029,\"mode\":438,\"path\":\"phases/phase-1.md\",\"sha256\":\"91dbc9ac2fef28ce66ecff177148bffb7cd18ea05aec32331f89a03ff6114fc7\"},{\"bytes\":763,\"mode\":438,\"path\":\"sidecars.md\",\"sha256\":\"6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332\"},{\"bytes\":997,\"mode\":438,\"path\":\"tools.md\",\"sha256\":\"904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a\"}]},\"schema\":\"implementaudit.controller-initialization-bound.v1\",\"status\":\"BOUND_ELIGIBLE_FOR_NORMAL_CURRENTNESS\",\"structural_validation\":\"EXACT_CONTENT_EXISTING_FULL_VALIDATOR\"}\n",
+  "stderr": ""
+}
