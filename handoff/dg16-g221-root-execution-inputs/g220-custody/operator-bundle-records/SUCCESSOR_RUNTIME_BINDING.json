@@ -1,0 +1,23 @@
+{
+  "actor": "/root",
+  "effect_grant": false,
+  "host_adoption": {
+    "bytes": 1923,
+    "sha256": "99d3315c8c8cd894f66dc04bfebb7a5519abe232fca3f4205d90a8690e6180df"
+  },
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "maintained_source_root": "/home/agent/pr255-g2-completion-20261114-08/product-205aeab7",
+  "native_currentness": false,
+  "original_awards": [],
+  "output_fresh": true,
+  "private_custody_ready": false,
+  "receiver_output_root": "/home/agent/pr255-g2-completion-20261114-10/public-acquisition",
+  "schema": "dg16.direct-host-public-runtime-binding.v1",
+  "session": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_current": true,
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "status": "ACTUAL_PUBLIC_PATHS_RECEIVED_FOR_CODE_BINDING",
+  "workspace_current": true,
+  "workspace_root": "/home/agent/pr255-g2-completion-20261114-10"
+}

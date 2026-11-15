@@ -1,0 +1,125 @@
+{
+  "actor": "/root",
+  "actual_job": 132491379413,
+  "actual_limits": {
+    "address_space": [
+      1073741824,
+      1073741824
+    ],
+    "cpu": [
+      60,
+      60
+    ],
+    "file_size": [
+      268517400,
+      268517400
+    ],
+    "schema": "dg16.cms-child-actual-limits.v1"
+  },
+  "actual_run": 43609553909,
+  "attempt": 1,
+  "authenticated_private_interoperability": false,
+  "ciphertext": {
+    "bytes": 268501653,
+    "sha256": "0e288dd6058cd88212ea6c720443e2b367c968f67f842262881e98b2ce4a6acf"
+  },
+  "cleanup": {
+    "echild": true,
+    "restoration_complete": true
+  },
+  "component_seal_sha256": "c93292cb249539432ab4fa25d279da3fcede464106ed3392633fe05da52a4511",
+  "decision": "ACCEPT_ACTUAL_CURRENT_RECIPIENT_COMPONENT_MAXIMUM_ENCRYPT_CAPTURE_AT_STANDALONE_SCOPE",
+  "elapsed_seconds": 4.685986718999999,
+  "files_removed": {
+    "FAILED_STREAMS.cms": true,
+    "FRAME.bin": true,
+    "recipient.pem": true
+  },
+  "full_G2": false,
+  "human_authorization_sha256": "cdb26b3f08f5e3e24b02a347f3853ac6e5d0849c791f7f4784775fc062942afc",
+  "independent_final": {
+    "bytes": 7047,
+    "path": "/mnt/c/workspace/ai/improveimplementaudit/plans/astra-r3-execution-20261114-01/g2-fresh-witness-terminal-review/FINAL.json",
+    "sha256": "f9dfaee37cd8d11072a04918dd9344ac4490b18af40f03482bedbc311b2f7ab1"
+  },
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "maintained_receiving": {
+    "acquisition_authenticity": "REQUIRES_ACTUAL_PROVIDER_AND_EXACT_SOURCE_RECEIVING",
+    "actual_delivery": {
+      "actor": "theislampill",
+      "actor_id": "266501826",
+      "approval_authenticated_by_job": false,
+      "attempt": 1,
+      "created": true,
+      "deleted": false,
+      "event": "push",
+      "head": "9dfa2e205eb8492534c322b96966eeed37b78bb7",
+      "human_approval_sha256": "cdb26b3f08f5e3e24b02a347f3853ac6e5d0849c791f7f4784775fc062942afc",
+      "payload_commit": "9dfa2e205eb8492534c322b96966eeed37b78bb7",
+      "ref": "refs/heads/pro/dg16-direct-encrypt-qualification-9dfa2e205eb8492534c322b96966eeed37b78bb7-cdb26b3f08f5e3e24b02a347f3853ac6e5d0849c791f7f4784775fc062942afc",
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "run_id": "43609553909"
+    },
+    "actual_limits": {
+      "address_space": [
+        1073741824,
+        1073741824
+      ],
+      "cpu": [
+        60,
+        60
+      ],
+      "file_size": [
+        268517400,
+        268517400
+      ],
+      "schema": "dg16.cms-child-actual-limits.v1"
+    },
+    "approval_authenticity": "REQUIRES_EXTERNAL_OWNER_RECORD_AND_ACTUAL_PROVIDER_RECEIVING",
+    "authenticated_private_receiving": false,
+    "command_sha256": "c9ce4a517f06cf82be4997c8f77ef740fa0b1f221865cd4919ef9ad1cc3f49b8",
+    "context": {
+      "attempt": 1,
+      "head": "9dfa2e205eb8492534c322b96966eeed37b78bb7",
+      "ref": "refs/heads/pro/dg16-direct-encrypt-qualification-9dfa2e205eb8492534c322b96966eeed37b78bb7-cdb26b3f08f5e3e24b02a347f3853ac6e5d0849c791f7f4784775fc062942afc",
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "run_id": "43609553909"
+    },
+    "facts_sha256": "729d173683374dc16c2b54dbcb0a5700dabbc7dd2be6de2090a69e501dddb3c9",
+    "original_acceptance": false,
+    "owner_sha256": "b2c22eb8d5c97739b03dec51f3fb222e65fc51f2184099938d71003a18ee5871",
+    "private_recipient_required_for_this_scope": false,
+    "production_same_host_gate_received": false,
+    "raw_stderr_transferred": false,
+    "schema": "dg16.direct-encrypt-capture-data-receiving.v1",
+    "status": "RELATIONSHIPS_CHECKED_REQUIRES_ACTUAL_INDEPENDENT_RECEIVING"
+  },
+  "original_awards": [],
+  "payload_commit": "9dfa2e205eb8492534c322b96966eeed37b78bb7",
+  "plaintext": {
+    "bytes": 268501016,
+    "sha256": "d268f3c43531bd62ac6bc7ec24bf2247d4e17fb4b94a3b804f8131fdc62008eb"
+  },
+  "production_same_host_gate_received": false,
+  "provider": {
+    "bytes": 888,
+    "path": "/mnt/c/workspace/ai/improveimplementaudit/plans/astra-r3-execution-20261114-01/g2-witness-publication/ACTUAL_PROVIDER_RECEIVING.json",
+    "sha256": "42e6852e27a80b052b9002649f49b0e593923f1f53074faa2a5df636b5a564a6"
+  },
+  "public": {
+    "bytes": 8407,
+    "path": "/mnt/c/workspace/ai/improveimplementaudit/plans/astra-r3-execution-20261114-01/g2-witness-publication/ACTUAL_PUBLIC_DELIVERY.json",
+    "sha256": "3f837f5fc16afdf0eb74b994805fbb1aced90ac2b96bbb525b2e31f449a96e9d"
+  },
+  "recipient": {
+    "bytes": 1533,
+    "sha256": "1d81ea8b4ff7b906d88dd6e70b28a9c555918dcf7f5b14a6f32c41f557d86cc0"
+  },
+  "schema": "root.G2.actual-standalone-witness-root-receiving.v1",
+  "source_root": {
+    "bytes": 1329,
+    "path": "/mnt/c/workspace/ai/improveimplementaudit/plans/astra-r3-execution-20261114-01/g2-witness-publication/ACTUAL_SOURCE_ROOT_RECEIVING.json",
+    "sha256": "fa564c26943b9b93b823a30de98552d9eda38d98b04488b1b189affcab57db30"
+  },
+  "tree": "2840fedf27c535aae47fc50d1cf3149879fd4f02"
+}

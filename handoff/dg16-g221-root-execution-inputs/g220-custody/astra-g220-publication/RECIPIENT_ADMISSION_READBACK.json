@@ -1,0 +1,9 @@
+{
+  "utc": "2026-11-14T21:01:36.935486+00:00",
+  "public_certificate_sha256": "1d81ea8b4ff7b906d88dd6e70b28a9c555918dcf7f5b14a6f32c41f557d86cc0",
+  "dedicated_local_custody_verified": true,
+  "private_public_match": true,
+  "private_key_exported_or_printed": false,
+  "unrelated_key_access": false,
+  "not_after": "2026-11-15T14:51:46Z"
+}

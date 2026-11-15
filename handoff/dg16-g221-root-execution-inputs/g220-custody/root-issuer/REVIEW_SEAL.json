@@ -1,0 +1,32 @@
+{
+  "authority": "NONE",
+  "candidate_seal_sha256": "50f694f066d82bc8eda600dd449f8c8ceedf93ebab308d87ca02fefb2ea594c2",
+  "decision": "PASS_SOURCE_REVIEW_ONLY",
+  "effect_grant": false,
+  "members": [
+    {
+      "bytes": 820,
+      "mode": "0444",
+      "path": "INDEPENDENT_COLD_REVIEW.json",
+      "sha256": "67174272dbc667a4f11b3020f1af815fb0f289ea4e12b6e1aa21ac48fa5c1fe6"
+    },
+    {
+      "bytes": 2360,
+      "mode": "0444",
+      "path": "NATIVE_INDEPENDENT_REVIEW.json",
+      "sha256": "cc6df0dc3e506d318ab5e8d54861a4b461737aadd2dbdf0ab0f9f09bdd51a55f"
+    },
+    {
+      "bytes": 3475,
+      "mode": "0444",
+      "path": "REPORT.md",
+      "sha256": "5bafe35d05435e0095e21b1b07e09e39c055474e4bc6079a38e7c0b36be24b2a"
+    }
+  ],
+  "original_awards": [],
+  "reviewer": "/root/g220_source_review",
+  "schema": "dg16.independent-code-native-source-review-seal.v1",
+  "self_excluded": true,
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+}

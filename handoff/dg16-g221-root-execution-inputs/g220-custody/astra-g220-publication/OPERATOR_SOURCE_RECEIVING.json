@@ -1,0 +1,22 @@
+{
+  "members": 19,
+  "manifest_sha256": "810cef7e5b27c648467954eed12c6d45267258c755f6265f3ec4fdcf9a1a287a",
+  "actual_constructor_pass": true,
+  "control_sha256": "0b2934991f962dc88aa8a36889b3fa4416e3040bfa907f1536ac17e7b91a8f41",
+  "index_sha256": "8aaaf8256205aa22bd721dd9836298583330c60dee4bc9561701994e73d61061",
+  "installation": {
+    "authority": "NONE",
+    "history_read": false,
+    "live_admission_issued": false,
+    "manifest": {
+      "bytes": 2980,
+      "sha256": "810cef7e5b27c648467954eed12c6d45267258c755f6265f3ec4fdcf9a1a287a"
+    },
+    "members": 19,
+    "root": "/home/agent/pr255-g2-completion-20261114-10/operator-installed-r1",
+    "session_opened": false,
+    "status": "EXACT_PUBLIC_DRIVER_SOURCES_INSTALLED",
+    "uid": 1000
+  },
+  "original_awards": []
+}

@@ -1,0 +1,13 @@
+{
+  "composition_seal_sha256": "2cee2b9f380edeaf00fa552e54b9029737f51221da8bc16f34ba0b14d5c1098e",
+  "effect_grant_issued": false,
+  "final_tree": "bbc3669b2167548a5a8b9ec0986b1e8b18e720eb",
+  "original_acceptance": false,
+  "receiver_seal_sha256": "0950cb87ad10e6b0169427b292852c50dfe574ae6f7723b123da369221b146d1",
+  "review_seal_sha256": "55e8086055b93eb62679c47e32fd2bb2e12b82cdfc5adef7dd483c0c4b9ffb08",
+  "schema": "dg16.current-g2.final-independent-review-admission-check.v1",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "status": "EXACT_FINAL_REVIEW_VERIFIED",
+  "verdict_sha256": "cc63dc4a3ef8a1f298d235b578a4383df6c757fe6953653d42eb5f438ecef9b4"
+}

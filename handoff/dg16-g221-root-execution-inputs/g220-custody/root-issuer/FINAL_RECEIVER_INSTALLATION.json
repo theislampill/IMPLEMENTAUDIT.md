@@ -1,0 +1,37 @@
+{
+  "actor": "/root",
+  "actual_combined_review": {
+    "reviewer": "/root/g220_source_review",
+    "seal_sha256": "55e8086055b93eb62679c47e32fd2bb2e12b82cdfc5adef7dd483c0c4b9ffb08",
+    "status": "PASS_SOURCE_AND_PHYSICAL_JOIN_ONLY",
+    "verdict_sha256": "cc63dc4a3ef8a1f298d235b578a4383df6c757fe6953653d42eb5f438ecef9b4"
+  },
+  "actual_root_turn": "01a1dbc4-79af-7f81-a77b-a637f2b44a4f",
+  "actual_run": null,
+  "actual_verified": {
+    "candidate_seal": "50f694f066d82bc8eda600dd449f8c8ceedf93ebab308d87ca02fefb2ea594c2",
+    "composition_seal": "2cee2b9f380edeaf00fa552e54b9029737f51221da8bc16f34ba0b14d5c1098e",
+    "final_tree": "bbc3669b2167548a5a8b9ec0986b1e8b18e720eb",
+    "module_count": 43,
+    "native_execution": false,
+    "phase": "SOURCE_ONLY_VERIFIED_READBACK",
+    "private_custody_ready": false,
+    "receiver_seal": "0950cb87ad10e6b0169427b292852c50dfe574ae6f7723b123da369221b146d1",
+    "run_or_host_effects": 0,
+    "source": "205aeab7c93299b0666b261485ab5658d8e183de"
+  },
+  "decision": "ACCEPT_ACTUAL_SEVEN_FILE_PUBLIC_RECEIVER_INSTALL_AND_VERIFIED_SOURCE_BINDING",
+  "effect_grant": false,
+  "installed": {
+    "action": "ACTUAL_SOURCE_ONLY_INSTALLATION_READ_BACK",
+    "member_count": 7,
+    "modes": "0400",
+    "root": "/home/agent/pr255-g2-completion-20261114-10/public-receiver-bound",
+    "sha256": "0950cb87ad10e6b0169427b292852c50dfe574ae6f7723b123da369221b146d1"
+  },
+  "issued_utc": "2026-11-14T20:52:46.510288+00:00",
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "original_awards": [],
+  "private_binding": null,
+  "receiving_provenance": "Actual G220 independent combined review and original final admission received by Root; actual installed source readback; no native award."
+}

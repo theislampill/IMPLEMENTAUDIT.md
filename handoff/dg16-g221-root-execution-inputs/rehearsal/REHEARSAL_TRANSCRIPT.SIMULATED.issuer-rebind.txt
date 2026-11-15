@@ -1,0 +1,194 @@
+SIMULATED — NOT A G221 RECORD. Same rehearsal, Part C only, with the owner-gated issuer-thread rebind proposal exercised: TEST_ISSUER=00000000-0000-4000-8000-000000000221 (a TEST value, not an identity).
+Produced by: TEST_ISSUER=00000000-0000-4000-8000-000000000221 bash rehearsal/run_rehearsal.sh <repo> <scratch>
+
+================ PART C: host-21 sequence, SIMULATED with TEST inputs in scratch only ================
+
+### 10. TEST certificate (NOT a recipient; throwaway key deleted at once)
+   TEST cert sha256=1e1273c01d17f313996c81683457f64ccd8ee82b3d2fc92f0da694ed8801d1c2 bytes=1529; private key file removed: yes
+
+### 11. propagate host-21 / control-21 / certificate digest; pin chain closes
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/propagate_successor.py <scratch>/u1 <scratch>/u21 <scratch>/c/propagate-report.json --old-host-branch pro/dg16-r5-full-g2-direct-host-20-20261114 --new-host-branch pro/dg16-r5-full-g2-direct-host-21-20261115 --old-control-branch pro/dg16-r5-full-g2-direct-control-20-20261114 --new-control-branch pro/dg16-r5-full-g2-direct-control-21-20261115 --recipient-cert <scratch>/c/TEST_ONLY_NOT_A_RECIPIENT.pem --old-issuer-thread 01a1cf82-cdd6-7053-b7b7-32f5c3d93d21 --new-issuer-thread 00000000-0000-4000-8000-000000000221
+author/bind_public_successor.py                                                                                  9e52c046 -> e1e79f8f  SEED
+author/compose-candidate-bound.py                                                                                9b1e7dda -> 6c61eaea  SEED
+author/compose-final-bound.py                                                                                    c3498090 -> bc92eb8e  SEED
+author/compose.py                                                                                                4ee6de9c -> 2c1d2cae  SEED
+candidate-e76-source-01/HOST_PROFILE_BINDING_REQUIREMENTS.json                                                   b477105a -> 3bb0e06b  SEED
+candidate-e76-source-01/SEAL.json                                                                                1d2ef960 -> 071bb377  SEED
+candidate-e76-source-01/candidate/public/.github/workflows/dg16-r5-full-g2.yml                                   2cb37274 -> 9c81c01d  SEED
+e-e76-source-01/candidate/public/qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json 74c652e8 -> c5f31cd6  SEED
+candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/PROTECTED_RECIPIENT.json                  99d3315c -> 487e66b9  SEED
+candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/PROTECTED_RECIPIENT.pem                   1d81ea8b -> 1e1273c0  SEED
+candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/UNISSUED_REQUIREMENTS.json                35c8d2cf -> 0ee8a1af  SEED
+candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/current_host.py                           893ad0f5 -> 85902fb6  SEED
+candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/live_control.py                           8a65f6f5 -> 2154177c  SEED
+candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/protected_bridge.py                       b2a740fc -> 95eb54d0  SEED
+candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/run.py                                    68816607 -> dce698ea  SEED
+candidate-e76-source-01/receiver/BINDING_TEMPLATE.json                                                           692546f1 -> 3afa31d6  SEED
+candidate-e76-source-01/receiver/ROOT_BINDING_TEMPLATE.json                                                      ab439ba2 -> 68773361  SEED
+candidate-e76-source-01/receiver/private_receive.py                                                              1fad0e91 -> d608b7fd
+candidate-e76-source-01/receiver/resolve_body.py                                                                 06ccaf7b -> b0f32d23
+candidate-e76-source-01/receiver/root_acquire.py                                                                 9cbf4d0c -> 24e4b07e
+candidate-e76-source-01/receiver/root_common.py                                                                  e158ebbc -> ac8e3c96  SEED
+rounds 8 changed 21 unchanged 50 joins 6 / 6
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/check_chain.py <scratch>/u21 SIMULATED-host21 <scratch>/check-u21.json
+[SIMULATED-host21] PASS  RELATION_INPUTS.files == physical {bytes, sha256} of all 8 relation inputs :: {"pending_relation.py": {"bytes": 30269, "sha256": "b73adbc6c8ed6aa32b6d138b839f053e80d75066f3a2d0ce42231a5ad3e546c6"}}
+[SIMULATED-host21] PASS  RELATION_INPUTS.json canonical encoding (full_relation.encode)
+[SIMULATED-host21] PASS  pair_driver.RELATION_INPUTS_SHA == sha256(RELATION_INPUTS.json) :: "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014"
+[SIMULATED-host21] PASS  POLICY.json canonical encoding; pair_driver.POLICY_SHA == sha256(POLICY.json) :: "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1"
+[SIMULATED-host21] PASS  POLICY.receiver_inputs_sha256 == RELATION_INPUTS_SHA; POLICY.full_receiver_sha256 == pair_driver.FULL_RELATION_SHA == sha256(full_relation.py)
+[SIMULATED-host21] PASS  POLICY / RELATION_INPUTS source commit + tree
+[SIMULATED-host21] PASS  run.py: 17 file pins == physical packet files
+[SIMULATED-host21] PASS  run.CURRENT_HOST_REQUEST_SHA == sha256(decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json) :: "c5f31cd6a00cfd6dc1c67778e3efafb9b129fa17ce3b2356efe278010f80e34f"
+[SIMULATED-host21] PASS  request.source_bindings pair_driver / policy / receiver_inputs / source_manifest == physical
+[SIMULATED-host21] PASS  workflow: every 64-hex literal == sha256(run.py) :: {"literals": 20, "run.py": "dce698ead886fe213e4521036a613b98b71d6d01874eab322b4ef15ce669db96"}
+[SIMULATED-host21] PASS  SOURCE_MANIFEST.json untouched: 1766 members / 167023692 bytes; pending_relation.py is not a member :: {"file_count": 1766, "members": 1766, "total_bytes": 167023692}
+[SIMULATED-host21] PASS  receiver/BINDING_TEMPLATE.modules == physical {bytes, sha256} of all 43 packet files :: {"modules": 43}
+[SIMULATED-host21] PASS  receiver/ROOT_BINDING_TEMPLATE.workflow_sha256 == sha256(workflow) :: "9c81c01db9cf655a977039a359de65e0d0549460cb6bafe97e7da4a43eca39a4"
+[SIMULATED-host21] PASS  author/bind_public_successor.TEMPLATE_PINS == {sha256(BINDING_TEMPLATE.json)} :: "3afa31d617c66f70d0b2944cdf6e860c744738f954096ae1acf0017fe29e003c"
+[SIMULATED-host21] PASS  candidate SEAL.json: 66 members == physical tree, 0 mismatches, no unsealed file
+[SIMULATED-host21] PASS  author/compose-candidate-bound.py PINS[candidate] == sha256(candidate SEAL.json) :: "071bb377d5590db4a6d1fd8ed280ac3877320e00e8a07cd7455f9eb68fc9e577"
+[SIMULATED-host21] PASS  author/compose-final-bound.py PINS[candidate] == sha256(candidate SEAL.json) :: "071bb377d5590db4a6d1fd8ed280ac3877320e00e8a07cd7455f9eb68fc9e577"
+[SIMULATED-host21] SUMMARY checks=17 failed=0
+   residual host-20/control-20 names in u21: 0 files
+   workflow: 5:    branches:
+   workflow: 6-      - pro/dg16-r5-full-g2-direct-host-21-20261115
+   <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/run.py:22:BRANCH = 'pro/dg16-r5-full-g2-direct-host-21-20261115'
+   <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/protected_bridge.py:11:BRANCH = 'pro/dg16-r5-full-g2-direct-host-21-20261115'
+   <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/protected_bridge.py:12:CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-21-20261115'
+   <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/live_control.py:14:CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-21-20261115'
+   <scratch>/u21/candidate-e76-source-01/receiver/root_common.py:7:BRANCH = 'pro/dg16-r5-full-g2-direct-host-21-20261115'
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/propagate_successor.py <scratch>/u1 <scratch>/u21-bad <scratch>/c/bad.json --old-host-branch pro/dg16-r5-full-g2-direct-host-20-20261114 --new-host-branch pro/dg16-r5-full-g2-direct-host-21-20261115 --old-control-branch pro/dg16-r5-full-g2-direct-control-20-20261114 --new-control-branch pro/dg16-r5-full-g2-direct-control-21-20261115 --recipient-cert /dev/fd/63
+AssertionError: RECIPIENT_MUST_BE_EXACTLY_ONE_PUBLIC_CERTIFICATE
+   EXPECTED REFUSAL (exit 1)
+
+### 12. TEST runtime, candidate seal (labels as the unchanged code requires: actor /root, issuer 00000000-0000-4000-8000-000000000221)
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py runtime --universe <scratch>/u21 --actor /root --issuer-thread 00000000-0000-4000-8000-000000000221 --workspace-root /simulated/g221-workspace --receiver-output-root /simulated/g221-workspace/public-acquisition --maintained-source-root /simulated/product-205aeab7 --out <scratch>/c/issuer/PUBLIC_RUNTIME.json
+4de638e280dd8a0849b915ef7ddc549922db0ebcba5617990bbc43362051bcbc     880  <scratch>/c/issuer/PUBLIC_RUNTIME.json
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py candidate-seal --candidate <scratch>/u21/candidate-e76-source-01 --modes-from <scratch>/u1/candidate-e76-source-01/SEAL.json --actor /root --issuer-thread 00000000-0000-4000-8000-000000000221 --out <scratch>/c/issuer/CANDIDATE_SEAL.json
+071bb377d5590db4a6d1fd8ed280ac3877320e00e8a07cd7455f9eb68fc9e577   14374  <scratch>/c/issuer/CANDIDATE_SEAL.json
+   BYTE-IDENTICAL  issued-form seal == propagated SEAL.json proposal  sha256=071bb377d5590db4a6d1fd8ed280ac3877320e00e8a07cd7455f9eb68fc9e577
+
+### 13. TEST decision bodies and TEST review seal (reviewer label /root/simulated_rehearsal_only)
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py reviews --previous-universe <scratch>/u0 --universe <scratch>/u21 --previous-decisions <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/root-issuer/decisions --candidate-seal <scratch>/c/issuer/CANDIDATE_SEAL.json --reviewer /root/simulated_rehearsal_only --out-dir <scratch>/c/decisions
+a8ae446c1aedcdc07431f6ce2d6088a41581ddbb5a41451877e8299cc8fdfddd     826  <scratch>/c/decisions/INDEPENDENT_COLD_REVIEW.json
+a7d55184e85c01568303cc31da52cb52f537694d581e1dc76ff404dfca6d858e    2366  <scratch>/c/decisions/NATIVE_INDEPENDENT_REVIEW.json
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py review-seal --reviews <scratch>/c/decisions --report <scratch>/c/REPORT.md --candidate-seal <scratch>/c/issuer/CANDIDATE_SEAL.json --reviewer /root/simulated_rehearsal_only --out <scratch>/c/issuer/REVIEW_SEAL.json
+c976eb8050fdda9e776a5348dc0e514fe0fb3e055fc5d45de180b0ac4e997dcd    1029  <scratch>/c/issuer/REVIEW_SEAL.json
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py adoptions --previous-universe <scratch>/u0 --universe <scratch>/u21 --previous-decisions <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/root-issuer/decisions --reviews <scratch>/c/decisions --review-seal <scratch>/c/issuer/REVIEW_SEAL.json --candidate-seal <scratch>/c/issuer/CANDIDATE_SEAL.json --author /root --out-dir <scratch>/c/decisions
+e8654ac943a262ac89d7005e2d6d175a1b1b9a3c6edac60c8ac61a0f0749ef23    2613  <scratch>/c/decisions/ROOT_POLICY_ADOPTION.json
+cbb5b14ee7391ae67c24f72fc5640850b6ae3bfa617db3f7516be54bbd7ef89f    2898  <scratch>/c/decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json
+
+### 14. final composer stage for host-21, then composition through the ORIGINAL validators
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/stage_composer.py --in <scratch>/u21/author/compose-candidate-bound.py --out <scratch>/c/compose-final-bound.py --candidate-seal <scratch>/c/issuer/CANDIDATE_SEAL.json --runtime <scratch>/c/issuer/PUBLIC_RUNTIME.json --witness <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/host-witness/root.json --review-seal <scratch>/c/issuer/REVIEW_SEAL.json
+ "authority": "NONE",
+ "before": "6c61eaea1b60b36d5c895fea7b4e8462f7ca51ee65b4905f92c6b573f9745a8f",
+ "after": "90b2fcd4b90396b3518fd1c73981ed75d0d85aa482e1b1c8a12b0ccc5f6ee4e5",
+ "out": "<scratch>/c/compose-final-bound.py",
+ "pinned": {
+  "PINS.candidate": "071bb377d5590db4a6d1fd8ed280ac3877320e00e8a07cd7455f9eb68fc9e577",
+  "PINS.runtime": "4de638e280dd8a0849b915ef7ddc549922db0ebcba5617990bbc43362051bcbc",
+  "PINS.witness": "d38d87a9bd7c0f76b0115385987cfb76fcf3b9e8bea50b311d485f156e2092c7",
+  "ACTUAL_CANDIDATE_MEMBER_COUNT": 66,
+  "ACTUAL_REVIEW_SEAL_SHA256": "c976eb8050fdda9e776a5348dc0e514fe0fb3e055fc5d45de180b0ac4e997dcd"
+ }
+}
+$ python3 <scratch>/c/compose-final-bound.py --candidate <scratch>/u21/candidate-e76-source-01 --issuer <scratch>/c/issuer --host-witness <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/host-witness/root.json --code-review-seal <scratch>/c/issuer/REVIEW_SEAL.json --native-review-seal <scratch>/c/issuer/REVIEW_SEAL.json --decisions <scratch>/c/decisions --output <scratch>/c/composition
+{"tree": "4ba7e6686a472ec9d67a0965ccc0a3e191e6cbe3", "files": 53, "effect_grant": false, "composition_seal_issued": false}
+   COMPOSITION branch=pro/dg16-r5-full-g2-direct-host-21-20261115 pro/dg16-r5-full-g2-direct-control-21-20261115 final_tree=4ba7e6686a472ec9d67a0965ccc0a3e191e6cbe3
+$ python3 <scratch>/c/compose-final-bound.py --candidate <scratch>/u21/candidate-e76-source-01 --issuer <scratch>/c/issuer --host-witness <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/host-witness/root.json --code-review-seal <scratch>/c/issuer/REVIEW_SEAL.json --native-review-seal <scratch>/c/issuer/REVIEW_SEAL.json --decisions <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/root-issuer/decisions --output <scratch>/c/composition-stale-g220-decisions
+policy.Refusal: EXACT_INDEPENDENT_CODE_REVIEW_REQUIRED
+   EXPECTED REFUSAL (exit 1)
+
+### 15. TEST composition seal, TEST review selection, binder, seven-file receiver, receiver seal, public index
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py composition-seal --composition <scratch>/c/composition --actor /root --issuer-thread 00000000-0000-4000-8000-000000000221 --out <scratch>/c/composition/SEAL.json
+a8a4be893d893f7ee110a132b2437a499e66e8b861c55f3f4166258b26877c81   11862  <scratch>/c/composition/SEAL.json
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py selection --composition <scratch>/c/composition --composition-seal <scratch>/c/composition/SEAL.json --candidate-seal <scratch>/c/issuer/CANDIDATE_SEAL.json --actor /root --issuer-thread 00000000-0000-4000-8000-000000000221 --author /root --reviewer /root/simulated_rehearsal_only --out <scratch>/c/issuer/FINAL_REVIEW_SELECTION.json
+a0c787b41d9cc38b8031c4e38d743f609f2a7da86c093c9e99e07b360e51d67b     925  <scratch>/c/issuer/FINAL_REVIEW_SELECTION.json
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/bind_harness.py g220-actual <scratch>/u21/author/bind_public_successor.py <scratch>/u21/candidate-e76-source-01 <scratch>/c/composition <scratch>/c/issuer <scratch>/c/public-receiver-bound <scratch>/c/bind-report.json --composition-path /simulated/g221-workspace/composition --candidate-path /simulated/g221-workspace/candidate-e76-source-01
+    "successor_runtime_binding"
+  ]
+}
+   bind_public=PASS ['BINDING.json', 'FINAL_REVIEW_SELECTION.json', 'PUBLIC_BINDING_REQUIREMENTS.json', 'SUCCESSOR_RUNTIME_BINDING.json', 'admission_gate.py', 'native_public.py', 'public_receiver.py']
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py receiver-seal --receiver <scratch>/c/public-receiver-bound --composition <scratch>/c/composition --actor /root --issuer-thread 00000000-0000-4000-8000-000000000221 --out <scratch>/c/issuer/PUBLIC_RECEIVER_SEAL.json
+07ada884f9712ad50ba4bd83df1c3a4d89398b671f73dc97f60f33481dd4d888    1718  <scratch>/c/issuer/PUBLIC_RECEIVER_SEAL.json
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/draft_records.py public-index --composition <scratch>/c/composition --out <scratch>/c/issuer/PUBLIC_INDEX.json
+leaves 1815 base 1766 overlay 49
+b169899b54e0704f509d6af67ac93f6e6f3e082171a53fcb599fc7b9fd65b94e  317770  <scratch>/c/issuer/PUBLIC_INDEX.json
+
+### 16. operator static source regenerated for host-21 (workflow commit = fail-closed placeholder)
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/regen_operator_static.py <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source <scratch>/u21/candidate-e76-source-01 <scratch>/c/operator-static --old-branch pro/dg16-r5-full-g2-direct-host-20-20261114 --new-branch pro/dg16-r5-full-g2-direct-host-21-20261115 --old-commit ce144b1d06f81bda3225b48d3bab32374515cff5 --workflow-commit 0000000000000000000000000000000000000000 --old-install-root /home/agent/pr255-g2-completion-20261114-10/operator-installed-r1 --install-root /simulated/g221-workspace/operator-installed
+    "core/root_acquire.py": {
+      "after": "24e4b07e937733995db5440e38538fa312a6dd312055bd5a6bc9a43a5e6dfa8a",
+      "before": "9cbf4d0c4135d6c1e19f8e47f920bb590888bb333201c246bdb2f30542fd004b",
+      "bytes": 20706
+    },
+    "core/root_common.py": {
+      "after": "ac8e3c96db028fb149cf8084617176017e980023be7e829aff1d6e6acc15ca61",
+      "before": "e158ebbc4318c9b485e8007ebf4273ca8c2d7619f5498013e462039697f2af3a",
+      "bytes": 8384
+    },
+    "event_driver.js": {
+      "after": "f44daf27ec012671ce3d865cf6e6c68bd356a75f377298d9d380f2214f81c252",
+      "before": "00a31bb4d9d432460dffeaa667117def80a4418358b4e12d9c83e4874c63fbb6",
+      "bytes": 12904
+    },
+    "operator_setup.py": {
+      "after": "09601e4a8c010a41581692b05e848cb969dc333df24256a8582791f12477004b",
+      "before": "273c35e54b6131248e513b35cc4dbef7ceaa63b0632e0d5da310317a5e913a89",
+      "bytes": 12688
+    },
+    "public_operator_v2.py": {
+      "after": "664820f62627219aa64e66401127bc71dec3981812b902e3460c34deaf1f9277",
+      "before": "bcae77f8cc0b82668b966396d39ac9d36ca0f110c2413e3eeeb84506cd2283fb",
+      "bytes": 20805
+    },
+    "root_operator.py": {
+      "after": "bfd10e4a8afbba591668100a08787ebdc374cc3b620493445f475d78177adb9e",
+      "before": "8e1615207ed43fb09b0deef69a06d87c18fb8daed03a46ae4287a68818d792c9",
+      "bytes": 13942
+    }
+  },
+  "unchanged": [
+    "core/prepare_live_control.py",
+    "core/public_receiver.py",
+    "core/shared_broker.py",
+    "record_transport.py",
+    "resolve_artifact.py",
+    "root_native_history.py"
+  ]
+}
+
+### 17. pre-launch gates against the TEST certificate
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/prelaunch_gates.py --host-branch pro/dg16-r5-full-g2-direct-host-21-20261115 --control-branch pro/dg16-r5-full-g2-direct-control-21-20261115 --recipient-cert <scratch>/c/TEST_ONLY_NOT_A_RECIPIENT.pem --skip-remote --out <scratch>/c/gates.json
+SKIP  REFS_ABSENT :: not evaluated
+PASS  RECIPIENT_VALID :: {"bytes": 1529, "not_after": "2026-11-17T00:54:13Z", "not_before": "2026-11-15T00:54:13Z", "now": "2026-11-15T00:54:14Z", "sha256": "1e1273c01d17f313996c81683457f64ccd8ee82b3d2fc92f0da694ed8801d1c2"}
+PASS  LAUNCH_MARGIN :: {"job_minutes": 270, "latest_job_start": "2026-11-16T20:24:13Z", "required_margin_seconds": 420, "seconds_until_latest_job_start": 156599}
+   expired-window control:
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/prelaunch_gates.py --host-branch pro/dg16-r5-full-g2-direct-host-21-20261115 --control-branch pro/dg16-r5-full-g2-direct-control-21-20261115 --recipient-cert <repo>/handoff/dg16-g221-root-execution-inputs/g220-custody/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/PROTECTED_RECIPIENT.pem --skip-remote --now 2026-11-15T10:20:00Z
+FAIL  LAUNCH_MARGIN :: {"job_minutes": 270, "latest_job_start": "2026-11-15T10:21:46Z", "required_margin_seconds": 420, "seconds_until_latest_job_start": 106}
+   EXPECTED REFUSAL (exit 1)
+
+### 18. live-window bodies checked by the packet's own live_control.validate (synthetic TEST request; no run exists)
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/live_control_payload.py review --request <scratch>/c/TEST_REQUEST.json --reviewer /root/simulated_rehearsal_only --out <scratch>/c/live/INDEPENDENT_REVIEW.json
+c645980af11d00983ab9a6d84e4f2571c0c4d4c5c7d97eb76b58b36c8bfe960a    852  <scratch>/c/live/INDEPENDENT_REVIEW.json
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/live_control_payload.py consume --request <scratch>/c/TEST_REQUEST.json --review <scratch>/c/live/INDEPENDENT_REVIEW.json --live-control <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/live_control.py --author /root --publisher /root --out-dir <scratch>/c/live
+60cfe1e7f510a6035d6386ac855ccc553ae3aa1b87ee18db1b5c85c49b6193a4    836  <scratch>/c/live/CONTROL.json
+f853dd3d121198a0f741fd0863a687f1403d92435dfb685ccb330b291400f2fd    982  <scratch>/c/live/ROOT_CONSUMPTION.json
+f8c5bcf27db2a6d3aee45dba7b72ee6731cc3aefc98dafd0d7d5d2e502a95b40   1432  <scratch>/c/live/ADDITIONS.json
+{"packet_validate": "CONSUME", "files": 3, "seconds_remaining": 299.9}
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/live_control_payload.py stop --request <scratch>/c/TEST_REQUEST.json --live-control <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/live_control.py --publisher /root --out-dir <scratch>/c/live-stop
+f9ee1734c40df1e5c2195fc3c41f592d70628b88573b81e61ed12f96d6749d9d    547  <scratch>/c/live-stop/CONTROL.json
+ce2f028cee416b225bdaffe815b11fa39d185f01f78e85e324b520bac625699f    543  <scratch>/c/live-stop/ADDITIONS.json
+{"packet_validate": "STOP", "files": 1, "seconds_remaining": 299.8}
+   controls: reviewer that is a current author; a non-/root consumption author; an expired window
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/live_control_payload.py consume --request <scratch>/c/TEST_REQUEST.json --review <scratch>/c/live-bad/INDEPENDENT_REVIEW.json --live-control <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/live_control.py --author /root --publisher /root --out-dir <scratch>/c/live-bad1
+packet_live_control.Refusal: ACTUAL_INDEPENDENT_LIVE_REVIEW_REQUIRED
+   EXPECTED REFUSAL (exit 1)
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/live_control_payload.py consume --request <scratch>/c/TEST_REQUEST.json --review <scratch>/c/live/INDEPENDENT_REVIEW.json --live-control <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/live_control.py --author /root/successor --publisher /root --out-dir <scratch>/c/live-bad2
+packet_live_control.Refusal: EXACT_ROOT_CONSUMPTION_REQUIRED
+   EXPECTED REFUSAL (exit 1)
+$ python3 <repo>/handoff/dg16-g221-root-execution-inputs/tools/live_control_payload.py consume --request <scratch>/c/TEST_REQUEST.json --review <scratch>/c/live/INDEPENDENT_REVIEW.json --live-control <scratch>/u21/candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/live_control.py --author /root --publisher /root --out-dir <scratch>/c/live-bad3 --now 99999999999
+packet_live_control.Refusal: ACTUAL_REVIEW_WINDOW_EXPIRED
+   EXPECTED REFUSAL (exit 1)
+
+================ SUMMARY: steps=18 unexpected_failures=0 (SIMULATED; nothing issued, nothing published) ================

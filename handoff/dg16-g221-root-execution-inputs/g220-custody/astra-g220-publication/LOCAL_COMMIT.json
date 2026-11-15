@@ -1,0 +1,14 @@
+{
+  "commit": "ce144b1d06f81bda3225b48d3bab32374515cff5",
+  "tree": "bbc3669b2167548a5a8b9ec0986b1e8b18e720eb",
+  "parent": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "ref": "refs/heads/pro/dg16-r5-full-g2-direct-host-20-20261114",
+  "members": 1815,
+  "overlay": 49,
+  "public_index": {
+    "bytes": 317770,
+    "sha256": "8aaaf8256205aa22bd721dd9836298583330c60dee4bc9561701994e73d61061"
+  },
+  "published": false,
+  "original_awards": []
+}

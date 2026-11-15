@@ -1,0 +1,206 @@
+{
+  "authority": "NONE",
+  "binding_sha256": "5d338de83c6e8396c7ff998f4bfe5a3ee1b228fe1f97927e313a4a4bded8582e",
+  "composition_seal_sha256": "2cee2b9f380edeaf00fa552e54b9029737f51221da8bc16f34ba0b14d5c1098e",
+  "files": {
+    "ARTIFACT_MANIFEST.json": {
+      "bytes": 837,
+      "sha256": "f86637f16c30b84db9fa53669c6ec098e8b0c163f39d287c8dbb77038c86475d"
+    },
+    "CLEANUP.json": {
+      "bytes": 539,
+      "sha256": "74b97918733a23a53f4125da02c35a56762a6a571df4ed1ae83e23801a4ab0c5"
+    },
+    "FAILURE.json": {
+      "bytes": 733,
+      "sha256": "a7ebeeea62603049c7d71dd6aae2c8a322e82489ca26ee9bd147f2227fbc2a6c"
+    },
+    "HOST.json": {
+      "bytes": 33335,
+      "sha256": "7f775ecd0b0fa6051de24bdc3b686172b86396d955add780a6adadeee965d6d4"
+    },
+    "PROBE.json": {
+      "bytes": 32107,
+      "sha256": "e85274daa33d63c756dbc44c05eea42e5910663752d40136ef8a4d76c4372273"
+    },
+    "RESULT.json": {
+      "bytes": 1480,
+      "sha256": "f35514ac3beb676d6997b62af715dc5f4a935060f4d4d77a124c8f171d75b005"
+    },
+    "SOURCE.json": {
+      "bytes": 612,
+      "sha256": "729efa5b74e2858485cf8f4e616703abddb3ea70ec1636ccaba205f4020d2fcc"
+    }
+  },
+  "kind": "terminal",
+  "launch_readiness": false,
+  "metadata": {
+    "archive": {
+      "bytes": 15700,
+      "sha256": "4a18656e3431b579e7a459cb9f811bd85e1e226787c28933239946e4637ede98"
+    },
+    "artifact_id": 14136761564,
+    "metadata_sha256": {
+      "artifact": "38b0da697fe209161b7dfca11c8db8a9d9d3c33455e2a82fa1d7afd094064581",
+      "commit": "e49ed02ec2dd2c6f54f3debed59df7dd23b163cd6c128ccb526820203a1b57bc",
+      "run": "a12004c15a1ce1714e154ba75c58772c0dced7430bc0b487c6a7fea9cd0dac2d"
+    },
+    "run_attempt": 1,
+    "run_id": "43640583300",
+    "scope": "PROVIDED_METADATA_BINDINGS; acquisition authenticity is independently received",
+    "workflow_commit": "ce144b1d06f81bda3225b48d3bab32374515cff5"
+  },
+  "original_acceptance": false,
+  "public": {
+    "captures": {
+      "authority": "NONE",
+      "count": 45,
+      "internal_failures": 0,
+      "positive_custody_required": false,
+      "unstarted": 0
+    },
+    "failure_present": true,
+    "native": {
+      "actual_cases": 9,
+      "authority": "NONE",
+      "eligible_summary": true,
+      "fresh_currentness_or_native_authority": false,
+      "original_awards": [],
+      "private_body_authenticity": "REQUIRES_ACTUAL_BOUND_HOST_AND_INDEPENDENT_RECEIVING",
+      "projection_sha256": "9bc335ca820f52e61aa0ed006c73750e7b6207d8d536f9be3b12eebc70292de4",
+      "schema": "dg16.current-native-public-data-receiving.v1",
+      "status": "RECEIVED_CURRENT_CHANGED_NATIVE_PREDICATES"
+    },
+    "protected": {
+      "capability": {
+        "authority": "NONE",
+        "ciphertext": {
+          "bytes": 268501653,
+          "sha256": "7f2ca06d182d9464af39aaa2ad5025d1df72864b2d1b3276916eb0d67593316b"
+        },
+        "command_capture": {
+          "bytes": 1242,
+          "sha256": "371ff87af4876bca80c8d0cf173822054996c5de2de3e4b90c8bd9645519c418"
+        },
+        "component_seal_sha256": "c93292cb249539432ab4fa25d279da3fcede464106ed3392633fe05da52a4511",
+        "context_sha256": "2e0efe302b9ec1bc4805ffc2f0ac7b22b97f7f0b0e56ea1cf6d51ff6d49896ba",
+        "crypto_child_custody": "ECHILD",
+        "maximum_plaintext_bytes": 268501016,
+        "memory_bytes": 1073741824,
+        "opaque_plaintext": {
+          "bytes": 268501016,
+          "sha256": "d268f3c43531bd62ac6bc7ec24bf2247d4e17fb4b94a3b804f8131fdc62008eb"
+        },
+        "original_acceptance": false,
+        "owner_record": {
+          "bytes": 1279,
+          "sha256": "d65012e3f2c0efd93d4ed916717b8eb63ae30770133b6762b19ae18ca91f4929"
+        },
+        "recipient_sha256": "1d81ea8b4ff7b906d88dd6e70b28a9c555918dcf7f5b14a6f32c41f557d86cc0",
+        "remaining_pair_budget_ms": 15312635,
+        "schema": "dg16.protected-host-capability.direct-openssl.v1",
+        "scope": "SAME_HOST_DIRECT_OPENSSL_MAXIMUM_OPAQUE_PLAINTEXT_ENCRYPTION_ONLY",
+        "status": "OBSERVED_MAXIMUM_ENCRYPTION_WITH_COMPLETE_CUSTODY",
+        "synthetic_files_removed": true,
+        "tool_check": {
+          "canonical_equal": true,
+          "check": "COMPLETE",
+          "errno": null,
+          "refusal": null,
+          "result": "PASSED",
+          "tool": "python3"
+        },
+        "tools": {
+          "openssl": {
+            "bytes": 1128032,
+            "sha256": "b82312087f662b01397b15d537ee792b7dadcf99339a1ff7b31499500f443c03"
+          },
+          "python3": {
+            "bytes": 7468968,
+            "sha256": "be9a2a5eada8c89c1c399fdfb8397179e877c20d8db0739c802f726d4d0e69fd"
+          }
+        }
+      },
+      "retention": {
+        "authority": "NONE",
+        "crypto_child_custody": "NOT_STARTED",
+        "custody_scope": "ENCRYPTED_DIAGNOSTIC_COPY_NOT_LIVE_ACCEPTANCE_CUSTODY",
+        "original_acceptance": false,
+        "provider_upload_confirmed": false,
+        "reason": "SUPPLEMENTARY_RETENTION_REFUSED",
+        "schema": "dg16.protected-stream-public-status.v1",
+        "status": "REFUSED"
+      }
+    },
+    "public_bytes": 69643,
+    "supplement_present": false,
+    "terminal_status": "UNQUALIFIED_OR_INCOMPLETE",
+    "transport_lines": 7
+  },
+  "review_issued": false,
+  "root_consumption_issued": false,
+  "schema": "dg16.current-full-g2.data-only-receiving-observation.v1",
+  "status": "FORMAT_AND_BINDINGS_CHECKED_REQUIRES_ACTUAL_INDEPENDENT_ASSESSMENT",
+  "terminal_log_join": {
+    "all_seven_exact": true,
+    "authority": "NONE",
+    "currentness_or_award": false,
+    "encoded_bytes_including_CRLF": 77325,
+    "log": {
+      "bytes": 122092,
+      "sha256": "180ba815fe6a08f5bfa8be50f5929f714bdc05f61f39af105f90e7364cf8c745"
+    },
+    "members": [
+      {
+        "bytes": 837,
+        "log_line": 470,
+        "name": "ARTIFACT_MANIFEST.json",
+        "sha256": "f86637f16c30b84db9fa53669c6ec098e8b0c163f39d287c8dbb77038c86475d",
+        "timestamp": "2026-11-14T23:14:46.9890746Z"
+      },
+      {
+        "bytes": 539,
+        "log_line": 471,
+        "name": "CLEANUP.json",
+        "sha256": "74b97918733a23a53f4125da02c35a56762a6a571df4ed1ae83e23801a4ab0c5",
+        "timestamp": "2026-11-14T23:14:46.9894987Z"
+      },
+      {
+        "bytes": 733,
+        "log_line": 472,
+        "name": "FAILURE.json",
+        "sha256": "a7ebeeea62603049c7d71dd6aae2c8a322e82489ca26ee9bd147f2227fbc2a6c",
+        "timestamp": "2026-11-14T23:14:46.9898914Z"
+      },
+      {
+        "bytes": 33335,
+        "log_line": 473,
+        "name": "HOST.json",
+        "sha256": "7f775ecd0b0fa6051de24bdc3b686172b86396d955add780a6adadeee965d6d4",
+        "timestamp": "2026-11-14T23:14:46.9980136Z"
+      },
+      {
+        "bytes": 32107,
+        "log_line": 474,
+        "name": "PROBE.json",
+        "sha256": "e85274daa33d63c756dbc44c05eea42e5910663752d40136ef8a4d76c4372273",
+        "timestamp": "2026-11-14T23:14:47.0131282Z"
+      },
+      {
+        "bytes": 1480,
+        "log_line": 475,
+        "name": "RESULT.json",
+        "sha256": "f35514ac3beb676d6997b62af715dc5f4a935060f4d4d77a124c8f171d75b005",
+        "timestamp": "2026-11-14T23:14:47.0207995Z"
+      },
+      {
+        "bytes": 612,
+        "log_line": 476,
+        "name": "SOURCE.json",
+        "sha256": "729efa5b74e2858485cf8f4e616703abddb3ea70ec1636ccaba205f4020d2fcc",
+        "timestamp": "2026-11-14T23:14:47.0213847Z"
+      }
+    ],
+    "schema": "dg16.terminal-artifact-log-byte-join.v1"
+  }
+}

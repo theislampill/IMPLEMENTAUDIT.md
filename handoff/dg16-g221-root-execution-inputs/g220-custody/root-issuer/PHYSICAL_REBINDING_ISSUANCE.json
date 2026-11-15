@@ -1,0 +1,35 @@
+{
+  "actor": "/root",
+  "candidate_seal_sha256": "50f694f066d82bc8eda600dd449f8c8ceedf93ebab308d87ca02fefb2ea594c2",
+  "complete_admission_chain_received": false,
+  "correction": "One active exact component comparison e653\u2192currentc932; historicale653 unchanged, original resource/time/identity guards retained",
+  "decisions": [
+    {
+      "bytes": 820,
+      "path": "INDEPENDENT_COLD_REVIEW.json",
+      "sha256": "67174272dbc667a4f11b3020f1af815fb0f289ea4e12b6e1aa21ac48fa5c1fe6"
+    },
+    {
+      "bytes": 2360,
+      "path": "NATIVE_INDEPENDENT_REVIEW.json",
+      "sha256": "cc6df0dc3e506d318ab5e8d54861a4b461737aadd2dbdf0ab0f9f09bdd51a55f"
+    },
+    {
+      "bytes": 2892,
+      "path": "ROOT_NATIVE_APPLICABILITY_ADOPTION.json",
+      "sha256": "3c375373aa6afe049fe376d0497ba925ec7e0889e356587b50c0286551344bce"
+    },
+    {
+      "bytes": 2607,
+      "path": "ROOT_POLICY_ADOPTION.json",
+      "sha256": "7dda59ded1b914ba91b1c5f3497a8a70ce7b9cb71ffd9de6571c49aa90eb8f1b"
+    }
+  ],
+  "effect_grant": false,
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "original_awards": [],
+  "prior_G219": "Actual encryption and native-nine/failure/originalsemanticrefusal preserved; no sameepisode replay",
+  "review_seal_sha256": "7f7c2584e7d8058e1e5609d32af23168c2d8a09d54075ace4b25a2cf2ac4615a",
+  "schema": "root.G220.corrected-physical-source-adoption.v1",
+  "source_adoption_scope": "Code/native source bindings only; complete actual admission-chain verification required by latestowner directive before any newcampaign"
+}
