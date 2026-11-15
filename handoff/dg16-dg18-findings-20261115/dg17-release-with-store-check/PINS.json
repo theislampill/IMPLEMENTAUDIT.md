@@ -1,0 +1,120 @@
+{
+  "authority": "NONE - proposed source only",
+  "author_dir": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-acl\\release\\author",
+  "base_author_dir": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author",
+  "operation_A_sha256": "49981532c823dc9e456c8238877fec002f9f7368eaa4eb55a43c1d639931d651",
+  "operation_A_bytes": 18443,
+  "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+  "case": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\case-native-02",
+  "stage_a_driver_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+  "stage_b_driver_sha256": "e551ef8e7957c6277b6486ab10991515534432e2daaa7d1156fa2155ee4f7c76",
+  "previous_stage_b_driver_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+  "parent_launch_a": {
+    "OP_SHA": "49981532c823dc9e456c8238877fec002f9f7368eaa4eb55a43c1d639931d651"
+  },
+  "parent_launch_b": {
+    "DRIVER_SHA": "e551ef8e7957c6277b6486ab10991515534432e2daaa7d1156fa2155ee4f7c76"
+  },
+  "bind_stage_b": {
+    "A_SHA": "49981532c823dc9e456c8238877fec002f9f7368eaa4eb55a43c1d639931d651"
+  },
+  "operation_keys_changed": [
+    "constructor",
+    "episode_successor",
+    "readset",
+    "rpc_module"
+  ],
+  "only_author_paths_pins_and_successor_text_changed": true,
+  "readset_author_items_repinned": [
+    "PROFILE.toml",
+    "native_rpc.py",
+    "parent_launch_b.py",
+    "positive_hook_constructor.py",
+    "source_setup.py",
+    "stage_a.py",
+    "stage_b.py"
+  ],
+  "binding_owner_sha256_unchanged": "8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef",
+  "files": {
+    "bind_stage_b.py": {
+      "sha256": "c465f2112dbfcc2566d05d23a0e12a5460a3b2ba04f441fa5db54e2d66ba6aba",
+      "bytes": 3244,
+      "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 1
+    },
+    "native_rpc.py": {
+      "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+      "bytes": 13921,
+      "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "OPERATION_A.json": {
+      "sha256": "49981532c823dc9e456c8238877fec002f9f7368eaa4eb55a43c1d639931d651",
+      "bytes": 18443,
+      "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+      "changed": true,
+      "added_lines": 13,
+      "removed_lines": 13
+    },
+    "parent_launch_a.py": {
+      "sha256": "7a7bc212b62234b24871191e5b17c72217b283a28c1f563c05c73c7e7b9989aa",
+      "bytes": 4775,
+      "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 1
+    },
+    "parent_launch_b.py": {
+      "sha256": "5b052763b24fcf1fbaea8c2e7d56cd050c7dd83dcdd7819c7e3d86cd13031b16",
+      "bytes": 5054,
+      "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 1
+    },
+    "positive_hook_constructor.py": {
+      "sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+      "bytes": 10996,
+      "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "PROFILE.toml": {
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+      "bytes": 535,
+      "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "source_setup.py": {
+      "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+      "bytes": 1252,
+      "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "stage_a.py": {
+      "sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+      "bytes": 24895,
+      "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "stage_b.py": {
+      "sha256": "e551ef8e7957c6277b6486ab10991515534432e2daaa7d1156fa2155ee4f7c76",
+      "bytes": 33600,
+      "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+      "changed": true,
+      "added_lines": 87,
+      "removed_lines": 0
+    }
+  }
+}

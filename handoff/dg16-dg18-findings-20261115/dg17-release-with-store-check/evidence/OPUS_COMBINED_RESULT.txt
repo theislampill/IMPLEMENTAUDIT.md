@@ -1,0 +1,6 @@
+original packaged gate: PASS
+original packaged init: (2, '{"enforcement_available": false, "error": "host-session store custody is unsupported on this platform", "schema": "implementaudit.host-session-binding-result.v1')
+original packaged lookup: (0, '{"enforcement_available": false, "schema": "implementaudit.host-session-binding-result.v1", "status": "UNBOUND"}')
+adapted packaged gate: PASS
+adapted packaged init: (0, '{"owner_id": "opus-check", "schema": "implementaudit.host-session-binding-store.v1", "status": "READY"}')
+adapted packaged lookup: (0, '{"enforcement_available": false, "schema": "implementaudit.host-session-binding-result.v1", "status": "UNBOUND"}')

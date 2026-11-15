@@ -1,0 +1,172 @@
+[
+ {
+  "case": "positive: driver-created store (create=True)",
+  "expected": "PASS",
+  "got": "PASS",
+  "ok": true,
+  "detail": {
+   "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+   "protected": true,
+   "created": true,
+   "entries": [
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "positive: re-check of the driver-created store",
+  "expected": "PASS",
+  "got": "PASS",
+  "ok": true,
+  "detail": {
+   "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+   "protected": true,
+   "created": false,
+   "entries": [
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "positive: icacls protected DACL, user+SYSTEM only",
+  "expected": "PASS",
+  "got": "PASS",
+  "ok": true,
+  "detail": {
+   "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+   "protected": true,
+   "created": false,
+   "entries": [
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "positive: user+SYSTEM+Administrators (tolerated)",
+  "expected": "PASS",
+  "got": "PASS",
+  "ok": true,
+  "detail": {
+   "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+   "protected": true,
+   "created": false,
+   "entries": [
+    {
+     "principal": "Administrators",
+     "sid": "S-1-5-32-544",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "refused: added Everyone write ACE",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: access granted to another principal S-1-1-0 (mask 0x00100116): <work>\\everyone"
+ },
+ {
+  "case": "refused: added Everyone read-only ACE (not private)",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: access granted to another principal S-1-1-0 (mask 0x00120089): <work>\\everyone-read"
+ },
+ {
+  "case": "refused: inherited Users write ACE",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: DACL is not protected: inherited access can apply: <work>\\parent\\store"
+ },
+ {
+  "case": "refused: inherited Users write ACE under an otherwise private parent",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: DACL is not protected: inherited access can apply: <work>\\parent2\\store"
+ },
+ {
+  "case": "refused: missing directory",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: open directory failed (winerror 2): <work>\\absent"
+ },
+ {
+  "case": "refused: junction to a private directory",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: junction, link or other reparse point: <work>\\junction"
+ },
+ {
+  "case": "refused: unprotected DACL (inherits only user+SYSTEM today)",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: DACL is not protected: inherited access can apply: <work>\\parent3\\store"
+ },
+ {
+  "case": "refused: create=True on an existing directory",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: create new private directory (path must not already exist) failed (winerror 183): <work>\\manual"
+ },
+ {
+  "case": "refused: regular file",
+  "expected": "REFUSED",
+  "got": "REFUSED",
+  "ok": true,
+  "detail": "store custody refused: not a directory: <work>\\file"
+ }
+]
+CASES 13 FAILED 0
