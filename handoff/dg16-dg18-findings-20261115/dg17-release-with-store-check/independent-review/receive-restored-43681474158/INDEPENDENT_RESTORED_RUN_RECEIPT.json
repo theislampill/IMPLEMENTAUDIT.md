@@ -1,0 +1,765 @@
+{
+  "artifacts": {
+    "linux": {
+      "archive": {
+        "bytes": 10915,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/artifact.zip",
+        "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+      },
+      "members": {
+        "blocked-hook.log": {
+          "bytes": 2808,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook.log",
+          "sha256": "896a957aed31ecea5bc0d7f6450ccea709d838e579f6b24d66089369ac80a7cf"
+        },
+        "blocked-hook/REHEARSAL_RESULT.json": {
+          "bytes": 3631,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook/REHEARSAL_RESULT.json",
+          "sha256": "564c8672a519b962b3b3a9243ba10dcaed23bf43b9d8bc6b6b530bbaeb5f943e"
+        },
+        "blocked-hook/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "full.log": {
+          "bytes": 3037,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full.log",
+          "sha256": "412abc9e57f37f242abb68b368c1e742ec71d68551c9c4e543bea628cc7e5440"
+        },
+        "full/REHEARSAL_RESULT.json": {
+          "bytes": 3638,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full/REHEARSAL_RESULT.json",
+          "sha256": "24345871dd4265e61ae69258f8d88ce0b01082830234c7bd35ea31a1a63ec585"
+        },
+        "full/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "native-boundary.log": {
+          "bytes": 1161,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary.log",
+          "sha256": "a0fc9a830faf483e06d749e39c13b7084a5b4ee9ad5face4906740c830e8e45a"
+        },
+        "native-boundary/REHEARSAL_RESULT.json": {
+          "bytes": 1212,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary/REHEARSAL_RESULT.json",
+          "sha256": "b02fc9ae914d101130f64798ad0b6e564fcc3013bf0cdea8c25244178dd9a0f9"
+        },
+        "native-boundary/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "rebuild.log": {
+          "bytes": 764,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/rebuild.log",
+          "sha256": "b16515524449f72e2215f6ad94eeb572cb59d594d07223cf156f9fa3769355b7"
+        },
+        "rebuilt/PINS.json": {
+          "bytes": 3935,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/rebuilt/PINS.json",
+          "sha256": "fb8304e4400a15adb7d8a4b1a2d352310150e1db215dd85c4aa66a6149116c59"
+        },
+        "source-controls.log": {
+          "bytes": 3733,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/source-controls.log",
+          "sha256": "41363a8fe8121ed7b96d94e2d68375806bbd3f681ccda98e375ec8d79df73747"
+        }
+      },
+      "metadata": {
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148915142/zip",
+        "created_at": "2026-11-15T05:32:29Z",
+        "digest": "sha256:e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31",
+        "expired": false,
+        "expires_at": "2026-11-22T05:32:28Z",
+        "id": 14148915142,
+        "name": "dg17-linux-source-only",
+        "size_in_bytes": 10915,
+        "updated_at": "2026-11-15T05:32:29Z",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148915142",
+        "workflow_run": {
+          "head_branch": "engineering/pro-executor-dg17-source-20261115",
+          "head_repository_id": 1243475954,
+          "head_sha": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+          "id": 43681474158,
+          "repository_id": 1243475954
+        }
+      },
+      "restoration_receipt": {
+        "bytes": 2303,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/RESTORATION_RECEIPT.json",
+        "sha256": "6cc721b6f75f73f9f64b9136d5b495f6c343eaa4412fd1ada420f1c1bc49eb7c"
+      },
+      "source_pins": {
+        "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+        "files": {
+          "OPERATION_A.json": {
+            "bytes": 18684,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/OPERATION_A.json",
+            "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+            "sha256": "5bfa75d32d2ff9cc22cfca4e397f04ddd71532fe679b51971ba97080be2065ab"
+          },
+          "PROFILE.toml": {
+            "bytes": 535,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/PROFILE.toml",
+            "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+            "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+          },
+          "bind_stage_b.py": {
+            "bytes": 3244,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/bind_stage_b.py",
+            "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+            "sha256": "8ab9cc4179ad1e2d9395f6d81e91ee9ca8e0a0fc0ad78df796927b7e74b7419a"
+          },
+          "native_rpc.py": {
+            "bytes": 13921,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/native_rpc.py",
+            "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+            "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+          },
+          "parent_launch_a.py": {
+            "bytes": 6069,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_a.py",
+            "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+            "sha256": "3204a26afb579eaccaa75cb82c810b19a23f1c1a5a673358d2def9caec4a60e9"
+          },
+          "parent_launch_b.py": {
+            "bytes": 5054,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_b.py",
+            "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+            "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+          },
+          "positive_hook_constructor.py": {
+            "bytes": 10996,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/positive_hook_constructor.py",
+            "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+            "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+          },
+          "source_setup.py": {
+            "bytes": 1252,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/source_setup.py",
+            "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+            "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+          },
+          "stage_a.py": {
+            "bytes": 24857,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_a.py",
+            "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+            "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+          },
+          "stage_b.py": {
+            "bytes": 33468,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_b.py",
+            "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+            "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+          }
+        },
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18684,
+        "operation_A_sha256": "5bfa75d32d2ff9cc22cfca4e397f04ddd71532fe679b51971ba97080be2065ab",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+        "source_tree": "aea366f397866411d592430da7928d4cfc97c284",
+        "unverified_input_count": 9
+      }
+    },
+    "windows": {
+      "archive": {
+        "bytes": 3319,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/artifact.zip",
+        "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+      },
+      "members": {
+        "rebuild.log": {
+          "bytes": 764,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/rebuild.log",
+          "sha256": "8dc7dba886bfceaf21923bb9952208e9cc1c31d8dac79be66ef274d5168299a0"
+        },
+        "rebuilt/PINS.json": {
+          "bytes": 3851,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/rebuilt/PINS.json",
+          "sha256": "bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6"
+        },
+        "store-custody.log": {
+          "bytes": 12650,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/store-custody.log",
+          "sha256": "3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6"
+        }
+      },
+      "metadata": {
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148721446/zip",
+        "created_at": "2026-11-15T05:32:15Z",
+        "digest": "sha256:acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83",
+        "expired": false,
+        "expires_at": "2026-11-22T05:32:14Z",
+        "id": 14148721446,
+        "name": "dg17-windows-store-source-only",
+        "size_in_bytes": 3319,
+        "updated_at": "2026-11-15T05:32:15Z",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148721446",
+        "workflow_run": {
+          "head_branch": "engineering/pro-executor-dg17-source-20261115",
+          "head_repository_id": 1243475954,
+          "head_sha": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+          "id": 43681474158,
+          "repository_id": 1243475954
+        }
+      },
+      "restoration_receipt": {
+        "bytes": 858,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/RESTORATION_RECEIPT.json",
+        "sha256": "6d1dbe6f19a519071771569fd7e571decf035c83b424e69390b0caf687d22445"
+      },
+      "source_pins": {
+        "author_dir": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\handoff\\dg16-dg18-findings-20261115\\dg17-next-release\\author",
+        "files": {
+          "OPERATION_A.json": {
+            "bytes": 18437,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\OPERATION_A.json",
+            "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+            "sha256": "fa263b203d2c99b5a7604e7e4c545cbf5aecac106cc6f4662f61550d4d99822c"
+          },
+          "PROFILE.toml": {
+            "bytes": 535,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\PROFILE.toml",
+            "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+            "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+          },
+          "bind_stage_b.py": {
+            "bytes": 3244,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\bind_stage_b.py",
+            "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+            "sha256": "ae54d9908aacdb0523a7c623e4b3c13d5242f26d330989b8b0cf1f5a6876b9d4"
+          },
+          "native_rpc.py": {
+            "bytes": 13921,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\native_rpc.py",
+            "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+            "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+          },
+          "parent_launch_a.py": {
+            "bytes": 6069,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_a.py",
+            "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+            "sha256": "4c05cae89a73e5ade886beeeba5aaf625dfae2a77033fe61f2204212d41c119c"
+          },
+          "parent_launch_b.py": {
+            "bytes": 5054,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_b.py",
+            "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+            "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+          },
+          "positive_hook_constructor.py": {
+            "bytes": 10996,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\positive_hook_constructor.py",
+            "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+            "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+          },
+          "source_setup.py": {
+            "bytes": 1252,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\source_setup.py",
+            "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+            "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+          },
+          "stage_a.py": {
+            "bytes": 24857,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_a.py",
+            "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+            "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+          },
+          "stage_b.py": {
+            "bytes": 33468,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_b.py",
+            "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+            "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+          }
+        },
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18437,
+        "operation_A_sha256": "fa263b203d2c99b5a7604e7e4c545cbf5aecac106cc6f4662f61550d4d99822c",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+        "source_tree": "aea366f397866411d592430da7928d4cfc97c284",
+        "unverified_input_count": 9
+      }
+    }
+  },
+  "author_restored_observation": {
+    "bytes": 45411,
+    "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-dacl-reconstructed-20261115/RESTORED_FIFTH_SOURCE_OBSERVATION.json",
+    "sha256": "535d62e770f5843fcf2b6281fb620d08c36c9a7e448470a918839ec31517a69c"
+  },
+  "commit": {
+    "parents": [
+      "50c7fd7e279cd1f97345941d1ef13d6d76412cd8"
+    ],
+    "sha": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+    "tree": {
+      "sha": "aea366f397866411d592430da7928d4cfc97c284",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/aea366f397866411d592430da7928d4cfc97c284"
+    }
+  },
+  "created_at": "2026-11-15T06:16:53.414954+00:00",
+  "disposition": "RESTORED_SOURCE_EVIDENCE_RECEIVED_LINUX_SUCCESS_AND_TEN_WINDOWS_BASELINE_ERRORS_PRESERVED",
+  "formal_audit_assess_transition": false,
+  "jobs": [
+    {
+      "conclusion": "failure",
+      "id": 132712826507,
+      "logs_url": null,
+      "name": "windows-store-only",
+      "run_id": 43681474158,
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "name": "Check private fixture directory with real Windows APIs",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Retain Windows fixture results without native credit",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "conclusion": "success",
+      "id": 132712826748,
+      "logs_url": null,
+      "name": "linux-deterministic",
+      "run_id": 43681474158,
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise deterministic owners with explicitly simulated native seams",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Retain source-only results",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed"
+        }
+      ]
+    }
+  ],
+  "linux": {
+    "focused_elapsed_seconds": 0.173,
+    "focused_methods": 25,
+    "focused_result": "OK",
+    "modes": {
+      "blocked-hook": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 9.356805715,
+        "genuine_codex_turns": 0,
+        "mode": "blocked-hook",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "FIRST_NONPASS_CONTAINED_AND_CLEANED_UP",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": null,
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": "AssertionError()",
+        "stage_B_status": "FIRST_EVENT_OR_LATE_EXTRA_ACTIVITY_NOT_QUALIFYING",
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "full": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 9.409760547,
+        "genuine_codex_turns": 0,
+        "mode": "full",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": null,
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": null,
+        "stage_B_status": "ONE_ACTUAL_SELECTED_NATIVE_ALLOW_AND_NATURAL_NONTERMINAL_COMPLETION_AWAIT_INDEPENDENT_RECEIVING",
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "native-boundary": {
+        "authority": "NONE",
+        "elapsed_seconds": 5.959112202,
+        "genuine_codex_turns": 0,
+        "mode": "native-boundary",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": "SIMULATED stop before native appserver creation",
+        "stage_A_status": "STAGE_A_STOPPED_FIRST_REFUSAL_OR_UNKNOWN_NO_RETRY",
+        "windows_custody_exercised": false
+      }
+    },
+    "native_shaped_statuses_are_simulated": true
+  },
+  "nonclaims": {
+    "genuine_codex_turns": 0,
+    "lifecycle_or_workflow_reruns": 0,
+    "native_acceptance": false,
+    "native_admission": false,
+    "native_appservers": 0,
+    "native_calls": 0,
+    "new_artifact_body_gets": 0,
+    "original14_unknown_differences": 14,
+    "original_acceptance_or_closure": false,
+    "remote_mutations": 0,
+    "source_edits": 0
+  },
+  "provider_log_excerpts": {
+    "linux": [
+      "2026-11-15T05:32:02.3134755Z c2faca3a5bccf26b4571fddbece4d420385c86b5",
+      "2026-11-15T05:32:28.9035518Z Uploaded bytes 10915",
+      "2026-11-15T05:32:28.9416397Z SHA256 digest of uploaded artifact zip is e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31",
+      "2026-11-15T05:32:29.2955098Z Artifact dg17-linux-source-only.zip successfully finalized. Artifact ID 14148915142",
+      "2026-11-15T05:32:29.2956526Z Artifact dg17-linux-source-only has been successfully uploaded! Final size is 10915 bytes. Artifact ID is 14148915142"
+    ],
+    "windows": [
+      "2026-11-15T05:32:05.2406782Z c2faca3a5bccf26b4571fddbece4d420385c86b5",
+      "2026-11-15T05:32:14.6352927Z ##[error]Process completed with exit code 1.",
+      "2026-11-15T05:32:15.0976161Z Uploaded bytes 3319",
+      "2026-11-15T05:32:15.1159675Z SHA256 digest of uploaded artifact zip is acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83",
+      "2026-11-15T05:32:15.4227279Z Artifact dg17-windows-store-source-only.zip successfully finalized. Artifact ID 14148721446",
+      "2026-11-15T05:32:15.4228292Z Artifact dg17-windows-store-source-only has been successfully uploaded! Final size is 3319 bytes. Artifact ID is 14148721446"
+    ]
+  },
+  "provider_observation": {
+    "bytes": 5811,
+    "path": "/workspace/scratch/0269e6626329/dg17-review-recovery/receiving-43681474158/PROVIDER_OBSERVATION.json",
+    "sha256": "ea491c2a2c326039616f0fa0f832eb0ca8dc66d920bf8c7177d6ec4cd896fe27"
+  },
+  "provider_reconciliation": "Fresh provider identities match rematerialized objects and pre-outage values in reviewer conversation. Raw commit-tree shape normalized; only absent adapter logs_url:null ignored. Prior wrapper bytes not asserted.",
+  "receiving_ceiling": "Exact restored public archives/members/PINS/logs verified; absent per-command POST/carrier bodies not independently received; no native grant or acceptance",
+  "report": {
+    "bytes": 8205,
+    "path": "/workspace/scratch/0269e6626329/dg17-review-recovery/receiving-43681474158/INDEPENDENT_RESTORED_RUN_RECEIVING.md",
+    "sha256": "c36fd56fb2bb4f7a8762610164f27f6eff488526b7b5f7ac533799f5bed78572"
+  },
+  "restoration_manifest": {
+    "bytes": 6942,
+    "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/RESTORATION_MANIFEST.json",
+    "sha256": "87c02dbcdd967c362f83ef4c6e14052f7a1b477129427820c4a07d2bae34aac7"
+  },
+  "restored_files_verified": [
+    {
+      "bytes": 4038,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/ARTIFACTS_WRAPPER.json",
+      "sha256": "037801a2325f5917c43f5b83efc75359207c5bab9d08cc8e461a9a331e16084d"
+    },
+    {
+      "bytes": 3455,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/COMMIT_WRAPPER.json",
+      "sha256": "f2a2c36bd756c93d659d4fb761c4581a137b04f839be481b59a78ae5cd8ae110"
+    },
+    {
+      "bytes": 10015,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/JOBS_WRAPPER_FINAL.json",
+      "sha256": "de729eeef2bef4e6361b2915e6d55ddc11255c0e82b800d6869df306ea6b8e70"
+    },
+    {
+      "bytes": 16601,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/LINUX_JOB_LOG_WRAPPER.json",
+      "sha256": "d75e7915964f55d7a8ffdc2c4b638a95be406afab831ebdb971c8c14f842b9bb"
+    },
+    {
+      "bytes": 4017,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/RESTORATION_ARTIFACTS_WRAPPER.json",
+      "sha256": "a44b38273e572bbc8a4d41244aa6a96f6f2453be7aac75247fa14310e5eff796"
+    },
+    {
+      "bytes": 29556,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/RUN_WRAPPER.json",
+      "sha256": "896a57c9cb35a9d9a2f72f28184ff49d27cb344be7c694bb45ded13067c5c24a"
+    },
+    {
+      "bytes": 17361,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/WINDOWS_JOB_LOG_WRAPPER.json",
+      "sha256": "797840c6e09fa179fb8871768e6f3544a006c4afe804497bb1552aac1c536034"
+    },
+    {
+      "bytes": 1980,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/dg17_fifth_linux_acquisition_result.json",
+      "sha256": "c37ab26fb744b83bef6574f431e65b2de922150e2a9ae9d4095d55b1a69849ab"
+    },
+    {
+      "bytes": 788,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/dg17_fifth_windows_acquisition_result.json",
+      "sha256": "a074ef4d463b429b680fb6a49ea1043fcd7c1a8eb35db9a77d39a81fa80f1add"
+    },
+    {
+      "bytes": 128,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/BODY_READ_INTENT.json",
+      "sha256": "9068ea7aa9009e91de301e88c08d9af02ff12780eb6e85a8d89875afe286ac8f"
+    },
+    {
+      "bytes": 596,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/DOWNLOAD_REFERENCE_DESCRIPTOR.json",
+      "sha256": "db9c1f59b0bbdd766294d2c2d454db7e594d8dbd98d96afa3dd7b5faa98ebb81"
+    },
+    {
+      "bytes": 467,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/RESTORATION_INTENT.json",
+      "sha256": "f7118e4681ef6a0cc11a535430edc7b039fbccb1cc10fd925425bc4829fafbbd"
+    },
+    {
+      "bytes": 2303,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/RESTORATION_RECEIPT.json",
+      "sha256": "6cc721b6f75f73f9f64b9136d5b495f6c343eaa4412fd1ada420f1c1bc49eb7c"
+    },
+    {
+      "bytes": 10915,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/artifact.zip",
+      "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+    },
+    {
+      "bytes": 3631,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook/REHEARSAL_RESULT.json",
+      "sha256": "564c8672a519b962b3b3a9243ba10dcaed23bf43b9d8bc6b6b530bbaeb5f943e"
+    },
+    {
+      "bytes": 178,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 2808,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook.log",
+      "sha256": "896a957aed31ecea5bc0d7f6450ccea709d838e579f6b24d66089369ac80a7cf"
+    },
+    {
+      "bytes": 3638,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full/REHEARSAL_RESULT.json",
+      "sha256": "24345871dd4265e61ae69258f8d88ce0b01082830234c7bd35ea31a1a63ec585"
+    },
+    {
+      "bytes": 178,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 3037,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full.log",
+      "sha256": "412abc9e57f37f242abb68b368c1e742ec71d68551c9c4e543bea628cc7e5440"
+    },
+    {
+      "bytes": 1212,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary/REHEARSAL_RESULT.json",
+      "sha256": "b02fc9ae914d101130f64798ad0b6e564fcc3013bf0cdea8c25244178dd9a0f9"
+    },
+    {
+      "bytes": 178,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 1161,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary.log",
+      "sha256": "a0fc9a830faf483e06d749e39c13b7084a5b4ee9ad5face4906740c830e8e45a"
+    },
+    {
+      "bytes": 764,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/rebuild.log",
+      "sha256": "b16515524449f72e2215f6ad94eeb572cb59d594d07223cf156f9fa3769355b7"
+    },
+    {
+      "bytes": 3935,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/rebuilt/PINS.json",
+      "sha256": "fb8304e4400a15adb7d8a4b1a2d352310150e1db215dd85c4aa66a6149116c59"
+    },
+    {
+      "bytes": 3733,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/source-controls.log",
+      "sha256": "41363a8fe8121ed7b96d94e2d68375806bbd3f681ccda98e375ec8d79df73747"
+    },
+    {
+      "bytes": 128,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/BODY_READ_INTENT.json",
+      "sha256": "dd7ba2e132f1799441a0e5bbd346f3a5d697da07eaa559899f316749919c6762"
+    },
+    {
+      "bytes": 604,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/DOWNLOAD_REFERENCE_DESCRIPTOR.json",
+      "sha256": "94882fd274b3c1850ea4f025115d7cd437aeedf366920e3e96843d84064586e5"
+    },
+    {
+      "bytes": 474,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/RESTORATION_INTENT.json",
+      "sha256": "2fb1769af1d7bdaa159cbff8b4fabd090cbb28a662bbb12124a32a7a31968262"
+    },
+    {
+      "bytes": 858,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/RESTORATION_RECEIPT.json",
+      "sha256": "6d1dbe6f19a519071771569fd7e571decf035c83b424e69390b0caf687d22445"
+    },
+    {
+      "bytes": 3319,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/artifact.zip",
+      "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+    },
+    {
+      "bytes": 764,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/rebuild.log",
+      "sha256": "8dc7dba886bfceaf21923bb9952208e9cc1c31d8dac79be66ef274d5168299a0"
+    },
+    {
+      "bytes": 3851,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/rebuilt/PINS.json",
+      "sha256": "bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6"
+    },
+    {
+      "bytes": 12650,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/store-custody.log",
+      "sha256": "3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6"
+    }
+  ],
+  "reviewer": "/root/dg17_independent_review",
+  "root_controller": "pro-executor-01",
+  "root_reported_delegation_generation": "G0008",
+  "root_reported_receipt": "fda5007ee43c62168481f23d511d083d6ab51be9",
+  "run": {
+    "conclusion": "failure",
+    "created_at": "2026-11-15T05:31:55Z",
+    "event": "push",
+    "head_branch": "engineering/pro-executor-dg17-source-20261115",
+    "head_sha": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43681474158",
+    "id": 43681474158,
+    "run_attempt": 1,
+    "run_started_at": "2026-11-15T05:31:55Z",
+    "status": "completed",
+    "updated_at": "2026-11-15T05:32:32Z"
+  },
+  "schema": "dg17.independent-restored-run-receiving.v1",
+  "storage_history": {
+    "new_receipt_does_not_replace_lost_packet_identity": true,
+    "old_unpublished_source_and_control_log_bodies_not_recovered": true,
+    "original_packet": {
+      "body_recovered": false,
+      "bytes": 30373,
+      "sha256": "907b5d5f6c6cc7f26561773102e535414ff60069cec00f2f32599a4598e8938e"
+    },
+    "original_packet_independently_read_before_loss": false,
+    "provider_wrappers_have_new_serialization_identities": true,
+    "reviewer_new_body_gets": 0,
+    "root_explicit_new_public_restoration_gets_per_artifact": 1,
+    "root_historical_successful_gets_per_artifact": 1
+  },
+  "verified_archive_count": 2,
+  "verified_member_count": 15,
+  "windows": {
+    "all_owner_readbacks_match_expected_current_user": true,
+    "author_observation_population_field_verified": [
+      "all_cases"
+    ],
+    "cases": 14,
+    "complete_private_baselines": 1,
+    "first_error": {
+      "case": "positive: icacls protected DACL, user+SYSTEM only",
+      "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\manual')",
+      "expected": "PASS",
+      "expected_reason": null,
+      "got": "ERROR",
+      "ok": false,
+      "preconditions": [
+        {
+          "check": "independent owner SID",
+          "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "path": "<work>\\manual",
+          "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+        },
+        {
+          "check": "independent owner SID",
+          "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "path": "<work>\\manual",
+          "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+        }
+      ]
+    },
+    "full_population_qualified": false,
+    "independent_owner_readbacks": 23,
+    "prior_identity_refusal": "UNEXPLAINED_PRESERVED",
+    "qualified_case_names": [
+      "positive: driver-created store (create=True)",
+      "positive: re-check of the driver-created store",
+      "refused: missing directory",
+      "refused: regular file"
+    ],
+    "qualified_negative_names": [
+      "refused: missing directory",
+      "refused: regular file"
+    ],
+    "residual_ace_detailed_origin": "NOT_INFERRED",
+    "residual_noninherited_allow_characterization": "SOURCE_BRANCH_INFERENCE",
+    "setup_errors": 10
+  }
+}

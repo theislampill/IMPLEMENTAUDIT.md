@@ -1,0 +1,205 @@
+/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/author/stage_b.py:77: SyntaxWarning: invalid escape sequence '\A'
+  SYSTEM or BUILTIN\Administrators. Administrators is tolerated because members can
+test_store_fixture_sets_and_verifies_owner_before_acl_perturbation (__main__.DriverBundle.test_store_fixture_sets_and_verifies_owner_before_acl_perturbation) ... FAIL
+test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) ... 
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='positive') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='admin') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='everyone-write') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='everyone-read') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='positive') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='admin') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='everyone-write') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='everyone-read') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='positive') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='admin') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='everyone-write') ... FAIL
+  test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='everyone-read') ... FAIL
+test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded (__main__.DriverBundle.test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded) ... FAIL
+test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (__main__.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) ... 
+  test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (__main__.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) (failure='nonzero') ... FAIL
+  test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (__main__.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) (failure='timeout') ... FAIL
+  test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (__main__.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) (failure='permission') ... FAIL
+test_store_fixture_ineffective_dacl_replacement_is_setup_error (__main__.DriverBundle.test_store_fixture_ineffective_dacl_replacement_is_setup_error) ... ok
+test_store_fixture_existing_path_fails_before_owner_or_acl_write (__main__.DriverBundle.test_store_fixture_existing_path_fails_before_owner_or_acl_write) ... ok
+test_store_fixture_setup_failure_cannot_be_a_negative_pass (__main__.DriverBundle.test_store_fixture_setup_failure_cannot_be_a_negative_pass) ... ok
+test_store_fixture_child_and_junction_preimages_precede_mutation (__main__.DriverBundle.test_store_fixture_child_and_junction_preimages_precede_mutation) ... ok
+test_store_fixture_owner_read_is_independent_literal_and_bounded (__main__.DriverBundle.test_store_fixture_owner_read_is_independent_literal_and_bounded) ... ok
+test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid (__main__.DriverBundle.test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid) ... ok
+test_store_fixture_all_negative_cases_have_specific_reason (__main__.DriverBundle.test_store_fixture_all_negative_cases_have_specific_reason) ... ok
+
+======================================================================
+FAIL: test_store_fixture_sets_and_verifies_owner_before_acl_perturbation (__main__.DriverBundle.test_store_fixture_sets_and_verifies_owner_before_acl_perturbation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 395, in test_store_fixture_sets_and_verifies_owner_before_acl_perturbation
+    self.assertEqual([entry[0] for entry in calls],
+AssertionError: Lists differ: ['icacls', 'owner', 'icacls', 'icacls', 'owner', 'baseline', 'icacls'] != ['icacls', 'owner', 'replace-dacl', 'owner', 'baseline', 'icacls']
+
+First differing element 2:
+'icacls'
+'replace-dacl'
+
+First list contains 1 additional elements.
+First extra element 6:
+'icacls'
+
+- ['icacls', 'owner', 'icacls', 'icacls', 'owner', 'baseline', 'icacls']
+?                      ^    -  ----------
+
++ ['icacls', 'owner', 'replace-dacl', 'owner', 'baseline', 'icacls']
+?                      ^^^^^ +++
+
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='positive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'positive', 'expected': 'PASS', 'expected_reason': None, 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-1-positive', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-1-positive', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='admin')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'admin', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-5-32-544', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-1-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-1-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='everyone-write')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'everyone-write', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-1-0', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-1-everyone-write', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-1-everyone-write', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-3-0'}, perturbation='everyone-read')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'everyone-read', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-1-0', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-1-everyone-read', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-1-everyone-read', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='positive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'positive', 'expected': 'PASS', 'expected_reason': None, 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-2-positive', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-2-positive', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='admin')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'admin', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-5-32-544', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-2-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-2-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='everyone-write')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'everyone-write', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-1-0', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-2-everyone-write', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-2-everyone-write', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-5-32-544', 'S-1-3-0'}, perturbation='everyone-read')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'everyone-read', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-1-0', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-2-everyone-read', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-2-everyone-read', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='positive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'positive', 'expected': 'PASS', 'expected_reason': None, 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-3-positive', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-3-positive', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-1-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='admin')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'admin', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-5-32-544', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-3-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-3-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-1-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='everyone-write')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'everyone-write', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-1-0', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-3-everyone-write', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-3-everyone-write', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-1-0')"}
+
+======================================================================
+FAIL: test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) (residual={'S-1-1-0', 'S-1-5-21-2000'}, perturbation='everyone-read')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 442, in test_store_fixture_replaces_residual_acl_class_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'everyone-read', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-1-0', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/class-3-everyone-read', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/class-3-everyone-read', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-1-0')"}
+
+======================================================================
+FAIL: test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded (__main__.DriverBundle.test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 454, in test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded
+    self.assertIn('set_private_dacl', ns, 'fresh fixture needs complete independent DACL replacement')
+AssertionError: 'set_private_dacl' not found in {'base64': <module 'base64' from '/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/base64.py'>, 'json': <module 'json' from '/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/json/__init__.py'>, 'os': namespace(environ={'SIMULATED': 'yes'}), 'stat': <module 'stat' (frozen)>, 'subprocess': namespace(run=<function DriverBundle.test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded.<locals>.run at 0x7f3b708b71a0>), 'rows': [], 'bad': 0, 'preconditions': [], 'me': 'SIMULATED\\User', '__builtins__': {'__name__': 'builtins', '__doc__': "Built-in functions, types, exceptions, and other objects.\n\nThis module provides direct access to all 'built-in'\nidentifiers of Python; for example, builtins.len is\nthe full name for the built-in function len().\n\nThis module is not normally accessed explicitly by most\napplications, but can be useful in modules that provide\nobjects with the same name as a built-in value, but in\nwhich the built-in of that name is also needed.", '__package__': '', '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': ModuleSpec(name='builtins', loader=<class '_frozen_importlib.BuiltinImporter'>, origin='built-in'), '__build_class__': <built-in function __build_class__>, '__import__': <built-in function __import__>, 'abs': <built-in function abs>, 'all': <built-in function all>, 'any': <built-in function any>, 'ascii': <built-in function ascii>, 'bin': <built-in function bin>, 'breakpoint': <built-in function breakpoint>, 'callable': <built-in function callable>, 'chr': <built-in function chr>, 'compile': <built-in function compile>, 'delattr': <built-in function delattr>, 'dir': <built-in function dir>, 'divmod': <built-in function divmod>, 'eval': <built-in function eval>, 'exec': <built-in function exec>, 'format': <built-in function format>, 'getattr': <built-in function getattr>, 'globals': <built-in function globals>, 'hasattr': <built-in function hasattr>, 'hash': <built-in function hash>, 'hex': <built-in function hex>, 'id': <built-in function id>, 'input': <built-in function input>, 'isinstance': <built-in function isinstance>, 'issubclass': <built-in function issubclass>, 'iter': <built-in function iter>, 'aiter': <built-in function aiter>, 'len': <built-in function len>, 'locals': <built-in function locals>, 'max': <built-in function max>, 'min': <built-in function min>, 'next': <built-in function next>, 'anext': <built-in function anext>, 'oct': <built-in function oct>, 'ord': <built-in function ord>, 'pow': <built-in function pow>, 'print': <built-in function print>, 'repr': <built-in function repr>, 'round': <built-in function round>, 'setattr': <built-in function setattr>, 'sorted': <built-in function sorted>, 'sum': <built-in function sum>, 'vars': <built-in function vars>, 'None': None, 'Ellipsis': Ellipsis, 'NotImplemented': NotImplemented, 'False': False, 'True': True, 'bool': <class 'bool'>, 'memoryview': <class 'memoryview'>, 'bytearray': <class 'bytearray'>, 'bytes': <class 'bytes'>, 'classmethod': <class 'classmethod'>, 'complex': <class 'complex'>, 'dict': <class 'dict'>, 'enumerate': <class 'enumerate'>, 'filter': <class 'filter'>, 'float': <class 'float'>, 'frozenset': <class 'frozenset'>, 'property': <class 'property'>, 'int': <class 'int'>, 'list': <class 'list'>, 'map': <class 'map'>, 'object': <class 'object'>, 'range': <class 'range'>, 'reversed': <class 'reversed'>, 'set': <class 'set'>, 'slice': <class 'slice'>, 'staticmethod': <class 'staticmethod'>, 'str': <class 'str'>, 'super': <class 'super'>, 'tuple': <class 'tuple'>, 'type': <class 'type'>, 'zip': <class 'zip'>, '__debug__': True, 'BaseException': <class 'BaseException'>, 'BaseExceptionGroup': <class 'BaseExceptionGroup'>, 'Exception': <class 'Exception'>, 'GeneratorExit': <class 'GeneratorExit'>, 'KeyboardInterrupt': <class 'KeyboardInterrupt'>, 'SystemExit': <class 'SystemExit'>, 'ArithmeticError': <class 'ArithmeticError'>, 'AssertionError': <class 'AssertionError'>, 'AttributeError': <class 'AttributeError'>, 'BufferError': <class 'BufferError'>, 'EOFError': <class 'EOFError'>, 'ImportError': <class 'ImportError'>, 'LookupError': <class 'LookupError'>, 'MemoryError': <class 'MemoryError'>, 'NameError': <class 'NameError'>, 'OSError': <class 'OSError'>, 'ReferenceError': <class 'ReferenceError'>, 'RuntimeError': <class 'RuntimeError'>, 'StopAsyncIteration': <class 'StopAsyncIteration'>, 'StopIteration': <class 'StopIteration'>, 'SyntaxError': <class 'SyntaxError'>, 'SystemError': <class 'SystemError'>, 'TypeError': <class 'TypeError'>, 'ValueError': <class 'ValueError'>, 'Warning': <class 'Warning'>, 'FloatingPointError': <class 'FloatingPointError'>, 'OverflowError': <class 'OverflowError'>, 'ZeroDivisionError': <class 'ZeroDivisionError'>, 'BytesWarning': <class 'BytesWarning'>, 'DeprecationWarning': <class 'DeprecationWarning'>, 'EncodingWarning': <class 'EncodingWarning'>, 'FutureWarning': <class 'FutureWarning'>, 'ImportWarning': <class 'ImportWarning'>, 'PendingDeprecationWarning': <class 'PendingDeprecationWarning'>, 'ResourceWarning': <class 'ResourceWarning'>, 'RuntimeWarning': <class 'RuntimeWarning'>, 'SyntaxWarning': <class 'SyntaxWarning'>, 'UnicodeWarning': <class 'UnicodeWarning'>, 'UserWarning': <class 'UserWarning'>, 'BlockingIOError': <class 'BlockingIOError'>, 'ChildProcessError': <class 'ChildProcessError'>, 'ConnectionError': <class 'ConnectionError'>, 'FileExistsError': <class 'FileExistsError'>, 'FileNotFoundError': <class 'FileNotFoundError'>, 'InterruptedError': <class 'InterruptedError'>, 'IsADirectoryError': <class 'IsADirectoryError'>, 'NotADirectoryError': <class 'NotADirectoryError'>, 'PermissionError': <class 'PermissionError'>, 'ProcessLookupError': <class 'ProcessLookupError'>, 'TimeoutError': <class 'TimeoutError'>, 'IndentationError': <class 'IndentationError'>, 'IndexError': <class 'IndexError'>, 'KeyError': <class 'KeyError'>, 'ModuleNotFoundError': <class 'ModuleNotFoundError'>, 'NotImplementedError': <class 'NotImplementedError'>, 'RecursionError': <class 'RecursionError'>, 'UnboundLocalError': <class 'UnboundLocalError'>, 'UnicodeError': <class 'UnicodeError'>, 'BrokenPipeError': <class 'BrokenPipeError'>, 'ConnectionAbortedError': <class 'ConnectionAbortedError'>, 'ConnectionRefusedError': <class 'ConnectionRefusedError'>, 'ConnectionResetError': <class 'ConnectionResetError'>, 'TabError': <class 'TabError'>, 'UnicodeDecodeError': <class 'UnicodeDecodeError'>, 'UnicodeEncodeError': <class 'UnicodeEncodeError'>, 'UnicodeTranslateError': <class 'UnicodeTranslateError'>, 'ExceptionGroup': <class 'ExceptionGroup'>, 'EnvironmentError': <class 'OSError'>, 'IOError': <class 'OSError'>, 'open': <built-in function open>, 'quit': Use quit() or Ctrl-D (i.e. EOF) to exit, 'exit': Use exit() or Ctrl-D (i.e. EOF) to exit, 'copyright': Copyright (c) 2001-2023 Python Software Foundation.
+All Rights Reserved.
+
+Copyright (c) 2000 BeOpen.com.
+All Rights Reserved.
+
+Copyright (c) 1995-2001 Corporation for National Research Initiatives.
+All Rights Reserved.
+
+Copyright (c) 1991-1995 Stichting Mathematisch Centrum, Amsterdam.
+All Rights Reserved., 'credits':     Thanks to CWI, CNRI, BeOpen, Zope Corporation, the Python Software
+    Foundation, and a cast of thousands for supporting Python
+    development.  See www.python.org for more information., 'license': Type license() to see the full license text, 'help': Type help() for interactive help, or help(object) for help about object.}, 'POWERSHELL': 'C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe', 'OWNER_QUERY': 'CgAkAEUAcgByAG8AcgBBAGMAdABpAG8AbgBQAHIAZQBmAGUAcgBlAG4AYwBlACAAPQAgACcAUwB0AG8AcAAnAAoAJABQAFMATQBvAGQAdQBsAGUAQQB1AHQAbwBMAG8AYQBkAGkAbgBnAFAAcgBlAGYAZQByAGUAbgBjAGUAIAA9ACAAJwBOAG8AbgBlACcACgAkAHAAYQB0AGgAIAA9ACAAJABlAG4AdgA6AEQARwAxADcAXwBGAEkAWABUAFUAUgBFAF8ATwBXAE4ARQBSAF8AUABBAFQASAAKACQAcwBlAGMAdABpAG8AbgBzACAAPQAgAFsAUwB5AHMAdABlAG0ALgBTAGUAYwB1AHIAaQB0AHkALgBBAGMAYwBlAHMAcwBDAG8AbgB0AHIAbwBsAC4AQQBjAGMAZQBzAHMAQwBvAG4AdAByAG8AbABTAGUAYwB0AGkAbwBuAHMAXQA6ADoATwB3AG4AZQByAAoAaQBmACAAKAAoAFsAUwB5AHMAdABlAG0ALgBJAE8ALgBGAGkAbABlAF0AOgA6AEcAZQB0AEEAdAB0AHIAaQBiAHUAdABlAHMAKAAkAHAAYQB0AGgAKQAgAC0AYgBhAG4AZAAgAFsAUwB5AHMAdABlAG0ALgBJAE8ALgBGAGkAbABlAEEAdAB0AHIAaQBiAHUAdABlAHMAXQA6ADoARABpAHIAZQBjAHQAbwByAHkAKQAgAC0AbgBlACAAMAApACAAewAKACAAIAAgACAAJABhAGMAbAAgAD0AIABbAFMAeQBzAHQAZQBtAC4ASQBPAC4ARABpAHIAZQBjAHQAbwByAHkAXQA6ADoARwBlAHQAQQBjAGMAZQBzAHMAQwBvAG4AdAByAG8AbAAoACQAcABhAHQAaAAsACAAJABzAGUAYwB0AGkAbwBuAHMAKQAKAH0AIABlAGwAcwBlACAAewAKACAAIAAgACAAJABhAGMAbAAgAD0AIABbAFMAeQBzAHQAZQBtAC4ASQBPAC4ARgBpAGwAZQBdADoAOgBHAGUAdABBAGMAYwBlAHMAcwBDAG8AbgB0AHIAbwBsACgAJABwAGEAdABoACwAIAAkAHMAZQBjAHQAaQBvAG4AcwApAAoAfQAKACQAbwB3AG4AZQByACAAPQAgACQAYQBjAGwALgBHAGUAdABPAHcAbgBlAHIAKABbAFMAeQBzAHQAZQBtAC4AUwBlAGMAdQByAGkAdAB5AC4AUAByAGkAbgBjAGkAcABhAGwALgBTAGUAYwB1AHIAaQB0AHkASQBkAGUAbgB0AGkAZgBpAGUAcgBdACkALgBWAGEAbAB1AGUACgAkAGkAZABlAG4AdABpAHQAeQAgAD0AIABbAFMAeQBzAHQAZQBtAC4AUwBlAGMAdQByAGkAdAB5AC4AUAByAGkAbgBjAGkAcABhAGwALgBXAGkAbgBkAG8AdwBzAEkAZABlAG4AdABpAHQAeQBdADoAOgBHAGUAdABDAHUAcgByAGUAbgB0ACgAKQAKAHQAcgB5ACAAewAgACQAdQBzAGUAcgAgAD0AIAAkAGkAZABlAG4AdABpAHQAeQAuAFUAcwBlAHIALgBWAGEAbAB1AGUAIAB9ACAAZgBpAG4AYQBsAGwAeQAgAHsAIAAkAGkAZABlAG4AdABpAHQAeQAuAEQAaQBzAHAAbwBzAGUAKAApACAAfQAKAFsAQwBvAG4AcwBvAGwAZQBdADoAOgBXAHIAaQB0AGUATABpAG4AZQAoACQAbwB3AG4AZQByACkACgBbAEMAbwBuAHMAbwBsAGUAXQA6ADoAVwByAGkAdABlAEwAaQBuAGUAKAAkAHUAcwBlAHIAKQAKAA==', 'icacls': <function icacls at 0x7f3b708b7420>, 'owner_facts': <function owner_facts at 0x7f3b708b74c0>, 'require_owner': <function require_owner at 0x7f3b708b7560>, 'set_user_owner': <function set_user_owner at 0x7f3b708b7600>, 'private_baseline': <function private_baseline at 0x7f3b708b76a0>, 'private': <function private at 0x7f3b708b7740>, 'case': <function case at 0x7f3b708b77e0>, 'created': <function created at 0x7f3b708b7880>, 'everyone': <function everyone at 0x7f3b708b7920>, 'everyone_read': <function everyone_read at 0x7f3b708b79c0>, 'inherited': <function inherited at 0x7f3b708b7a60>, 'inherited_only_users': <function inherited_only_users at 0x7f3b708b7b00>, 'absent': <function absent at 0x7f3b708b7ba0>, 'junction': <function junction at 0x7f3b708b7c40>, 'unprotected_inherit_own': <function unprotected_inherit_own at 0x7f3b708b7ce0>, 'a_file': <function a_file at 0x7f3b708b7d80>, 'wrong_owner': <function wrong_owner at 0x7f3b708b7e20>} : fresh fixture needs complete independent DACL replacement
+
+======================================================================
+FAIL: test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (__main__.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) (failure='nonzero')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 512, in test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation
+    self.assertEqual(ns['rows'][-1]['got'], 'ERROR')
+AssertionError: 'PASS' != 'ERROR'
+- PASS
++ ERROR
+
+
+======================================================================
+FAIL: test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (__main__.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) (failure='timeout')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 512, in test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation
+    self.assertEqual(ns['rows'][-1]['got'], 'ERROR')
+AssertionError: 'PASS' != 'ERROR'
+- PASS
++ ERROR
+
+
+======================================================================
+FAIL: test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (__main__.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) (failure='permission')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 512, in test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation
+    self.assertEqual(ns['rows'][-1]['got'], 'ERROR')
+AssertionError: 'PASS' != 'ERROR'
+- PASS
++ ERROR
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.165s
+
+FAILED (failures=17)

@@ -1,0 +1,32 @@
+/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/author/stage_b.py:72: SyntaxWarning: invalid escape sequence '\A'
+  """Fail-closed Windows custody of the host-session store directory (driver side only).
+test_acl_historical_admin_acceptance_and_successor_refusal (__main__.DriverBundle.test_acl_historical_admin_acceptance_and_successor_refusal) ... ok
+test_acl_modeled_adversarial_population (__main__.DriverBundle.test_acl_modeled_adversarial_population) ... ok
+test_acl_modeled_positive_user_system_only (__main__.DriverBundle.test_acl_modeled_positive_user_system_only) ... ok
+test_author_pin_closure (__main__.DriverBundle.test_author_pin_closure) ... ok
+test_b2_product_pin_closure (__main__.DriverBundle.test_b2_product_pin_closure) ... ok
+test_failure_summary_keeps_first_source_predicate_and_no_authority (__main__.DriverBundle.test_failure_summary_keeps_first_source_predicate_and_no_authority) ... ok
+test_identity_diagnostic_preserves_each_original_refusal (__main__.DriverBundle.test_identity_diagnostic_preserves_each_original_refusal) ... ok
+test_limits_and_historical_issuer_preserved_without_admission (__main__.DriverBundle.test_limits_and_historical_issuer_preserved_without_admission) ... ok
+test_parent_a_command_fits_original_bound_before_window_write (__main__.DriverBundle.test_parent_a_command_fits_original_bound_before_window_write) ... ok
+test_parent_capture_keeps_digest_and_physical_substitution_refusal (__main__.DriverBundle.test_parent_capture_keeps_digest_and_physical_substitution_refusal) ... ok
+test_process_guard_accepts_codex_only_as_binding_data (__main__.DriverBundle.test_process_guard_accepts_codex_only_as_binding_data) ... ok
+test_receipt_deadlines_keep_original_bounds (__main__.DriverBundle.test_receipt_deadlines_keep_original_bounds) ... ok
+test_refuses_aliased_output (__main__.DriverBundle.test_refuses_aliased_output) ... ok
+test_refuses_hardlinked_input (__main__.DriverBundle.test_refuses_hardlinked_input) ... ok
+test_refuses_overwrite (__main__.DriverBundle.test_refuses_overwrite) ... ok
+test_selected_identity_refuses_mismatched_completion (__main__.DriverBundle.test_selected_identity_refuses_mismatched_completion) ... ok
+test_state_baseline_follows_selected_head (__main__.DriverBundle.test_state_baseline_follows_selected_head) ... ok
+test_store_fixture_all_negative_cases_have_specific_reason (__main__.DriverBundle.test_store_fixture_all_negative_cases_have_specific_reason) ... ok
+test_store_fixture_child_and_junction_preimages_precede_mutation (__main__.DriverBundle.test_store_fixture_child_and_junction_preimages_precede_mutation) ... ok
+test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid (__main__.DriverBundle.test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid) ... ok
+test_store_fixture_owner_read_is_independent_literal_and_bounded (__main__.DriverBundle.test_store_fixture_owner_read_is_independent_literal_and_bounded) ... ok
+test_store_fixture_removes_observed_admin_grant_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_removes_observed_admin_grant_before_intended_perturbation) ... ok
+test_store_fixture_sets_and_verifies_owner_before_acl_perturbation (__main__.DriverBundle.test_store_fixture_sets_and_verifies_owner_before_acl_perturbation) ... ok
+test_store_fixture_setup_failure_cannot_be_a_negative_pass (__main__.DriverBundle.test_store_fixture_setup_failure_cannot_be_a_negative_pass) ... ok
+test_windows_paths_relocate_under_posix (__main__.DriverBundle.test_windows_paths_relocate_under_posix) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.173s
+
+OK

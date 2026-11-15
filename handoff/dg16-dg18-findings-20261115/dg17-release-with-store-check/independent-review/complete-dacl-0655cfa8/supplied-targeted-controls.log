@@ -1,0 +1,18 @@
+/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/author/stage_b.py:77: SyntaxWarning: invalid escape sequence '\A'
+  SYSTEM or BUILTIN\Administrators. Administrators is tolerated because members can
+test_store_fixture_sets_and_verifies_owner_before_acl_perturbation (reviewed_fixture_controls.DriverBundle.test_store_fixture_sets_and_verifies_owner_before_acl_perturbation) ... ok
+test_store_fixture_replaces_residual_acl_class_before_intended_perturbation (reviewed_fixture_controls.DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation) ... ok
+test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded (reviewed_fixture_controls.DriverBundle.test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded) ... ok
+test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation (reviewed_fixture_controls.DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation) ... ok
+test_store_fixture_ineffective_dacl_replacement_is_setup_error (reviewed_fixture_controls.DriverBundle.test_store_fixture_ineffective_dacl_replacement_is_setup_error) ... ok
+test_store_fixture_existing_path_fails_before_owner_or_acl_write (reviewed_fixture_controls.DriverBundle.test_store_fixture_existing_path_fails_before_owner_or_acl_write) ... ok
+test_store_fixture_setup_failure_cannot_be_a_negative_pass (reviewed_fixture_controls.DriverBundle.test_store_fixture_setup_failure_cannot_be_a_negative_pass) ... ok
+test_store_fixture_child_and_junction_preimages_precede_mutation (reviewed_fixture_controls.DriverBundle.test_store_fixture_child_and_junction_preimages_precede_mutation) ... ok
+test_store_fixture_owner_read_is_independent_literal_and_bounded (reviewed_fixture_controls.DriverBundle.test_store_fixture_owner_read_is_independent_literal_and_bounded) ... ok
+test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid (reviewed_fixture_controls.DriverBundle.test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid) ... ok
+test_store_fixture_all_negative_cases_have_specific_reason (reviewed_fixture_controls.DriverBundle.test_store_fixture_all_negative_cases_have_specific_reason) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.154s
+
+OK

@@ -1,0 +1,76 @@
+{
+  "archive": {
+    "bytes": 10915,
+    "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+  },
+  "artifact_id": 14148915142,
+  "authority": "NONE",
+  "historical_successful_body_gets": 1,
+  "members": [
+    {
+      "bytes": 3631,
+      "path": "blocked-hook/REHEARSAL_RESULT.json",
+      "sha256": "564c8672a519b962b3b3a9243ba10dcaed23bf43b9d8bc6b6b530bbaeb5f943e"
+    },
+    {
+      "bytes": 178,
+      "path": "blocked-hook/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 2808,
+      "path": "blocked-hook.log",
+      "sha256": "896a957aed31ecea5bc0d7f6450ccea709d838e579f6b24d66089369ac80a7cf"
+    },
+    {
+      "bytes": 3638,
+      "path": "full/REHEARSAL_RESULT.json",
+      "sha256": "24345871dd4265e61ae69258f8d88ce0b01082830234c7bd35ea31a1a63ec585"
+    },
+    {
+      "bytes": 178,
+      "path": "full/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 3037,
+      "path": "full.log",
+      "sha256": "412abc9e57f37f242abb68b368c1e742ec71d68551c9c4e543bea628cc7e5440"
+    },
+    {
+      "bytes": 1212,
+      "path": "native-boundary/REHEARSAL_RESULT.json",
+      "sha256": "b02fc9ae914d101130f64798ad0b6e564fcc3013bf0cdea8c25244178dd9a0f9"
+    },
+    {
+      "bytes": 178,
+      "path": "native-boundary/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 1161,
+      "path": "native-boundary.log",
+      "sha256": "a0fc9a830faf483e06d749e39c13b7084a5b4ee9ad5face4906740c830e8e45a"
+    },
+    {
+      "bytes": 764,
+      "path": "rebuild.log",
+      "sha256": "b16515524449f72e2215f6ad94eeb572cb59d594d07223cf156f9fa3769355b7"
+    },
+    {
+      "bytes": 3935,
+      "path": "rebuilt/PINS.json",
+      "sha256": "fb8304e4400a15adb7d8a4b1a2d352310150e1db215dd85c4aa66a6149116c59"
+    },
+    {
+      "bytes": 3733,
+      "path": "source-controls.log",
+      "sha256": "41363a8fe8121ed7b96d94e2d68375806bbd3f681ccda98e375ec8d79df73747"
+    }
+  ],
+  "new_restoration_body_gets": 1,
+  "original_acceptance": false,
+  "protected_replay": false,
+  "signed_url_retained": false,
+  "status": "EXACT_PUBLIC_ARTIFACT_RESTORED"
+}

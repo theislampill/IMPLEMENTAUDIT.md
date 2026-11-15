@@ -1,0 +1,16 @@
+{
+  "artifact_id": 14148915142,
+  "automatic_retry": false,
+  "current_restoration_body_get_limit": 1,
+  "expected": {
+    "bytes": 10915,
+    "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+  },
+  "name": "dg17-linux-source-only",
+  "original_acceptance": false,
+  "prior_body_lost": true,
+  "prior_successful_acquisition": true,
+  "protected_operation": false,
+  "run": 43681474158,
+  "schema": "public-source-ci-storage-recovery.v1"
+}

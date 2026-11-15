@@ -1,0 +1,43 @@
+{
+  "53_copied_files_read_back_exact": true,
+  "I01": "Opening current source status corrected; earlier fourth-run text explicitly historical",
+  "authority": "NONE",
+  "current_12_source_manifest_pins_verified": true,
+  "native_grant": false,
+  "native_turns": 0,
+  "original14_unknown_differences": 14,
+  "original_acceptance": false,
+  "schema": "dg17.publication-integration-verification.v1",
+  "source_after_review_changed": false,
+  "source_and_document_whitespace_check": {
+    "exit": 0,
+    "files": [
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/COPY_MANIFEST.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/PUBLICATION_EVIDENCE_MAP.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_QUALIFICATION_MANIFEST.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/complete-dacl-0655cfa8/INDEPENDENT_DACL_SOURCE_RECEIPT.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/complete-dacl-0655cfa8/INDEPENDENT_DACL_SOURCE_REVIEW.md",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/complete-dacl-0655cfa8/independent_controls.py",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/complete-dacl-0655cfa8/run_targeted_controls.py",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/receive-restored-43681474158/INDEPENDENT_RESTORED_RUN_RECEIPT.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/receive-restored-43681474158/INDEPENDENT_RESTORED_RUN_RECEIVING.md",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/receive-restored-43681474158/PROVIDER_OBSERVATION.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py"
+    ]
+  },
+  "source_review_candidate": "0655cfa87cc3b81ed59ffa046d07b1ba616d631e",
+  "whole_diff_whitespace_check": {
+    "disposition": "Retained raw logs/provider-wrapper serializations remain exact. Their trailing whitespace or extra terminal newline is not normalized after hash-bound receiving; this is not a whole-diff clean claim.",
+    "exit": 2,
+    "lossless_retained_output": {
+      "bytes": 83594,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/evidence/publication-verification/FULL_WHITESPACE_CHECK.json",
+      "sha256": "959ed139a5b4214ee28dc8bb14af19a207a4b651c84f0929f25fad591db2b6ee"
+    },
+    "output_bytes": 81090,
+    "output_sha256": "7a9ae6b2853480c552cf3402abd7ff551886c916c366a41b5925907fab96d78b"
+  }
+}

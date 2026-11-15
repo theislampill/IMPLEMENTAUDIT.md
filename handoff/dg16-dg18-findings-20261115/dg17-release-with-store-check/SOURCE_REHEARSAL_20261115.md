@@ -1,6 +1,16 @@
 # DG17 source qualification return — 2026-11-15
 
-Status: **the fourth source-only CI run passed the three Linux modes and
+Current source status: **the complete DACL fixture replacement is independently
+qualified for bounded source publication at candidate
+`0655cfa87cc3b81ed59ffa046d07b1ba616d631e`. Eleven focused fixture methods and
+seven independent controls pass. Actual Windows execution of this replacement
+remains pending.** The restored fifth run remains failed: ten manual-fixture
+baselines retained Creator Owner. Its original archive/member bytes have now
+been independently received, without regrading its failed cases. The earlier
+status and all failed-run history remain below. Native admission and all fourteen
+original custody UNKNOWN differences are unchanged.
+
+Historical status after the fourth source-only run: **the fourth source-only CI run passed the three Linux modes and
 demonstrated successful direct .NET owner readback on Windows. Ten Windows
 fixtures then stopped at an unwanted Administrators grant in their private
 baseline. A one-command fixture correction awaits distinct review and Windows
@@ -597,12 +607,183 @@ negative reasons, product custody and file-identity guards, runtime, rehearsal,
 workflow and native gates remain unchanged. No source CI was dispatched or
 retried by the author, and no protected/native grant or UNKNOWN replay occurred.
 
+## Fifth published source CI — run 43681474158
+
+Root published the independently reviewed one-SID fixture correction and its
+retained evidence as c2faca3a5bccf26b4571fddbece4d420385c86b5, tree
+aea366f397866411d592430da7928d4cfc97c284. Its local same-tree receipt commit
+before workspace loss was 533bf9f8b73d065b96d947a8219caadd7e2091ea. Automatic
+source run 43681474158, attempt 1, began at 2026-11-15T05:31:55Z and was
+completed at 05:32:32Z with failure: Linux job
+132712826748 succeeded and Windows job 132712826507 failed.
+
+| Received artifact | Bytes | SHA-256 |
+|---|---:|---|
+| Linux 14148915142, dg17-linux-source-only | 10915 | e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31 |
+| Windows 14148721446, dg17-windows-store-source-only | 3319 | acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83 |
+
+Root originally acquired each artifact once. Before the workspace outage the author
+verified all 15 retained member hashes and eight provider-wrapper hashes
+against root's frozen SOURCE_CI_RECEIVING.json: 30373 bytes, SHA-256
+907b5d5f6c6cc7f26561773102e535414ff60069cec00f2f32599a4598e8938e.
+The original receiving packet and unpublished author-control log bodies were
+later absent from the restored workspace. Those prior verification observations
+are retained as history; neither a reconstructed summary nor a fresh test log
+is presented as recovery of an absent original body.
+
+Root subsequently performed deliberate public source-data restoration after
+that known-successful acquisition and storage loss: one additional GET per
+artifact. Both archive byte counts/hashes and all fifteen restored member
+byte counts/hashes match the original acquisition identities. The author
+recomputed these from .IMPLEMENTAUDIT/recovered-fifth-provider/{linux-restored,
+windows-restored}/ and verified the parsed Windows rows, Linux results and
+complete PINS bindings. This action restored data; no qualification or protected
+episode was rerun. Six provider wrapper objects were also rematerialized with
+new serialized byte identities; they are not claimed byte-identical to the
+pre-outage wrapper files. The original 30373-byte receiving packet remains lost.
+
+The new author observation is
+.IMPLEMENTAUDIT/dg17-dacl-reconstructed-20261115/RESTORED_FIFTH_SOURCE_OBSERVATION.json,
+45411 bytes, SHA-256
+535d62e770f5843fcf2b6281fb620d08c36c9a7e448470a918839ec31517a69c.
+It retains all restored member identities, both restoration receipts, complete
+PINS, Linux results and Windows rows. Root-routed distinct receiving remains
+pending. This author performed no artifact-body acquisition or reacquisition.
+
+| Linux mode | Actual recorded result | Seconds | Result JSON SHA-256 |
+|---|---|---:|---|
+| native-boundary | SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED | 5.959112202 | b02fc9ae914d101130f64798ad0b6e564fcc3013bf0cdea8c25244178dd9a0f9 |
+| full | DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS | 9.409760547 | 24345871dd4265e61ae69258f8d88ce0b01082830234c7bd35ea31a1a63ec585 |
+| blocked-hook | FIRST_NONPASS_CONTAINED_AND_CLEANED_UP | 9.356805715 | 564c8672a519b962b3b3a9243ba10dcaed23bf43b9d8bc6b6b530bbaeb5f943e |
+
+The hosted focused suite passed 25 methods in 0.173 seconds. These actual Linux
+results retain zero genuine turns/appservers, authority NONE, simulated native
+seams and all fourteen original custody UNKNOWN differences. They were not
+reexecuted for the fixture reconstruction.
+
+Both generated PINS records bind the exact published HEAD/tree. Linux PINS was
+3935 bytes, SHA-256 fb8304e4400a15adb7d8a4b1a2d352310150e1db215dd85c4aa66a6149116c59;
+Windows PINS was 3851 bytes, SHA-256 bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6.
+Their operation A identities were respectively 18684 bytes /
+5bfa75d32d2ff9cc22cfca4e397f04ddd71532fe679b51971ba97080be2065ab and
+18437 bytes / fa263b203d2c99b5a7604e7e4c545cbf5aecac106cc6f4662f61550d4d99822c.
+Both retained nine unverified inputs and no native admission. The Windows
+identity guard passed again without a mismatch diagnostic; the first run's
+identity refusal remains unexplained.
+
+### Recurring fixture permission class
+
+The Windows log was 12650 bytes, SHA-256
+3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6,
+and reported CASES 14 FAILED 10. It recorded 23 matching independent owner-SID
+readbacks and one complete private-baseline precondition. Driver creation and
+recheck, missing-directory refusal and regular-file refusal succeeded. Only
+two of eleven intended negative predicates were reached. All ten remaining
+cases stopped as baseline ERROR before their intended positive or perturbation.
+
+The first failed manual baseline reports Creator Owner S-1-3-0 with mask
+0x10000000. The reached foreign-principal branch follows the unchanged guard's
+allow-kind and inherited-entry checks; this supports a non-inherited allow
+characterization, not an inference about the entry's detailed origin or the
+complete ACL. The earlier Administrators result is preserved separately.
+
+Whole-fixture inspection confirms the source defect class: replacing grants
+for named identities and removing one known unwanted grant does not construct
+an exact baseline independently of arbitrary explicit defaults. The previous
+one-command correction was insufficient. Adding another SID-specific removal
+would retain that same dependency on whichever explicit entries happen to be
+present. The new correction changes only the common fresh-directory setup;
+the intentionally adverse icacls grants, inheritance changes, owner change and
+junction operation remain after their original verified preconditions.
+
+### Complete independent fixture DACL construction
+
+The module-free fixed Windows PowerShell script creates a new empty
+[DirectorySecurity](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.directorysecurity.-ctor?view=netframework-4.8.1),
+protects it with
+[SetAccessRuleProtection(true, false)](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity.setaccessruleprotection?view=netframework-4.8.1),
+and adds current-token-user and SYSTEM FullControl allow rules with container
+and object inheritance, PropagationFlags.None. It then applies that descriptor
+through
+[Directory.SetAccessControl](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.setaccesscontrol?view=netframework-4.8.1),
+whose documented behavior replaces the existing ACL. The
+[FileSystemAccessRule overload](https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.filesystemaccessrule.-ctor?view=netframework-4.8.1)
+accepts the explicit identity, rights, inheritance, propagation and access type.
+These API sources justify the construction; they do not prove its execution
+on the target Windows runner.
+
+The factory still first requires a new directory and explicitly assigns and
+independently verifies its owner. After replacement, the unchanged independent
+owner readback and actual product guard must pass before any intended extra
+grant. A nonzero process exit, timeout, permission failure, ineffective write,
+wrong owner or refused baseline cannot become negative-control credit. This
+construction is independent of the product's ctypes constructor; the manual
+positive does not call create=True. All fourteen case bodies and eleven refusal
+reasons are unchanged. Only that positive's display label now says
+"independent protected DACL" instead of "icacls protected DACL".
+
+The fixed executable, NoProfile/NonInteractive invocation, fixed encoded script,
+absolute fixture path carried as a process-local environment value and 30-second
+timeout remain bounded. No shell command or PowerShell cmdlet/module is used by
+the writer. The WindowsIdentity is disposed in finally. Existing owner-query
+bytes and all product, runtime, file-identity, rehearsal and workflow owners are
+unchanged.
+
+### Workspace loss and newly reconstructed verification
+
+The initial unpublished two-file correction was tested before the outage, but
+no post-edit source hash or candidate commit was captured. Its then-recorded
+baseline/RED/GREEN observations were 25 PASS (0.140 seconds), 29 methods with
+17 failing assertions/subcases (0.170 seconds), and 29 PASS (0.172 seconds).
+Their saved SHA-256 identities were respectively
+0f16ef8cf06d5e8ff64180022146ee01534d974a774cadbaab45c7a1bbe497eb,
+34e8b11e64f4a4d26d5b96d5fe9f2abb242c8ffa63f442829a952bac31f69e1c and
+51d7837b01382de7a1725ea733ec8b937b960065e450ecbb0266d09890ebcd35.
+Those full log bodies are not claimed recovered.
+
+Root restored the exact published c2faca3a/tree aea366f3 checkout and delegated
+reconstruction under mechanically verified G0008 continuity. The author read
+the restored source and replayed the preserved edit operations. This creates
+new source identities and fresh verification evidence, without assigning an
+invented hash to the lost unpublished version.
+
+The new focused command selects only the eleven test_store_fixture_* methods
+in tools/test_driver_bundle.py. With the reconstructed tests and old fixture,
+RED was eleven methods, seventeen failing assertions/subcases, 0.165 seconds.
+After reconstructing the fixture, GREEN was eleven PASS, 0.170 seconds. The
+fresh logs are reconstructed-controls-red.log (35977 bytes, SHA-256
+04ca3b477b8886940f2c75c7e258f5fbfb42cd5c8eab33e93046775c2dd40877)
+and reconstructed-controls-green.log (2161 bytes, SHA-256
+f862f2dba57cbe234c9181bc82cac7501db4954a9ec97e4c574f0ab9aa4fbd7e)
+under .IMPLEMENTAUDIT/dg17-dacl-reconstructed-20261115. The exact command and
+selected methods are retained in RED_RESULT.json and GREEN_RESULT.json.
+
+The controls cover both observed residual SIDs, unrelated residual principals,
+clean setup before intentional Administrators and Everyone read/write grants,
+nonzero/timeout/permission errors, ineffective replacement, wrong-owner results,
+and an existing path refusing before writes. Existing owner, child/junction,
+baseline-error and specific-negative-reason controls also run. ACL effects are
+modeled on Linux; the PowerShell API script is checked as a source contract.
+Neither is reported as actual Windows execution.
+
+Fresh AST comparison confirms that private() is the only changed existing
+function; set_private_dacl() is added, all previous assignments remain identical,
+and all case bodies/reasons remain unchanged except the one descriptive label.
+Python compilation and diff checks pass. An initial verification-script error
+passed an assignment-target list to ast.dump; the checker was corrected to
+inspect individual AST targets, without changing candidate source.
+
+The correction still requires distinct source review and actual Windows
+receiving. No accepted earlier lifecycle suite, native/protected episode or
+workflow was rerun or dispatched by this author. Rollback is reverting this
+five-file source correction; no native state was changed.
+
 ## Remaining acceptance dependencies
 
-1. Distinct review and actual Windows receiving for removal of the observed
-   unwanted baseline grant and completion of all 14 intended controls. Retain
+1. Distinct review and actual Windows receiving for complete independent
+   fixture DACL replacement and completion of all 14 intended controls. Retain
    actual direct-owner readback and Linux results, the seven intercepted
-   negatives, both later ERROR populations, and every earlier failed outcome
+   negatives, all later ERROR populations, and every earlier failed outcome
    at its exact source identity.
 2. Actual final Windows location, exact product/package/tool identities, current
    issuer reconciliation and independently reviewed operation-record readback.

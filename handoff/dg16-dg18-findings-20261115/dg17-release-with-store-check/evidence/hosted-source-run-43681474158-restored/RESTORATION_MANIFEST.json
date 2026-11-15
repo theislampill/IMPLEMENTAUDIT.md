@@ -1,0 +1,202 @@
+{
+  "authority": "NONE",
+  "checks": [
+    {
+      "archive_exact": true,
+      "artifact_id": 14148721446,
+      "members_exact": 3
+    },
+    {
+      "archive_exact": true,
+      "artifact_id": 14148915142,
+      "members_exact": 12
+    }
+  ],
+  "historical_acquisition_body_gets_per_artifact": 1,
+  "members": [
+    {
+      "bytes": 4038,
+      "path": "ARTIFACTS_WRAPPER.json",
+      "sha256": "037801a2325f5917c43f5b83efc75359207c5bab9d08cc8e461a9a331e16084d"
+    },
+    {
+      "bytes": 3455,
+      "path": "COMMIT_WRAPPER.json",
+      "sha256": "f2a2c36bd756c93d659d4fb761c4581a137b04f839be481b59a78ae5cd8ae110"
+    },
+    {
+      "bytes": 10015,
+      "path": "JOBS_WRAPPER_FINAL.json",
+      "sha256": "de729eeef2bef4e6361b2915e6d55ddc11255c0e82b800d6869df306ea6b8e70"
+    },
+    {
+      "bytes": 16601,
+      "path": "LINUX_JOB_LOG_WRAPPER.json",
+      "sha256": "d75e7915964f55d7a8ffdc2c4b638a95be406afab831ebdb971c8c14f842b9bb"
+    },
+    {
+      "bytes": 4017,
+      "path": "RESTORATION_ARTIFACTS_WRAPPER.json",
+      "sha256": "a44b38273e572bbc8a4d41244aa6a96f6f2453be7aac75247fa14310e5eff796"
+    },
+    {
+      "bytes": 29556,
+      "path": "RUN_WRAPPER.json",
+      "sha256": "896a57c9cb35a9d9a2f72f28184ff49d27cb344be7c694bb45ded13067c5c24a"
+    },
+    {
+      "bytes": 17361,
+      "path": "WINDOWS_JOB_LOG_WRAPPER.json",
+      "sha256": "797840c6e09fa179fb8871768e6f3544a006c4afe804497bb1552aac1c536034"
+    },
+    {
+      "bytes": 1980,
+      "path": "dg17_fifth_linux_acquisition_result.json",
+      "sha256": "c37ab26fb744b83bef6574f431e65b2de922150e2a9ae9d4095d55b1a69849ab"
+    },
+    {
+      "bytes": 788,
+      "path": "dg17_fifth_windows_acquisition_result.json",
+      "sha256": "a074ef4d463b429b680fb6a49ea1043fcd7c1a8eb35db9a77d39a81fa80f1add"
+    },
+    {
+      "bytes": 128,
+      "path": "linux-restored/BODY_READ_INTENT.json",
+      "sha256": "9068ea7aa9009e91de301e88c08d9af02ff12780eb6e85a8d89875afe286ac8f"
+    },
+    {
+      "bytes": 596,
+      "path": "linux-restored/DOWNLOAD_REFERENCE_DESCRIPTOR.json",
+      "sha256": "db9c1f59b0bbdd766294d2c2d454db7e594d8dbd98d96afa3dd7b5faa98ebb81"
+    },
+    {
+      "bytes": 467,
+      "path": "linux-restored/RESTORATION_INTENT.json",
+      "sha256": "f7118e4681ef6a0cc11a535430edc7b039fbccb1cc10fd925425bc4829fafbbd"
+    },
+    {
+      "bytes": 2303,
+      "path": "linux-restored/RESTORATION_RECEIPT.json",
+      "sha256": "6cc721b6f75f73f9f64b9136d5b495f6c343eaa4412fd1ada420f1c1bc49eb7c"
+    },
+    {
+      "bytes": 10915,
+      "path": "linux-restored/artifact.zip",
+      "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+    },
+    {
+      "bytes": 3631,
+      "path": "linux-restored/members/blocked-hook/REHEARSAL_RESULT.json",
+      "sha256": "564c8672a519b962b3b3a9243ba10dcaed23bf43b9d8bc6b6b530bbaeb5f943e"
+    },
+    {
+      "bytes": 178,
+      "path": "linux-restored/members/blocked-hook/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 2808,
+      "path": "linux-restored/members/blocked-hook.log",
+      "sha256": "896a957aed31ecea5bc0d7f6450ccea709d838e579f6b24d66089369ac80a7cf"
+    },
+    {
+      "bytes": 3638,
+      "path": "linux-restored/members/full/REHEARSAL_RESULT.json",
+      "sha256": "24345871dd4265e61ae69258f8d88ce0b01082830234c7bd35ea31a1a63ec585"
+    },
+    {
+      "bytes": 178,
+      "path": "linux-restored/members/full/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 3037,
+      "path": "linux-restored/members/full.log",
+      "sha256": "412abc9e57f37f242abb68b368c1e742ec71d68551c9c4e543bea628cc7e5440"
+    },
+    {
+      "bytes": 1212,
+      "path": "linux-restored/members/native-boundary/REHEARSAL_RESULT.json",
+      "sha256": "b02fc9ae914d101130f64798ad0b6e564fcc3013bf0cdea8c25244178dd9a0f9"
+    },
+    {
+      "bytes": 178,
+      "path": "linux-restored/members/native-boundary/SIMULATED_ONLY.json",
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    {
+      "bytes": 1161,
+      "path": "linux-restored/members/native-boundary.log",
+      "sha256": "a0fc9a830faf483e06d749e39c13b7084a5b4ee9ad5face4906740c830e8e45a"
+    },
+    {
+      "bytes": 764,
+      "path": "linux-restored/members/rebuild.log",
+      "sha256": "b16515524449f72e2215f6ad94eeb572cb59d594d07223cf156f9fa3769355b7"
+    },
+    {
+      "bytes": 3935,
+      "path": "linux-restored/members/rebuilt/PINS.json",
+      "sha256": "fb8304e4400a15adb7d8a4b1a2d352310150e1db215dd85c4aa66a6149116c59"
+    },
+    {
+      "bytes": 3733,
+      "path": "linux-restored/members/source-controls.log",
+      "sha256": "41363a8fe8121ed7b96d94e2d68375806bbd3f681ccda98e375ec8d79df73747"
+    },
+    {
+      "bytes": 128,
+      "path": "windows-restored/BODY_READ_INTENT.json",
+      "sha256": "dd7ba2e132f1799441a0e5bbd346f3a5d697da07eaa559899f316749919c6762"
+    },
+    {
+      "bytes": 604,
+      "path": "windows-restored/DOWNLOAD_REFERENCE_DESCRIPTOR.json",
+      "sha256": "94882fd274b3c1850ea4f025115d7cd437aeedf366920e3e96843d84064586e5"
+    },
+    {
+      "bytes": 474,
+      "path": "windows-restored/RESTORATION_INTENT.json",
+      "sha256": "2fb1769af1d7bdaa159cbff8b4fabd090cbb28a662bbb12124a32a7a31968262"
+    },
+    {
+      "bytes": 858,
+      "path": "windows-restored/RESTORATION_RECEIPT.json",
+      "sha256": "6d1dbe6f19a519071771569fd7e571decf035c83b424e69390b0caf687d22445"
+    },
+    {
+      "bytes": 3319,
+      "path": "windows-restored/artifact.zip",
+      "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+    },
+    {
+      "bytes": 764,
+      "path": "windows-restored/members/rebuild.log",
+      "sha256": "8dc7dba886bfceaf21923bb9952208e9cc1c31d8dac79be66ef274d5168299a0"
+    },
+    {
+      "bytes": 3851,
+      "path": "windows-restored/members/rebuilt/PINS.json",
+      "sha256": "bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6"
+    },
+    {
+      "bytes": 12650,
+      "path": "windows-restored/members/store-custody.log",
+      "sha256": "3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6"
+    }
+  ],
+  "new_recovery_body_gets_per_artifact": 1,
+  "old_packet": {
+    "body_recovered": false,
+    "bytes": 30373,
+    "sha256": "907b5d5f6c6cc7f26561773102e535414ff60069cec00f2f32599a4598e8938e"
+  },
+  "original_acceptance": false,
+  "protected_replay": false,
+  "restoration_scope": "Exact public artifact bodies and fifteen members restored from still-retained immutable GitHub artifacts; original provider wrappers recovered from surviving tool state. No new workflow run or test execution.",
+  "run_id": 43681474158,
+  "schema": "pro-executor.public-source-ci-storage-restoration.v1",
+  "source": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+  "tree": "aea366f397866411d592430da7928d4cfc97c284",
+  "unresolved_original14": 14
+}

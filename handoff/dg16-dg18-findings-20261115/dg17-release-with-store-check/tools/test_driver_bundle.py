@@ -37,7 +37,7 @@ def store_fixture_functions(**overrides):
     source = ast.parse((HERE / 'test_store_custody.py').read_text())
     selected = [node for node in source.body if isinstance(node, ast.FunctionDef) or (
         isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and
-        target.id in {'POWERSHELL', 'OWNER_QUERY'} for target in node.targets))]
+        target.id in {'POWERSHELL', 'OWNER_QUERY', 'DACL_SETUP'} for target in node.targets))]
     namespace = dict(base64=base64, json=json, os=os, stat=__import__('stat'),
                      subprocess=None, rows=[], bad=0, preconditions=[], me='SIMULATED\\User')
     exec(compile(ast.Module(body=selected, type_ignores=[]), 'store-fixture-controls', 'exec'), namespace)
@@ -386,29 +386,39 @@ class DriverBundle(unittest.TestCase):
             calls.append(('baseline', str(path)))
             self.assertEqual(state['owner'], state['user'])
             return {'owner': state['owner'], 'protected': True}
-        ns = store_fixture_functions(work=self.directory, icacls=acl, owner_facts=facts, check=check)
+        def run(command, **kwargs):
+            calls.append(('replace-dacl', kwargs['env']['DG17_FIXTURE_DACL_PATH']))
+            return types.SimpleNamespace(returncode=0, stdout='', stderr='')
+        ns = store_fixture_functions(work=self.directory, icacls=acl, owner_facts=facts, check=check,
+                                     subprocess=types.SimpleNamespace(run=run))
         ns['private'](self.directory / 'new-private', ['*S-1-5-32-544:(OI)(CI)F'])
         self.assertEqual([entry[0] for entry in calls],
-                         ['icacls', 'owner', 'icacls', 'icacls', 'owner', 'baseline', 'icacls'])
+                         ['icacls', 'owner', 'replace-dacl', 'owner', 'baseline', 'icacls'])
         self.assertEqual(calls[0][1], ('/setowner', 'SIMULATED\\User'))
-        self.assertEqual(calls[3][1], ('/remove:g', '*S-1-5-32-544'))
         self.assertEqual(calls[-1][1], ('/grant:r', '*S-1-5-32-544:(OI)(CI)F'))
         self.assertEqual(ns['preconditions'][-1]['check'], 'private user+SYSTEM baseline')
 
-    def test_store_fixture_removes_observed_admin_grant_before_intended_perturbation(self):
-        admin, everyone, user, system = 'S-1-5-32-544', 'S-1-1-0', 'S-1-5-21-1000', 'S-1-5-18'
-        for name in ['private', 'intentional-admin', 'other-principal-remains']:
-            grants = {admin, everyone} if name == 'other-principal-remains' else {admin}
+    def test_store_fixture_replaces_residual_acl_class_before_intended_perturbation(self):
+        admin, creator, everyone = 'S-1-5-32-544', 'S-1-3-0', 'S-1-1-0'
+        user, system = 'S-1-5-21-1000', 'S-1-5-18'
+        # Cases include both observed principals and an unrelated residual entry.
+        for index, residual in enumerate([{admin}, {creator}, {admin, creator},
+                                         {everyone, 'S-1-5-21-2000'}]):
+            grants = set(residual)
             observations = []
             def acl(path, *args):
                 if args[0] == '/inheritance:r':
-                    # Observed explicit Admin grant survives grants for other SIDs.
                     grants.update({user, system})
                 elif args[0] == '/remove:g':
-                    self.assertEqual(args[1], '*' + admin)
-                    grants.discard(admin)
+                    grants.discard(args[1].lstrip('*'))
                 elif args[0] == '/grant:r':
                     grants.add(args[1].split(':', 1)[0].lstrip('*'))
+            def run(command, **kwargs):
+                # Model only the external ACL replacement; real factory and
+                # baseline/negative classification run unchanged on Linux.
+                grants.clear()
+                grants.update({user, system})
+                return types.SimpleNamespace(returncode=0, stdout='', stderr='')
             def check(path):
                 observations.append(set(grants))
                 foreign = grants - {user, system}
@@ -416,22 +426,136 @@ class DriverBundle(unittest.TestCase):
                     raise RuntimeError('store custody refused: access granted to another principal ' + sorted(foreign)[0])
                 return {'owner': user, 'protected': True}
             ns = store_fixture_functions(work=self.directory, icacls=acl, check=check,
+                subprocess=types.SimpleNamespace(run=run),
                 owner_facts=lambda p: {'owner': user, 'user': user})
-            extra = [] if name == 'private' else ['*' + admin + ':(OI)(CI)F']
-            with self.subTest(name=name):
-                ns['case'](name, 'PASS' if name == 'private' else 'REFUSED',
-                    lambda: check(ns['private'](self.directory / name, extra)),
-                    None if name == 'private' else 'access granted to another principal ' + admin)
-                row = ns['rows'][-1]
-                if name == 'other-principal-remains':
-                    self.assertEqual(row['got'], 'ERROR')
-                    self.assertFalse(row['ok'])
-                    self.assertIn(everyone, observations[0])
-                else:
+            for suffix, extra in [('positive', []), ('admin', ['*' + admin + ':(OI)(CI)F']),
+                                  ('everyone-write', ['*' + everyone + ':(W)']),
+                                  ('everyone-read', ['*' + everyone + ':(R)'])]:
+                grants.clear(); grants.update(residual); observations.clear()
+                expected = 'REFUSED' if extra else 'PASS'
+                reason = 'access granted to another principal ' + (admin if suffix == 'admin' else everyone)
+                with self.subTest(residual=residual, perturbation=suffix):
+                    ns['case'](suffix, expected,
+                        lambda: check(ns['private'](self.directory / ('class-' + str(index) + '-' + suffix), extra)),
+                        reason if extra else None)
+                    row = ns['rows'][-1]
                     self.assertTrue(row['ok'], row)
                     self.assertEqual(observations[0], {user, system})
-                    if name == 'intentional-admin':
-                        self.assertIn(admin, observations[-1])
+                    if extra:
+                        self.assertEqual(observations[-1], {user, system, admin if suffix == 'admin' else everyone})
+
+    def test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded(self):
+        captured = []
+        def run(command, **kwargs):
+            captured.append((command, kwargs))
+            return types.SimpleNamespace(returncode=0, stdout='', stderr='')
+        ns = store_fixture_functions(subprocess=types.SimpleNamespace(run=run),
+            os=types.SimpleNamespace(environ={'SIMULATED': 'yes'}))
+        self.assertIn('set_private_dacl', ns, 'fresh fixture needs complete independent DACL replacement')
+        fixture = self.directory / "literal-'path; no command"
+        ns['set_private_dacl'](fixture)
+        command, kwargs = captured[0]
+        self.assertEqual(command[:4], [r'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe',
+                                      '-NoProfile', '-NonInteractive', '-EncodedCommand'])
+        query = base64.b64decode(command[4]).decode('utf-16le')
+        # These are source-contract checks, not execution of PowerShell/.NET.
+        for required in ["$ErrorActionPreference = 'Stop'", "$PSModuleAutoLoadingPreference = 'None'",
+                '$path = $env:DG17_FIXTURE_DACL_PATH',
+                '[System.Security.AccessControl.DirectorySecurity]::new()',
+                '$acl.SetAccessRuleProtection($true, $false)',
+                '[System.Security.AccessControl.FileSystemRights]::FullControl',
+                '[System.Security.AccessControl.InheritanceFlags]::ContainerInherit',
+                '[System.Security.AccessControl.InheritanceFlags]::ObjectInherit',
+                '[System.Security.AccessControl.PropagationFlags]::None',
+                '[System.Security.AccessControl.AccessControlType]::Allow',
+                '[System.Security.Principal.WindowsIdentity]::GetCurrent()',
+                "$system = [System.Security.Principal.SecurityIdentifier]::new('S-1-5-18')",
+                'foreach ($sid in @($identity.User, $system))',
+                '[System.Security.AccessControl.FileSystemAccessRule]::new(',
+                '$sid, $rights, $inheritance, $propagation, $allow)',
+                '$acl.AddAccessRule($rule)', '[System.IO.Directory]::SetAccessControl($path, $acl)',
+                'finally { $identity.Dispose() }']:
+            self.assertIn(required, query)
+        for forbidden in ['GetAccessControl', 'Get-Acl', 'Set-Acl', 'Import-Module', 'New-Object',
+                          'S-1-3-0', 'S-1-5-32-544', 'private_store_directory', str(fixture)]:
+            self.assertNotIn(forbidden, query)
+        self.assertEqual(kwargs['env'], {'SIMULATED': 'yes', 'DG17_FIXTURE_DACL_PATH': str(fixture)})
+        self.assertEqual(kwargs['timeout'], 30)
+        self.assertTrue(kwargs['capture_output'])
+        self.assertTrue(kwargs['text'])
+        self.assertNotIn('shell', kwargs)
+
+    def test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation(self):
+        for index, failure in enumerate(['nonzero', 'timeout', 'permission']):
+            events = []
+            def acl(path, *args):
+                events.append(('icacls', args))
+            def run(command, **kwargs):
+                events.append(('replace-dacl',))
+                if failure == 'timeout':
+                    raise subprocess.TimeoutExpired(command, 30)
+                if failure == 'permission':
+                    raise PermissionError('SIMULATED denied fixture DACL write')
+                return types.SimpleNamespace(returncode=1, stdout='',
+                    stderr='SIMULATED access granted to another principal S-1-5-32-544')
+            def check(path):
+                events.append(('baseline',))
+                return {}
+            ns = store_fixture_functions(work=self.directory, icacls=acl, check=check,
+                subprocess=types.SimpleNamespace(run=run),
+                owner_facts=lambda p: {'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'})
+            with self.subTest(failure=failure):
+                ns['case']('setup failure', 'REFUSED',
+                    lambda: ns['private'](self.directory / ('setup-failure-' + str(index)),
+                                          ['*S-1-5-32-544:(OI)(CI)F']),
+                    'access granted to another principal S-1-5-32-544')
+                self.assertEqual(ns['rows'][-1]['got'], 'ERROR')
+                self.assertFalse(ns['rows'][-1]['ok'])
+                self.assertEqual(events, [('icacls', ('/setowner', 'SIMULATED\\User')), ('replace-dacl',)])
+                self.assertEqual(len(ns['preconditions']), 1)
+
+    def test_store_fixture_ineffective_dacl_replacement_is_setup_error(self):
+        for index, defect in enumerate(['creator-owner-remains', 'foreign-allow', 'deny-entry',
+                                       'unprotected', 'null-dacl', 'wrong-owner']):
+            perturbations = []
+            facts = {'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}
+            def acl(path, *args):
+                if args[0] == '/grant:r': perturbations.append(args)
+            def run(command, **kwargs):
+                if defect == 'wrong-owner': facts['owner'] = 'S-1-5-32-544'
+                return types.SimpleNamespace(returncode=0, stdout='', stderr='')
+            def check(path):
+                raise RuntimeError({
+                    'creator-owner-remains': 'access granted to another principal S-1-3-0',
+                    'foreign-allow': 'access granted to another principal S-1-5-32-544',
+                    'deny-entry': 'unsupported access entry type 1',
+                    'unprotected': 'DACL is not protected: inherited access can apply',
+                    'null-dacl': 'no DACL: access is unrestricted',
+                    'wrong-owner': 'owner is not the current user'}[defect])
+            ns = store_fixture_functions(work=self.directory, icacls=acl, check=check,
+                subprocess=types.SimpleNamespace(run=run), owner_facts=lambda p: facts.copy())
+            with self.subTest(defect=defect):
+                ns['case']('ineffective setup', 'REFUSED',
+                    lambda: ns['private'](self.directory / ('ineffective-' + str(index)),
+                                          ['*S-1-5-32-544:(OI)(CI)F']),
+                    'access granted to another principal S-1-5-32-544')
+                row = ns['rows'][-1]
+                self.assertEqual(row['got'], 'ERROR')
+                self.assertFalse(row['ok'])
+                self.assertEqual(perturbations, [])
+                self.assertNotIn('private user+SYSTEM baseline', [p['check'] for p in row['preconditions']])
+
+    def test_store_fixture_existing_path_fails_before_owner_or_acl_write(self):
+        existing = self.directory / 'existing-fixture'
+        existing.mkdir()
+        effects = []
+        ns = store_fixture_functions(work=self.directory,
+            icacls=lambda *a: effects.append('icacls'),
+            subprocess=types.SimpleNamespace(run=lambda *a, **kw: effects.append('powershell')))
+        ns['case']('existing path setup', 'REFUSED', lambda: ns['private'](existing), 'another principal')
+        self.assertEqual(ns['rows'][-1]['got'], 'ERROR')
+        self.assertFalse(ns['rows'][-1]['ok'])
+        self.assertEqual(effects, [])
 
     def test_store_fixture_setup_failure_cannot_be_a_negative_pass(self):
         ns = store_fixture_functions(work=self.directory, icacls=lambda *a: None,

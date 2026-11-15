@@ -1,0 +1,34 @@
+{
+  "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+  "authority": "NONE",
+  "mode": "native-boundary",
+  "genuine_codex_turns": 0,
+  "native_appservers_started": 0,
+  "windows_custody_exercised": false,
+  "original14_unknown_differences": 14,
+  "stage_A_source_steps": [
+    "01-clone.json",
+    "02-checkout.json",
+    "03-head.json",
+    "04-tree.json",
+    "05-controller-ref-absence.json",
+    "06-new-claim.json",
+    "06a-inspect-initialization.json",
+    "06b-activate-controller.json",
+    "07-source-bootstrap.json",
+    "08-source-verify.json",
+    "09-source-require.json",
+    "10-source-positive.json"
+  ],
+  "stage_A_status": "STAGE_A_STOPPED_FIRST_REFUSAL_OR_UNKNOWN_NO_RETRY",
+  "stage_A_error": "SIMULATED stop before native appserver creation",
+  "result": "SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED",
+  "elapsed_seconds": 5.959112202,
+  "seams": [
+    "native RPC and model traffic simulated",
+    "fresh simulated grant/reviewer inputs",
+    "constructor fixed host literals rebound only in test copies",
+    "Stage B operation path routed to test copy",
+    "Windows ACL replaced by POSIX private test directory"
+  ]
+}

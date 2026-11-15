@@ -1,0 +1,17 @@
+{
+  "actual_tool_result": {
+    "bytes": 1876,
+    "sha256": "429405281147cc705e52f46eddb52857996d843c3d575d94ad5d1d780b926286"
+  },
+  "archive_name": "dg17-linux-source-only.zip",
+  "artifact_id": 14148915142,
+  "authentication_boundary": "ACTUAL_SUCCESSOR_TOOL_CALL_AND_INDEPENDENT_PROVIDER_RECEIVING_REQUIRED",
+  "authority": "NONE",
+  "content_blocks": 1,
+  "file_reference_identifier_retained": false,
+  "mime_type": "application/zip",
+  "nested_structure_present": true,
+  "schema": "dg16.g2-safe-download-result.v1",
+  "signed_url_retained": false,
+  "unstructured_text_retained": false
+}

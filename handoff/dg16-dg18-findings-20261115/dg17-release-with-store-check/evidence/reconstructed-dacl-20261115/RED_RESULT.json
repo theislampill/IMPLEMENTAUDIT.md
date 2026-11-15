@@ -1,0 +1,31 @@
+{
+  "base_commit": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+  "command": [
+    "python3",
+    "-B",
+    "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+    "DriverBundle.test_store_fixture_sets_and_verifies_owner_before_acl_perturbation",
+    "DriverBundle.test_store_fixture_replaces_residual_acl_class_before_intended_perturbation",
+    "DriverBundle.test_store_fixture_dacl_writer_is_fixed_module_free_and_bounded",
+    "DriverBundle.test_store_fixture_dacl_setup_errors_stop_before_baseline_or_perturbation",
+    "DriverBundle.test_store_fixture_ineffective_dacl_replacement_is_setup_error",
+    "DriverBundle.test_store_fixture_existing_path_fails_before_owner_or_acl_write",
+    "DriverBundle.test_store_fixture_setup_failure_cannot_be_a_negative_pass",
+    "DriverBundle.test_store_fixture_child_and_junction_preimages_precede_mutation",
+    "DriverBundle.test_store_fixture_owner_read_is_independent_literal_and_bounded",
+    "DriverBundle.test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid",
+    "DriverBundle.test_store_fixture_all_negative_cases_have_specific_reason"
+  ],
+  "elapsed_seconds": 0.165,
+  "exit": 1,
+  "failure_assertions_or_subcases": 17,
+  "log": {
+    "bytes": 35977,
+    "path": ".IMPLEMENTAUDIT/dg17-dacl-reconstructed-20261115/reconstructed-controls-red.log",
+    "sha256": "04ca3b477b8886940f2c75c7e258f5fbfb42cd5c8eab33e93046775c2dd40877"
+  },
+  "methods": 11,
+  "new_execution": true,
+  "recovered_old_log": false,
+  "schema": "dg17.reconstructed-focused-controls.v1"
+}

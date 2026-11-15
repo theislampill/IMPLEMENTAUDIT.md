@@ -1,0 +1,148 @@
+{
+  "authority": "NONE",
+  "blocking_findings": [],
+  "bound_records": [
+    {
+      "bytes": 50966,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+      "sha256": "9faacdb83e5cad2841e119ce466da39a53176c7e6b40dc56c8b928f90791f8c1"
+    },
+    {
+      "bytes": 213440,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_QUALIFICATION_MANIFEST.json",
+      "sha256": "770c2665a57a18bc8c955ade776af78e41e6a6b23fc534c2f63dec26fc51e529"
+    },
+    {
+      "bytes": 15445,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/COPY_MANIFEST.json",
+      "sha256": "9f1f83084ab4938271a3f2d49f70cbdab2730032f31b2a186866f7296d802e0f"
+    },
+    {
+      "bytes": 23618,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/PUBLICATION_EVIDENCE_MAP.json",
+      "sha256": "15c599acce364f0b379272ab620c95798574d1c34a7040b2624d985697ad4bbc"
+    },
+    {
+      "bytes": 3040,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/PUBLICATION_VERIFICATION.json",
+      "sha256": "475b8f4431f1fa84df9e10c9fcd276ea0b850328744bfc56dba4dcf537b620da"
+    },
+    {
+      "bytes": 83594,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/evidence/publication-verification/FULL_WHITESPACE_CHECK.json",
+      "sha256": "959ed139a5b4214ee28dc8bb14af19a207a4b651c84f0929f25fad591db2b6ee"
+    },
+    {
+      "bytes": 8176,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/complete-dacl-0655cfa8/INDEPENDENT_DACL_SOURCE_RECEIPT.json",
+      "sha256": "d5ac9a2ba60063274c2fdd5cd5aeaa8c9372477ac46eb817a8c6df3124f845a4"
+    },
+    {
+      "bytes": 36730,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/independent-review/receive-restored-43681474158/INDEPENDENT_RESTORED_RUN_RECEIPT.json",
+      "sha256": "6048aff4b4fd1684b6e9b7ad6d0871063d6c00115bf975b02958acec639fabdc"
+    }
+  ],
+  "candidate": {
+    "commit": "a18b2f2d0a4470e46039207d3ca26c9ad9f8b19d",
+    "expected_published_base": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+    "parent": "0655cfa87cc3b81ed59ffa046d07b1ba616d631e",
+    "parent_tree": "679520e74887ad685d9caacadd3d64c4348ef610",
+    "tree": "043f9e035441a2f4ef2517596df232f17b4f548f"
+  },
+  "disposition": "QUALIFIED_FOR_GUARDED_SOURCE_PUBLICATION",
+  "historical_objects_unchanged": [
+    "initial_author_snapshot",
+    "source_ci_followup",
+    "fixture_correction",
+    "second_ci_receiving",
+    "third_ci_receiving",
+    "fourth_ci_receiving",
+    "module_free_owner_query_correction",
+    "dacl_fixture_setup_correction",
+    "local_evidence_not_native_acceptance"
+  ],
+  "limits": {
+    "actual_windows_execution_of_complete_dacl_replacement": false,
+    "artifact_body_acquisitions": 0,
+    "genuine_codex_turns": 0,
+    "native_admission": false,
+    "native_grant": false,
+    "original14_unknown_differences": 14,
+    "original_acceptance": false,
+    "remote_mutations": 0,
+    "tests_rerun": false,
+    "workflow_dispatched": false
+  },
+  "manifest_changed_json_pointers": [
+    "/changed_file_population_excludes_this_manifest/2/bytes",
+    "/changed_file_population_excludes_this_manifest/2/sha256",
+    "/complete_fixture_dacl_replacement/changed_file_population_excludes_this_manifest/1/bytes",
+    "/complete_fixture_dacl_replacement/changed_file_population_excludes_this_manifest/1/sha256",
+    "/complete_fixture_dacl_replacement/review_status",
+    "/fifth_ci_restored_source_observation/independent_receiving",
+    "/publication_integration",
+    "/review_status"
+  ],
+  "pin_verification": {
+    "I01": "RESOLVED_WITH_HISTORY_PRESERVED",
+    "copy_manifest_original_identities_verified": 43,
+    "current_document_followup_descriptors_verified": 2,
+    "current_source_descriptors_verified": 12,
+    "current_source_unique_paths": 8,
+    "mapped_copies_missing": 0,
+    "mapped_source_and_committed_copy_identities_verified": 53
+  },
+  "report": {
+    "bytes": 4133,
+    "path": "/workspace/scratch/0269e6626329/dg17-review-recovery/integration-a18b2f2d/INDEPENDENT_INTEGRATION_ADDENDUM.md",
+    "sha256": "20c7b572fbf1b13ee5b337a18d6991af2f82f63eecd64b22fec1a91e380c7e46"
+  },
+  "reviewer": "/root/dg17_independent_review",
+  "schema": "dg17.independent-integration-addendum.v1",
+  "scope": "Integration only; no tests, downloads, CI dispatch, actual Windows operation, native effect or remote mutation",
+  "tree_verification": {
+    "active_execution_owners_unchanged": true,
+    "added_modes": {
+      "100644": 56
+    },
+    "added_paths": 56,
+    "clean_checkout": true,
+    "modified_existing_paths": [
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_QUALIFICATION_MANIFEST.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md"
+    ],
+    "parent_tracked_entries": 1879,
+    "unchanged_parent_entries": 1877
+  },
+  "whitespace": {
+    "declared_source_document_path_check": {
+      "base": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+      "exit": 0,
+      "stderr_bytes": 0,
+      "stdout_bytes": 0
+    },
+    "full_diff_readbacks": [
+      {
+        "base": "0655cfa87cc3b81ed59ffa046d07b1ba616d631e",
+        "exit": 2,
+        "matches_retained_diagnostic": true,
+        "stderr_bytes": 0,
+        "stdout_bytes": 81090,
+        "stdout_sha256": "7a9ae6b2853480c552cf3402abd7ff551886c916c366a41b5925907fab96d78b"
+      },
+      {
+        "base": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+        "exit": 2,
+        "matches_retained_diagnostic": true,
+        "stderr_bytes": 0,
+        "stdout_bytes": 81090,
+        "stdout_sha256": "7a9ae6b2853480c552cf3402abd7ff551886c916c366a41b5925907fab96d78b"
+      }
+    ],
+    "raw_evidence_normalized": false,
+    "retained_sidecar_exact": true,
+    "terminal_blank_line_findings": 9,
+    "trailing_whitespace_findings": 359
+  }
+}

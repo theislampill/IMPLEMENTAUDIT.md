@@ -1,0 +1,12 @@
+test_complete_baseline_precedes_intended_grant_and_is_not_reapplied (__main__.CompleteDaclControls.test_complete_baseline_precedes_intended_grant_and_is_not_reapplied) ... ok
+test_exact_existing_owner_functions_cases_and_reasons_preserved (__main__.CompleteDaclControls.test_exact_existing_owner_functions_cases_and_reasons_preserved) ... ok
+test_exact_five_files_and_preserved_history_product_owners (__main__.CompleteDaclControls.test_exact_five_files_and_preserved_history_product_owners) ... ok
+test_existing_directory_file_or_symlink_stops_before_mutations (__main__.CompleteDaclControls.test_existing_directory_file_or_symlink_stops_before_mutations) ... ok
+test_writer_failures_cannot_match_any_intended_negative_reason (__main__.CompleteDaclControls.test_writer_failures_cannot_match_any_intended_negative_reason) ... ok
+test_writer_is_static_literal_and_parent_environment_unchanged (__main__.CompleteDaclControls.test_writer_is_static_literal_and_parent_environment_unchanged) ... ok
+test_zero_exit_does_not_bypass_owner_or_full_baseline (__main__.CompleteDaclControls.test_zero_exit_does_not_bypass_owner_or_full_baseline) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.091s
+
+OK

@@ -1,0 +1,31 @@
+{
+  "archive": {
+    "bytes": 3319,
+    "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+  },
+  "artifact_id": 14148721446,
+  "authority": "NONE",
+  "historical_successful_body_gets": 1,
+  "members": [
+    {
+      "bytes": 12650,
+      "path": "store-custody.log",
+      "sha256": "3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6"
+    },
+    {
+      "bytes": 3851,
+      "path": "rebuilt/PINS.json",
+      "sha256": "bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6"
+    },
+    {
+      "bytes": 764,
+      "path": "rebuild.log",
+      "sha256": "8dc7dba886bfceaf21923bb9952208e9cc1c31d8dac79be66ef274d5168299a0"
+    }
+  ],
+  "new_restoration_body_gets": 1,
+  "original_acceptance": false,
+  "protected_replay": false,
+  "signed_url_retained": false,
+  "status": "EXACT_PUBLIC_ARTIFACT_RESTORED"
+}

@@ -1,0 +1,8 @@
+{
+  "chunk_id": "76fc64",
+  "wall_time_seconds": 0.066167901,
+  "exit_code": 0,
+  "original_token_count": 153,
+  "output": "{\"status\": \"SOURCE_LOGS_RECEIVED\", \"authority\": \"NONE\", \"artifact_id\": 14148721446, \"archive_sha256\": \"acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83\", \"members\": {\"store-custody.log\": {\"bytes\": 12650, \"sha256\": \"3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6\"}, \"rebuilt/PINS.json\": {\"bytes\": 3851, \"sha256\": \"bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6\"}, \"rebuild.log\": {\"bytes\": 764, \"sha256\": \"8dc7dba886bfceaf21923bb9952208e9cc1c31d8dac79be66ef274d5168299a0\"}}, \"body_get_attempts\": 1, \"signed_url_retained\": false, \"raw_wrapper_retained\": false}\r\n"
+}
+

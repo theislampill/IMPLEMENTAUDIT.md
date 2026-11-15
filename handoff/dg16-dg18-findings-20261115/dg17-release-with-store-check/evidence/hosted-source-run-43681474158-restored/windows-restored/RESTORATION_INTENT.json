@@ -1,0 +1,16 @@
+{
+  "artifact_id": 14148721446,
+  "automatic_retry": false,
+  "current_restoration_body_get_limit": 1,
+  "expected": {
+    "bytes": 3319,
+    "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+  },
+  "name": "dg17-windows-store-source-only",
+  "original_acceptance": false,
+  "prior_body_lost": true,
+  "prior_successful_acquisition": true,
+  "protected_operation": false,
+  "run": 43681474158,
+  "schema": "public-source-ci-storage-recovery.v1"
+}

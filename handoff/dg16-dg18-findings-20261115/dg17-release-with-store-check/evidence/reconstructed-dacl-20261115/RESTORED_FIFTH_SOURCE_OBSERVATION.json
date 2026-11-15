@@ -1,0 +1,1073 @@
+{
+  "actor": "/root/dg17_engineering",
+  "artifacts": {
+    "linux-restored": {
+      "archive": {
+        "bytes": 10915,
+        "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/artifact.zip",
+        "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+      },
+      "members": [
+        {
+          "bytes": 3631,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook/REHEARSAL_RESULT.json",
+          "sha256": "564c8672a519b962b3b3a9243ba10dcaed23bf43b9d8bc6b6b530bbaeb5f943e"
+        },
+        {
+          "bytes": 178,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        {
+          "bytes": 2808,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/blocked-hook.log",
+          "sha256": "896a957aed31ecea5bc0d7f6450ccea709d838e579f6b24d66089369ac80a7cf"
+        },
+        {
+          "bytes": 3638,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full/REHEARSAL_RESULT.json",
+          "sha256": "24345871dd4265e61ae69258f8d88ce0b01082830234c7bd35ea31a1a63ec585"
+        },
+        {
+          "bytes": 178,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        {
+          "bytes": 3037,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/full.log",
+          "sha256": "412abc9e57f37f242abb68b368c1e742ec71d68551c9c4e543bea628cc7e5440"
+        },
+        {
+          "bytes": 1212,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary/REHEARSAL_RESULT.json",
+          "sha256": "b02fc9ae914d101130f64798ad0b6e564fcc3013bf0cdea8c25244178dd9a0f9"
+        },
+        {
+          "bytes": 178,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        {
+          "bytes": 1161,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/native-boundary.log",
+          "sha256": "a0fc9a830faf483e06d749e39c13b7084a5b4ee9ad5face4906740c830e8e45a"
+        },
+        {
+          "bytes": 764,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/rebuild.log",
+          "sha256": "b16515524449f72e2215f6ad94eeb572cb59d594d07223cf156f9fa3769355b7"
+        },
+        {
+          "bytes": 3935,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/rebuilt/PINS.json",
+          "sha256": "fb8304e4400a15adb7d8a4b1a2d352310150e1db215dd85c4aa66a6149116c59"
+        },
+        {
+          "bytes": 3733,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/members/source-controls.log",
+          "sha256": "41363a8fe8121ed7b96d94e2d68375806bbd3f681ccda98e375ec8d79df73747"
+        }
+      ],
+      "receipt_record": {
+        "archive": {
+          "bytes": 10915,
+          "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+        },
+        "artifact_id": 14148915142,
+        "authority": "NONE",
+        "historical_successful_body_gets": 1,
+        "members": [
+          {
+            "bytes": 3631,
+            "path": "blocked-hook/REHEARSAL_RESULT.json",
+            "sha256": "564c8672a519b962b3b3a9243ba10dcaed23bf43b9d8bc6b6b530bbaeb5f943e"
+          },
+          {
+            "bytes": 178,
+            "path": "blocked-hook/SIMULATED_ONLY.json",
+            "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+          },
+          {
+            "bytes": 2808,
+            "path": "blocked-hook.log",
+            "sha256": "896a957aed31ecea5bc0d7f6450ccea709d838e579f6b24d66089369ac80a7cf"
+          },
+          {
+            "bytes": 3638,
+            "path": "full/REHEARSAL_RESULT.json",
+            "sha256": "24345871dd4265e61ae69258f8d88ce0b01082830234c7bd35ea31a1a63ec585"
+          },
+          {
+            "bytes": 178,
+            "path": "full/SIMULATED_ONLY.json",
+            "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+          },
+          {
+            "bytes": 3037,
+            "path": "full.log",
+            "sha256": "412abc9e57f37f242abb68b368c1e742ec71d68551c9c4e543bea628cc7e5440"
+          },
+          {
+            "bytes": 1212,
+            "path": "native-boundary/REHEARSAL_RESULT.json",
+            "sha256": "b02fc9ae914d101130f64798ad0b6e564fcc3013bf0cdea8c25244178dd9a0f9"
+          },
+          {
+            "bytes": 178,
+            "path": "native-boundary/SIMULATED_ONLY.json",
+            "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+          },
+          {
+            "bytes": 1161,
+            "path": "native-boundary.log",
+            "sha256": "a0fc9a830faf483e06d749e39c13b7084a5b4ee9ad5face4906740c830e8e45a"
+          },
+          {
+            "bytes": 764,
+            "path": "rebuild.log",
+            "sha256": "b16515524449f72e2215f6ad94eeb572cb59d594d07223cf156f9fa3769355b7"
+          },
+          {
+            "bytes": 3935,
+            "path": "rebuilt/PINS.json",
+            "sha256": "fb8304e4400a15adb7d8a4b1a2d352310150e1db215dd85c4aa66a6149116c59"
+          },
+          {
+            "bytes": 3733,
+            "path": "source-controls.log",
+            "sha256": "41363a8fe8121ed7b96d94e2d68375806bbd3f681ccda98e375ec8d79df73747"
+          }
+        ],
+        "new_restoration_body_gets": 1,
+        "original_acceptance": false,
+        "protected_replay": false,
+        "signed_url_retained": false,
+        "status": "EXACT_PUBLIC_ARTIFACT_RESTORED"
+      },
+      "restoration_receipt": {
+        "bytes": 2303,
+        "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/linux-restored/RESTORATION_RECEIPT.json",
+        "sha256": "6cc721b6f75f73f9f64b9136d5b495f6c343eaa4412fd1ada420f1c1bc49eb7c"
+      },
+      "source_pins": {
+        "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+        "files": {
+          "OPERATION_A.json": {
+            "bytes": 18684,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/OPERATION_A.json",
+            "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+            "sha256": "5bfa75d32d2ff9cc22cfca4e397f04ddd71532fe679b51971ba97080be2065ab"
+          },
+          "PROFILE.toml": {
+            "bytes": 535,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/PROFILE.toml",
+            "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+            "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+          },
+          "bind_stage_b.py": {
+            "bytes": 3244,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/bind_stage_b.py",
+            "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+            "sha256": "8ab9cc4179ad1e2d9395f6d81e91ee9ca8e0a0fc0ad78df796927b7e74b7419a"
+          },
+          "native_rpc.py": {
+            "bytes": 13921,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/native_rpc.py",
+            "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+            "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+          },
+          "parent_launch_a.py": {
+            "bytes": 6069,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_a.py",
+            "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+            "sha256": "3204a26afb579eaccaa75cb82c810b19a23f1c1a5a673358d2def9caec4a60e9"
+          },
+          "parent_launch_b.py": {
+            "bytes": 5054,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_b.py",
+            "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+            "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+          },
+          "positive_hook_constructor.py": {
+            "bytes": 10996,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/positive_hook_constructor.py",
+            "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+            "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+          },
+          "source_setup.py": {
+            "bytes": 1252,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/source_setup.py",
+            "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+            "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+          },
+          "stage_a.py": {
+            "bytes": 24857,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_a.py",
+            "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+            "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+          },
+          "stage_b.py": {
+            "bytes": 33468,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_b.py",
+            "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+            "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+          }
+        },
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18684,
+        "operation_A_sha256": "5bfa75d32d2ff9cc22cfca4e397f04ddd71532fe679b51971ba97080be2065ab",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+        "source_tree": "aea366f397866411d592430da7928d4cfc97c284",
+        "unverified_input_count": 9
+      }
+    },
+    "windows-restored": {
+      "archive": {
+        "bytes": 3319,
+        "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/artifact.zip",
+        "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+      },
+      "members": [
+        {
+          "bytes": 12650,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/store-custody.log",
+          "sha256": "3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6"
+        },
+        {
+          "bytes": 3851,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/rebuilt/PINS.json",
+          "sha256": "bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6"
+        },
+        {
+          "bytes": 764,
+          "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/members/rebuild.log",
+          "sha256": "8dc7dba886bfceaf21923bb9952208e9cc1c31d8dac79be66ef274d5168299a0"
+        }
+      ],
+      "receipt_record": {
+        "archive": {
+          "bytes": 3319,
+          "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+        },
+        "artifact_id": 14148721446,
+        "authority": "NONE",
+        "historical_successful_body_gets": 1,
+        "members": [
+          {
+            "bytes": 12650,
+            "path": "store-custody.log",
+            "sha256": "3edd5dc55a3f2c84b9dde2ff78bdc49ac66561958232c379843b67e77dbe08d6"
+          },
+          {
+            "bytes": 3851,
+            "path": "rebuilt/PINS.json",
+            "sha256": "bf3ef2e08175af488ec0c5c32a488a3df2b668302fd37e5a08ec1ec76a5bc8e6"
+          },
+          {
+            "bytes": 764,
+            "path": "rebuild.log",
+            "sha256": "8dc7dba886bfceaf21923bb9952208e9cc1c31d8dac79be66ef274d5168299a0"
+          }
+        ],
+        "new_restoration_body_gets": 1,
+        "original_acceptance": false,
+        "protected_replay": false,
+        "signed_url_retained": false,
+        "status": "EXACT_PUBLIC_ARTIFACT_RESTORED"
+      },
+      "restoration_receipt": {
+        "bytes": 858,
+        "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/windows-restored/RESTORATION_RECEIPT.json",
+        "sha256": "6d1dbe6f19a519071771569fd7e571decf035c83b424e69390b0caf687d22445"
+      },
+      "source_pins": {
+        "author_dir": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\handoff\\dg16-dg18-findings-20261115\\dg17-next-release\\author",
+        "files": {
+          "OPERATION_A.json": {
+            "bytes": 18437,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\OPERATION_A.json",
+            "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+            "sha256": "fa263b203d2c99b5a7604e7e4c545cbf5aecac106cc6f4662f61550d4d99822c"
+          },
+          "PROFILE.toml": {
+            "bytes": 535,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\PROFILE.toml",
+            "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+            "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+          },
+          "bind_stage_b.py": {
+            "bytes": 3244,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\bind_stage_b.py",
+            "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+            "sha256": "ae54d9908aacdb0523a7c623e4b3c13d5242f26d330989b8b0cf1f5a6876b9d4"
+          },
+          "native_rpc.py": {
+            "bytes": 13921,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\native_rpc.py",
+            "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+            "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+          },
+          "parent_launch_a.py": {
+            "bytes": 6069,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_a.py",
+            "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+            "sha256": "4c05cae89a73e5ade886beeeba5aaf625dfae2a77033fe61f2204212d41c119c"
+          },
+          "parent_launch_b.py": {
+            "bytes": 5054,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_b.py",
+            "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+            "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+          },
+          "positive_hook_constructor.py": {
+            "bytes": 10996,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\positive_hook_constructor.py",
+            "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+            "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+          },
+          "source_setup.py": {
+            "bytes": 1252,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\source_setup.py",
+            "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+            "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+          },
+          "stage_a.py": {
+            "bytes": 24857,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_a.py",
+            "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+            "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+          },
+          "stage_b.py": {
+            "bytes": 33468,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_b.py",
+            "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+            "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+          }
+        },
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18437,
+        "operation_A_sha256": "fa263b203d2c99b5a7604e7e4c545cbf5aecac106cc6f4662f61550d4d99822c",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+        "source_tree": "aea366f397866411d592430da7928d4cfc97c284",
+        "unverified_input_count": 9
+      }
+    }
+  },
+  "author_body_gets": 0,
+  "authority": "NONE",
+  "genuine_codex_turns": 0,
+  "historical_successful_body_gets_per_artifact": 1,
+  "independent_receiving": "PENDING_ROOT_ROUTED_DISTINCT_RECEIVER",
+  "linux": {
+    "blocked-hook": {
+      "actual_native_acceptance": false,
+      "authority": "NONE",
+      "elapsed_seconds": 9.356805715,
+      "genuine_codex_turns": 0,
+      "mode": "blocked-hook",
+      "native_appservers_started": 0,
+      "original14_unknown_differences": 14,
+      "result": "FIRST_NONPASS_CONTAINED_AND_CLEANED_UP",
+      "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+      "seams": [
+        "native RPC and model traffic simulated",
+        "fresh simulated grant/reviewer inputs",
+        "constructor fixed host literals rebound only in test copies",
+        "Stage B operation path routed to test copy",
+        "Windows ACL replaced by POSIX private test directory"
+      ],
+      "simulated_calls": [
+        "SIMULATED:Client",
+        "SIMULATED:account/read",
+        "SIMULATED:plugin/install",
+        "SIMULATED:plugin/read",
+        "SIMULATED:skills/list",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:thread/start",
+        "SIMULATED:thread/read",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:thread/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:config/read",
+        "SIMULATED:Client",
+        "SIMULATED:thread/resume",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:hooks/list",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:thread/resume",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:hooks/list",
+        "SIMULATED:turn/start",
+        "SIMULATED:record:request",
+        "SIMULATED:interrupt-wire",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:hooks/list"
+      ],
+      "stage_A_error": null,
+      "stage_A_source_steps": [
+        "01-clone.json",
+        "02-checkout.json",
+        "03-head.json",
+        "04-tree.json",
+        "05-controller-ref-absence.json",
+        "06-new-claim.json",
+        "06a-inspect-initialization.json",
+        "06b-activate-controller.json",
+        "07-source-bootstrap.json",
+        "08-source-verify.json",
+        "09-source-require.json",
+        "10-source-positive.json",
+        "11-invalidate-new-session.json",
+        "12-separate-STATE-read.json",
+        "13-separate-ROADMAP-read.json",
+        "14-native-context-resume.json",
+        "15-native-context-verify.json",
+        "16-native-context-require.json",
+        "17-current-controller.json"
+      ],
+      "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+      "stage_B_error": "AssertionError()",
+      "stage_B_status": "FIRST_EVENT_OR_LATE_EXTRA_ACTIVITY_NOT_QUALIFYING",
+      "stage_B_steps": [
+        "01-currentness.json",
+        "02-owned-init.json",
+        "03-owned-bind.json",
+        "04-owned-lookup.json",
+        "05-new-project-trust.json",
+        "06-new-hook-trust.json",
+        "07-new-hook-enable.json",
+        "08-currentness-before-model.json"
+      ],
+      "teardown_known_in_simulation": true,
+      "windows_custody_exercised": false
+    },
+    "full": {
+      "actual_native_acceptance": false,
+      "authority": "NONE",
+      "elapsed_seconds": 9.409760547,
+      "genuine_codex_turns": 0,
+      "mode": "full",
+      "native_appservers_started": 0,
+      "original14_unknown_differences": 14,
+      "result": "DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS",
+      "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+      "seams": [
+        "native RPC and model traffic simulated",
+        "fresh simulated grant/reviewer inputs",
+        "constructor fixed host literals rebound only in test copies",
+        "Stage B operation path routed to test copy",
+        "Windows ACL replaced by POSIX private test directory"
+      ],
+      "simulated_calls": [
+        "SIMULATED:Client",
+        "SIMULATED:account/read",
+        "SIMULATED:plugin/install",
+        "SIMULATED:plugin/read",
+        "SIMULATED:skills/list",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:thread/start",
+        "SIMULATED:thread/read",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:thread/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:config/read",
+        "SIMULATED:Client",
+        "SIMULATED:thread/resume",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:hooks/list",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:thread/resume",
+        "SIMULATED:config/read",
+        "SIMULATED:experimentalFeature/list",
+        "SIMULATED:mcpServerStatus/list",
+        "SIMULATED:hooks/list",
+        "SIMULATED:record:safe_effective_capabilities",
+        "SIMULATED:hooks/list",
+        "SIMULATED:turn/start",
+        "SIMULATED:thread/read",
+        "SIMULATED:config/read",
+        "SIMULATED:config/value/write",
+        "SIMULATED:config/read",
+        "SIMULATED:hooks/list",
+        "SIMULATED:hooks/list"
+      ],
+      "stage_A_error": null,
+      "stage_A_source_steps": [
+        "01-clone.json",
+        "02-checkout.json",
+        "03-head.json",
+        "04-tree.json",
+        "05-controller-ref-absence.json",
+        "06-new-claim.json",
+        "06a-inspect-initialization.json",
+        "06b-activate-controller.json",
+        "07-source-bootstrap.json",
+        "08-source-verify.json",
+        "09-source-require.json",
+        "10-source-positive.json",
+        "11-invalidate-new-session.json",
+        "12-separate-STATE-read.json",
+        "13-separate-ROADMAP-read.json",
+        "14-native-context-resume.json",
+        "15-native-context-verify.json",
+        "16-native-context-require.json",
+        "17-current-controller.json"
+      ],
+      "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+      "stage_B_error": null,
+      "stage_B_status": "ONE_ACTUAL_SELECTED_NATIVE_ALLOW_AND_NATURAL_NONTERMINAL_COMPLETION_AWAIT_INDEPENDENT_RECEIVING",
+      "stage_B_steps": [
+        "01-currentness.json",
+        "02-owned-init.json",
+        "03-owned-bind.json",
+        "04-owned-lookup.json",
+        "05-new-project-trust.json",
+        "06-new-hook-trust.json",
+        "07-new-hook-enable.json",
+        "08-currentness-before-model.json"
+      ],
+      "teardown_known_in_simulation": true,
+      "windows_custody_exercised": false
+    },
+    "native-boundary": {
+      "authority": "NONE",
+      "elapsed_seconds": 5.959112202,
+      "genuine_codex_turns": 0,
+      "mode": "native-boundary",
+      "native_appservers_started": 0,
+      "original14_unknown_differences": 14,
+      "result": "SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED",
+      "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+      "seams": [
+        "native RPC and model traffic simulated",
+        "fresh simulated grant/reviewer inputs",
+        "constructor fixed host literals rebound only in test copies",
+        "Stage B operation path routed to test copy",
+        "Windows ACL replaced by POSIX private test directory"
+      ],
+      "simulated_calls": [
+        "SIMULATED:Client"
+      ],
+      "stage_A_error": "SIMULATED stop before native appserver creation",
+      "stage_A_source_steps": [
+        "01-clone.json",
+        "02-checkout.json",
+        "03-head.json",
+        "04-tree.json",
+        "05-controller-ref-absence.json",
+        "06-new-claim.json",
+        "06a-inspect-initialization.json",
+        "06b-activate-controller.json",
+        "07-source-bootstrap.json",
+        "08-source-verify.json",
+        "09-source-require.json",
+        "10-source-positive.json"
+      ],
+      "stage_A_status": "STAGE_A_STOPPED_FIRST_REFUSAL_OR_UNKNOWN_NO_RETRY",
+      "windows_custody_exercised": false
+    }
+  },
+  "linux_focused": {
+    "elapsed_seconds": 0.173,
+    "methods": 25,
+    "result": "OK"
+  },
+  "original14_unknown_differences": 14,
+  "original_30373_byte_packet_recovered": false,
+  "original_packet_observed_identity": {
+    "bytes": 30373,
+    "sha256": "907b5d5f6c6cc7f26561773102e535414ff60069cec00f2f32599a4598e8938e"
+  },
+  "protected_replay": false,
+  "provider_wrappers_rematerialized_new_byte_identities": [
+    {
+      "bytes": 4038,
+      "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/ARTIFACTS_WRAPPER.json",
+      "sha256": "037801a2325f5917c43f5b83efc75359207c5bab9d08cc8e461a9a331e16084d"
+    },
+    {
+      "bytes": 3455,
+      "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/COMMIT_WRAPPER.json",
+      "sha256": "f2a2c36bd756c93d659d4fb761c4581a137b04f839be481b59a78ae5cd8ae110"
+    },
+    {
+      "bytes": 10015,
+      "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/JOBS_WRAPPER_FINAL.json",
+      "sha256": "de729eeef2bef4e6361b2915e6d55ddc11255c0e82b800d6869df306ea6b8e70"
+    },
+    {
+      "bytes": 16601,
+      "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/LINUX_JOB_LOG_WRAPPER.json",
+      "sha256": "d75e7915964f55d7a8ffdc2c4b638a95be406afab831ebdb971c8c14f842b9bb"
+    },
+    {
+      "bytes": 29556,
+      "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/RUN_WRAPPER.json",
+      "sha256": "896a57c9cb35a9d9a2f72f28184ff49d27cb344be7c694bb45ded13067c5c24a"
+    },
+    {
+      "bytes": 17361,
+      "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/WINDOWS_JOB_LOG_WRAPPER.json",
+      "sha256": "797840c6e09fa179fb8871768e6f3544a006c4afe804497bb1552aac1c536034"
+    }
+  ],
+  "qualification_rerun": false,
+  "restoration_manifest": {
+    "bytes": 6942,
+    "path": ".IMPLEMENTAUDIT/recovered-fifth-provider/RESTORATION_MANIFEST.json",
+    "sha256": "87c02dbcdd967c362f83ef4c6e14052f7a1b477129427820c4a07d2bae34aac7"
+  },
+  "root_new_public_restoration_gets_per_artifact": 1,
+  "run": {
+    "conclusion": "failure",
+    "created_at": "2026-11-15T05:31:55Z",
+    "event": "push",
+    "head_sha": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+    "id": 43681474158,
+    "run_attempt": 1,
+    "run_started_at": "2026-11-15T05:31:55Z",
+    "status": "completed",
+    "updated_at": "2026-11-15T05:32:32Z"
+  },
+  "schema": "dg17.fifth-run-restored-source-observation.v1",
+  "source_tree": "aea366f397866411d592430da7928d4cfc97c284",
+  "verified_member_count": 15,
+  "windows": {
+    "all_cases": [
+      {
+        "case": "positive: driver-created store (create=True)",
+        "detail": {
+          "created": true,
+          "entries": [
+            {
+              "flags": 3,
+              "mask": "0x001f01ff",
+              "principal": "user",
+              "sid": "S-1-5-21-1280602335-643053282-3184619455-500"
+            },
+            {
+              "flags": 3,
+              "mask": "0x001f01ff",
+              "principal": "SYSTEM",
+              "sid": "S-1-5-18"
+            }
+          ],
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "protected": true
+        },
+        "expected": "PASS",
+        "expected_reason": null,
+        "got": "PASS",
+        "ok": true,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\created",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "positive: re-check of the driver-created store",
+        "detail": {
+          "created": false,
+          "entries": [
+            {
+              "flags": 3,
+              "mask": "0x001f01ff",
+              "principal": "user",
+              "sid": "S-1-5-21-1280602335-643053282-3184619455-500"
+            },
+            {
+              "flags": 3,
+              "mask": "0x001f01ff",
+              "principal": "SYSTEM",
+              "sid": "S-1-5-18"
+            }
+          ],
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "protected": true
+        },
+        "expected": "PASS",
+        "expected_reason": null,
+        "got": "PASS",
+        "ok": true,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\created",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "private user+SYSTEM baseline",
+            "path": "<work>\\created"
+          }
+        ]
+      },
+      {
+        "case": "positive: icacls protected DACL, user+SYSTEM only",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\manual')",
+        "expected": "PASS",
+        "expected_reason": null,
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\manual",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\manual",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: Administrators outside owner user+SYSTEM scope",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\admins')",
+        "expected": "REFUSED",
+        "expected_reason": "access granted to another principal S-1-5-32-544",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\admins",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\admins",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: added Everyone write ACE",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\everyone')",
+        "expected": "REFUSED",
+        "expected_reason": "access granted to another principal S-1-1-0",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\everyone",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\everyone",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: added Everyone read-only ACE (not private)",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\everyone-read')",
+        "expected": "REFUSED",
+        "expected_reason": "access granted to another principal S-1-1-0",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\everyone-read",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\everyone-read",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: inherited Users write ACE",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\parent')",
+        "expected": "REFUSED",
+        "expected_reason": "DACL is not protected: inherited access can apply",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\parent",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\parent",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: inherited Users write ACE under an otherwise private parent",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\parent2')",
+        "expected": "REFUSED",
+        "expected_reason": "DACL is not protected: inherited access can apply",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\parent2",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\parent2",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: missing directory",
+        "detail": "store custody refused: open directory failed (winerror 2): <work>\\absent",
+        "expected": "REFUSED",
+        "expected_reason": "open directory failed (winerror 2)",
+        "got": "REFUSED",
+        "ok": true,
+        "preconditions": []
+      },
+      {
+        "case": "refused: junction to a private directory",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\junction-target')",
+        "expected": "REFUSED",
+        "expected_reason": "junction, link or other reparse point",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\junction-target",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\junction-target",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: unprotected DACL (inherits only user+SYSTEM today)",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\parent3')",
+        "expected": "REFUSED",
+        "expected_reason": "DACL is not protected: inherited access can apply",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\parent3",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\parent3",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: create=True on an existing directory",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\existing')",
+        "expected": "REFUSED",
+        "expected_reason": "create new private directory (path must not already exist) failed (winerror 183)",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\existing",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\existing",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: regular file",
+        "detail": "store custody refused: not a directory: <work>\\file",
+        "expected": "REFUSED",
+        "expected_reason": "not a directory",
+        "got": "REFUSED",
+        "ok": true,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\file",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      },
+      {
+        "case": "refused: different owner with otherwise private user+SYSTEM DACL",
+        "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\wrong-owner')",
+        "expected": "REFUSED",
+        "expected_reason": "owner S-1-5-32-544 is not the current user",
+        "got": "ERROR",
+        "ok": false,
+        "preconditions": [
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\wrong-owner",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          },
+          {
+            "check": "independent owner SID",
+            "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+            "path": "<work>\\wrong-owner",
+            "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+          }
+        ]
+      }
+    ],
+    "cases": 14,
+    "complete_private_baselines": 1,
+    "errors": 10,
+    "first_error": {
+      "case": "positive: icacls protected DACL, user+SYSTEM only",
+      "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\manual')",
+      "expected": "PASS",
+      "expected_reason": null,
+      "got": "ERROR",
+      "ok": false,
+      "preconditions": [
+        {
+          "check": "independent owner SID",
+          "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "path": "<work>\\manual",
+          "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+        },
+        {
+          "check": "independent owner SID",
+          "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "path": "<work>\\manual",
+          "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+        }
+      ]
+    },
+    "intended_negatives": 11,
+    "owner_sid_readbacks": 23,
+    "qualified_intended_negatives": 2
+  }
+}

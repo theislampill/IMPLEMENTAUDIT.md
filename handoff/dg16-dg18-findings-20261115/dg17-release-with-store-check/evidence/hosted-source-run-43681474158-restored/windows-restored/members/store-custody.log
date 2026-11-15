@@ -1,0 +1,343 @@
+[
+ {
+  "case": "positive: driver-created store (create=True)",
+  "expected": "PASS",
+  "expected_reason": null,
+  "got": "PASS",
+  "ok": true,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\created",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": {
+   "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+   "protected": true,
+   "created": true,
+   "entries": [
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-1280602335-643053282-3184619455-500",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "positive: re-check of the driver-created store",
+  "expected": "PASS",
+  "expected_reason": null,
+  "got": "PASS",
+  "ok": true,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\created",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "private user+SYSTEM baseline",
+    "path": "<work>\\created"
+   }
+  ],
+  "detail": {
+   "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+   "protected": true,
+   "created": false,
+   "entries": [
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-1280602335-643053282-3184619455-500",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "positive: icacls protected DACL, user+SYSTEM only",
+  "expected": "PASS",
+  "expected_reason": null,
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\manual",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\manual",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\manual')"
+ },
+ {
+  "case": "refused: Administrators outside owner user+SYSTEM scope",
+  "expected": "REFUSED",
+  "expected_reason": "access granted to another principal S-1-5-32-544",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\admins",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\admins",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\admins')"
+ },
+ {
+  "case": "refused: added Everyone write ACE",
+  "expected": "REFUSED",
+  "expected_reason": "access granted to another principal S-1-1-0",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\everyone",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\everyone",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\everyone')"
+ },
+ {
+  "case": "refused: added Everyone read-only ACE (not private)",
+  "expected": "REFUSED",
+  "expected_reason": "access granted to another principal S-1-1-0",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\everyone-read",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\everyone-read",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\everyone-read')"
+ },
+ {
+  "case": "refused: inherited Users write ACE",
+  "expected": "REFUSED",
+  "expected_reason": "DACL is not protected: inherited access can apply",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\parent",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\parent",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\parent')"
+ },
+ {
+  "case": "refused: inherited Users write ACE under an otherwise private parent",
+  "expected": "REFUSED",
+  "expected_reason": "DACL is not protected: inherited access can apply",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\parent2",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\parent2",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\parent2')"
+ },
+ {
+  "case": "refused: missing directory",
+  "expected": "REFUSED",
+  "expected_reason": "open directory failed (winerror 2)",
+  "got": "REFUSED",
+  "ok": true,
+  "preconditions": [],
+  "detail": "store custody refused: open directory failed (winerror 2): <work>\\absent"
+ },
+ {
+  "case": "refused: junction to a private directory",
+  "expected": "REFUSED",
+  "expected_reason": "junction, link or other reparse point",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\junction-target",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\junction-target",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\junction-target')"
+ },
+ {
+  "case": "refused: unprotected DACL (inherits only user+SYSTEM today)",
+  "expected": "REFUSED",
+  "expected_reason": "DACL is not protected: inherited access can apply",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\parent3",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\parent3",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\parent3')"
+ },
+ {
+  "case": "refused: create=True on an existing directory",
+  "expected": "REFUSED",
+  "expected_reason": "create new private directory (path must not already exist) failed (winerror 183)",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\existing",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\existing",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\existing')"
+ },
+ {
+  "case": "refused: regular file",
+  "expected": "REFUSED",
+  "expected_reason": "not a directory",
+  "got": "REFUSED",
+  "ok": true,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\file",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "store custody refused: not a directory: <work>\\file"
+ },
+ {
+  "case": "refused: different owner with otherwise private user+SYSTEM DACL",
+  "expected": "REFUSED",
+  "expected_reason": "owner S-1-5-32-544 is not the current user",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\wrong-owner",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   },
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\wrong-owner",
+    "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+    "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+   }
+  ],
+  "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-3-0 (mask 0x10000000): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\wrong-owner')"
+ }
+]
+CASES 14 FAILED 10

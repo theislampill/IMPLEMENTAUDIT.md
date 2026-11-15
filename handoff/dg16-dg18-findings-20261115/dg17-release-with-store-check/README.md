@@ -53,3 +53,15 @@ ACE in their private baseline. The next fixture-only correction removes that
 observed grant before the complete baseline and before any intended adverse
 grant. Local controls pass; all 14 Windows controls still require distinct
 review and actual execution. Every previous failed result remains preserved.
+
+The fifth run, 43681474158 at c2faca3a5bccf26b4571fddbece4d420385c86b5,
+again passed the Linux modes but retained ten Windows baseline ERRORs. The
+first refused baseline now reports Creator Owner, S-1-3-0. Removing a single
+named SID did not establish a complete private DACL. The new fixture correction
+constructs an empty .NET DirectorySecurity, adds protected current-user and
+SYSTEM rules, and replaces the fresh fixture's DACL before the unchanged owner
+readback, product baseline and intended perturbations. Its two source files
+were reconstructed from preserved author patches after workspace loss; fresh
+targeted verification is separately identified in the report. This is new
+source evidence, not recovery of the lost unpublished source identity or old
+control-log bodies. Distinct review and actual Windows execution remain pending.

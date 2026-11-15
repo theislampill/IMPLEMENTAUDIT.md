@@ -25,8 +25,36 @@ try { $user = $identity.User.Value } finally { $identity.Dispose() }
 [Console]::WriteLine($owner)
 [Console]::WriteLine($user)
 '''.encode('utf-16le')).decode('ascii')
+# Build an empty descriptor, then replace the fresh fixture's complete DACL.
+# Named icacls grants/removals cannot establish an exact baseline independently
+# of arbitrary explicit defaults. Owner assignment/readback remains separate.
+DACL_SETUP=base64.b64encode(r'''
+$ErrorActionPreference = 'Stop'
+$PSModuleAutoLoadingPreference = 'None'
+$path = $env:DG17_FIXTURE_DACL_PATH
+$acl = [System.Security.AccessControl.DirectorySecurity]::new()
+$acl.SetAccessRuleProtection($true, $false)
+$rights = [System.Security.AccessControl.FileSystemRights]::FullControl
+$inheritance = [System.Security.AccessControl.InheritanceFlags]::ContainerInherit -bor [System.Security.AccessControl.InheritanceFlags]::ObjectInherit
+$propagation = [System.Security.AccessControl.PropagationFlags]::None
+$allow = [System.Security.AccessControl.AccessControlType]::Allow
+$identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+try {
+    $system = [System.Security.Principal.SecurityIdentifier]::new('S-1-5-18')
+    foreach ($sid in @($identity.User, $system)) {
+        $rule = [System.Security.AccessControl.FileSystemAccessRule]::new(
+            $sid, $rights, $inheritance, $propagation, $allow)
+        $acl.AddAccessRule($rule)
+    }
+    [System.IO.Directory]::SetAccessControl($path, $acl)
+} finally { $identity.Dispose() }
+'''.encode('utf-16le')).decode('ascii')
 def icacls(*a):
  r=subprocess.run([ICACLS,*map(str,a)],capture_output=True,text=True,timeout=30);assert r.returncode==0,(a,r.stdout,r.stderr)
+def set_private_dacl(p):
+ r=subprocess.run([POWERSHELL,'-NoProfile','-NonInteractive','-EncodedCommand',DACL_SETUP],
+  env=os.environ|{'DG17_FIXTURE_DACL_PATH':str(p.absolute())},capture_output=True,text=True,timeout=30)
+ assert r.returncode==0,'independent fixture DACL setup failed: '+r.stderr
 def owner_facts(p):
  r=subprocess.run([POWERSHELL,'-NoProfile','-NonInteractive','-EncodedCommand',OWNER_QUERY],
   env=os.environ|{'DG17_FIXTURE_OWNER_PATH':str(p.absolute())},capture_output=True,text=True,timeout=30)
@@ -51,9 +79,7 @@ def private_baseline(p):
  return detail
 def private(p,extra=()):
  p.mkdir();set_user_owner(p)
- icacls(p,'/inheritance:r','/grant:r',me+':(OI)(CI)F','*S-1-5-18:(OI)(CI)F')
- # /grant:r replaces the named grants; the observed explicit Admin grant remains.
- icacls(p,'/remove:g','*S-1-5-32-544')
+ set_private_dacl(p)
  private_baseline(p)
  if extra:icacls(p,'/grant:r',*extra)
  return p
@@ -74,7 +100,7 @@ def created():
  p=work/'created';detail=check(p,create=True);require_owner(p);return detail
 case('positive: driver-created store (create=True)','PASS',created)
 case('positive: re-check of the driver-created store','PASS',lambda:private_baseline(work/'created'))
-case('positive: icacls protected DACL, user+SYSTEM only','PASS',lambda:check(private(work/'manual')))
+case('positive: independent protected DACL, user+SYSTEM only','PASS',lambda:check(private(work/'manual')))
 # The preserved historical 13/13 receipt expected PASS here. The commission's
 # user+SYSTEM condition now requires refusal; old evidence is not regraded.
 case('refused: Administrators outside owner user+SYSTEM scope','REFUSED',lambda:check(private(work/'admins',['*S-1-5-32-544:(OI)(CI)F'])),

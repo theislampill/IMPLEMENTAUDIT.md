@@ -1,0 +1,14 @@
+{
+  "authority": "NONE - source-only preparation, not native evidence",
+  "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+  "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+  "source_head": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+  "source_tree": "aea366f397866411d592430da7928d4cfc97c284",
+  "operation_A_sha256": "5bfa75d32d2ff9cc22cfca4e397f04ddd71532fe679b51971ba97080be2065ab",
+  "operation_A_bytes": 18684,
+  "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+  "limits_unchanged": true,
+  "unverified_input_count": 9,
+  "native_admission": false,
+  "original14_custody_unknown_differences": 14
+}

@@ -1,0 +1,23 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "content": "{\"total_count\":2,\"artifacts\":[{\"id\":14148915142,\"node_id\":\"MDg6QXJ0aWZhY3QxNDE0ODkxNTE0Mg==\",\"name\":\"dg17-linux-source-only\",\"size_in_bytes\":10915,\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148915142\",\"archive_download_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148915142/zip\",\"expired\":false,\"digest\":\"sha256:e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31\",\"created_at\":\"2026-11-15T05:32:29Z\",\"updated_at\":\"2026-11-15T05:32:29Z\",\"expires_at\":\"2026-11-22T05:32:28Z\",\"workflow_run\":{\"id\":43681474158,\"repository_id\":1243475954,\"head_repository_id\":1243475954,\"head_branch\":\"engineering/pro-executor-dg17-source-20261115\",\"head_sha\":\"c2faca3a5bccf26b4571fddbece4d420385c86b5\"}},{\"id\":14148721446,\"node_id\":\"MDg6QXJ0aWZhY3QxNDE0ODcyMTQ0Ng==\",\"name\":\"dg17-windows-store-source-only\",\"size_in_bytes\":3319,\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148721446\",\"archive_download_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148721446/zip\",\"expired\":false,\"digest\":\"sha256:acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83\",\"created_at\":\"2026-11-15T05:32:15Z\",\"updated_at\":\"2026-11-15T05:32:15Z\",\"expires_at\":\"2026-11-22T05:32:14Z\",\"workflow_run\":{\"id\":43681474158,\"repository_id\":1243475954,\"head_repository_id\":1243475954,\"head_branch\":\"engineering/pro-executor-dg17-source-20261115\",\"head_sha\":\"c2faca3a5bccf26b4571fddbece4d420385c86b5\"}}]}",
+    "title": "artifacts",
+    "modified_date": null,
+    "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43681474158/artifacts?per_page=100",
+    "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43681474158/artifacts?per_page=100",
+    "display_title": "artifacts",
+    "structuredContent": {
+      "title": "artifacts",
+      "content": "{\"total_count\":2,\"artifacts\":[{\"id\":14148915142,\"node_id\":\"MDg6QXJ0aWZhY3QxNDE0ODkxNTE0Mg==\",\"name\":\"dg17-linux-source-only\",\"size_in_bytes\":10915,\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148915142\",\"archive_download_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148915142/zip\",\"expired\":false,\"digest\":\"sha256:e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31\",\"created_at\":\"2026-11-15T05:32:29Z\",\"updated_at\":\"2026-11-15T05:32:29Z\",\"expires_at\":\"2026-11-22T05:32:28Z\",\"workflow_run\":{\"id\":43681474158,\"repository_id\":1243475954,\"head_repository_id\":1243475954,\"head_branch\":\"engineering/pro-executor-dg17-source-20261115\",\"head_sha\":\"c2faca3a5bccf26b4571fddbece4d420385c86b5\"}},{\"id\":14148721446,\"node_id\":\"MDg6QXJ0aWZhY3QxNDE0ODcyMTQ0Ng==\",\"name\":\"dg17-windows-store-source-only\",\"size_in_bytes\":3319,\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148721446\",\"archive_download_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148721446/zip\",\"expired\":false,\"digest\":\"sha256:acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83\",\"created_at\":\"2026-11-15T05:32:15Z\",\"updated_at\":\"2026-11-15T05:32:15Z\",\"expires_at\":\"2026-11-22T05:32:14Z\",\"workflow_run\":{\"id\":43681474158,\"repository_id\":1243475954,\"head_repository_id\":1243475954,\"head_branch\":\"engineering/pro-executor-dg17-source-20261115\",\"head_sha\":\"c2faca3a5bccf26b4571fddbece4d420385c86b5\"}}]}",
+      "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43681474158/artifacts?per_page=100"
+    }
+  },
+  "isError": false
+}
+
