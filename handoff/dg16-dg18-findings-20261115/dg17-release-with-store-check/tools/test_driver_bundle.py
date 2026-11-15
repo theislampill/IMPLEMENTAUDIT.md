@@ -1,4 +1,5 @@
 """Focused source controls; Win32 APIs are modeled, never host acceptance."""
+import ast
 import copy
 import base64
 import ctypes
@@ -29,6 +30,19 @@ def load(path, name):
 builder = load(HERE / 'build_release_acl.py', 'bundle_builder')
 generator = load(HERE / 'make_acl_stage_b.py', 'acl_generator')
 rehearsal = load(HERE / 'rehearse_lifecycle.py', 'lifecycle_rehearsal')
+
+
+def store_fixture_functions(**overrides):
+    """Load helper source only; never import _winapi or run a Windows case here."""
+    source = ast.parse((HERE / 'test_store_custody.py').read_text())
+    selected = [node for node in source.body if isinstance(node, ast.FunctionDef) or (
+        isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and
+        target.id in {'POWERSHELL', 'OWNER_QUERY'} for target in node.targets))]
+    namespace = dict(base64=base64, json=json, os=os, stat=__import__('stat'),
+                     subprocess=None, rows=[], bad=0, preconditions=[], me='SIMULATED\\User')
+    exec(compile(ast.Module(body=selected, type_ignores=[]), 'store-fixture-controls', 'exec'), namespace)
+    namespace.update(overrides)
+    return namespace
 
 
 class Call:
@@ -357,6 +371,109 @@ class DriverBundle(unittest.TestCase):
         self.assertEqual(result['authority'], 'NONE')
         self.assertEqual(result['genuine_codex_turns'], 0)
         self.assertFalse(result['native_acceptance'])
+
+    def test_store_fixture_sets_and_verifies_owner_before_acl_perturbation(self):
+        calls = []
+        state = {'owner': 'S-1-5-32-544', 'user': 'S-1-5-21-1000'}
+        def acl(path, *args):
+            calls.append(('icacls', args))
+            if args[0] == '/setowner':
+                state['owner'] = state['user']
+        def facts(path):
+            calls.append(('owner', state['owner']))
+            return state.copy()
+        def check(path):
+            calls.append(('baseline', str(path)))
+            self.assertEqual(state['owner'], state['user'])
+            return {'owner': state['owner'], 'protected': True}
+        ns = store_fixture_functions(work=self.directory, icacls=acl, owner_facts=facts, check=check)
+        ns['private'](self.directory / 'new-private', ['*S-1-5-32-544:(OI)(CI)F'])
+        self.assertEqual([entry[0] for entry in calls],
+                         ['icacls', 'owner', 'icacls', 'owner', 'baseline', 'icacls'])
+        self.assertEqual(calls[0][1], ('/setowner', 'SIMULATED\\User'))
+        self.assertEqual(calls[-1][1], ('/grant:r', '*S-1-5-32-544:(OI)(CI)F'))
+        self.assertEqual(ns['preconditions'][-1]['check'], 'private user+SYSTEM baseline')
+
+    def test_store_fixture_setup_failure_cannot_be_a_negative_pass(self):
+        ns = store_fixture_functions(work=self.directory, icacls=lambda *a: None,
+            owner_facts=lambda p: {'owner': 'S-1-5-32-544', 'user': 'S-1-5-21-1000'})
+        ns['case']('wrong setup owner', 'REFUSED',
+                   lambda: ns['private'](self.directory / 'wrong-setup'), 'access granted to another principal')
+        self.assertEqual(ns['rows'][-1]['got'], 'ERROR')
+        self.assertFalse(ns['rows'][-1]['ok'])
+        def refused(*args):
+            raise RuntimeError('store custody refused: owner is not the current user')
+        ns['case']('wrong refusal reason', 'REFUSED', refused, 'junction, link or other reparse point')
+        self.assertEqual(ns['rows'][-1]['got'], 'REFUSED')
+        self.assertFalse(ns['rows'][-1]['ok'])
+        ns['owner_facts'] = lambda p: {'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}
+        ns['check'] = refused
+        ns['case']('private precondition failure', 'REFUSED',
+                   lambda: ns['private_baseline'](self.directory), 'owner is not the current user')
+        self.assertEqual(ns['rows'][-1]['got'], 'ERROR')
+        self.assertFalse(ns['rows'][-1]['ok'])
+        self.assertEqual(ns['bad'], 3)
+
+    def test_store_fixture_child_and_junction_preimages_precede_mutation(self):
+        for name in ['inherited', 'inherited_only_users', 'unprotected_inherit_own', 'junction']:
+            calls = []
+            def private(path, extra=()):
+                calls.append(('private', path))
+                return path
+            def acl(path, *args):
+                calls.append(('icacls', path, args))
+            def check(path):
+                calls.append(('check', path))
+                return {}
+            def junction(target, link):
+                calls.append(('junction', Path(target), Path(link)))
+            ns = store_fixture_functions(work=self.directory, private=private, icacls=acl,
+                check=check, _winapi=types.SimpleNamespace(CreateJunction=junction),
+                os=types.SimpleNamespace(lstat=lambda p: types.SimpleNamespace(st_file_attributes=0x400)))
+            with self.subTest(name=name):
+                ns[name]()
+                self.assertEqual(calls[0][0], 'private')
+                self.assertEqual(calls[-1][0], 'check')
+                if name == 'junction':
+                    self.assertEqual(calls[1][0], 'junction')
+                    self.assertEqual(calls[0][1], calls[1][1])
+                    self.assertEqual(calls[-1][1], calls[1][2])
+                else:
+                    child = calls[-1][1]
+                    baseline = calls.index(('private', child))
+                    mutate = calls.index(('icacls', child, ('/inheritance:e',)))
+                    self.assertLess(baseline, mutate)
+
+    def test_store_fixture_owner_read_is_independent_literal_and_bounded(self):
+        captured = []
+        def run(command, **kwargs):
+            captured.append((command, kwargs))
+            return types.SimpleNamespace(returncode=0, stdout=json.dumps(
+                {'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}), stderr='')
+        ns = store_fixture_functions(subprocess=types.SimpleNamespace(run=run),
+            os=types.SimpleNamespace(environ={'SIMULATED': 'yes'}))
+        fixture = self.directory / "literal-'path; no command"
+        self.assertEqual(ns['owner_facts'](fixture)['owner'], 'S-1-5-21-1000')
+        command, kwargs = captured[0]
+        self.assertEqual(command[1:4], ['-NoProfile', '-NonInteractive', '-EncodedCommand'])
+        query = base64.b64decode(command[4]).decode('utf-16le')
+        self.assertIn('Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH', query)
+        self.assertIn('[System.Security.Principal.WindowsIdentity]::GetCurrent()', query)
+        self.assertNotIn(str(fixture), query)
+        self.assertEqual(kwargs['env']['DG17_FIXTURE_OWNER_PATH'], str(fixture))
+        self.assertEqual(kwargs['timeout'], 30)
+
+    def test_store_fixture_all_negative_cases_have_specific_reason(self):
+        source = ast.parse((HERE / 'test_store_custody.py').read_text())
+        calls = [node.value for node in source.body if isinstance(node, ast.Expr) and
+                 isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Name)
+                 and node.value.func.id == 'case']
+        self.assertEqual(len(calls), 14)
+        negatives = [call for call in calls if ast.literal_eval(call.args[1]) == 'REFUSED']
+        self.assertEqual(len(negatives), 11)
+        for call in negatives:
+            self.assertEqual(len(call.args), 4)
+            self.assertTrue(ast.literal_eval(call.args[3]))
 
 
 if __name__ == '__main__':

@@ -1,9 +1,10 @@
 # DG17 source qualification return — 2026-11-15
 
-Status: **the first source-only CI run is received with both jobs failed. Linux
-Stage A steps 01–10 reached the explicit native boundary; the full fixture and
-Windows rebuild remain unqualified. A focused harness correction and unchanged
-Windows refusal with diagnostic facts await independent review and source CI**.
+Status: **the second source-only CI run passed all three Linux deterministic
+modes. Windows rebuilt successfully, then exposed a test-fixture ownership
+defect. A fixture-only repair awaits distinct source review and actual Windows
+verification. Both earlier failures remain recorded; the original file-identity
+refusal is unexplained and its guard remains unchanged**.
 This record grants no native admission, receiving, R0037 acceptance or closure.
 
 ## Binding and scope
@@ -241,15 +242,152 @@ preservation with explicit authority NONE. git diff --check passed. These local
 checks do not resolve the previously recorded HOST_OUT_OF_PROFILE interpreter
 refusal and do not establish a complete hosted lifecycle or Windows outcome.
 
-Independent review of this exact followup is pending. The author does not
-award approval, dispatch another workflow run, retry a protected episode or
-alter a grant. A root publication after review may run only the same bounded
-source-only controls. Earlier failed source runs remain failed evidence.
+At this followup's author return, independent review was pending. The author
+did not award approval, dispatch another workflow run, retry a protected episode
+or alter a grant. The subsequent reviewed root publication is recorded below.
+Earlier failed source runs remain failed evidence.
+
+## Second published source CI — run 43677179224
+
+The preceding harness correction received a distinct source review, which root
+retained in local commit 06b22dcfa07cbfed8fc69d922530d05d544d0aef. Root published
+the same tree, b81b8b30065b6620a5eaff9a21bb087825b217fa, as commit
+0d262630b826ecf634a44e3b8b9535b46a6dc14c on the guarded engineering branch.
+Run 43677179224, attempt 1, began at 2026-11-15T04:32:02Z and reached completed
+status at 04:32:38Z. Its overall conclusion is failure: Linux succeeded and
+Windows failed. Both artifact uploads succeeded.
+
+| Job / received artifact | Result | Artifact bytes | Artifact SHA-256 |
+|---|---|---:|---|
+| Linux 132699780574 / 14147060553, dg17-linux-source-only | SUCCESS | 10711 | 1be8f2027ede5fbe02c54b53e09fd4b6082d6c5e8f955a02df1a859eb95a8195 |
+| Windows 132699780775 / 14147315042, dg17-windows-store-source-only | FAILURE | 2906 | 7d56e96fd6d46dd0224dd95e4e1f46b612a75982d5566c37131b7c6834e3fc29 |
+
+Each artifact was received in one bounded body GET after metadata, with exact
+size and digest agreement. Only source members and safe receiving metadata were
+retained under .IMPLEMENTAUDIT/dg17-ci-43677179224. No signed URL, raw download
+wrapper, archive body or protected/native replay was retained or performed.
+
+### Linux modes actually completed
+
+| Mode | Actual result | Elapsed seconds | Result JSON SHA-256 |
+|---|---|---:|---|
+| native-boundary | SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED | 5.888422223 | c4d631d4ecfa6a0e29fd65e05306b833c2807976ac306844946f11dadac43060 |
+| full | DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS | 9.442584381 | bea8729a35e1b6b7cebe03a6707d9c7c6fb6617c3deb78e04863116902d028d8 |
+| blocked-hook | FIRST_NONPASS_CONTAINED_AND_CLEANED_UP | 9.428914913 | 5d281fc5259e8987eb1ddcdf11095439dcac9f7924b4d969b603196fe975edc8 |
+
+The full and blocked-hook fixtures completed Stage A source steps through 17
+and Stage B source steps 01–08. Both report teardown_known_in_simulation true;
+the fixture assertions require hook disablement and binding tombstone readback.
+The full fixture consumed the selected synthetic receipt. The blocked-hook
+fixture observed the non-PASS condition, requested its simulated interrupt,
+disabled its hook and withdrew its binding. Its expected caught AssertionError
+is retained alongside FIRST_EVENT_OR_LATE_EXTRA_ACTIVITY_NOT_QUALIFYING.
+
+These are deterministic source producer/consumer and cleanup results. Native
+RPC/model traffic, grants and reviewer inputs remain explicitly simulated, and
+the Windows custody seam remains replaced by a private POSIX fixture. Every
+result records authority NONE, zero genuine Codex turns, zero native appservers
+and all 14 custody differences UNKNOWN. No native acceptance follows from the
+driver's native-shaped status vocabulary inside these fixtures. The earlier
+failed full fixture is not regraded.
+
+### Actual rebuilt source identities on both runners
+
+Both received PINS records bind source HEAD 0d262630b826ecf634a44e3b8b9535b46a6dc14c
+and tree b81b8b30065b6620a5eaff9a21bb087825b217fa. Both retain nine unresolved
+inputs, unchanged limits and native_admission false. The manifest retains every
+generated member digest from each PINS record.
+
+| Carrier | Bytes | Linux SHA-256 | Windows SHA-256 |
+|---|---:|---|---|
+| OPERATION_A.json | 18684 Linux; 18437 Windows | 415c81735f9e143f72510b622fb6a5c17e5f4ea98baa87428276da63c62e2f39 | e3521bd303069bc5d6d31704cab8b4f3cf808390f5addd36c0c47018f46603de |
+| stage_a.py | 24857 | 683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b | 683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b |
+| stage_b.py | 33468 | 590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1 | 590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1 |
+| parent_launch_a.py | 6069 | 32ef6d3179c8d7e2010682874c5647784bd90dbd01cd3bd2ac44f409a818bf43 | 2923541af52db739faae45576f9026fac655bbed1773df40253a895cc1c69e75 |
+| bind_stage_b.py | 3244 | d212f5a9641c0560bbad5d65c4c2a9f6359011c02967c7f3d547b57b4d2ed202 | f22dc3474953bc383944a2b8faeaf76ef423c89b15134654634300f79dc1087f |
+
+The Linux PINS.json is 3935 bytes, SHA-256
+c8f18b44f59794e391b7d6f9cb15504d0422aa0857bda20a4b95ef64651651a0;
+Windows PINS.json is 3851 bytes, SHA-256
+149e0f7146073890790368d8d00bd7ef426aa0925afb61f4cb20faf19c42254c.
+Their path-bound operation and dependent launcher/binder hashes differ as
+expected for their different final locations. Neither is a fresh native grant.
+
+### Windows first failure and intercepted negative cases
+
+The unchanged seven-field file-identity guard passed this rebuild. It emitted
+no mismatch diagnostic. This is a no-mismatch observation on this run; it does
+not explain, repair or erase the previous run's identity refusal. No identity
+field or custody/TOCTOU predicate was changed.
+
+The actual Windows test output reports CASES 14 FAILED 1. Driver-created store
+creation and re-check passed with the current token user as owner and only
+user+SYSTEM access entries. The icacls-created positive failed: its observed
+owner was BUILTIN Administrators (S-1-5-32-544), whereas the driver requires the
+current token user. The source factory called mkdir and set a DACL but never
+established or independently verified the owner.
+
+Seven nominal negative successes were intercepted by that same wrong-owner
+predicate and do not qualify their intended controls:
+
+- Administrators access entry outside the permitted principal set.
+- Everyone write access entry.
+- Everyone read-only access entry.
+- Inherited Users write access.
+- Inherited Users write access under the otherwise private parent.
+- Junction to a private directory; its target failed before the link was tested.
+- Unprotected DACL inheriting only user+SYSTEM.
+
+The missing-directory, existing-path create and regular-file cases reached
+their named refusal predicates. The separate wrong-owner case reached the
+owner refusal, but lacked a verified positive preimage before its owner change.
+The reported 13 nominal matches are not a claim of 13 independently qualified
+controls. The exact original output remains unchanged: store-custody.log is
+4284 bytes, SHA-256
+669574b9d62dbca1f017e7d47f390bce9fc1a0becc110c90766f87819920661d.
+
+### Fixture-only correction pending actual Windows verification
+
+Only the test fixtures and their focused source controls change. The factory
+now explicitly assigns the current user's owner with icacls, then independently
+reads the object's owner SID and current token SID using read-only Get-Acl and
+WindowsIdentity. The fixed query runs without a PowerShell profile, takes its
+literal fixture path through a process-local environment value and has a
+30-second timeout. This is a fixture verification helper, not another product
+custody implementation or an authorization source.
+
+Each ACL or owner perturbation starts from a verified user-owned private
+baseline. Child fixtures are verified before inheritance is enabled. The
+junction target must pass that baseline, and the link must independently show
+the reparse attribute before the driver checks it. The wrong-owner control
+first proves its private current-user preimage, then independently proves the
+specific Administrators owner before expecting refusal. Setup errors are test
+errors; each of the eleven negative cases must match its specific intended
+refusal reason. An unrelated wrong-owner exception can no longer count as a
+junction, inheritance or foreign-principal control success.
+
+All 23 local focused methods passed after correcting one initially detected
+parser typo; the failed and passing local logs are both retained. Five added
+methods cover ownership/readback order, setup-error classification, child and
+junction preimages, the bounded literal owner query, and the complete
+14-case/11-negative reason population. These Linux tests model fixture helpers
+and inspect source; they do not execute Windows APIs or prove the new Windows
+preimages. A distinct source review and an actual Windows source-only result
+remain required.
+
+The product private_store_directory, seven-field pin guard, packaged runtime,
+workflow and native gates are unchanged. No Linux lifecycle mode was re-executed
+for this fixture repair; the three actual successful results above are retained.
+The existing push workflow has no Windows-only selector, so any root publication
+using that unchanged workflow will still schedule both jobs. This does not
+authorize a protected/native retry or transform fixtures into genuine turns.
 
 ## Remaining acceptance dependencies
 
-1. Successful complete deterministic CI/source receiving at the exact published
-   source candidate, with any failed fixture or host outcome preserved.
+1. Distinct review and actual Windows receiving for the corrected fixture
+   preconditions and intended refusal predicates. Retain the successful Linux
+   deterministic lifecycle, the seven intercepted Windows negatives and every
+   earlier failed fixture/host outcome at their exact source identities.
 2. Actual final Windows location, exact product/package/tool identities, current
    issuer reconciliation and independently reviewed operation-record readback.
 3. Fresh written owner grant naming that exact operation, unchanged limits and

@@ -1,0 +1,77 @@
+{
+  "actual_corrected_windows_execution": "PENDING",
+  "authority": "NONE",
+  "blocking_findings": [],
+  "candidate_commit": "ece3fa22e605fb891e6f2995baf886b220113d14",
+  "candidate_tree": "5d8e76d5aa9b1e8bd323244831bf9271bb5c9e15",
+  "changed_files": [
+    {
+      "bytes": 3308,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+      "sha256": "8ba80c36fa39a1b8ed2ed73d8c0d28823a4f34a0223ab148fdc204c2427a3e86"
+    },
+    {
+      "bytes": 56925,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_QUALIFICATION_MANIFEST.json",
+      "sha256": "63c4f757c5aa00eff2b711f527cb8ec3f6970eaf4938618de3460ecbe610fb5d"
+    },
+    {
+      "bytes": 25799,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+      "sha256": "84a39ab0be604825db30e34c490ca31666aa7bf8bae5c8ea794394a3231c7bfc"
+    },
+    {
+      "bytes": 24818,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "sha256": "5dd7b75d38e5ee1cd89dbb39ff219e236271502b3f2adb5fdf88db3ca9b01ac7"
+    },
+    {
+      "bytes": 6732,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
+      "sha256": "5d1af9a0818fbfb050682d479647fa2fa4227eae89951e3d43a5943bcb0c5abc"
+    }
+  ],
+  "disposition": "SOURCE_PUBLICATION_SCOPE_QUALIFIED",
+  "evidence": [
+    {
+      "bytes": 7904,
+      "path": "/workspace/scratch/0269e6626329/dg17-review/windows-fixture-ece3fa22/INDEPENDENT_WINDOWS_FIXTURE_REVIEW.md",
+      "sha256": "6ec10608894de98decdf463560585b626d57d7a5cfba7cb44db8e808779e95e4"
+    },
+    {
+      "bytes": 3410,
+      "path": "/workspace/scratch/0269e6626329/dg17-review/windows-fixture-ece3fa22/supplied-23-controls.log",
+      "sha256": "d202e4a592523b567075387689c74c3e58c503621eaed71fbf5d8a5314b4eaac"
+    },
+    {
+      "bytes": 8897,
+      "path": "/workspace/scratch/0269e6626329/dg17-review/windows-fixture-ece3fa22/independent_fixture_controls.py",
+      "sha256": "20ba1f86f36dd376ea076916a5b893bb52bc6d41ded07001007f9e3d42f6f484"
+    },
+    {
+      "bytes": 899,
+      "path": "/workspace/scratch/0269e6626329/dg17-review/windows-fixture-ece3fa22/independent-5-controls.log",
+      "sha256": "2385fff17cc0955bf681645b677e0028e33328c406f8c757ec23d0c0787ea21f"
+    }
+  ],
+  "file_identity_guard_changed": false,
+  "genuine_codex_turns": 0,
+  "independent_methods_passed": 5,
+  "linux_lifecycle_receipt_sha256": "ab52f0740fad0a38a76e12cbe9c90785328643e552c46c919f912b7d64bcf2d2",
+  "native_admission": false,
+  "original14_custody_unknown_differences": 14,
+  "parent_commit": "06b22dcfa07cbfed8fc69d922530d05d544d0aef",
+  "parent_tree": "b81b8b30065b6620a5eaff9a21bb087825b217fa",
+  "prior_windows_identity_failure_cause": "UNRESOLVED",
+  "prior_windows_wrong_predicate_negatives": 7,
+  "product_guard_changed": false,
+  "rehearsal_changed": false,
+  "reviewer": "/root/dg17_independent_review",
+  "root_controller": "pro-executor-01",
+  "root_epoch": "G0003",
+  "runtime_changed": false,
+  "schema": "dg17.independent-windows-fixture-source-review.v1",
+  "supplied_methods_passed": 23,
+  "workflow_changed": false,
+  "worktree_clean_after": true
+}

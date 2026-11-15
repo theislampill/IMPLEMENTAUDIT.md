@@ -1,0 +1,10 @@
+test_all_eleven_controls_reject_wrong_predicate_returns (__main__.IndependentFixtureControls.test_all_eleven_controls_reject_wrong_predicate_returns) ... ok
+test_exact_five_file_population_and_unchanged_guards (__main__.IndependentFixtureControls.test_exact_five_file_population_and_unchanged_guards) ... ok
+test_literal_path_query_and_icacls_are_fixed_bounded_argv (__main__.IndependentFixtureControls.test_literal_path_query_and_icacls_are_fixed_bounded_argv) ... ok
+test_owner_query_failures_and_baseline_refusals_are_errors (__main__.IndependentFixtureControls.test_owner_query_failures_and_baseline_refusals_are_errors) ... ok
+test_wrong_owner_and_junction_preconditions_cannot_false_pass (__main__.IndependentFixtureControls.test_wrong_owner_and_junction_preconditions_cannot_false_pass) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.043s
+
+OK

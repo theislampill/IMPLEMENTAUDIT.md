@@ -25,3 +25,13 @@ generated-source identities, the focused harness correction, and the unchanged
 Windows refusal with bounded diagnostics. Complete lifecycle and Windows
 qualification remain pending independent review and source-only CI; no native
 authority or custody difference changes.
+
+The second run, 43677179224 at 0d262630b826ecf634a44e3b8b9535b46a6dc14c,
+passed all three Linux source-only modes. Windows rebuilt successfully under the
+unchanged identity guard, then exposed an icacls fixture that left the owner as
+Administrators. Its reported 14 cases/1 failure include seven negative cases
+intercepted by that wrong-owner predicate. The report records them as unqualified
+and describes the fixture-only repair: explicit owner assignment, independent
+SID readback, positive preimages and specific refusal reasons. Actual Windows
+verification of that repair remains pending; the earlier identity refusal is
+still unexplained and no product guard is relaxed.
