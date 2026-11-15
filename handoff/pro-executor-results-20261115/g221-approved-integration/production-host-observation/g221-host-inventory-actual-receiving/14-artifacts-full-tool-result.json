@@ -1,0 +1,31 @@
+{
+  "name": "14-artifacts-full",
+  "tool": "mcp__codex_apps__github_fetch",
+  "args": {
+    "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43694426207/artifacts"
+  },
+  "started": "2026-11-15T08:30:05.485Z",
+  "ended": "2026-11-15T08:30:05.744Z",
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "Action completed."
+      }
+    ],
+    "structuredContent": {
+      "content": "{\"total_count\":1,\"artifacts\":[{\"id\":14153163002,\"node_id\":\"MDg6QXJ0aWZhY3QxNDE1MzE2MzAwMg==\",\"name\":\"dg16-g221-prelaunch-host-inventory-43694426207-1\",\"size_in_bytes\":2443,\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14153163002\",\"archive_download_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14153163002/zip\",\"expired\":false,\"digest\":\"sha256:5f39d5891fd7ef2408cdf743c485fa51fac04111be453d7d29baefd3ebd95d8f\",\"created_at\":\"2026-11-15T08:25:27Z\",\"updated_at\":\"2026-11-15T08:25:27Z\",\"expires_at\":\"2026-11-22T08:25:27Z\",\"workflow_run\":{\"id\":43694426207,\"repository_id\":1243475954,\"head_repository_id\":1243475954,\"head_branch\":\"engineering/pro-executor-g221-host-inventory-20261115\",\"head_sha\":\"e08007f7ebefa5e27a0a264b2f7630dee4e7cba4\"}}]}",
+      "title": "artifacts",
+      "modified_date": null,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43694426207/artifacts",
+      "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43694426207/artifacts",
+      "display_title": "artifacts",
+      "structuredContent": {
+        "title": "artifacts",
+        "content": "{\"total_count\":1,\"artifacts\":[{\"id\":14153163002,\"node_id\":\"MDg6QXJ0aWZhY3QxNDE1MzE2MzAwMg==\",\"name\":\"dg16-g221-prelaunch-host-inventory-43694426207-1\",\"size_in_bytes\":2443,\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14153163002\",\"archive_download_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14153163002/zip\",\"expired\":false,\"digest\":\"sha256:5f39d5891fd7ef2408cdf743c485fa51fac04111be453d7d29baefd3ebd95d8f\",\"created_at\":\"2026-11-15T08:25:27Z\",\"updated_at\":\"2026-11-15T08:25:27Z\",\"expires_at\":\"2026-11-22T08:25:27Z\",\"workflow_run\":{\"id\":43694426207,\"repository_id\":1243475954,\"head_repository_id\":1243475954,\"head_branch\":\"engineering/pro-executor-g221-host-inventory-20261115\",\"head_sha\":\"e08007f7ebefa5e27a0a264b2f7630dee4e7cba4\"}}]}",
+        "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43694426207/artifacts"
+      }
+    },
+    "isError": false
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "artifact_id": 14153163002,
+  "file_name": "g221-host-inventory-43694426207-1.zip",
+  "mime_type": "application/zip",
+  "status": "fulfilled",
+  "tool_is_error": false,
+  "transport_reference_retention": "Signed URL and opaque file-access reference deliberately not retained; only the authorized archive bytes and nonsecret transfer outcome are retained.",
+  "value": {
+    "args": {
+      "artifact_id": 14153163002,
+      "file_name": "g221-host-inventory-43694426207-1.zip",
+      "repo_full_name": "theislampill/IMPLEMENTAUDIT.md"
+    },
+    "ended": "2026-11-15T08:28:10.753Z",
+    "name": "08-artifact-download",
+    "started": "2026-11-15T08:28:09.880Z",
+    "tool": "mcp__codex_apps__github_download_workflow_artifact"
+  }
+}

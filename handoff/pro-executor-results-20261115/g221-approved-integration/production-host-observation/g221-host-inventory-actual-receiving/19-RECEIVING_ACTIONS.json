@@ -1,0 +1,189 @@
+{
+  "artifact_download_calls": 1,
+  "historical_artifact_gets": 0,
+  "local_operations": [
+    {
+      "argv": [
+        "rg",
+        "--files",
+        "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g221-host-inventory-actual-receiving"
+      ],
+      "exit_code": 2,
+      "operation": "Initial enumeration of declared fresh evidence directory",
+      "outcome": "The declared fresh directory did not yet exist; it was then created for receiving."
+    },
+    {
+      "exit_code": 0,
+      "interpreter": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "-"
+      ],
+      "operation": "Extract exact returned provider JSON strings and decoded log text; decode unique actual marker",
+      "outputs": [
+        "03-run.raw.json",
+        "04-git-commit.raw.json",
+        "05-ref.raw.json",
+        "09-jobs-full.raw.json",
+        "10-tree.raw.json",
+        "06-job-log.decoded-utf8.txt",
+        "11-log-OBSERVATION.json",
+        "11-actual-marker.txt"
+      ]
+    },
+    {
+      "exit_code": 0,
+      "interpreter": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "-"
+      ],
+      "operation": "Materialize authorized returned file URL and verify exact archive/members",
+      "outcome_file": "12-archive-transfer.json",
+      "temporary_url_and_file_token_retained": false
+    },
+    {
+      "command_result_file": "18-receiving-command-result.json",
+      "exit_code": 0,
+      "operation": "Receive provider/source/actual host joins",
+      "result": "17-RECEIVING_RESULT.json",
+      "script": "15-receive-evidence.py"
+    }
+  ],
+  "notes": [
+    "No source tests, native/model/protected operations, source mutation, publication or retry.",
+    "Full local Git read command outcomes are in 17-RECEIVING_RESULT.json.",
+    "Public returned content retained losslessly; temporary signed download reference deliberately excluded."
+  ],
+  "permitted_file_reference_gets": 1,
+  "provider_call_count": 11,
+  "provider_calls": [
+    {
+      "args": {
+        "repo_full_name": "theislampill/IMPLEMENTAUDIT.md",
+        "run_id": 43694426207
+      },
+      "ended": null,
+      "is_error": false,
+      "response_file": "01-jobs-tool-result.json",
+      "started": null,
+      "timing_note": "Exact invocation time not separately captured; tool outcome preserved.",
+      "tool": "mcp__codex_apps__github_fetch_workflow_run_jobs"
+    },
+    {
+      "args": {
+        "commit_sha": "e08007f7ebefa5e27a0a264b2f7630dee4e7cba4",
+        "repo_full_name": "theislampill/IMPLEMENTAUDIT.md"
+      },
+      "ended": null,
+      "is_error": false,
+      "response_file": "02-commit-summary-tool-result.json",
+      "started": null,
+      "timing_note": "Exact invocation time not separately captured; tool outcome preserved.",
+      "tool": "mcp__codex_apps__github_fetch_commit"
+    },
+    {
+      "args": {
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43694426207"
+      },
+      "ended": "2026-11-15T08:27:39.235Z",
+      "is_error": false,
+      "response_file": "03-run-tool-result.json",
+      "started": "2026-11-15T08:27:38.977Z",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "args": {
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e08007f7ebefa5e27a0a264b2f7630dee4e7cba4"
+      },
+      "ended": "2026-11-15T08:27:39.509Z",
+      "is_error": false,
+      "response_file": "04-git-commit-tool-result.json",
+      "started": "2026-11-15T08:27:38.977Z",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "args": {
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/pro-executor-g221-host-inventory-20261115"
+      },
+      "ended": "2026-11-15T08:27:39.218Z",
+      "is_error": false,
+      "response_file": "05-ref-tool-result.json",
+      "started": "2026-11-15T08:27:38.977Z",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "args": {
+        "job_id": 132751711186,
+        "repo_full_name": "theislampill/IMPLEMENTAUDIT.md"
+      },
+      "ended": "2026-11-15T08:27:39.416Z",
+      "is_error": false,
+      "response_file": "06-job-logs-tool-result.json",
+      "started": "2026-11-15T08:27:38.977Z",
+      "tool": "mcp__codex_apps__github_fetch_workflow_job_logs"
+    },
+    {
+      "args": {
+        "repo_full_name": "theislampill/IMPLEMENTAUDIT.md",
+        "run_id": 43694426207
+      },
+      "ended": "2026-11-15T08:27:39.222Z",
+      "is_error": false,
+      "response_file": "07-artifacts-tool-result.json",
+      "started": "2026-11-15T08:27:38.977Z",
+      "tool": "mcp__codex_apps__github_fetch_workflow_run_artifacts"
+    },
+    {
+      "args": {
+        "artifact_id": 14153163002,
+        "file_name": "g221-host-inventory-43694426207-1.zip",
+        "repo_full_name": "theislampill/IMPLEMENTAUDIT.md"
+      },
+      "ended": "2026-11-15T08:28:10.753Z",
+      "is_error": false,
+      "response_file": "08-artifact-download-tool-result.json",
+      "started": "2026-11-15T08:28:09.880Z",
+      "temporary_transport_reference_omitted": true,
+      "tool": "mcp__codex_apps__github_download_workflow_artifact"
+    },
+    {
+      "args": {
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43694426207/jobs"
+      },
+      "ended": "2026-11-15T08:28:10.287Z",
+      "is_error": false,
+      "response_file": "09-jobs-full-tool-result.json",
+      "started": "2026-11-15T08:28:09.880Z",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "args": {
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/8aa5f85404c894a1ecc556ecedac8ad40986e293"
+      },
+      "ended": "2026-11-15T08:28:10.167Z",
+      "is_error": false,
+      "response_file": "10-tree-tool-result.json",
+      "started": "2026-11-15T08:28:09.880Z",
+      "tool": "mcp__codex_apps__github_fetch"
+    },
+    {
+      "args": {
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43694426207/artifacts"
+      },
+      "ended": "2026-11-15T08:30:05.744Z",
+      "is_error": false,
+      "response_file": "14-artifacts-full-tool-result.json",
+      "started": "2026-11-15T08:30:05.485Z",
+      "tool": "mcp__codex_apps__github_fetch"
+    }
+  ],
+  "provider_reruns": 0,
+  "receiver": "/root/g221_host_inventory_review",
+  "schema": "dg16.g221-host-inventory-receiving-actions.v1",
+  "terminal_waits": 0
+}

@@ -1,0 +1,16 @@
+{
+  "args": {
+    "cmd": "/usr/bin/python3 -I -S -B /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g221-host-inventory-actual-receiving/15-receive-evidence.py",
+    "workdir": "/workspace/scratch/0269e6626329/g221-host-inventory",
+    "max_output_tokens": 3000
+  },
+  "started": "2026-11-15T08:32:32.836Z",
+  "ended": "2026-11-15T08:32:33.392Z",
+  "result": {
+    "chunk_id": "629fb6",
+    "wall_time_seconds": 0.221638126,
+    "exit_code": 0,
+    "original_token_count": 135,
+    "output": "{\"status\": \"RECEIVED_ACTUAL_SELECTED_TUPLE_MATCH_OBSERVATION_ONLY\", \"first_failing_predicate\": null, \"run_id\": 43694426207, \"job_id\": 132751711186, \"artifact_id\": 14153163002, \"archive_bytes\": 2443, \"archive_sha256\": \"5f39d5891fd7ef2408cdf743c485fa51fac04111be453d7d29baefd3ebd95d8f\", \"observation_bytes\": 6347, \"observation_sha256\": \"5f0037498fbf1a17d4234e8fc87b506ad8c9ebbc69d478581859834c664e65c5\", \"selected_tuple_sha256\": \"335fcf27cd85dcb0048883129acaf858a79ad4c2a0dcbe42efa5476b88b5ae2c\"}\n{\"checks\": 81, \"all_checks_passed\": true}\n"
+  }
+}

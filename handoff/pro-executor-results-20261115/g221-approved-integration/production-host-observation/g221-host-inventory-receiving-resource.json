@@ -1,0 +1,11 @@
+{
+  "owner": "/root/g221_host_inventory_review",
+  "run_id": 43694426207,
+  "attempt": 1,
+  "head": "e08007f7ebefa5e27a0a264b2f7630dee4e7cba4",
+  "evidence_directory": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g221-host-inventory-actual-receiving",
+  "report": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g221-host-inventory-receiving.md",
+  "cleanup": "Retain exact public provider/log/archive/body/readback evidence; no historical artifact access or deletion",
+  "artifact_get_budget": "One GET of the actual new run artifact; no replay or rerun",
+  "effect_authority": "NONE; read-only receiving of one ordinary inventory job"
+}
