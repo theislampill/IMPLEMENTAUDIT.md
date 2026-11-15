@@ -53,7 +53,7 @@ jobs:
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
       github.event_name == 'push' &&
       github.ref == 'refs/heads/pro/dg16-r5-full-g2-direct-host-21-20261115' &&
-      github.event.deleted == false && github.event.created == true && github.run_attempt == '1'
+      github.event.deleted == false && github.event.before == 'e87a45459481e3c5f0144fdd6ec47764710c92e8' && github.run_attempt == '1'
     runs-on: ubuntu-26.04
     timeout-minutes: 270
     steps:

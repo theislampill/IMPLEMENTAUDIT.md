@@ -1,0 +1,13 @@
+{
+  "actor": "PRO-EXECUTOR-01",
+  "comment_body_sha256": "601659d922a47e2e2551be465fd1656ba04459366bd32150cd181ee456d38220",
+  "comment_id": 6892857352,
+  "exact_readback": true,
+  "executed_by_Fable": "NO_RESULT_RECEIVED_YET",
+  "owner_authorization": "Anything needing Windows or WSL: send Fable one specific command or operation.",
+  "private_input_upload_authorized": false,
+  "protected_launch_authorized": false,
+  "schema": "pro.fable-targeted-request-publication.v1",
+  "scope": "One existing timed G132 WSL offline preflight",
+  "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-6892857352"
+}
