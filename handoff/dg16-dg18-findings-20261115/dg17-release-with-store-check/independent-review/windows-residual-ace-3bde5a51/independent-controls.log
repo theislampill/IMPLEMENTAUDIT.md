@@ -1,0 +1,13 @@
+test_actual_icacls_wrapper_retains_fixed_argv_timeout_and_nonzero_rejection (__main__.ResidualAceControls.test_actual_icacls_wrapper_retains_fixed_argv_timeout_and_nonzero_rejection) ... ok
+test_intended_adverse_grants_follow_complete_baseline_and_remain_refused (__main__.ResidualAceControls.test_intended_adverse_grants_follow_complete_baseline_and_remain_refused) ... ok
+test_manifest_preserves_received_history_and_all_product_bytes (__main__.ResidualAceControls.test_manifest_preserves_received_history_and_all_product_bytes) ... ok
+test_observed_residual_grant_requires_change_and_clean_preimage_still_passes (__main__.ResidualAceControls.test_observed_residual_grant_requires_change_and_clean_preimage_still_passes) ... ok
+test_only_one_fixture_command_added_and_all_predicates_unchanged (__main__.ResidualAceControls.test_only_one_fixture_command_added_and_all_predicates_unchanged) ... ok
+test_other_principals_and_deny_entries_survive_targeted_removal_and_fail_baseline (__main__.ResidualAceControls.test_other_principals_and_deny_entries_survive_targeted_removal_and_fail_baseline) ... ok
+test_removal_exception_stops_before_baseline_or_perturbation (__main__.ResidualAceControls.test_removal_exception_stops_before_baseline_or_perturbation) ... ok
+test_silent_failed_removal_cannot_be_expected_admin_negative (__main__.ResidualAceControls.test_silent_failed_removal_cannot_be_expected_admin_negative) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.069s
+
+OK

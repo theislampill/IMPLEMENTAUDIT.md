@@ -52,6 +52,8 @@ def private_baseline(p):
 def private(p,extra=()):
  p.mkdir();set_user_owner(p)
  icacls(p,'/inheritance:r','/grant:r',me+':(OI)(CI)F','*S-1-5-18:(OI)(CI)F')
+ # /grant:r replaces the named grants; the observed explicit Admin grant remains.
+ icacls(p,'/remove:g','*S-1-5-32-544')
  private_baseline(p)
  if extra:icacls(p,'/grant:r',*extra)
  return p

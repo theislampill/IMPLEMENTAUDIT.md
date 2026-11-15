@@ -1,0 +1,23 @@
+{
+  "status": "SOURCE_LOGS_RECEIVED",
+  "authority": "NONE",
+  "artifact_id": 14148045576,
+  "archive_sha256": "69abaf53d164e88ca49c10f5c846cb887f01d9b0a77abdf08aedb295dfb729fc",
+  "members": {
+    "rebuild.log": {
+      "bytes": 764,
+      "sha256": "eb681d4135b62e57d01d236b0b4a7c437a45f8e2e4464e24f52b50ebd0bf6d82"
+    },
+    "rebuilt/PINS.json": {
+      "bytes": 3851,
+      "sha256": "ee440d0526b4e26eca88852f89186d69c35eb2b31c2ab23500cc3935922d155e"
+    },
+    "store-custody.log": {
+      "bytes": 12700,
+      "sha256": "c78eee46c626be1f4f6700c488d304edb685f5eeab21026597eaf823e8395fbe"
+    }
+  },
+  "body_get_attempts": 1,
+  "signed_url_retained": false,
+  "raw_wrapper_retained": false
+}

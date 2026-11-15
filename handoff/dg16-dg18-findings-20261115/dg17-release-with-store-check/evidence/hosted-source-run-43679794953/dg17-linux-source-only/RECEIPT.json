@@ -1,0 +1,59 @@
+{
+  "status": "SOURCE_LOGS_RECEIVED",
+  "authority": "NONE",
+  "artifact_id": 14148315355,
+  "archive_sha256": "3d14e32df915506fe50516088566b49ecbcbb6dc7dd561347fdc6bf4186a4a32",
+  "members": {
+    "blocked-hook/REHEARSAL_RESULT.json": {
+      "bytes": 3631,
+      "sha256": "e46b133bf341499ed5a6af0a13f4684be81511b55da1467345d3051e4554586b"
+    },
+    "blocked-hook.log": {
+      "bytes": 2808,
+      "sha256": "f0161c2a144faac784412b0ddefeefd81b751b9863e8e5c05fc0996fee658b08"
+    },
+    "blocked-hook/SIMULATED_ONLY.json": {
+      "bytes": 178,
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    "full/REHEARSAL_RESULT.json": {
+      "bytes": 3638,
+      "sha256": "4258704e15b5e6c24e3f0963cef2518aaeb28f69b3661fb4571a4a2058875986"
+    },
+    "full/SIMULATED_ONLY.json": {
+      "bytes": 178,
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    "full.log": {
+      "bytes": 3037,
+      "sha256": "dfcc5a595dcdbe2af7fce2687eaec7767417e0e41022115fae23c52b849a69f7"
+    },
+    "native-boundary/REHEARSAL_RESULT.json": {
+      "bytes": 1212,
+      "sha256": "9eb97621d7d23091343a34e0ff1ad4104866b51a411611a51dfc347b7085519d"
+    },
+    "native-boundary/SIMULATED_ONLY.json": {
+      "bytes": 178,
+      "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+    },
+    "native-boundary.log": {
+      "bytes": 1161,
+      "sha256": "8b8be3fb021dbeb331f8216c612590e16d5a1469c97256f318329b89331485ad"
+    },
+    "rebuild.log": {
+      "bytes": 764,
+      "sha256": "9d0988c20e4fc059d8db030a9a0270db2fd62f166c4dbf6bf1b574db5d44671c"
+    },
+    "rebuilt/PINS.json": {
+      "bytes": 3935,
+      "sha256": "0c297f0084e25275a195c6d4de33554ee24804e5408bcdcbbcd77770770bfdb8"
+    },
+    "source-controls.log": {
+      "bytes": 3548,
+      "sha256": "490b45bcf8e9293ddd3542256f119ef75fb3a19ef4d6cae51be53af19e386349"
+    }
+  },
+  "body_get_attempts": 1,
+  "signed_url_retained": false,
+  "raw_wrapper_retained": false
+}

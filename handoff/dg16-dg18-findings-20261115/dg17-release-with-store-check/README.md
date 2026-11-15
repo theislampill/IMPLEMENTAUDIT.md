@@ -45,3 +45,11 @@ disables automatic module loading and strictly parses two SID lines. It keeps
 all ownership/preimage/refusal checks and awaits distinct review plus actual
 Windows execution. The exact failed run is retained in the source report and
 receiving manifest; its underlying module-load cause is not inferred.
+
+The fourth run, 43679794953 at 50c7fd7e279cd1f97345941d1ef13d6d76412cd8,
+passed the Linux modes and demonstrated successful direct .NET owner readback
+on Windows. Ten fixtures then reported ERROR at a remaining Administrators allow
+ACE in their private baseline. The next fixture-only correction removes that
+observed grant before the complete baseline and before any intended adverse
+grant. Local controls pass; all 14 Windows controls still require distinct
+review and actual execution. Every previous failed result remains preserved.

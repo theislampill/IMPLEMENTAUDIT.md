@@ -1,0 +1,583 @@
+{
+  "artifacts": {
+    "dg17-linux-source-only": {
+      "members": {
+        "blocked-hook.log": {
+          "bytes": 2808,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/blocked-hook.log",
+          "sha256": "f0161c2a144faac784412b0ddefeefd81b751b9863e8e5c05fc0996fee658b08"
+        },
+        "blocked-hook/REHEARSAL_RESULT.json": {
+          "bytes": 3631,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/blocked-hook/REHEARSAL_RESULT.json",
+          "sha256": "e46b133bf341499ed5a6af0a13f4684be81511b55da1467345d3051e4554586b"
+        },
+        "blocked-hook/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/blocked-hook/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "full.log": {
+          "bytes": 3037,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/full.log",
+          "sha256": "dfcc5a595dcdbe2af7fce2687eaec7767417e0e41022115fae23c52b849a69f7"
+        },
+        "full/REHEARSAL_RESULT.json": {
+          "bytes": 3638,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/full/REHEARSAL_RESULT.json",
+          "sha256": "4258704e15b5e6c24e3f0963cef2518aaeb28f69b3661fb4571a4a2058875986"
+        },
+        "full/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/full/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "native-boundary.log": {
+          "bytes": 1161,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/native-boundary.log",
+          "sha256": "8b8be3fb021dbeb331f8216c612590e16d5a1469c97256f318329b89331485ad"
+        },
+        "native-boundary/REHEARSAL_RESULT.json": {
+          "bytes": 1212,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/native-boundary/REHEARSAL_RESULT.json",
+          "sha256": "9eb97621d7d23091343a34e0ff1ad4104866b51a411611a51dfc347b7085519d"
+        },
+        "native-boundary/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/native-boundary/SIMULATED_ONLY.json",
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "rebuild.log": {
+          "bytes": 764,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/rebuild.log",
+          "sha256": "9d0988c20e4fc059d8db030a9a0270db2fd62f166c4dbf6bf1b574db5d44671c"
+        },
+        "rebuilt/PINS.json": {
+          "bytes": 3935,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/rebuilt/PINS.json",
+          "sha256": "0c297f0084e25275a195c6d4de33554ee24804e5408bcdcbbcd77770770bfdb8"
+        },
+        "source-controls.log": {
+          "bytes": 3548,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/source-controls.log",
+          "sha256": "490b45bcf8e9293ddd3542256f119ef75fb3a19ef4d6cae51be53af19e386349"
+        }
+      },
+      "one_shot_receipt": {
+        "bytes": 2016,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/RECEIPT.json",
+        "sha256": "0614894b1b8ff0201d0f6140dc1a6e62d285b15e49d95ba33b2e969d4d0bd70f"
+      },
+      "provider_metadata": {
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148315355/zip",
+        "created_at": "2026-11-15T05:09:16Z",
+        "digest": "sha256:3d14e32df915506fe50516088566b49ecbcbb6dc7dd561347fdc6bf4186a4a32",
+        "expired": false,
+        "expires_at": "2026-11-22T05:09:14Z",
+        "id": 14148315355,
+        "name": "dg17-linux-source-only",
+        "size_in_bytes": 10890,
+        "updated_at": "2026-11-15T05:09:16Z",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148315355",
+        "workflow_run": {
+          "head_branch": "engineering/pro-executor-dg17-source-20261115",
+          "head_repository_id": 1243475954,
+          "head_sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+          "id": 43679794953,
+          "repository_id": 1243475954
+        }
+      },
+      "retained_metadata": {
+        "bytes": 784,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-linux-source-only/METADATA.json",
+        "sha256": "4ef0a163426415cbfb9bd984551894a0f737f3f5f36f8c683b07958267d5a0ae"
+      },
+      "source_pins": {
+        "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+        "files": {
+          "OPERATION_A.json": {
+            "bytes": 18684,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/OPERATION_A.json",
+            "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+            "sha256": "9db06e300dbbb86d8fefe0aad4f3216c33b4dc5cfedfc7ab5dccf7b86079768d"
+          },
+          "PROFILE.toml": {
+            "bytes": 535,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/PROFILE.toml",
+            "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+            "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+          },
+          "bind_stage_b.py": {
+            "bytes": 3244,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/bind_stage_b.py",
+            "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+            "sha256": "88d41764e809fe0e83fec51a5dc907d6f3bc7621c04d9fc50867332d2ecc0f71"
+          },
+          "native_rpc.py": {
+            "bytes": 13921,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/native_rpc.py",
+            "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+            "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+          },
+          "parent_launch_a.py": {
+            "bytes": 6069,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_a.py",
+            "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+            "sha256": "ca805ec909d6a2da6d04e83dda5a9a6055978c410f5e57230bf0dc612d3172dd"
+          },
+          "parent_launch_b.py": {
+            "bytes": 5054,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_b.py",
+            "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+            "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+          },
+          "positive_hook_constructor.py": {
+            "bytes": 10996,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/positive_hook_constructor.py",
+            "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+            "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+          },
+          "source_setup.py": {
+            "bytes": 1252,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/source_setup.py",
+            "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+            "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+          },
+          "stage_a.py": {
+            "bytes": 24857,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_a.py",
+            "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+            "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+          },
+          "stage_b.py": {
+            "bytes": 33468,
+            "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_b.py",
+            "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+            "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+          }
+        },
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18684,
+        "operation_A_sha256": "9db06e300dbbb86d8fefe0aad4f3216c33b4dc5cfedfc7ab5dccf7b86079768d",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+        "source_tree": "df9b72c932a0b60dca918232567e725fa0585771",
+        "unverified_input_count": 9
+      }
+    },
+    "dg17-windows-store-source-only": {
+      "members": {
+        "rebuild.log": {
+          "bytes": 764,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-windows-store-source-only/rebuild.log",
+          "sha256": "eb681d4135b62e57d01d236b0b4a7c437a45f8e2e4464e24f52b50ebd0bf6d82"
+        },
+        "rebuilt/PINS.json": {
+          "bytes": 3851,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-windows-store-source-only/rebuilt/PINS.json",
+          "sha256": "ee440d0526b4e26eca88852f89186d69c35eb2b31c2ab23500cc3935922d155e"
+        },
+        "store-custody.log": {
+          "bytes": 12700,
+          "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-windows-store-source-only/store-custody.log",
+          "sha256": "c78eee46c626be1f4f6700c488d304edb685f5eeab21026597eaf823e8395fbe"
+        }
+      },
+      "one_shot_receipt": {
+        "bytes": 698,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-windows-store-source-only/RECEIPT.json",
+        "sha256": "c6a409a2d9ac3bde40c28fe87c42a8e9a55a082d17b51fafd68ea012a11cace1"
+      },
+      "provider_metadata": {
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148045576/zip",
+        "created_at": "2026-11-15T05:09:03Z",
+        "digest": "sha256:69abaf53d164e88ca49c10f5c846cb887f01d9b0a77abdf08aedb295dfb729fc",
+        "expired": false,
+        "expires_at": "2026-11-22T05:09:03Z",
+        "id": 14148045576,
+        "name": "dg17-windows-store-source-only",
+        "size_in_bytes": 3314,
+        "updated_at": "2026-11-15T05:09:03Z",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148045576",
+        "workflow_run": {
+          "head_branch": "engineering/pro-executor-dg17-source-20261115",
+          "head_repository_id": 1243475954,
+          "head_sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+          "id": 43679794953,
+          "repository_id": 1243475954
+        }
+      },
+      "retained_metadata": {
+        "bytes": 791,
+        "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/dg17-windows-store-source-only/METADATA.json",
+        "sha256": "50472e9eb7576dddf79f1fdc89ca6604bdc5c3be39ef00d9410f39c21dae4ce1"
+      },
+      "source_pins": {
+        "author_dir": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\handoff\\dg16-dg18-findings-20261115\\dg17-next-release\\author",
+        "files": {
+          "OPERATION_A.json": {
+            "bytes": 18437,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\OPERATION_A.json",
+            "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+            "sha256": "4ce157d8a2366cd5f98bc8f8bcbecc81c86f0f9e275f21bd166cd76e434a62f7"
+          },
+          "PROFILE.toml": {
+            "bytes": 535,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\PROFILE.toml",
+            "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+            "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+          },
+          "bind_stage_b.py": {
+            "bytes": 3244,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\bind_stage_b.py",
+            "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+            "sha256": "95a6fe24c9cb1f583a8dee85c49d3b1ffd61c634108d7c3a85b2f52b7974b2c2"
+          },
+          "native_rpc.py": {
+            "bytes": 13921,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\native_rpc.py",
+            "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+            "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+          },
+          "parent_launch_a.py": {
+            "bytes": 6069,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_a.py",
+            "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+            "sha256": "fdff48b7c222e2d61aecd27897d8d19d16da8c0f1da330d300c0f5483b005308"
+          },
+          "parent_launch_b.py": {
+            "bytes": 5054,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_b.py",
+            "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+            "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+          },
+          "positive_hook_constructor.py": {
+            "bytes": 10996,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\positive_hook_constructor.py",
+            "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+            "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+          },
+          "source_setup.py": {
+            "bytes": 1252,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\source_setup.py",
+            "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+            "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+          },
+          "stage_a.py": {
+            "bytes": 24857,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_a.py",
+            "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+            "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+          },
+          "stage_b.py": {
+            "bytes": 33468,
+            "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_b.py",
+            "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+            "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+          }
+        },
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18437,
+        "operation_A_sha256": "4ce157d8a2366cd5f98bc8f8bcbecc81c86f0f9e275f21bd166cd76e434a62f7",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+        "source_tree": "df9b72c932a0b60dca918232567e725fa0585771",
+        "unverified_input_count": 9
+      }
+    }
+  },
+  "author_packet": {
+    "bytes": 42735,
+    "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43679794953/SOURCE_CI_RECEIVING.json",
+    "sha256": "b2abc0db85b8c0faa3708b6d9b8e3ef642c42c45468abdf5471c6c03d5fad03c"
+  },
+  "created_at": "2026-11-15T05:26:16.188485+00:00",
+  "disposition": "LINUX_SOURCE_RESULTS_AND_WINDOWS_OWNER_READBACK_RECEIVED_TEN_WINDOWS_BASELINE_ERRORS_PRESERVED",
+  "formal_audit_assess_transition": false,
+  "independently_rehashed_members": 15,
+  "jobs": [
+    {
+      "conclusion": "success",
+      "id": 132707719487,
+      "name": "linux-deterministic",
+      "run_id": 43679794953,
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise deterministic owners with explicitly simulated native seams",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Retain source-only results",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "conclusion": "failure",
+      "id": 132707719628,
+      "name": "windows-store-only",
+      "run_id": 43679794953,
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "name": "Check private fixture directory with real Windows APIs",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Retain Windows fixture results without native credit",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed"
+        }
+      ]
+    }
+  ],
+  "linux": {
+    "focused_methods": 24,
+    "focused_result": "OK",
+    "focused_seconds": 0.146,
+    "modes": {
+      "blocked-hook": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 8.082771011,
+        "genuine_codex_turns": 0,
+        "mode": "blocked-hook",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "FIRST_NONPASS_CONTAINED_AND_CLEANED_UP",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": null,
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": "AssertionError()",
+        "stage_B_status": "FIRST_EVENT_OR_LATE_EXTRA_ACTIVITY_NOT_QUALIFYING",
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "full": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 8.153142539,
+        "genuine_codex_turns": 0,
+        "mode": "full",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": null,
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": null,
+        "stage_B_status": "ONE_ACTUAL_SELECTED_NATIVE_ALLOW_AND_NATURAL_NONTERMINAL_COMPLETION_AWAIT_INDEPENDENT_RECEIVING",
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "native-boundary": {
+        "authority": "NONE",
+        "elapsed_seconds": 5.298220503,
+        "genuine_codex_turns": 0,
+        "mode": "native-boundary",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": "SIMULATED stop before native appserver creation",
+        "stage_A_status": "STAGE_A_STOPPED_FIRST_REFUSAL_OR_UNKNOWN_NO_RETRY",
+        "windows_custody_exercised": false
+      }
+    },
+    "native_shaped_statuses_are_simulated": true
+  },
+  "nonclaims": {
+    "actual_Windows_calls_by_receiver": 0,
+    "artifact_body_reacquisitions": 0,
+    "closure": false,
+    "genuine_codex_turns": 0,
+    "lifecycle_reruns_for_receiving": 0,
+    "native_acceptance": false,
+    "native_admission": false,
+    "native_appservers": 0,
+    "original14_custody_unknown_differences": 14,
+    "remote_mutations": 0,
+    "source_edits": 0
+  },
+  "provider_observation": {
+    "bytes": 9487,
+    "path": "/workspace/scratch/0269e6626329/dg17-review/windows-residual-ace-3bde5a51/receiving/PROVIDER_OBSERVATION.json",
+    "sha256": "ac20418868c109845e22dccb567332fb92e97b627f9ec15e8a336ddca359624f"
+  },
+  "receiving_limits": [
+    "Archive bodies not reacquired; archive digests corroborated by provider metadata, upload logs and retained one-shot receipts",
+    "Retained summaries/logs/PINS verified; every generated carrier and per-command POST body not separately received",
+    "Source receiving creates no native episode grant or acceptance"
+  ],
+  "report": {
+    "bytes": 8037,
+    "path": "/workspace/scratch/0269e6626329/dg17-review/windows-residual-ace-3bde5a51/receiving/INDEPENDENT_RUN_RECEIVING.md",
+    "sha256": "fbb8369a740b03ddfaf7909704ba172f9066a66a0737769dfbe8a275b045b8d1"
+  },
+  "reviewer": "/root/dg17_independent_review",
+  "root_controller": "pro-executor-01",
+  "root_reported_current_generation": "G0005",
+  "run": {
+    "conclusion": "failure",
+    "created_at": "2026-11-15T05:08:44Z",
+    "event": "push",
+    "head_branch": "engineering/pro-executor-dg17-source-20261115",
+    "head_sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43679794953",
+    "id": 43679794953,
+    "run_attempt": 1,
+    "run_started_at": "2026-11-15T05:08:44Z",
+    "status": "completed",
+    "updated_at": "2026-11-15T05:09:19Z"
+  },
+  "run_source_files": [
+    {
+      "bytes": 7326,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
+      "sha256": "de7e800bdc99a6e130cff94f1d60585f6f829d77ea601e4460ec90793a5efe5f"
+    },
+    {
+      "bytes": 26955,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "sha256": "6655739d4e648ca82f5a095e6e3befd9de60b795e5ff911e614fe7915625b896"
+    },
+    {
+      "bytes": 16332,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/build_release_acl.py",
+      "sha256": "1342d5c89dbe73bba4ddeec07bc2b7217ffe211f4d6405e3f80d4e617b6adc6f"
+    },
+    {
+      "bytes": 7306,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/make_acl_stage_b.py",
+      "sha256": "0904a9bb1c524a1b47d8b445d6951bffaf6c6822ee794ddfc15d88e57cab5cbc"
+    },
+    {
+      "bytes": 26290,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/rehearse_lifecycle.py",
+      "sha256": "59b0cc7daf8ffd65bbff00293b03235755a668e8b94254ff42f7c3075fb4cb16"
+    },
+    {
+      "bytes": 3573,
+      "path": ".github/workflows/dg17-offline-lifecycle.yml",
+      "sha256": "979bbd30e672da1175900244e02f0ff33a5de2657b39784572bd4b74dd812a28"
+    }
+  ],
+  "schema": "dg17.independent-source-run-receiving.v1",
+  "source": {
+    "local_same_tree_commit": "4db726a4f5c7f6429589a941977e233ece967e91",
+    "remote_commit": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+    "tree": "df9b72c932a0b60dca918232567e725fa0585771"
+  },
+  "windows": {
+    "all_owner_readbacks_match_current_user": true,
+    "direct_dotnet_query": "ACTUALLY_OBSERVED_SUCCESS_FOR_RECORDED_PRECONDITIONS",
+    "earlier_GetAcl_module_load_cause": "UNKNOWN_PRESERVED",
+    "earlier_wrong_owner_intercepted_negatives": "SEVEN_REMAIN_UNQUALIFIED",
+    "first_error": {
+      "case": "positive: icacls protected DACL, user+SYSTEM only",
+      "detail": "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-5-32-544 (mask 0x001f01ff): D:\\\\a\\\\_temp\\\\dg17-offline\\\\private-store-controls\\\\manual')",
+      "expected": "PASS",
+      "expected_reason": null,
+      "got": "ERROR",
+      "ok": false,
+      "preconditions": [
+        {
+          "check": "independent owner SID",
+          "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "path": "<work>\\manual",
+          "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+        },
+        {
+          "check": "independent owner SID",
+          "expected": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "owner": "S-1-5-21-1280602335-643053282-3184619455-500",
+          "path": "<work>\\manual",
+          "user": "S-1-5-21-1280602335-643053282-3184619455-500"
+        }
+      ]
+    },
+    "full_population_qualified": false,
+    "independent_owner_readbacks": 23,
+    "prior_identity_refusal": "UNEXPLAINED_PRESERVED",
+    "private_baseline_records": 1,
+    "qualified_intended_negatives": [
+      "refused: missing directory",
+      "refused: regular file"
+    ],
+    "reported_cases": 14,
+    "residual_ace_characterization": "Non-inherited allow branch inferred from frozen guard order; SID/mask directly reported",
+    "residual_ace_detailed_origin": "NOT_INFERRED",
+    "setup_errors": 10,
+    "successful_case_names": [
+      "positive: driver-created store (create=True)",
+      "positive: re-check of the driver-created store",
+      "refused: missing directory",
+      "refused: regular file"
+    ]
+  }
+}

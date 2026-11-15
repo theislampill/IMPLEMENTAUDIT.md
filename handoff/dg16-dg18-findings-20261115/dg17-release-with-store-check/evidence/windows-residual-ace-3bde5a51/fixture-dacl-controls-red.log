@@ -1,0 +1,71 @@
+/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/author/stage_b.py:77: SyntaxWarning: invalid escape sequence '\A'
+  SYSTEM or BUILTIN\Administrators. Administrators is tolerated because members can
+test_acl_historical_admin_acceptance_and_successor_refusal (__main__.DriverBundle.test_acl_historical_admin_acceptance_and_successor_refusal) ... ok
+test_acl_modeled_adversarial_population (__main__.DriverBundle.test_acl_modeled_adversarial_population) ... ok
+test_acl_modeled_positive_user_system_only (__main__.DriverBundle.test_acl_modeled_positive_user_system_only) ... ok
+test_author_pin_closure (__main__.DriverBundle.test_author_pin_closure) ... ok
+test_b2_product_pin_closure (__main__.DriverBundle.test_b2_product_pin_closure) ... ok
+test_failure_summary_keeps_first_source_predicate_and_no_authority (__main__.DriverBundle.test_failure_summary_keeps_first_source_predicate_and_no_authority) ... ok
+test_identity_diagnostic_preserves_each_original_refusal (__main__.DriverBundle.test_identity_diagnostic_preserves_each_original_refusal) ... ok
+test_limits_and_historical_issuer_preserved_without_admission (__main__.DriverBundle.test_limits_and_historical_issuer_preserved_without_admission) ... ok
+test_parent_a_command_fits_original_bound_before_window_write (__main__.DriverBundle.test_parent_a_command_fits_original_bound_before_window_write) ... ok
+test_parent_capture_keeps_digest_and_physical_substitution_refusal (__main__.DriverBundle.test_parent_capture_keeps_digest_and_physical_substitution_refusal) ... ok
+test_process_guard_accepts_codex_only_as_binding_data (__main__.DriverBundle.test_process_guard_accepts_codex_only_as_binding_data) ... ok
+test_receipt_deadlines_keep_original_bounds (__main__.DriverBundle.test_receipt_deadlines_keep_original_bounds) ... ok
+test_refuses_aliased_output (__main__.DriverBundle.test_refuses_aliased_output) ... ok
+test_refuses_hardlinked_input (__main__.DriverBundle.test_refuses_hardlinked_input) ... ok
+test_refuses_overwrite (__main__.DriverBundle.test_refuses_overwrite) ... ok
+test_selected_identity_refuses_mismatched_completion (__main__.DriverBundle.test_selected_identity_refuses_mismatched_completion) ... ok
+test_state_baseline_follows_selected_head (__main__.DriverBundle.test_state_baseline_follows_selected_head) ... ok
+test_store_fixture_all_negative_cases_have_specific_reason (__main__.DriverBundle.test_store_fixture_all_negative_cases_have_specific_reason) ... ok
+test_store_fixture_child_and_junction_preimages_precede_mutation (__main__.DriverBundle.test_store_fixture_child_and_junction_preimages_precede_mutation) ... ok
+test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid (__main__.DriverBundle.test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid) ... ok
+test_store_fixture_owner_read_is_independent_literal_and_bounded (__main__.DriverBundle.test_store_fixture_owner_read_is_independent_literal_and_bounded) ... ok
+test_store_fixture_removes_observed_admin_grant_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_removes_observed_admin_grant_before_intended_perturbation) ... 
+  test_store_fixture_removes_observed_admin_grant_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_removes_observed_admin_grant_before_intended_perturbation) (name='private') ... FAIL
+  test_store_fixture_removes_observed_admin_grant_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_removes_observed_admin_grant_before_intended_perturbation) (name='intentional-admin') ... FAIL
+test_store_fixture_sets_and_verifies_owner_before_acl_perturbation (__main__.DriverBundle.test_store_fixture_sets_and_verifies_owner_before_acl_perturbation) ... FAIL
+test_store_fixture_setup_failure_cannot_be_a_negative_pass (__main__.DriverBundle.test_store_fixture_setup_failure_cannot_be_a_negative_pass) ... ok
+test_windows_paths_relocate_under_posix (__main__.DriverBundle.test_windows_paths_relocate_under_posix) ... ok
+
+======================================================================
+FAIL: test_store_fixture_removes_observed_admin_grant_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_removes_observed_admin_grant_before_intended_perturbation) (name='private')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 431, in test_store_fixture_removes_observed_admin_grant_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'private', 'expected': 'PASS', 'expected_reason': None, 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/private', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/private', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-5-32-544')"}
+
+======================================================================
+FAIL: test_store_fixture_removes_observed_admin_grant_before_intended_perturbation (__main__.DriverBundle.test_store_fixture_removes_observed_admin_grant_before_intended_perturbation) (name='intentional-admin')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 431, in test_store_fixture_removes_observed_admin_grant_before_intended_perturbation
+    self.assertTrue(row['ok'], row)
+AssertionError: False is not true : {'case': 'intentional-admin', 'expected': 'REFUSED', 'expected_reason': 'access granted to another principal S-1-5-32-544', 'got': 'ERROR', 'ok': False, 'preconditions': [{'check': 'independent owner SID', 'path': '<work>/intentional-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}, {'check': 'independent owner SID', 'path': '<work>/intentional-admin', 'expected': 'S-1-5-21-1000', 'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}], 'detail': "AssertionError('fixture private baseline refused: store custody refused: access granted to another principal S-1-5-32-544')"}
+
+======================================================================
+FAIL: test_store_fixture_sets_and_verifies_owner_before_acl_perturbation (__main__.DriverBundle.test_store_fixture_sets_and_verifies_owner_before_acl_perturbation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg17/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py", line 391, in test_store_fixture_sets_and_verifies_owner_before_acl_perturbation
+    self.assertEqual([entry[0] for entry in calls],
+AssertionError: Lists differ: ['icacls', 'owner', 'icacls', 'owner', 'baseline', 'icacls'] != ['icacls', 'owner', 'icacls', 'icacls', 'owner', 'baseline', 'icacls']
+
+First differing element 3:
+'owner'
+'icacls'
+
+Second list contains 1 additional elements.
+First extra element 6:
+'icacls'
+
+- ['icacls', 'owner', 'icacls', 'owner', 'baseline', 'icacls']
++ ['icacls', 'owner', 'icacls', 'icacls', 'owner', 'baseline', 'icacls']
+?                               ++++++++++
+
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.149s
+
+FAILED (failures=3)

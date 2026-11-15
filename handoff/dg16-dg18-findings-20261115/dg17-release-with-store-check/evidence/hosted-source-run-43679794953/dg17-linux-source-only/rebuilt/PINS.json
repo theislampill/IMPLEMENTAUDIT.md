@@ -1,0 +1,76 @@
+{
+  "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+  "authority": "NONE - source-only preparation, not native evidence",
+  "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+  "files": {
+    "OPERATION_A.json": {
+      "bytes": 18684,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/OPERATION_A.json",
+      "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+      "sha256": "9db06e300dbbb86d8fefe0aad4f3216c33b4dc5cfedfc7ab5dccf7b86079768d"
+    },
+    "PROFILE.toml": {
+      "bytes": 535,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/PROFILE.toml",
+      "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+    },
+    "bind_stage_b.py": {
+      "bytes": 3244,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/bind_stage_b.py",
+      "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+      "sha256": "88d41764e809fe0e83fec51a5dc907d6f3bc7621c04d9fc50867332d2ecc0f71"
+    },
+    "native_rpc.py": {
+      "bytes": 13921,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/native_rpc.py",
+      "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+      "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+    },
+    "parent_launch_a.py": {
+      "bytes": 6069,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_a.py",
+      "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+      "sha256": "ca805ec909d6a2da6d04e83dda5a9a6055978c410f5e57230bf0dc612d3172dd"
+    },
+    "parent_launch_b.py": {
+      "bytes": 5054,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_b.py",
+      "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+      "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+    },
+    "positive_hook_constructor.py": {
+      "bytes": 10996,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/positive_hook_constructor.py",
+      "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+      "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+    },
+    "source_setup.py": {
+      "bytes": 1252,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/source_setup.py",
+      "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+      "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+    },
+    "stage_a.py": {
+      "bytes": 24857,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_a.py",
+      "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+      "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+    },
+    "stage_b.py": {
+      "bytes": 33468,
+      "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_b.py",
+      "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+      "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+    }
+  },
+  "limits_unchanged": true,
+  "native_admission": false,
+  "operation_A_bytes": 18684,
+  "operation_A_sha256": "9db06e300dbbb86d8fefe0aad4f3216c33b4dc5cfedfc7ab5dccf7b86079768d",
+  "original14_custody_unknown_differences": 14,
+  "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+  "source_head": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+  "source_tree": "df9b72c932a0b60dca918232567e725fa0585771",
+  "unverified_input_count": 9
+}

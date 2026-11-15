@@ -1,10 +1,10 @@
 # DG17 source qualification return — 2026-11-15
 
-Status: **the third source-only CI run passed all three Linux deterministic
-modes. Windows rebuilt, then reported 13 fixture errors because Get-Acl's module
-could not load. A smaller direct .NET owner query is locally checked and awaits
-distinct source review and Windows verification. Every failed run remains
-recorded; the original file-identity refusal is unexplained and unchanged**.
+Status: **the fourth source-only CI run passed the three Linux modes and
+demonstrated successful direct .NET owner readback on Windows. Ten Windows
+fixtures then stopped at an unwanted Administrators grant in their private
+baseline. A one-command fixture correction awaits distinct review and Windows
+verification. All failed runs remain recorded; no product guard is changed**.
 This record grants no native admission, receiving, R0037 acceptance or closure.
 
 ## Binding and scope
@@ -444,7 +444,7 @@ All 13 ERROR outcomes remain unqualified. They are not relabeled as skips or
 negative-control passes. The previous 14-case/1-failure result and its seven
 intercepted negatives also remain unchanged.
 
-### Smaller owner-query correction and bounded evidence
+### Smaller owner-query correction at the third author return
 
 The product's existing ctypes/Win32 owner and DACL implementation and the entire
 fixture were re-read before choosing the correction. Get-Acl was introduced by
@@ -496,13 +496,114 @@ award that result or a receiving disposition. Product guards, the seven-field
 file identity check, runtime, rehearsal, workflow and native gates are unchanged;
 no native/protected retry or workflow dispatch was performed.
 
+## Fourth published source CI — run 43679794953
+
+The reviewed .NET query source and independent records were retained in local
+commit 4db726a4f5c7f6429589a941977e233ece967e91 and published by root as
+50c7fd7e279cd1f97345941d1ef13d6d76412cd8, tree
+df9b72c932a0b60dca918232567e725fa0585771. Run 43679794953, attempt 1, began
+at 2026-11-15T05:08:44Z and completed at 05:09:19Z with overall failure.
+Linux job 132707719487 succeeded; Windows job 132707719628 failed. Both uploads
+succeeded. Exact source HEAD/tree and artifact metadata were received before
+one bounded body GET per artifact; received size and digest matched.
+
+| Artifact | Bytes | SHA-256 |
+|---|---:|---|
+| Linux 14148315355, dg17-linux-source-only | 10890 | 3d14e32df915506fe50516088566b49ecbcbb6dc7dd561347fdc6bf4186a4a32 |
+| Windows 14148045576, dg17-windows-store-source-only | 3314 | 69abaf53d164e88ca49c10f5c846cb887f01d9b0a77abdf08aedb295dfb729fc |
+
+The immutable receiving packet is
+.IMPLEMENTAUDIT/dg17-ci-43679794953/SOURCE_CI_RECEIVING.json, 42735 bytes,
+SHA-256 b2abc0db85b8c0faa3708b6d9b8e3ef642c42c45468abdf5471c6c03d5fad03c.
+It preserves provider/jobs metadata, both one-shot receipts and complete source
+PINS, all Linux results, and all original Windows rows and preconditions.
+It was frozen for distinct receiving before the fixture correction below.
+Raw received members and receipts are unchanged; signed download URLs and raw
+materialization wrappers were not retained.
+
+| Linux mode | Actual result | Elapsed seconds | Result JSON SHA-256 |
+|---|---|---:|---|
+| native-boundary | SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED | 5.298220503 | 9eb97621d7d23091343a34e0ff1ad4104866b51a411611a51dfc347b7085519d |
+| full | DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS | 8.153142539 | 4258704e15b5e6c24e3f0963cef2518aaeb28f69b3661fb4571a4a2058875986 |
+| blocked-hook | FIRST_NONPASS_CONTAINED_AND_CLEANED_UP | 8.082771011 | e46b133bf341499ed5a6af0a13f4684be81511b55da1467345d3051e4554586b |
+
+The hosted source suite passed 24 methods in 0.146 seconds. Simulated native
+traffic remains simulated; all results retain authority NONE, zero genuine
+turns/appservers and all 14 custody differences UNKNOWN.
+
+### Actual Windows progress and first remaining predicate
+
+Windows rebuilt successfully under the unchanged source-identity guard. Its
+PINS.json is 3851 bytes, SHA-256
+ee440d0526b4e26eca88852f89186d69c35eb2b31c2ab23500cc3935922d155e;
+Linux PINS.json is 3935 bytes, SHA-256
+0c297f0084e25275a195c6d4de33554ee24804e5408bcdcbbcd77770770bfdb8.
+All generated-source pins remain bound to this exact run in the receiving
+packet and manifest. No mismatch diagnostic occurred, and the original
+unexplained identity refusal is preserved without a guard change.
+
+The direct .NET owner query actually succeeded: the log contains 23 independent
+owner-SID readbacks, each matching the expected current-user SID. It also records
+one complete private-baseline precondition. Driver-created store creation and
+re-check both passed. The missing-directory and regular-file negatives reached
+their intended reasons. This qualifies the owner readback only for these actual
+fixture observations; it does not regrade the failed Get-Acl run.
+
+The Windows population reports CASES 14 FAILED 10. The first remaining failure
+is the icacls-created positive's private baseline. Ownership is now correct, but
+the product guard sees an Administrators allow ACE for S-1-5-32-544 with mask
+0x001f01ff. The guard checks inherited-entry rejection before its foreign-SID
+rejection, so its reported foreign-SID branch identifies this as a non-inherited
+entry. No more detailed origin of that remaining entry is inferred.
+
+Ten cases correctly report ERROR before their intended positive or perturbation:
+manual private positive, Administrators ACE, Everyone write/read, both inherited
+Users cases, junction target, unprotected DACL, existing-path create and wrong
+owner. Thus only two of the eleven intended negative predicates were reached.
+The full 14-case Windows population is unqualified. The original store log is
+12700 bytes, SHA-256
+c78eee46c626be1f4f6700c488d304edb685f5eeab21026597eaf823e8395fbe.
+
+### One-command fixture DACL correction
+
+Source inspection and the
+[Microsoft icacls contract](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls)
+explain the setup gap: replacing grants for named SIDs does not clear an
+unrelated explicit grant, and disabling/removing inheritance removes inherited
+entries. The existing `/grant:r` calls therefore do not establish a complete
+private DACL by themselves. The documented `/remove:g` operation removes granted
+rights for its specified SID.
+
+The shared fresh-directory factory now calls
+`icacls(p, '/remove:g', '*S-1-5-32-544')` after granting user+SYSTEM and before
+the unchanged complete private baseline. This addresses every affected factory
+use, including parent and child preimages. Intended extra grants still occur
+only after that baseline, so the Administrators negative adds its tested ACE
+back afterward. An unexpected different principal still fails the baseline;
+the correction neither suppresses that error nor substitutes a partial check.
+
+The focused test was RED with three failures before that one command was added.
+Afterward all 25 methods passed in 0.145 seconds. The regression models the actual
+residual Administrators grant, requires its removal before a positive baseline,
+then verifies that the intentional Administrators perturbation is refused.
+A separate adverse fixture retains an unexpected Everyone grant and must report
+a baseline ERROR. The owner/query and perturbation ordering control also passes.
+Both RED/GREEN logs are retained. These local models do not replace the required
+actual Windows result after distinct source review.
+
+The correction is limited to that fixture command and its tests/evidence. Owner
+assignment, the now observed direct .NET reader, all 14 cases and eleven intended
+negative reasons, product custody and file-identity guards, runtime, rehearsal,
+workflow and native gates remain unchanged. No source CI was dispatched or
+retried by the author, and no protected/native grant or UNKNOWN replay occurred.
+
 ## Remaining acceptance dependencies
 
-1. Distinct review and actual Windows receiving for the direct owner-query
-   execution, corrected fixture preconditions and intended refusal predicates.
-   Retain successful Linux deterministic results, the seven intercepted Windows
-   negatives, all 13 subsequent fixture errors, and every earlier failed
-   fixture/host outcome at their exact source identities.
+1. Distinct review and actual Windows receiving for removal of the observed
+   unwanted baseline grant and completion of all 14 intended controls. Retain
+   actual direct-owner readback and Linux results, the seven intercepted
+   negatives, both later ERROR populations, and every earlier failed outcome
+   at its exact source identity.
 2. Actual final Windows location, exact product/package/tool identities, current
    issuer reconciliation and independently reviewed operation-record readback.
 3. Fresh written owner grant naming that exact operation, unchanged limits and

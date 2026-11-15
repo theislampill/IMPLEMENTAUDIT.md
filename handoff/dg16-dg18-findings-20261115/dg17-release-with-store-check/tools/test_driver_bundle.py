@@ -389,10 +389,49 @@ class DriverBundle(unittest.TestCase):
         ns = store_fixture_functions(work=self.directory, icacls=acl, owner_facts=facts, check=check)
         ns['private'](self.directory / 'new-private', ['*S-1-5-32-544:(OI)(CI)F'])
         self.assertEqual([entry[0] for entry in calls],
-                         ['icacls', 'owner', 'icacls', 'owner', 'baseline', 'icacls'])
+                         ['icacls', 'owner', 'icacls', 'icacls', 'owner', 'baseline', 'icacls'])
         self.assertEqual(calls[0][1], ('/setowner', 'SIMULATED\\User'))
+        self.assertEqual(calls[3][1], ('/remove:g', '*S-1-5-32-544'))
         self.assertEqual(calls[-1][1], ('/grant:r', '*S-1-5-32-544:(OI)(CI)F'))
         self.assertEqual(ns['preconditions'][-1]['check'], 'private user+SYSTEM baseline')
+
+    def test_store_fixture_removes_observed_admin_grant_before_intended_perturbation(self):
+        admin, everyone, user, system = 'S-1-5-32-544', 'S-1-1-0', 'S-1-5-21-1000', 'S-1-5-18'
+        for name in ['private', 'intentional-admin', 'other-principal-remains']:
+            grants = {admin, everyone} if name == 'other-principal-remains' else {admin}
+            observations = []
+            def acl(path, *args):
+                if args[0] == '/inheritance:r':
+                    # Observed explicit Admin grant survives grants for other SIDs.
+                    grants.update({user, system})
+                elif args[0] == '/remove:g':
+                    self.assertEqual(args[1], '*' + admin)
+                    grants.discard(admin)
+                elif args[0] == '/grant:r':
+                    grants.add(args[1].split(':', 1)[0].lstrip('*'))
+            def check(path):
+                observations.append(set(grants))
+                foreign = grants - {user, system}
+                if foreign:
+                    raise RuntimeError('store custody refused: access granted to another principal ' + sorted(foreign)[0])
+                return {'owner': user, 'protected': True}
+            ns = store_fixture_functions(work=self.directory, icacls=acl, check=check,
+                owner_facts=lambda p: {'owner': user, 'user': user})
+            extra = [] if name == 'private' else ['*' + admin + ':(OI)(CI)F']
+            with self.subTest(name=name):
+                ns['case'](name, 'PASS' if name == 'private' else 'REFUSED',
+                    lambda: check(ns['private'](self.directory / name, extra)),
+                    None if name == 'private' else 'access granted to another principal ' + admin)
+                row = ns['rows'][-1]
+                if name == 'other-principal-remains':
+                    self.assertEqual(row['got'], 'ERROR')
+                    self.assertFalse(row['ok'])
+                    self.assertIn(everyone, observations[0])
+                else:
+                    self.assertTrue(row['ok'], row)
+                    self.assertEqual(observations[0], {user, system})
+                    if name == 'intentional-admin':
+                        self.assertIn(admin, observations[-1])
 
     def test_store_fixture_setup_failure_cannot_be_a_negative_pass(self):
         ns = store_fixture_functions(work=self.directory, icacls=lambda *a: None,

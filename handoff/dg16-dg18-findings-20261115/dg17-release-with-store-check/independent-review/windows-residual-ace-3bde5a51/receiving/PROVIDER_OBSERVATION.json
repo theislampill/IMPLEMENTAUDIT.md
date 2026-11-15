@@ -1,0 +1,201 @@
+{
+  "schema": "dg17.independent-provider-observation.v1",
+  "observed_at": "2026-11-15T05:20:58.517Z",
+  "run": {
+    "id": 43679794953,
+    "run_attempt": 1,
+    "head_branch": "engineering/pro-executor-dg17-source-20261115",
+    "head_sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-11-15T05:08:44Z",
+    "run_started_at": "2026-11-15T05:08:44Z",
+    "updated_at": "2026-11-15T05:09:19Z",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43679794953"
+  },
+  "commit": {
+    "sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+    "tree": {
+      "sha": "df9b72c932a0b60dca918232567e725fa0585771",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/df9b72c932a0b60dca918232567e725fa0585771"
+    },
+    "parents": [
+      "5f90dd5ecf80ad2d3f153811348d5da72287c4da"
+    ]
+  },
+  "jobs": [
+    {
+      "id": 132707719487,
+      "name": "linux-deterministic",
+      "run_id": 43679794953,
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Exercise deterministic owners with explicitly simulated native seams",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Retain source-only results",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        }
+      ]
+    },
+    {
+      "id": 132707719628,
+      "name": "windows-store-only",
+      "run_id": 43679794953,
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Check private fixture directory with real Windows APIs",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 3
+        },
+        {
+          "name": "Retain Windows fixture results without native credit",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 14148315355,
+      "name": "dg17-linux-source-only",
+      "size_in_bytes": 10890,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148315355",
+      "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148315355/zip",
+      "expired": false,
+      "created_at": "2026-11-15T05:09:16Z",
+      "expires_at": "2026-11-22T05:09:14Z",
+      "updated_at": "2026-11-15T05:09:16Z",
+      "digest": "sha256:3d14e32df915506fe50516088566b49ecbcbb6dc7dd561347fdc6bf4186a4a32",
+      "workflow_run": {
+        "id": 43679794953,
+        "repository_id": 1243475954,
+        "head_repository_id": 1243475954,
+        "head_branch": "engineering/pro-executor-dg17-source-20261115",
+        "head_sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8"
+      }
+    },
+    {
+      "id": 14148045576,
+      "name": "dg17-windows-store-source-only",
+      "size_in_bytes": 3314,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148045576",
+      "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14148045576/zip",
+      "expired": false,
+      "created_at": "2026-11-15T05:09:03Z",
+      "expires_at": "2026-11-22T05:09:03Z",
+      "updated_at": "2026-11-15T05:09:03Z",
+      "digest": "sha256:69abaf53d164e88ca49c10f5c846cb887f01d9b0a77abdf08aedb295dfb729fc",
+      "workflow_run": {
+        "id": 43679794953,
+        "repository_id": 1243475954,
+        "head_repository_id": 1243475954,
+        "head_branch": "engineering/pro-executor-dg17-source-20261115",
+        "head_sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8"
+      }
+    }
+  ],
+  "log_evidence": {
+    "linux_log": {
+      "decoded_text_characters": 16082,
+      "excerpt": [
+        "2026-11-15T05:08:48.2847671Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)",
+        "2026-11-15T05:08:51.9631369Z [command]/usr/bin/git log -1 --format=%H",
+        "2026-11-15T05:08:51.9661883Z 50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+        "2026-11-15T05:08:52.0613161Z \u001b[36;1m/usr/bin/python3 -B \"$DG17_TOOLS/test_driver_bundle.py\" > \"$RUNNER_TEMP/dg17-offline/source-controls.log\" 2>&1\u001b[0m",
+        "2026-11-15T05:09:14.7982183Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "2026-11-15T05:09:14.9517949Z Artifact name is valid!",
+        "2026-11-15T05:09:15.4228784Z Beginning upload of artifact content to blob storage",
+        "2026-11-15T05:09:15.7522976Z Uploaded bytes 10890",
+        "2026-11-15T05:09:15.8301965Z Finished uploading artifact content to blob storage!",
+        "2026-11-15T05:09:15.8303332Z SHA256 digest of uploaded artifact zip is 3d14e32df915506fe50516088566b49ecbcbb6dc7dd561347fdc6bf4186a4a32",
+        "2026-11-15T05:09:15.8304263Z Finalizing artifact upload",
+        "2026-11-15T05:09:16.2282309Z Artifact dg17-linux-source-only.zip successfully finalized. Artifact ID 14148315355",
+        "2026-11-15T05:09:16.2283578Z Artifact dg17-linux-source-only has been successfully uploaded! Final size is 10890 bytes. Artifact ID is 14148315355",
+        "2026-11-15T05:09:16.2289036Z Artifact download URL: https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43679794953/artifacts/14148315355",
+        "2026-11-15T05:09:16.4564973Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/"
+      ]
+    },
+    "windows_log": {
+      "decoded_text_characters": 16424,
+      "excerpt": [
+        "2026-11-15T05:08:47.7602395Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)\r",
+        "2026-11-15T05:08:54.2203875Z 50c7fd7e279cd1f97345941d1ef13d6d76412cd8\r",
+        "2026-11-15T05:08:55.4896127Z \u001b[36;1mpython -B \"$env:DG17_TOOLS/test_store_custody.py\" \"$work/rebuilt/author/stage_b.py\" \"$work/private-store-controls\" *> \"$work/store-custody.log\"\u001b[0m\r",
+        "2026-11-15T05:09:02.9568849Z ##[error]Process completed with exit code 1.\r",
+        "2026-11-15T05:09:02.9777705Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02\r",
+        "2026-11-15T05:09:03.1220799Z Artifact name is valid!\r",
+        "2026-11-15T05:09:03.3495764Z Beginning upload of artifact content to blob storage\r",
+        "2026-11-15T05:09:03.4644360Z Uploaded bytes 3314\r",
+        "2026-11-15T05:09:03.4967190Z Finished uploading artifact content to blob storage!\r",
+        "2026-11-15T05:09:03.4967971Z SHA256 digest of uploaded artifact zip is 69abaf53d164e88ca49c10f5c846cb887f01d9b0a77abdf08aedb295dfb729fc\r",
+        "2026-11-15T05:09:03.4970159Z Finalizing artifact upload\r",
+        "2026-11-15T05:09:03.8292931Z Artifact dg17-windows-store-source-only.zip successfully finalized. Artifact ID 14148045576\r",
+        "2026-11-15T05:09:03.8293683Z Artifact dg17-windows-store-source-only has been successfully uploaded! Final size is 3314 bytes. Artifact ID is 14148045576\r",
+        "2026-11-15T05:09:03.8300727Z Artifact download URL: https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43679794953/artifacts/14148045576\r",
+        "2026-11-15T05:09:05.2664590Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/\r"
+      ]
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "authority": "NONE",
+  "jobs": [
+    {
+      "conclusion": "success",
+      "id": 132707719487,
+      "logs_url": null,
+      "name": "linux-deterministic",
+      "run_id": 43679794953,
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Exercise deterministic owners with explicitly simulated native seams",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Retain source-only results",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "conclusion": "failure",
+      "id": 132707719628,
+      "logs_url": null,
+      "name": "windows-store-only",
+      "run_id": 43679794953,
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "failure",
+          "name": "Check private fixture directory with real Windows APIs",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Retain Windows fixture results without native credit",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed"
+        }
+      ]
+    }
+  ],
+  "run": {
+    "branch": "engineering/pro-executor-dg17-source-20261115",
+    "conclusion": "failure",
+    "created_at": "2026-11-15T05:08:44Z",
+    "event": "push",
+    "head_sha": "50c7fd7e279cd1f97345941d1ef13d6d76412cd8",
+    "id": 43679794953,
+    "run_attempt": 1,
+    "started_at": "2026-11-15T05:08:44Z",
+    "status": "completed",
+    "tree": "df9b72c932a0b60dca918232567e725fa0585771",
+    "updated_at": "2026-11-15T05:09:19Z"
+  },
+  "schema": "dg17.source-ci-provider-receiving.v1"
+}
