@@ -1,0 +1,800 @@
+{
+  "archive": {
+    "bytes": 2426880,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/SUBJECT.tar",
+    "sha256": "84bdbce41ff05555e19319b0d3b1b6682ac6452c43c317ddfc7f9d0607dd1e43"
+  },
+  "members": [
+    {
+      "bytes": 0,
+      "name": "subject",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.IMPLEMENTAUDIT",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.IMPLEMENTAUDIT/.r36-locks",
+      "type": "directory"
+    },
+    {
+      "bytes": 1,
+      "name": "subject/.IMPLEMENTAUDIT/.r36-locks/namespace.gate",
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.IMPLEMENTAUDIT/runs",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5",
+      "type": "directory"
+    },
+    {
+      "bytes": 478,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/.claimed",
+      "sha256": "8121fbcf9151452c73919b47c4d13534e6d83c1a72dcdc6a6625a820a0a24aa5",
+      "type": "file"
+    },
+    {
+      "bytes": 40,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/.controller",
+      "sha256": "f54ad054e1a164b617bf5f88a18ff59d3c2a2a6ab7d42041f798c381b795f2d7",
+      "type": "file"
+    },
+    {
+      "bytes": 74155,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/PROTOCOL.md",
+      "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+      "type": "file"
+    },
+    {
+      "bytes": 399,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/ROADMAP.md",
+      "sha256": "ff522ed8d02f6c6ca2d2fd053b10a8a1f7341343754c89c9cd6ccc299831b1a9",
+      "type": "file"
+    },
+    {
+      "bytes": 10977,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/STATE.md",
+      "sha256": "ef41d01fd52337e1b581627a3be13639cee9da8e3b15b6a8142c6ebddec9b200",
+      "type": "file"
+    },
+    {
+      "bytes": 774,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/THINKING.md",
+      "sha256": "6242d936d43f37fc9510a82f179011d8ca2f991cfab36a6046b6bb49f3cb9bc6",
+      "type": "file"
+    },
+    {
+      "bytes": 698,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/context.md",
+      "sha256": "158e35637eafd239ff2465bb34328f12377702612580111ed80c94168356faeb",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/phases",
+      "type": "directory"
+    },
+    {
+      "bytes": 4092,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/phases/phase-1.md",
+      "sha256": "f310f85c968eb0095a7b50c2b66af042fa0c20cefee3ab9d68fbe8a1e50fd40f",
+      "type": "file"
+    },
+    {
+      "bytes": 205,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/sidecars.md",
+      "sha256": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+      "type": "file"
+    },
+    {
+      "bytes": 394,
+      "name": "subject/.IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5/tools.md",
+      "sha256": "482bf4098c298a2f2aef099c47d6ca757dfb3460335bc0e8a0ad86f8ca3d5682",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git",
+      "type": "directory"
+    },
+    {
+      "bytes": 49,
+      "name": "subject/.git/COMMIT_EDITMSG",
+      "sha256": "554989e19b3933dd0c70b7d5fe3d41a696e0547c1235d2732bdfc881b667f46a",
+      "type": "file"
+    },
+    {
+      "bytes": 30,
+      "name": "subject/.git/HEAD",
+      "sha256": "83491a5331ae1daf429c211b8b7bcbfbce34d71cdb383e3f42b4da114d087572",
+      "type": "file"
+    },
+    {
+      "bytes": 130,
+      "name": "subject/.git/config",
+      "sha256": "05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc",
+      "type": "file"
+    },
+    {
+      "bytes": 217,
+      "name": "subject/.git/index",
+      "sha256": "860f91603bb4554d26d0c95cf106cdc6e7a03c2d06d184bfa070ce9500379914",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/logs",
+      "type": "directory"
+    },
+    {
+      "bytes": 500,
+      "name": "subject/.git/logs/HEAD",
+      "sha256": "72ba708564d4fc707515617afc51f186c00331884f4197952ce4e173f5b4da31",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/logs/refs",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/logs/refs/heads",
+      "type": "directory"
+    },
+    {
+      "bytes": 216,
+      "name": "subject/.git/logs/refs/heads/qualification",
+      "sha256": "ebdc646944c2d14db4345d6ec4029762403cfa6a9bf790272d48e0cd1b52397a",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/0b",
+      "type": "directory"
+    },
+    {
+      "bytes": 41,
+      "name": "subject/.git/objects/0b/ee00ac109590711057e2f5e4c060e11939a0dd",
+      "sha256": "31318970be069dcfa6d6054005bb57606cbff231a777a81874ff709c9ce08014",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/0c",
+      "type": "directory"
+    },
+    {
+      "bytes": 236,
+      "name": "subject/.git/objects/0c/938e71f05130feb67ed5647d1ace6c669fce86",
+      "sha256": "07581f1d05ee368da4d66545893119c7188547dd246ee5551330816aae1377c7",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/67",
+      "type": "directory"
+    },
+    {
+      "bytes": 86,
+      "name": "subject/.git/objects/67/272a0f396f9c715813bf790a5b324bd4d6e054",
+      "sha256": "70e70d3c1bfceb21ac8ff9d34eec0d7df0bfe3c6b3db1ea9313075847f8064fd",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/69",
+      "type": "directory"
+    },
+    {
+      "bytes": 925,
+      "name": "subject/.git/objects/69/76868dc46915aea3f8d52aa3300090acfbc32a",
+      "sha256": "f68419e996618571fbf7b0a8540a68e75b7aaf9ba1d956479a7a8bf0aa99fb52",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/80",
+      "type": "directory"
+    },
+    {
+      "bytes": 1589,
+      "name": "subject/.git/objects/80/8a07743e9129a23614c18b2c0b3e0dc8ff6d8c",
+      "sha256": "30068e37412a177aa25d0da4012cba7a426dae9992432a5184e2275e1f94dcf9",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/c1",
+      "type": "directory"
+    },
+    {
+      "bytes": 174,
+      "name": "subject/.git/objects/c1/79cd846b740be7c9514435fc6a43d173ee1aa8",
+      "sha256": "5da37953bc4ea82f215eb756fe07180de184f64510a79c10a8c8e213221bb049",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/e0",
+      "type": "directory"
+    },
+    {
+      "bytes": 176,
+      "name": "subject/.git/objects/e0/ddf1ddf6cb6d74007eef11ef32a3537eeadde9",
+      "sha256": "7147db0119003c89a2827b5b5e238a4e53a03d06bd0d6194e7e2ebb124289100",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/info",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/objects/pack",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/heads",
+      "type": "directory"
+    },
+    {
+      "bytes": 41,
+      "name": "subject/.git/refs/heads/qualification",
+      "sha256": "198b5179f32a662273782cfa03d872a8aa81e4c3e1e390a0a13022d8dd58696f",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/implementaudit",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/implementaudit/controller-initialization-bindings",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/implementaudit/controller-initialization-bindings/dg18-w-full-43716779086-1",
+      "type": "directory"
+    },
+    {
+      "bytes": 41,
+      "name": "subject/.git/refs/implementaudit/controller-initialization-bindings/dg18-w-full-43716779086-1/c8e39fb4cbe8150b6138a3fddcd951da",
+      "sha256": "48f160ad2d89e0945dc048c461338a828002632693142d5934845bbf4f85f8bf",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/implementaudit/controller-initializations",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/implementaudit/controller-initializations/dg18-w-full-43716779086-1",
+      "type": "directory"
+    },
+    {
+      "bytes": 41,
+      "name": "subject/.git/refs/implementaudit/controller-initializations/dg18-w-full-43716779086-1/c8e39fb4cbe8150b6138a3fddcd951da",
+      "sha256": "31b933aeb82ea36d5d145919f790afbd4db0857831e3bb95c42c739cd3aea540",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/implementaudit/controllers",
+      "type": "directory"
+    },
+    {
+      "bytes": 41,
+      "name": "subject/.git/refs/implementaudit/controllers/dg18-w-full-43716779086-1",
+      "sha256": "4c4f4c3c7cefe4aa8ae5bd2bd026dda3991421f27f2eff6a39b34700d6e29c3b",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/.git/refs/tags",
+      "type": "directory"
+    },
+    {
+      "bytes": 25,
+      "name": "subject/.gitignore",
+      "sha256": "fa2c812335f259d8e15448c2b3a70dc3f09937ead8e096b0d194867a36c8addd",
+      "type": "file"
+    },
+    {
+      "bytes": 294,
+      "name": "subject/TASK.md",
+      "sha256": "8e71d51152a42b7a46b395808fae33a06907f1ef2004bb94ecbbe5fd486fa7de",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills",
+      "type": "directory"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/audit-andon",
+      "type": "directory"
+    },
+    {
+      "bytes": 2812,
+      "name": "subject/skills/audit-andon/SKILL.md",
+      "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/audit-assess",
+      "type": "directory"
+    },
+    {
+      "bytes": 2039,
+      "name": "subject/skills/audit-assess/SKILL.md",
+      "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/audit-implement",
+      "type": "directory"
+    },
+    {
+      "bytes": 5448,
+      "name": "subject/skills/audit-implement/SKILL.md",
+      "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/audit-state",
+      "type": "directory"
+    },
+    {
+      "bytes": 3858,
+      "name": "subject/skills/audit-state/SKILL.md",
+      "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/implementaudit",
+      "type": "directory"
+    },
+    {
+      "bytes": 21259,
+      "name": "subject/skills/implementaudit/SKILL.md",
+      "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/implementaudit/references",
+      "type": "directory"
+    },
+    {
+      "bytes": 14156,
+      "name": "subject/skills/implementaudit/references/audit-category-matrix.md",
+      "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79",
+      "type": "file"
+    },
+    {
+      "bytes": 23193,
+      "name": "subject/skills/implementaudit/references/audit-playbook.md",
+      "sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8",
+      "type": "file"
+    },
+    {
+      "bytes": 3844,
+      "name": "subject/skills/implementaudit/references/canonical-state-ref-namespaces.json",
+      "sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390",
+      "type": "file"
+    },
+    {
+      "bytes": 25561,
+      "name": "subject/skills/implementaudit/references/canonical-state-rotation.md",
+      "sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a",
+      "type": "file"
+    },
+    {
+      "bytes": 18955,
+      "name": "subject/skills/implementaudit/references/child-agents.md",
+      "sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb",
+      "type": "file"
+    },
+    {
+      "bytes": 21266,
+      "name": "subject/skills/implementaudit/references/continuity.md",
+      "sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1",
+      "type": "file"
+    },
+    {
+      "bytes": 8668,
+      "name": "subject/skills/implementaudit/references/convergence-mode.md",
+      "sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69",
+      "type": "file"
+    },
+    {
+      "bytes": 6895,
+      "name": "subject/skills/implementaudit/references/goal-format.md",
+      "sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9",
+      "type": "file"
+    },
+    {
+      "bytes": 21372,
+      "name": "subject/skills/implementaudit/references/host-session-binding.md",
+      "sha256": "db0ee2f6fb4d1e3bae2daab8bae8ebae39df8f725b2702fe270153fa8fc77674",
+      "type": "file"
+    },
+    {
+      "bytes": 1265,
+      "name": "subject/skills/implementaudit/references/identity-namespaces.json",
+      "sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb",
+      "type": "file"
+    },
+    {
+      "bytes": 18210,
+      "name": "subject/skills/implementaudit/references/issue-ready-work-orders.md",
+      "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+      "type": "file"
+    },
+    {
+      "bytes": 22319,
+      "name": "subject/skills/implementaudit/references/lean-operating-discipline.md",
+      "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a",
+      "type": "file"
+    },
+    {
+      "bytes": 20396,
+      "name": "subject/skills/implementaudit/references/phase-design.md",
+      "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+      "type": "file"
+    },
+    {
+      "bytes": 32365,
+      "name": "subject/skills/implementaudit/references/plan-lifecycle.md",
+      "sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa",
+      "type": "file"
+    },
+    {
+      "bytes": 20507,
+      "name": "subject/skills/implementaudit/references/planning-depth.md",
+      "sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293",
+      "type": "file"
+    },
+    {
+      "bytes": 50343,
+      "name": "subject/skills/implementaudit/references/repo-state-comparison.md",
+      "sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961",
+      "type": "file"
+    },
+    {
+      "bytes": 14323,
+      "name": "subject/skills/implementaudit/references/routing.md",
+      "sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222",
+      "type": "file"
+    },
+    {
+      "bytes": 5673,
+      "name": "subject/skills/implementaudit/references/sidecars.md",
+      "sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7",
+      "type": "file"
+    },
+    {
+      "bytes": 4877,
+      "name": "subject/skills/implementaudit/references/terminology-integration.md",
+      "sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5",
+      "type": "file"
+    },
+    {
+      "bytes": 30771,
+      "name": "subject/skills/implementaudit/references/transcript-contract.md",
+      "sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf",
+      "type": "file"
+    },
+    {
+      "bytes": 7038,
+      "name": "subject/skills/implementaudit/references/work-graph-contract.md",
+      "sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/implementaudit/scripts",
+      "type": "directory"
+    },
+    {
+      "bytes": 115042,
+      "name": "subject/skills/implementaudit/scripts/apply-observed-mutation.sh",
+      "sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590",
+      "type": "file"
+    },
+    {
+      "bytes": 36367,
+      "name": "subject/skills/implementaudit/scripts/canonical_custody.py",
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389",
+      "type": "file"
+    },
+    {
+      "bytes": 93893,
+      "name": "subject/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f",
+      "type": "file"
+    },
+    {
+      "bytes": 27916,
+      "name": "subject/skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76",
+      "type": "file"
+    },
+    {
+      "bytes": 17837,
+      "name": "subject/skills/implementaudit/scripts/check-authorization-binding.sh",
+      "sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3",
+      "type": "file"
+    },
+    {
+      "bytes": 94842,
+      "name": "subject/skills/implementaudit/scripts/check-closure-surface.sh",
+      "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7",
+      "type": "file"
+    },
+    {
+      "bytes": 5208,
+      "name": "subject/skills/implementaudit/scripts/check-duplication-parity.sh",
+      "sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7",
+      "type": "file"
+    },
+    {
+      "bytes": 44602,
+      "name": "subject/skills/implementaudit/scripts/check-evidence-anchor.sh",
+      "sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735",
+      "type": "file"
+    },
+    {
+      "bytes": 18913,
+      "name": "subject/skills/implementaudit/scripts/check-handoff-packet.sh",
+      "sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120",
+      "type": "file"
+    },
+    {
+      "bytes": 11417,
+      "name": "subject/skills/implementaudit/scripts/check-lesson-lift.sh",
+      "sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a",
+      "type": "file"
+    },
+    {
+      "bytes": 6560,
+      "name": "subject/skills/implementaudit/scripts/check-respec-impact-set.sh",
+      "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38",
+      "type": "file"
+    },
+    {
+      "bytes": 291624,
+      "name": "subject/skills/implementaudit/scripts/claim-run-rotation.py",
+      "sha256": "866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d",
+      "type": "file"
+    },
+    {
+      "bytes": 32290,
+      "name": "subject/skills/implementaudit/scripts/claim-run.sh",
+      "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353",
+      "type": "file"
+    },
+    {
+      "bytes": 261683,
+      "name": "subject/skills/implementaudit/scripts/compile-work-graph.py",
+      "sha256": "226f4897a5e8edd0ffe460426a9b2995cd5f2bcfb169b68978ae727d065f685b",
+      "type": "file"
+    },
+    {
+      "bytes": 5668,
+      "name": "subject/skills/implementaudit/scripts/custody-append.sh",
+      "sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762",
+      "type": "file"
+    },
+    {
+      "bytes": 7221,
+      "name": "subject/skills/implementaudit/scripts/detect-env.sh",
+      "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516",
+      "type": "file"
+    },
+    {
+      "bytes": 3601,
+      "name": "subject/skills/implementaudit/scripts/detect-stack.sh",
+      "sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2",
+      "type": "file"
+    },
+    {
+      "bytes": 58385,
+      "name": "subject/skills/implementaudit/scripts/host-session-binding.py",
+      "sha256": "2e784dbbe8470cd2de335e07c66ea0112d7c324b292a21f1f236309d5d0be1fa",
+      "type": "file"
+    },
+    {
+      "bytes": 31585,
+      "name": "subject/skills/implementaudit/scripts/host-stop-interlock.py",
+      "sha256": "e180069d3810903a138e64751d71fe8952049967a0ef0deff1e6306c42f749e0",
+      "type": "file"
+    },
+    {
+      "bytes": 2459,
+      "name": "subject/skills/implementaudit/scripts/lane-survivor-inventory.sh",
+      "sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45",
+      "type": "file"
+    },
+    {
+      "bytes": 2615,
+      "name": "subject/skills/implementaudit/scripts/map-pin-chain.sh",
+      "sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74",
+      "type": "file"
+    },
+    {
+      "bytes": 27208,
+      "name": "subject/skills/implementaudit/scripts/read-canonical-pair.py",
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
+      "type": "file"
+    },
+    {
+      "bytes": 22629,
+      "name": "subject/skills/implementaudit/scripts/repo-state.sh",
+      "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b",
+      "type": "file"
+    },
+    {
+      "bytes": 6787,
+      "name": "subject/skills/implementaudit/scripts/resolve-durable-identity.py",
+      "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203",
+      "type": "file"
+    },
+    {
+      "bytes": 5178,
+      "name": "subject/skills/implementaudit/scripts/resolve-internal-skill.py",
+      "sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d",
+      "type": "file"
+    },
+    {
+      "bytes": 129890,
+      "name": "subject/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678",
+      "type": "file"
+    },
+    {
+      "bytes": 7281,
+      "name": "subject/skills/implementaudit/scripts/summarize-repo.sh",
+      "sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c",
+      "type": "file"
+    },
+    {
+      "bytes": 13460,
+      "name": "subject/skills/implementaudit/scripts/validate-audit-implement-return.py",
+      "sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301",
+      "type": "file"
+    },
+    {
+      "bytes": 1673,
+      "name": "subject/skills/implementaudit/scripts/validate-audit-spec.sh",
+      "sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7",
+      "type": "file"
+    },
+    {
+      "bytes": 45816,
+      "name": "subject/skills/implementaudit/scripts/validate-phase.sh",
+      "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab",
+      "type": "file"
+    },
+    {
+      "bytes": 123126,
+      "name": "subject/skills/implementaudit/scripts/validate-run-root.sh",
+      "sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad",
+      "type": "file"
+    },
+    {
+      "bytes": 0,
+      "name": "subject/skills/implementaudit/templates",
+      "type": "directory"
+    },
+    {
+      "bytes": 74155,
+      "name": "subject/skills/implementaudit/templates/PROTOCOL.md",
+      "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+      "type": "file"
+    },
+    {
+      "bytes": 3512,
+      "name": "subject/skills/implementaudit/templates/ROADMAP.md",
+      "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a",
+      "type": "file"
+    },
+    {
+      "bytes": 10089,
+      "name": "subject/skills/implementaudit/templates/STATE.md",
+      "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b",
+      "type": "file"
+    },
+    {
+      "bytes": 6380,
+      "name": "subject/skills/implementaudit/templates/THINKING.md",
+      "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
+      "type": "file"
+    },
+    {
+      "bytes": 4461,
+      "name": "subject/skills/implementaudit/templates/child-agent-report.md",
+      "sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4",
+      "type": "file"
+    },
+    {
+      "bytes": 740,
+      "name": "subject/skills/implementaudit/templates/context.md",
+      "sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a",
+      "type": "file"
+    },
+    {
+      "bytes": 4250,
+      "name": "subject/skills/implementaudit/templates/final-report.md",
+      "sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9",
+      "type": "file"
+    },
+    {
+      "bytes": 785,
+      "name": "subject/skills/implementaudit/templates/host-notes.md",
+      "sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8",
+      "type": "file"
+    },
+    {
+      "bytes": 12501,
+      "name": "subject/skills/implementaudit/templates/phase-goal.txt",
+      "sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49",
+      "type": "file"
+    },
+    {
+      "bytes": 3188,
+      "name": "subject/skills/implementaudit/templates/read-only-plan.md",
+      "sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2",
+      "type": "file"
+    },
+    {
+      "bytes": 1129,
+      "name": "subject/skills/implementaudit/templates/respec-impact-set.md",
+      "sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40",
+      "type": "file"
+    },
+    {
+      "bytes": 763,
+      "name": "subject/skills/implementaudit/templates/sidecars.md",
+      "sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332",
+      "type": "file"
+    },
+    {
+      "bytes": 997,
+      "name": "subject/skills/implementaudit/templates/tools.md",
+      "sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a",
+      "type": "file"
+    }
+  ],
+  "schema": "pro.actual-subject-archive-members.v1"
+}

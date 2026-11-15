@@ -1,0 +1,68 @@
+{
+  "members": {
+    "ARTIFACT_MANIFEST.json": {
+      "bytes": 5776,
+      "sha256": "efbc81826046d61d8656acb53d19e5344c83e1804a871645815fb49bc75bbf43"
+    },
+    "PUBLICATION_INDEPENDENT_RECEIVING.json": {
+      "bytes": 2812,
+      "sha256": "33e532e2c37251a4b1295ff8a4d7b6e44d2db042caf397bd9a7e8ce658358895"
+    },
+    "RECEIVING.json": {
+      "bytes": 24147,
+      "sha256": "448de17f170d1ebc1a43d0ce2e337110ed04fb944591896cb5a6db638f5802fd"
+    },
+    "RECEIVING.md": {
+      "bytes": 3171,
+      "sha256": "ded8efaf65895562726c7e4ecb0a7b09c6c5b083df811e83a4fe4f6509360465"
+    },
+    "SUBJECT_MANIFEST.json": {
+      "bytes": 26027,
+      "sha256": "a6349c4e8455fed9c3d6c9904d4d737f222b2de019b4395ebb84ff1953028abd"
+    },
+    "artifact/PREPARATION.json": {
+      "bytes": 1625,
+      "sha256": "ddeaee500048a94884b83e4f551058d9538daba24679bf2b081371df53f1473f"
+    },
+    "artifact/raw/009-activate-exact.json": {
+      "bytes": 735,
+      "sha256": "a1461850c90e116f867b1bebf76a6a7fa0dfd464e7de6a14cf859fbc6b90e288"
+    },
+    "artifact/raw/009-activate-exact.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "artifact/raw/009-activate-exact.stdout": {
+      "bytes": 1808,
+      "sha256": "451a2e5f4802c3c585b835bd5b48c65e31d410ed9b4a2d8d02486b1c1d517076"
+    },
+    "dg18-w-full-preparation-43716779086-1.zip": {
+      "bytes": 615371,
+      "sha256": "b7439f80a8acdb7d1d16a80f986c9ed43fc94e3423d015fc0c129a62f50a4f86"
+    },
+    "final_run.json": {
+      "bytes": 13935,
+      "sha256": "7be558dccfb98d5641165c789f42cc02afac0a7b760c4f971677f3b715151b28"
+    },
+    "job_logs.log": {
+      "bytes": 29479,
+      "sha256": "2439164d7a7b74d88a5f8f4422becac8ab359c509ff54fd75c016ffb54c1fbfe"
+    },
+    "provider_commit.json": {
+      "bytes": 1474,
+      "sha256": "911e96078cc4108ebfb4a02b8a6b80fc61b8edc1a59b4fa486d03f98ecd1dc7b"
+    },
+    "provider_ref.json": {
+      "bytes": 494,
+      "sha256": "c236a966eb5708d29caf9fa70f4216ce0adbd8ccb17348d59451951d7d3f2a18"
+    }
+  },
+  "original_acceptance_delta": 0,
+  "original_archive_preserved": true,
+  "private_materialization_transport_metadata_excluded": true,
+  "protected_execute": false,
+  "run_attempt": 1,
+  "run_id": 43716779086,
+  "schema": "pro.dg18.public-failed-preparation-evidence.v1",
+  "status": "RECEIVED_ACTIVATION_SUCCESS_AND_SUBSEQUENT_WRAPPER_FAILURE_NO_OPERATION_RECORD"
+}

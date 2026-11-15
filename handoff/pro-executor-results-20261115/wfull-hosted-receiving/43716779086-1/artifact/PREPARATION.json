@@ -1,0 +1,34 @@
+{
+  "authority": "PREPARATION_ONLY",
+  "automatic_retry": false,
+  "controller": "dg18-w-full-43716779086-1",
+  "exception_type": "FileNotFoundError",
+  "first_failure": "[Errno 2] No such file or directory: 'D:\\\\a\\\\_temp\\\\dg18-w-full-43716779086-1\\\\subject\\\\.IMPLEMENTAUDIT\\\\runs\\\\fresh-windows-w-full-preparation-CVXea5\\\\evidence\\\\authorization.txt'",
+  "inherited_temp_paths": {
+    "TEMP": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp"
+  },
+  "last_step": "activate-exact",
+  "maintained_environment": {
+    "IMPLEMENTAUDIT_PYTHON": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+    "LC_ALL": "C",
+    "MSYS2_ARG_CONV_EXCL": "*",
+    "PATH": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64;C:\\Program Files\\Git\\ucrt64\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Windows\\System32",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "SystemRoot": "C:\\Windows",
+    "TEMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp",
+    "WINDIR": "C:\\Windows"
+  },
+  "original_acceptance_delta": 0,
+  "protected_execute_called": false,
+  "source_head": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "source_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+  "status": "PREPARATION_FAILED",
+  "subject_archive": {
+    "bytes": 2426880,
+    "path": "D:\\a\\_temp\\dg18-w-full-43716779086-1\\SUBJECT.tar",
+    "sha256": "84bdbce41ff05555e19319b0d3b1b6682ac6452c43c317ddfc7f9d0607dd1e43"
+  }
+}

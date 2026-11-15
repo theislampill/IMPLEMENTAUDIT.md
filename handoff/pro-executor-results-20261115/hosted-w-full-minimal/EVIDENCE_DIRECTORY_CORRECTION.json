@@ -1,0 +1,40 @@
+{
+  "actual_corrected_result": "NOT_RUN",
+  "after": {
+    "bytes": 12203,
+    "sha256": "0e6257e3d0eb939d8dbcc796f23c8a157f063729279847d283318d2a40dbba3c"
+  },
+  "author": "/root",
+  "before": {
+    "bytes": 12168,
+    "sha256": "b57a6c7ae99e0d75d9a2ceb142138eefd2a93175016b404b45dd13857d1f62d0"
+  },
+  "change": "Create exactly the fresh actual run/evidence directory once immediately before the three-file exclusive save loop.",
+  "custody_or_exclusive_create_checks_changed": false,
+  "equivalent_output_parent_scan": {
+    "actual_run": "WORK_GRAPH.json and owner-map.json; exact claim-created run exists",
+    "actual_run_evidence": "authorization.txt, initialization.txt, public_owner_source.txt; same sole missing parent corrected",
+    "out": "PREPARATION.json and SUBJECT.tar; out created before writes",
+    "subject": ".gitignore and TASK.md; subject created before writes"
+  },
+  "executor": "PRO-EXECUTOR-01",
+  "first_failing_predicate": {
+    "activation_exit": 0,
+    "activation_status": "BOUND_ELIGIBLE_FOR_NORMAL_CURRENTNESS",
+    "actual_evidence_directory_present": false,
+    "exception_type": "FileNotFoundError",
+    "path": "actual_run/evidence/authorization.txt",
+    "run_attempt": 1,
+    "run_id": 43716779086
+  },
+  "maintained_product_changed": false,
+  "old_subject_replayed": false,
+  "original_acceptance_delta": 0,
+  "original_requirement": "R0039/#215 F0 and F5-F7: actual initialized Windows subject and complete whole-owner resume; this is ordinary subject preparation only.",
+  "prior_activation_preserved_as_earned": true,
+  "protected_execute": false,
+  "recorded_utc": "2026-11-15T13:03:48.516507+00:00",
+  "schema": "pro.dg18.actual-evidence-directory-correction.v1",
+  "source_cause": "Historical author save created parents; maintained driver.save uses exclusive open only. The wrapper had omitted creating the evidence parent for three new files.",
+  "static_python_compile": "PASS"
+}

@@ -1,0 +1,464 @@
+{
+  "actual_commands": [
+    {
+      "command": [
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+        "-C",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject",
+        "-c",
+        "init.templateDir=",
+        "init",
+        "-q",
+        "-b",
+        "qualification"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 420,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/001-init.json",
+        "sha256": "becb5b8149252fc0bb5724dadd191cd46e64a6916be4a9f35ccd53d8741c24f9"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/001-init.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/001-init.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+        "-C",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject",
+        "add",
+        "--",
+        "TASK.md",
+        ".gitignore"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 386,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/002-add-task.json",
+        "sha256": "e86bc1a07a677dcc376e4ae06c8e0d23637f4d0f958b4b779e0fb5ca2c3f29e8"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/002-add-task.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/002-add-task.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+        "-C",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject",
+        "-c",
+        "user.name=PRO-EXECUTOR-01",
+        "-c",
+        "user.email=pro-executor-01@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "-c",
+        "core.hooksPath=NUL",
+        "commit",
+        "-qm",
+        "Define actual bounded Windows W-FULL preparation"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 590,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/003-baseline.json",
+        "sha256": "a503e2d8f2a2b2f4761a50a5ad990d5f8895f083be8c6217fc54921ee6db7bef"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/003-baseline.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/003-baseline.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+        "-C",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 361,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/004-subject-head.json",
+        "sha256": "74788cfc38cebffd76db2d5eb65365a82d0e695f209eef12f2e80a56c6cd4329"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/004-subject-head.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 41,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/004-subject-head.stdout",
+        "sha256": "198b5179f32a662273782cfa03d872a8aa81e4c3e1e390a0a13022d8dd58696f"
+      }
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+        "-C",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject",
+        "rev-parse",
+        "HEAD^{tree}"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 368,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/005-subject-tree.json",
+        "sha256": "c8d85e30d78f4242d7aacb6392d09bb41664b8c349dff7a22bb654a20358203f"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/005-subject-tree.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 41,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/005-subject-tree.stdout",
+        "sha256": "5417522ce62b35e3fc01bad10e04e2245aead876342bf21350f8fc2298db0374"
+      }
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+        "--noprofile",
+        "--norc",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject\\skills\\implementaudit\\scripts\\claim-run.sh",
+        "--controller",
+        "dg18-w-full-43716779086-1",
+        "Fresh Windows W-FULL preparation"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 493,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/006-claim.json",
+        "sha256": "6973f33db53ca2db9ef5e9943aa6d5c0ab951eec66350b15f9f1e74677a416e5"
+      },
+      "stderr": {
+        "bytes": 218,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/006-claim.stderr",
+        "sha256": "7481c5d7c8f950264c4003eb2e76a84889d576fb91b29aeb46caa10f6e7f1f8a"
+      },
+      "stdout": {
+        "bytes": 61,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/006-claim.stdout",
+        "sha256": "c9ab68fe748deef2437172593691b125872442635e880cb1ed6d4e74747167b3"
+      }
+    },
+    {
+      "command": [
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+        "-I",
+        "-X",
+        "utf8",
+        "-B",
+        "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\qualified-source\\fixtures\\controller-initialization\\author_checkpoint.py",
+        "--repo",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5",
+        "--source",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject",
+        "--purpose",
+        "Prepare an actual new Windows W-FULL subject and exact operation record under owner engineering authority; protected execute requires its separate fresh owner grant.",
+        "--next-action",
+        "Obtain the exact owner grant, then execute and independently receive the prepared Windows operation"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 1000,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/007-author-actual-task.json",
+        "sha256": "9f899055d307f1badd6d677b2b4b1651624063d1c368a0718d45f0f92e4d2d03"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/007-author-actual-task.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 691,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/007-author-actual-task.stdout",
+        "sha256": "e59dbfe9141c68e30e02fc1cc058e9c99b7deef309fdd0805152aed148570741"
+      }
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+        "--noprofile",
+        "--norc",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject\\skills\\implementaudit\\scripts\\claim-run.sh",
+        "--inspect-controller-initialization",
+        "dg18-w-full-43716779086-1",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 562,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/008-inspect-initialization.json",
+        "sha256": "2feba19b4582e46bba87fe8b363c79c9ad284faa70eaaa43c45ebe0619394b93"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/008-inspect-initialization.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 631,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/008-inspect-initialization.stdout",
+        "sha256": "fb09e57ad2f5e9b6fb940c878bb2796426622160698895d2bdc081173420cb12"
+      }
+    },
+    {
+      "command": [
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+        "--noprofile",
+        "--norc",
+        "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject\\skills\\implementaudit\\scripts\\claim-run.sh",
+        "--activate-controller",
+        "dg18-w-full-43716779086-1",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5",
+        "--expected-initialization",
+        "refs/implementaudit/controller-initializations/dg18-w-full-43716779086-1/c8e39fb4cbe8150b6138a3fddcd951da@808a07743e9129a23614c18b2c0b3e0dc8ff6d8c"
+      ],
+      "exit_code": 0,
+      "record": {
+        "bytes": 735,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/009-activate-exact.json",
+        "sha256": "a1461850c90e116f867b1bebf76a6a7fa0dfd464e7de6a14cf859fbc6b90e288"
+      },
+      "stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/009-activate-exact.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 1808,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/009-activate-exact.stdout",
+        "sha256": "451a2e5f4802c3c585b835bd5b48c65e31d410ed9b4a2d8d02486b1c1d517076"
+      }
+    }
+  ],
+  "actual_subject": {
+    "archive": {
+      "bytes": 2426880,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/SUBJECT.tar",
+      "sha256": "84bdbce41ff05555e19319b0d3b1b6682ac6452c43c317ddfc7f9d0607dd1e43"
+    },
+    "claim_id": "c8e39fb4cbe8150b6138a3fddcd951da",
+    "controller": "dg18-w-full-43716779086-1",
+    "copied_skill_files_exact_selected_source": 70,
+    "directories": 38,
+    "initialization_token": "refs/implementaudit/controller-initializations/dg18-w-full-43716779086-1/c8e39fb4cbe8150b6138a3fddcd951da@808a07743e9129a23614c18b2c0b3e0dc8ff6d8c",
+    "manifest": {
+      "bytes": 26027,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/SUBJECT_MANIFEST.json",
+      "sha256": "a6349c4e8455fed9c3d6c9904d4d737f222b2de019b4395ebb84ff1953028abd"
+    },
+    "members": 138,
+    "no_alias_or_special_archive_members": true,
+    "pointer_receipt_marker_refs_absent": true,
+    "regular_files": 100,
+    "retained_authority_refs": {
+      "subject/.git/refs/implementaudit/controller-initialization-bindings/dg18-w-full-43716779086-1/c8e39fb4cbe8150b6138a3fddcd951da": "6976868dc46915aea3f8d52aa3300090acfbc32a",
+      "subject/.git/refs/implementaudit/controller-initializations/dg18-w-full-43716779086-1/c8e39fb4cbe8150b6138a3fddcd951da": "808a07743e9129a23614c18b2c0b3e0dc8ff6d8c",
+      "subject/.git/refs/implementaudit/controllers/dg18-w-full-43716779086-1": "c179cd846b740be7c9514435fc6a43d173ee1aa8"
+    },
+    "retained_git_objects_hash_verified": 7,
+    "run_relative": ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5",
+    "source_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "source_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "subject_head": "e0ddf1ddf6cb6d74007eef11ef32a3537eeadde9",
+    "subject_tree": "67272a0f396f9c715813bf790a5b324bd4d6e054"
+  },
+  "artifact": {
+    "all_crc_and_hashes_valid": true,
+    "github_artifact_acquisitions": 1,
+    "local_archive": {
+      "bytes": 615371,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/dg18-w-full-preparation-43716779086-1.zip",
+      "sha256": "b7439f80a8acdb7d1d16a80f986c9ed43fc94e3423d015fc0c129a62f50a4f86"
+    },
+    "member_manifest": {
+      "bytes": 5776,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/ARTIFACT_MANIFEST.json",
+      "sha256": "efbc81826046d61d8656acb53d19e5344c83e1804a871645815fb49bc75bbf43"
+    },
+    "members": 29,
+    "metadata": {
+      "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163040910/zip",
+      "created_at": "2026-11-15T13:01:45Z",
+      "digest": "sha256:b7439f80a8acdb7d1d16a80f986c9ed43fc94e3423d015fc0c129a62f50a4f86",
+      "expired": false,
+      "expires_at": "2026-11-22T13:01:44Z",
+      "id": 14163040910,
+      "name": "dg18-w-full-preparation-43716779086-1",
+      "size_in_bytes": 615371,
+      "updated_at": "2026-11-15T13:01:45Z",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163040910",
+      "workflow_run": {
+        "head_branch": "engineering/pro-dg18-w-full-minimal-20261115",
+        "head_repository_id": 1243475954,
+        "head_sha": "f39da17c933cdbac40732b0e2cb6d3143cf0315a",
+        "id": 43716779086,
+        "repository_id": 1243475954
+      }
+    },
+    "prior_artifact_reacquired": false,
+    "reusable_file_materializations": 1
+  },
+  "authority": "NONE",
+  "diagnosis": {
+    "demonstrated_helper_contract_difference": "Historical 880 save created path.parent with mkdir(parents=True,exist_ok=True); maintained driver.save preserves exclusive file creation but assumes an existing parent. New wrapper did not create run/evidence before its three writes.",
+    "finite_equivalent_calls_checked": {
+      "out/PREPARATION.json": "out.mkdir already performed",
+      "run/WORK_GRAPH.json": "actual run already exists",
+      "run/evidence/authorization.txt": "missing shared parent",
+      "run/evidence/initialization.txt": "same missing shared parent",
+      "run/evidence/public_owner_source.txt": "same missing shared parent",
+      "run/owner-map.json": "actual run already exists",
+      "subject/.gitignore": "subject.mkdir already performed",
+      "subject/TASK.md": "subject.mkdir already performed"
+    },
+    "historical_save_function": {
+      "bytes": 246,
+      "commit": "8806711614bf4ed736a6599a5b63b234c37c7407",
+      "function": "save",
+      "path": "qualification/dg18-isolated-windows21/prepare_and_execute.py",
+      "sha256": "6d37b4dfe5c70f689057c409903c3618f18846ea6d3c8bf50d985fa83ac9613e"
+    },
+    "narrow_source_remedy": "Explicit exclusive creation of this fresh run/evidence directory immediately before the three-file loop, preserving maintained save and all product/custody checks.",
+    "review_accountability": "The original broad source review missed this historical-to-maintained save helper-contract difference. This actual result bounds and corrects that source finding; it is not concealed or relabeled."
+  },
+  "disposition": "RECEIVED_ACTIVATION_SUCCESS_AND_SUBSEQUENT_PREPARATION_FAILURE",
+  "earned_new_result": {
+    "activation_status": "BOUND_ELIGIBLE_FOR_NORMAL_CURRENTNESS",
+    "activation_stderr": {
+      "bytes": 0,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/009-activate-exact.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "activation_stdout": {
+      "bytes": 1808,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/009-activate-exact.stdout",
+      "sha256": "451a2e5f4802c3c585b835bd5b48c65e31d410ed9b4a2d8d02486b1c1d517076"
+    },
+    "actual_bound_population_matches_archive": true,
+    "actual_maintained_TEMP_TMP": {
+      "TEMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp",
+      "TMP": "C:\\Users\\runneradmin\\AppData\\Local\\Temp"
+    },
+    "actual_ref_and_blob_readback_match_stdout": true,
+    "authority_ceiling": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+    "binding_record_oid": "6976868dc46915aea3f8d52aa3300090acfbc32a",
+    "controller_oid": "c179cd846b740be7c9514435fc6a43d173ee1aa8",
+    "inherited_temp_paths": {
+      "TEMP": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp",
+      "TMP": "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp"
+    },
+    "temp_canonicalization_passed_actual_gate": true
+  },
+  "first_failure": {
+    "actual_location": "prepare.py line141: first driver.save(run/evidence/authorization.txt)",
+    "exception_type": "FileNotFoundError",
+    "last_recorded_subprocess": "activate-exact, successful exit0; PREPARATION.last_step is not a failing-command identifier",
+    "missing_evidence_parent_confirmed_in_subject_archive": true,
+    "stage": "after successful controller activation, before first receipt/rotation/manual invalidation/maintained prepare",
+    "text": "[Errno 2] No such file or directory: 'D:\\\\a\\\\_temp\\\\dg18-w-full-43716779086-1\\\\subject\\\\.IMPLEMENTAUDIT\\\\runs\\\\fresh-windows-w-full-preparation-CVXea5\\\\evidence\\\\authorization.txt'"
+  },
+  "job_log": {
+    "bytes": 29479,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/job_logs.log",
+    "sha256": "2439164d7a7b74d88a5f8f4422becac8ab359c509ff54fd75c016ffb54c1fbfe"
+  },
+  "operation_record": {
+    "exists": false,
+    "reason": "Wrapper evidence-file creation failed before first resume/rotation/manual invalidation and maintained prepare.",
+    "sha256": null
+  },
+  "operations": {
+    "artifact_downloads": 1,
+    "grants": 0,
+    "job_log_reads": 1,
+    "native_execute": 0,
+    "preparation_runs_started_by_receiver": 0,
+    "qualification_reruns": 0,
+    "source_edits": 0,
+    "successful_provider_metadata_reads": 6
+  },
+  "original_awards": [],
+  "preparation": {
+    "bytes": 1625,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/PREPARATION.json",
+    "sha256": "ddeaee500048a94884b83e4f551058d9538daba24679bf2b081371df53f1473f"
+  },
+  "preservation": {
+    "actual_successful_TEMP_and_activation_controls_retained_as_earned": true,
+    "both_prior_failure_and_current_subject_archive_preserved": true,
+    "no_model_request": true,
+    "no_native_execute": true,
+    "no_old_subject_replay": true
+  },
+  "provider_capture": {
+    "bytes": 66357,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/PROVIDER_CAPTURE.json",
+    "sha256": "5dfa037e480e148e5af970e7f81fae5b95aaaa3921d65630c2f0b685053a4f48"
+  },
+  "provider_run": {
+    "artifact_retention_step": 6,
+    "attempt": 1,
+    "branch": "engineering/pro-dg18-w-full-minimal-20261115",
+    "conclusion": "failure",
+    "created_at": "2026-11-15T13:01:06Z",
+    "event": "push",
+    "failed_step": 5,
+    "head_sha": "f39da17c933cdbac40732b0e2cb6d3143cf0315a",
+    "id": 43716779086,
+    "job_id": 132819913962,
+    "status": "completed",
+    "updated_at": "2026-11-15T13:01:50Z",
+    "workflow_path": ".github/workflows/dg18-w-full-minimal-prepare.yml"
+  },
+  "publication_receiving": {
+    "bytes": 2812,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/PUBLICATION_INDEPENDENT_RECEIVING.json",
+    "sha256": "33e532e2c37251a4b1295ff8a4d7b6e44d2db042caf397bd9a7e8ce658358895"
+  },
+  "received_utc": "2026-11-15T13:04:47.679955+00:00",
+  "remaining": [
+    "Review only the demonstrated evidence-directory correction and finite equivalent save-parent map.",
+    "Successful actual ordinary preparation must supply OPERATION.json and its exact hash.",
+    "Fresh native owner grant, applicable concurrent owner originals, later exact prepared comparison, actual whole-operation measurement and independent receiving remain required."
+  ],
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "publisher": false,
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.dg18.wfull-hosted-preparation-independent-receiving.v1"
+}

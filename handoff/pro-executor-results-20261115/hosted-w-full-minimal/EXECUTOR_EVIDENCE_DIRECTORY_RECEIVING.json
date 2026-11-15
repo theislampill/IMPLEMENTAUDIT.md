@@ -1,0 +1,62 @@
+{
+  "actual_corrected_result": "NOT_RUN",
+  "actual_earned_result": "TEMP_CANONICALIZATION_AND_CONTROLLER_ACTIVATION_PASSED",
+  "actual_receiving_sha256": "448de17f170d1ebc1a43d0ce2e337110ed04fb944591896cb5a6db638f5802fd",
+  "actual_second_run": 43716779086,
+  "author": "/root",
+  "decision": "CONSUME_EXACT_SOURCE_REVIEW_FOR_ORDINARY_PREPARATION_ONLY",
+  "executor": "PRO-EXECUTOR-01",
+  "fresh_protected_grant_issued": false,
+  "independent_review": {
+    "bytes": 8264,
+    "reviewer": "/root/dg16_m5_original_receiving",
+    "sha256": "3e74459d05d83660372ed882a15ced014cfab3a2e248866d90d7508cfc84b7d2"
+  },
+  "original_acceptance_delta": 0,
+  "original_artifacts_preserved": true,
+  "original_requirement": "R0039/#215 F0 and F5-F7, ordinary actual Windows subject preparation for the whole operation.",
+  "product_source_changed": false,
+  "protected_execute": false,
+  "received_utc": "2026-11-15T13:07:18.390709+00:00",
+  "retained_limits": [
+    "Fresh exact operation-specific owner grant",
+    "Applicable concurrent owner originals",
+    "Unchanged custody and exclusive creation",
+    "No protected retry or grant reuse"
+  ],
+  "schema": "pro.dg18.executor-evidence-directory-correction-receiving.v1",
+  "source": {
+    "after": {
+      "bytes": 12203,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "sha256": "0e6257e3d0eb939d8dbcc796f23c8a157f063729279847d283318d2a40dbba3c"
+    },
+    "before": {
+      "bytes": 12168,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_PREPARE_BEFORE_EVIDENCE_DIR_CORRECTION.py",
+      "sha256": "b57a6c7ae99e0d75d9a2ceb142138eefd2a93175016b404b45dd13857d1f62d0"
+    },
+    "correction_record": {
+      "bytes": 1931,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/EVIDENCE_DIRECTORY_CORRECTION.json",
+      "sha256": "c45b3c2edf918e0b3a8f58ad8ce2442a903e7ca6c23bb4742a8662d6d90b9b62"
+    },
+    "readme": {
+      "bytes": 10007,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+      "sha256": "3da14c3461e2cbdc94834934d570feffff2a20266aa87970c9c10420b7ac1ff6"
+    },
+    "selected_product_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "selected_product_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "unchanged_task_bodies": {
+      "bytes": 6653,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+    },
+    "unchanged_workflow": {
+      "bytes": 4379,
+      "path": "/workspace/scratch/0269e6626329/dg18/.github/workflows/dg18-w-full-minimal-prepare.yml",
+      "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+    }
+  }
+}

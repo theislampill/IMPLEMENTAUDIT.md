@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+    "--noprofile",
+    "--norc",
+    "D:\\a\\_temp\\dg18-w-full-43716779086-1\\subject\\skills\\implementaudit\\scripts\\claim-run.sh",
+    "--activate-controller",
+    "dg18-w-full-43716779086-1",
+    "--run-root",
+    ".IMPLEMENTAUDIT/runs/fresh-windows-w-full-preparation-CVXea5",
+    "--expected-initialization",
+    "refs/implementaudit/controller-initializations/dg18-w-full-43716779086-1/c8e39fb4cbe8150b6138a3fddcd951da@808a07743e9129a23614c18b2c0b3e0dc8ff6d8c"
+  ],
+  "exit_code": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "451a2e5f4802c3c585b835bd5b48c65e31d410ed9b4a2d8d02486b1c1d517076"
+}

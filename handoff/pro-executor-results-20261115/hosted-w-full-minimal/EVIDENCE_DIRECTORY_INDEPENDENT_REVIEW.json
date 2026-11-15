@@ -1,0 +1,169 @@
+{
+  "actual_corrected_result": "NOT_RUN",
+  "actual_evidence_reused": {
+    "preparation_failure": {
+      "bytes": 1625,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/PREPARATION.json",
+      "sha256": "ddeaee500048a94884b83e4f551058d9538daba24679bf2b081371df53f1473f"
+    },
+    "preserved_subject": {
+      "bytes": 2426880,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/SUBJECT.tar",
+      "sha256": "84bdbce41ff05555e19319b0d3b1b6682ac6452c43c317ddfc7f9d0607dd1e43"
+    },
+    "prior_TEMP_review": {
+      "bytes": 8877,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_TEMP_CORRECTION_REVIEW.json",
+      "sha256": "e9441a5b9b8af0f22356168dcf6853a632c6f60390eb31686f5777d6068bd7b8"
+    },
+    "receiving": {
+      "bytes": 24147,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/RECEIVING.json",
+      "sha256": "448de17f170d1ebc1a43d0ce2e337110ed04fb944591896cb5a6db638f5802fd"
+    },
+    "successful_activation": {
+      "bytes": 1808,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/009-activate-exact.stdout",
+      "sha256": "451a2e5f4802c3c585b835bd5b48c65e31d410ed9b4a2d8d02486b1c1d517076"
+    },
+    "successful_activation_command": {
+      "bytes": 735,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/artifact/raw/009-activate-exact.json",
+      "sha256": "a1461850c90e116f867b1bebf76a6a7fa0dfd464e7de6a14cf859fbc6b90e288"
+    }
+  },
+  "authority": "NONE",
+  "blocking_findings": [],
+  "demonstrated_cause": {
+    "actual_result": "TEMP normalization and real activation succeeded in run43716779086 attempt1; all nine subprocesses exited0. Wrapper then failed before first receipt/rotation while saving evidence/authorization.txt.",
+    "archive_fact": "No evidence directory exists in the exact preserved subject; successful controller and binding refs are present and independently read.",
+    "historical_helper": "8806711614bf4ed736a6599a5b63b234c37c7407:qualification/dg18-isolated-windows21/prepare_and_execute.py::save creates path.parent before exclusive save.",
+    "maintained_helper": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09:scripts/run-r0039-windows-resume.py::save opens xb and requires an already existing parent."
+  },
+  "disposition": "PASS_EXACT_EVIDENCE_DIRECTORY_CORRECTION_SOURCE_ONLY",
+  "exact_change": {
+    "README_append_bytes": 1062,
+    "README_original_prefix_preserved": true,
+    "added_line": "        (run / 'evidence').mkdir()\n",
+    "bytes_added": 35,
+    "complete_inverse_byte_reconstruction_equals_before": true,
+    "other_program_bytes_changed": false,
+    "placement": "Immediately before the existing authorization/initialization/public_owner_source three-file save loop.",
+    "product_skills_scripts_fixtures_diff_from_selected_source": []
+  },
+  "finite_output_parent_map": [
+    {
+      "existing_creator": "subject.mkdir() before setup writes",
+      "parent": "subject",
+      "status": "ALREADY_SATISFIED",
+      "targets": [
+        "subject/.gitignore",
+        "subject/TASK.md"
+      ]
+    },
+    {
+      "existing_creator": "new exact one-line mkdir immediately before writes",
+      "parent": "actual run/evidence",
+      "status": "DEMONSTRATED_MISSING_PARENT_CORRECTED_IN_SOURCE",
+      "targets": [
+        "run/evidence/authorization.txt",
+        "run/evidence/initialization.txt",
+        "run/evidence/public_owner_source.txt"
+      ]
+    },
+    {
+      "existing_creator": "actual claim and successful initialization/activation",
+      "parent": "actual claimed run",
+      "status": "ALREADY_SATISFIED",
+      "targets": [
+        "run/WORK_GRAPH.json",
+        "run/owner-map.json",
+        "run/STATE.md",
+        "run/ROADMAP.md"
+      ]
+    },
+    {
+      "existing_creator": "out.mkdir(exist_ok=False) before setup",
+      "parent": "out",
+      "status": "ALREADY_SATISFIED",
+      "targets": [
+        "out/PREPARATION.json",
+        "out/SUBJECT.tar"
+      ]
+    }
+  ],
+  "operations": {
+    "grants": 0,
+    "old_artifact_acquisitions": 0,
+    "preflight_runs": 0,
+    "provider_mutations": 0,
+    "source_edits": 0,
+    "subject_or_source_execution": 0,
+    "suite_replays": 0
+  },
+  "original_acceptance_delta": 0,
+  "original_awards": [],
+  "received_predicates": {
+    "all_equivalent_output_parents_accounted_for": true,
+    "documentation_preserves_earned_activation_and_both_actual_failures": true,
+    "maintained_file_save_remains_exclusive": true,
+    "mkdir_remains_exclusive_and_does_not_create_intermediate_parents": true,
+    "mkdir_uses_existing_actual_run_parent": true,
+    "no_source_or_custody_checker_relaxed": true,
+    "only_one35byte_code_line_added": true,
+    "original_limits_and_no_execute_scope_preserved": true,
+    "source_parsed_without_execution": true,
+    "successful_TEMP_correction_bytes_unchanged": true,
+    "workflow_task_author_and_product_unchanged": true
+  },
+  "reviewed_utc": "2026-11-15T13:05:46.510223+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authoring_context_reused": false,
+    "distinct_correction_author": "/root",
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.dg18.wfull-evidence-directory-correction-independent-review.v1",
+  "scope_limits": [
+    "This PASS covers the exact source correction and finite output-parent relationship only.",
+    "The next actual preparation has not executed or been received by this review; no OPERATION.json/hash is inferred.",
+    "Actual prior controller activation and TEMP positive gate remain earned and preserved in their original subject; no old subject effect is replayed.",
+    "Source review does not grant a protected native operation, waive concurrent owner-original requirements, or award W-FULL/original acceptance."
+  ],
+  "subject": {
+    "after": {
+      "bytes": 12203,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "sha256": "0e6257e3d0eb939d8dbcc796f23c8a157f063729279847d283318d2a40dbba3c"
+    },
+    "before": {
+      "bytes": 12168,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_PREPARE_BEFORE_EVIDENCE_DIR_CORRECTION.py",
+      "sha256": "b57a6c7ae99e0d75d9a2ceb142138eefd2a93175016b404b45dd13857d1f62d0"
+    },
+    "correction_record": {
+      "bytes": 1931,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/EVIDENCE_DIRECTORY_CORRECTION.json",
+      "sha256": "c45b3c2edf918e0b3a8f58ad8ce2442a903e7ca6c23bb4742a8662d6d90b9b62"
+    },
+    "readme": {
+      "bytes": 10007,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+      "sha256": "3da14c3461e2cbdc94834934d570feffff2a20266aa87970c9c10420b7ac1ff6"
+    },
+    "selected_product_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "selected_product_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "unchanged_task_bodies": {
+      "bytes": 6653,
+      "path": "/workspace/scratch/0269e6626329/dg18/handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+    },
+    "unchanged_workflow": {
+      "bytes": 4379,
+      "path": "/workspace/scratch/0269e6626329/dg18/.github/workflows/dg18-w-full-minimal-prepare.yml",
+      "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+    }
+  }
+}

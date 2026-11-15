@@ -1,0 +1,54 @@
+{
+  "authority": "NONE",
+  "branch": "engineering/pro-dg18-w-full-minimal-20261115",
+  "commit": "f39da17c933cdbac40732b0e2cb6d3143cf0315a",
+  "disposition": "RECEIVED_EXACT_REVIEWED_CORRECTION_AND_PRESERVED_FAILURE_PUBLICATION",
+  "equal_parent_tree": "39f098b04aea81f872d5834b235abf9b9d08f2ce",
+  "limits": [
+    "Source/evidence publication receiving only; no native or original award.",
+    "Original archive was read locally for byte equality and was not reacquired."
+  ],
+  "local_candidate": "9bc75630e7773a0f84b35ceb2eb205ff7741b709",
+  "local_parent": "507ec73d24ffe1e2b921e20ea4dbc38c320e5522",
+  "original_awards": [],
+  "predicates": {
+    "19_inline_members_and_original_zip_blob": true,
+    "actual_ref_commit_tree_sole_parent_received": true,
+    "all13_published_failure_bodies_equal_already_received_originals": true,
+    "all20_payload_members_exact_blobs_modes_and_complete_overlay": true,
+    "original_zip_git_blob": "2f0bddf7b9747532d4e4385fba95a524fb696c32",
+    "published_correction_review_copies_exact": true,
+    "root_receiving_binds_review_and_preserves_no_execute_grant": true
+  },
+  "provider_commit": {
+    "bytes": 1474,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/provider_commit.json",
+    "sha256": "911e96078cc4108ebfb4a02b8a6b80fc61b8edc1a59b4fa486d03f98ecd1dc7b"
+  },
+  "provider_ref": {
+    "bytes": 494,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43716779086/provider_ref.json",
+    "sha256": "c236a966eb5708d29caf9fa70f4216ce0adbd8ccb17348d59451951d7d3f2a18"
+  },
+  "publication_payload": {
+    "bytes": 158601,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_TEMP_CORRECTION_PUBLICATION_PAYLOAD.json",
+    "sha256": "46280c69ac4859dfab7251a25b69ea909065aa1cf1d3a6aac35bafc9351af3e8"
+  },
+  "received_utc": "2026-11-15T13:04:47.620563+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "publisher": false,
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.dg18.wfull-correction-publication-independent-receiving.v1",
+  "sole_parent": "2728929b536c2404ebb5a6e8778503f6aac40f34",
+  "source_review": {
+    "bytes": 8877,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_TEMP_CORRECTION_REVIEW.json",
+    "sha256": "e9441a5b9b8af0f22356168dcf6853a632c6f60390eb31686f5777d6068bd7b8"
+  },
+  "tree": "14802fe3e55596997a35da22fcc01ac7b648b339"
+}

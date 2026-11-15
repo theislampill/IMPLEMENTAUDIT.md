@@ -137,6 +137,7 @@ def main():
             'initialization': driver.canonical(activation), 'public_owner_source': owner_source,
             'work_graph': driver.canonical({'schema': 'r5.new-task-frontier.v1',
                                            'frontier': frontier, 'authority': 'TASK_FACTS_ONLY'})}
+        (run / 'evidence').mkdir()
         for name in ('authorization', 'initialization', 'public_owner_source'):
             driver.save(run / 'evidence' / (name + '.txt'), artifacts[name])
         driver.save(run / 'WORK_GRAPH.json', artifacts['work_graph'])
