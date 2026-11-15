@@ -18,7 +18,7 @@ import urllib.parse
 ISSUER = 'PRO-EXECUTOR-01'
 ROLE_ROOT = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
 RECEIVER_SHA = '8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b'
-RESOLVER_SHA = '35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22'
+RESOLVER_SHA = '8da0acdb81c9cbebd8fbc3cfd1f79c31222e8c93260930738e7ccd803abb5226'
 PROFILE = 'ONE_PINNED_G1_FRAMED_TTY_ROLE_V1'
 
 

@@ -9,7 +9,7 @@ ROOT=Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-loc
 ISSUER='PRO-EXECUTOR-01'
 MAX_RESULT=4*1024**2
 FILE_READER_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
-CONTROL_DRIVER_SHA = '506fbae322a25e3947320d35818075ca99edfa2f305c2632fc40e2647913a082'
+CONTROL_DRIVER_SHA = '97817318e1d3d2cef68e40d428fa7bfbe0692793b5b8ca41ae9faa0efb49458e'
 READBACK_PROFILE='FIRST_PARTY_BASE64_FILE_AT_PUBLISHED_COMMIT'
 FRAME_SECONDS=45
 ARGUMENT_CHUNK_BYTES=8192
@@ -219,7 +219,7 @@ def main():
   readback_profile=READBACK_PROFILE,file_reader_source_sha256=FILE_READER_SHA,frame_seconds=FRAME_SECONDS,argument_chunk_bytes=ARGUMENT_CHUNK_BYTES,
   expected_tree=p['expected_tree'],journal_directory=cfg['journal_directory'],deadline_unix_ms=p['expires_unix_ms'],tools=list(TOOLS),automatic_retry=False,private_key_operation=False,original_awards=[])
  need(admission==expected and now()<p['expires_unix_ms'],'ACTUAL_ROOT_BINARY_PUBLICATION_ADMISSION')
- Rraw=read_exact(cfg['resolver_path'],1024**2,'35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
+ Rraw=read_exact(cfg['resolver_path'],1024**2,'8da0acdb81c9cbebd8fbc3cfd1f79c31222e8c93260930738e7ccd803abb5226');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
  journal=D.Journal(cfg['journal_directory'])
  try:
   def current_source():m.carrier.current_binding(binding);m.sender_policy.current(selection);loader.current()

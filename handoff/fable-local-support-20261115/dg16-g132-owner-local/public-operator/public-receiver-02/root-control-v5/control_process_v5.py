@@ -18,7 +18,7 @@ import urllib.parse
 ISSUER = 'PRO-EXECUTOR-01'
 ROOT = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
 RECEIVER_SHA = '8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b'
-RESOLVER_SHA = '35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22'
+RESOLVER_SHA = '8da0acdb81c9cbebd8fbc3cfd1f79c31222e8c93260930738e7ccd803abb5226'
 CONTROL_READBACK_SHA = 'a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
 FILE_READBACK_SHA = 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
 CAP = 32*1024**2

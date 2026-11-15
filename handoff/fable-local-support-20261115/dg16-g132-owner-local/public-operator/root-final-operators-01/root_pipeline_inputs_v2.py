@@ -17,7 +17,7 @@ import types
 BASE = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator')
 FINAL = BASE / 'root-final-operators-01'
 BINARY = FINAL / 'binary_publish_v3.py'
-BINARY_SHA = '3ea4f721116cc15d8b12b60ac6c186dfe81e78116bc8347aa4fcec07d39e1482'
+BINARY_SHA = 'b9047229554b23467523e8f68b6a9f1fa65a58775b8ff6d7c988748d62a87cbb'
 CONTROL = FINAL / 'control_process_v3.py'
 RESOLVER = BASE / 'public-receiver-02/author/resolve_artifact.py'
 ISSUER = 'PRO-EXECUTOR-01'
@@ -234,7 +234,7 @@ def publication_inputs(args):
                   parent_ref_result=parent_row, journal_directory=str(journal), deadline_unix_ms=plan['expires_unix_ms'])
     # Verify the exact frozen executable dependencies without invoking their CLIs.
     read(CONTROL, 1024**2, B.CONTROL_DRIVER_SHA)
-    read(RESOLVER, 1024**2, '35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22')
+    read(RESOLVER, 1024**2, '8da0acdb81c9cbebd8fbc3cfd1f79c31222e8c93260930738e7ccd803abb5226')
     q = m.policy.parse(request, m.policy.MAX_REQUEST)
     purpose = dict(request_nonce=q['nonce'], recipient_sha256=q['recipient_sha256'],
                    input_index_sha256=q['input_index_sha256'])
