@@ -1,0 +1,294 @@
+{
+  "schema": "pro-executor.workspace-interruption.v1",
+  "authority": "NONE",
+  "original_acceptance": false,
+  "controller": "pro-executor-01",
+  "epoch": "G0007",
+  "receipt": "refs/implementaudit/continuity-receipts/pro-executor-01/G0007@0e2316700c6202efa67ba081b701aa343225b19d",
+  "last_confirmed_root_head": "49b9a2005c5add0515a30a7ed028355de2691231",
+  "last_confirmed_root_tree": "237af3e1967195d96f60bf62b7192a46f5605a3b",
+  "environment": "unavailable",
+  "error": "exec-server transport disconnected; failed to resume exec-server session: recovery timed out after 45s",
+  "pending_local_copy": {
+    "session_id": 73037,
+    "result": "UNCONFIRMED",
+    "source": "dg18/.qualification/m5-independent-receiving-205aeab7",
+    "destination": "dg16/handoff/pro-executor-results-20261115/dg16/m5-current-source-205aeab7",
+    "commit_attempted": false,
+    "poll": "NO_USABLE_EXECUTION_ENVIRONMENT; outcome unresolved; no retry"
+  },
+  "dg16_remote": "d5da29e2ae4190f7abb611370ab6bbe741e08f96",
+  "dg16_reviewed_local_candidate": "95a7a0d1981ad317ab0b6fba034875cd42e778b7",
+  "dg16_review": "35fad8e96c3c84a4914bb80a066def62333b39a316c49a293b3b64a41e824fed",
+  "dg17_remote": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+  "dg17_run": 43681474158,
+  "dg17_fifth_receiving": "ROOT_RETAINED_COMPLETE_DISTINCT_BYTE_RECEIVING_BLOCKED",
+  "dg17_uncommitted_correction": "29 focused methods pass; five-file source record and candidate commit not completed",
+  "m5_control_receipt": "88010959d4a869bdc4940fdf1632ef06e78c0fded6ac06d12af134858ccab62c",
+  "m5_bundle": "150a1a1138d1858275f4a67e88375e7b9aedfa7ccb4a03699bcfb8921033fc6e",
+  "m5_ci_candidate": "UNQUALIFIED_HARNESS_CORRECTIONS_PENDING_NO_PUBLICATION",
+  "dg18_remote": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "dg18_run": 43676967250,
+  "protected_launches": 0,
+  "new_native_turns": 0,
+  "merge_release_issue_closure": false,
+  "remote_reconciliation": {
+    "pr255": {
+      "state": "open",
+      "draft": true,
+      "merged": false,
+      "mergeable": false,
+      "mergeable_state": "dirty",
+      "head": "5277eb82bac6c10e190238afb54eda112eba284b",
+      "base_reported": "e78f7cb21af4197d490f10bc95917a4c75f748aa"
+    },
+    "main_ref": "4c1c91e24db6fa528dd33ec2adeb42f3c717afe9",
+    "main_tree": "60ae332673a8a355be18aa0ac97705eddfa461db",
+    "main_parent": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+    "main_merge_message": "Merge pull request #257: docs: publish the complete 32-unit Evolved scientific corpus",
+    "g132_run_status": "queued",
+    "g132_host_lookup": "404 NOT_FOUND",
+    "m5_branch": "ABSENT_IN_EXACT_SUCCESSFUL_MATCHING_REFS_READ"
+  },
+  "dg17_uncommitted_correction_detail": {
+    "baseline": "25 PASS",
+    "red": "29 methods; 17 failing assertions/subcases",
+    "green": "29 PASS",
+    "green_bytes": 4365,
+    "green_sha256": "51d7837b01382de7a1725ea733ec8b937b960065e450ecbb0266d09890ebcd35",
+    "source_files": [
+      "tools/test_store_custody.py",
+      "tools/test_driver_bundle.py"
+    ],
+    "local_base": "533bf9f8b73d065b96d947a8219caadd7e2091ea",
+    "frozen_candidate": false,
+    "independent_source_review": false,
+    "actual_windows_execution": false
+  },
+  "m5_ci_candidate_detail": {
+    "workflow_sha256": "874b654791f963eb457eceea382c1e8d64a17cda0d1ebb10f06b5cc10d7a186c",
+    "run_py_sha256": "08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e",
+    "source_manifest_sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743",
+    "harness_failed_before_tests": "run attribute shadows unittest.TestCase.run",
+    "pending_fix": "rename cls.run/self.run to cls.adapter/self.adapter and use actual manifest hash",
+    "write_outcome": "UNCONFIRMED_PROCESS_CREATION_REJECTED",
+    "source_qualified": false,
+    "branch_created": false,
+    "generated_files": [
+      {
+        "path": "run.py",
+        "bytes": 74840,
+        "sha256": "08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e"
+      },
+      {
+        "path": "installed_runtime.py",
+        "bytes": 29033,
+        "sha256": "e419839f1c2eb396ef13812971a2eaa4b9498cc91d42a84663a8387bb165b957"
+      },
+      {
+        "path": "host_support.py",
+        "bytes": 9406,
+        "sha256": "702029cbdf0b6e3d84e993e449c822286194c3c7addd482204188e7a1259f08c"
+      },
+      {
+        "path": "host_utility.py",
+        "bytes": 54556,
+        "sha256": "429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c"
+      },
+      {
+        "path": "SOURCE_MANIFEST.json",
+        "bytes": 495517,
+        "sha256": "e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743"
+      },
+      {
+        "path": ".github/workflows/dg16-installed-runtime05.yml",
+        "bytes": 16979,
+        "sha256": "874b654791f963eb457eceea382c1e8d64a17cda0d1ebb10f06b5cc10d7a186c"
+      }
+    ]
+  },
+  "primary_blocker": "WORKSPACE_UNAVAILABLE; no exposed recovery tool; original owner grants unchanged",
+  "record_scope": "Factual execution interruption checkpoint authored from retained actual tool results and named source/receiver reports; not a source bundle, independent receipt, acceptance decision, new commission or native grant.",
+  "source_authorization": "Current owner commission, Section A.1; expires 2026-11-20 23:59 UTC unless revoked. No source authorization renewal is needed.",
+  "local_currentness": "G0007 was last mechanically verified before the outage. Local currentness cannot be rechecked while the environment is unavailable. This checkpoint performs only guarded documentation publication against the freshly read remote parent.",
+  "recorded_at_utc": "2026-11-15T05:44:00Z",
+  "dg16_final_source": {
+    "scope": "LOCAL_INDEPENDENTLY_SOURCE_REVIEWED_NOT_PUBLISHED",
+    "candidate_commit": "95a7a0d1981ad317ab0b6fba034875cd42e778b7",
+    "candidate_tree": "a5cfc611f03c3f121290f2886d70c4179014e09f",
+    "candidate_subtree": "9209113e785107c4f505a51ebd4b8c3ecb5f39cc",
+    "manifest_sha256": "0990656991c1712a2e80bcefe1a691eea389e446e78b8ebfe98b20ba5bb82a52",
+    "manifest_members": 71,
+    "inherited_members": 95,
+    "external_wrapper_inputs": 8,
+    "driver_sha256": "d3466df91888484c09b8f4fdcc7031576be448c012ff654900239dac80980c1f",
+    "canonical_controls": {
+      "python": 32,
+      "v8": 62,
+      "result": "PASS"
+    },
+    "baseline_chain": 17,
+    "distinct_review": {
+      "reviewer": "/root/dg16_independent_review",
+      "sha256": "35fad8e96c3c84a4914bb80a066def62333b39a316c49a293b3b64a41e824fed",
+      "receipt_sha256": "8f0df9b1be6e2fbaefe269a1d01188e7295d78e342a5dc687a19a571a9686534",
+      "disposition": "SOURCE_QUALIFIED_FOR_BOUNDED_ENGINEERING_PUBLICATION",
+      "unresolved_critical": 0,
+      "unresolved_important": 0,
+      "independent_receiving_controls": 40,
+      "independent_original_regressions": 4
+    },
+    "owner_use_approval": "REQUIRED_AFTER_COMPLETE_FROZEN_IMPLEMENTATION_AND_REVIEW_ARE_ACCESSIBLE",
+    "production_bound_original_inspection": "NOT_QUALIFIED",
+    "g132_adaptation": "NOT_QUALIFIED_MISSING_ORIGINAL_PUBLIC_SOURCES"
+  },
+  "m5_frozen_receiving": {
+    "scope": "CURRENT_SOURCE_27_CONTROL_PACKET_RECEIVED_FOUR_CURRENT_ROUTES_PENDING",
+    "source": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+    "tracked_files": 1766,
+    "controls_passed": 27,
+    "author_packet_receipt_sha256": "445016a7e1d628ee069a4321b33993a20aee2c2371ac50ed68db392545b3ab7d",
+    "manifest_members": 914,
+    "manifest_bytes": 18935374,
+    "manifest_sha256": "a9d96b36389328dabf86f3201ab727d10095ea61c0f7de6b2125b2f5e2ee9b6a",
+    "distinct_receiver": "/root/dg18_engineering",
+    "distinct_receipt_sha256": "88010959d4a869bdc4940fdf1632ef06e78c0fded6ac06d12af134858ccab62c",
+    "receiving_manifest_sha256": "40fc19848ad5716a7944b0e6ee458b87c45e218f9aabf4510a45f52e290159a6",
+    "archive": {
+      "name": "M5_SOURCE_EVIDENCE_205aeab7.tar.xz",
+      "bytes": 2678320,
+      "sha256": "150a1a1138d1858275f4a67e88375e7b9aedfa7ccb4a03699bcfb8921033fc6e",
+      "files": 916,
+      "published": false
+    },
+    "packages": [
+      {
+        "name": "IMPLEMENTAUDIT.plugin.zip",
+        "bytes": 584971,
+        "sha256": "a43f018d4d3cc6d6257eeacfd8b5b834588410564ac33b0c8022d01a0ca71e58",
+        "headroom_after_reserve": 2853
+      },
+      {
+        "name": "IMPLEMENTAUDIT.skill",
+        "bytes": 580360,
+        "sha256": "d1b89ec4113b0c57d925e2f5aeec16c1baa471985b918e6fc3e54e808fad7f1e",
+        "headroom_after_reserve": 7464
+      }
+    ],
+    "cap": 589824,
+    "reserve": 2000,
+    "current_routes_executed": 0,
+    "historical_route_credit": "Preserved at run42232703790/job127942338030/source8ee4ae44; not relabeled as current."
+  },
+  "dg17_fifth_run": {
+    "run_id": 43681474158,
+    "attempt": 1,
+    "source": "c2faca3a5bccf26b4571fddbece4d420385c86b5",
+    "tree": "aea366f397866411d592430da7928d4cfc97c284",
+    "overall": "failure",
+    "linux_job": 132712826748,
+    "windows_job": 132712826507,
+    "linux_controls_passed": 25,
+    "linux_mode_seconds": [
+      5.959112202,
+      9.409760547,
+      9.356805715
+    ],
+    "windows": {
+      "cases": 14,
+      "errors": 10,
+      "qualified_outcomes": 4,
+      "intended_negatives": 11,
+      "qualified_intended_negatives": 2,
+      "owner_sid_readbacks": 23,
+      "complete_baselines": 1,
+      "first_failure": "Fresh manual fixture baseline retains Creator Owner allow SID S-1-3-0, mask0x10000000"
+    },
+    "packet": {
+      "bytes": 30373,
+      "sha256": "907b5d5f6c6cc7f26561773102e535414ff60069cec00f2f32599a4598e8938e",
+      "members": 15,
+      "published": false
+    },
+    "artifacts": [
+      {
+        "id": 14148915142,
+        "bytes": 10915,
+        "sha256": "e3e44cfe101d23ad9c34f95778f157d6dccd6cf7a73ca6c844c658400df55a31"
+      },
+      {
+        "id": 14148721446,
+        "bytes": 3319,
+        "sha256": "acd5937c78dfb66f5f9b35d9bb5179debb886b1f64723957caa81d4777581d83"
+      }
+    ],
+    "body_gets_per_artifact": 1,
+    "signed_urls_retained": false,
+    "distinct_receiving": {
+      "provider_metadata_and_logs": "VERIFIED_BY_DISTINCT_RECEIVER",
+      "retained_packet_and_member_hashes": "BLOCKED_BY_WORKSPACE_OUTAGE",
+      "receipt_issued": false
+    },
+    "native_turns": 0,
+    "original14_unknown_differences": 14
+  },
+  "dg18_scope": {
+    "source": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "run": 43676967250,
+    "job": 132699145016,
+    "actual_cli_passes": 3,
+    "actual_cli_failures": 0,
+    "actual_cli_skips": 0,
+    "distinct_receiving_checks": 99,
+    "artifact": {
+      "id": 14146915611,
+      "bytes": 3315,
+      "sha256": "adbefad247a70142348edc10cb9264a587180c17bd3dc58c321ba468a184c737"
+    },
+    "n1": "Retained boundary record recovered; actual custodian owner/store/assignment still absent; no authority inferred.",
+    "native_acceptance": false
+  },
+  "acceptance_requirements": {
+    "DG16": {
+      "M1": "OPEN_G132",
+      "M2": "OPEN_FRESH_G221",
+      "M3": "OPEN_G132_IN_JOB_G3",
+      "M4": "OPEN_NATURAL_TRANSITION_PREDICATES",
+      "M5": "SOURCE_PROGRESS_CURRENT_FOUR_ROUTES_PENDING_AND_EXACT_G221_APPLICABILITY_REQUIRED",
+      "M6": "OPEN_FINAL_COLD_RECEIVING_48_ROWS_AND_OWNER_DELIVERY"
+    },
+    "DG17": "Final Windows operation record, fresh exact grant, two authentic turns, independent post-A/POST_B/T12/original14/custodian receiving required.",
+    "DG18": "N1 custodian records and native audit-state, E/F native GO, W-FULL host/concurrent owner originals, OR issuer inputs, C02 adjudication owner inputs, then cold receiving required."
+  },
+  "unconfirmed_effects": [
+    "Local copy into root M5 evidence folder may or may not have completed; no commit was attempted.",
+    "M5 test-harness correction process creation failed; inspect actual files before any retry."
+  ],
+  "local_unpublished_roots": {
+    "dg16": "/workspace/scratch/0269e6626329/dg16",
+    "dg16_frozen_candidate": "/workspace/scratch/0269e6626329/dg16-deadline-fix",
+    "dg16_final_review": "/workspace/scratch/0269e6626329/dg16-review/semantic-95a7a0d1",
+    "dg17": "/workspace/scratch/0269e6626329/dg17",
+    "m5_frozen_packet": "/workspace/scratch/0269e6626329/dg18-review/m5-source-205aeab7",
+    "m5_distinct_receiving": "/workspace/scratch/0269e6626329/dg18/.qualification/m5-independent-receiving-205aeab7",
+    "m5_unqualified_candidate": "/workspace/scratch/0269e6626329/dg18-review/m5-ci-source-candidate/repository"
+  },
+  "local_uncommitted_root_records": {
+    "owner_use_packet": "handoff/dg16-pro-executor-20261115/OWNER_USE_REVIEW.md",
+    "final_source_mapping": "handoff/dg16-pro-executor-20261115/FINAL_CHANNEL_SOURCE_INTEGRATION.json",
+    "review_copies": "nine frozen final distinct review files verified, plus COPY_MANIFEST",
+    "dg17_retention": "all five source runs consolidated;104 retained file hashes verified before outage; new fifth-run independent byte receiving remains blocked",
+    "publication_history": "three prior confirmed remote publication records added locally but not committed",
+    "m5_copy": "outcome unconfirmed"
+  },
+  "documentation_publication": {
+    "base_remote_commit": "d5da29e2ae4190f7abb611370ab6bbe741e08f96",
+    "base_remote_tree": "d4b0f18b7ad7f9a1bfd940e9f5b609c395793db1",
+    "scope": "single new factual checkpoint; no product, workflow, source candidate, issuer or protected-ref change",
+    "local_git_tree_equivalence": "NOT_CLAIMED_FOR_THIS_REMOTE_ONLY_DOCUMENTATION_CHECKPOINT",
+    "guarded_ref_required": true,
+    "force": false
+  }
+}
