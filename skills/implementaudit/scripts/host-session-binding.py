@@ -101,11 +101,11 @@ def has_reparse_flag(info: os.stat_result) -> bool:
 def unsafe_permissions(info: os.stat_result) -> bool:
     """Portable POSIX custody only; this does not authenticate a native host."""
     require_supported_store_custody()
-    return info.st_uid != os.geteuid() or bool(info.st_mode & 0o022)
+    return os.name != "nt" and (info.st_uid != os.geteuid() or bool(info.st_mode & 0o022))
 
 
 def require_supported_store_custody() -> None:
-    if os.name != "posix":
+    if os.name not in ("posix", "nt"):
         fail("host-session store custody is unsupported on this platform")
 
 

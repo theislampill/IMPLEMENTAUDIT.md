@@ -38,7 +38,8 @@ Native host authentication is **unsupported by this portable core**. An
 not proof of an executing native principal. POSIX ownership and permission
 checks are local custody checks; cooperating writers share one lock. They do
 not defeat a non-cooperating actor with the same user privileges or establish
-native event provenance. Store operations on Windows and other non-POSIX
+native event provenance. Windows applies the alias, link and identity checks
+without owner or permission custody. Other non-POSIX
 platforms explicitly refuse unsupported custody; `init` refuses before creating
 the store. The ordinary absent-binding lookup remains available without writes.
 No POSIX permission check substitutes for Windows access control lists or

@@ -272,7 +272,7 @@ def consume_proximal_selection(
     return value
 
 
-BINDING_CORE_SHA256 = '8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef'
+BINDING_CORE_SHA256 = '2e784dbbe8470cd2de335e07c66ea0112d7c324b292a21f1f236309d5d0be1fa'
 MAX_CORE_BYTES = 131072
 
 

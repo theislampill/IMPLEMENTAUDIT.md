@@ -155,13 +155,16 @@ finally:
         self.event["session_id"] = []
         self.invoke("UNAVAILABLE")
 
-    def test_windows_init_refuses_before_write(self):
+    def test_windows_init_uses_native_store_custody(self):
         if os.name != "nt":
-            self.skipTest("native Windows custody refusal")
+            self.skipTest("native Windows store custody")
+        p = self.core("init", "--owner-id", "mechanical-owner")
+        self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
+        self.assertEqual(json.loads(p.stdout)["status"], "READY")
+        os.link(self.store / "owner.json", self.root / "owner-alias.json")
         p = self.core("init", "--owner-id", "mechanical-owner")
         self.assertEqual(p.returncode, 2, p.stdout + p.stderr)
         self.assertEqual(json.loads(p.stdout)["status"], "UNAVAILABLE")
-        self.assertFalse(self.store.exists())
 
     def test_uninspectable_attempt_is_not_absence_at_either_boundary(self):
         import errno
