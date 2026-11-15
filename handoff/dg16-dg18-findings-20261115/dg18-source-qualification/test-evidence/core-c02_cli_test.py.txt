@@ -1,0 +1,39 @@
+test_prepare_append_and_exact_retry_use_existing_owner (__main__.CorrectionCLI.test_prepare_append_and_exact_retry_use_existing_owner) ... ERROR
+test_public_routes_refuse_unavailable_owner_without_claim_fallback (__main__.CorrectionCLI.test_public_routes_refuse_unavailable_owner_without_claim_fallback) ... /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/tempfile.py:940: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/workspace/scratch/0269e6626329/dg18/.qualification/tmp/claim-evidence-fc576q9h/case-1yjq59hv'>
+  _warnings.warn(warn_message, ResourceWarning)
+ERROR
+
+======================================================================
+ERROR: test_prepare_append_and_exact_retry_use_existing_owner (__main__.CorrectionCLI.test_prepare_append_and_exact_retry_use_existing_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/c02_publication_test.py", line 78, in setUp
+    transaction_tests.TransactionControls.setUp(self)
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/claim_transaction_test.py", line 347, in setUp
+    self.fixture = Fixture()
+                   ^^^^^^^^^
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/claim_transaction_test.py", line 83, in __init__
+    raise RuntimeError(claimed.stderr.decode())
+RuntimeError: claim-run.sh: a supported physical Python 3 interpreter is required; set IMPLEMENTAUDIT_PYTHON to its absolute path
+claim-run.sh: controller ref readback is unverified; retained claim: '.IMPLEMENTAUDIT/runs/reader-transaction-9D7MBa'
+
+
+======================================================================
+ERROR: test_public_routes_refuse_unavailable_owner_without_claim_fallback (__main__.CorrectionCLI.test_public_routes_refuse_unavailable_owner_without_claim_fallback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/c02_publication_test.py", line 78, in setUp
+    transaction_tests.TransactionControls.setUp(self)
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/claim_transaction_test.py", line 347, in setUp
+    self.fixture = Fixture()
+                   ^^^^^^^^^
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/claim_transaction_test.py", line 83, in __init__
+    raise RuntimeError(claimed.stderr.decode())
+RuntimeError: claim-run.sh: a supported physical Python 3 interpreter is required; set IMPLEMENTAUDIT_PYTHON to its absolute path
+claim-run.sh: controller ref readback is unverified; retained claim: '.IMPLEMENTAUDIT/runs/reader-transaction-sezm1q'
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.162s
+
+FAILED (errors=2)

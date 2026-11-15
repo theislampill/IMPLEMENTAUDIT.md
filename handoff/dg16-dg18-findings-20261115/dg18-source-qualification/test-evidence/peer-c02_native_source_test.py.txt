@@ -1,0 +1,21 @@
+test_exact_retained_reader_separates_grants_and_closes (__main__.ConfiguredIssuerCustodyControls.test_exact_retained_reader_separates_grants_and_closes) ... ok
+test_fifo_and_post_lstat_fifo_refuse_without_waiting (__main__.ConfiguredIssuerCustodyControls.test_fifo_and_post_lstat_fifo_refuse_without_waiting) ... ok
+test_hardlink_alias_and_later_link_are_refused (__main__.ConfiguredIssuerCustodyControls.test_hardlink_alias_and_later_link_are_refused) ... ok
+test_malformed_or_changed_decision_releases_or_refuses_custody (__main__.ConfiguredIssuerCustodyControls.test_malformed_or_changed_decision_releases_or_refuses_custody) ... ok
+test_missing_existing_custody_does_not_fall_back_to_path_open (__main__.ConfiguredIssuerCustodyControls.test_missing_existing_custody_does_not_fall_back_to_path_open) ... ok
+test_same_bytes_new_file_cannot_replace_the_issuer (__main__.ConfiguredIssuerCustodyControls.test_same_bytes_new_file_cannot_replace_the_issuer) ... ok
+test_existing_correction_wire_has_no_authority_and_exact_plus_one_scope (__main__.CorrectionScopeControls.test_existing_correction_wire_has_no_authority_and_exact_plus_one_scope) ... ok
+test_wrong_predecessor_and_exhausted_generation_refuse (__main__.CorrectionScopeControls.test_wrong_predecessor_and_exhausted_generation_refuse) ... ok
+test_cancelled_source_refuses_before_invalidator (__main__.NativeSourceControls.test_cancelled_source_refuses_before_invalidator) ... ok
+test_changed_expected_old_refuses_before_transaction (__main__.NativeSourceControls.test_changed_expected_old_refuses_before_transaction) ... ok
+test_existing_event_cannot_be_reclassified_as_controlled (__main__.NativeSourceControls.test_existing_event_cannot_be_reclassified_as_controlled) ... ok
+test_fact_census_refuses_absent_event_or_source_admission (__main__.NativeSourceControls.test_fact_census_refuses_absent_event_or_source_admission) ... ok
+test_fact_census_refuses_unobserved_adjudication (__main__.NativeSourceControls.test_fact_census_refuses_unobserved_adjudication) ... ok
+test_post_commit_cancellation_preserves_unknown_effect (__main__.NativeSourceControls.test_post_commit_cancellation_preserves_unknown_effect) ... ok
+test_real_injection_and_fact_only_census_preserve_issuer_boundary (__main__.NativeSourceControls.test_real_injection_and_fact_only_census_preserve_issuer_boundary) ... ok
+test_selected_session_holds_issuer_and_closes_every_exit (__main__.NativeSourceControls.test_selected_session_holds_issuer_and_closes_every_exit) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 3.590s
+
+OK

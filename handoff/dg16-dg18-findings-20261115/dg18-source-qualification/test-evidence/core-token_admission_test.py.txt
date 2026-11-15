@@ -1,0 +1,26 @@
+test_below_both_arms_writes_no_archive_and_does_not_claim_context_health (__main__.TokenAdmission.test_below_both_arms_writes_no_archive_and_does_not_claim_context_health) ... ok
+test_byte_trigger_does_not_waive_minimum_token_payoff (__main__.TokenAdmission.test_byte_trigger_does_not_waive_minimum_token_payoff) ... ok
+test_changed_encoding_refuses_before_archive (__main__.TokenAdmission.test_changed_encoding_refuses_before_archive) ... ok
+test_real_byte_only_arm_with_measured_token_payoff (__main__.TokenAdmission.test_real_byte_only_arm_with_measured_token_payoff) ... ok
+test_real_token_only_arm_archives_and_revalidates_exact_pair (__main__.TokenAdmission.test_real_token_only_arm_archives_and_revalidates_exact_pair) ... ok
+test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt (__main__.TokenClaimAdmission.test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt) ... ERROR
+
+======================================================================
+ERROR: test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt (__main__.TokenClaimAdmission.test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/token_admission_test.py", line 114, in setUp
+    C.RealHelperIntegration.setUp(self)
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/claim_transaction_test.py", line 690, in setUp
+    self.fixture = Fixture(seed_receipt=False, persistent_repo=getattr(self, "persistent_repo", None))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/0269e6626329/dg18/fixtures/canonical-state-rotation/claim_transaction_test.py", line 83, in __init__
+    raise RuntimeError(claimed.stderr.decode())
+RuntimeError: claim-run.sh: a supported physical Python 3 interpreter is required; set IMPLEMENTAUDIT_PYTHON to its absolute path
+claim-run.sh: controller ref readback is unverified; retained claim: '.IMPLEMENTAUDIT/runs/reader-transaction-U1uFKX'
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 3.955s
+
+FAILED (errors=1)

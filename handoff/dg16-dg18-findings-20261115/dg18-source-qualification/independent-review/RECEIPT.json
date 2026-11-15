@@ -1,0 +1,74 @@
+{
+  "schema": "dg18.independent-source-review-receipt.v1",
+  "reviewer": "/root/dg18_independent_review",
+  "author": "/root/dg18_engineering",
+  "candidate_commit": "8be345fe411e8dba8f0b06a1e2e3830337b0e7f9",
+  "candidate_tree": "23b555580b65a937a03e111515182bdabac35cd5",
+  "candidate_parent": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+  "disposition": "NO_BLOCKING_SOURCE_PUBLICATION_FINDINGS",
+  "formal_audit_assess_lifecycle_verdict": false,
+  "native_acceptance_delta": 0,
+  "source_publication_branch": "engineering/pro-executor-dg18-source-20261115",
+  "automated_checks": {
+    "passed": 136,
+    "failed": 0
+  },
+  "independent_fixture_tests": {
+    "passed": 24,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "new_ci_preflight": "EXPECTED_ROOT_CUSTODY_REFUSAL_BEFORE_FIXTURES",
+  "hosted_three_case_result": "PENDING_NOT_RUN_BY_REVIEWER",
+  "candidate_mutation": false,
+  "publication_by_reviewer": false,
+  "tracked_worktree_clean_after_review": true,
+  "files": [
+    {
+      "path": "INDEPENDENT_REVIEW.md",
+      "bytes": 9411,
+      "sha256": "e15930a96234021b99439ff537fbf6e8250517445e722ed9a1b0a5a88a686b06"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 30147,
+      "sha256": "a292b5579c3a026d39718d4a8f61787b6779677b0d792617d8381034e23209a2"
+    },
+    {
+      "path": "verify_source.py",
+      "bytes": 9753,
+      "sha256": "49ab5cf25b2cb1514ad14d09d911eb9503f1839d27774dc0f6f5fcbd6b93e4e1"
+    },
+    {
+      "path": "independent-tests.json",
+      "bytes": 441,
+      "sha256": "3957eab6912eedb97e64e07ca6a9fc68df21ddb27944aee0c3ba9a689671a3ac"
+    },
+    {
+      "path": "input_contract_test.py.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "input_contract_test.py.stderr.txt",
+      "bytes": 1146,
+      "sha256": "7424207be28be415453c8c8ccd2f44fad0db23549f10d9d51bce712426d74785"
+    },
+    {
+      "path": "c02_native_source_test.py.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "c02_native_source_test.py.stderr.txt",
+      "bytes": 2599,
+      "sha256": "8f5ae95baaf00d013d8759bf77e4dc4fa9352b705fd6b5a38b30ff1992e71af3"
+    },
+    {
+      "path": "preflight/PREFLIGHT.json",
+      "bytes": 2658,
+      "sha256": "2c16269067e744f3082543ce6486a1ed4e2d70363595b2a3ebe5a8d66ee6975a"
+    }
+  ]
+}

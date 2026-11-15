@@ -1,0 +1,95 @@
+{
+  "schema": "implementaudit.dg18.evidence-manifest.v1",
+  "source_commit": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+  "source_tree": "7dd2b0b3921eb764669eaad98a9f0fd94f873c84",
+  "authority_ceiling": "SOURCE_ENGINEERING_ONLY_NO_NATIVE_ACCEPTANCE",
+  "files": [
+    {
+      "path": "C5_AMENDMENT_ORIGINAL.md",
+      "bytes": 4943,
+      "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+    },
+    {
+      "path": "INPUT_PACKETS.json",
+      "bytes": 16509,
+      "sha256": "9ff71b9073a39969ced3347482dcee54af0202bf5530ba3cb66c583645b43910"
+    },
+    {
+      "path": "ISSUE215_ORIGINAL.md",
+      "bytes": 35566,
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    },
+    {
+      "path": "RECEIVING.md",
+      "bytes": 16907,
+      "sha256": "fca8a6dcf7584836767bb82cf5dbd8e2e35ff3f349f23c1e622c0c3fa1d90909"
+    },
+    {
+      "path": "SOURCE_QUALIFICATION.json",
+      "bytes": 23017,
+      "sha256": "62bff25c033e0ba75a492a794d0abcaff040c5b174456065fb37226f51c2b0c8"
+    },
+    {
+      "path": "ci_source_qualification.py",
+      "bytes": 6848,
+      "sha256": "062df41677fae3a93e789d847b5a29237591624ba198b7068b45de9b00f2777d"
+    },
+    {
+      "path": "test-evidence/ci-local-preflight.json",
+      "bytes": 2658,
+      "sha256": "6d1f4fe78a2fbc664b598dd87527fb3881dbf9968b4ff3d0b8b87fdc16b76233"
+    },
+    {
+      "path": "test-evidence/core-c02_cli_test.py.txt",
+      "bytes": 2962,
+      "sha256": "aed434e42384f431f9bcf23b8b1d5ebb154cf10ef04e6110eb10729870637081"
+    },
+    {
+      "path": "test-evidence/core-c02_native_source_test.py.txt",
+      "bytes": 2599,
+      "sha256": "47607e51a14cef70ff445f9ef0805840ddbbbef1fb7255da5bf6e81ba557d347"
+    },
+    {
+      "path": "test-evidence/core-input_contract_test.py.txt",
+      "bytes": 1146,
+      "sha256": "818459ae9a82e5059ab53ce0408cff4f6d399bacdcce7586544f0f84e9587546"
+    },
+    {
+      "path": "test-evidence/core-native_input_adapter_test.py.txt",
+      "bytes": 5120,
+      "sha256": "82dde91cbca33678e7f5b560c934a5f80e7c67432f5626b2372478196b143c89"
+    },
+    {
+      "path": "test-evidence/core-native_or_rotation_test.py.txt",
+      "bytes": 1945,
+      "sha256": "92559a0a394e952990f36aa9fc88d356fafbb407367d08c63ed91ee7f04c8506"
+    },
+    {
+      "path": "test-evidence/core-token_admission_test.py.txt",
+      "bytes": 2336,
+      "sha256": "cd589d909faba8827a47b2cbe155bb6f59e1f9c0a3304c714b51dc25988180d7"
+    },
+    {
+      "path": "test-evidence/peer-c02_native_source_test.py.txt",
+      "bytes": 2599,
+      "sha256": "9bbf08aecd8596caba2871687b9e451d9bc845a8ed6975479811de35afa29add"
+    },
+    {
+      "path": "test-evidence/peer-input_contract_test.py.txt",
+      "bytes": 1146,
+      "sha256": "2299574ede84c6e325087449b8b4bf8a817c1022f23c20b2c4ea0126dc87c928"
+    },
+    {
+      "path": "test-evidence/peer-native_or_rotation_test.py.txt",
+      "bytes": 1945,
+      "sha256": "ac4edf9b7518cd12c971dcf2b35e4c86b969122b7ed32702aafc895a4299e70b"
+    }
+  ],
+  "repository_files": [
+    {
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "bytes": 3900,
+      "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+    }
+  ]
+}

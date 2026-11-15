@@ -1,0 +1,569 @@
+{
+  "schema": "implementaudit.dg18.source-qualification-report.v1",
+  "recorded_utc": "2026-11-15T03:47:51Z",
+  "authority_ceiling": "OFFLINE_SOURCE_ENGINEERING_ONLY_NO_NATIVE_ACCEPTANCE",
+  "author": "/root/dg18_engineering under PRO-EXECUTOR-01",
+  "independent_receiving": "PENDING_DISTINCT_RECEIVER",
+  "audit_object": "R0039 issue 215 / DG18; original14 plus C5 amendment and OR/C02/W-FULL obligations retained",
+  "source": {
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "branch": "engineering/dg16-dg18-findings-20261115",
+    "commit": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+    "tree": "7dd2b0b3921eb764669eaad98a9f0fd94f873c84",
+    "pre_mutation_git_status": "CLEAN",
+    "runtime_source_changes": [],
+    "pr255_head": "5277eb82bac6c10e190238afb54eda112eba284b",
+    "d18_1_source_equal_to_pr255": true
+  },
+  "source_selection": {
+    "selected_for_this_qualification": "skills/implementaudit/scripts",
+    "basis": [
+      "Issue215 original cold-executor owner map names skills/ source.",
+      "Root AGENTS identifies skills/ as canonical source.",
+      "Recovered actual H0 INPUT_TEMPLATE selects core rotate-canonical-state.py, claim-run-rotation.py, claim-run.sh and canonical_rotation_inputs.py.",
+      "Peer overlay is a distinct repository-only composition whose source transport establishes no native admission."
+    ],
+    "actual_native_entitlement": "NOT_ESTABLISHED; source selection is not a grant",
+    "peer_files_verified": 17,
+    "frozen_core_dependencies_verified": 2,
+    "peer_execution": "Full declared overlay in a separate clone with separate Git common directory; no protected stores, controllers, profiles or pending records copied.",
+    "requested_function_bodies_identical_between_copies": true
+  },
+  "source_pins": [
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "bytes": 32290,
+      "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "bytes": 291624,
+      "sha256": "866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d"
+    },
+    {
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "bytes": 129890,
+      "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "bytes": 27916,
+      "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_custody.py",
+      "bytes": 36367,
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+    },
+    {
+      "path": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "bytes": 27208,
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+    },
+    {
+      "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+      "bytes": 23818,
+      "sha256": "86fc63f4210b6bf915a4f2247950cb1c5c53b85189942779870b3f7153d7747c"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
+      "bytes": 247069,
+      "sha256": "60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "bytes": 127297,
+      "sha256": "8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "bytes": 27154,
+      "sha256": "96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "bytes": 185531,
+      "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "bytes": 67827,
+      "sha256": "729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5"
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/pending_state_loader_test.py",
+      "bytes": 18382,
+      "sha256": "e9e85dab4dcbd0a258400480b3c4900df0eebbd555df20653168918a638c0356"
+    }
+  ],
+  "function_pins": [
+    {
+      "file": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "function": "rotation_trigger_v1",
+      "start_line": 849,
+      "end_line": 856,
+      "source_segment_sha256": "52d4e98a0befa9063d70e54cd0f892db9ef9f28505aa642a1db49c86524239c0"
+    },
+    {
+      "file": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "function": "rotation_payoff_v1",
+      "start_line": 859,
+      "end_line": 862,
+      "source_segment_sha256": "b75fb1513421e576e9947ea2d3617fee2d6dc84b6383e68899d37e2be1f469ea"
+    },
+    {
+      "file": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "function": "check_rotation_observation_v1",
+      "start_line": 865,
+      "end_line": 921,
+      "source_segment_sha256": "f21d774fe56470ca0fb2b845abee9079acae9c7d5db5926a382abd83d4430484"
+    },
+    {
+      "file": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "function": "rotation_trigger_v1",
+      "start_line": 828,
+      "end_line": 835,
+      "source_segment_sha256": "52d4e98a0befa9063d70e54cd0f892db9ef9f28505aa642a1db49c86524239c0"
+    },
+    {
+      "file": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "function": "rotation_payoff_v1",
+      "start_line": 838,
+      "end_line": 841,
+      "source_segment_sha256": "b75fb1513421e576e9947ea2d3617fee2d6dc84b6383e68899d37e2be1f469ea"
+    },
+    {
+      "file": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "function": "check_rotation_observation_v1",
+      "start_line": 844,
+      "end_line": 900,
+      "source_segment_sha256": "f21d774fe56470ca0fb2b845abee9079acae9c7d5db5926a382abd83d4430484"
+    },
+    {
+      "file": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "function": "propose_c02_correction_v1",
+      "start_line": 169,
+      "end_line": 238,
+      "source_segment_sha256": "f1a94055aa052117a8f7e8ce3388f2938032cd0c71aed699b1416cc88e34df53"
+    },
+    {
+      "file": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
+      "function": "propose_c02_correction_v1",
+      "start_line": 128,
+      "end_line": 197,
+      "source_segment_sha256": "f1a94055aa052117a8f7e8ce3388f2938032cd0c71aed699b1416cc88e34df53"
+    }
+  ],
+  "original_repository_inputs": [
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "faaa43e068bc758e28f1953d4204ce6aae1e543d",
+      "path": "tools/dg18/isolated-h0-20261106-05/INPUT_TEMPLATE.json",
+      "bytes": 33620,
+      "sha256": "0ee310ed508ab4b82fe1c8296822590e80f7586d2e260d52a55a69e3ddeba911",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/faaa43e068bc758e28f1953d4204ce6aae1e543d/tools/dg18/isolated-h0-20261106-05/INPUT_TEMPLATE.json"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "faaa43e068bc758e28f1953d4204ce6aae1e543d",
+      "path": "tools/dg18/isolated-h0-20261106-05/REPORT.md",
+      "bytes": 3057,
+      "sha256": "f8bbc27b823a624249941c860f26a6e0965a1973770c33d66fa9c4e5fa1082f3",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/faaa43e068bc758e28f1953d4204ce6aae1e543d/tools/dg18/isolated-h0-20261106-05/REPORT.md"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/SOURCE_MANIFEST.json",
+      "bytes": 28000,
+      "sha256": "c45268bda9879ad04a961565e6bb57ddf0ab197a17e4324da63d367b94ac8b64",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/SOURCE_MANIFEST.json"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/entitlement-reference.txt",
+      "bytes": 10,
+      "sha256": "67098b2c6e963437820881c3dd61669910e5ea3cf497690f24904537ff4e2c52",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/entitlement-reference.txt"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/prepare_and_execute.py",
+      "bytes": 185484,
+      "sha256": "7f93f8134b7a093c01b7d482f999617710f26832dc0f55438399df335b3f587e",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/prepare_and_execute.py"
+    }
+  ],
+  "test_results": [
+    {
+      "name": "core-c02_cli_test.py.log",
+      "selected_copy": "canonical-skills",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/c02_cli_test.py",
+        "-v"
+      ],
+      "executed_tests": 2,
+      "passed": 0,
+      "skipped": 0,
+      "errors": 2,
+      "failures": 0,
+      "unittest_reported_seconds": 0.162,
+      "process_exit": 1,
+      "evidence": {
+        "path": "test-evidence/core-c02_cli_test.py.txt",
+        "bytes": 2962,
+        "sha256": "aed434e42384f431f9bcf23b8b1d5ebb154cf10ef04e6110eb10729870637081"
+      }
+    },
+    {
+      "name": "core-c02_native_source_test.py.log",
+      "selected_copy": "canonical-skills",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/c02_native_source_test.py",
+        "-v"
+      ],
+      "executed_tests": 16,
+      "passed": 16,
+      "skipped": 0,
+      "errors": 0,
+      "failures": 0,
+      "unittest_reported_seconds": 4.096,
+      "process_exit": 0,
+      "evidence": {
+        "path": "test-evidence/core-c02_native_source_test.py.txt",
+        "bytes": 2599,
+        "sha256": "47607e51a14cef70ff445f9ef0805840ddbbbef1fb7255da5bf6e81ba557d347"
+      }
+    },
+    {
+      "name": "core-input_contract_test.py.log",
+      "selected_copy": "canonical-skills",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/input_contract_test.py",
+        "-v"
+      ],
+      "executed_tests": 8,
+      "passed": 8,
+      "skipped": 0,
+      "errors": 0,
+      "failures": 0,
+      "unittest_reported_seconds": 0.552,
+      "process_exit": 0,
+      "evidence": {
+        "path": "test-evidence/core-input_contract_test.py.txt",
+        "bytes": 1146,
+        "sha256": "818459ae9a82e5059ab53ce0408cff4f6d399bacdcce7586544f0f84e9587546"
+      }
+    },
+    {
+      "name": "core-native_input_adapter_test.py.log",
+      "selected_copy": "canonical-skills",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/native_input_adapter_test.py",
+        "-v"
+      ],
+      "executed_tests": 31,
+      "passed": 30,
+      "skipped": 1,
+      "errors": 0,
+      "failures": 0,
+      "unittest_reported_seconds": 0.288,
+      "process_exit": 0,
+      "evidence": {
+        "path": "test-evidence/core-native_input_adapter_test.py.txt",
+        "bytes": 5120,
+        "sha256": "82dde91cbca33678e7f5b560c934a5f80e7c67432f5626b2372478196b143c89"
+      }
+    },
+    {
+      "name": "core-native_or_rotation_test.py.log",
+      "selected_copy": "canonical-skills",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/native_or_rotation_test.py",
+        "-v"
+      ],
+      "executed_tests": 11,
+      "passed": 11,
+      "skipped": 0,
+      "errors": 0,
+      "failures": 0,
+      "unittest_reported_seconds": 17.34,
+      "process_exit": 0,
+      "evidence": {
+        "path": "test-evidence/core-native_or_rotation_test.py.txt",
+        "bytes": 1945,
+        "sha256": "92559a0a394e952990f36aa9fc88d356fafbb407367d08c63ed91ee7f04c8506"
+      }
+    },
+    {
+      "name": "core-token_admission_test.py.log",
+      "selected_copy": "canonical-skills",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/token_admission_test.py",
+        "-v"
+      ],
+      "executed_tests": 6,
+      "passed": 5,
+      "skipped": 0,
+      "errors": 1,
+      "failures": 0,
+      "unittest_reported_seconds": 3.955,
+      "process_exit": 1,
+      "evidence": {
+        "path": "test-evidence/core-token_admission_test.py.txt",
+        "bytes": 2336,
+        "sha256": "cd589d909faba8827a47b2cbe155bb6f59e1f9c0a3304c714b51dc25988180d7"
+      }
+    },
+    {
+      "name": "peer-c02_native_source_test.py.log",
+      "selected_copy": "source-peer-overlay",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/c02_native_source_test.py",
+        "-v"
+      ],
+      "executed_tests": 16,
+      "passed": 16,
+      "skipped": 0,
+      "errors": 0,
+      "failures": 0,
+      "unittest_reported_seconds": 3.59,
+      "process_exit": 0,
+      "evidence": {
+        "path": "test-evidence/peer-c02_native_source_test.py.txt",
+        "bytes": 2599,
+        "sha256": "9bbf08aecd8596caba2871687b9e451d9bc845a8ed6975479811de35afa29add"
+      }
+    },
+    {
+      "name": "peer-input_contract_test.py.log",
+      "selected_copy": "source-peer-overlay",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/input_contract_test.py",
+        "-v"
+      ],
+      "executed_tests": 8,
+      "passed": 8,
+      "skipped": 0,
+      "errors": 0,
+      "failures": 0,
+      "unittest_reported_seconds": 0.415,
+      "process_exit": 0,
+      "evidence": {
+        "path": "test-evidence/peer-input_contract_test.py.txt",
+        "bytes": 1146,
+        "sha256": "2299574ede84c6e325087449b8b4bf8a817c1022f23c20b2c4ea0126dc87c928"
+      }
+    },
+    {
+      "name": "peer-native_or_rotation_test.py.log",
+      "selected_copy": "source-peer-overlay",
+      "argv": [
+        "python3",
+        "fixtures/canonical-state-rotation/native_or_rotation_test.py",
+        "-v"
+      ],
+      "executed_tests": 11,
+      "passed": 11,
+      "skipped": 0,
+      "errors": 0,
+      "failures": 0,
+      "unittest_reported_seconds": 18.424,
+      "process_exit": 0,
+      "evidence": {
+        "path": "test-evidence/peer-native_or_rotation_test.py.txt",
+        "bytes": 1945,
+        "sha256": "ac4edf9b7518cd12c971dcf2b35e4c86b969122b7ed32702aafc895a4299e70b"
+      }
+    }
+  ],
+  "test_accounting": {
+    "invocations": 9,
+    "executed_tests": 109,
+    "passed": 105,
+    "skipped": 1,
+    "errors": 3,
+    "failures": 0,
+    "meaning": "These source-test counts do not replace original14, amended C5 or any acceptance denominator."
+  },
+  "environment": {
+    "system": "Linux",
+    "test_python": "CPython 3.12.14",
+    "tokenizer": "tiktoken 0.13.0 in task-owned virtual environment",
+    "encoding": {
+      "name": "cl100k_base",
+      "bytes": 1681126,
+      "sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7",
+      "download_url": "https://openaipublic.blob.core.windows.net/encodings/cl100k_base.tiktoken"
+    },
+    "native_windows": "UNAVAILABLE_NOT_RUN"
+  },
+  "baseline_refusals": [
+    {
+      "id": "DG18-LOCAL-CLI-ENV",
+      "status": "BLOCKED_ENVIRONMENT",
+      "affected": [
+        "TokenClaimAdmission.test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt",
+        "CorrectionCLI.test_prepare_append_and_exact_retry_use_existing_owner",
+        "CorrectionCLI.test_public_routes_refuse_unavailable_owner_without_claim_fallback"
+      ],
+      "first_failing_predicate": "select_claim_python -> supported system-reference physical Python identity and UID0 path custody",
+      "evidence": "/opt runtime does not match admitted /usr/bin, /usr/local/bin or /bin reference; /usr/bin/python3.13 and /usr/bin,/usr are UID65534 and / is UID1000. The guard permits matching venv symlinks; symlinks alone are not the root cause.",
+      "source_change": "NONE; guard retained",
+      "next_action": "After distinct root receiving, publish reviewed source-only candidate on the exact CI branch and retain the three selected existing fixture results on the admitted ordinary root-owned runner. This does not admit a native launch."
+    },
+    {
+      "id": "DG18-AUTHENTIC-PROBE",
+      "status": "UNVERIFIED",
+      "affected": [
+        "NativeInputMechanics.test_retained_native_probe_is_parser_evidence_only"
+      ],
+      "reason": "R0039_EXACT_USAGE_PROBE not supplied; no retained authentic host probe invented."
+    }
+  ],
+  "historical_preservation": {
+    "windows_mode_fix": "Present, pinned e9e85dab4dcbd0a258400480b3c4900df0eebbd555df20653168918a638c0356; accepted 44/47 banks not replayed because no change touches that interface.",
+    "d18_1": "Integrated512KiB source is unchanged from PR255. Requested consumer tests import the actual291624-byte claim module; no smaller substitute.",
+    "protected_unknown": "No native episode, protected retry, cleanup or reconciliation performed.",
+    "original_calibration": "R0039-F1-CAL-v2 5000ms/67108864-byte failures preserved; Windows prospective60000ms/201326592-byte envelope does not relax OR30000ms freshness."
+  },
+  "findings": [
+    {
+      "id": "DG18-COPY-BOUNDARY",
+      "disposition": "DONE_SOURCE_ONLY",
+      "summary": "Resolved canonical and peer source domains and exercised both without native authority."
+    },
+    {
+      "id": "DG18-OR-SOURCE",
+      "disposition": "DONE_SOURCE_ONLY",
+      "summary": "Real tokenizer and projection/archive consumers, independent arms, boundary, nontrigger, payoff, source mismatch and expired/future/revoked lease cases pass. Authentic producer/grant remains missing."
+    },
+    {
+      "id": "DG18-C02-SOURCE",
+      "disposition": "DONE_SOURCE_ONLY",
+      "summary": "Pure proposal and real deterministic source/census/retained-issuer/Git CAS paths pass with explicit constructed test authority; compatible full CLI remains environment-blocked."
+    },
+    {
+      "id": "DG18-INPUT-PACKETS",
+      "disposition": "DONE_PREPARATION_ONLY",
+      "summary": "OR,C02,W-FULL and N1 packets record actual pins and exact external gaps without manufacturing operation records or grants."
+    },
+    {
+      "id": "DG18-N1",
+      "disposition": "BLOCKED_CUSTODIAN_RECORDS",
+      "summary": "No actual current owner/store/assignment record retrieved. No owner inferred."
+    }
+  ],
+  "actions_not_taken": [
+    "native launch or model turn",
+    "native grant or issuer approval fabrication",
+    "protected UNKNOWN replay",
+    "private-key access or decryption",
+    "remote publication",
+    "merge",
+    "release",
+    "issue closure",
+    "self-acceptance"
+  ],
+  "smoke_b": "No runtime source mutation. Source-only runner static syntax/workflow checks and actual local preflight refusal; no interpreter-custody bypass. Hosted positive CLI result pending.",
+  "agents_update_decision": "NO_CHANGE; host custody mismatch is not a product defect or new durable repo rule",
+  "original_contract_snapshots": [
+    {
+      "number": 215,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+      "updated_at": "2026-10-23T07:25:46Z",
+      "snapshot": "ISSUE215_ORIGINAL.md",
+      "bytes": 35566,
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    },
+    {
+      "id": 5638756120,
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-5638756120",
+      "updated_at": "2026-09-11T18:09:58Z",
+      "snapshot": "C5_AMENDMENT_ORIGINAL.md",
+      "bytes": 4943,
+      "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+    }
+  ],
+  "ci_source_tree_pins": [
+    {
+      "path": "skills/implementaudit/scripts",
+      "git_tree": "8ad5122bcad558bc344a8eb08b92bf484ab9c665"
+    },
+    {
+      "path": "skills/implementaudit/templates",
+      "git_tree": "d06dafd6196fe56b8d03e2adf625332b25a59308"
+    },
+    {
+      "path": "fixtures/canonical-state-rotation",
+      "git_tree": "aab81517567fe610d8def31a8a5a31c2e0ca2919"
+    },
+    {
+      "path": "fixtures/controller-initialization",
+      "git_tree": "69c908ff929b7fb8723cabe01bc93434c00e0dee"
+    }
+  ],
+  "prepared_source_ci": {
+    "status": "PREPARED_NOT_RUN_HOSTED_PENDING_DISTINCT_REVIEW",
+    "branch": "engineering/pro-executor-dg18-source-20261115",
+    "workflow": {
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "bytes": 3900,
+      "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+    },
+    "runner": {
+      "path": "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py",
+      "bytes": 6848,
+      "sha256": "062df41677fae3a93e789d847b5a29237591624ba198b7068b45de9b00f2777d"
+    },
+    "trigger": "push to exact branch in theislampill/IMPLEMENTAUDIT.md only",
+    "permissions": {
+      "contents": "read"
+    },
+    "source_preflight": "Verify all 13 file hashes and four complete clean Git source trees before dependencies or fixture execution; enforce unchanged root-owned physical system interpreter predicate.",
+    "selected_test_count": 3,
+    "selected_cases": [
+      "TokenClaimAdmission.test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt",
+      "CorrectionCLI.test_prepare_append_and_exact_retry_use_existing_owner",
+      "CorrectionCLI.test_public_routes_refuse_unavailable_owner_without_claim_fallback"
+    ],
+    "success_predicate": "Two selected subprocesses exit zero, report exactly 1 and 2 unittest cases respectively, and produce plain OK with no skips.",
+    "isolation": "Disposable runner temporary directories and repositories; reduced subprocess environment; no real home or native stores selected.",
+    "upload_allowlist": [
+      "PREFLIGHT.json",
+      "RESULT.json",
+      "DEPENDENCIES.txt",
+      "test-*.stdout.txt",
+      "test-*.stderr.txt"
+    ],
+    "authority_ceiling": "DETERMINISTIC_SOURCE_FIXTURES_ONLY_NO_NATIVE_AUTHORITY",
+    "native_episode": false,
+    "model_turn": false,
+    "production_grant": false,
+    "original_acceptance_delta": 0,
+    "publication": "No publication performed by author; root owns independent review and guarded source branch publication.",
+    "local_validation": {
+      "python_ast": "PASS",
+      "yaml_guard_permissions_and_output_allowlist": "PASS",
+      "bash_n_shell_steps": 4,
+      "local_preflight_exit": 1,
+      "local_preflight_disposition": "EXPECTED_ROOT_CUSTODY_REFUSAL_BEFORE_FIXTURE_EXECUTION",
+      "evidence": {
+        "path": "test-evidence/ci-local-preflight.json",
+        "bytes": 2658,
+        "sha256": "6d1f4fe78a2fbc664b598dd87527fb3881dbf9968b4ff3d0b8b87fdc16b76233"
+      },
+      "hosted_positive_result": "NOT_RUN"
+    }
+  }
+}

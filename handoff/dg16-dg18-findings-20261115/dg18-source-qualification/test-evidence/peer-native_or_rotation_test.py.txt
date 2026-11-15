@@ -1,0 +1,16 @@
+test_constructed_health_only_archives_exact_input_and_keeps_historical_readable (__main__.NativeOrRotation.test_constructed_health_only_archives_exact_input_and_keeps_historical_readable) ... ok
+test_foreign_source_receipt_and_policy_refuse_before_archive (__main__.NativeOrRotation.test_foreign_source_receipt_and_policy_refuse_before_archive) ... ok
+test_health_trigger_does_not_waive_either_payoff_minimum (__main__.NativeOrRotation.test_health_trigger_does_not_waive_either_payoff_minimum) ... ok
+test_health_trigger_does_not_waive_minimum_byte_payoff (__main__.NativeOrRotation.test_health_trigger_does_not_waive_minimum_byte_payoff) ... ok
+test_missing_json_or_closed_unadmitted_lease_refuses_without_archive (__main__.NativeOrRotation.test_missing_json_or_closed_unadmitted_lease_refuses_without_archive) ... ok
+test_native_input_cannot_be_attached_to_byte_token_or_correction_policy (__main__.NativeOrRotation.test_native_input_cannot_be_attached_to_byte_token_or_correction_policy) ... ok
+test_one_token_above_headroom_boundary_has_no_archive_or_owner_map_read (__main__.NativeOrRotation.test_one_token_above_headroom_boundary_has_no_archive_or_owner_map_read) ... ok
+test_opaque_lease_cannot_substitute_its_source_owner_binding (__main__.NativeOrRotation.test_opaque_lease_cannot_substitute_its_source_owner_binding) ... ok
+test_prepared_input_and_native_policy_substitution_are_detected (__main__.NativeOrRotation.test_prepared_input_and_native_policy_substitution_are_detected) ... ok
+test_rehashed_archived_input_still_must_match_actual_source_population (__main__.NativeOrRotation.test_rehashed_archived_input_still_must_match_actual_source_population) ... ok
+test_stale_future_withdrawn_or_revised_input_refuses_before_archive (__main__.NativeOrRotation.test_stale_future_withdrawn_or_revised_input_refuses_before_archive) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 18.424s
+
+OK

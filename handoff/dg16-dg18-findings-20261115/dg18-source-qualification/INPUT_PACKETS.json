@@ -1,0 +1,331 @@
+{
+  "schema": "implementaudit.dg18.input-packets.v1",
+  "source_commit": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+  "source_tree": "7dd2b0b3921eb764669eaad98a9f0fd94f873c84",
+  "authority_ceiling": "INERT_PREPARATION_NO_NATIVE_EFFECT_AUTHORITY",
+  "native_operation_record": null,
+  "fresh_native_grant": null,
+  "review_status": "PENDING_DISTINCT_RECEIVER",
+  "source_selection": {
+    "selected_for_this_qualification": "skills/implementaudit/scripts",
+    "basis": [
+      "Issue215 original cold-executor owner map names skills/ source.",
+      "Root AGENTS identifies skills/ as canonical source.",
+      "Recovered actual H0 INPUT_TEMPLATE selects core rotate-canonical-state.py, claim-run-rotation.py, claim-run.sh and canonical_rotation_inputs.py.",
+      "Peer overlay is a distinct repository-only composition whose source transport establishes no native admission."
+    ],
+    "actual_native_entitlement": "NOT_ESTABLISHED; source selection is not a grant",
+    "peer_files_verified": 17,
+    "frozen_core_dependencies_verified": 2,
+    "peer_execution": "Full declared overlay in a separate clone with separate Git common directory; no protected stores, controllers, profiles or pending records copied.",
+    "requested_function_bodies_identical_between_copies": true
+  },
+  "actual_originals": [
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "faaa43e068bc758e28f1953d4204ce6aae1e543d",
+      "path": "tools/dg18/isolated-h0-20261106-05/INPUT_TEMPLATE.json",
+      "bytes": 33620,
+      "sha256": "0ee310ed508ab4b82fe1c8296822590e80f7586d2e260d52a55a69e3ddeba911",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/faaa43e068bc758e28f1953d4204ce6aae1e543d/tools/dg18/isolated-h0-20261106-05/INPUT_TEMPLATE.json"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "faaa43e068bc758e28f1953d4204ce6aae1e543d",
+      "path": "tools/dg18/isolated-h0-20261106-05/REPORT.md",
+      "bytes": 3057,
+      "sha256": "f8bbc27b823a624249941c860f26a6e0965a1973770c33d66fa9c4e5fa1082f3",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/faaa43e068bc758e28f1953d4204ce6aae1e543d/tools/dg18/isolated-h0-20261106-05/REPORT.md"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/SOURCE_MANIFEST.json",
+      "bytes": 28000,
+      "sha256": "c45268bda9879ad04a961565e6bb57ddf0ab197a17e4324da63d367b94ac8b64",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/SOURCE_MANIFEST.json"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/entitlement-reference.txt",
+      "bytes": 10,
+      "sha256": "67098b2c6e963437820881c3dd61669910e5ea3cf497690f24904537ff4e2c52",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/entitlement-reference.txt"
+    },
+    {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/prepare_and_execute.py",
+      "bytes": 185484,
+      "sha256": "7f93f8134b7a093c01b7d482f999617710f26832dc0f55438399df335b3f587e",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/prepare_and_execute.py"
+    }
+  ],
+  "OR": {
+    "status": "BLOCKED_AUTHENTIC_OBSERVATION_AND_ISSUER_GRANT",
+    "consumer_files": [
+      {
+        "path": "skills/implementaudit/scripts/claim-run.sh",
+        "bytes": 32290,
+        "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353"
+      },
+      {
+        "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+        "bytes": 291624,
+        "sha256": "866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d"
+      },
+      {
+        "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+        "bytes": 129890,
+        "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+      },
+      {
+        "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+        "bytes": 27916,
+        "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+      }
+    ],
+    "pure_proposal_functions": [
+      "check_rotation_observation_v1",
+      "rotation_trigger_v1",
+      "rotation_payoff_v1"
+    ],
+    "accepting_route": "claim-run.sh --rotate-canonical-state with existing admitted NativeInputState lease; caller-authored matching hashes are insufficient",
+    "frozen_thresholds": {
+      "source_bytes_at_least": 131072,
+      "source_tokens_at_least": 32768,
+      "configured_context_health_bp_at_most": 2500,
+      "minimum_byte_reduction": 32768,
+      "minimum_token_reduction": 8192,
+      "maximum_observation_age_ms": 30000
+    },
+    "tokenizer": {
+      "name": "cl100k_base",
+      "bytes": 1681126,
+      "sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7",
+      "download_url": "https://openaipublic.blob.core.windows.net/encodings/cl100k_base.tiktoken",
+      "implementation": "tiktoken",
+      "version": "0.13.0"
+    },
+    "baseline_calibration": {
+      "id": "R0039-F1-CAL-v2",
+      "population_sha256": "b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497"
+    },
+    "policy_note": "258400-token configured operational budget in full_or_calibration_contract_v1 is not measured model capacity; fresh canary provider counters are emulated and do not authenticate original host observations.",
+    "missing_record_groups": {
+      "issuer_and_grant": null,
+      "admitted_producer_and_semantics": null,
+      "current_host_binary_config_model_and_applicability": null,
+      "controller_claim_run_pair_and_current_receipt": null,
+      "actual_source_population_bytes_tokens": null,
+      "actual_exact_usage_reported_window_terminal_cutoff": null,
+      "observation_identity_scope_cutoff_freshness": null
+    },
+    "readback_required": [
+      "source identity and held producer/grant checkpoint before publication",
+      "all three OR arms plus exact boundary/nontrigger/minimum payoff",
+      "missing/foreign/replayed/unknown/stale/future observation refusal",
+      "pointer/receipt/permanent-marker JOIN and distinct receiver"
+    ]
+  },
+  "C02": {
+    "status": "BLOCKED_ACTUAL_ADJUDICATION_OWNER_INPUTS",
+    "consumer_file": {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "bytes": 291624,
+      "sha256": "866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d"
+    },
+    "function": "propose_c02_correction_v1",
+    "existing_issuer_source": {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "bytes": 185531,
+      "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+    },
+    "configured_issuer_schema": "implementaudit.c02-configured-owner-decision.v1",
+    "configured_route_fields": [
+      "issuer",
+      "census_owner",
+      "decision_path",
+      "owner_decision_locator",
+      "source_contract_locator"
+    ],
+    "decision_fields": [
+      "schema",
+      "issuer",
+      "role",
+      "subject",
+      "decision_id",
+      "revoked",
+      "qualification",
+      "expected_old",
+      "source_cutoff",
+      "append_grant",
+      "conditional_fresh_grant"
+    ],
+    "expected_old_required": [
+      "controller",
+      "claim_id",
+      "run_root_identity",
+      "pointer_oid",
+      "receipt_oid",
+      "marker_oid",
+      "invalidation_oid"
+    ],
+    "publication_expected_old_extensions": [
+      "controller_oid",
+      "receipt_ref"
+    ],
+    "scope": "Existing source adapter is explicitly scoped CONTROLLED_NONPROTECTED_FAULT_INJECTION; it is not a self-appointed adjudicator for arbitrary historical events.",
+    "missing_record_groups": {
+      "CONTINUITY_ADJUDICATION_OWNER_identity_and_applicable_issuer_grant": null,
+      "actual_erroneous_event_physical_evidence": null,
+      "current_expected_old_pointer_receipt_marker_claim_run": null,
+      "complete_later_boundary_and_prior_decision_census": null,
+      "source_owner_admission_and_retained_issuer_decision": null,
+      "authorized_append_grant": null,
+      "separate_conditional_fresh_grant_if_currentness_transition_requested": null
+    },
+    "semantic_constraints": [
+      "Pure proposal returns NO_EFFECT_AUTHORITY.",
+      "Append grant cannot authorize fresh currentness.",
+      "Preserve generation-v1/projection-v2/fourteen-field receipt-v3 and F0-F9 owners/order.",
+      "Unknown or incomplete census stops publication.",
+      "Exact retry/idempotency; conflicting kind/replay/ambiguity refusal; genuine newer boundary admitted immediately."
+    ],
+    "after_authorization": [
+      "prepare through existing sole publication owner",
+      "append exact decision without erasing original history",
+      "read back exact correction object and retained erroneous event",
+      "apply only if separately scoped fresh-transition grant exists",
+      "independent host receiving of publication, exact retry, adverse refusal and newer boundary"
+    ]
+  },
+  "W_FULL": {
+    "status": "BLOCKED_NATIVE_WINDOWS_MEASUREMENT_AND_TWO_CONCURRENT_OWNER_ORIGINALS",
+    "model_turn_required_by_this_measurement": false,
+    "prospective_envelope": {
+      "maximum_runtime_ms": 60000,
+      "maximum_peak_aggregate_job_committed_bytes": 201326592,
+      "baseline_subtraction_bytes": 0,
+      "scope": "Pinned native Windows full-operation population and verified descendant accounting only"
+    },
+    "historical_input_source": {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/SOURCE_MANIFEST.json",
+      "bytes": 28000,
+      "sha256": "c45268bda9879ad04a961565e6bb57ddf0ab197a17e4324da63d367b94ac8b64",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/SOURCE_MANIFEST.json"
+    },
+    "historical_entitlement": {
+      "record": {
+        "repository": "theislampill/IMPLEMENTAUDIT.md",
+        "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+        "path": "qualification/dg18-isolated-windows20/entitlement-reference.txt",
+        "bytes": 10,
+        "sha256": "67098b2c6e963437820881c3dd61669910e5ea3cf497690f24904537ff4e2c52",
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/entitlement-reference.txt"
+      },
+      "literal_value": "UNGRANTED",
+      "reusable_as_current_grant": false
+    },
+    "historical_runner": {
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "commit": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "path": "qualification/dg18-isolated-windows20/prepare_and_execute.py",
+      "bytes": 185484,
+      "sha256": "7f93f8134b7a093c01b7d482f999617710f26832dc0f55438399df335b3f587e",
+      "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/27a41c9b53f43244a97f03fa00a0b3e41ff8ab84/qualification/dg18-isolated-windows20/prepare_and_execute.py"
+    },
+    "current_source_request": "Rebind exact current source/helper/tool/population identities in the final operation location; old8ee4ae44 source and old host packets do not launch current5277/e4cba42c source.",
+    "missing_record_groups": {
+      "native_Windows_host_and_physical_tool_readbacks": null,
+      "exact_final_operation_record_and_digest": null,
+      "fresh_owner_grant_naming_that_operation": null,
+      "DG16_concurrent_owner_original": null,
+      "DG17_concurrent_owner_original": null,
+      "overlapping_live_window_and_readiness": null,
+      "preimage_pair_owner_map_current_pointer_receipt_marker": null,
+      "complete_job_descendant_accounting_and_terminal_zero": null,
+      "independent_receiver": null
+    },
+    "measurement_requirements": [
+      "Time start before CreateProcessW/CREATE_SUSPENDED; end only root exit plus ActiveProcesses0.",
+      "Root assigned to private job before resume; no breakaway; include owner shell/Python/Git/all descendants.",
+      "Use kernel PeakJobMemoryUsed aggregate committed bytes; no baseline subtraction or subset maximum.",
+      "Keep storage before/after; retain preimage and archive typed readback.",
+      "Record functional result independently of number-only time/memory pass.",
+      "Freshness remains30000ms for OR; Windows60000ms envelope cannot extend it.",
+      "No automatic retry, replay, cleanup or compensation of UNKNOWN."
+    ]
+  },
+  "N1": {
+    "status": "BLOCKED_OWNER_STORE_ASSIGNMENT_NOT_RETRIEVED",
+    "reported_boundary_prefix": "162f88f4",
+    "reported_scope_prefix": "45de02cb",
+    "reported_cutoff": 109411,
+    "reported_state": "MANDATORY_RESERVED_PENDING_UNCOVERED",
+    "reported_currentness": "UNRESOLVED",
+    "reported_epoch": null,
+    "reported_consumption_witness": null,
+    "original_record": "DG18_CONTINUATION_PROGRESS_20261106.json",
+    "original_selector": "/successor_session/H0_original_cold_receiving_body/five_fields/obligations/second_occurrence",
+    "custodian_location_reported": "/workspace/scratch/4bb1fcb57e58/successor/",
+    "actual_custodian_identity": null,
+    "custodian_resolution": "Repository owner must route request to the original DG18 custodian retaining the reported successor workspace; public author role names do not establish N1 ownership.",
+    "required_exact_records": [
+      {
+        "record": "fixed accepting-source selection",
+        "fields": [
+          "pending_owner.store",
+          "pending_owner.session_id",
+          "pending_owner.owner_id",
+          "episode_owner.module_pin",
+          "episode_owner.repository",
+          "episode_owner.controller"
+        ]
+      },
+      {
+        "record": "existing H0 owner attribution",
+        "consumer": "compaction-audit-pending.py::attribution -> CORE.load_owner and CORE.current_record(require_active=True)"
+      },
+      {
+        "record": "assignment-bearing pending.json",
+        "locator": "<store>/compaction-audits-v1/<CORE.session_key(session_id)>/pending.json",
+        "required": "Exact N1 boundary/scope/assignment and actual reservation, result, accepted-consumption or explicit absence; surviving uncovered successor retained."
+      }
+    ],
+    "prohibited_inference": "r5-h0-native-facts-20261105-02 is an archival transport subject, not inherited original owner authority.",
+    "searched_subjects": [
+      "e4cba42cb5704f00b78d64e43f5da88501c28229",
+      "faaa43e068bc758e28f1953d4204ce6aae1e543d",
+      "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+      "5befdc82f2e4506ca6223325d090bfd2ea927ebd"
+    ],
+    "search_limit": "Targeted current handoff/original branch packet discovery and exact default-branch code search; not a claim of searching private stores or every historical branch.",
+    "next_after_records": "Original owner validates its authentic selection/store/assignment; then fresh exact-operation grant and bounded audit-state execution; distinct cold receiver completes only afterwards."
+  },
+  "source_only_ci_continuation": {
+    "status": "PREPARED_NOT_RUN_HOSTED_PENDING_DISTINCT_REVIEW",
+    "workflow": {
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "bytes": 3900,
+      "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+    },
+    "runner": {
+      "path": "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py",
+      "bytes": 6848,
+      "sha256": "062df41677fae3a93e789d847b5a29237591624ba198b7068b45de9b00f2777d"
+    },
+    "branch": "engineering/pro-executor-dg18-source-20261115",
+    "selected_test_count": 3,
+    "effect_scope": "Only existing deterministic disposable fixture cases; no native episode, model process, production grants or original-acceptance credit.",
+    "missing_for_source_ci": [
+      "distinct independent receiving",
+      "root guarded engineering publication",
+      "actual hosted result"
+    ],
+    "missing_native_authority_unchanged": true
+  }
+}

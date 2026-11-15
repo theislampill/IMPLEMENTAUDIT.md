@@ -1,0 +1,13 @@
+test_changed_old_identity_and_missing_census_refuse (__main__.CorrectionContract.test_changed_old_identity_and_missing_census_refuse) ... ok
+test_exact_retry_and_conflicting_kind (__main__.CorrectionContract.test_exact_retry_and_conflicting_kind) ... ok
+test_newer_boundary_supersedes_correction_without_erasing_history (__main__.CorrectionContract.test_newer_boundary_supersedes_correction_without_erasing_history) ... ok
+test_proposal_is_bound_and_has_no_effect_authority (__main__.CorrectionContract.test_proposal_is_bound_and_has_no_effect_authority) ... ok
+test_both_frozen_payoffs_are_required (__main__.InputContract.test_both_frozen_payoffs_are_required) ... ok
+test_independent_or_branches_and_boundary (__main__.InputContract.test_independent_or_branches_and_boundary) ... ok
+test_observation_identity_and_freshness (__main__.InputContract.test_observation_identity_and_freshness) ... ok
+test_unknown_or_invalid_observation_is_not_healthy_or_zero (__main__.InputContract.test_unknown_or_invalid_observation_is_not_healthy_or_zero) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.415s
+
+OK

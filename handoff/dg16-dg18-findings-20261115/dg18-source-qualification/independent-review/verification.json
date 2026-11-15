@@ -1,0 +1,1031 @@
+{
+  "schema": "dg18.independent-source-verification.v1",
+  "candidate_commit": "8be345fe411e8dba8f0b06a1e2e3830337b0e7f9",
+  "candidate_tree": "23b555580b65a937a03e111515182bdabac35cd5",
+  "candidate_parent": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+  "scope": "BOUNDED_SOURCE_REVIEW_ONLY_NO_NATIVE_ACCEPTANCE",
+  "passed_checks": 136,
+  "total_checks": 136,
+  "failed_checks": [],
+  "checks": [
+    {
+      "check": "frozen_identity",
+      "passed": true
+    },
+    {
+      "check": "clean_tracked_worktree",
+      "passed": true
+    },
+    {
+      "check": "18_additive_files",
+      "passed": true,
+      "details": [
+        [
+          "A",
+          ".github/workflows/dg18-source-qualification.yml"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/C5_AMENDMENT_ORIGINAL.md"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/INPUT_PACKETS.json"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ISSUE215_ORIGINAL.md"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/MANIFEST.json"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/RECEIVING.md"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/SOURCE_QUALIFICATION.json"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/ci-local-preflight.json"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/core-c02_cli_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/core-c02_native_source_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/core-input_contract_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/core-native_input_adapter_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/core-native_or_rotation_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/core-token_admission_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/peer-c02_native_source_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/peer-input_contract_test.py.txt"
+        ],
+        [
+          "A",
+          "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/peer-native_or_rotation_test.py.txt"
+        ]
+      ]
+    },
+    {
+      "check": "no_runtime_delta",
+      "passed": true
+    },
+    {
+      "check": "diff_check",
+      "passed": true
+    },
+    {
+      "check": "manifest:C5_AMENDMENT_ORIGINAL.md",
+      "passed": true,
+      "details": {
+        "bytes": 4943,
+        "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+      }
+    },
+    {
+      "check": "manifest:INPUT_PACKETS.json",
+      "passed": true,
+      "details": {
+        "bytes": 16509,
+        "sha256": "9ff71b9073a39969ced3347482dcee54af0202bf5530ba3cb66c583645b43910"
+      }
+    },
+    {
+      "check": "manifest:ISSUE215_ORIGINAL.md",
+      "passed": true,
+      "details": {
+        "bytes": 35566,
+        "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+      }
+    },
+    {
+      "check": "manifest:RECEIVING.md",
+      "passed": true,
+      "details": {
+        "bytes": 16907,
+        "sha256": "fca8a6dcf7584836767bb82cf5dbd8e2e35ff3f349f23c1e622c0c3fa1d90909"
+      }
+    },
+    {
+      "check": "manifest:SOURCE_QUALIFICATION.json",
+      "passed": true,
+      "details": {
+        "bytes": 23017,
+        "sha256": "62bff25c033e0ba75a492a794d0abcaff040c5b174456065fb37226f51c2b0c8"
+      }
+    },
+    {
+      "check": "manifest:ci_source_qualification.py",
+      "passed": true,
+      "details": {
+        "bytes": 6848,
+        "sha256": "062df41677fae3a93e789d847b5a29237591624ba198b7068b45de9b00f2777d"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/ci-local-preflight.json",
+      "passed": true,
+      "details": {
+        "bytes": 2658,
+        "sha256": "6d1f4fe78a2fbc664b598dd87527fb3881dbf9968b4ff3d0b8b87fdc16b76233"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/core-c02_cli_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2962,
+        "sha256": "aed434e42384f431f9bcf23b8b1d5ebb154cf10ef04e6110eb10729870637081"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/core-c02_native_source_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2599,
+        "sha256": "47607e51a14cef70ff445f9ef0805840ddbbbef1fb7255da5bf6e81ba557d347"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/core-input_contract_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1146,
+        "sha256": "818459ae9a82e5059ab53ce0408cff4f6d399bacdcce7586544f0f84e9587546"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/core-native_input_adapter_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 5120,
+        "sha256": "82dde91cbca33678e7f5b560c934a5f80e7c67432f5626b2372478196b143c89"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/core-native_or_rotation_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1945,
+        "sha256": "92559a0a394e952990f36aa9fc88d356fafbb407367d08c63ed91ee7f04c8506"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/core-token_admission_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2336,
+        "sha256": "cd589d909faba8827a47b2cbe155bb6f59e1f9c0a3304c714b51dc25988180d7"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/peer-c02_native_source_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2599,
+        "sha256": "9bbf08aecd8596caba2871687b9e451d9bc845a8ed6975479811de35afa29add"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/peer-input_contract_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1146,
+        "sha256": "2299574ede84c6e325087449b8b4bf8a817c1022f23c20b2c4ea0126dc87c928"
+      }
+    },
+    {
+      "check": "manifest:test-evidence/peer-native_or_rotation_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1945,
+        "sha256": "ac4edf9b7518cd12c971dcf2b35e4c86b969122b7ed32702aafc895a4299e70b"
+      }
+    },
+    {
+      "check": "manifest:.github/workflows/dg18-source-qualification.yml",
+      "passed": true,
+      "details": {
+        "bytes": 3900,
+        "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+      }
+    },
+    {
+      "check": "manifest_exact_added_file_coverage",
+      "passed": true
+    },
+    {
+      "check": "manifest_source_parent",
+      "passed": true
+    },
+    {
+      "check": "report_source_parent",
+      "passed": true
+    },
+    {
+      "check": "inputs_source_parent",
+      "passed": true
+    },
+    {
+      "check": "source:skills/implementaudit/scripts/claim-run.sh",
+      "passed": true,
+      "details": {
+        "bytes": 32290,
+        "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353"
+      }
+    },
+    {
+      "check": "source:skills/implementaudit/scripts/claim-run-rotation.py",
+      "passed": true,
+      "details": {
+        "bytes": 291624,
+        "sha256": "866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d"
+      }
+    },
+    {
+      "check": "source:skills/implementaudit/scripts/rotate-canonical-state.py",
+      "passed": true,
+      "details": {
+        "bytes": 129890,
+        "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+      }
+    },
+    {
+      "check": "source:skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "passed": true,
+      "details": {
+        "bytes": 27916,
+        "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+      }
+    },
+    {
+      "check": "source:skills/implementaudit/scripts/canonical_custody.py",
+      "passed": true,
+      "details": {
+        "bytes": 36367,
+        "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+      }
+    },
+    {
+      "check": "source:skills/implementaudit/scripts/read-canonical-pair.py",
+      "passed": true,
+      "details": {
+        "bytes": 27208,
+        "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+      }
+    },
+    {
+      "check": "source:source-peers/native-runtime/SOURCE_MANIFEST.json",
+      "passed": true,
+      "details": {
+        "bytes": 23818,
+        "sha256": "86fc63f4210b6bf915a4f2247950cb1c5c53b85189942779870b3f7153d7747c"
+      }
+    },
+    {
+      "check": "source:source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
+      "passed": true,
+      "details": {
+        "bytes": 247069,
+        "sha256": "60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f"
+      }
+    },
+    {
+      "check": "source:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "passed": true,
+      "details": {
+        "bytes": 127297,
+        "sha256": "8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631"
+      }
+    },
+    {
+      "check": "source:source-peers/native-runtime/skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "passed": true,
+      "details": {
+        "bytes": 27154,
+        "sha256": "96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489"
+      }
+    },
+    {
+      "check": "source:source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "passed": true,
+      "details": {
+        "bytes": 185531,
+        "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+      }
+    },
+    {
+      "check": "source:source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "passed": true,
+      "details": {
+        "bytes": 67827,
+        "sha256": "729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5"
+      }
+    },
+    {
+      "check": "source:fixtures/canonical-state-rotation/pending_state_loader_test.py",
+      "passed": true,
+      "details": {
+        "bytes": 18382,
+        "sha256": "e9e85dab4dcbd0a258400480b3c4900df0eebbd555df20653168918a638c0356"
+      }
+    },
+    {
+      "check": "tree:skills/implementaudit/scripts",
+      "passed": true,
+      "details": {
+        "tree": "8ad5122bcad558bc344a8eb08b92bf484ab9c665",
+        "clean": true
+      }
+    },
+    {
+      "check": "tree:skills/implementaudit/templates",
+      "passed": true,
+      "details": {
+        "tree": "d06dafd6196fe56b8d03e2adf625332b25a59308",
+        "clean": true
+      }
+    },
+    {
+      "check": "tree:fixtures/canonical-state-rotation",
+      "passed": true,
+      "details": {
+        "tree": "aab81517567fe610d8def31a8a5a31c2e0ca2919",
+        "clean": true
+      }
+    },
+    {
+      "check": "tree:fixtures/controller-initialization",
+      "passed": true,
+      "details": {
+        "tree": "69c908ff929b7fb8723cabe01bc93434c00e0dee",
+        "clean": true
+      }
+    },
+    {
+      "check": "one_function:skills/implementaudit/scripts/rotate-canonical-state.py:rotation_trigger_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:skills/implementaudit/scripts/rotate-canonical-state.py:rotation_trigger_v1",
+      "passed": true,
+      "details": {
+        "sha256": "52d4e98a0befa9063d70e54cd0f892db9ef9f28505aa642a1db49c86524239c0",
+        "lines": [
+          849,
+          856
+        ]
+      }
+    },
+    {
+      "check": "one_function:skills/implementaudit/scripts/rotate-canonical-state.py:rotation_payoff_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:skills/implementaudit/scripts/rotate-canonical-state.py:rotation_payoff_v1",
+      "passed": true,
+      "details": {
+        "sha256": "b75fb1513421e576e9947ea2d3617fee2d6dc84b6383e68899d37e2be1f469ea",
+        "lines": [
+          859,
+          862
+        ]
+      }
+    },
+    {
+      "check": "one_function:skills/implementaudit/scripts/rotate-canonical-state.py:check_rotation_observation_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:skills/implementaudit/scripts/rotate-canonical-state.py:check_rotation_observation_v1",
+      "passed": true,
+      "details": {
+        "sha256": "f21d774fe56470ca0fb2b845abee9079acae9c7d5db5926a382abd83d4430484",
+        "lines": [
+          865,
+          921
+        ]
+      }
+    },
+    {
+      "check": "one_function:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py:rotation_trigger_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py:rotation_trigger_v1",
+      "passed": true,
+      "details": {
+        "sha256": "52d4e98a0befa9063d70e54cd0f892db9ef9f28505aa642a1db49c86524239c0",
+        "lines": [
+          828,
+          835
+        ]
+      }
+    },
+    {
+      "check": "one_function:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py:rotation_payoff_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py:rotation_payoff_v1",
+      "passed": true,
+      "details": {
+        "sha256": "b75fb1513421e576e9947ea2d3617fee2d6dc84b6383e68899d37e2be1f469ea",
+        "lines": [
+          838,
+          841
+        ]
+      }
+    },
+    {
+      "check": "one_function:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py:check_rotation_observation_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py:check_rotation_observation_v1",
+      "passed": true,
+      "details": {
+        "sha256": "f21d774fe56470ca0fb2b845abee9079acae9c7d5db5926a382abd83d4430484",
+        "lines": [
+          844,
+          900
+        ]
+      }
+    },
+    {
+      "check": "one_function:skills/implementaudit/scripts/claim-run-rotation.py:propose_c02_correction_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:skills/implementaudit/scripts/claim-run-rotation.py:propose_c02_correction_v1",
+      "passed": true,
+      "details": {
+        "sha256": "f1a94055aa052117a8f7e8ce3388f2938032cd0c71aed699b1416cc88e34df53",
+        "lines": [
+          169,
+          238
+        ]
+      }
+    },
+    {
+      "check": "one_function:source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py:propose_c02_correction_v1",
+      "passed": true
+    },
+    {
+      "check": "function_pin:source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py:propose_c02_correction_v1",
+      "passed": true,
+      "details": {
+        "sha256": "f1a94055aa052117a8f7e8ce3388f2938032cd0c71aed699b1416cc88e34df53",
+        "lines": [
+          128,
+          197
+        ]
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/claim-run.sh",
+      "passed": true,
+      "details": {
+        "bytes": 104155,
+        "sha256": "83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/validate-run-root.sh",
+      "passed": true,
+      "details": {
+        "bytes": 114674,
+        "sha256": "c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/references/route-obligations.md",
+      "passed": true,
+      "details": {
+        "bytes": 24980,
+        "sha256": "df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/host-session-binding.py",
+      "passed": true,
+      "details": {
+        "bytes": 49273,
+        "sha256": "f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "passed": true,
+      "details": {
+        "bytes": 127297,
+        "sha256": "8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/canonical_hot_projection.py",
+      "passed": true,
+      "details": {
+        "bytes": 93893,
+        "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "passed": true,
+      "details": {
+        "bytes": 1563,
+        "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "passed": true,
+      "details": {
+        "bytes": 185531,
+        "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "passed": true,
+      "details": {
+        "bytes": 161350,
+        "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "passed": true,
+      "details": {
+        "bytes": 67827,
+        "sha256": "729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "passed": true,
+      "details": {
+        "bytes": 10273,
+        "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+      "passed": true,
+      "details": {
+        "bytes": 20749,
+        "sha256": "1f72979eb39138d999843c127893c8dbeba97cc8c5546b19c3725758011df5a6"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "passed": true,
+      "details": {
+        "bytes": 83394,
+        "sha256": "230b65727cb27f51971ee42d37efd3ff5f7514d299208d1b74d2cd04494ce688"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py",
+      "passed": true,
+      "details": {
+        "bytes": 247069,
+        "sha256": "60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "passed": true,
+      "details": {
+        "bytes": 27154,
+        "sha256": "96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/compaction-prior-protocol.py",
+      "passed": true,
+      "details": {
+        "bytes": 13416,
+        "sha256": "4c7100bc6e80a84801dbef38132782462440f7d7229ae084ae6f948e98a6057d"
+      }
+    },
+    {
+      "check": "peer_files:source-peers/native-runtime/skills/implementaudit/scripts/compaction-prior-mcp.py",
+      "passed": true,
+      "details": {
+        "bytes": 17629,
+        "sha256": "f4790b4aad0f634a0d86fcd936fed83ce799f8c4253490e07b89abfb6cc34b04"
+      }
+    },
+    {
+      "check": "peer_frozen_core_dependencies:skills/implementaudit/scripts/read-canonical-pair.py",
+      "passed": true,
+      "details": {
+        "bytes": 27208,
+        "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+      }
+    },
+    {
+      "check": "peer_frozen_core_dependencies:skills/implementaudit/scripts/canonical_custody.py",
+      "passed": true,
+      "details": {
+        "bytes": 36367,
+        "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+      }
+    },
+    {
+      "check": "peer_population",
+      "passed": true
+    },
+    {
+      "check": "original:tools/dg18/isolated-h0-20261106-05/INPUT_TEMPLATE.json",
+      "passed": true
+    },
+    {
+      "check": "original:tools/dg18/isolated-h0-20261106-05/REPORT.md",
+      "passed": true
+    },
+    {
+      "check": "original:qualification/dg18-isolated-windows20/SOURCE_MANIFEST.json",
+      "passed": true
+    },
+    {
+      "check": "original:qualification/dg18-isolated-windows20/entitlement-reference.txt",
+      "passed": true
+    },
+    {
+      "check": "original:qualification/dg18-isolated-windows20/prepare_and_execute.py",
+      "passed": true
+    },
+    {
+      "check": "PR255_unchanged:claim-run-rotation.py",
+      "passed": true
+    },
+    {
+      "check": "PR255_unchanged:rotate-canonical-state.py",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/core-c02_cli_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2962,
+        "sha256": "aed434e42384f431f9bcf23b8b1d5ebb154cf10ef04e6110eb10729870637081"
+      }
+    },
+    {
+      "check": "test_accounting:core-c02_cli_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 2,
+        "passed": 0,
+        "skipped": 0,
+        "errors": 2,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:core-c02_cli_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/core-c02_native_source_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2599,
+        "sha256": "47607e51a14cef70ff445f9ef0805840ddbbbef1fb7255da5bf6e81ba557d347"
+      }
+    },
+    {
+      "check": "test_accounting:core-c02_native_source_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 16,
+        "passed": 16,
+        "skipped": 0,
+        "errors": 0,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:core-c02_native_source_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/core-input_contract_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1146,
+        "sha256": "818459ae9a82e5059ab53ce0408cff4f6d399bacdcce7586544f0f84e9587546"
+      }
+    },
+    {
+      "check": "test_accounting:core-input_contract_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 8,
+        "passed": 8,
+        "skipped": 0,
+        "errors": 0,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:core-input_contract_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/core-native_input_adapter_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 5120,
+        "sha256": "82dde91cbca33678e7f5b560c934a5f80e7c67432f5626b2372478196b143c89"
+      }
+    },
+    {
+      "check": "test_accounting:core-native_input_adapter_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 31,
+        "passed": 30,
+        "skipped": 1,
+        "errors": 0,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:core-native_input_adapter_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/core-native_or_rotation_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1945,
+        "sha256": "92559a0a394e952990f36aa9fc88d356fafbb407367d08c63ed91ee7f04c8506"
+      }
+    },
+    {
+      "check": "test_accounting:core-native_or_rotation_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 11,
+        "passed": 11,
+        "skipped": 0,
+        "errors": 0,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:core-native_or_rotation_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/core-token_admission_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2336,
+        "sha256": "cd589d909faba8827a47b2cbe155bb6f59e1f9c0a3304c714b51dc25988180d7"
+      }
+    },
+    {
+      "check": "test_accounting:core-token_admission_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 6,
+        "passed": 5,
+        "skipped": 0,
+        "errors": 1,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:core-token_admission_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/peer-c02_native_source_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 2599,
+        "sha256": "9bbf08aecd8596caba2871687b9e451d9bc845a8ed6975479811de35afa29add"
+      }
+    },
+    {
+      "check": "test_accounting:peer-c02_native_source_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 16,
+        "passed": 16,
+        "skipped": 0,
+        "errors": 0,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:peer-c02_native_source_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/peer-input_contract_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1146,
+        "sha256": "2299574ede84c6e325087449b8b4bf8a817c1022f23c20b2c4ea0126dc87c928"
+      }
+    },
+    {
+      "check": "test_accounting:peer-input_contract_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 8,
+        "passed": 8,
+        "skipped": 0,
+        "errors": 0,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:peer-input_contract_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "test_evidence:test-evidence/peer-native_or_rotation_test.py.txt",
+      "passed": true,
+      "details": {
+        "bytes": 1945,
+        "sha256": "ac4edf9b7518cd12c971dcf2b35e4c86b969122b7ed32702aafc895a4299e70b"
+      }
+    },
+    {
+      "check": "test_accounting:peer-native_or_rotation_test.py.log",
+      "passed": true,
+      "details": {
+        "executed_tests": 11,
+        "passed": 11,
+        "skipped": 0,
+        "errors": 0,
+        "failures": 0
+      }
+    },
+    {
+      "check": "test_exit:peer-native_or_rotation_test.py.log",
+      "passed": true
+    },
+    {
+      "check": "aggregate_test_accounting",
+      "passed": true,
+      "details": {
+        "executed_tests": 109,
+        "passed": 105,
+        "skipped": 1,
+        "errors": 3,
+        "failures": 0
+      }
+    },
+    {
+      "check": "missing_inputs_preserved:OR",
+      "passed": true
+    },
+    {
+      "check": "missing_inputs_preserved:C02",
+      "passed": true
+    },
+    {
+      "check": "missing_inputs_preserved:W_FULL",
+      "passed": true
+    },
+    {
+      "check": "no_native_grant_or_record",
+      "passed": true
+    },
+    {
+      "check": "N1_owner_not_inferred",
+      "passed": true
+    },
+    {
+      "check": "historical_entitlement_not_reused",
+      "passed": true
+    },
+    {
+      "check": "workflow_exact_push_only",
+      "passed": true
+    },
+    {
+      "check": "workflow_readonly_permissions",
+      "passed": true
+    },
+    {
+      "check": "workflow_job_guards",
+      "passed": true
+    },
+    {
+      "check": "workflow_timeout_runner",
+      "passed": true
+    },
+    {
+      "check": "actions_full_commit_pins",
+      "passed": true
+    },
+    {
+      "check": "checkout_exact_sha_without_retained_credentials",
+      "passed": true
+    },
+    {
+      "check": "shell_syntax:1",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check": "shell_syntax:2",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check": "shell_syntax:3",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check": "shell_syntax:4",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "check": "upload_exact_allowlist",
+      "passed": true,
+      "details": [
+        "${{ env.DG18_SOURCE_OUTPUT }}/PREFLIGHT.json",
+        "${{ env.DG18_SOURCE_OUTPUT }}/RESULT.json",
+        "${{ env.DG18_SOURCE_OUTPUT }}/DEPENDENCIES.txt",
+        "${{ env.DG18_SOURCE_OUTPUT }}/test-*.stdout.txt",
+        "${{ env.DG18_SOURCE_OUTPUT }}/test-*.stderr.txt"
+      ]
+    },
+    {
+      "check": "runner_python_syntax",
+      "passed": true
+    },
+    {
+      "check": "ci_report_pin:workflow",
+      "passed": true,
+      "details": {
+        "bytes": 3900,
+        "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+      }
+    },
+    {
+      "check": "ci_report_pin:runner",
+      "passed": true,
+      "details": {
+        "bytes": 6848,
+        "sha256": "062df41677fae3a93e789d847b5a29237591624ba198b7068b45de9b00f2777d"
+      }
+    },
+    {
+      "check": "ci_packet_pin:workflow",
+      "passed": true,
+      "details": {
+        "bytes": 3900,
+        "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+      }
+    },
+    {
+      "check": "ci_packet_pin:runner",
+      "passed": true,
+      "details": {
+        "bytes": 6848,
+        "sha256": "062df41677fae3a93e789d847b5a29237591624ba198b7068b45de9b00f2777d"
+      }
+    }
+  ]
+}

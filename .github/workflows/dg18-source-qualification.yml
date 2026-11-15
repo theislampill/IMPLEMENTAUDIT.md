@@ -1,0 +1,88 @@
+name: DG18 deterministic source CLI qualification
+
+on:
+  push:
+    branches: [engineering/pro-executor-dg18-source-20261115]
+    paths:
+      - .github/workflows/dg18-source-qualification.yml
+      - handoff/dg16-dg18-findings-20261115/dg18-source-qualification/**
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-source-qualification-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-cli:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-executor-dg18-source-20261115'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      DG18_SOURCE_OUTPUT: ${{ runner.temp }}/dg18-source-cli-${{ github.run_id }}-${{ github.run_attempt }}
+      DG18_SOURCE_RUNNER: handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py
+    steps:
+      - name: Check out exact reviewed source without retained credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Verify source pins and the existing physical interpreter predicate
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          /usr/bin/python3 -B "$DG18_SOURCE_RUNNER" --output "$DG18_SOURCE_OUTPUT" --preflight
+
+      - name: Install the fixed test tokenizer in the disposable system interpreter
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo /usr/bin/python3 -m pip --isolated install --break-system-packages --no-cache-dir --disable-pip-version-check 'tiktoken==0.13.0'
+          /usr/bin/python3 -I -c 'import importlib.metadata; assert importlib.metadata.version("tiktoken") == "0.13.0"'
+          /usr/bin/python3 -I -c 'import importlib.metadata, json; print(json.dumps({name: importlib.metadata.version(name) for name in ("tiktoken", "regex", "requests", "charset_normalizer", "idna", "urllib3", "certifi")}, sort_keys=True))' > "$DG18_SOURCE_OUTPUT/DEPENDENCIES.txt"
+
+      - name: Acquire only the exact public tokenizer data
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -B - <<'PY'
+          import hashlib, os, pathlib, urllib.request
+          with urllib.request.urlopen('https://openaipublic.blob.core.windows.net/encodings/cl100k_base.tiktoken', timeout=30) as response:
+              raw = response.read(2000001)
+          assert len(raw) == 1681126
+          assert hashlib.sha256(raw).hexdigest() == '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7'
+          target = pathlib.Path(os.environ['DG18_SOURCE_OUTPUT']) / 'cl100k_base.tiktoken'
+          with target.open('xb') as stream:
+              stream.write(raw)
+          PY
+
+      - name: Run only the three previously environment-blocked deterministic CLI cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -B "$DG18_SOURCE_RUNNER" --output "$DG18_SOURCE_OUTPUT" --encoding "$DG18_SOURCE_OUTPUT/cl100k_base.tiktoken"
+
+      - name: Retain source test results without fixture stores or model evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-source-cli-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ env.DG18_SOURCE_OUTPUT }}/PREFLIGHT.json
+            ${{ env.DG18_SOURCE_OUTPUT }}/RESULT.json
+            ${{ env.DG18_SOURCE_OUTPUT }}/DEPENDENCIES.txt
+            ${{ env.DG18_SOURCE_OUTPUT }}/test-*.stdout.txt
+            ${{ env.DG18_SOURCE_OUTPUT }}/test-*.stderr.txt
