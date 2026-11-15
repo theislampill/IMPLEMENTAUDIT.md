@@ -1,0 +1,172 @@
+{
+  "acquisition": {
+    "bytes": 647,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/ACQUISITION.json",
+    "sha256": "01cb88a1c81ec37b4fa5952b4542683d39cbc3ffd96285778a8fdafc8c4919da"
+  },
+  "actual_result": {
+    "all_four_source_hashes_equal_reviewed_source": true,
+    "command": "PATH=/usr/bin:/bin:$PATH /usr/bin/python3 -B fixtures/canonical-state-rotation/c02_cli_source_test.py ClosedCliAppendControl",
+    "elapsed_test_seconds": 31.723,
+    "exit_code": 0,
+    "host": {
+      "executable": "/usr/bin/python3.12",
+      "git": "git version 2.56.1",
+      "physical_interpreter_nodes": [
+        {
+          "mode": "0o755",
+          "path": "/usr/bin/python3.12",
+          "uid": 0
+        },
+        {
+          "mode": "0o755",
+          "path": "/usr/bin",
+          "uid": 0
+        },
+        {
+          "mode": "0o755",
+          "path": "/usr",
+          "uid": 0
+        },
+        {
+          "mode": "0o755",
+          "path": "/",
+          "uid": 0
+        }
+      ],
+      "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+      "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+      "scope": "CONSTRUCTED_SOURCE_CONTROL_NOT_ORIGINAL_ACCEPTANCE"
+    },
+    "skipped_cases": 0,
+    "source_txt_parent_field": "EMPTY_AS_EMITTED_BY_SHALLOW_FETCH_DEPTH1; sole parent independently established by provider commit, not invented in artifact",
+    "stderr_exact_unittest_success": true,
+    "stdout_empty": true,
+    "test_class": "ClosedCliAppendControl",
+    "test_method": "test_append_retry_and_subsequent_manual_boundary_use_existing_owners",
+    "tests_run": 1
+  },
+  "archive": {
+    "bytes": 1397,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/dg18-c02-cli-43719967600-1.zip",
+    "sha256": "e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956"
+  },
+  "artifact_id": 14163988124,
+  "authority": "NONE",
+  "disposition": "RECEIVED_ACTUAL_SINGLE_C02_FULL_INTERFACE_SOURCE_CONTROL_PASS",
+  "earned_scope": [
+    "The previously environment-blocked complete source integration control actually passed on a fresh ordinary Ubuntu job at the exact reviewed source bytes.",
+    "Existing actual claim/activation, initial receipt/currentness JOIN, first rotation, source custody, real controlled inferred-context-gap publication, existing C02 materialization/append, exact retry and later genuine manual-resume assertions all completed in the selected fixture class.",
+    "The existing system-interpreter ownership guard passed on actual root-owned /usr/bin/python3.12 and root-owned protected ancestors. No guard relaxation or local failed-subject replay occurred.",
+    "This closes the specific full-interface deterministic source-qualification gap identified in the independent source review."
+  ],
+  "job_log": {
+    "bytes": 17747,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/JOB.log",
+    "sha256": "836fcc8e7ce843ba92d8b76c6660720c21761f0e43ff144a9c160440ddd32863"
+  },
+  "limits": [
+    "The semantic fixture and its source selection/issuer are constructed. No authentic original C02 source-owner admission, adjudication grant, protected accepting occurrence or independent original host readback is supplied by this test.",
+    "Temporary fixture stores and append objects were not artifact members. The result proves the reviewed fixture assertions through actual source execution; it is not a new original event/census receipt.",
+    "No conflict/replay/ambiguity original award, native/model/W-FULL result, N1 result, M5 award or whole-DG18 acceptance follows.",
+    "All six retained packages keep their exact named source identities. The716-byte original canonical reserve gap in candidate0f591704 remains historical and open for that candidate; any later budget correction has separate source and actual package evidence.",
+    "W-FULL489cd remains ef7-bound; no source-currentness or measurement transfer is made."
+  ],
+  "manifest": {
+    "bytes": 2070,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/ARTIFACT_MANIFEST.json",
+    "sha256": "8c454923a512d8464b8309c44d91ff5a87a5998ee1018062f4460d620dd66dea"
+  },
+  "operations_by_receiver": {
+    "artifact_downloads": 1,
+    "binary_materialization_requests": 1,
+    "grants": 0,
+    "job_log_reads": 1,
+    "native_or_model_launches": 0,
+    "provider_metadata_reads": 8,
+    "provider_mutations": 0,
+    "source_edits": 0,
+    "test_preflight_or_package_replays": 0
+  },
+  "original_acceptance_delta": 0,
+  "original_awards": [],
+  "provider": {
+    "artifact_catalog": {
+      "bytes": 880,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/ARTIFACTS_FINAL.json",
+      "sha256": "9f13b2c6de221458983bb86fb9d614234857d291f09ca456008c644ed0df47c2"
+    },
+    "attempt": 1,
+    "conclusion": "success",
+    "event": "push",
+    "head_sha": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+    "job_id": 132829604961,
+    "jobs": {
+      "bytes": 1459,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/JOBS_FINAL.json",
+      "sha256": "d7f6bf2626cb5c357703d00b3fd54a5562b50390fe2c81fca12521ded4ef2ffa"
+    },
+    "other_job": "source-cli SKIPPED",
+    "run": {
+      "bytes": 14223,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/RUN_FINAL.json",
+      "sha256": "89c059e5933f6e09e5d2cf85f9482cdc153e57289d360069e4ee5318c08544fb"
+    },
+    "run_id": 43719967600,
+    "sole_parent_from_provider": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "status": "completed",
+    "tree": "e09a380142f9ccc83fa617afd7446f4c1ed3cb46"
+  },
+  "publication_receiving": {
+    "bytes": 21990,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/PUBLICATION_INDEPENDENT_RECEIVING.json",
+    "sha256": "cfcbf32e576126d3f7ca6e6326c03765bfd1f032bbbdec4d2e183f3148e3043f"
+  },
+  "raw_bodies": {
+    "EXIT_CODE.txt": {
+      "bytes": 2,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/EXIT_CODE.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    "HOST.json": {
+      "bytes": 481,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/HOST.json",
+      "sha256": "f83f35ed6701c4b4212101291458bbd62ae62ca80ae8279f03fc3b67a543f989"
+    },
+    "SOURCE.txt": {
+      "bytes": 83,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/SOURCE.txt",
+      "sha256": "5e311a4133792b2bcdea4c9ab0b9b06df33ead665fb0d500e6b44374b1002f65"
+    },
+    "SOURCE_SHA256.txt": {
+      "bytes": 511,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/SOURCE_SHA256.txt",
+      "sha256": "fa401bcba785e21ae1cb3b6e86ce2c77518198fe8e2fd0d16524c925656e0e69"
+    },
+    "test.stderr": {
+      "bytes": 99,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/test.stderr",
+      "sha256": "fbf092f1a189d1ab3bb861fce3aee585a10954e1dc02fa3265c2577b840ff710"
+    },
+    "test.stdout": {
+      "bytes": 0,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/test.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "received_utc": "2026-11-15T13:42:20.502386+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authoring_context_reused": false,
+    "publisher": false,
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.dg18.c02-hosted-control-independent-receiving.v1",
+  "source_review": {
+    "bytes": 31495,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/INDEPENDENT_SOURCE_REVIEW.json",
+    "sha256": "50d022fa409532f0bf2af7f979f2a39a00290b199d516eacfd3a96ed56c5df99"
+  }
+}

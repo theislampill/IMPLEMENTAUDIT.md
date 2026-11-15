@@ -1,0 +1,39 @@
+{
+  "archive": {
+    "bytes": 1397,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/dg18-c02-cli-43719967600-1.zip",
+    "sha256": "e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956"
+  },
+  "members": [
+    {
+      "bytes": 2,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/EXIT_CODE.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "bytes": 481,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/HOST.json",
+      "sha256": "f83f35ed6701c4b4212101291458bbd62ae62ca80ae8279f03fc3b67a543f989"
+    },
+    {
+      "bytes": 83,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/SOURCE.txt",
+      "sha256": "5e311a4133792b2bcdea4c9ab0b9b06df33ead665fb0d500e6b44374b1002f65"
+    },
+    {
+      "bytes": 511,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/SOURCE_SHA256.txt",
+      "sha256": "fa401bcba785e21ae1cb3b6e86ce2c77518198fe8e2fd0d16524c925656e0e69"
+    },
+    {
+      "bytes": 99,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/test.stderr",
+      "sha256": "fbf092f1a189d1ab3bb861fce3aee585a10954e1dc02fa3265c2577b840ff710"
+    },
+    {
+      "bytes": 0,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/test.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

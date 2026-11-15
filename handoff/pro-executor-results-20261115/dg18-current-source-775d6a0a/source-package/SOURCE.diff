@@ -1,0 +1,298 @@
+diff --git a/skills/implementaudit/scripts/claim-run-rotation.py b/skills/implementaudit/scripts/claim-run-rotation.py
+index bd2eb95d..ecfddde5 100644
+--- a/skills/implementaudit/scripts/claim-run-rotation.py
++++ b/skills/implementaudit/scripts/claim-run-rotation.py
+@@ -167,12 +167,7 @@ def canonical(value):
+ 
+ 
+ def propose_c02_correction_v1(observed, decision, prior_decisions):
+-    """Pure existing-owner proposal, never producer, event or effect admission.
+-
+-    Physical occurrence/census custody, issuer entitlement and applicability
+-    remain indispensable owner inputs. Hash equality cannot establish them.
+-    This interface changes no CLI, receipt schema, ref or F0-F9 ordering.
+-    """
++    """Pure proposal: actual occurrence/census custody and scoped issuer remain required; hashes grant no admission or effects."""
+     observation_keys = {'schema', 'controller', 'claim_id', 'run_root_identity', 'pointer_oid',
+                         'receipt_oid', 'marker_oid', 'invalidation_oid', 'event_id', 'boundary', 'later_boundaries'}
+     decision_keys = {'schema', 'issuer', 'grant_sha256', 'evidence_sha256', 'kind',
+@@ -362,13 +357,7 @@ def snapshot(info):
+ 
+ 
+ class DirectoryPin:
+-    """Walk and retain every ancestor with native descriptor-relative no-follow I/O.
+-
+-    A pathname census alone is insufficient: an ancestor can be replaced after
+-    lstat. Openat uses the already held parent object, so a redirected pathname
+-    cannot select an unrelated outside directory. Rechecks require the original
+-    directory objects still to occupy the canonical path before returning proof.
+-    """
++    """Hold native no-follow ancestor descriptors and recheck canonical identity; a pathname census alone is insufficient."""
+     def __init__(self, path, *, create=False):
+         self.path = Path(path)
+         self.nodes = []
+@@ -1249,12 +1238,7 @@ class CASFailure(RotationError):
+ 
+ 
+ class _NativePublicationInputs:
+-    """Compose source custody with the selected native owner's live checkpoints.
+-
+-    Checkpoint races are UNKNOWN, never a successful native qualification. The
+-    fixed producer must also supply exclusive host custody and its atomic source
+-    revision integration before production admission; this wrapper grants none.
+-    """
++    """Compose actual source custody and owner checkpoints; races stay UNKNOWN and exclusive custody/atomic revision integration require admission."""
+     def __init__(self, retained, native_guard):
+         self.retained, self.native_guard = retained, native_guard
+ 
+@@ -1302,12 +1286,7 @@ def retention_updates(context, oids):
+ 
+ 
+ def update_refs(context, updates, guards, *, observation=None):
+-    """One expected-old Git transaction; classify effect by exact readback.
+-
+-    The short gate cooperates with original main writers. The Git verify commands
+-    also fence concurrent ref writers that do not take that gate. No environment
+-    variable is treated as evidence of ownership or an already-held lock.
+-    """
++    """One expected-old Git transaction with exact readback; Git verifies fence all ref writers, and environment values confer no lock ownership."""
+     repo = context["repo"]
+     if set(updates) & set(guards):
+         raise RotationError("transaction contains overlapping guard and mutation refs")
+@@ -1410,14 +1389,7 @@ class NativeCancellationSignalV1:
+ 
+ 
+ class NativeCancellationWaitV1:
+-    """Duplicate the exact live producer object with SYNCHRONIZE rights only.
+-
+-    Numeric JSON is not a capability: producer PID/birth/image is independently
+-    checked, DuplicateHandle obtains the actual object from that process, and
+-    NtQueryObject verifies Event type. The successful durable CLAIMED CAS binds
+-    the exact consuming PID/birth and transaction. Other consumers cannot reset
+-    this event and cannot replay CLAIMED after that executor exits.
+-    """
++    """Duplicate a verified producer Event with SYNCHRONIZE only; durable CLAIMED binds this executor and cannot be replayed."""
+     def __init__(self, descriptor, producer_process, reservation_id):
+         self.c, self.W, self.k = _native_sync_api_v1()
+         self.handle = None
+@@ -1620,12 +1592,7 @@ _NATIVE_INPUT_BINARY_PIN_V1 = None
+ 
+ 
+ def _h0_mechanical_source_template_v1(raw):
+-    """Recognize one reviewed mechanical source; grant no rotation input.
+-
+-    This profile exercises physical prior/retry occurrences only. Its private
+-    selector is never an authentic usage/context-health issuer or C02 input
+-    owner. Existing stdio templates still use their separate original path.
+-    """
++    """Recognize reviewed physical prior/retry machinery only; this selector supplies neither authentic usage/context health nor C02 authority."""
+     import ast
+     declarations = [node for node in ast.parse(raw).body
+                     if isinstance(node, ast.Assign) and len(node.targets) == 1
+@@ -1655,13 +1622,7 @@ def _h0_mechanical_source_template_v1(raw):
+ 
+ 
+ def _private_native_input_selection_v1(context):
+-    """Existing source-owned provider selection, through authenticated repo custody.
+-
+-    Not used by historical canonical readers. No __file__-relative fallback and
+-    no caller module/path. Before executing private code, normalize only the one
+-    literal OWNED_STDIO_SELECTION_PIN and require the exact reviewed template.
+-    Retain physical producer/provider files through the live canonical CAS.
+-    """
++    """Verify fixed private selection by repository custody and normalized template hash; retain physical producer/provider files through CAS."""
+     global _NATIVE_PRIVATE_PROFILE_V1
+     if _NATIVE_PRIVATE_PROFILE_V1 is not None:
+         repo, selected, held = _NATIVE_PRIVATE_PROFILE_V1
+@@ -1915,13 +1876,7 @@ def _native_preparation_cancel_record_v1(context, owned_oids):
+ 
+ 
+ class NativeInputPreparationV1:
+-    """Owned producer's one-shot scheduling capability; never an input/grant.
+-
+-    The selected source observes an already-running or independently scheduled
+-    legitimate host turn. This rendezvous NEVER starts a model/API turn.
+-    This object can register, receive one prepared request and constrain a later
+-    genuine source. It cannot manufacture a NativeInputState or extend a grant.
+-    """
++    """One-shot source rendezvous for an independently scheduled host turn; cannot start a model turn, manufacture input or extend a grant."""
+     def __init__(self, context, host_process):
+         self.context, self.selected = context, dict(_native_selection_v1(context))
+         if (type(host_process) is not subprocess.Popen or host_process.poll() is not None
+@@ -2411,13 +2366,7 @@ def _validate_native_revision_v1(context, source, grant, native, *, claimed=Fals
+ 
+ 
+ def prepare_native_source_update_v1(context, snapshot, grant, *, expected_source_oid, expected_grant_oid):
+-    """Pure plan for the EXISTING claim writer, after actual source/issuer verification.
+-
+-    Called only by the admitted owned-stdio source owner, not exposed as a caller
+-    JSON CLI. READY comes from the actual reader callback; REVOKED is published
+-    before any dispatch/injection and on disconnect/finally. Old objects remain
+-    under the existing retained-object anchors. No new storage service is added.
+-    """
++    """Plan retained READY/REVOKED updates for the admitted source and existing writer; revoke before dispatch or disconnect."""
+     refs = native_input_revision_refs_v1(context)
+     if (type(snapshot) is not dict or snapshot.get('schema') not in {'implementaudit.native-rotation-source.v3', 'implementaudit.native-rotation-source.v4'}
+             or snapshot.get('phase') not in {'READY', 'REVOKED', 'CLOSED'}
+@@ -2432,12 +2381,7 @@ def prepare_native_source_update_v1(context, snapshot, grant, *, expected_source
+ 
+ 
+ def reconcile_native_publication_v1(context, reservation_id):
+-    """Close only a real exact canonical JOIN; absent/partial F2-F5 is STOP.
+-
+-    Never overwrites an archive, turns CLAIMED back into READY, infers success
+-    from child exit, or invents a recovery generation. A failed read leaves the
+-    one-shot consumption intact for the existing owner's manual reconciliation.
+-    """
++    """Close only an exact canonical JOIN; partial F2-F5 stops. Preserve archives and CLAIMED on failed reads; infer no success or recovery generation."""
+     _native_selection_v1(context)
+     refs = native_input_revision_refs_v1(context)
+     source_oid = read_ref(context['repo'], refs['source'])
+@@ -2474,13 +2418,7 @@ def reconcile_native_publication_v1(context, reservation_id):
+ 
+ 
+ def _resolve_native_input_state_v1(native, controller):
+-    """Fresh CLI: consume one durable source revision, preserving both clocks.
+-
+-    This is the fixed receiver selected by canonical_rotation_inputs.py. No
+-    observe() call re-stamps a retained event. CLAIMED survives process death;
+-    another CLI cannot reconstruct it as READY. Partial/unknown results require
+-    existing-owner reconciliation; a new genuine source event is a new episode.
+-    """
++    """Consume one durable source revision without restamping clocks; CLAIMED survives death and UNKNOWN requires owner reconciliation."""
+     global _NATIVE_INPUT_RESOLVED_V1
+     if type(controller) is not str or not CONTROLLER.fullmatch(controller):
+         raise native.NativeInputError('NATIVE_INPUT_EXISTING_OWNER_SELECTION_ABSENT')
+@@ -2778,12 +2716,7 @@ _FRESH_NATIVE_OPERATION_V1 = _c02_contextvars.ContextVar('claim_fresh_native_ope
+ 
+ @contextlib.contextmanager
+ def fresh_canary_native_operation_v1(context, *, _selected_source_owner):
+-    """Actual selected current-native source in this one existing owner process.
+-
+-    This does not reopen the historical Windows durable-receiver profile. The
+-    fixed getter is verified against the governed physical template and provider.
+-    The source itself owns the live pipe, issuer, clocks and source/grant CAS.
+-    """
++    """Use the verified current-native getter/provider in this owner process; source owns pipe, issuer, clocks and CAS, not the historical Windows profile."""
+     import ast
+     if _FRESH_NATIVE_OPERATION_V1.get() is not None:
+         raise RotationError('fresh native operation cannot nest')
+@@ -2980,13 +2913,7 @@ def _c02_project_owned_interval_v1(context, interval, original):
+ 
+ @_scoped_git
+ def materialize_c02_owner_revisions_v1(context, invalidation_token, decision, *, correction_record_oid=None):
+-    """Publish admitted existing-owner facts through the sole claim writer.
+-
+-    No source snapshot, grant, callback or approval flag is accepted from CLI.
+-    Complete ordered facts and the conditional issuer decision come from the
+-    two live capabilities selected by the existing owner. This changes only
+-    the already registered C02 revision heads and retained-object anchors.
+-    """
++    """Publish admitted live source/issuer facts through the sole claim writer and existing retained C02 heads; caller JSON grants no authority."""
+     operation = _c02_require_live_operation_v1(context)
+     if operation.token != invalidation_token or operation.decision_bytes != canonical(decision):
+         raise RotationError('C02 materialization substituted its selected operation')
+@@ -3094,15 +3021,7 @@ def _c02_owner_revision_refs_v1(context):
+ 
+ 
+ def prepare_c02_owner_revision_update_v1(context, snapshot, grant, *, expected_source_oid, expected_grant_oid):
+-    """Pure revision-update plan, NOT source/issuer admission or a publisher.
+-
+-    The existing claim owner may consume this only after verifying the actual
+-    existing native-source facts and the scoped repository-owner decision. It
+-    must materialize/retain both objects using write_blob/retention_updates and
+-    publish with update_refs plus the exact live owner tuple. Revocation may
+-    independently update the grant head; no long source/decision work takes the
+-    namespace gate. This helper does not allocate refs or accept authority.
+-    """
++    """Pure plan: the admitted claim owner verifies live source/issuer facts and publishes both retained revisions by exact-tuple CAS."""
+     refs = _c02_owner_revision_refs_v1(context)
+     if (type(snapshot) is not dict or snapshot.get('schema') != 'implementaudit.c02-owner-snapshot.v1'
+             or type(grant) is not dict or snapshot.get('grant') != grant
+@@ -3120,12 +3039,7 @@ def prepare_c02_owner_revision_update_v1(context, snapshot, grant, *, expected_s
+ 
+ 
+ def _resolve_c02_source_owner_v1(context, request):
+-    """Consume fixed existing-owner selection and independently live revisions.
+-
+-    These are claim-owned roles in the existing Git store, not new event/pending
+-    storage or a second currentness writer. Actual source and issuer verification
+-    precede their publication; a true boolean or caller hash cannot establish it.
+-    """
++    """Consume fixed claim-owned source/issuer selection and live revisions; actual verification precedes publication, not caller assertions."""
+     selected = _c02_materializer_selection_v1(context)
+     if selected is None:
+         raise RotationError('C02 source-owner admission unavailable: actual scoped owner selection required')
+@@ -3273,12 +3187,7 @@ def _c02_retained_decisions_v1(context):
+ 
+ @_scoped_git
+ def prepare_c02_correction_v1(context, invalidation_token, decision):
+-    """Inert source-owned census/admission preparation; no ref or blob writes.
+-
+-    Production remains fail closed until its actual source-owner resolver is
+-    admitted. Even an admitted grant here permits only append-only adjudication;
+-    it cannot reinstate a receipt or supply fresh continuity transition semantics.
+-    """
++    """Inert census preparation; require actual source-owner admission. Append-only authority cannot reinstate receipts or grant fresh continuity."""
+     source, locator, request = _c02_source_census_v1(context, invalidation_token, decision)
+     live = managed(context)
+     joined = _read_generation_evidence_v1(context, live)
+@@ -3318,13 +3227,7 @@ def prepare_c02_correction_v1(context, invalidation_token, decision):
+ 
+ @_scoped_git
+ def publish_c02_correction_v1(context, prepared):
+-    """Append once through claim-run custody; never change currentness authorities.
+-
+-    The existing rotation lease serializes correction decisions. Evidence is
+-    resolved and checked before update_refs takes the short namespace gate;
+-    native boundaries remain free to arrive and their exact ref preempts CAS.
+-    The live source revision guard also fences grant revocation at publication.
+-    """
++    """Append under the rotation lease and exact boundary/source/grant fences; resolve evidence before the short Git namespace gate."""
+     keys = {'schema', 'invalidation_token', 'decision', 'record', 'record_oid', 'guards',
+             'existing_record_oid', 'status', 'authority_ceiling'}
+     if (type(prepared) is not dict or set(prepared) != keys
+@@ -4047,13 +3950,7 @@ def resume_native_generation_v1(context, boundary, epoch, pointer_token, invalid
+ 
+ @_scoped_git
+ def run_c02_correction_v1(context, correction_record_oid):
+-    """Private fresh C02 transition; unavailable without the actual owner binding.
+-
+-    The append-only decision never itself restores currentness. An independent
+-    scoped fresh-transition grant is resolved before preparation/allocation and
+-    each publication stage. Partial allocations stop for explicit inspection;
+-    they are neither native resume nor automatic rotation compensation.
+-    """
++    """Private fresh transition requires an independent scoped grant at every stage; append alone cannot restore currentness or retry partial allocations."""
+     with rotation_lease(context):
+         correction = _c02_read_correction_v1(context, correction_record_oid)
+         try:
+@@ -4208,12 +4105,7 @@ def resolve_generation(context):
+ 
+ @_scoped_git
+ def resolve_retained_predecessor_v1(context, receipt_token, expected_current):
+-    """Observe one reachable original14 link; grant no historical currentness.
+-
+-    The actual current JOIN selects the genealogy. Supplied tokens are only
+-    exact selectors. Historical allocation/source HEAD bindings are verified
+-    through their retained generation manifest, not relabelled as live HEAD.
+-    """
++    """Follow the current JOIN genealogy through an original14 link and retained manifest; selectors confer no historical currentness."""
+     _verify_claim_load_identity_v1()
+     requested_ref, _ = split_receipt_token(context, receipt_token)
+     split_receipt_token(context, expected_current)
+diff --git a/skills/implementaudit/scripts/claim-run.sh b/skills/implementaudit/scripts/claim-run.sh
+index 9c1c7124..3b23cce4 100644
+--- a/skills/implementaudit/scripts/claim-run.sh
++++ b/skills/implementaudit/scripts/claim-run.sh
+@@ -360,8 +360,8 @@ import types
+ 
+ argument_path = sys.argv[1]
+ path = Path(os.path.abspath(argument_path))
+-expected_bytes = 291371
+-expected_sha256 = "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
++expected_bytes = 286898
++expected_sha256 = "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031"
+ nodes = []
+ descriptor = None
+ def identity(info):

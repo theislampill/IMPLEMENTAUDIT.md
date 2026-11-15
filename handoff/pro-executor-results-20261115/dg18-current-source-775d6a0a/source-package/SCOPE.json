@@ -1,0 +1,13 @@
+{
+  "author": "/root",
+  "baseline_local": "07b96fcc37956f8906f0200d76b13fc86e27a3dd",
+  "baseline_source_candidate": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+  "correction_scope": "Shorten internal explanatory docstrings and propagate exact claim module byte/hash to existing shell. No code body, protocol, source-template selection, runtime authority, package population or budget changes.",
+  "created_utc": "2026-11-15T13:39:04.075762+00:00",
+  "demonstrated_defect": "Reviewed source0f591 canonical package588540bytes misses original reserve by716bytes. DG17-specific1240byte exception does not admit C02.",
+  "executor": "PRO-EXECUTOR-01",
+  "original_requirement": "R0039/#215 Complete11 and F8 require applicable shipped package/install/current-consumer qualification; original canonical cap589824 with reserve2000 yields usable587824bytes",
+  "protected_or_native_operation": false,
+  "qualification": "AST identity after removing only docstring expression nodes, exact dependent hash, one actual package build for both roles; independent source review required. Existing C02 control result remains at its exact source; unchanged bodies do not manufacture a new native accepting result.",
+  "schema": "pro.dg18.original-package-reserve-scope.v1"
+}

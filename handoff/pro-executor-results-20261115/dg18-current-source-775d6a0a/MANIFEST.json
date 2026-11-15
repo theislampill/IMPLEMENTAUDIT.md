@@ -1,0 +1,359 @@
+{
+  "authority": "NONE",
+  "binary_transport_members": [
+    {
+      "bytes": 586917,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages/IMPLEMENTAUDIT.plugin.zip",
+      "path": "packages/reviewed-7d8f3447/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "76b246e3fd6a1b7cac65c4e87a21c57530359f86b4dc544f04fbbb058b638ea5"
+    },
+    {
+      "bytes": 582330,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages/IMPLEMENTAUDIT.skill",
+      "path": "packages/reviewed-7d8f3447/IMPLEMENTAUDIT.skill",
+      "sha256": "ca131a22ca4cd03354f9aee05df0227c138143edb9500f17ebf13c867d23f34f"
+    },
+    {
+      "bytes": 586931,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages-published-source/IMPLEMENTAUDIT.plugin.zip",
+      "path": "packages/published-775d6a0a/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "32f63a1759ac3852ed51ad20fea87e2ed524a14322d9d97210d4b7345cb81556"
+    },
+    {
+      "bytes": 582329,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages-published-source/IMPLEMENTAUDIT.skill",
+      "path": "packages/published-775d6a0a/IMPLEMENTAUDIT.skill",
+      "sha256": "4ad29f2eccdaa4133f4d0f0f852b4aa4dcfb6a57b9a337b3a0e727cfb7496dfb"
+    },
+    {
+      "bytes": 3598455,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/REVIEWED_SOURCE_7d8f3447.bundle",
+      "path": "source/REVIEWED_SOURCE_7d8f3447.bundle",
+      "sha256": "77def49aa73a9cc103bb8f6ee0aae55962127b54b4900707eba67d2e7cc4f827"
+    },
+    {
+      "bytes": 1397,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/dg18-c02-cli-43719967600-1.zip",
+      "path": "hosted-c02-43719967600/dg18-c02-cli-43719967600-1.zip",
+      "sha256": "e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956"
+    }
+  ],
+  "excluded": [
+    "SOURCE_PUBLICATION_PAYLOAD full duplicate source bodies",
+    "temporary signed URLs or download responses",
+    "fixture and issuer stores",
+    "unpublished constructed subjects",
+    "caches",
+    "new grants or native results"
+  ],
+  "file_count_excluding_this_manifest": 41,
+  "files": [
+    {
+      "bytes": 5939419,
+      "compression": "ZIP_STORED",
+      "member_count": 6,
+      "origin": "new transport container of six exact pre-existing public bodies",
+      "path": "COMPLETED_EVIDENCE.zip",
+      "sha256": "7ce615a41b914afd7ba779482658b0e02a991bb747db0457dc7e6d527b4c7d49"
+    },
+    {
+      "bytes": 824,
+      "origin": "inspection of exact already-masked public log and selected text copies",
+      "path": "PUBLICATION_CONTENT_INSPECTION.json",
+      "sha256": "84928d5a8521d68279b205bb5781712395bb2c8cd14201ff8e9d0659b17d4141"
+    },
+    {
+      "bytes": 3726,
+      "origin": "new retention description; no source or acceptance authority",
+      "path": "README.md",
+      "sha256": "a9ce42be71b07328a4f17ccb87800889d137329177d4bba0f49018bde9f61103"
+    },
+    {
+      "bytes": 2684,
+      "origin": "assembly inventory of exact binary copies",
+      "path": "TRANSPORT_CONTENTS.json",
+      "sha256": "bbbfe4e789c8e78b2c73b5408531fea3d2890452f1133924a4ed231681abd470"
+    },
+    {
+      "bytes": 647,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/ACQUISITION.json",
+      "path": "hosted-c02-43719967600/ACQUISITION.json",
+      "sha256": "01cb88a1c81ec37b4fa5952b4542683d39cbc3ffd96285778a8fdafc8c4919da"
+    },
+    {
+      "bytes": 880,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/ARTIFACTS_FINAL.json",
+      "path": "hosted-c02-43719967600/ARTIFACTS_FINAL.json",
+      "sha256": "9f13b2c6de221458983bb86fb9d614234857d291f09ca456008c644ed0df47c2"
+    },
+    {
+      "bytes": 2070,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/ARTIFACT_MANIFEST.json",
+      "path": "hosted-c02-43719967600/ARTIFACT_MANIFEST.json",
+      "sha256": "8c454923a512d8464b8309c44d91ff5a87a5998ee1018062f4460d620dd66dea"
+    },
+    {
+      "bytes": 17747,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/JOB.log",
+      "path": "hosted-c02-43719967600/JOB.log",
+      "sha256": "836fcc8e7ce843ba92d8b76c6660720c21761f0e43ff144a9c160440ddd32863"
+    },
+    {
+      "bytes": 1459,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/JOBS_FINAL.json",
+      "path": "hosted-c02-43719967600/JOBS_FINAL.json",
+      "sha256": "d7f6bf2626cb5c357703d00b3fd54a5562b50390fe2c81fca12521ded4ef2ffa"
+    },
+    {
+      "bytes": 1782,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/PROVIDER_COMMIT.json",
+      "path": "hosted-c02-43719967600/PROVIDER_COMMIT.json",
+      "sha256": "8d5a73a11fd49232f8c6cebcd97f4b13aa49a997b86a990f7f7fc0af3860d23d"
+    },
+    {
+      "bytes": 471,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/PROVIDER_REF.json",
+      "path": "hosted-c02-43719967600/PROVIDER_REF.json",
+      "sha256": "b6d94add8600dfecfed6640fe02226dabfe6e792cf74616b6197d3cee7ca44aa"
+    },
+    {
+      "bytes": 8995,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/RECEIVING.json",
+      "path": "hosted-c02-43719967600/RECEIVING.json",
+      "sha256": "96de661d5c33e9056a872dcce8ee8965bf9df3d6c679b763e18898491b03e7f2"
+    },
+    {
+      "bytes": 3011,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/RECEIVING.md",
+      "path": "hosted-c02-43719967600/RECEIVING.md",
+      "sha256": "f85630d9d1cd16921310bb6a4286c96d62fca06fa7ee49acf4b03e5b5c250f10"
+    },
+    {
+      "bytes": 14223,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/RUN_FINAL.json",
+      "path": "hosted-c02-43719967600/RUN_FINAL.json",
+      "sha256": "89c059e5933f6e09e5d2cf85f9482cdc153e57289d360069e4ee5318c08544fb"
+    },
+    {
+      "bytes": 2,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/EXIT_CODE.txt",
+      "path": "hosted-c02-43719967600/artifact/EXIT_CODE.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "bytes": 481,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/HOST.json",
+      "path": "hosted-c02-43719967600/artifact/HOST.json",
+      "sha256": "f83f35ed6701c4b4212101291458bbd62ae62ca80ae8279f03fc3b67a543f989"
+    },
+    {
+      "bytes": 83,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/SOURCE.txt",
+      "path": "hosted-c02-43719967600/artifact/SOURCE.txt",
+      "sha256": "5e311a4133792b2bcdea4c9ab0b9b06df33ead665fb0d500e6b44374b1002f65"
+    },
+    {
+      "bytes": 511,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/SOURCE_SHA256.txt",
+      "path": "hosted-c02-43719967600/artifact/SOURCE_SHA256.txt",
+      "sha256": "fa401bcba785e21ae1cb3b6e86ce2c77518198fe8e2fd0d16524c925656e0e69"
+    },
+    {
+      "bytes": 99,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/test.stderr",
+      "path": "hosted-c02-43719967600/artifact/test.stderr",
+      "sha256": "fbf092f1a189d1ab3bb861fce3aee585a10954e1dc02fa3265c2577b840ff710"
+    },
+    {
+      "bytes": 0,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/artifact/test.stdout",
+      "path": "hosted-c02-43719967600/artifact/test.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 31495,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/INDEPENDENT_SOURCE_REVIEW.json",
+      "path": "hosted-c02-43719967600/source-receiving/INDEPENDENT_SOURCE_REVIEW.json",
+      "sha256": "50d022fa409532f0bf2af7f979f2a39a00290b199d516eacfd3a96ed56c5df99"
+    },
+    {
+      "bytes": 8478,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/INDEPENDENT_SOURCE_REVIEW.md",
+      "path": "hosted-c02-43719967600/source-receiving/INDEPENDENT_SOURCE_REVIEW.md",
+      "sha256": "38142e277d07b0ac00173ec07980f813e553fcfd9a8b5222476328f89d436156"
+    },
+    {
+      "bytes": 21990,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/PUBLICATION_INDEPENDENT_RECEIVING.json",
+      "path": "hosted-c02-43719967600/source-receiving/PUBLICATION_INDEPENDENT_RECEIVING.json",
+      "sha256": "cfcbf32e576126d3f7ca6e6326c03765bfd1f032bbbdec4d2e183f3148e3043f"
+    },
+    {
+      "bytes": 11137,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/DOCSTRING_CHANGES.json",
+      "path": "source-package/DOCSTRING_CHANGES.json",
+      "sha256": "f997da8e95b6d414f89f8c9225a06dc813e24481983e44f11d58b9e61dc25151"
+    },
+    {
+      "bytes": 472,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/EXACT_GIT_PUBLICATION_DRY_RUN.json",
+      "path": "source-package/EXACT_GIT_PUBLICATION_DRY_RUN.json",
+      "sha256": "85314f691d923966bd1474616940a2ecfc5338317462037632b8344e2993e27f"
+    },
+    {
+      "bytes": 52014,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/INDEPENDENT_SOURCE_PACKAGE_REVIEW.json",
+      "path": "source-package/INDEPENDENT_SOURCE_PACKAGE_REVIEW.json",
+      "sha256": "3dd08f1b824133145d893cbb6fa6ad8d96aee1a3ccbd2c96898ce0d54a079722"
+    },
+    {
+      "bytes": 4042,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/INDEPENDENT_SOURCE_PACKAGE_REVIEW.md",
+      "path": "source-package/INDEPENDENT_SOURCE_PACKAGE_REVIEW.md",
+      "sha256": "7a847e4bbd7a091711b738d2090eac509dcd5015efb039bad38618efc43a41a8"
+    },
+    {
+      "bytes": 559,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/PACKAGE_BUILD_INTENT.json",
+      "path": "source-package/PACKAGE_BUILD_INTENT.json",
+      "sha256": "a79a2e443042dc5af6386ed78fcd5dbaaa6ad47336d73fa0b99f66f5ad32af04"
+    },
+    {
+      "bytes": 1660,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/PACKAGE_RESULT.json",
+      "path": "source-package/PACKAGE_RESULT.json",
+      "sha256": "7a85638d5ec2cc81e2d59cb05edfa741e85942150b7b4067a52f5fc0f2bacfe4"
+    },
+    {
+      "bytes": 672,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/PUBLIC_SOURCE_BUILD_INTENT.json",
+      "path": "source-package/PUBLIC_SOURCE_BUILD_INTENT.json",
+      "sha256": "98abf27d4ddbaa3b42279c2c99d59556fa694a0253580b349105e2be6b368796"
+    },
+    {
+      "bytes": 1807,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/PUBLIC_SOURCE_PACKAGE_RESULT.json",
+      "path": "source-package/PUBLIC_SOURCE_PACKAGE_RESULT.json",
+      "sha256": "3f869b43fee95ae965ec7d7d7d89074798b8cf6e4b3e026e479e100753314de0"
+    },
+    {
+      "bytes": 1260,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SCOPE.json",
+      "path": "source-package/SCOPE.json",
+      "sha256": "0330f6b35dd7cbafc38d97abd7eb4a24ead9c8d8c363708aa481b31007df7a84"
+    },
+    {
+      "bytes": 17197,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE.diff",
+      "path": "source-package/SOURCE.diff",
+      "sha256": "60885aab7237a3634ca194273d255fe2eb8b20f0873652e056d562f8e71ca97c"
+    },
+    {
+      "bytes": 1371,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE_BUNDLE_RETENTION.json",
+      "path": "source-package/SOURCE_BUNDLE_RETENTION.json",
+      "sha256": "5f6e278a0d1352e3108fa8d594ab659d1a0cf12db5e6163881b6034fd64d23b9"
+    },
+    {
+      "bytes": 712,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE_CHECKS.json",
+      "path": "source-package/SOURCE_CHECKS.json",
+      "sha256": "c1b1c4c1cb8688fa3efbc2c76dff7d17fef8195b7afc87309ca750b50be44570"
+    },
+    {
+      "bytes": 1331,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE_PUBLICATION_ACTION.json",
+      "path": "source-package/SOURCE_PUBLICATION_ACTION.json",
+      "sha256": "83a3b5630ade90be7fdad58402e4b2af5550a6ab101995b7f26f022436b9b190"
+    },
+    {
+      "bytes": 2676,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE_PUBLICATION_PROVIDER_READBACK.json",
+      "path": "source-package/SOURCE_PUBLICATION_PROVIDER_READBACK.json",
+      "sha256": "263bc7823462f84c182bb2ab558ed32b62b3155f9758edd231b892413703fb0f"
+    },
+    {
+      "bytes": 0,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/package.stderr",
+      "path": "source-package/package.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 362,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/package.stdout",
+      "path": "source-package/package.stdout",
+      "sha256": "1578ee8bc7873e0c8163b95c997c36646c1e06e8d92af644b401a386432c61ce"
+    },
+    {
+      "bytes": 0,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/public-source-package.stderr",
+      "path": "source-package/public-source-package.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 396,
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/public-source-package.stdout",
+      "path": "source-package/public-source-package.stdout",
+      "sha256": "dacd9b0702d8bda9ff83077f286dbc43aa9294c0af298bf8cc40cccd47cb603c"
+    }
+  ],
+  "hosted_control_run": 43719967600,
+  "hosted_control_source": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+  "original_acceptance_delta": 0,
+  "provider_mutations": 0,
+  "public_source": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "public_source_tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+  "reviewed_candidate": "7d8f3447b80d346159e19451d40975abcdde713e",
+  "scope": "EXACT_RETENTION_OF_COMPLETED_SOURCE_PACKAGE_AND_HOSTED_CONTROL_EVIDENCE",
+  "source_behavior_changes": 0,
+  "tests_or_package_builds_repeated": 0
+}

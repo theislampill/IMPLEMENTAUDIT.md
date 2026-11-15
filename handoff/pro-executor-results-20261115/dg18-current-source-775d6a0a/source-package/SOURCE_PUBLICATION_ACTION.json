@@ -1,0 +1,32 @@
+{
+  "actual_7d_source_archives_preserved": true,
+  "actual_tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+  "author": "/root",
+  "automatic_hosted_control_replay": false,
+  "base_commit": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+  "branch": "engineering/pro-dg18-original-package-reserve-20261115",
+  "commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "commit_tree_parent_readback": "EXACT",
+  "executor": "PRO-EXECUTOR-01",
+  "expected_tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+  "future_public_source_archive_identity_requires_actual_build": true,
+  "payload": {
+    "bytes": 329677,
+    "entries": 2,
+    "sha256": "7fbd1ecb5bb04feece624d212b6d64f83fa0944724f182bced51d82007a9673f"
+  },
+  "phase": "PUBLISHED_AND_REF_READ_BACK",
+  "protected_or_native_effect": false,
+  "readback_utc": "2026-11-15T13:50:35.945Z",
+  "ref_before": "ABSENT_404",
+  "remote_effect_counts": {
+    "commit": 1,
+    "create_branch": 1,
+    "tree": 1
+  },
+  "review_consumed_utc": "2026-11-15T13:50:09.532622+00:00",
+  "review_sha256": "3dd08f1b824133145d893cbb6fa6ad8d96aee1a3ccbd2c96898ce0d54a079722",
+  "reviewed_candidate": "7d8f3447b80d346159e19451d40975abcdde713e",
+  "schema": "pro.dg18.original-reserve-source-publication.v1",
+  "scope": "EXACT_TWO_FILE_DOCSTRING_AND_SHELL_PIN_SOURCE_PUBLICATION_NO_ORIGINAL_ACCEPTANCE"
+}

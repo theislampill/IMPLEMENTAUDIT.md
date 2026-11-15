@@ -1,0 +1,46 @@
+{
+  "artifacts": [
+    {
+      "bytes": 586931,
+      "headroom": 2893,
+      "original_2000_reserve_met": true,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages-published-source/IMPLEMENTAUDIT.plugin.zip",
+      "role": "canonical_plugin",
+      "sha256": "32f63a1759ac3852ed51ad20fea87e2ed524a14322d9d97210d4b7345cb81556"
+    },
+    {
+      "bytes": 582329,
+      "headroom": 7495,
+      "original_2000_reserve_met": true,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages-published-source/IMPLEMENTAUDIT.skill",
+      "role": "standalone_compatibility",
+      "sha256": "4ad29f2eccdaa4133f4d0f0f852b4aa4dcfb6a57b9a337b3a0e727cfb7496dfb"
+    }
+  ],
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "scripts/package-contract.py",
+    "--build",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages-published-source"
+  ],
+  "commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "elapsed_seconds": 7.886526865000633,
+  "exit": 0,
+  "original_cap_bytes": 589824,
+  "original_reserve_bytes": 2000,
+  "prior_reviewed_candidate": "7d8f3447b80d346159e19451d40975abcdde713e",
+  "same_complete_source_tree": true,
+  "scope": "EXACT_PUBLISHED_SOURCE_ARCHIVE_IDENTITY_NO_PRIOR_ARCHIVE_RELABEL",
+  "started_utc": "2026-11-15T13:51:00.982403+00:00",
+  "status_after": "",
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stdout": {
+    "bytes": 396,
+    "sha256": "dacd9b0702d8bda9ff83077f286dbc43aa9294c0af298bf8cc40cccd47cb603c"
+  },
+  "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e"
+}

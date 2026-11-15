@@ -1,0 +1,24 @@
+{
+  "bundle": {
+    "bytes": 3598455,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/REVIEWED_SOURCE_7d8f3447.bundle",
+    "sha256": "77def49aa73a9cc103bb8f6ee0aae55962127b54b4900707eba67d2e7cc4f827"
+  },
+  "command": [
+    "git",
+    "bundle",
+    "create",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/REVIEWED_SOURCE_7d8f3447.bundle",
+    "refs/heads/engineering/pro-dg18-original-package-reserve-20261115",
+    "^4dad9180518c76bfafea8166ce3add3e00cf5748"
+  ],
+  "exit": 0,
+  "list_heads_exit": 0,
+  "list_heads_stdout": "7d8f3447b80d346159e19451d40975abcdde713e refs/heads/engineering/pro-dg18-original-package-reserve-20261115\n",
+  "native_or_accepting_operation": false,
+  "refs_written": false,
+  "scope": "SOURCE_RETENTION_ONLY",
+  "verify_exit": 0,
+  "verify_stderr": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/REVIEWED_SOURCE_7d8f3447.bundle is okay\n",
+  "verify_stdout": "The bundle contains this ref:\n7d8f3447b80d346159e19451d40975abcdde713e refs/heads/engineering/pro-dg18-original-package-reserve-20261115\nThe bundle requires this ref:\nef7bfa0590876f6a92ebe3dcdc833829f0d43c09 \nThe bundle uses this hash algorithm: sha1\n"
+}

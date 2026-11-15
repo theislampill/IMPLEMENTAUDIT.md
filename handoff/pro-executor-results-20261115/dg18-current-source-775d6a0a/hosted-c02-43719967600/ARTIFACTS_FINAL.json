@@ -1,0 +1,23 @@
+{
+  "artifacts": [
+    {
+      "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163988124/zip",
+      "created_at": "2026-11-15T13:38:10Z",
+      "digest": "sha256:e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956",
+      "expired": false,
+      "expires_at": "2026-11-22T13:38:09Z",
+      "id": 14163988124,
+      "name": "dg18-c02-cli-43719967600-1",
+      "size_in_bytes": 1397,
+      "updated_at": "2026-11-15T13:38:10Z",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163988124",
+      "workflow_run": {
+        "head_branch": "engineering/pro-dg18-c02-cli-20261115",
+        "head_repository_id": 1243475954,
+        "head_sha": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+        "id": 43719967600,
+        "repository_id": 1243475954
+      }
+    }
+  ]
+}

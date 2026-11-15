@@ -1,0 +1,97 @@
+[
+  {
+    "name": "propose_c02_correction_v1",
+    "new": "Pure proposal: actual occurrence/census custody and scoped issuer remain required; hashes grant no admission or effects.",
+    "old": "Pure existing-owner proposal, never producer, event or effect admission.\n\n    Physical occurrence/census custody, issuer entitlement and applicability\n    remain indispensable owner inputs. Hash equality cannot establish them.\n    This interface changes no CLI, receipt schema, ref or F0-F9 ordering.\n    "
+  },
+  {
+    "name": "DirectoryPin",
+    "new": "Hold native no-follow ancestor descriptors and recheck canonical identity; a pathname census alone is insufficient.",
+    "old": "Walk and retain every ancestor with native descriptor-relative no-follow I/O.\n\n    A pathname census alone is insufficient: an ancestor can be replaced after\n    lstat. Openat uses the already held parent object, so a redirected pathname\n    cannot select an unrelated outside directory. Rechecks require the original\n    directory objects still to occupy the canonical path before returning proof.\n    "
+  },
+  {
+    "name": "_NativePublicationInputs",
+    "new": "Compose actual source custody and owner checkpoints; races stay UNKNOWN and exclusive custody/atomic revision integration require admission.",
+    "old": "Compose source custody with the selected native owner's live checkpoints.\n\n    Checkpoint races are UNKNOWN, never a successful native qualification. The\n    fixed producer must also supply exclusive host custody and its atomic source\n    revision integration before production admission; this wrapper grants none.\n    "
+  },
+  {
+    "name": "update_refs",
+    "new": "One expected-old Git transaction with exact readback; Git verifies fence all ref writers, and environment values confer no lock ownership.",
+    "old": "One expected-old Git transaction; classify effect by exact readback.\n\n    The short gate cooperates with original main writers. The Git verify commands\n    also fence concurrent ref writers that do not take that gate. No environment\n    variable is treated as evidence of ownership or an already-held lock.\n    "
+  },
+  {
+    "name": "NativeCancellationWaitV1",
+    "new": "Duplicate a verified producer Event with SYNCHRONIZE only; durable CLAIMED binds this executor and cannot be replayed.",
+    "old": "Duplicate the exact live producer object with SYNCHRONIZE rights only.\n\n    Numeric JSON is not a capability: producer PID/birth/image is independently\n    checked, DuplicateHandle obtains the actual object from that process, and\n    NtQueryObject verifies Event type. The successful durable CLAIMED CAS binds\n    the exact consuming PID/birth and transaction. Other consumers cannot reset\n    this event and cannot replay CLAIMED after that executor exits.\n    "
+  },
+  {
+    "name": "_h0_mechanical_source_template_v1",
+    "new": "Recognize reviewed physical prior/retry machinery only; this selector supplies neither authentic usage/context health nor C02 authority.",
+    "old": "Recognize one reviewed mechanical source; grant no rotation input.\n\n    This profile exercises physical prior/retry occurrences only. Its private\n    selector is never an authentic usage/context-health issuer or C02 input\n    owner. Existing stdio templates still use their separate original path.\n    "
+  },
+  {
+    "name": "_private_native_input_selection_v1",
+    "new": "Verify fixed private selection by repository custody and normalized template hash; retain physical producer/provider files through CAS.",
+    "old": "Existing source-owned provider selection, through authenticated repo custody.\n\n    Not used by historical canonical readers. No __file__-relative fallback and\n    no caller module/path. Before executing private code, normalize only the one\n    literal OWNED_STDIO_SELECTION_PIN and require the exact reviewed template.\n    Retain physical producer/provider files through the live canonical CAS.\n    "
+  },
+  {
+    "name": "NativeInputPreparationV1",
+    "new": "One-shot source rendezvous for an independently scheduled host turn; cannot start a model turn, manufacture input or extend a grant.",
+    "old": "Owned producer's one-shot scheduling capability; never an input/grant.\n\n    The selected source observes an already-running or independently scheduled\n    legitimate host turn. This rendezvous NEVER starts a model/API turn.\n    This object can register, receive one prepared request and constrain a later\n    genuine source. It cannot manufacture a NativeInputState or extend a grant.\n    "
+  },
+  {
+    "name": "prepare_native_source_update_v1",
+    "new": "Plan retained READY/REVOKED updates for the admitted source and existing writer; revoke before dispatch or disconnect.",
+    "old": "Pure plan for the EXISTING claim writer, after actual source/issuer verification.\n\n    Called only by the admitted owned-stdio source owner, not exposed as a caller\n    JSON CLI. READY comes from the actual reader callback; REVOKED is published\n    before any dispatch/injection and on disconnect/finally. Old objects remain\n    under the existing retained-object anchors. No new storage service is added.\n    "
+  },
+  {
+    "name": "reconcile_native_publication_v1",
+    "new": "Close only an exact canonical JOIN; partial F2-F5 stops. Preserve archives and CLAIMED on failed reads; infer no success or recovery generation.",
+    "old": "Close only a real exact canonical JOIN; absent/partial F2-F5 is STOP.\n\n    Never overwrites an archive, turns CLAIMED back into READY, infers success\n    from child exit, or invents a recovery generation. A failed read leaves the\n    one-shot consumption intact for the existing owner's manual reconciliation.\n    "
+  },
+  {
+    "name": "_resolve_native_input_state_v1",
+    "new": "Consume one durable source revision without restamping clocks; CLAIMED survives death and UNKNOWN requires owner reconciliation.",
+    "old": "Fresh CLI: consume one durable source revision, preserving both clocks.\n\n    This is the fixed receiver selected by canonical_rotation_inputs.py. No\n    observe() call re-stamps a retained event. CLAIMED survives process death;\n    another CLI cannot reconstruct it as READY. Partial/unknown results require\n    existing-owner reconciliation; a new genuine source event is a new episode.\n    "
+  },
+  {
+    "name": "fresh_canary_native_operation_v1",
+    "new": "Use the verified current-native getter/provider in this owner process; source owns pipe, issuer, clocks and CAS, not the historical Windows profile.",
+    "old": "Actual selected current-native source in this one existing owner process.\n\n    This does not reopen the historical Windows durable-receiver profile. The\n    fixed getter is verified against the governed physical template and provider.\n    The source itself owns the live pipe, issuer, clocks and source/grant CAS.\n    "
+  },
+  {
+    "name": "materialize_c02_owner_revisions_v1",
+    "new": "Publish admitted live source/issuer facts through the sole claim writer and existing retained C02 heads; caller JSON grants no authority.",
+    "old": "Publish admitted existing-owner facts through the sole claim writer.\n\n    No source snapshot, grant, callback or approval flag is accepted from CLI.\n    Complete ordered facts and the conditional issuer decision come from the\n    two live capabilities selected by the existing owner. This changes only\n    the already registered C02 revision heads and retained-object anchors.\n    "
+  },
+  {
+    "name": "prepare_c02_owner_revision_update_v1",
+    "new": "Pure plan: the admitted claim owner verifies live source/issuer facts and publishes both retained revisions by exact-tuple CAS.",
+    "old": "Pure revision-update plan, NOT source/issuer admission or a publisher.\n\n    The existing claim owner may consume this only after verifying the actual\n    existing native-source facts and the scoped repository-owner decision. It\n    must materialize/retain both objects using write_blob/retention_updates and\n    publish with update_refs plus the exact live owner tuple. Revocation may\n    independently update the grant head; no long source/decision work takes the\n    namespace gate. This helper does not allocate refs or accept authority.\n    "
+  },
+  {
+    "name": "_resolve_c02_source_owner_v1",
+    "new": "Consume fixed claim-owned source/issuer selection and live revisions; actual verification precedes publication, not caller assertions.",
+    "old": "Consume fixed existing-owner selection and independently live revisions.\n\n    These are claim-owned roles in the existing Git store, not new event/pending\n    storage or a second currentness writer. Actual source and issuer verification\n    precede their publication; a true boolean or caller hash cannot establish it.\n    "
+  },
+  {
+    "name": "prepare_c02_correction_v1",
+    "new": "Inert census preparation; require actual source-owner admission. Append-only authority cannot reinstate receipts or grant fresh continuity.",
+    "old": "Inert source-owned census/admission preparation; no ref or blob writes.\n\n    Production remains fail closed until its actual source-owner resolver is\n    admitted. Even an admitted grant here permits only append-only adjudication;\n    it cannot reinstate a receipt or supply fresh continuity transition semantics.\n    "
+  },
+  {
+    "name": "publish_c02_correction_v1",
+    "new": "Append under the rotation lease and exact boundary/source/grant fences; resolve evidence before the short Git namespace gate.",
+    "old": "Append once through claim-run custody; never change currentness authorities.\n\n    The existing rotation lease serializes correction decisions. Evidence is\n    resolved and checked before update_refs takes the short namespace gate;\n    native boundaries remain free to arrive and their exact ref preempts CAS.\n    The live source revision guard also fences grant revocation at publication.\n    "
+  },
+  {
+    "name": "run_c02_correction_v1",
+    "new": "Private fresh transition requires an independent scoped grant at every stage; append alone cannot restore currentness or retry partial allocations.",
+    "old": "Private fresh C02 transition; unavailable without the actual owner binding.\n\n    The append-only decision never itself restores currentness. An independent\n    scoped fresh-transition grant is resolved before preparation/allocation and\n    each publication stage. Partial allocations stop for explicit inspection;\n    they are neither native resume nor automatic rotation compensation.\n    "
+  },
+  {
+    "name": "resolve_retained_predecessor_v1",
+    "new": "Follow the current JOIN genealogy through an original14 link and retained manifest; selectors confer no historical currentness.",
+    "old": "Observe one reachable original14 link; grant no historical currentness.\n\n    The actual current JOIN selects the genealogy. Supplied tokens are only\n    exact selectors. Historical allocation/source HEAD bindings are verified\n    through their retained generation manifest, not relabelled as live HEAD.\n    "
+  }
+]

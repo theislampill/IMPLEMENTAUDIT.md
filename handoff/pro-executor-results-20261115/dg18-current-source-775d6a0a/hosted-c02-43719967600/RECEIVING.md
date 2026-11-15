@@ -1,0 +1,15 @@
+# Actual C02 hosted source control independently received
+
+**RECEIVED_ACTUAL_SINGLE_C02_FULL_INTERFACE_SOURCE_CONTROL_PASS. Authority: NONE.**
+
+Run **43719967600**, attempt **1**, job **132829604961** completed successfully at published commit `4dad9180518c76bfafea8166ce3add3e00cf5748`, tree `e09a380142f9ccc83fa617afd7446f4c1ed3cb46`, sole parent `ef7bfa0590876f6a92ebe3dcdc833829f0d43c09`. The old `source-cli` job was skipped. All six steps of the selected job succeeded.
+
+The only test class was `ClosedCliAppendControl`, with its one method `test_append_retry_and_subsequent_manual_boundary_use_existing_owners`. It passed in **31.723 seconds**, exit **0**, with empty stdout and exact unittest success output. Its four actual source hashes equal the independently reviewed candidate0f591704 bytes. The provider commit supplies the parent identity; the shallow checkout's SOURCE.txt parent field is empty, and is preserved as emitted.
+
+The actual host used root-owned `/usr/bin/python3.12` and root-owned, non-writable-by-group/other system ancestors. The unchanged interpreter-ownership predicate passed. The reviewed class actually completes the existing initial claim/activation/receipt/JOIN/rotation, source custody, controlled inferred-context-gap invalidation, existing materialize/append, exact retry and subsequent manual-resume assertions. This closes the specifically pending deterministic full-interface source-control gap. No prior qualification suite, failed local subject or package build was repeated by this receiver.
+
+Artifact **14163988124**, `dg18-c02-cli-43719967600-1`, was acquired and materialized **once**: **1,397 B**, SHA-256 `e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956`. Its exact six files, CRCs and source/result identities are retained under `artifact/`; the actual job log was acquired once. The complete 55-entry source/evidence publication was independently reconciled in the sibling `PUBLICATION_INDEPENDENT_RECEIVING.json`, including all four reviewed source files, the exact 7,886-byte workflow, all 50 evidence files, original six archives and the source bundle preserving candidate0f591704.
+
+The semantic fixture, source selection and issuer authority are expressly constructed. Fixture stores and append objects were not exported, so this is a received source control, not authentic original C02 entitlement or host readback. Source-owner admission, the actual adjudication grant, original accepting evidence and applicable package/install/current-consumer obligations remain separate. No native/model/W-FULL result, N1, M5 or whole-DG18 award follows.
+
+All package archives retain their original ef7/cb8/0f591704 identities. Candidate0f591704's 716-byte original canonical reserve shortfall is not relabeled as solved by this run. Any later isolated budget correction has a separate source/package receipt. The ef7 W-FULL preparation489cd remains at its received source scope. Exact descriptors and bounded assertions are in `RECEIVING.json`.

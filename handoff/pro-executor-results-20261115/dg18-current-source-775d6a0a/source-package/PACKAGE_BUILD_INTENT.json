@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "scripts/package-contract.py",
+    "--build",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages"
+  ],
+  "commit": "7d8f3447b80d346159e19451d40975abcdde713e",
+  "original_cap_bytes": 589824,
+  "original_reserve_bytes": 2000,
+  "original_usable_bytes": 587824,
+  "scope": "ONE_ACTUAL_TWO_ROLE_BUILD_FOR_CHANGED_SOURCE",
+  "started_utc": "2026-11-15T13:39:51.766859+00:00",
+  "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e"
+}

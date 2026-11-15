@@ -1,0 +1,59 @@
+{
+  "jobs": [
+    {
+      "conclusion": "success",
+      "id": 132829604961,
+      "logs_url": null,
+      "name": "c02-cli-append",
+      "run_id": 43719967600,
+      "status": "completed",
+      "steps": [
+        {
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Check out the exact C02 source without retained credentials",
+          "number": 2,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Run the one complete C02 source integration control",
+          "number": 3,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Retain the exact source control result",
+          "number": 4,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Post Check out the exact C02 source without retained credentials",
+          "number": 8,
+          "status": "completed"
+        },
+        {
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 9,
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "conclusion": "skipped",
+      "id": 132829606462,
+      "logs_url": null,
+      "name": "source-cli",
+      "run_id": 43719967600,
+      "status": "completed",
+      "steps": null
+    }
+  ]
+}

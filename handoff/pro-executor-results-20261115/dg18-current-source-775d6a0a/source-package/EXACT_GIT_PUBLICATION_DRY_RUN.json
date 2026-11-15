@@ -1,0 +1,17 @@
+{
+  "command": [
+    "git",
+    "-c",
+    "credential.interactive=never",
+    "push",
+    "--dry-run",
+    "origin",
+    "7d8f3447b80d346159e19451d40975abcdde713e:refs/heads/engineering/pro-dg18-original-package-reserve-20261115"
+  ],
+  "exit": 128,
+  "observed_utc": "2026-11-15T13:49:24.727065+00:00",
+  "remote_ref_mutation": false,
+  "scope": "DRY_RUN_EXACT_REVIEWED_GIT_IDENTITY_PUBLICATION",
+  "stderr": "fatal: unable to get password from user\n",
+  "stdout": ""
+}

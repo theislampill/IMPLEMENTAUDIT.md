@@ -1,0 +1,21 @@
+{
+  "exact_log": {
+    "bytes": 17747,
+    "lines": 212,
+    "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/JOB.log",
+    "sha256": "836fcc8e7ce843ba92d8b76c6660720c21761f0e43ff144a9c160440ddd32863"
+  },
+  "fixture_or_issuer_stores_selected": false,
+  "log_urls": "Public github.com and github.blog URLs; no query strings or embedded credentials",
+  "masked_values_modified": false,
+  "masked_values_observed": [
+    "token: ***",
+    "AUTHORIZATION: basic ***"
+  ],
+  "private_key_blocks_or_token_literals_found": false,
+  "scope": "PUBLICATION_CONTENT_INSPECTION_ONLY",
+  "selected_text_files_scanned": 37,
+  "source_or_evidence_claim_changed": false,
+  "temporary_signed_urls_or_download_responses_selected": false,
+  "url_occurrences_examined": 161
+}

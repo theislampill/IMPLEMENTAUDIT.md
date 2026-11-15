@@ -1,0 +1,212 @@
+﻿2026-11-15T13:37:32.9966289Z Current runner version: '2.338.2'
+2026-11-15T13:37:32.9990915Z ##[group]Runner Image Provisioner
+2026-11-15T13:37:32.9991862Z Hosted Compute Agent
+2026-11-15T13:37:32.9992504Z Version: 20261103.629
+2026-11-15T13:37:32.9993378Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-15T13:37:32.9994083Z Build Date: 2026-11-03T17:26:59Z
+2026-11-15T13:37:32.9994785Z Worker ID: {227a2673-7fec-4b2d-acfd-38c613b4642c}
+2026-11-15T13:37:32.9995469Z Region: westcentralus
+2026-11-15T13:37:32.9996050Z Cloud: Azure
+2026-11-15T13:37:32.9996578Z ##[endgroup]
+2026-11-15T13:37:32.9998349Z ##[group]Operating System
+2026-11-15T13:37:32.9998979Z Ubuntu
+2026-11-15T13:37:32.9999548Z 24.04.5
+2026-11-15T13:37:33.0000047Z LTS
+2026-11-15T13:37:33.0000552Z ##[endgroup]
+2026-11-15T13:37:33.0001071Z ##[group]Runner Image
+2026-11-15T13:37:33.0001981Z Image: ubuntu-24.04
+2026-11-15T13:37:33.0002548Z Version: 20261111.370.1
+2026-11-15T13:37:33.0004185Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.370/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-15T13:37:33.0005628Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.370
+2026-11-15T13:37:33.0006565Z ##[endgroup]
+2026-11-15T13:37:33.0007668Z ##[group]GITHUB_TOKEN Permissions
+2026-11-15T13:37:33.0010020Z Contents: read
+2026-11-15T13:37:33.0010573Z Metadata: read
+2026-11-15T13:37:33.0011090Z ##[endgroup]
+2026-11-15T13:37:33.0013589Z Secret source: Actions
+2026-11-15T13:37:33.0014507Z Cache mode: write
+2026-11-15T13:37:33.0015470Z Prepare workflow directory
+2026-11-15T13:37:33.0391238Z Prepare all required actions
+2026-11-15T13:37:33.0447727Z Getting action download info
+2026-11-15T13:37:33.3777053Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-15T13:37:33.5083676Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-15T13:37:33.7683860Z Complete job name: c02-cli-append
+2026-11-15T13:37:33.8498195Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-15T13:37:33.8499211Z with:
+2026-11-15T13:37:33.8499831Z   ref: 4dad9180518c76bfafea8166ce3add3e00cf5748
+2026-11-15T13:37:33.8500691Z   persist-credentials: false
+2026-11-15T13:37:33.8501439Z   fetch-depth: 1
+2026-11-15T13:37:33.8502173Z   set-safe-directory: false
+2026-11-15T13:37:33.8502985Z   submodules: false
+2026-11-15T13:37:33.8503628Z   lfs: false
+2026-11-15T13:37:33.8504317Z   repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:37:33.8509640Z   token: ***
+2026-11-15T13:37:33.8510251Z   ssh-strict: true
+2026-11-15T13:37:33.8510778Z   ssh-user: git
+2026-11-15T13:37:33.8511301Z   clean: true
+2026-11-15T13:37:33.8511858Z   sparse-checkout-cone-mode: true
+2026-11-15T13:37:33.8512466Z   fetch-tags: false
+2026-11-15T13:37:33.8513423Z   show-progress: true
+2026-11-15T13:37:33.8513999Z   allow-unsafe-pr-checkout: false
+2026-11-15T13:37:33.8515068Z env:
+2026-11-15T13:37:33.8515805Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:37:33.8516366Z ##[endgroup]
+2026-11-15T13:37:34.2784524Z Syncing repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:37:34.2787959Z ##[group]Getting Git version info
+2026-11-15T13:37:34.2788911Z Working directory is '/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md'
+2026-11-15T13:37:34.2790300Z [command]/usr/bin/git version
+2026-11-15T13:37:34.2878195Z git version 2.56.1
+2026-11-15T13:37:34.2905722Z ##[endgroup]
+2026-11-15T13:37:34.2913573Z Deleting the contents of '/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md'
+2026-11-15T13:37:34.2917104Z ##[group]Initializing the repository
+2026-11-15T13:37:34.2923788Z [command]/usr/bin/git init /home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md
+2026-11-15T13:37:34.3086080Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-15T13:37:34.3087448Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-15T13:37:34.3088563Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-15T13:37:34.3089632Z hint: call:
+2026-11-15T13:37:34.3090124Z hint:
+2026-11-15T13:37:34.3090736Z hint: 	git config --global init.defaultBranch <name>
+2026-11-15T13:37:34.3091452Z hint:
+2026-11-15T13:37:34.3092112Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-15T13:37:34.3093427Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-15T13:37:34.3094489Z hint:
+2026-11-15T13:37:34.3094981Z hint: 	git branch -m <name>
+2026-11-15T13:37:34.3095654Z hint:
+2026-11-15T13:37:34.3096570Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-15T13:37:34.3102996Z Initialized empty Git repository in /home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/.git/
+2026-11-15T13:37:34.3116974Z [command]/usr/bin/git remote add origin https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:37:34.3185381Z ##[endgroup]
+2026-11-15T13:37:34.3186613Z ##[group]Disabling automatic garbage collection
+2026-11-15T13:37:34.3190788Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-15T13:37:34.3237941Z ##[endgroup]
+2026-11-15T13:37:34.3239073Z ##[group]Setting up auth
+2026-11-15T13:37:34.3248455Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:37:34.3296790Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T13:37:34.3701291Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:37:34.3740452Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T13:37:34.3964309Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:37:34.4036510Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T13:37:34.4256823Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-15T13:37:34.4308478Z ##[endgroup]
+2026-11-15T13:37:34.4309594Z ##[group]Fetching the repository
+2026-11-15T13:37:34.4322468Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 4dad9180518c76bfafea8166ce3add3e00cf5748
+2026-11-15T13:37:37.0917468Z From https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-15T13:37:37.0919477Z  * branch            4dad9180518c76bfafea8166ce3add3e00cf5748 -> FETCH_HEAD
+2026-11-15T13:37:37.0923479Z ##[endgroup]
+2026-11-15T13:37:37.0925094Z ##[group]Determining the checkout info
+2026-11-15T13:37:37.0926776Z ##[endgroup]
+2026-11-15T13:37:37.0933489Z [command]/usr/bin/git sparse-checkout disable
+2026-11-15T13:37:37.1190243Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-15T13:37:37.1230856Z ##[group]Checking out the ref
+2026-11-15T13:37:37.1235543Z [command]/usr/bin/git checkout --progress --force 4dad9180518c76bfafea8166ce3add3e00cf5748
+2026-11-15T13:37:37.6378027Z Note: switching to '4dad9180518c76bfafea8166ce3add3e00cf5748'.
+2026-11-15T13:37:37.6378912Z 
+2026-11-15T13:37:37.6379483Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-15T13:37:37.6380778Z changes and commit them, and you can discard any commits you make in this
+2026-11-15T13:37:37.6381989Z state without impacting any branches by switching back to a branch.
+2026-11-15T13:37:37.6382662Z 
+2026-11-15T13:37:37.6383393Z If you want to create a new branch to retain commits you create, you may
+2026-11-15T13:37:37.6384617Z do so (now or later) by using -c with the switch command. Example:
+2026-11-15T13:37:37.6385226Z 
+2026-11-15T13:37:37.6385566Z   git switch -c <new-branch-name>
+2026-11-15T13:37:37.6386428Z 
+2026-11-15T13:37:37.6386885Z Or undo this operation with:
+2026-11-15T13:37:37.6387326Z 
+2026-11-15T13:37:37.6387674Z   git switch -
+2026-11-15T13:37:37.6388057Z 
+2026-11-15T13:37:37.6388630Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-15T13:37:37.6389412Z 
+2026-11-15T13:37:37.6390232Z HEAD is now at 4dad918 Add reviewed controlled CLI correction source and retain actual qualification evidence
+2026-11-15T13:37:37.6459225Z ##[endgroup]
+2026-11-15T13:37:37.6461609Z [command]/usr/bin/git log -1 --format=%H
+2026-11-15T13:37:37.6490314Z 4dad9180518c76bfafea8166ce3add3e00cf5748
+2026-11-15T13:37:37.6498557Z ##[group]Removing auth
+2026-11-15T13:37:37.6502271Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:37:37.6537343Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T13:37:37.6742417Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:37:37.6773799Z http.https://github.com/.extraheader
+2026-11-15T13:37:37.6780770Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-15T13:37:37.6819349Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T13:37:37.7025804Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:37:37.7056431Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T13:37:37.7261242Z ##[endgroup]
+2026-11-15T13:37:37.7474377Z ##[group]Run set -euo pipefail
+2026-11-15T13:37:37.7475389Z [36;1mset -euo pipefail[0m
+2026-11-15T13:37:37.7476092Z [36;1mumask 077[0m
+2026-11-15T13:37:37.7476920Z [36;1mexport DG18_C02_OUTPUT="$RUNNER_TEMP/dg18-c02-cli-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"[0m
+2026-11-15T13:37:37.7478033Z [36;1mexport R0039_CLAIM_EVIDENCE_DIR="$RUNNER_TEMP/dg18-c02-fixtures-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"[0m
+2026-11-15T13:37:37.7478945Z [36;1mmkdir -p "$DG18_C02_OUTPUT"[0m
+2026-11-15T13:37:37.7479704Z [36;1mprintf 'DG18_C02_OUTPUT=%s\n' "$DG18_C02_OUTPUT" >> "$GITHUB_ENV"[0m
+2026-11-15T13:37:37.7480642Z [36;1mgit show -s --format='%H%n%T%n%P' HEAD > "$DG18_C02_OUTPUT/SOURCE.txt"[0m
+2026-11-15T13:37:37.7482548Z [36;1msha256sum fixtures/canonical-state-rotation/c02_cli_source_test.py skills/implementaudit/scripts/claim-run-rotation.py skills/implementaudit/scripts/claim-run.sh source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py > "$DG18_C02_OUTPUT/SOURCE_SHA256.txt"[0m
+2026-11-15T13:37:37.7484891Z [36;1m/usr/bin/python3 -I -B - <<'PYHOST' > "$DG18_C02_OUTPUT/HOST.json"[0m
+2026-11-15T13:37:37.7485749Z [36;1mimport json, os, pathlib, platform, subprocess, sys[0m
+2026-11-15T13:37:37.7486604Z [36;1mexecutable = pathlib.Path(sys.executable).resolve(strict=True)[0m
+2026-11-15T13:37:37.7487398Z [36;1mnodes = [executable, *executable.parents][0m
+2026-11-15T13:37:37.7488210Z [36;1mprint(json.dumps({'platform': platform.platform(), 'python': sys.version,[0m
+2026-11-15T13:37:37.7489290Z [36;1m  'executable': str(executable), 'git': subprocess.check_output(['git', '--version'], text=True).strip(),[0m
+2026-11-15T13:37:37.7490536Z [36;1m  'physical_interpreter_nodes': [{'path':str(p), 'uid':p.stat().st_uid, 'mode':oct(p.stat().st_mode & 0o7777)} for p in nodes],[0m
+2026-11-15T13:37:37.7491614Z [36;1m  'scope':'CONSTRUCTED_SOURCE_CONTROL_NOT_ORIGINAL_ACCEPTANCE'}, sort_keys=True))[0m
+2026-11-15T13:37:37.7492360Z [36;1mPYHOST[0m
+2026-11-15T13:37:37.7493195Z [36;1mset +e[0m
+2026-11-15T13:37:37.7494372Z [36;1mPATH=/usr/bin:/bin:$PATH /usr/bin/python3 -B fixtures/canonical-state-rotation/c02_cli_source_test.py ClosedCliAppendControl > "$DG18_C02_OUTPUT/test.stdout" 2> "$DG18_C02_OUTPUT/test.stderr"[0m
+2026-11-15T13:37:37.7495741Z [36;1mresult=$?[0m
+2026-11-15T13:37:37.7496272Z [36;1mset -e[0m
+2026-11-15T13:37:37.7496902Z [36;1mprintf '%s\n' "$result" > "$DG18_C02_OUTPUT/EXIT_CODE.txt"[0m
+2026-11-15T13:37:37.7497686Z [36;1mcat "$DG18_C02_OUTPUT/test.stdout" "$DG18_C02_OUTPUT/test.stderr"[0m
+2026-11-15T13:37:37.7498407Z [36;1mexit "$result"[0m
+2026-11-15T13:37:37.7519193Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-15T13:37:37.7519921Z env:
+2026-11-15T13:37:37.7520458Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:37:37.7521121Z ##[endgroup]
+2026-11-15T13:38:09.7601375Z .
+2026-11-15T13:38:09.7602435Z ----------------------------------------------------------------------
+2026-11-15T13:38:09.7603465Z Ran 1 test in 31.723s
+2026-11-15T13:38:09.7603764Z 
+2026-11-15T13:38:09.7603984Z OK
+2026-11-15T13:38:09.7725147Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-15T13:38:09.7725760Z with:
+2026-11-15T13:38:09.7726192Z   name: dg18-c02-cli-43719967600-1
+2026-11-15T13:38:09.7726615Z   if-no-files-found: error
+2026-11-15T13:38:09.7727077Z   retention-days: 7
+2026-11-15T13:38:09.7728566Z   path: /home/runner/work/_temp/dg18-c02-cli-43719967600-1/SOURCE.txt
+/home/runner/work/_temp/dg18-c02-cli-43719967600-1/SOURCE_SHA256.txt
+/home/runner/work/_temp/dg18-c02-cli-43719967600-1/HOST.json
+/home/runner/work/_temp/dg18-c02-cli-43719967600-1/EXIT_CODE.txt
+/home/runner/work/_temp/dg18-c02-cli-43719967600-1/test.stdout
+/home/runner/work/_temp/dg18-c02-cli-43719967600-1/test.stderr
+
+2026-11-15T13:38:09.7730076Z   compression-level: 6
+2026-11-15T13:38:09.7730489Z   overwrite: false
+2026-11-15T13:38:09.7730892Z   include-hidden-files: false
+2026-11-15T13:38:09.7731369Z env:
+2026-11-15T13:38:09.7731756Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-15T13:38:09.7732387Z   DG18_C02_OUTPUT: /home/runner/work/_temp/dg18-c02-cli-43719967600-1
+2026-11-15T13:38:09.7733220Z ##[endgroup]
+2026-11-15T13:38:09.9515015Z (node:24249) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-15T13:38:09.9516376Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-15T13:38:09.9606598Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-15T13:38:09.9609801Z The least common ancestor is /home/runner/work/_temp/dg18-c02-cli-43719967600-1. This will be the root directory of the artifact
+2026-11-15T13:38:09.9610905Z With the provided path, there will be 6 files uploaded
+2026-11-15T13:38:09.9613550Z Artifact name is valid!
+2026-11-15T13:38:09.9614667Z Root directory input is valid!
+2026-11-15T13:38:10.2866808Z Beginning upload of artifact content to blob storage
+2026-11-15T13:38:10.3135690Z (node:24249) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-15T13:38:10.5141268Z Uploaded bytes 1397
+2026-11-15T13:38:10.5667438Z Finished uploading artifact content to blob storage!
+2026-11-15T13:38:10.5668894Z SHA256 digest of uploaded artifact zip is e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956
+2026-11-15T13:38:10.5669760Z Finalizing artifact upload
+2026-11-15T13:38:10.9042032Z Artifact dg18-c02-cli-43719967600-1.zip successfully finalized. Artifact ID 14163988124
+2026-11-15T13:38:10.9043232Z Artifact dg18-c02-cli-43719967600-1 has been successfully uploaded! Final size is 1397 bytes. Artifact ID is 14163988124
+2026-11-15T13:38:10.9049582Z Artifact download URL: https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43719967600/artifacts/14163988124
+2026-11-15T13:38:10.9294972Z Post job cleanup.
+2026-11-15T13:38:11.0159398Z [command]/usr/bin/git version
+2026-11-15T13:38:11.0198680Z git version 2.56.1
+2026-11-15T13:38:11.0262241Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-15T13:38:11.0298122Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-15T13:38:11.0519398Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-15T13:38:11.0550133Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-15T13:38:11.0771498Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-15T13:38:11.0804263Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-15T13:38:11.1189821Z Cleaning up orphan processes
+2026-11-15T13:38:11.1536987Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,0 +1,16 @@
+{
+  "acquired_utc": "2026-11-15T13:39:18.877027+00:00",
+  "acquirer": "/root/dg16_m5_original_receiving",
+  "archive": {
+    "bytes": 1397,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/dg18-c02-cli-43719967600-1.zip",
+    "sha256": "e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956"
+  },
+  "artifact_id": 14163988124,
+  "download_calls": 1,
+  "file_id": "file_0000000052848212a82d12ec96956abc",
+  "job_log_reads": 1,
+  "materialization_requests": 1,
+  "schema": "pro.single-artifact-acquisition.v1",
+  "url_retained": false
+}

@@ -1,0 +1,459 @@
+{
+  "authority": "NONE",
+  "candidate": {
+    "baseline_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "baseline_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "commit": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+    "exact_baseline_delta": "Three modified files and one new fixture; all 1852 other files have identical Git object and mode. The source diff is exactly the supplied FINAL_SOURCE.diff.",
+    "files": {
+      "fixtures/canonical-state-rotation/c02_cli_source_test.py": {
+        "bytes": 18291,
+        "sha256": "3a892b5bab062d506da1c889345a84f312cbd0d85ac2b942b4d132e5dc66237d"
+      },
+      "skills/implementaudit/scripts/claim-run-rotation.py": {
+        "bytes": 291371,
+        "sha256": "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
+      },
+      "skills/implementaudit/scripts/claim-run.sh": {
+        "bytes": 32290,
+        "sha256": "c74c5bb8a18d58a2d42ed5d7ed24e4c1cc7abada17ea5fe7f1c9d4ca549766ae"
+      },
+      "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+        "bytes": 196162,
+        "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+      }
+    },
+    "sole_parent": "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e",
+    "tracked_and_untracked_status": "CLEAN",
+    "tree": "80d3436958ddc3a6ee440dfc531c394f6bb6a479",
+    "worktree": "/workspace/scratch/0269e6626329/dg18-c02-cli"
+  },
+  "disposition": "PASS_BOUNDED_FROZEN_C02_SOURCE_AND_SINGLE_HOSTED_CONTROL_WIRING",
+  "frozen_inputs": {
+    "EVIDENCE_LANGUAGE_CORRECTION.json": {
+      "bytes": 2674,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/EVIDENCE_LANGUAGE_CORRECTION.json",
+      "sha256": "113d474ccf840cb66f31b50f392a6094432c325566639f314fb06ce85350ddc9"
+    },
+    "FINAL_SOURCE.diff": {
+      "bytes": 42271,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/FINAL_SOURCE.diff",
+      "sha256": "bd354987d91b3ef17630a2e51cbb62585ce63d03037b9f0ddf228d09fbd0cbf7"
+    },
+    "FINAL_SOURCE_FREEZE.json": {
+      "bytes": 3068,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/FINAL_SOURCE_FREEZE.json",
+      "sha256": "329e5646d4fc5c8e986b37de4d87d41a94b8e1f8996e93ba8f9729e0e45e41f3"
+    },
+    "FINAL_SOURCE_RECORD.md": {
+      "bytes": 15599,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/FINAL_SOURCE_RECORD.md",
+      "sha256": "481691efc81182c5e828141e9dab7472a8d5ae32b75bf28eb306d7061e131b39"
+    },
+    "HOSTED_QUALIFICATION.diff": {
+      "bytes": 4308,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_QUALIFICATION.diff",
+      "sha256": "3beb236d6ebd2500a6e773aa62c30ba8996aef789ec13a5a67bb3ff73612e0b5"
+    },
+    "HOSTED_QUALIFICATION_WORKFLOW.yml": {
+      "bytes": 7886,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_QUALIFICATION_WORKFLOW.yml",
+      "sha256": "587c03c6586f3ac76276878d26c9ea0c3b7df1cea1ddf3771fd8df5ea2859e86"
+    },
+    "INDEPENDENT_READONLY_RECONCILIATION.json": {
+      "bytes": 11340,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/INDEPENDENT_READONLY_RECONCILIATION.json",
+      "sha256": "f18118575f26ae4493091e10c81e4872386cffebfa605995373cec7c7d51f4f8"
+    }
+  },
+  "hosted_workflow": {
+    "baseline": {
+      "bytes": 4292,
+      "sha256": "a95a2c463696ab07758dcec99200b2491c8b1ca36f6858ce1c0d871e6501183e"
+    },
+    "branch": "engineering/pro-dg18-c02-cli-20261115",
+    "checkout_action": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+    "command": "PATH=/usr/bin:/bin:$PATH /usr/bin/python3 -B fixtures/canonical-state-rotation/c02_cli_source_test.py ClosedCliAppendControl",
+    "event": "push",
+    "exact_diff": {
+      "bytes": 4308,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_QUALIFICATION.diff",
+      "sha256": "3beb236d6ebd2500a6e773aa62c30ba8996aef789ec13a5a67bb3ff73612e0b5"
+    },
+    "findings": [
+      "Exact repository/event/branch condition; old source-cli job retains its original other-branch condition.",
+      "Checkout uses actual github.sha, no persisted credentials, no submodules/LFS; permissions remain contents:read.",
+      "Runs only the selected class with the actual system interpreter and unchanged interpreter-ownership guard. No tokenizer installation/download or model is on this new job path.",
+      "Retains exact HEAD/tree/parents, four file hashes, actual interpreter/ancestor facts, stdout/stderr and exit code. The fixture evidence directory is separate and is not in the artifact list.",
+      "The normal validate workflow push filters name main and the prior integration branch; the proposed C02 source push is neither and is not a pull_request.",
+      "Ordinary source qualification only; no protected execute, grant, source-owner selection or new accepting operation."
+    ],
+    "new_job": "c02-cli-append",
+    "not_yet_published_or_executed_by_reviewer": true,
+    "old_job_permissions_concurrency_unchanged": true,
+    "path": ".github/workflows/dg18-source-qualification.yml",
+    "proposal": {
+      "bytes": 7886,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_QUALIFICATION_WORKFLOW.yml",
+      "sha256": "587c03c6586f3ac76276878d26c9ea0c3b7df1cea1ddf3771fd8df5ea2859e86"
+    },
+    "runner": "ubuntu-24.04",
+    "upload_action": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+  },
+  "operations_by_reviewer": {
+    "artifact_downloads": 0,
+    "grants": 0,
+    "native_or_model_launches": 0,
+    "package_builds": 0,
+    "provider_mutations": 0,
+    "report_and_readonly_reconciliation_writes_only": true,
+    "source_edits": 0,
+    "source_execution": 0,
+    "test_or_preflight_reruns": 0
+  },
+  "original_awards": [],
+  "original_contract": {
+    "applicable_clauses": [
+      {
+        "clause": "Complete original R0039 acceptance item 5",
+        "meaning": "Actual erroneous-event evidence and complete later-boundary census; actual continuity-adjudication issuer/grant; exact claim/run and pointer/receipt/marker preimage; existing sole-owner append through authenticated adapter; independent host readback, retry/conflict/replay/ambiguity discrimination and genuine newer boundary. No model is specified for this C02 leg."
+      },
+      {
+        "clause": "Complete original R0039 acceptance item 5 and following paragraph",
+        "meaning": "Preserve generation-v1, projection-v2, fourteen-field receipt-v3 and F0-F9. No new pending store, observer, router, currentness writer, controller or producer self-appointment. Unknown boundaries or missing entitlement stop accepting effects."
+      },
+      {
+        "clause": "F0/F8/F9 and criteria 10-11",
+        "meaning": "Exact-source/package/install/current-consumer integration remains required for shipping helper/reference changes; source-only review does not satisfy that leg."
+      }
+    ],
+    "current_provider_body_receiving": {
+      "bytes": 38565,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_ORIGINAL_ISSUE215_READBACK.json",
+      "sha256": "8dd89347ca45204e19f2c3053ba9d7c7129d4db6581d2bd8bf0a8bc7cad5e5cf"
+    },
+    "issue215": {
+      "bytes": 35566,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/ISSUE215_CURRENT.md",
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    }
+  },
+  "package_consequence": {
+    "actual_archive_receiving": "All six already-retained archives, complete member inventories, CRCs, embedded source commit/tree and packaged claim/shell bytes checked read-only. No archive rebuilt or reacquired. Source peer is separately provisioned and not an archive member.",
+    "adoption_disposition": "NOT_ADMITTED_FOR_ORIGINAL_CANONICAL_PACKAGE_SCOPE. The inherited shortfall remains a concrete open package/adoption predicate despite the40B reduction. Shipping claim/helper bytes trigger original criterion11 and F8 package/install/current-consumer parity; source-only NOT_TRIGGERED is unavailable. The exact later integrated source embeds different inventory commit/tree and requires its own applicable package identity/measurement. This does not replay or invalidate earned M5 evidence at source205.",
+    "approval_scope": "The 1240B canonical exception is explicit to the DG17 Stop-interlock correction and necessary revision5 integration. It is not generalized to C02 by this review.",
+    "canonical_baseline_bytes": 588580,
+    "canonical_delta_bytes": -40,
+    "canonical_final_bytes": 588540,
+    "canonical_final_headroom_bytes": 1284,
+    "canonical_original_reserve_shortfall_bytes": 716,
+    "final_canonical_sha256": "8a6fe1d1ec3f0429d156d9c2c0b6d660737e8a670a6d629e5389612cf9185bd1",
+    "final_standalone_sha256": "c3686a47d11b69f0ec0ccda6b1cca64a698068f96e71fd62c07c02d55776345d",
+    "hard_cap_bytes": 589824,
+    "mechanical_configured_build_result": "Baseline and final two-role commands exit0 under configured revision5 1240/2000 reserves. First candidate failed canonical by59B under that configuration and remains preserved.",
+    "original_per_role_reserve_bytes": 2000,
+    "original_usable_bytes": 587824,
+    "owner_approval_record": {
+      "bytes": 6571,
+      "path": "/workspace/scratch/0269e6626329/dg18-c02-cli/package/budgets/pr255-v5-owner-approval.md",
+      "sha256": "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538"
+    },
+    "standalone_baseline_bytes": 583969,
+    "standalone_delta_bytes": -43,
+    "standalone_final_bytes": 583926,
+    "standalone_final_headroom_bytes": 5898
+  },
+  "qualification_evidence": {
+    "complete_control_source": {
+      "fixture": "fixtures/canonical-state-rotation/c02_cli_source_test.py::ClosedCliAppendControl",
+      "meaning": "Uses existing RealHelperIntegration actual initial claim/activation/first receipt/rotation with frozen EXACT_BYTES calibration; then real CLI source custody, invalidation, materialization, append, exact retry and later manual-resume. Unlike the first14 controls, no currentness JOIN or custody method is mocked in this class. Semantic pair, source selection and issuer are expressly constructed. It creates no original authority or native/model claim.",
+      "status": "PENDING_ONE_ORDINARY_HOSTED_CONTROL"
+    },
+    "evidence_language_correction_received": true,
+    "raw_records": {
+      "final-consumer.stderr": {
+        "bytes": 100,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/final-consumer.stderr",
+        "sha256": "e8a569d2e3164ac1ac1bc4832c50d55d07c426855af6a03e454576f0a9e026bb"
+      },
+      "final-consumer.stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/final-consumer.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "full-interface.stderr": {
+        "bytes": 1537,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/full-interface.stderr",
+        "sha256": "66f95850b9421b8ff5080e1324bfe24c4ae5aa5188fef8c432c9d992521f21e9"
+      },
+      "full-interface.stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/full-interface.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "package-baseline.stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/package-baseline.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "package-baseline.stdout": {
+        "bytes": 372,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/package-baseline.stdout",
+        "sha256": "d80ed2d1f1b742266d00e54d78bf1229f4ce4e34317aeeb2c4421acac3757930"
+      },
+      "package-build.stderr": {
+        "bytes": 125,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/package-build.stderr",
+        "sha256": "d0279de18e7f7d71d84facc7dee2d42e9beb0e426087af7c6b63954d923a2a62"
+      },
+      "package-build.stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/package-build.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "package-final.stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/package-final.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "package-final.stdout": {
+        "bytes": 366,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/package-final.stdout",
+        "sha256": "5fe68ced72d0685ece1514276898132d7d3750b6b2a61d16a185c4d8d100f19d"
+      },
+      "qualification-1.stderr": {
+        "bytes": 114,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-1.stderr",
+        "sha256": "f7c61f919a511223cadfd603efb91f1c207663996828c004231e2b419de5fcb1"
+      },
+      "qualification-1.stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-1.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "qualification-2.stderr": {
+        "bytes": 268,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-2.stderr",
+        "sha256": "42d40d4014e399953fb05b0e04ccf256c404b110349cda4a857122b1e70ccbe3"
+      },
+      "qualification-2.stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-2.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "qualification-3.stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-3.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "qualification-3.stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-3.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "qualification-4.stderr": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-4.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "qualification-4.stdout": {
+        "bytes": 0,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/qualification-4.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "received_scopes": [
+      {
+        "result": "14 focused CLI controls and one affected Codex control passed in retained actual author execution outputs. Initial JOIN/custody/admission portions of these fixtures are constructed or mocked as shown by their source; real invalidator/retained-file/Git operations do run. This is source qualification, not accepting evidence.",
+        "source": "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e"
+      },
+      {
+        "result": "The final two actual consumer/template controls passed. The adapter bytes are unchanged from the 14-control candidate; the final core AST change relative to that candidate is only the named docstring plus shell hash propagation.",
+        "source": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613"
+      },
+      {
+        "result": "The full ClosedCliAppendControl has not passed. Its second local attempt failed in the initial claim with unverified controller-ref readback and a retained claim; no activation/JOIN/C02 append was reached. No absent initialization effect is inferred. First attempt is retained only as prior_host_refusal summary, not a separately re-readable raw body.",
+        "source": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613"
+      }
+    ],
+    "retained_records": {
+      "BASELINE.json": {
+        "bytes": 843,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/BASELINE.json",
+        "sha256": "b6b4f7d8d31c57efec9cc345b90274481b715030753c99e8fef70ea0133e032a"
+      },
+      "CANDIDATE.json": {
+        "bytes": 935,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/CANDIDATE.json",
+        "sha256": "fd087046336590f31d7d4f0674a222d92e309895bd3d7962ee80e4151f55477c"
+      },
+      "DOCSTRING_AND_HOST_FACTS.json": {
+        "bytes": 580,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/DOCSTRING_AND_HOST_FACTS.json",
+        "sha256": "b2e50f29d5aff8c6cd4e9a3fb7af9f041e020b02f4ae083a5e103f5fdc7d395d"
+      },
+      "FINAL_CONSUMER_RESULTS.json": {
+        "bytes": 638,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/FINAL_CONSUMER_RESULTS.json",
+        "sha256": "82224183262b32bcf0557a3fe6ce2033d324570a73c2688478b105b458fad94a"
+      },
+      "FOCUSED_RESULTS.json": {
+        "bytes": 2103,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/FOCUSED_RESULTS.json",
+        "sha256": "de45cc61126639ce4c4aa9b565c4ba287e6e38c6c811656a7fbc77590641050d"
+      },
+      "FULL_INTERFACE.json": {
+        "bytes": 1479,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/FULL_INTERFACE.json",
+        "sha256": "4a9e8fd549bf48bc08c2a9a2620096eea743218bf3a4e34818fc17da151d6eeb"
+      },
+      "PACKAGE_BASELINE.json": {
+        "bytes": 2045,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/PACKAGE_BASELINE.json",
+        "sha256": "170f47e4b6df637a5acfe57c5aa8399fccfcc45af216ea6fb19d404b5b345ebe"
+      },
+      "PACKAGE_FINAL.json": {
+        "bytes": 2033,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/PACKAGE_FINAL.json",
+        "sha256": "1d1a894f2c6d35f788cd7c0f753c2ddc8bdc2fe0222d7265b61da997376c24ec"
+      },
+      "PACKAGE_RESULTS.json": {
+        "bytes": 1557,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/PACKAGE_RESULTS.json",
+        "sha256": "2311c0a72585ee0453eb3e5961fb8a9221e192beb5db5f131fdb485c57f7a7d0"
+      }
+    },
+    "reviewer_reran_controls": false
+  },
+  "remaining_original_conjuncts": [
+    "Actual result and receiving of the single new hosted full-interface fixture; this is a source qualification prerequisite, not original acceptance.",
+    "Genuine source-owner admission for the exact closed CLI subject/event domain and actual continuity-adjudication owner decision/grant with erroneous-event evidence and complete census.",
+    "Actual authorized sole-owner append and independent host readback with exact retry/conflict/replay/ambiguity and immediate genuine newer-boundary evidence at admitted scope.",
+    "Resolve the original canonical reserve/adoption predicate and earn applicable exact-current package/install/current-consumer evidence without generalizing the DG17 exception.",
+    "Final current-source W-FULL operation and any eventual native result remain separate from the ef7 preparation. No N1, whole-DG18 or M5 award follows."
+  ],
+  "reviewed_utc": "2026-11-15T13:28:51.649705+00:00",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authoring_context_reused": false,
+    "distinct_from_source_author": "/root/g132_existing_offline_intake",
+    "mode": "ORDINARY_INDEPENDENT_SOURCE_REVIEW_NOT_INTERNAL_AUDIT_ASSESS",
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false,
+    "source_publisher": false
+  },
+  "schema": "pro.dg18.c02-cli-independent-source-review.v1",
+  "scope_ceiling": "Engineering source and qualification-wiring review only. No production source-owner admission, append grant, actual accepting C02 episode, package-reserve admission, native W-FULL result or original acceptance is issued.",
+  "source_adoption_authority": "NONE",
+  "source_blockers": [],
+  "source_findings": [
+    {
+      "finding": "The new profile is separately selected as claim-cli-controlled-nonprotected-c02-v1. The fixed provider pin remains None. Exact shape binds repository/controller, claim/run, existing module pin, expected controller/pointer/marker/invalidation, current receipt token, issuer/source locators and an explicitly closed nonprotected CLI event domain. All five boundary kinds and adjudications must be admitted; unknown ingress poisons. A shaped fixture or JSON field does not supply actual source-owner authority.",
+      "id": "C02-S01",
+      "limits": "An authentic closed subject and its source-owner selection remain external admission facts. This code review does not appoint the source owner or assert that a future subject has complete ingress ownership.",
+      "paths": [
+        "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py::validate_cli_c02_selection_v1",
+        "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py::acquire_selected_cli_c02_interval_v1"
+      ],
+      "status": "PASS_SOURCE_BOUNDARY"
+    },
+    {
+      "finding": "Acquisition requires exact physical subject-local source and claim module paths, the selected claim module byte/hash pin, retained source/provider/owner custody, the loaded-claim identity and current claim custody. The existing consumer normalizes only the unique selection-pin expression, checks the reviewed full template digest, pins the provider and compares the physical compiled getter. Same-byte physical source/provider replacement remains refused.",
+      "id": "C02-S02",
+      "paths": [
+        "acquire_selected_cli_c02_interval_v1",
+        "c02_owned_operation_v1",
+        "get_selected_c02_materializer_v1"
+      ],
+      "status": "PASS_PHYSICAL_SOURCE_JOIN"
+    },
+    {
+      "finding": "The CLI interval begins at an actual current pointer/receipt/marker JOIN with no prior adjudications, binds the exact selecting thread and source revision, and observes a real existing-owner inferred-context-gap publication with its exact anchored readback. Ordered callbacks form the census. The complete retained-invalidation set supplements those callbacks and detects unobserved boundary ingress including current-ref ABA; it is not presented as event order or admission by itself. Unknown adjudication ingress cancels the source. Incomplete post-effect output poisons the interval and preserves UNKNOWN rather than allowing a retry.",
+      "id": "C02-S03",
+      "paths": [
+        "OwnedStdioC02CensusV1.arm",
+        "OwnedStdioC02CensusV1.verify",
+        "OwnedStdioC02CensusV1._cli_boundary_anchors",
+        "OwnedStdioC02CensusV1.inject_controlled_fault",
+        "OwnedStdioC02CensusV1.census_facts_v1"
+      ],
+      "status": "PASS_CLOSED_INTERVAL_DESIGN"
+    },
+    {
+      "finding": "The unchanged configured issuer keeps exact file/ancestor custody and decision role, subject, expected-old, cutoff, decision-id and revocation checks. CLI sessions require no conditional fresh grant, and the hook refuses conditional-successor apply. Append delegates to the existing materialize, inert prepare and sole publish functions; only an actual returned correction is admitted to the ordered adjudication census. Nested CLI owner calls and source exceptions fail closed.",
+      "id": "C02-S04",
+      "limits": "The private selection and issuer file must come from the actual entitled owners. Engineering publication, this source PASS, fixture issuer strings and an empty append-grant object confer no authority.",
+      "paths": [
+        "ConfiguredC02IssuerV1",
+        "selected_c02_materializer_session_v1",
+        "OwnedStdioC02HooksV1.append",
+        "OwnedStdioC02HooksV1.apply_conditional_successor"
+      ],
+      "status": "PASS_EXISTING_ISSUER_AND_PUBLISHER"
+    },
+    {
+      "finding": "AST comparison of the complete claim module is identical after normalizing only the exact allowed-template set and the named capability-resolver docstring. Thus the transaction, receipt schemas, CAS/readback/retention, retry/conflict/replay/ambiguity and native-resume function bodies remain unchanged. The shell delta contains only the two dependent claim-source literals. No writer or schema is introduced.",
+      "id": "C02-S05",
+      "limits": "Unchanged core guards preserve their prior demonstrated scopes. This does not create new authentic original C02 adverse-control occurrences.",
+      "paths": [
+        "c02_owned_operation_v1",
+        "materialize_c02_owner_revisions_v1",
+        "prepare_c02_correction_v1",
+        "publish_c02_correction_v1",
+        "propose_c02_correction_v1",
+        "_c02_project_owned_interval_v1",
+        "_C02OwnedOperation",
+        "invalidate_current_generation_v1",
+        "run_canonical_rotation_v1",
+        "require_current_generation_join_v1",
+        "native_resume_source"
+      ],
+      "status": "PASS_UNCHANGED_CORE_PROTOCOL"
+    },
+    {
+      "finding": "The actual Codex acquisition function, configured issuer and fixed C02 getter are unchanged by AST. Existing Popen/RPC ledger/fence/source-scan checks stay on the native branch. The CLI branch cannot reuse a Codex ledger or fence; it uses inferred-context-gap while the existing controlled Codex branch retains new-session. The inherited native-boundary census label is not a claimed Codex/model occurrence.",
+      "id": "C02-S06",
+      "paths": [
+        "acquire_selected_c02_interval_v1",
+        "ConfiguredC02IssuerV1",
+        "get_selected_c02_materializer_v1",
+        "OwnedStdioC02HooksV1"
+      ],
+      "status": "PASS_NATIVE_PROFILE_SEPARATION"
+    },
+    {
+      "finding": "The baseline 185531-byte adapter hash 5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8 was absent from the consumer set. The final actual 196162-byte template hash 83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5 is now added exactly; previous template hashes remain. The shell captures exactly 291371 bytes / aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740 before compiling. Shared technical template recognition is not source/issuer/subject admission for other profiles.",
+      "id": "C02-S07",
+      "status": "PASS_EXACT_TEMPLATE_AND_PIN_CLOSURE"
+    }
+  ],
+  "wfull_currentness_consequence": {
+    "actual_changed_runtime_members": [
+      "skills/implementaudit/scripts/claim-run-rotation.py",
+      "skills/implementaudit/scripts/claim-run.sh"
+    ],
+    "actual_receiving": {
+      "bytes": 41573,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43717382372/RECEIVING.json",
+      "sha256": "fc24a2587a3c1e3f28b1bb26c3c48ef15f0501d8810eef55971c4ebe0c37b5ea"
+    },
+    "maintained_driver": {
+      "bytes": 24440,
+      "path": "/workspace/scratch/0269e6626329/dg18-c02-cli/scripts/run-r0039-windows-resume.py",
+      "sha256": "23cc5a07c128028d3554e2e7781dcb393b51c7a82c2a8bc17385baaa33315c2c"
+    },
+    "measurement_relation": "Original #215 does not prescribe blanket qualification replay for an unrelated change. Earned unchanged-function/source controls remain reusable at their actual scope. However the measured command captures and compiles the entire changed claim module, including the changed allowed-template constant and docstring, so this is not an identical whole runtime population. A future ef7 measurement would establish ef7 evidence only; it would not alone establish the integrated C02 runtime envelope.",
+    "prepared_operation": {
+      "bytes": 43816,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43717382372/artifact/operation/OPERATION.json",
+      "sha256": "489cd0b2c1e0adee6d8497fc68076b814bf78609baa6b6d74eac6aed6cfa39f0"
+    },
+    "required_final_scope": "For a measured W-FULL result asserted for the final C02-integrated source, the actual operation/currentness and native measurement must bind that final selected source. No current original clause or admitted source-applicability proof presented here permits transferring an unmeasured full-runtime envelope merely from unchanged hotpath function bodies.",
+    "root_disposition_received": "Root will preserve489cd as earned ordinary preparation, will not seek or spend a protected ef7 grant for this soon-obsolete plan, will finish C02 source/one hosted control first and select the final current DG18 operation before the existing native grant. No W-FULL repeat is requested or performed by this reviewer.",
+    "selected_source_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "selected_source_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+    "source_relation": "Source_snapshot checks selected HEAD/tree, clean source, every subject runtime file, tool bytes, three recorder files and environment. Execute compares a fresh whole prepared record and rechecks source/runtime after effect. The489cd plan remains tied to ef7 and cannot be relabeled or run against this candidate.",
+    "unchanged": "All other runtime descriptors and all three measurement/receiving scripts are unchanged. Resume transaction bodies remain unchanged by AST."
+  }
+}

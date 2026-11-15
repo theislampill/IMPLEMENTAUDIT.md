@@ -1,0 +1,1304 @@
+{
+  "actual_build": {
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "scripts/package-contract.py",
+      "--build",
+      "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages"
+    ],
+    "elapsed_seconds": 7.677206024000043,
+    "exit": 0,
+    "intent": {
+      "bytes": 559,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/PACKAGE_BUILD_INTENT.json",
+      "sha256": "a79a2e443042dc5af6386ed78fcd5dbaaa6ad47336d73fa0b99f66f5ad32af04"
+    },
+    "receiver_builds": 0,
+    "record": {
+      "bytes": 1660,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/PACKAGE_RESULT.json",
+      "sha256": "7a85638d5ec2cc81e2d59cb05edfa741e85942150b7b4067a52f5fc0f2bacfe4"
+    },
+    "single_actual_build_retained": true,
+    "started_utc": "2026-11-15T13:39:51.766859+00:00",
+    "stderr": {
+      "bytes": 0,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/package.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout": {
+      "bytes": 362,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/package.stdout",
+      "sha256": "1578ee8bc7873e0c8163b95c997c36646c1e06e8d92af644b401a386432c61ce"
+    }
+  },
+  "archives": [
+    {
+      "all_inventory_hashes_equal_actual_members": true,
+      "bytes": 586917,
+      "changed_member_paths_from_reviewed_0f591704": [
+        "IMPLEMENTAUDIT_INVENTORY.json",
+        "skills/implementaudit/scripts/claim-run-rotation.py",
+        "skills/implementaudit/scripts/claim-run.sh"
+      ],
+      "compressed_byte_delta_from_0f591704": -1623,
+      "crc_safe_names_unique_sorted_regular_modes_timestamps_pass": true,
+      "headroom_bytes": 2907,
+      "inventory": {
+        "bytes": 14602,
+        "sha256": "98e88cc3f081af65e25dd4f9c303c166099076d3dc4c4169be583ef045534ed0"
+      },
+      "inventory_member_count": 74,
+      "margin_above_original_reserve_bytes": 907,
+      "member_count": 75,
+      "members": [
+        {
+          "bytes": 351,
+          "path": ".claude-plugin/marketplace.json",
+          "sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544"
+        },
+        {
+          "bytes": 217,
+          "path": ".claude-plugin/plugin.json",
+          "sha256": "858a0c4751581c08964d52bcd47bd04cc805e91abf672a6711a58acda34aaf70"
+        },
+        {
+          "bytes": 922,
+          "path": ".codex-plugin/plugin.json",
+          "sha256": "4c527c0d567d74bd6d61294e6ce81db8c7cd8b674141d40ff069d4e3d82d664d"
+        },
+        {
+          "bytes": 5617,
+          "path": "IMPLEMENTAUDIT_PACKAGE.json",
+          "sha256": "c4844781b4063e02f8fbe33dea67937d3efb3c913f726583c10a0d41387f9c2e"
+        },
+        {
+          "bytes": 2812,
+          "path": "skills/audit-andon/SKILL.md",
+          "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+        },
+        {
+          "bytes": 2039,
+          "path": "skills/audit-assess/SKILL.md",
+          "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+        },
+        {
+          "bytes": 5448,
+          "path": "skills/audit-implement/SKILL.md",
+          "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+        },
+        {
+          "bytes": 3858,
+          "path": "skills/audit-state/SKILL.md",
+          "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+        },
+        {
+          "bytes": 21259,
+          "path": "skills/implementaudit/SKILL.md",
+          "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+        },
+        {
+          "bytes": 14156,
+          "path": "skills/implementaudit/references/audit-category-matrix.md",
+          "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79"
+        },
+        {
+          "bytes": 23193,
+          "path": "skills/implementaudit/references/audit-playbook.md",
+          "sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8"
+        },
+        {
+          "bytes": 3844,
+          "path": "skills/implementaudit/references/canonical-state-ref-namespaces.json",
+          "sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390"
+        },
+        {
+          "bytes": 25561,
+          "path": "skills/implementaudit/references/canonical-state-rotation.md",
+          "sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a"
+        },
+        {
+          "bytes": 18955,
+          "path": "skills/implementaudit/references/child-agents.md",
+          "sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb"
+        },
+        {
+          "bytes": 21266,
+          "path": "skills/implementaudit/references/continuity.md",
+          "sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1"
+        },
+        {
+          "bytes": 8668,
+          "path": "skills/implementaudit/references/convergence-mode.md",
+          "sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69"
+        },
+        {
+          "bytes": 6895,
+          "path": "skills/implementaudit/references/goal-format.md",
+          "sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9"
+        },
+        {
+          "bytes": 21372,
+          "path": "skills/implementaudit/references/host-session-binding.md",
+          "sha256": "db0ee2f6fb4d1e3bae2daab8bae8ebae39df8f725b2702fe270153fa8fc77674"
+        },
+        {
+          "bytes": 1265,
+          "path": "skills/implementaudit/references/identity-namespaces.json",
+          "sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb"
+        },
+        {
+          "bytes": 18210,
+          "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+          "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04"
+        },
+        {
+          "bytes": 22319,
+          "path": "skills/implementaudit/references/lean-operating-discipline.md",
+          "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a"
+        },
+        {
+          "bytes": 20396,
+          "path": "skills/implementaudit/references/phase-design.md",
+          "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0"
+        },
+        {
+          "bytes": 32365,
+          "path": "skills/implementaudit/references/plan-lifecycle.md",
+          "sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa"
+        },
+        {
+          "bytes": 20507,
+          "path": "skills/implementaudit/references/planning-depth.md",
+          "sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293"
+        },
+        {
+          "bytes": 50343,
+          "path": "skills/implementaudit/references/repo-state-comparison.md",
+          "sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961"
+        },
+        {
+          "bytes": 14323,
+          "path": "skills/implementaudit/references/routing.md",
+          "sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222"
+        },
+        {
+          "bytes": 5673,
+          "path": "skills/implementaudit/references/sidecars.md",
+          "sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7"
+        },
+        {
+          "bytes": 4877,
+          "path": "skills/implementaudit/references/terminology-integration.md",
+          "sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5"
+        },
+        {
+          "bytes": 30771,
+          "path": "skills/implementaudit/references/transcript-contract.md",
+          "sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf"
+        },
+        {
+          "bytes": 7038,
+          "path": "skills/implementaudit/references/work-graph-contract.md",
+          "sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f"
+        },
+        {
+          "bytes": 115042,
+          "path": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+          "sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590"
+        },
+        {
+          "bytes": 36367,
+          "path": "skills/implementaudit/scripts/canonical_custody.py",
+          "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+        },
+        {
+          "bytes": 93893,
+          "path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+          "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+        },
+        {
+          "bytes": 27916,
+          "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+          "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+        },
+        {
+          "bytes": 17837,
+          "path": "skills/implementaudit/scripts/check-authorization-binding.sh",
+          "sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3"
+        },
+        {
+          "bytes": 94842,
+          "path": "skills/implementaudit/scripts/check-closure-surface.sh",
+          "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7"
+        },
+        {
+          "bytes": 5208,
+          "path": "skills/implementaudit/scripts/check-duplication-parity.sh",
+          "sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7"
+        },
+        {
+          "bytes": 44602,
+          "path": "skills/implementaudit/scripts/check-evidence-anchor.sh",
+          "sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735"
+        },
+        {
+          "bytes": 18913,
+          "path": "skills/implementaudit/scripts/check-handoff-packet.sh",
+          "sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120"
+        },
+        {
+          "bytes": 11417,
+          "path": "skills/implementaudit/scripts/check-lesson-lift.sh",
+          "sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a"
+        },
+        {
+          "bytes": 6560,
+          "path": "skills/implementaudit/scripts/check-respec-impact-set.sh",
+          "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38"
+        },
+        {
+          "bytes": 286898,
+          "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+          "sha256": "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031"
+        },
+        {
+          "bytes": 32290,
+          "path": "skills/implementaudit/scripts/claim-run.sh",
+          "sha256": "5700328182e86f2b0fc51cb4a693ac35f4fffd94e65a08654bf1f59e486edf9c"
+        },
+        {
+          "bytes": 261683,
+          "path": "skills/implementaudit/scripts/compile-work-graph.py",
+          "sha256": "226f4897a5e8edd0ffe460426a9b2995cd5f2bcfb169b68978ae727d065f685b"
+        },
+        {
+          "bytes": 5668,
+          "path": "skills/implementaudit/scripts/custody-append.sh",
+          "sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762"
+        },
+        {
+          "bytes": 7221,
+          "path": "skills/implementaudit/scripts/detect-env.sh",
+          "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516"
+        },
+        {
+          "bytes": 3601,
+          "path": "skills/implementaudit/scripts/detect-stack.sh",
+          "sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2"
+        },
+        {
+          "bytes": 58385,
+          "path": "skills/implementaudit/scripts/host-session-binding.py",
+          "sha256": "2e784dbbe8470cd2de335e07c66ea0112d7c324b292a21f1f236309d5d0be1fa"
+        },
+        {
+          "bytes": 31585,
+          "path": "skills/implementaudit/scripts/host-stop-interlock.py",
+          "sha256": "e180069d3810903a138e64751d71fe8952049967a0ef0deff1e6306c42f749e0"
+        },
+        {
+          "bytes": 2459,
+          "path": "skills/implementaudit/scripts/lane-survivor-inventory.sh",
+          "sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45"
+        },
+        {
+          "bytes": 2615,
+          "path": "skills/implementaudit/scripts/map-pin-chain.sh",
+          "sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74"
+        },
+        {
+          "bytes": 27208,
+          "path": "skills/implementaudit/scripts/read-canonical-pair.py",
+          "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+        },
+        {
+          "bytes": 22629,
+          "path": "skills/implementaudit/scripts/repo-state.sh",
+          "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b"
+        },
+        {
+          "bytes": 6787,
+          "path": "skills/implementaudit/scripts/resolve-durable-identity.py",
+          "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203"
+        },
+        {
+          "bytes": 5178,
+          "path": "skills/implementaudit/scripts/resolve-internal-skill.py",
+          "sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d"
+        },
+        {
+          "bytes": 129890,
+          "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+          "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+        },
+        {
+          "bytes": 7281,
+          "path": "skills/implementaudit/scripts/summarize-repo.sh",
+          "sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c"
+        },
+        {
+          "bytes": 13460,
+          "path": "skills/implementaudit/scripts/validate-audit-implement-return.py",
+          "sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301"
+        },
+        {
+          "bytes": 1673,
+          "path": "skills/implementaudit/scripts/validate-audit-spec.sh",
+          "sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7"
+        },
+        {
+          "bytes": 45816,
+          "path": "skills/implementaudit/scripts/validate-phase.sh",
+          "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab"
+        },
+        {
+          "bytes": 123126,
+          "path": "skills/implementaudit/scripts/validate-run-root.sh",
+          "sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+        },
+        {
+          "bytes": 74155,
+          "path": "skills/implementaudit/templates/PROTOCOL.md",
+          "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c"
+        },
+        {
+          "bytes": 3512,
+          "path": "skills/implementaudit/templates/ROADMAP.md",
+          "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a"
+        },
+        {
+          "bytes": 10089,
+          "path": "skills/implementaudit/templates/STATE.md",
+          "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b"
+        },
+        {
+          "bytes": 6380,
+          "path": "skills/implementaudit/templates/THINKING.md",
+          "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba"
+        },
+        {
+          "bytes": 4461,
+          "path": "skills/implementaudit/templates/child-agent-report.md",
+          "sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4"
+        },
+        {
+          "bytes": 740,
+          "path": "skills/implementaudit/templates/context.md",
+          "sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a"
+        },
+        {
+          "bytes": 4250,
+          "path": "skills/implementaudit/templates/final-report.md",
+          "sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9"
+        },
+        {
+          "bytes": 785,
+          "path": "skills/implementaudit/templates/host-notes.md",
+          "sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8"
+        },
+        {
+          "bytes": 12501,
+          "path": "skills/implementaudit/templates/phase-goal.txt",
+          "sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49"
+        },
+        {
+          "bytes": 3188,
+          "path": "skills/implementaudit/templates/read-only-plan.md",
+          "sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2"
+        },
+        {
+          "bytes": 1129,
+          "path": "skills/implementaudit/templates/respec-impact-set.md",
+          "sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40"
+        },
+        {
+          "bytes": 763,
+          "path": "skills/implementaudit/templates/sidecars.md",
+          "sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332"
+        },
+        {
+          "bytes": 997,
+          "path": "skills/implementaudit/templates/tools.md",
+          "sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a"
+        }
+      ],
+      "original_cap_bytes": 589824,
+      "original_reserve_bytes": 2000,
+      "original_reserve_met": true,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages/IMPLEMENTAUDIT.plugin.zip",
+      "prior_archive": {
+        "bytes": 588540,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-final/IMPLEMENTAUDIT.plugin.zip",
+        "sha256": "8a6fe1d1ec3f0429d156d9c2c0b6d660737e8a670a6d629e5389612cf9185bd1"
+      },
+      "role": "canonical_plugin",
+      "sha256": "76b246e3fd6a1b7cac65c4e87a21c57530359f86b4dc544f04fbbb058b638ea5",
+      "source": {
+        "commit": "7d8f3447b80d346159e19451d40975abcdde713e",
+        "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+        "worktree_state": "clean"
+      },
+      "source_member_population_and_bytes_equal": true,
+      "unchanged_member_count_from_0f591704": 72
+    },
+    {
+      "all_inventory_hashes_equal_actual_members": true,
+      "bytes": 582330,
+      "changed_member_paths_from_reviewed_0f591704": [
+        "IMPLEMENTAUDIT_INVENTORY.json",
+        "scripts/claim-run-rotation.py",
+        "scripts/claim-run.sh"
+      ],
+      "compressed_byte_delta_from_0f591704": -1596,
+      "crc_safe_names_unique_sorted_regular_modes_timestamps_pass": true,
+      "headroom_bytes": 7494,
+      "inventory": {
+        "bytes": 12702,
+        "sha256": "137b3ddb3633a5a30af557dc7465c39fa6a4b7c3a0ec3a268b654e06818da2e4"
+      },
+      "inventory_member_count": 71,
+      "margin_above_original_reserve_bytes": 5494,
+      "member_count": 72,
+      "members": [
+        {
+          "bytes": 5617,
+          "path": "IMPLEMENTAUDIT_PACKAGE.json",
+          "sha256": "c4844781b4063e02f8fbe33dea67937d3efb3c913f726583c10a0d41387f9c2e"
+        },
+        {
+          "bytes": 21259,
+          "path": "SKILL.md",
+          "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+        },
+        {
+          "bytes": 2559,
+          "path": "internal-procedures/audit-andon.md",
+          "sha256": "bb723d4b45e313425dace87d3555be211a8e0e84dce8cd19f527fac0d0095693"
+        },
+        {
+          "bytes": 1761,
+          "path": "internal-procedures/audit-assess.md",
+          "sha256": "b79ceb0974025be85675fa896df3dbce596e971ae8f07e48cea4d66ca2bfd9b1"
+        },
+        {
+          "bytes": 5079,
+          "path": "internal-procedures/audit-implement.md",
+          "sha256": "c03f5ec57821c200140a58aaa3715a535dfa62676c5afb4d719020a133f3f015"
+        },
+        {
+          "bytes": 3474,
+          "path": "internal-procedures/audit-state.md",
+          "sha256": "dec229a4101d9fe8dfb2af4691d0e917c70de846b8f5429cc514ebe84cd686ae"
+        },
+        {
+          "bytes": 14156,
+          "path": "references/audit-category-matrix.md",
+          "sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79"
+        },
+        {
+          "bytes": 23193,
+          "path": "references/audit-playbook.md",
+          "sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8"
+        },
+        {
+          "bytes": 3844,
+          "path": "references/canonical-state-ref-namespaces.json",
+          "sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390"
+        },
+        {
+          "bytes": 25561,
+          "path": "references/canonical-state-rotation.md",
+          "sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a"
+        },
+        {
+          "bytes": 18955,
+          "path": "references/child-agents.md",
+          "sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb"
+        },
+        {
+          "bytes": 21266,
+          "path": "references/continuity.md",
+          "sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1"
+        },
+        {
+          "bytes": 8668,
+          "path": "references/convergence-mode.md",
+          "sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69"
+        },
+        {
+          "bytes": 6895,
+          "path": "references/goal-format.md",
+          "sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9"
+        },
+        {
+          "bytes": 21372,
+          "path": "references/host-session-binding.md",
+          "sha256": "db0ee2f6fb4d1e3bae2daab8bae8ebae39df8f725b2702fe270153fa8fc77674"
+        },
+        {
+          "bytes": 1265,
+          "path": "references/identity-namespaces.json",
+          "sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb"
+        },
+        {
+          "bytes": 18210,
+          "path": "references/issue-ready-work-orders.md",
+          "sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04"
+        },
+        {
+          "bytes": 22319,
+          "path": "references/lean-operating-discipline.md",
+          "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a"
+        },
+        {
+          "bytes": 20396,
+          "path": "references/phase-design.md",
+          "sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0"
+        },
+        {
+          "bytes": 32365,
+          "path": "references/plan-lifecycle.md",
+          "sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa"
+        },
+        {
+          "bytes": 20507,
+          "path": "references/planning-depth.md",
+          "sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293"
+        },
+        {
+          "bytes": 50343,
+          "path": "references/repo-state-comparison.md",
+          "sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961"
+        },
+        {
+          "bytes": 14323,
+          "path": "references/routing.md",
+          "sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222"
+        },
+        {
+          "bytes": 5673,
+          "path": "references/sidecars.md",
+          "sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7"
+        },
+        {
+          "bytes": 4877,
+          "path": "references/terminology-integration.md",
+          "sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5"
+        },
+        {
+          "bytes": 30771,
+          "path": "references/transcript-contract.md",
+          "sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf"
+        },
+        {
+          "bytes": 7038,
+          "path": "references/work-graph-contract.md",
+          "sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f"
+        },
+        {
+          "bytes": 115042,
+          "path": "scripts/apply-observed-mutation.sh",
+          "sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590"
+        },
+        {
+          "bytes": 36367,
+          "path": "scripts/canonical_custody.py",
+          "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+        },
+        {
+          "bytes": 93893,
+          "path": "scripts/canonical_hot_projection.py",
+          "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+        },
+        {
+          "bytes": 27916,
+          "path": "scripts/canonical_rotation_inputs.py",
+          "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+        },
+        {
+          "bytes": 17837,
+          "path": "scripts/check-authorization-binding.sh",
+          "sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3"
+        },
+        {
+          "bytes": 94842,
+          "path": "scripts/check-closure-surface.sh",
+          "sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7"
+        },
+        {
+          "bytes": 5208,
+          "path": "scripts/check-duplication-parity.sh",
+          "sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7"
+        },
+        {
+          "bytes": 44602,
+          "path": "scripts/check-evidence-anchor.sh",
+          "sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735"
+        },
+        {
+          "bytes": 18913,
+          "path": "scripts/check-handoff-packet.sh",
+          "sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120"
+        },
+        {
+          "bytes": 11417,
+          "path": "scripts/check-lesson-lift.sh",
+          "sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a"
+        },
+        {
+          "bytes": 6560,
+          "path": "scripts/check-respec-impact-set.sh",
+          "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38"
+        },
+        {
+          "bytes": 286898,
+          "path": "scripts/claim-run-rotation.py",
+          "sha256": "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031"
+        },
+        {
+          "bytes": 32290,
+          "path": "scripts/claim-run.sh",
+          "sha256": "5700328182e86f2b0fc51cb4a693ac35f4fffd94e65a08654bf1f59e486edf9c"
+        },
+        {
+          "bytes": 261683,
+          "path": "scripts/compile-work-graph.py",
+          "sha256": "226f4897a5e8edd0ffe460426a9b2995cd5f2bcfb169b68978ae727d065f685b"
+        },
+        {
+          "bytes": 5668,
+          "path": "scripts/custody-append.sh",
+          "sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762"
+        },
+        {
+          "bytes": 7221,
+          "path": "scripts/detect-env.sh",
+          "sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516"
+        },
+        {
+          "bytes": 3601,
+          "path": "scripts/detect-stack.sh",
+          "sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2"
+        },
+        {
+          "bytes": 58385,
+          "path": "scripts/host-session-binding.py",
+          "sha256": "2e784dbbe8470cd2de335e07c66ea0112d7c324b292a21f1f236309d5d0be1fa"
+        },
+        {
+          "bytes": 31585,
+          "path": "scripts/host-stop-interlock.py",
+          "sha256": "e180069d3810903a138e64751d71fe8952049967a0ef0deff1e6306c42f749e0"
+        },
+        {
+          "bytes": 2459,
+          "path": "scripts/lane-survivor-inventory.sh",
+          "sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45"
+        },
+        {
+          "bytes": 2615,
+          "path": "scripts/map-pin-chain.sh",
+          "sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74"
+        },
+        {
+          "bytes": 27208,
+          "path": "scripts/read-canonical-pair.py",
+          "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+        },
+        {
+          "bytes": 22629,
+          "path": "scripts/repo-state.sh",
+          "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b"
+        },
+        {
+          "bytes": 6787,
+          "path": "scripts/resolve-durable-identity.py",
+          "sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203"
+        },
+        {
+          "bytes": 5178,
+          "path": "scripts/resolve-internal-skill.py",
+          "sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d"
+        },
+        {
+          "bytes": 129890,
+          "path": "scripts/rotate-canonical-state.py",
+          "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+        },
+        {
+          "bytes": 7281,
+          "path": "scripts/summarize-repo.sh",
+          "sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c"
+        },
+        {
+          "bytes": 13460,
+          "path": "scripts/validate-audit-implement-return.py",
+          "sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301"
+        },
+        {
+          "bytes": 1673,
+          "path": "scripts/validate-audit-spec.sh",
+          "sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7"
+        },
+        {
+          "bytes": 45816,
+          "path": "scripts/validate-phase.sh",
+          "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab"
+        },
+        {
+          "bytes": 123126,
+          "path": "scripts/validate-run-root.sh",
+          "sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+        },
+        {
+          "bytes": 74155,
+          "path": "templates/PROTOCOL.md",
+          "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c"
+        },
+        {
+          "bytes": 3512,
+          "path": "templates/ROADMAP.md",
+          "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a"
+        },
+        {
+          "bytes": 10089,
+          "path": "templates/STATE.md",
+          "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b"
+        },
+        {
+          "bytes": 6380,
+          "path": "templates/THINKING.md",
+          "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba"
+        },
+        {
+          "bytes": 4461,
+          "path": "templates/child-agent-report.md",
+          "sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4"
+        },
+        {
+          "bytes": 740,
+          "path": "templates/context.md",
+          "sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a"
+        },
+        {
+          "bytes": 4250,
+          "path": "templates/final-report.md",
+          "sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9"
+        },
+        {
+          "bytes": 785,
+          "path": "templates/host-notes.md",
+          "sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8"
+        },
+        {
+          "bytes": 12501,
+          "path": "templates/phase-goal.txt",
+          "sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49"
+        },
+        {
+          "bytes": 3188,
+          "path": "templates/read-only-plan.md",
+          "sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2"
+        },
+        {
+          "bytes": 1129,
+          "path": "templates/respec-impact-set.md",
+          "sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40"
+        },
+        {
+          "bytes": 763,
+          "path": "templates/sidecars.md",
+          "sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332"
+        },
+        {
+          "bytes": 997,
+          "path": "templates/tools.md",
+          "sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a"
+        }
+      ],
+      "original_cap_bytes": 589824,
+      "original_reserve_bytes": 2000,
+      "original_reserve_met": true,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages/IMPLEMENTAUDIT.skill",
+      "prior_archive": {
+        "bytes": 583926,
+        "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-final/IMPLEMENTAUDIT.skill",
+        "sha256": "c3686a47d11b69f0ec0ccda6b1cca64a698068f96e71fd62c07c02d55776345d"
+      },
+      "role": "standalone_compatibility",
+      "sha256": "ca131a22ca4cd03354f9aee05df0227c138143edb9500f17ebf13c867d23f34f",
+      "source": {
+        "commit": "7d8f3447b80d346159e19451d40975abcdde713e",
+        "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+        "worktree_state": "clean"
+      },
+      "source_member_population_and_bytes_equal": true,
+      "unchanged_member_count_from_0f591704": 69
+    }
+  ],
+  "authority": "NONE",
+  "budget": {
+    "approval_v4": {
+      "bytes": 1881,
+      "path": "package/budgets/pr255-v4-owner-approval.md",
+      "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
+    },
+    "approval_v5": {
+      "bytes": 6571,
+      "path": "package/budgets/pr255-v5-owner-approval.md",
+      "sha256": "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538"
+    },
+    "contract_bytes_unchanged": true,
+    "exception_scope": "The 1240-byte canonical exception is DG17-specific; no extension is used. Both actual new archives independently meet the original 2000-byte reserve.",
+    "new_7d8f3447_canonical_original_reserve_shortfall_bytes": 0,
+    "original_cap_bytes": 589824,
+    "original_reserve_bytes": 2000,
+    "original_test_method": "Measure actual retained compressed ZIP bytes independently against 589824 minus 2000, without treating configured revision5 or build exit0 as C02 admission.",
+    "original_usable_bytes": 587824,
+    "prior_0f591704_canonical_original_reserve_shortfall_bytes": 716,
+    "recorded_canonical_contract_reserve_bytes": 1240,
+    "recorded_contract_revision": 5,
+    "recorded_standalone_contract_reserve_bytes": 2000
+  },
+  "disposition": "PASS_BOUNDED_DOCSTRING_SOURCE_CORRECTION_AND_ACTUAL_ORIGINAL_RESERVE",
+  "input_records": [
+    {
+      "bytes": 1260,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SCOPE.json",
+      "sha256": "0330f6b35dd7cbafc38d97abd7eb4a24ead9c8d8c363708aa481b31007df7a84"
+    },
+    {
+      "bytes": 712,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE_CHECKS.json",
+      "sha256": "c1b1c4c1cb8688fa3efbc2c76dff7d17fef8195b7afc87309ca750b50be44570"
+    },
+    {
+      "bytes": 11137,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/DOCSTRING_CHANGES.json",
+      "sha256": "f997da8e95b6d414f89f8c9225a06dc813e24481983e44f11d58b9e61dc25151"
+    },
+    {
+      "bytes": 17197,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE.diff",
+      "sha256": "60885aab7237a3634ca194273d255fe2eb8b20f0873652e056d562f8e71ca97c"
+    },
+    {
+      "bytes": 1660,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/PACKAGE_RESULT.json",
+      "sha256": "7a85638d5ec2cc81e2d59cb05edfa741e85942150b7b4067a52f5fc0f2bacfe4"
+    }
+  ],
+  "limits": [
+    "No isolated install, current consumer execution, native Windows operation, model/source-owner admission, C02 entitlement or original C02/M5/N1/whole-DG18 acceptance is supplied by this review.",
+    "The old ef7/cb8/0f archives and all prior capacity failures remain at their original source identities.",
+    "These actual archives embed commit7d8f3447 and tree66607502. A different integration commit/tree is a different package source identity; it cannot be silently substituted under these archive hashes. The existing contract validates exact embedded source binding.",
+    "The ef7 W-FULL preparation489cd remains valid only at its received preparation scope. Changed complete runtime and shell hashes require an applicable final-source operation for any later native measurement.",
+    "No protocol, authority, ownership, package population, budget, guard or test deadline was weakened. Internal descriptions retain the applicable authority ceilings; executable enforcement is byte/AST unchanged."
+  ],
+  "operations_by_receiver": {
+    "artifact_downloads": 0,
+    "grants": 0,
+    "native_or_model_launches": 0,
+    "read_only_inspector_error": "An initial generic filename filter attempted JSON decoding of a shell filename containing inventory. It failed before writes; corrected to the exact IMPLEMENTAUDIT_INVENTORY.json member. No package/source operation failed or ran.",
+    "remote_actions": 0,
+    "runtime_calls": 0,
+    "source_edits": 0,
+    "test_preflight_or_build_replays": 0
+  },
+  "original_awards": [],
+  "original_requirement": {
+    "clauses": [
+      "Required design: shipped helper/reference/claim changes trigger source-to-package/inventory/isolated-install parity; source-only PASS is insufficient.",
+      "F8: exact-tree/package, full registry and unconditional R0034 package/install parity; native host separate.",
+      "Complete11: shipped helper/schema/reference bytes require R001E/R0034 isolated-package/install and current-consumer evidence."
+    ],
+    "issue215_readback": {
+      "bytes": 38565,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_ORIGINAL_ISSUE215_READBACK.json",
+      "sha256": "8dd89347ca45204e19f2c3053ba9d7c7129d4db6581d2bd8bf0a8bc7cad5e5cf"
+    },
+    "received_scope": "This report receives the bounded changed-source relationship and the actual two-role archive source/member/inventory/budget predicates only."
+  },
+  "received_utc": "2026-11-15T13:47:42.475846+00:00",
+  "retained_author_checks": {
+    "diff_check": "PASS_AS_RETAINED_NOT_RERUN",
+    "python_compile": "PASS_AS_RETAINED_NOT_RERUN",
+    "record": {
+      "bytes": 712,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE_CHECKS.json",
+      "sha256": "c1b1c4c1cb8688fa3efbc2c76dff7d17fef8195b7afc87309ca750b50be44570"
+    },
+    "shell_syntax": "PASS_AS_RETAINED_NOT_RERUN"
+  },
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "authored_candidate": false,
+    "identity": "/root/dg16_m5_original_receiving",
+    "independent_from_author": "/root",
+    "requested_model": "GPT-6 Astra Pro",
+    "review_method": "Read exact Git objects, AST/text delta, maintained package composition and retained actual ZIP bodies; no source execution, control replay or rebuild. Ordinary independent receiving, not an internal audit-assess envelope."
+  },
+  "schema": "pro.dg18.c02.independent-source-package-review.v1",
+  "scope": {
+    "changed_internal_docstrings": 19,
+    "docstring_dependency_review": {
+      "affected_docstring_decision_or_validation_consumer_found": false,
+      "limits": "Internal help text and diagnostic line numbers change; the complete source hash changes. This is not a claim that whole source bytes or native measurement identities are unchanged.",
+      "observed_module_consumer": {
+        "line": 4672,
+        "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+        "scope": "Unchanged module-level docstring is used by argparse; no maintained decision or validation predicate reading the 19 changed class/function docstrings was found."
+      },
+      "scanned": [
+        "skills",
+        "scripts",
+        "tests",
+        "fixtures",
+        "source-peers"
+      ],
+      "wrapper_metadata_copy": {
+        "changed_contextmanager": "fresh_canary_native_operation_v1",
+        "changed_scoped_functions": [
+          "materialize_c02_owner_revisions_v1",
+          "prepare_c02_correction_v1",
+          "publish_c02_correction_v1",
+          "run_c02_correction_v1",
+          "resolve_retained_predecessor_v1"
+        ],
+        "line": 307,
+        "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+        "source": "_scoped_git uses functools.wraps; contextlib.contextmanager likewise carries function metadata. Changed summaries can be copied into wrapper __doc__ for introspection. The wrapper control flow and signatures are unchanged."
+      }
+    },
+    "docstrings": [
+      {
+        "new_lines": [
+          170,
+          170
+        ],
+        "new_value_sha256": "6c8e9d24089336a4a3242be444ed36f9addf17057dcb52ac3f9ac677d64bf718",
+        "old_lines": [
+          170,
+          175
+        ],
+        "old_value_sha256": "3f47df38079da547d609bfc4973db4e145c9aba3fa9e25bc3c21e3d74a3041ac",
+        "qualified_name": "propose_c02_correction_v1"
+      },
+      {
+        "new_lines": [
+          360,
+          360
+        ],
+        "new_value_sha256": "85e1a233802d9e546af67ae595a5873903f611dcda5f5f12227bc871e058aedb",
+        "old_lines": [
+          365,
+          371
+        ],
+        "old_value_sha256": "c51d749f2c6e37f790b5a3334ad2101940d32d610a2496f4dab53f6f4378e2fc",
+        "qualified_name": "DirectoryPin"
+      },
+      {
+        "new_lines": [
+          1241,
+          1241
+        ],
+        "new_value_sha256": "ef2924a7662e0d9097f84099de98627433142fe06464c87b038aa03cf0835a93",
+        "old_lines": [
+          1252,
+          1257
+        ],
+        "old_value_sha256": "287565fa6bf3926b9ba9eb43459cef22f4d332b8e92409c5944b8a19f7b0fe54",
+        "qualified_name": "_NativePublicationInputs"
+      },
+      {
+        "new_lines": [
+          1289,
+          1289
+        ],
+        "new_value_sha256": "3f7e022a5019437b2e64056316b6e8b61d4d3b3cd6bbef5668dd5ed55eef81e9",
+        "old_lines": [
+          1305,
+          1310
+        ],
+        "old_value_sha256": "68a726c89d6eb976d6b8753c72753dd953a54f88b36ec42961f08a4687166329",
+        "qualified_name": "update_refs"
+      },
+      {
+        "new_lines": [
+          1392,
+          1392
+        ],
+        "new_value_sha256": "502c6151758f2aa81e66c548938676b122b5afcd0fda51a575f52a88d3be7e13",
+        "old_lines": [
+          1413,
+          1420
+        ],
+        "old_value_sha256": "aac198d08ca995f0b359b34de93d4387afcc40e5908c422cf19a208b9b78e31f",
+        "qualified_name": "NativeCancellationWaitV1"
+      },
+      {
+        "new_lines": [
+          1595,
+          1595
+        ],
+        "new_value_sha256": "2027d1d18e819d65257c814cf74adfd2ec480c21e9dd31d13ba2fd4e7d11e21a",
+        "old_lines": [
+          1623,
+          1628
+        ],
+        "old_value_sha256": "cfa2e99b95998d15a1f7f1b6b90029790a13fc2e3075e17e1e76cb683c79fe6a",
+        "qualified_name": "_h0_mechanical_source_template_v1"
+      },
+      {
+        "new_lines": [
+          1625,
+          1625
+        ],
+        "new_value_sha256": "789dc745486b28626794ee4841bebbd5651c0a407dcbf9bf71d5c4b67f078429",
+        "old_lines": [
+          1658,
+          1664
+        ],
+        "old_value_sha256": "59070e0a871c90b4435ed25ed97f4e1a3687bc04b1015f85138fe1b1a38646c8",
+        "qualified_name": "_private_native_input_selection_v1"
+      },
+      {
+        "new_lines": [
+          1879,
+          1879
+        ],
+        "new_value_sha256": "f353980b2c5f63162fe024d66b2ede1314e206fc6249169b7d5888169438cddb",
+        "old_lines": [
+          1918,
+          1924
+        ],
+        "old_value_sha256": "45d130216f202a43271025d5f1285d76a637d3545e398aa95b17569be06dd19b",
+        "qualified_name": "NativeInputPreparationV1"
+      },
+      {
+        "new_lines": [
+          2369,
+          2369
+        ],
+        "new_value_sha256": "0585fde67e7feea4bd6c8a53eab26a1c9435a60858579c5ec18ad4066ce1047f",
+        "old_lines": [
+          2414,
+          2420
+        ],
+        "old_value_sha256": "5f438dc14f7e7db2481f6cf265bf1f08caa3bd023f837838718deaa35b0b86dc",
+        "qualified_name": "prepare_native_source_update_v1"
+      },
+      {
+        "new_lines": [
+          2384,
+          2384
+        ],
+        "new_value_sha256": "ebb639171ebad0bcc4bc2e313c6d532c897ca20281edc4a317e5a22a1759b031",
+        "old_lines": [
+          2435,
+          2440
+        ],
+        "old_value_sha256": "8c4443e456af0e517bbaf15245479eb08a3227012cab7607d2dbd4f44bb7ecb0",
+        "qualified_name": "reconcile_native_publication_v1"
+      },
+      {
+        "new_lines": [
+          2421,
+          2421
+        ],
+        "new_value_sha256": "d2f794a5a43224652396e5df232dee9252a5e5523fa33a5905ec6c6a7bdea221",
+        "old_lines": [
+          2477,
+          2483
+        ],
+        "old_value_sha256": "28d789b3a1c3bc6bf927bbebd26fe84da5057c03b157c913035fe6cca9b812ba",
+        "qualified_name": "_resolve_native_input_state_v1"
+      },
+      {
+        "new_lines": [
+          2719,
+          2719
+        ],
+        "new_value_sha256": "fc3dd1cbac298bba1377ab4cdfcc77e2571b545044ea359a59f4fee8e57129dd",
+        "old_lines": [
+          2781,
+          2786
+        ],
+        "old_value_sha256": "57c3fca9f6648d12641e81696631af0f7263d689f208d0f404f0558920231cab",
+        "qualified_name": "fresh_canary_native_operation_v1"
+      },
+      {
+        "new_lines": [
+          2916,
+          2916
+        ],
+        "new_value_sha256": "cc778f888f5bdfcc7e810d5544607256e9a078282bc5a6b3c8a16c810f65a1e1",
+        "old_lines": [
+          2983,
+          2989
+        ],
+        "old_value_sha256": "2cb053a924c316a207f2532ea4dc98fce3754c653b1d8cafdd9562c4411e608f",
+        "qualified_name": "materialize_c02_owner_revisions_v1"
+      },
+      {
+        "new_lines": [
+          3024,
+          3024
+        ],
+        "new_value_sha256": "687551ff8bd5af2a3bf8fd31c7f072d2f8dd93b565627cfb92a63345739f71c9",
+        "old_lines": [
+          3097,
+          3105
+        ],
+        "old_value_sha256": "cb58996e309b1082ea6b73502edf27246775310bbe4753deabf9335564a8462b",
+        "qualified_name": "prepare_c02_owner_revision_update_v1"
+      },
+      {
+        "new_lines": [
+          3042,
+          3042
+        ],
+        "new_value_sha256": "9348518fd0cff785459444eda91a1ffdf69e519a55222da6b771ad9142e439d6",
+        "old_lines": [
+          3123,
+          3128
+        ],
+        "old_value_sha256": "eebbb7d4ab90df0d84a9c1010b20e735a5881942225f46a713c2588af135abc3",
+        "qualified_name": "_resolve_c02_source_owner_v1"
+      },
+      {
+        "new_lines": [
+          3190,
+          3190
+        ],
+        "new_value_sha256": "8498aaa406a296e4c2bb0bf111d1f15f728518f612cd1d5a37b4da4c36a807da",
+        "old_lines": [
+          3276,
+          3281
+        ],
+        "old_value_sha256": "12818b9f8e5b9a99ea48f825965f6ef8f9ec7869da4acca1ad51bdf809812858",
+        "qualified_name": "prepare_c02_correction_v1"
+      },
+      {
+        "new_lines": [
+          3230,
+          3230
+        ],
+        "new_value_sha256": "45a49c622fe2686f3e39c2146634f84f3fa85f800d4c757eb3b57880ad2ad2f8",
+        "old_lines": [
+          3321,
+          3327
+        ],
+        "old_value_sha256": "47eed1bcd766cb72de30b1af245a2e1c9717960cb492f4554d2d00e14d9b5c9c",
+        "qualified_name": "publish_c02_correction_v1"
+      },
+      {
+        "new_lines": [
+          3953,
+          3953
+        ],
+        "new_value_sha256": "3467d90dcd7957398d0b0a6323f04d475766ac9fa101872018a79ac3ad0bea24",
+        "old_lines": [
+          4050,
+          4056
+        ],
+        "old_value_sha256": "ded47188bfb133d78ec3168d65d3e607a1ddebff0385e62221e9adf4d40ea831",
+        "qualified_name": "run_c02_correction_v1"
+      },
+      {
+        "new_lines": [
+          4108,
+          4108
+        ],
+        "new_value_sha256": "b05a708091b7c5448d2c8c266fb5786d81fdade3ea4caac3c6c2f8c9b44900ae",
+        "old_lines": [
+          4211,
+          4216
+        ],
+        "old_value_sha256": "7de1ee43242173984d0308b132befcad30becb7a60f047201ee81c3fc15eb557",
+        "qualified_name": "resolve_retained_predecessor_v1"
+      }
+    ],
+    "executable_ast_dump_sha256": "bde525e05aa4503e5228b790d67747778487a6561b918971e464fa0b58e5677a",
+    "executable_ast_excluding_docstrings_identical": true,
+    "module_docstring_unchanged": true,
+    "raw_bytes_removed": 4473,
+    "shell_change": "Exactly expected_bytes and expected_sha256 for the physically retained claim module; loader guards and all other shell bytes unchanged.",
+    "source_peer_fixture_workflow_and_package_contract_unchanged": true,
+    "text_identical_after_only_19_exact_docstring_spans_neutralized": true
+  },
+  "source": {
+    "changed_files": [
+      {
+        "after": {
+          "bytes": 286898,
+          "git": {
+            "mode": "100644",
+            "oid": "ecfddde506aae1ea347fd8bac66d9f79a0fbd10f",
+            "type": "blob"
+          },
+          "sha256": "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031"
+        },
+        "before": {
+          "bytes": 291371,
+          "git": {
+            "mode": "100644",
+            "oid": "bd2eb95d5a5166fac645443e93b7e9e14e1066fd",
+            "type": "blob"
+          },
+          "sha256": "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
+        },
+        "path": "skills/implementaudit/scripts/claim-run-rotation.py"
+      },
+      {
+        "after": {
+          "bytes": 32290,
+          "git": {
+            "mode": "100644",
+            "oid": "3b23cce42787dac6efdd8de8fcdfc3bc7bbc3cbb",
+            "type": "blob"
+          },
+          "sha256": "5700328182e86f2b0fc51cb4a693ac35f4fffd94e65a08654bf1f59e486edf9c"
+        },
+        "before": {
+          "bytes": 32290,
+          "git": {
+            "mode": "100644",
+            "oid": "9c1c712493a3b23ce1c975f8c758543be9328617",
+            "type": "blob"
+          },
+          "sha256": "c74c5bb8a18d58a2d42ed5d7ed24e4c1cc7abada17ea5fe7f1c9d4ca549766ae"
+        },
+        "path": "skills/implementaudit/scripts/claim-run.sh"
+      }
+    ],
+    "clean": true,
+    "commit": "7d8f3447b80d346159e19451d40975abcdde713e",
+    "parent_publication_commit": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+    "parent_tree": "e09a380142f9ccc83fa617afd7446f4c1ed3cb46",
+    "reviewed_product_ancestor": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+    "sole_parent": "07b96fcc37956f8906f0200d76b13fc86e27a3dd",
+    "tracked_files": 1906,
+    "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+    "unchanged_byte_and_mode_files": 1904,
+    "worktree": "/workspace/scratch/0269e6626329/dg18-c02-budget-baseline"
+  },
+  "source_adoption_authority": "NONE",
+  "source_control_join": {
+    "attempt": 1,
+    "job_id": 132829604961,
+    "prior_actual_receiving": {
+      "bytes": 8995,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/RECEIVING.json",
+      "sha256": "96de661d5c33e9056a872dcce8ee8965bf9df3d6c679b763e18898491b03e7f2"
+    },
+    "published_source_commit": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+    "published_source_tree": "e09a380142f9ccc83fa617afd7446f4c1ed3cb46",
+    "relationship": "The maintained implementation AST, source peer, test body and workflow are unchanged except the 19 internal docstrings and exactly paired loader pin. This review receives that source relationship; it does not relabel the actual hosted run as executed at 7d8f3447 or manufacture a new accepting occurrence.",
+    "rerun_required_for_this_docstring_and_pin_review": false,
+    "result": "PASS_SINGLE_CONSTRUCTED_FULL_INTERFACE_CONTROL",
+    "run_id": 43719967600
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "authority": "NONE",
+  "container": {
+    "bytes": 5939419,
+    "path": "COMPLETED_EVIDENCE.zip",
+    "sha256": "7ce615a41b914afd7ba779482658b0e02a991bb747db0457dc7e6d527b4c7d49"
+  },
+  "members": [
+    {
+      "bytes": 586917,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages/IMPLEMENTAUDIT.plugin.zip",
+      "path": "packages/reviewed-7d8f3447/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "76b246e3fd6a1b7cac65c4e87a21c57530359f86b4dc544f04fbbb058b638ea5"
+    },
+    {
+      "bytes": 582330,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages/IMPLEMENTAUDIT.skill",
+      "path": "packages/reviewed-7d8f3447/IMPLEMENTAUDIT.skill",
+      "sha256": "ca131a22ca4cd03354f9aee05df0227c138143edb9500f17ebf13c867d23f34f"
+    },
+    {
+      "bytes": 586931,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages-published-source/IMPLEMENTAUDIT.plugin.zip",
+      "path": "packages/published-775d6a0a/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "32f63a1759ac3852ed51ad20fea87e2ed524a14322d9d97210d4b7345cb81556"
+    },
+    {
+      "bytes": 582329,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/packages-published-source/IMPLEMENTAUDIT.skill",
+      "path": "packages/published-775d6a0a/IMPLEMENTAUDIT.skill",
+      "sha256": "4ad29f2eccdaa4133f4d0f0f852b4aa4dcfb6a57b9a337b3a0e727cfb7496dfb"
+    },
+    {
+      "bytes": 3598455,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/REVIEWED_SOURCE_7d8f3447.bundle",
+      "path": "source/REVIEWED_SOURCE_7d8f3447.bundle",
+      "sha256": "77def49aa73a9cc103bb8f6ee0aae55962127b54b4900707eba67d2e7cc4f827"
+    },
+    {
+      "bytes": 1397,
+      "compression": "ZIP_STORED",
+      "copy": "EXACT_BYTES",
+      "origin": "dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/HOSTED_CONTROL_43719967600/dg18-c02-cli-43719967600-1.zip",
+      "path": "hosted-c02-43719967600/dg18-c02-cli-43719967600-1.zip",
+      "sha256": "e6d7dcd147c01f876e7e068492a2e272f523121e942d3bf1deeb16143fd45956"
+    }
+  ],
+  "new_builds_or_tests": 0,
+  "new_native_or_protected_operations": 0,
+  "scope": "RETENTION_OF_COMPLETED_PUBLIC_EVIDENCE"
+}

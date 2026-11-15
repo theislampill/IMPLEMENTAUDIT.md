@@ -1,0 +1,4 @@
+3a892b5bab062d506da1c889345a84f312cbd0d85ac2b942b4d132e5dc66237d  fixtures/canonical-state-rotation/c02_cli_source_test.py
+aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740  skills/implementaudit/scripts/claim-run-rotation.py
+c74c5bb8a18d58a2d42ed5d7ed24e4c1cc7abada17ea5fe7f1c9d4ca549766ae  skills/implementaudit/scripts/claim-run.sh
+83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5  source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py

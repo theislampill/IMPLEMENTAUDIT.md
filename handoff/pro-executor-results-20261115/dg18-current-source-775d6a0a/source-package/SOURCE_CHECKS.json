@@ -1,0 +1,23 @@
+{
+  "ast_excluding_docstrings_identical": true,
+  "budget_or_package_population_changed": false,
+  "diff_check": "PASS",
+  "docstrings": 19,
+  "new_source": {
+    "bytes": 286898,
+    "sha256": "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031"
+  },
+  "old_source": {
+    "bytes": 291371,
+    "sha256": "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
+  },
+  "python_compile": "PASS",
+  "runtime_calls_or_tests": 0,
+  "scope": "DOCSTRINGS_AND_EXACT_DEPENDENT_PIN_ONLY",
+  "shell": {
+    "bytes": 32290,
+    "sha256": "5700328182e86f2b0fc51cb4a693ac35f4fffd94e65a08654bf1f59e486edf9c"
+  },
+  "shell_changes": "EXACT_SOURCE_BYTE_COUNT_AND_SHA256_ONLY",
+  "shell_syntax": "PASS"
+}
