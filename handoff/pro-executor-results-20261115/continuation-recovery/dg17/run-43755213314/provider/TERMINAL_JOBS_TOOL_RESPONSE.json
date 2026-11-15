@@ -1,0 +1,113 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "jobs": [
+      {
+        "id": 132937700696,
+        "name": "actual-installed-consumer",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 43755213314,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Check out the exact reviewed operation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Check out the exact qualified DG17 product",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Provision the existing release build prerequisites",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Build install and initialize the actual disposable task",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Read actual installed task STATE in one host action",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Read actual installed task ROADMAP in a separate host action",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Obtain actual currentness and consume installed nonterminal state",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Retain actual task evidence with no native acceptance claim",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Check out the exact qualified DG17 product",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Post Check out the exact reviewed operation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          }
+        ]
+      },
+      {
+        "id": 132937701864,
+        "name": "windows-store-only",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 43755213314,
+        "logs_url": null,
+        "steps": null
+      },
+      {
+        "id": 132937702176,
+        "name": "linux-deterministic",
+        "status": "completed",
+        "conclusion": "skipped",
+        "run_id": 43755213314,
+        "logs_url": null,
+        "steps": null
+      }
+    ]
+  },
+  "isError": false
+}

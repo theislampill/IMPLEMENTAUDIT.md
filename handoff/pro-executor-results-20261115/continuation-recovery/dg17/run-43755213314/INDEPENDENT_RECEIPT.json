@@ -1,0 +1,1373 @@
+{
+  "artifact": {
+    "bytes": 1242419,
+    "crc": "PASS",
+    "id": 14177562757,
+    "member_count": 102,
+    "name": "dg17-actual-installed-43755213314-1",
+    "provider_digest_equal": true,
+    "sha256": "4ea0a4c0282ef7159ff373eeac8ccf33530e353344d7a3c36261de064fc7f52e",
+    "uncompressed_bytes": 1330385,
+    "upload_log_digest_equal": true
+  },
+  "artifact_population": {
+    "evidence/HOST.json": {
+      "bytes": 912,
+      "sha256": "d53dd7ad4126ec69a8b7c75c650eb46050b74cc2da2faee0bf7a2d1d7caaf027"
+    },
+    "evidence/INSTALLED_BEFORE.json": {
+      "bytes": 13391,
+      "sha256": "f6a3b01c6ebeb8b542eb97016c4781860f6b16b2a687357578a0ea15e229be31"
+    },
+    "evidence/PACKAGES.json": {
+      "bytes": 1574,
+      "sha256": "1a0f00be94920d43ce0bf5d00e33e45932c141013e242fe4547018c0a31e3837"
+    },
+    "evidence/RESULT.json": {
+      "bytes": 5037,
+      "sha256": "1e01ddb3297372c8918c2cada86248cf8515370cf90985e3e1fcafc2bce084a5"
+    },
+    "evidence/TASK.json": {
+      "bytes": 5290,
+      "sha256": "4e13a6b1c75433fac0c4ad30f31513bd62cad16f12df3be23d9114c48827a183"
+    },
+    "evidence/activate.json": {
+      "bytes": 946,
+      "sha256": "5bfe3de223961b610a88ca160d6f5dd64c51fb39f497276eebc6ea3f647e3011"
+    },
+    "evidence/activate.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/activate.stdout.txt": {
+      "bytes": 1811,
+      "sha256": "12b7df899c98086db09b7814cf7302de65dc3b1d98585e66df32d1ce9571fe22"
+    },
+    "evidence/author.json": {
+      "bytes": 1245,
+      "sha256": "75a7d8708bd0eb8c789665fee998a727c48507ea08342c89ceb136017521fe35"
+    },
+    "evidence/author.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/author.stdout.txt": {
+      "bytes": 681,
+      "sha256": "7b74ef0f5b862b38d7d4ad39cc9010cb3d9bae2f3885de94b1956223cef84846"
+    },
+    "evidence/build-package.json": {
+      "bytes": 647,
+      "sha256": "6087e847dfb497eaf9df7e3d1b7db8f8182f80515806f9fd31b85e359520f7be"
+    },
+    "evidence/build-package.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/build-package.stdout.txt": {
+      "bytes": 492,
+      "sha256": "429b323c25cab5f7cab7bc75c95ecc77c97cd38ff972a4d458e5e75541d7ce9d"
+    },
+    "evidence/build-venv.json": {
+      "bytes": 584,
+      "sha256": "35a892d0fada04506048cd5acfb4b6a3c49f867e883bc94728212ad344c4993d"
+    },
+    "evidence/build-venv.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/build-venv.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/claim.json": {
+      "bytes": 701,
+      "sha256": "d8a04d80d6bd03cd8e2be9cfb41d2046c768d001b030f1a897445fb3405f99e1"
+    },
+    "evidence/claim.stderr.txt": {
+      "bytes": 220,
+      "sha256": "a464430c6d99cc81eaf1be9820122dcf9b4252f51d57c8aaa88fbac6430a98db"
+    },
+    "evidence/claim.stdout.txt": {
+      "bytes": 65,
+      "sha256": "882cc4e0ae60e988667e46ae15a78e7cf3b7ed86deebd77b4defb5cad486825c"
+    },
+    "evidence/current-after.json": {
+      "bytes": 673,
+      "sha256": "7f663bb5ce92e32866eff03d6c9de8a11306c36f9afcde0809e0aebc9314ce93"
+    },
+    "evidence/current-after.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/current-after.stdout.txt": {
+      "bytes": 116,
+      "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+    },
+    "evidence/current-before.json": {
+      "bytes": 672,
+      "sha256": "c95fb8f88926742d0cd3a6c0a6f2d9ff2bb4599adc1a16d8fcbe77297e7f787c"
+    },
+    "evidence/current-before.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/current-before.stdout.txt": {
+      "bytes": 116,
+      "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+    },
+    "evidence/current-controller.json": {
+      "bytes": 664,
+      "sha256": "0e5acc888c18e6442bb80cd5a4b520e37103e37d41fb11d1cb06bfef0dbb763a"
+    },
+    "evidence/current-controller.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/current-controller.stdout.txt": {
+      "bytes": 249,
+      "sha256": "c4d381f7a3a22f206431d82bd18ce427bc548f77418b25d31e6172b040ce219e"
+    },
+    "evidence/inspect.json": {
+      "bytes": 770,
+      "sha256": "808307ecd5a85100aee5bd719c6dc3d5c351cf024b9f648370ddca5e00936d5a"
+    },
+    "evidence/inspect.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/inspect.stdout.txt": {
+      "bytes": 641,
+      "sha256": "b7eeb1d84dec14e23747db0465b712c8689171ee12328e3bc9344543ba2edda6"
+    },
+    "evidence/install-package.json": {
+      "bytes": 918,
+      "sha256": "129b328519d37558f883dd7a9c1618e9d48c5cfe88d65eff5a2fc75fb1056ce3"
+    },
+    "evidence/install-package.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/install-package.stdout.txt": {
+      "bytes": 520,
+      "sha256": "0517eccb2966e993e3edee7ce9dc7fe719cfc1a898d9c83e8e5cca682471627d"
+    },
+    "evidence/installed-yield.json": {
+      "bytes": 768,
+      "sha256": "6394761872af57a645205d2aff5acc468bd50979f298d36a49fb8d2fca07f82d"
+    },
+    "evidence/installed-yield.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/installed-yield.stdout.txt": {
+      "bytes": 113,
+      "sha256": "904dc97cc824f8dd9aaa8e7c1028eb549f5ef2711d4746bd486020fa7e033d8e"
+    },
+    "evidence/read-roadmap.json": {
+      "bytes": 604,
+      "sha256": "e8f572a8678ef056ad1b856db35e694b72ec773f62eb4be92bdd0467fc37a5b2"
+    },
+    "evidence/read-roadmap.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/read-roadmap.stdout.txt": {
+      "bytes": 392,
+      "sha256": "1ca67036dfa98151eee2bdde4d4992be2bacced792ac6074aa9fbe7a6961b69f"
+    },
+    "evidence/read-state.json": {
+      "bytes": 605,
+      "sha256": "3e633691042cd0e5bd4b46d1e7ee9f014116b6894daedf39b1488abd133eeee7"
+    },
+    "evidence/read-state.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/read-state.stdout.txt": {
+      "bytes": 11412,
+      "sha256": "b3bafd78c5ad19305cfc04f15aa0922ea531e7bce12f515706708c129b524f55"
+    },
+    "evidence/receipt-object.json": {
+      "bytes": 538,
+      "sha256": "77ea839ca8ebf43ffff22f0f8c569c27908e1de220f088b63f82ca9d2f581fcf"
+    },
+    "evidence/receipt-object.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/receipt-object.stdout.txt": {
+      "bytes": 496,
+      "sha256": "57546c90ab083fa77e597fa032fa7d1c98210d77ca0e0894f77a87d846de1910"
+    },
+    "evidence/refs-after.json": {
+      "bytes": 524,
+      "sha256": "a66b260b3b8135f384ad011bde36065a6d5fc1da03a1c216fc2423893ba0d976"
+    },
+    "evidence/refs-after.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/refs-after.stdout.txt": {
+      "bytes": 592,
+      "sha256": "8bc65009d07b383c43a280fb3ab43f8fd5bd8975768dcf916709324e20c2170b"
+    },
+    "evidence/refs-before.json": {
+      "bytes": 524,
+      "sha256": "c34265460e1ff96d1c0cf59fe7c76bdf1831a7f087ed201ad8b4a7ae71839796"
+    },
+    "evidence/refs-before.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/refs-before.stdout.txt": {
+      "bytes": 592,
+      "sha256": "8bc65009d07b383c43a280fb3ab43f8fd5bd8975768dcf916709324e20c2170b"
+    },
+    "evidence/release-dependency.json": {
+      "bytes": 841,
+      "sha256": "6a6aca06f3f8a322d91f1e6d22bfa1f9d714422b4caa7b3a0f124b37fb779c78"
+    },
+    "evidence/release-dependency.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/release-dependency.stdout.txt": {
+      "bytes": 596,
+      "sha256": "ac72de6b071444a261607e8612dd3c20fcad57005c24a175e886101eed35276d"
+    },
+    "evidence/resume.json": {
+      "bytes": 728,
+      "sha256": "843ba3c7dcbdd7a528b69b7616bca519fdaebf15af1d5f1e19923c5c51d4ebbb"
+    },
+    "evidence/resume.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/resume.stdout.txt": {
+      "bytes": 116,
+      "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+    },
+    "evidence/runtime/.claimed": {
+      "bytes": 518,
+      "sha256": "7452fc4ae507748a501c6bc50c73b95ceb8137640afe82682be6b53d2b47afd5"
+    },
+    "evidence/runtime/.controller": {
+      "bytes": 43,
+      "sha256": "50bd0eeb6d560187bb1f20cd8b3701832c5762e44fe540dc162abf35c1a04405"
+    },
+    "evidence/runtime/PROTOCOL.md": {
+      "bytes": 74155,
+      "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c"
+    },
+    "evidence/runtime/ROADMAP.md": {
+      "bytes": 392,
+      "sha256": "1ca67036dfa98151eee2bdde4d4992be2bacced792ac6074aa9fbe7a6961b69f"
+    },
+    "evidence/runtime/STATE.md": {
+      "bytes": 11412,
+      "sha256": "b3bafd78c5ad19305cfc04f15aa0922ea531e7bce12f515706708c129b524f55"
+    },
+    "evidence/runtime/THINKING.md": {
+      "bytes": 767,
+      "sha256": "9642818198f138171049eee714054fcf60dfef8e31747b1d85a554765ba0a0b1"
+    },
+    "evidence/runtime/context.md": {
+      "bytes": 710,
+      "sha256": "67d9c6c26ed8594aaa30e988b7b9eb1c683160a7ea87588694b647f6c70206e7"
+    },
+    "evidence/runtime/phases/phase-1.md": {
+      "bytes": 4169,
+      "sha256": "6d3671a5b9627ee929b5a080f71a90405dbc3283c96c15bcba182d4d4cb52edb"
+    },
+    "evidence/runtime/sidecars.md": {
+      "bytes": 205,
+      "sha256": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6"
+    },
+    "evidence/runtime/tools.md": {
+      "bytes": 328,
+      "sha256": "aae2242c8ed5c6712e4d14ce94449710c2f34328011895a945cfa331e3ff6e39"
+    },
+    "evidence/source-after-clean.json": {
+      "bytes": 533,
+      "sha256": "ce999fb50ccca8c10b2b9340cdb399cbc93db949db325732df973a1a5419ad9a"
+    },
+    "evidence/source-after-clean.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/source-after-clean.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/source-after.json": {
+      "bytes": 518,
+      "sha256": "ae42c853c0f189c807afdb50e5782539c2752d615b7d897d0039c69270439650"
+    },
+    "evidence/source-after.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/source-after.stdout.txt": {
+      "bytes": 82,
+      "sha256": "926d49a08ccdd317f451303ad75506ef016f4a5282777ae79b538f426d4cbad2"
+    },
+    "evidence/source-before-clean.json": {
+      "bytes": 533,
+      "sha256": "31b0714feeb016cd0e9416ef2bc8f8ea939e03c6ebeee923546c6e07c2983c39"
+    },
+    "evidence/source-before-clean.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/source-before-clean.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/source-before.json": {
+      "bytes": 519,
+      "sha256": "43c3aa89cd8a07ec84cc1067c3cafaa08ae37b986ee7e7ceab48916863736f51"
+    },
+    "evidence/source-before.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/source-before.stdout.txt": {
+      "bytes": 82,
+      "sha256": "926d49a08ccdd317f451303ad75506ef016f4a5282777ae79b538f426d4cbad2"
+    },
+    "evidence/source-yield.json": {
+      "bytes": 749,
+      "sha256": "c16770d8cb5e443111a88713fd8d41d0d3a60e3ad4fda45d3511106e3ca5ce9a"
+    },
+    "evidence/source-yield.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/source-yield.stdout.txt": {
+      "bytes": 113,
+      "sha256": "904dc97cc824f8dd9aaa8e7c1028eb549f5ef2711d4746bd486020fa7e033d8e"
+    },
+    "evidence/subject-add.json": {
+      "bytes": 513,
+      "sha256": "f98bcacd59ddd9cca24e6770095ce19df1abe1611fd5daa71a6b641ef66c553e"
+    },
+    "evidence/subject-add.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/subject-add.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/subject-baseline.json": {
+      "bytes": 715,
+      "sha256": "97d7d377dfd48b952cde2d75682ac7ff96ee5f3c583dfbe599e928440b568f6d"
+    },
+    "evidence/subject-baseline.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/subject-baseline.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/subject-init.json": {
+      "bytes": 548,
+      "sha256": "b06e65759f18c22d98f784d24c0caf74efa14986e697dcc77c5dfa8e052f1475"
+    },
+    "evidence/subject-init.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/subject-init.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/verify-package.json": {
+      "bytes": 773,
+      "sha256": "a1fefc2a523eaad97278422da37f5f200e44e2f3117dcecd1feec6576a521b48"
+    },
+    "evidence/verify-package.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/verify-package.stdout.txt": {
+      "bytes": 21,
+      "sha256": "0ad162667b175ec4c22e51cd3510dd12d519bf29b7f1fb3cd9018eeeec07bb04"
+    },
+    "evidence/verify-receipt.json": {
+      "bytes": 754,
+      "sha256": "320ed5c1505cdb9565306e7f5d926387e7e155580a08ba3cad39e92a6e4a3a73"
+    },
+    "evidence/verify-receipt.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/verify-receipt.stdout.txt": {
+      "bytes": 116,
+      "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+    },
+    "packages/CHECKSUMS.txt": {
+      "bytes": 195,
+      "sha256": "04dfe4ee897312acb71a982bf99d64bc9c956fb08a2a05035568846db5ee1e6c"
+    },
+    "packages/IMPLEMENTAUDIT.plugin.zip": {
+      "bytes": 588580,
+      "sha256": "706afde44df992282a43d59e3affa412f0e9ca2dc09f0de1dfc212223751f1e2"
+    },
+    "packages/IMPLEMENTAUDIT.skill": {
+      "bytes": 583966,
+      "sha256": "7448f11bfa8f69b8e485bffc304bb0a4cd12d82cfd3f64d6c2869a821a59bd6d"
+    }
+  },
+  "authority": "NONE",
+  "checks": {
+    "actual_separate_reads_equal_runtime": "PASS",
+    "all_command_stream_hashes": "PASS",
+    "all_commands_exit_zero_no_timeout": "PASS",
+    "complete_installed_population_descriptor_parity": "PASS",
+    "exact_receipt_verify_require_before_after": "PASS",
+    "initialization_activation_runtime_join": "PASS",
+    "original_native_ceiling_preserved": "PASS",
+    "receipt_blob_and_runtime_join": "PASS",
+    "source_archive_member_parity": "PASS",
+    "source_installed_yield_equal": "PASS",
+    "unchanged_five_refs": "PASS",
+    "unchanged_ten_runtime_members": "PASS"
+  },
+  "command_count": 28,
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--activate-controller",
+        "dg17-installed-43755213314-1",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg17-installed-nonterminal-receiving-gbPLQm",
+        "--expected-initialization",
+        "refs/implementaudit/controller-initializations/dg17-installed-43755213314-1/6f76b2b83e7b1abedcb7fc9bc1bb6d91@8fbe83bfe148e9e40c3db644e114cf814d1b0c30"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 1.0657729289999907,
+      "exit_code": 0,
+      "label": "activate",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 1811,
+        "mode": 420,
+        "sha256": "12b7df899c98086db09b7814cf7302de65dc3b1d98585e66df32d1ce9571fe22"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/fixtures/controller-initialization/author_checkpoint.py",
+        "--repo",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg17-installed-nonterminal-receiving-gbPLQm",
+        "--source",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit",
+        "--purpose",
+        "Receive the exact DG17 installed package, establish one fresh governed task, and evaluate its real nonterminal continuation before independent Root receiving.",
+        "--next-action",
+        "Receive the actual installed receipt, source parity and nonterminal result independently before authorizing further work"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.06378466800003935,
+      "exit_code": 0,
+      "label": "author",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 681,
+        "mode": 420,
+        "sha256": "7b74ef0f5b862b38d7d4ad39cc9010cb3d9bae2f3885de94b1956223cef84846"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/build-release-asset.sh",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/packages"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 6.981629746999943,
+      "exit_code": 0,
+      "label": "build-package",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 492,
+        "mode": 420,
+        "sha256": "429b323c25cab5f7cab7bc75c95ecc77c97cd38ff972a4d458e5e75541d7ce9d"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-m",
+        "venv",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/build-venv"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 2.3189796409999985,
+      "exit_code": 0,
+      "label": "build-venv",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--controller",
+        "dg17-installed-43755213314-1",
+        "dg17 installed nonterminal receiving"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.3142191770000409,
+      "exit_code": 0,
+      "label": "claim",
+      "stderr": {
+        "bytes": 220,
+        "mode": 420,
+        "sha256": "a464430c6d99cc81eaf1be9820122dcf9b4252f51d57c8aaa88fbac6430a98db"
+      },
+      "stdout": {
+        "bytes": 65,
+        "mode": 420,
+        "sha256": "882cc4e0ae60e988667e46ae15a78e7cf3b7ed86deebd77b4defb5cad486825c"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg17-installed-43755213314-1"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.26409244700005274,
+      "exit_code": 0,
+      "label": "current-after",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 116,
+        "mode": 420,
+        "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg17-installed-43755213314-1"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.2642163299999538,
+      "exit_code": 0,
+      "label": "current-before",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 116,
+        "mode": 420,
+        "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--current-controller",
+        "dg17-installed-43755213314-1"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.0637464160000718,
+      "exit_code": 0,
+      "label": "current-controller",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 249,
+        "mode": 420,
+        "sha256": "c4d381f7a3a22f206431d82bd18ce427bc548f77418b25d31e6172b040ce219e"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--inspect-controller-initialization",
+        "dg17-installed-43755213314-1",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg17-installed-nonterminal-receiving-gbPLQm"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.26437434699994355,
+      "exit_code": 0,
+      "label": "inspect",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 641,
+        "mode": 420,
+        "sha256": "b7eeb1d84dec14e23747db0465b712c8689171ee12328e3bc9344543ba2edda6"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/install-plugin-from-release.sh",
+        "--asset",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/packages/IMPLEMENTAUDIT.plugin.zip",
+        "--checksum",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/packages/CHECKSUMS.txt",
+        "--host",
+        "codex",
+        "--host-root",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 0.1640066359999537,
+      "exit_code": 0,
+      "label": "install-package",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 520,
+        "mode": 420,
+        "sha256": "0517eccb2966e993e3edee7ce9dc7fe719cfc1a898d9c83e8e5cca682471627d"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/validate-run-root.sh",
+        "--nonterminal-yield",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/subject/.IMPLEMENTAUDIT/runs/dg17-installed-nonterminal-receiving-gbPLQm"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.6647822109999879,
+      "exit_code": 0,
+      "label": "installed-yield",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 113,
+        "mode": 420,
+        "sha256": "904dc97cc824f8dd9aaa8e7c1028eb549f5ef2711d4746bd486020fa7e033d8e"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/subject/.IMPLEMENTAUDIT/runs/dg17-installed-nonterminal-receiving-gbPLQm/ROADMAP.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.00184285499994985,
+      "exit_code": 0,
+      "label": "read-roadmap",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 392,
+        "mode": 420,
+        "sha256": "1ca67036dfa98151eee2bdde4d4992be2bacced792ac6074aa9fbe7a6961b69f"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/subject/.IMPLEMENTAUDIT/runs/dg17-installed-nonterminal-receiving-gbPLQm/STATE.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.001450422999937473,
+      "exit_code": 0,
+      "label": "read-state",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 11412,
+        "mode": 420,
+        "sha256": "b3bafd78c5ad19305cfc04f15aa0922ea531e7bce12f515706708c129b524f55"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "cat-file",
+        "blob",
+        "f9864d6e0fc62f880417db05e9d4047195e4fb52"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.0013132399999449262,
+      "exit_code": 0,
+      "label": "receipt-object",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 496,
+        "mode": 420,
+        "sha256": "57546c90ab083fa77e597fa032fa7d1c98210d77ca0e0894f77a87d846de1910"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.0014908269999978074,
+      "exit_code": 0,
+      "label": "refs-after",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 592,
+        "mode": 420,
+        "sha256": "8bc65009d07b383c43a280fb3ab43f8fd5bd8975768dcf916709324e20c2170b"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.0013312949999999546,
+      "exit_code": 0,
+      "label": "refs-before",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 592,
+        "mode": 420,
+        "sha256": "8bc65009d07b383c43a280fb3ab43f8fd5bd8975768dcf916709324e20c2170b"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/build-venv/bin/python",
+        "-I",
+        "-B",
+        "-m",
+        "pip",
+        "--isolated",
+        "--disable-pip-version-check",
+        "--no-input",
+        "install",
+        "--no-deps",
+        "--no-compile",
+        "--no-cache-dir",
+        "--requirement",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/requirements-release.txt"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 0.5650669920000269,
+      "exit_code": 0,
+      "label": "release-dependency",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 596,
+        "mode": 420,
+        "sha256": "ac72de6b071444a261607e8612dd3c20fcad57005c24a175e886101eed35276d"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--resume-controller",
+        "dg17-installed-43755213314-1",
+        "--boundary",
+        "new-session",
+        "--epoch",
+        "G0001"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.2644062210000584,
+      "exit_code": 0,
+      "label": "resume",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 116,
+        "mode": 420,
+        "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 0.00745155499998873,
+      "exit_code": 0,
+      "label": "source-after-clean",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 0.001508010999941689,
+      "exit_code": 0,
+      "label": "source-after",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 82,
+        "mode": 420,
+        "sha256": "926d49a08ccdd317f451303ad75506ef016f4a5282777ae79b538f426d4cbad2"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 0.06368311800002857,
+      "exit_code": 0,
+      "label": "source-before-clean",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 0.0015740669999786405,
+      "exit_code": 0,
+      "label": "source-before",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 82,
+        "mode": 420,
+        "sha256": "926d49a08ccdd317f451303ad75506ef016f4a5282777ae79b538f426d4cbad2"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/skills/implementaudit/scripts/validate-run-root.sh",
+        "--nonterminal-yield",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/subject/.IMPLEMENTAUDIT/runs/dg17-installed-nonterminal-receiving-gbPLQm"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.6649728879999657,
+      "exit_code": 0,
+      "label": "source-yield",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 113,
+        "mode": 420,
+        "sha256": "904dc97cc824f8dd9aaa8e7c1028eb549f5ef2711d4746bd486020fa7e033d8e"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "add",
+        "--",
+        "TASK.md",
+        ".gitignore"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.001348554000060176,
+      "exit_code": 0,
+      "label": "subject-add",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "user.name=PRO-EXECUTOR-01",
+        "-c",
+        "user.email=pro-executor@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "Define actual disposable DG17 consumer task"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.007397184000069501,
+      "exit_code": 0,
+      "label": "subject-baseline",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "init.templateDir=",
+        "init",
+        "-q",
+        "-b",
+        "qualification"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.0036984829999937574,
+      "exit_code": 0,
+      "label": "subject-init",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/package-contract.py",
+        "--verify-artifact",
+        "canonical_plugin",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/packages/IMPLEMENTAUDIT.plugin.zip",
+        "--require-clean-source"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "elapsed_seconds": 0.11388746199997968,
+      "exit_code": 0,
+      "label": "verify-package",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 21,
+        "mode": 420,
+        "sha256": "0ad162667b175ec4c22e51cd3510dd12d519bf29b7f1fb3cd9018eeeec07bb04"
+      },
+      "timeout": false
+    },
+    {
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg17-installed-43755213314-1/isolated-host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg17-installed-43755213314-1/G0001@f9864d6e0fc62f880417db05e9d4047195e4fb52"
+      ],
+      "cwd": "/home/runner/work/_temp/dg17-installed-43755213314-1/subject",
+      "elapsed_seconds": 0.2641940669999485,
+      "exit_code": 0,
+      "label": "verify-receipt",
+      "stderr": {
+        "bytes": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 116,
+        "mode": 420,
+        "sha256": "eee24f8207df98471b860029d435a2a89bb529c4a2fae693a8548e8fbe19e36a"
+      },
+      "timeout": false
+    }
+  ],
+  "finding_disposition": "NO_FAILED_RECEIVING_PREDICATE_OBSERVED_FOR_SELECTED_SCOPE",
+  "job": {
+    "conclusion": "success",
+    "id": 132937700696,
+    "logs_url": null,
+    "name": "actual-installed-consumer",
+    "run_id": 43755213314,
+    "status": "completed",
+    "steps": [
+      {
+        "conclusion": "success",
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Check out the exact reviewed operation",
+        "number": 2,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Check out the exact qualified DG17 product",
+        "number": 3,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Provision the existing release build prerequisites",
+        "number": 4,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Build install and initialize the actual disposable task",
+        "number": 5,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Read actual installed task STATE in one host action",
+        "number": 6,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Read actual installed task ROADMAP in a separate host action",
+        "number": 7,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Obtain actual currentness and consume installed nonterminal state",
+        "number": 8,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Retain actual task evidence with no native acceptance claim",
+        "number": 9,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Post Check out the exact qualified DG17 product",
+        "number": 17,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Post Check out the exact reviewed operation",
+        "number": 18,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Complete job",
+        "number": 19,
+        "status": "completed"
+      }
+    ]
+  },
+  "kind": "INDEPENDENT_OBSERVED_EVIDENCE_RECEIPT",
+  "log": {
+    "bytes": 31006,
+    "sha256": "632fc685cdcffb280013950af65b10adf47a798ab0385f841408d6e4912bbd41"
+  },
+  "model_turns": 0,
+  "native_operations": 0,
+  "nonterminal_output": {
+    "bytes": 113,
+    "sha256": "904dc97cc824f8dd9aaa8e7c1028eb549f5ef2711d4746bd486020fa7e033d8e"
+  },
+  "original14_custody_unknown_differences": 14,
+  "original_DG17_acceptance": false,
+  "other_jobs": [
+    {
+      "conclusion": "skipped",
+      "id": 132937701864,
+      "logs_url": null,
+      "name": "windows-store-only",
+      "run_id": 43755213314,
+      "status": "completed",
+      "steps": null
+    },
+    {
+      "conclusion": "skipped",
+      "id": 132937702176,
+      "logs_url": null,
+      "name": "linux-deterministic",
+      "run_id": 43755213314,
+      "status": "completed",
+      "steps": null
+    }
+  ],
+  "packages": {
+    "canonical_plugin": {
+      "bytes": 588580,
+      "cap_bytes": 589824,
+      "inventory_members": 74,
+      "inventory_sha256": "b9a5174a4be66fa4c984621ebfdc7b15308865222b4fe3c77cf693cf143b800a",
+      "member_count": 75,
+      "remaining_after_reserve": 4,
+      "reserve_bytes": 1240,
+      "sha256": "706afde44df992282a43d59e3affa412f0e9ca2dc09f0de1dfc212223751f1e2",
+      "source_member_parity": true
+    },
+    "standalone_compatibility": {
+      "bytes": 583966,
+      "cap_bytes": 589824,
+      "inventory_members": 71,
+      "inventory_sha256": "283c9b51393904c66be108f7b1f03aeccaae527caece9fda1893eaf3f816cde9",
+      "member_count": 72,
+      "remaining_after_reserve": 3858,
+      "reserve_bytes": 2000,
+      "sha256": "7448f11bfa8f69b8e485bffc304bb0a4cd12d82cfd3f64d6c2869a821a59bd6d",
+      "source_member_parity": true
+    }
+  },
+  "product_source": {
+    "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "worktree_state": "clean"
+  },
+  "published_reviewed_source": {
+    ".github/workflows/dg17-offline-lifecycle.yml": {
+      "bytes": 7803,
+      "received_from_commit": "ccda0a44045dd850af5fd0a042c5cb8ad6562b66",
+      "sha256": "5001ad9035af7cca66a6ebe7c23c433b71383fea0fee3b1613bd62a61b1e7ae1"
+    },
+    "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/installed_nonterminal.py": {
+      "bytes": 19264,
+      "received_from_commit": "ccda0a44045dd850af5fd0a042c5cb8ad6562b66",
+      "sha256": "7a9cd9f9d4b0e31d57c4475374ab706ef860d2d8a1a9db40389f3b6769515eba"
+    }
+  },
+  "receipt": {
+    "blob": {
+      "bytes": 496,
+      "sha256": "57546c90ab083fa77e597fa032fa7d1c98210d77ca0e0894f77a87d846de1910"
+    },
+    "blob_oid_recomputed": "f9864d6e0fc62f880417db05e9d4047195e4fb52",
+    "boundary": "new-session",
+    "claim_id": "6f76b2b83e7b1abedcb7fc9bc1bb6d91",
+    "controller": "dg17-installed-43755213314-1",
+    "epoch": "G0001",
+    "invalidation": "none",
+    "profile": "existing authenticated legacy; no canonical migration authority",
+    "subject_head": "1407d60e41ebacd60a6c1efac9071b318b1302c1",
+    "subject_tree": "62a1802936b07b495b3c109845bfa9a2d3cbcec6",
+    "token": "refs/implementaudit/continuity-receipts/dg17-installed-43755213314-1/G0001@f9864d6e0fc62f880417db05e9d4047195e4fb52"
+  },
+  "root_acceptance": "NOT_AWARDED_BY_THIS_RECEIVER",
+  "run": {
+    "attempt": 1,
+    "branch": "engineering/pro-executor-dg17-installed-20261115",
+    "conclusion": "success",
+    "created_at": "2026-11-15T19:56:35Z",
+    "event": "push",
+    "head_sha": "ccda0a44045dd850af5fd0a042c5cb8ad6562b66",
+    "id": 43755213314,
+    "status": "completed",
+    "tree": "501f70d5e90cba7db103c615a4c0c56ad0f9de57",
+    "updated_at": "2026-11-15T19:57:16Z"
+  },
+  "runtime_population": {
+    ".claimed": {
+      "bytes": 518,
+      "mode": 420,
+      "sha256": "7452fc4ae507748a501c6bc50c73b95ceb8137640afe82682be6b53d2b47afd5"
+    },
+    ".controller": {
+      "bytes": 43,
+      "mode": 420,
+      "sha256": "50bd0eeb6d560187bb1f20cd8b3701832c5762e44fe540dc162abf35c1a04405"
+    },
+    "PROTOCOL.md": {
+      "bytes": 74155,
+      "mode": 420,
+      "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c"
+    },
+    "ROADMAP.md": {
+      "bytes": 392,
+      "mode": 420,
+      "sha256": "1ca67036dfa98151eee2bdde4d4992be2bacced792ac6074aa9fbe7a6961b69f"
+    },
+    "STATE.md": {
+      "bytes": 11412,
+      "mode": 420,
+      "sha256": "b3bafd78c5ad19305cfc04f15aa0922ea531e7bce12f515706708c129b524f55"
+    },
+    "THINKING.md": {
+      "bytes": 767,
+      "mode": 420,
+      "sha256": "9642818198f138171049eee714054fcf60dfef8e31747b1d85a554765ba0a0b1"
+    },
+    "context.md": {
+      "bytes": 710,
+      "mode": 420,
+      "sha256": "67d9c6c26ed8594aaa30e988b7b9eb1c683160a7ea87588694b647f6c70206e7"
+    },
+    "phases/phase-1.md": {
+      "bytes": 4169,
+      "mode": 420,
+      "sha256": "6d3671a5b9627ee929b5a080f71a90405dbc3283c96c15bcba182d4d4cb52edb"
+    },
+    "sidecars.md": {
+      "bytes": 205,
+      "mode": 420,
+      "sha256": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6"
+    },
+    "tools.md": {
+      "bytes": 328,
+      "mode": 420,
+      "sha256": "aae2242c8ed5c6712e4d14ce94449710c2f34328011895a945cfa331e3ff6e39"
+    }
+  },
+  "scope": "one actual ordinary hosted installed consumer; existing source-only nonterminal predicate"
+}

@@ -1,0 +1,196 @@
+{
+  "run_id": 43721708486,
+  "attempt": 1,
+  "workflow_commit": "095ed1623d5fa22ac6f2e306702142d071135db6",
+  "artifact_id": 14163814811,
+  "artifact_bytes": 1121551,
+  "artifact_sha256": "989ca4b72087350949d77147678bc99a4d4c4f93ae184e9a746246beb9338e36",
+  "archive_members": 72,
+  "source_head": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "source_tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+  "operation_sha256": "e0ac5d2992e44b45e838802c571fa84e27542aa72afab6ebb05c015e3207ec23",
+  "operation_bytes": 43816,
+  "subject_archive": {
+    "bytes": 3891200,
+    "path": "D:\\a\\_temp\\dg18-w-full-43721708486-1\\SUBJECT.tar",
+    "sha256": "a52764e3ffb8a9fca86e19c5417af84afa3c48a44d072d97454c29acad11f193"
+  },
+  "subject_archive_members": 223,
+  "controller": "dg18-w-full-43721708486-1",
+  "status": "PREPARED_ONLY_EXACT_OWNER_GRANT_REQUIRED",
+  "protected_execute_called": false,
+  "raw_records": [
+    {
+      "file": "raw/001-init.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/002-add-task.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/003-baseline.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/004-subject-head.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/005-subject-tree.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/006-claim.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/007-author-actual-task.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/008-inspect-initialization.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/009-activate-exact.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/010-read-STATE.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/011-read-ROADMAP.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/012-first-resume.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/013-verify-first.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/014-require-first.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/015-first-receipt-blob.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/016-first-rotation.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/017-require-migrated.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/018-manual-invalidation.json",
+      "exit_code": 0
+    },
+    {
+      "file": "raw/019-maintained-prepare.json",
+      "exit_code": 0
+    },
+    {
+      "file": "operation/preflight/01-resolve.json",
+      "exit_code": 0
+    },
+    {
+      "file": "operation/preflight/02-invalidated.json",
+      "exit_code": 1
+    },
+    {
+      "file": "operation/preflight/03-STATE.json",
+      "exit_code": 0
+    },
+    {
+      "file": "operation/preflight/04-ROADMAP.json",
+      "exit_code": 0
+    }
+  ],
+  "before": {
+    "boundary": "manual-resume",
+    "claim_id": "02918fe8946ae11bd7a6fb6ab0b73a38",
+    "controller": "dg18-w-full-43721708486-1",
+    "pointer_token": "refs/implementaudit/current-generations/dg18-w-full-43721708486-1@023c3d85e23f842ffb72bf3f8c473f4ea7927d60",
+    "receipt_token": "refs/implementaudit/continuity-receipts/dg18-w-full-43721708486-1/G0002@3b45e9fc25350d890a980c7edbcd89a4eea49eaf",
+    "invalidation_token": "refs/implementaudit/continuity-invalidations/dg18-w-full-43721708486-1@cc90f6426a91af8e174dcb1c976486d991dc50a7",
+    "marker_oid": "8126b77007aeb74d1fde5a0da86a7e8de8f4b255",
+    "next_projection_generation_id": "G0003",
+    "next_continuity_epoch": "G0003"
+  },
+  "fresh_slots": {
+    "archive_ref_oid": null,
+    "epoch_ref_oid": null,
+    "generation_path_exists": false,
+    "publication_ref_oid": null,
+    "receipt_ref_oid": null
+  },
+  "prepared_payloads_equal_actual_reads": true,
+  "actual_job_memory_measurement_present": false,
+  "execution_result_present": false,
+  "package_install_evidence_present": false,
+  "scope": "PREPARATION_ONLY; real first rotation and manual invalidation are recorded, but whole-owner measured G0003 resume was not dispatched",
+  "original_acceptance_delta": 0,
+  "missing_before_W_FULL": [
+    "Fresh owner grant naming the exact operation",
+    "Actual current restoration/readback of exact subject/source/tools before use",
+    "Commission-required concurrent DG16/DG17 owner originals or an explicit revised owner condition",
+    "Actual whole-operation Job accounting, memory and time result",
+    "Independent receiving of actual transition and measurement"
+  ],
+  "recorded_runtime_source_files_verified_against_775d6a0a": [
+    "scripts/check-r0039-windows-resume.py",
+    "scripts/r0039-windows-job.py",
+    "scripts/run-r0039-windows-resume.py",
+    "skills/implementaudit/scripts/apply-observed-mutation.sh",
+    "skills/implementaudit/scripts/canonical_custody.py",
+    "skills/implementaudit/scripts/canonical_hot_projection.py",
+    "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+    "skills/implementaudit/scripts/check-authorization-binding.sh",
+    "skills/implementaudit/scripts/check-closure-surface.sh",
+    "skills/implementaudit/scripts/check-duplication-parity.sh",
+    "skills/implementaudit/scripts/check-evidence-anchor.sh",
+    "skills/implementaudit/scripts/check-handoff-packet.sh",
+    "skills/implementaudit/scripts/check-lesson-lift.sh",
+    "skills/implementaudit/scripts/check-respec-impact-set.sh",
+    "skills/implementaudit/scripts/claim-run-rotation.py",
+    "skills/implementaudit/scripts/claim-run.sh",
+    "skills/implementaudit/scripts/compile-work-graph.py",
+    "skills/implementaudit/scripts/custody-append.sh",
+    "skills/implementaudit/scripts/detect-env.sh",
+    "skills/implementaudit/scripts/detect-stack.sh",
+    "skills/implementaudit/scripts/host-session-binding.py",
+    "skills/implementaudit/scripts/host-stop-interlock.py",
+    "skills/implementaudit/scripts/lane-survivor-inventory.sh",
+    "skills/implementaudit/scripts/map-pin-chain.sh",
+    "skills/implementaudit/scripts/read-canonical-pair.py",
+    "skills/implementaudit/scripts/repo-state.sh",
+    "skills/implementaudit/scripts/resolve-durable-identity.py",
+    "skills/implementaudit/scripts/resolve-internal-skill.py",
+    "skills/implementaudit/scripts/rotate-canonical-state.py",
+    "skills/implementaudit/scripts/summarize-repo.sh",
+    "skills/implementaudit/scripts/validate-audit-implement-return.py",
+    "skills/implementaudit/scripts/validate-audit-spec.sh",
+    "skills/implementaudit/scripts/validate-phase.sh",
+    "skills/implementaudit/scripts/validate-run-root.sh",
+    "skills/implementaudit/templates/PROTOCOL.md",
+    "skills/implementaudit/templates/ROADMAP.md",
+    "skills/implementaudit/templates/STATE.md",
+    "skills/implementaudit/templates/THINKING.md",
+    "skills/implementaudit/templates/child-agent-report.md",
+    "skills/implementaudit/templates/context.md",
+    "skills/implementaudit/templates/final-report.md",
+    "skills/implementaudit/templates/host-notes.md",
+    "skills/implementaudit/templates/phase-goal.txt",
+    "skills/implementaudit/templates/read-only-plan.md",
+    "skills/implementaudit/templates/respec-impact-set.md",
+    "skills/implementaudit/templates/sidecars.md",
+    "skills/implementaudit/templates/tools.md"
+  ]
+}

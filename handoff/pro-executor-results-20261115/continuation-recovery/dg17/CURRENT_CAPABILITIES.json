@@ -1,0 +1,118 @@
+{
+  "active_trusted_stop": "NOT_ESTABLISHED",
+  "capability_version_matches_retained_record": true,
+  "codex_version": "codex-cli 0.167.0-alpha.4",
+  "executable_lookup": {
+    "claude": null,
+    "cmd.exe": null,
+    "codex": "/opt/codex/bin/codex",
+    "powershell.exe": null,
+    "pwsh": null
+  },
+  "model_quota": "NOT_PROBED",
+  "native_grant": "NOT_ISSUED",
+  "native_launch": false,
+  "paths": [
+    {
+      "bytes": 320,
+      "exists": true,
+      "gid": 1000,
+      "mode": "0o755",
+      "path": "/",
+      "resolved": "/",
+      "symlink": false,
+      "uid": 1000
+    },
+    {
+      "bytes": 194,
+      "exists": true,
+      "gid": 65534,
+      "mode": "0o755",
+      "path": "/usr",
+      "resolved": "/usr",
+      "symlink": false,
+      "uid": 65534
+    },
+    {
+      "bytes": 29850,
+      "exists": true,
+      "gid": 65534,
+      "mode": "0o755",
+      "path": "/usr/bin",
+      "resolved": "/usr/bin",
+      "symlink": false,
+      "uid": 65534
+    },
+    {
+      "bytes": 6832784,
+      "exists": true,
+      "gid": 65534,
+      "mode": "0o755",
+      "path": "/usr/bin/python3",
+      "resolved": "/usr/bin/python3.13",
+      "sha256": "889c603f0d17cb54060951bcf4c4f9b8c9ebd9e52b392c70209bbb9755d797d9",
+      "symlink": true,
+      "uid": 65534
+    },
+    {
+      "bytes": 324012616,
+      "exists": true,
+      "gid": 65534,
+      "mode": "0o755",
+      "path": "/opt/codex/bin/codex",
+      "resolved": "/opt/codex/bin/codex",
+      "sha256": "57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8",
+      "symlink": false,
+      "uid": 65534
+    },
+    {
+      "exists": false,
+      "path": "/implementaudit-python",
+      "symlink": false
+    },
+    {
+      "exists": false,
+      "path": "/implementaudit-python/python",
+      "symlink": false
+    },
+    {
+      "exists": false,
+      "path": "/implementaudit-python/python3",
+      "symlink": false
+    },
+    {
+      "exists": false,
+      "path": "/implementaudit-python/cpython",
+      "symlink": false
+    }
+  ],
+  "scope": "READ_ONLY_CURRENT_METADATA_NO_CREDENTIALS_NO_MODEL_USAGE_PROBE",
+  "source_hashes": {
+    "skills/implementaudit/scripts/canonical_custody.py": {
+      "bytes": 36367,
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "bytes": 32290,
+      "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353"
+    },
+    "skills/implementaudit/scripts/host-session-binding.py": {
+      "bytes": 58385,
+      "sha256": "2e784dbbe8470cd2de335e07c66ea0112d7c324b292a21f1f236309d5d0be1fa"
+    },
+    "skills/implementaudit/scripts/host-stop-interlock.py": {
+      "bytes": 31585,
+      "sha256": "e180069d3810903a138e64751d71fe8952049967a0ef0deff1e6306c42f749e0"
+    },
+    "skills/implementaudit/scripts/validate-run-root.sh": {
+      "bytes": 123126,
+      "sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/host-session-binding.py": {
+      "bytes": 49273,
+      "sha256": "f024cd50b4e5cdd3b93f16fe1d0489952a534a0a5f880c842c14afc897ac2bc7"
+    }
+  },
+  "source_runtime_changes": false,
+  "uid": 1000
+}

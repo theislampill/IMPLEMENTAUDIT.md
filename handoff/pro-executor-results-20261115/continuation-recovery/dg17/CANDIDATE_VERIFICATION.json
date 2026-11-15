@@ -1,0 +1,38 @@
+{
+  "actor": "PRO-EXECUTOR-01 delegated DG17 source engineer",
+  "checks": {
+    "actionlint": "NOT_AVAILABLE",
+    "adapter_pin": "PASS",
+    "all_workflow_bash_syntax": "PASS",
+    "cli_help": "PASS",
+    "git_diff_check": "PASS",
+    "immutable_host_tool_hardlink_control": "PASS; task hardlink and unresolved symlink refused",
+    "python_ast": "PASS",
+    "yaml_parse": "PASS"
+  },
+  "files": {
+    ".github/workflows/dg17-offline-lifecycle.yml": {
+      "bytes": 7803,
+      "sha256": "5001ad9035af7cca66a6ebe7c23c433b71383fea0fee3b1613bd62a61b1e7ae1"
+    },
+    "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/installed_nonterminal.py": {
+      "bytes": 19264,
+      "sha256": "7a9cd9f9d4b0e31d57c4475374ab706ef860d2d8a1a9db40389f3b6769515eba"
+    }
+  },
+  "frozen_for_independent_review": true,
+  "local_accepting_run": false,
+  "local_scope_refusal": {
+    "exit_code": 1,
+    "reason": "unbound hosted operation",
+    "task_created": false
+  },
+  "model_turns": 0,
+  "native_operations": 0,
+  "original_DG17_acceptance": false,
+  "product_head": "a297957be11feb494c0ec467235794a1e0c54751",
+  "product_source_mutations": [],
+  "product_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "protected_grants_consumed": 0,
+  "remote_effects": 0
+}

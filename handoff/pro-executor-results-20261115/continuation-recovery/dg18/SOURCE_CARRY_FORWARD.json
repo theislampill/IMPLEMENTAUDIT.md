@@ -1,0 +1,29 @@
+{
+  "baseline": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+  "selected_source": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "changed_paths": [
+    "skills/implementaudit/scripts/claim-run-rotation.py",
+    "skills/implementaudit/scripts/claim-run.sh"
+  ],
+  "claim_executable_ast_equal_excluding_docstrings": true,
+  "claim_bytes": 286898,
+  "claim_sha256": "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031",
+  "shell_contains_exact_current_bytes": true,
+  "shell_contains_exact_current_hash": true,
+  "fixtures/canonical-state-rotation/c02_cli_source_test.py": {
+    "unchanged": true,
+    "sha256": "3a892b5bab062d506da1c889345a84f312cbd0d85ac2b942b4d132e5dc66237d"
+  },
+  "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+    "unchanged": true,
+    "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+  },
+  "skills/implementaudit/scripts/rotate-canonical-state.py": {
+    "unchanged": true,
+    "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+  },
+  "skills/implementaudit/scripts/canonical_rotation_inputs.py": {
+    "unchanged": true,
+    "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+  }
+}

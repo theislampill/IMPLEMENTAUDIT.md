@@ -1,0 +1,9 @@
+{
+  "test": "immutable host metadata hardlinks versus task evidence custody",
+  "host_metadata_hardlink": "PASS",
+  "task_evidence_hardlink": "REFUSED",
+  "unresolved_symlink": "REFUSED",
+  "scope": "ADAPTER_METADATA_ONLY_NOT_HOST_ACCEPTANCE",
+  "adapter_bytes": 19264,
+  "adapter_sha256": "7a9cd9f9d4b0e31d57c4475374ab706ef860d2d8a1a9db40389f3b6769515eba"
+}
