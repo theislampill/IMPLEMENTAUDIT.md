@@ -909,6 +909,15 @@ def operation(step,state,source,output,tools,u,manifest,command):
             except (Refusal,u.Refusal,OSError,ValueError,KeyError,TypeError):pass
             raise
         write_private(private/'receive.stdout',out);write_private(private/'receive.stderr',err)
+        if rc!=0:
+            # Preserve the existing closed public diagnostic without accepting
+            # a nonzero receiver or replacing its original failure.
+            try:
+                candidate=read_pair_summary(output,True,u)
+            except (Refusal,u.Refusal,OSError,ValueError,KeyError,TypeError):pass
+            else:
+                probe['result']=candidate
+                probe['result_disposition']='VALIDATED_UNACCEPTED_NONZERO_RECEIVE'
         need(rc==0,'FULL_PAIR_NOT_COMPLETELY_RECEIVED')
         result=read_pair_summary(output,True,u);probe['result']=result
         current('after-receive-currentness')
