@@ -9,14 +9,14 @@
       "sha256": "979bbd30e672da1175900244e02f0ff33a5de2657b39784572bd4b74dd812a28"
     },
     {
-      "bytes": 3308,
+      "bytes": 3995,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
-      "sha256": "8ba80c36fa39a1b8ed2ed73d8c0d28823a4f34a0223ab148fdc204c2427a3e86"
+      "sha256": "30d5df37e88f2d165202f48bdf79990fcda2785aea404ddd56489c2f5f8d62fa"
     },
     {
-      "bytes": 25799,
+      "bytes": 33185,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
-      "sha256": "84a39ab0be604825db30e34c490ca31666aa7bf8bae5c8ea794394a3231c7bfc"
+      "sha256": "b5bb731f0f428d16b75552c42277ab69942b92d78ee53eaadba1b4eb327890ff"
     },
     {
       "bytes": 16332,
@@ -34,18 +34,20 @@
       "sha256": "59b0cc7daf8ffd65bbff00293b03235755a668e8b94254ff42f7c3075fb4cb16"
     },
     {
-      "bytes": 24818,
+      "bytes": 26955,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
-      "sha256": "5dd7b75d38e5ee1cd89dbb39ff219e236271502b3f2adb5fdf88db3ca9b01ac7"
+      "sha256": "6655739d4e648ca82f5a095e6e3befd9de60b795e5ff911e614fe7915625b896"
     },
     {
-      "bytes": 6732,
+      "bytes": 7326,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
-      "sha256": "5d1af9a0818fbfb050682d479647fa2fa4227eae89951e3d43a5943bcb0c5abc"
+      "sha256": "de7e800bdc99a6e130cff94f1d60585f6f829d77ea601e4460ec90793a5efe5f"
     }
   ],
   "fixture_correction": {
     "base_tree": "b81b8b30065b6620a5eaff9a21bb087825b217fa",
+    "candidate_commit": "ece3fa22e605fb891e6f2995baf886b220113d14",
+    "candidate_tree": "5d8e76d5aa9b1e8bd323244831bf9271bb5c9e15",
     "changed_file_population_excludes_this_manifest": [
       {
         "bytes": 3308,
@@ -214,9 +216,92 @@
     }
   ],
   "local_operation_sha256": "c497826f6b3b803390b344a1df40e8eccb6d0a6a7544ca3b2e119380ed6edca4",
+  "module_free_owner_query_correction": {
+    "api_documentation_is_windows_execution_evidence": false,
+    "base_tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+    "changed_file_population_excludes_this_manifest": [
+      {
+        "bytes": 3995,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+        "sha256": "30d5df37e88f2d165202f48bdf79990fcda2785aea404ddd56489c2f5f8d62fa"
+      },
+      {
+        "bytes": 33185,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+        "sha256": "b5bb731f0f428d16b75552c42277ab69942b92d78ee53eaadba1b4eb327890ff"
+      },
+      {
+        "bytes": 26955,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+        "sha256": "6655739d4e648ca82f5a095e6e3befd9de60b795e5ff911e614fe7915625b896"
+      },
+      {
+        "bytes": 7326,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
+        "sha256": "de7e800bdc99a6e130cff94f1d60585f6f829d77ea601e4460ec90793a5efe5f"
+      }
+    ],
+    "exact_powershell_and_clr_versions": "UNOBSERVED_NO_VERSION_CLAIM",
+    "file_identity_guard_changed": false,
+    "focused_controls": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "current_user_and_different_owner_distinction_preserved": true,
+      "green": {
+        "elapsed_seconds": 0.14,
+        "exit": 0,
+        "log": {
+          "bytes": 3526,
+          "path": ".IMPLEMENTAUDIT/dg17-ci-43678583519/owner-query-controls-green.log",
+          "sha256": "96418dcfbafd62419ca729c6af1e9cda107e0426650758bc699f1d210b549e73"
+        },
+        "methods": 24
+      },
+      "negative_output_cases": 7,
+      "red": {
+        "elapsed_seconds": 0.154,
+        "errors": 8,
+        "exit": 1,
+        "log": {
+          "bytes": 16679,
+          "path": ".IMPLEMENTAUDIT/dg17-ci-43678583519/owner-query-controls-red.log",
+          "sha256": "645e1b9aeb38d9fd2d7d8e6a5aaa134f98638ffb83ab0365a7d080bee07840aa"
+        },
+        "methods": 24
+      }
+    },
+    "genuine_codex_turns": 0,
+    "linux_lifecycle_reexecuted_for_query_change": false,
+    "local_base_commit": "c430ef8e5759bfd4eddff4c10b7ab2e442b6d60c",
+    "method": "Direct .NET Framework Directory/File.GetAccessControl(path, Owner), GetOwner(SecurityIdentifier), WindowsIdentity.GetCurrent().User, two Console SID lines",
+    "native_admission": false,
+    "native_gates_changed": false,
+    "original14_custody_unknown_differences": 14,
+    "powershell_cmdlets_used": false,
+    "powershell_module_autoload": "None",
+    "primary_api_sources": [
+      "https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getaccesscontrol?view=netframework-4.8.1",
+      "https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getaccesscontrol?view=netframework-4.8.1",
+      "https://learn.microsoft.com/dotnet/api/system.security.accesscontrol.objectsecurity.getowner",
+      "https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.user?view=netframework-4.8.1"
+    ],
+    "product_private_store_directory_changed": false,
+    "published_base_commit": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+    "receiving_packet": {
+      "bytes": 43050,
+      "path": ".IMPLEMENTAUDIT/dg17-ci-43678583519/SOURCE_CI_RECEIVING.json",
+      "sha256": "c7b2ef7e4bd10232e73f8c59ae5e956a86a5efd838b4fe038bdd943e517dc2e4"
+    },
+    "rehearsal_changed": false,
+    "review_status": "PENDING_INDEPENDENT_MODULE_FREE_OWNER_QUERY_REVIEW",
+    "runtime_changed": false,
+    "scope": "Fixture owner query/output contract only; retain owner/preimage/reason checks and all product guards",
+    "windows_execution": "PENDING_DISTINCT_REVIEW_AND_SOURCE_ONLY_CI",
+    "workflow_changed": false,
+    "workflow_dispatched": false
+  },
   "native_admission": false,
   "original14_custody_unknown_differences": 14,
-  "review_status": "PENDING_INDEPENDENT_FIXTURE_REVIEW_AFTER_WINDOWS_PREIMAGE_FAILURE",
+  "review_status": "PENDING_INDEPENDENT_MODULE_FREE_OWNER_QUERY_REVIEW",
   "schema": "dg17.source-qualification-manifest.v1",
   "second_ci_receiving": {
     "artifacts": {
@@ -1318,5 +1403,805 @@
       "store_controls_reached": false
     },
     "workflow_changed": false
+  },
+  "third_ci_receiving": {
+    "artifacts": {
+      "dg17-linux-source-only": {
+        "metadata": {
+          "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146654617/zip",
+          "created_at": "2026-11-15T04:52:18Z",
+          "digest": "sha256:87cc4c6d93f954b1f5a392a8e502d3cda61b5e3ac165baa74c8ccbddd8575bc2",
+          "expired": false,
+          "expires_at": "2026-11-22T04:52:18Z",
+          "id": 14146654617,
+          "name": "dg17-linux-source-only",
+          "size_in_bytes": 10848,
+          "updated_at": "2026-11-15T04:52:18Z",
+          "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146654617",
+          "workflow_run": {
+            "head_branch": "engineering/pro-executor-dg17-source-20261115",
+            "head_repository_id": 1243475954,
+            "head_sha": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+            "id": 43678583519,
+            "repository_id": 1243475954
+          }
+        },
+        "receipt": {
+          "archive_sha256": "87cc4c6d93f954b1f5a392a8e502d3cda61b5e3ac165baa74c8ccbddd8575bc2",
+          "artifact_id": 14146654617,
+          "authority": "NONE",
+          "body_get_attempts": 1,
+          "members": {
+            "blocked-hook.log": {
+              "bytes": 2808,
+              "sha256": "261ced6006297aa1116ddc27f248cc4082ee9b2adfb7576c5dec4c9c3f6d5c70"
+            },
+            "blocked-hook/REHEARSAL_RESULT.json": {
+              "bytes": 3631,
+              "sha256": "94a42cdc93764084f3add7d3c4aa62ed1c115014cd41ba58553bbee50fb430eb"
+            },
+            "blocked-hook/SIMULATED_ONLY.json": {
+              "bytes": 178,
+              "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+            },
+            "full.log": {
+              "bytes": 3037,
+              "sha256": "c170ce33388bbde5c2309844b5a900eea006209a187bfe7647096d81ae80ebb0"
+            },
+            "full/REHEARSAL_RESULT.json": {
+              "bytes": 3638,
+              "sha256": "5525daa01d61c61d4d84287d68efd16c0dd96bb14f0ed4798167ca42a9993d88"
+            },
+            "full/SIMULATED_ONLY.json": {
+              "bytes": 178,
+              "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+            },
+            "native-boundary.log": {
+              "bytes": 1160,
+              "sha256": "b60e1ec61445bd378b043dd1d58a527aabfb9c345b2392271bc614851e5c4c89"
+            },
+            "native-boundary/REHEARSAL_RESULT.json": {
+              "bytes": 1211,
+              "sha256": "628d7b392b4354510402d4c1815f85132877d7f13cfcc0dbde5e14d426aedf6a"
+            },
+            "native-boundary/SIMULATED_ONLY.json": {
+              "bytes": 178,
+              "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+            },
+            "rebuild.log": {
+              "bytes": 764,
+              "sha256": "75ef3600dfea2800ec57d100d323fd7dd24e3dbfeac61f1117ee01bdbabc466d"
+            },
+            "rebuilt/PINS.json": {
+              "bytes": 3935,
+              "sha256": "853bce6864cacda39580eba7112d7cbdf1022013a8ef034c1eb5720d9e8bc4fa"
+            },
+            "source-controls.log": {
+              "bytes": 3363,
+              "sha256": "f99af4a1d4126cf0296f03a4fb2a1deb62d228ed1bceacb85b0c75229e993a74"
+            }
+          },
+          "raw_wrapper_retained": false,
+          "signed_url_retained": false,
+          "status": "SOURCE_LOGS_RECEIVED"
+        },
+        "source_pins": {
+          "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+          "authority": "NONE - source-only preparation, not native evidence",
+          "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+          "files": {
+            "OPERATION_A.json": {
+              "bytes": 18684,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/OPERATION_A.json",
+              "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+              "sha256": "7f9b7b71127552ff4c904d81a7dd3e5e89ee08bebb3281acf0d40ec28c6753a1"
+            },
+            "PROFILE.toml": {
+              "bytes": 535,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/PROFILE.toml",
+              "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+              "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+            },
+            "bind_stage_b.py": {
+              "bytes": 3244,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/bind_stage_b.py",
+              "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+              "sha256": "0b404037a2fe663539f67e394e7ebf65ebb379345b749ac57ac03fef37f500e8"
+            },
+            "native_rpc.py": {
+              "bytes": 13921,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/native_rpc.py",
+              "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+              "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+            },
+            "parent_launch_a.py": {
+              "bytes": 6069,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_a.py",
+              "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+              "sha256": "eb488e3ed0fef281fb8d3833733c051b2916f61df83d202be8ae7d843c4970f1"
+            },
+            "parent_launch_b.py": {
+              "bytes": 5054,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_b.py",
+              "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+              "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+            },
+            "positive_hook_constructor.py": {
+              "bytes": 10996,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/positive_hook_constructor.py",
+              "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+              "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+            },
+            "source_setup.py": {
+              "bytes": 1252,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/source_setup.py",
+              "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+              "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+            },
+            "stage_a.py": {
+              "bytes": 24857,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_a.py",
+              "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+              "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+            },
+            "stage_b.py": {
+              "bytes": 33468,
+              "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_b.py",
+              "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+              "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+            }
+          },
+          "limits_unchanged": true,
+          "native_admission": false,
+          "operation_A_bytes": 18684,
+          "operation_A_sha256": "7f9b7b71127552ff4c904d81a7dd3e5e89ee08bebb3281acf0d40ec28c6753a1",
+          "original14_custody_unknown_differences": 14,
+          "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+          "source_head": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+          "source_tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+          "unverified_input_count": 9
+        }
+      },
+      "dg17-windows-store-source-only": {
+        "metadata": {
+          "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146584706/zip",
+          "created_at": "2026-11-15T04:52:05Z",
+          "digest": "sha256:82efef942ea2d4f83f7ecfd5540a760c1cfb33e63f67585aece40eed24a28150",
+          "expired": false,
+          "expires_at": "2026-11-22T04:52:04Z",
+          "id": 14146584706,
+          "name": "dg17-windows-store-source-only",
+          "size_in_bytes": 3330,
+          "updated_at": "2026-11-15T04:52:05Z",
+          "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146584706",
+          "workflow_run": {
+            "head_branch": "engineering/pro-executor-dg17-source-20261115",
+            "head_repository_id": 1243475954,
+            "head_sha": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+            "id": 43678583519,
+            "repository_id": 1243475954
+          }
+        },
+        "receipt": {
+          "archive_sha256": "82efef942ea2d4f83f7ecfd5540a760c1cfb33e63f67585aece40eed24a28150",
+          "artifact_id": 14146584706,
+          "authority": "NONE",
+          "body_get_attempts": 1,
+          "members": {
+            "rebuild.log": {
+              "bytes": 764,
+              "sha256": "1601c530613b8a2428408f028f7fa290a0c9a7fba3e4d943206063cc459ae363"
+            },
+            "rebuilt/PINS.json": {
+              "bytes": 3851,
+              "sha256": "18d460173215f6139947a3369f12ac6ea8e758edb724689bdc62b45cf1e5ab8b"
+            },
+            "store-custody.log": {
+              "bytes": 14852,
+              "sha256": "ef52a3baa386e74437bdd6fd40465d7b6fe38db0ace153fa83cfd3eeafc6b706"
+            }
+          },
+          "raw_wrapper_retained": false,
+          "signed_url_retained": false,
+          "status": "SOURCE_LOGS_RECEIVED"
+        },
+        "source_pins": {
+          "author_dir": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author",
+          "authority": "NONE - source-only preparation, not native evidence",
+          "base_author_dir": "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\handoff\\dg16-dg18-findings-20261115\\dg17-next-release\\author",
+          "files": {
+            "OPERATION_A.json": {
+              "bytes": 18437,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\OPERATION_A.json",
+              "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+              "sha256": "ea9c5102721baf9157e84eae9e5f327cf50e32bfed3d69cbebf89e07bc9ca04f"
+            },
+            "PROFILE.toml": {
+              "bytes": 535,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\PROFILE.toml",
+              "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+              "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+            },
+            "bind_stage_b.py": {
+              "bytes": 3244,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\bind_stage_b.py",
+              "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+              "sha256": "27a6fa7337637a2c0c7cda338d9f2d2f6d82270fb21b9309a481e1fabd0ffb74"
+            },
+            "native_rpc.py": {
+              "bytes": 13921,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\native_rpc.py",
+              "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+              "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+            },
+            "parent_launch_a.py": {
+              "bytes": 6069,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_a.py",
+              "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+              "sha256": "0688bc077d32a9b50f3beb2426c88b996233fe7280bb9e39b23941e30a09eed1"
+            },
+            "parent_launch_b.py": {
+              "bytes": 5054,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\parent_launch_b.py",
+              "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+              "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+            },
+            "positive_hook_constructor.py": {
+              "bytes": 10996,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\positive_hook_constructor.py",
+              "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+              "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+            },
+            "source_setup.py": {
+              "bytes": 1252,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\source_setup.py",
+              "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+              "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+            },
+            "stage_a.py": {
+              "bytes": 24857,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_a.py",
+              "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+              "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+            },
+            "stage_b.py": {
+              "bytes": 33468,
+              "path": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author\\stage_b.py",
+              "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+              "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+            }
+          },
+          "limits_unchanged": true,
+          "native_admission": false,
+          "operation_A_bytes": 18437,
+          "operation_A_sha256": "ea9c5102721baf9157e84eae9e5f327cf50e32bfed3d69cbebf89e07bc9ca04f",
+          "original14_custody_unknown_differences": 14,
+          "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+          "source_head": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+          "source_tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+          "unverified_input_count": 9
+        }
+      }
+    },
+    "authority": "NONE",
+    "genuine_codex_turns": 0,
+    "linux_modes": {
+      "blocked-hook": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 9.561137405,
+        "genuine_codex_turns": 0,
+        "mode": "blocked-hook",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "FIRST_NONPASS_CONTAINED_AND_CLEANED_UP",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "seams": [
+          "native RPC and model traffic simulated",
+          "fresh simulated grant/reviewer inputs",
+          "constructor fixed host literals rebound only in test copies",
+          "Stage B operation path routed to test copy",
+          "Windows ACL replaced by POSIX private test directory"
+        ],
+        "simulated_calls": [
+          "SIMULATED:Client",
+          "SIMULATED:account/read",
+          "SIMULATED:plugin/install",
+          "SIMULATED:plugin/read",
+          "SIMULATED:skills/list",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:thread/start",
+          "SIMULATED:thread/read",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:thread/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:config/read",
+          "SIMULATED:Client",
+          "SIMULATED:thread/resume",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:hooks/list",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:thread/resume",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:hooks/list",
+          "SIMULATED:turn/start",
+          "SIMULATED:record:request",
+          "SIMULATED:interrupt-wire",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:hooks/list"
+        ],
+        "stage_A_error": null,
+        "stage_A_source_steps": [
+          "01-clone.json",
+          "02-checkout.json",
+          "03-head.json",
+          "04-tree.json",
+          "05-controller-ref-absence.json",
+          "06-new-claim.json",
+          "06a-inspect-initialization.json",
+          "06b-activate-controller.json",
+          "07-source-bootstrap.json",
+          "08-source-verify.json",
+          "09-source-require.json",
+          "10-source-positive.json",
+          "11-invalidate-new-session.json",
+          "12-separate-STATE-read.json",
+          "13-separate-ROADMAP-read.json",
+          "14-native-context-resume.json",
+          "15-native-context-verify.json",
+          "16-native-context-require.json",
+          "17-current-controller.json"
+        ],
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": "AssertionError()",
+        "stage_B_status": "FIRST_EVENT_OR_LATE_EXTRA_ACTIVITY_NOT_QUALIFYING",
+        "stage_B_steps": [
+          "01-currentness.json",
+          "02-owned-init.json",
+          "03-owned-bind.json",
+          "04-owned-lookup.json",
+          "05-new-project-trust.json",
+          "06-new-hook-trust.json",
+          "07-new-hook-enable.json",
+          "08-currentness-before-model.json"
+        ],
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "full": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 9.624214375,
+        "genuine_codex_turns": 0,
+        "mode": "full",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "seams": [
+          "native RPC and model traffic simulated",
+          "fresh simulated grant/reviewer inputs",
+          "constructor fixed host literals rebound only in test copies",
+          "Stage B operation path routed to test copy",
+          "Windows ACL replaced by POSIX private test directory"
+        ],
+        "simulated_calls": [
+          "SIMULATED:Client",
+          "SIMULATED:account/read",
+          "SIMULATED:plugin/install",
+          "SIMULATED:plugin/read",
+          "SIMULATED:skills/list",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:thread/start",
+          "SIMULATED:thread/read",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:thread/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:config/read",
+          "SIMULATED:Client",
+          "SIMULATED:thread/resume",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:hooks/list",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:thread/resume",
+          "SIMULATED:config/read",
+          "SIMULATED:experimentalFeature/list",
+          "SIMULATED:mcpServerStatus/list",
+          "SIMULATED:hooks/list",
+          "SIMULATED:record:safe_effective_capabilities",
+          "SIMULATED:hooks/list",
+          "SIMULATED:turn/start",
+          "SIMULATED:thread/read",
+          "SIMULATED:config/read",
+          "SIMULATED:config/value/write",
+          "SIMULATED:config/read",
+          "SIMULATED:hooks/list",
+          "SIMULATED:hooks/list"
+        ],
+        "stage_A_error": null,
+        "stage_A_source_steps": [
+          "01-clone.json",
+          "02-checkout.json",
+          "03-head.json",
+          "04-tree.json",
+          "05-controller-ref-absence.json",
+          "06-new-claim.json",
+          "06a-inspect-initialization.json",
+          "06b-activate-controller.json",
+          "07-source-bootstrap.json",
+          "08-source-verify.json",
+          "09-source-require.json",
+          "10-source-positive.json",
+          "11-invalidate-new-session.json",
+          "12-separate-STATE-read.json",
+          "13-separate-ROADMAP-read.json",
+          "14-native-context-resume.json",
+          "15-native-context-verify.json",
+          "16-native-context-require.json",
+          "17-current-controller.json"
+        ],
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": null,
+        "stage_B_status": "ONE_ACTUAL_SELECTED_NATIVE_ALLOW_AND_NATURAL_NONTERMINAL_COMPLETION_AWAIT_INDEPENDENT_RECEIVING",
+        "stage_B_steps": [
+          "01-currentness.json",
+          "02-owned-init.json",
+          "03-owned-bind.json",
+          "04-owned-lookup.json",
+          "05-new-project-trust.json",
+          "06-new-hook-trust.json",
+          "07-new-hook-enable.json",
+          "08-currentness-before-model.json"
+        ],
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "native-boundary": {
+        "authority": "NONE",
+        "elapsed_seconds": 5.97036886,
+        "genuine_codex_turns": 0,
+        "mode": "native-boundary",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "seams": [
+          "native RPC and model traffic simulated",
+          "fresh simulated grant/reviewer inputs",
+          "constructor fixed host literals rebound only in test copies",
+          "Stage B operation path routed to test copy",
+          "Windows ACL replaced by POSIX private test directory"
+        ],
+        "simulated_calls": [
+          "SIMULATED:Client"
+        ],
+        "stage_A_error": "SIMULATED stop before native appserver creation",
+        "stage_A_source_steps": [
+          "01-clone.json",
+          "02-checkout.json",
+          "03-head.json",
+          "04-tree.json",
+          "05-controller-ref-absence.json",
+          "06-new-claim.json",
+          "06a-inspect-initialization.json",
+          "06b-activate-controller.json",
+          "07-source-bootstrap.json",
+          "08-source-verify.json",
+          "09-source-require.json",
+          "10-source-positive.json"
+        ],
+        "stage_A_status": "STAGE_A_STOPPED_FIRST_REFUSAL_OR_UNKNOWN_NO_RETRY",
+        "windows_custody_exercised": false
+      }
+    },
+    "native_admission": false,
+    "original14_custody_unknown_differences": 14,
+    "provider": {
+      "authority": "NONE",
+      "jobs": [
+        {
+          "conclusion": "failure",
+          "id": 132704049500,
+          "logs_url": null,
+          "name": "windows-store-only",
+          "run_id": 43678583519,
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "failure",
+              "name": "Check private fixture directory with real Windows APIs",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Retain Windows fixture results without native credit",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 9,
+              "status": "completed"
+            }
+          ]
+        },
+        {
+          "conclusion": "success",
+          "id": 132704049669,
+          "logs_url": null,
+          "name": "linux-deterministic",
+          "run_id": 43678583519,
+          "status": "completed",
+          "steps": [
+            {
+              "conclusion": "success",
+              "name": "Set up job",
+              "number": 1,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 2,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Exercise deterministic owners with explicitly simulated native seams",
+              "number": 3,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Retain source-only results",
+              "number": 4,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+              "number": 8,
+              "status": "completed"
+            },
+            {
+              "conclusion": "success",
+              "name": "Complete job",
+              "number": 9,
+              "status": "completed"
+            }
+          ]
+        }
+      ],
+      "run": {
+        "branch": "engineering/pro-executor-dg17-source-20261115",
+        "conclusion": "failure",
+        "created_at": "2026-11-15T04:51:45Z",
+        "event": "push",
+        "head_sha": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+        "id": 43678583519,
+        "run_attempt": 1,
+        "started_at": "2026-11-15T04:51:45Z",
+        "status": "completed",
+        "tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+        "updated_at": "2026-11-15T04:52:21Z"
+      },
+      "schema": "dg17.source-ci-provider-receiving.v1"
+    },
+    "schema": "dg17.source-ci-receiving.v1",
+    "windows": {
+      "file_identity_guard_outcome": "PASSED_NO_MISMATCH_DIAGNOSTIC_ON_THIS_RUN",
+      "first_failure": "Independent fixture owner query: Get-Acl found in Microsoft.PowerShell.Security but module could not load (CouldNotAutoloadMatchingModule)",
+      "full_control_population_qualified": false,
+      "intended_refusals_reached": [
+        "missing directory"
+      ],
+      "owner_dependent_cases_unqualified": 13,
+      "prior_file_identity_refusal": "UNEXPLAINED_PRESERVED_NO_GUARD_CHANGE",
+      "reported_cases": 14,
+      "reported_failed": 13,
+      "rows": [
+        {
+          "case": "positive: driver-created store (create=True)",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "PASS",
+          "expected_reason": null,
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "positive: re-check of the driver-created store",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "PASS",
+          "expected_reason": null,
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "positive: icacls protected DACL, user+SYSTEM only",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "PASS",
+          "expected_reason": null,
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: Administrators outside owner user+SYSTEM scope",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "access granted to another principal S-1-5-32-544",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: added Everyone write ACE",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "access granted to another principal S-1-1-0",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: added Everyone read-only ACE (not private)",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "access granted to another principal S-1-1-0",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: inherited Users write ACE",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "DACL is not protected: inherited access can apply",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: inherited Users write ACE under an otherwise private parent",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "DACL is not protected: inherited access can apply",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: missing directory",
+          "detail": "store custody refused: open directory failed (winerror 2): <work>\\absent",
+          "expected": "REFUSED",
+          "expected_reason": "open directory failed (winerror 2)",
+          "got": "REFUSED",
+          "ok": true,
+          "preconditions": []
+        },
+        {
+          "case": "refused: junction to a private directory",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "junction, link or other reparse point",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: unprotected DACL (inherits only user+SYSTEM today)",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "DACL is not protected: inherited access can apply",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: create=True on an existing directory",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "create new private directory (path must not already exist) failed (winerror 183)",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: regular file",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "not a directory",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        },
+        {
+          "case": "refused: different owner with otherwise private user+SYSTEM DACL",
+          "detail": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+          "expected": "REFUSED",
+          "expected_reason": "owner S-1-5-32-544 is not the current user",
+          "got": "ERROR",
+          "ok": false,
+          "preconditions": []
+        }
+      ],
+      "underlying_module_load_cause": "UNKNOWN_NOT_INFERRED",
+      "verified_preconditions_recorded": 0
+    }
   }
 }

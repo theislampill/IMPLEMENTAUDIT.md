@@ -7,24 +7,34 @@ mod=types.ModuleType('stage_b_under_test');mod.__file__=str(src);exec(compile(sr
 check=mod.private_store_directory
 ICACLS=r'C:\Windows\System32\icacls.exe';me=os.environ['USERDOMAIN']+'\\'+os.environ['USERNAME']
 POWERSHELL=r'C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe'
-# This readback uses WindowsIdentity/Get-Acl independently of the driver's
-# ctypes custody implementation. The only supplied path is a fresh test fixture.
+# This direct .NET readback is independent of the driver's ctypes guard and
+# needs no PowerShell cmdlet/module. The only path is an absolute test fixture.
 OWNER_QUERY=base64.b64encode(r'''
 $ErrorActionPreference = 'Stop'
-$acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH
-@{owner=$acl.GetOwner([System.Security.Principal.SecurityIdentifier]).Value;
-  user=[System.Security.Principal.WindowsIdentity]::GetCurrent().User.Value} |
-  ConvertTo-Json -Compress
+$PSModuleAutoLoadingPreference = 'None'
+$path = $env:DG17_FIXTURE_OWNER_PATH
+$sections = [System.Security.AccessControl.AccessControlSections]::Owner
+if (([System.IO.File]::GetAttributes($path) -band [System.IO.FileAttributes]::Directory) -ne 0) {
+    $acl = [System.IO.Directory]::GetAccessControl($path, $sections)
+} else {
+    $acl = [System.IO.File]::GetAccessControl($path, $sections)
+}
+$owner = $acl.GetOwner([System.Security.Principal.SecurityIdentifier]).Value
+$identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+try { $user = $identity.User.Value } finally { $identity.Dispose() }
+[Console]::WriteLine($owner)
+[Console]::WriteLine($user)
 '''.encode('utf-16le')).decode('ascii')
 def icacls(*a):
  r=subprocess.run([ICACLS,*map(str,a)],capture_output=True,text=True,timeout=30);assert r.returncode==0,(a,r.stdout,r.stderr)
 def owner_facts(p):
  r=subprocess.run([POWERSHELL,'-NoProfile','-NonInteractive','-EncodedCommand',OWNER_QUERY],
-  env=os.environ|{'DG17_FIXTURE_OWNER_PATH':str(p)},capture_output=True,text=True,timeout=30)
+  env=os.environ|{'DG17_FIXTURE_OWNER_PATH':str(p.absolute())},capture_output=True,text=True,timeout=30)
  assert r.returncode==0,'independent fixture owner query failed: '+r.stderr
- facts=json.loads(r.stdout);assert set(facts)=={'owner','user'}
- assert all(isinstance(v,str) and v.startswith('S-1-') for v in facts.values())
- return facts
+ values=r.stdout.splitlines();assert len(values)==2,'owner query must return exactly two SID lines'
+ assert all(v.startswith('S-1-') and all(part.isascii() and part.isdigit()
+            for part in v[4:].split('-')) for v in values),'owner query returned a malformed SID'
+ return dict(zip(('owner','user'),values))
 def require_owner(p,expected=None):
  facts=owner_facts(p);wanted=facts['user'] if expected is None else expected
  assert facts['owner']==wanted,('fixture owner precondition',facts,wanted)

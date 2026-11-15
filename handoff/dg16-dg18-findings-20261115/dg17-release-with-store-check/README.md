@@ -35,3 +35,13 @@ and describes the fixture-only repair: explicit owner assignment, independent
 SID readback, positive preimages and specific refusal reasons. Actual Windows
 verification of that repair remains pending; the earlier identity refusal is
 still unexplained and no product guard is relaxed.
+
+The third run, 43678583519 at 5f90dd5ecf80ad2d3f153811348d5da72287c4da,
+again passed the three Linux modes and the Windows rebuild. Its Windows fixture
+query could not load the PowerShell module supplying Get-Acl, so 13 cases are
+ERROR and remain unqualified; only the missing-directory refusal was reached.
+The next local fixture correction uses documented direct .NET owner access,
+disables automatic module loading and strictly parses two SID lines. It keeps
+all ownership/preimage/refusal checks and awaits distinct review plus actual
+Windows execution. The exact failed run is retained in the source report and
+receiving manifest; its underlying module-load cause is not inferred.

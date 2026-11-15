@@ -1,0 +1,338 @@
+{
+  "artifact_bodies_reacquired": false,
+  "artifacts": [
+    {
+      "author_body_get_attempts": 1,
+      "metadata": {
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146654617/zip",
+        "created_at": "2026-11-15T04:52:18Z",
+        "digest": "sha256:87cc4c6d93f954b1f5a392a8e502d3cda61b5e3ac165baa74c8ccbddd8575bc2",
+        "expired": false,
+        "expires_at": "2026-11-22T04:52:18Z",
+        "id": 14146654617,
+        "name": "dg17-linux-source-only",
+        "size_in_bytes": 10848,
+        "updated_at": "2026-11-15T04:52:18Z",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146654617",
+        "workflow_run": {
+          "head_branch": "engineering/pro-executor-dg17-source-20261115",
+          "head_repository_id": 1243475954,
+          "head_sha": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+          "id": 43678583519,
+          "repository_id": 1243475954
+        }
+      },
+      "reviewer_body_get_attempts": 0,
+      "source_pins": {
+        "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18684,
+        "operation_A_sha256": "7f9b7b71127552ff4c904d81a7dd3e5e89ee08bebb3281acf0d40ec28c6753a1",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+        "source_tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+        "unverified_input_count": 9
+      },
+      "verified_members": {
+        "blocked-hook.log": {
+          "bytes": 2808,
+          "sha256": "261ced6006297aa1116ddc27f248cc4082ee9b2adfb7576c5dec4c9c3f6d5c70"
+        },
+        "blocked-hook/REHEARSAL_RESULT.json": {
+          "bytes": 3631,
+          "sha256": "94a42cdc93764084f3add7d3c4aa62ed1c115014cd41ba58553bbee50fb430eb"
+        },
+        "blocked-hook/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "full.log": {
+          "bytes": 3037,
+          "sha256": "c170ce33388bbde5c2309844b5a900eea006209a187bfe7647096d81ae80ebb0"
+        },
+        "full/REHEARSAL_RESULT.json": {
+          "bytes": 3638,
+          "sha256": "5525daa01d61c61d4d84287d68efd16c0dd96bb14f0ed4798167ca42a9993d88"
+        },
+        "full/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "native-boundary.log": {
+          "bytes": 1160,
+          "sha256": "b60e1ec61445bd378b043dd1d58a527aabfb9c345b2392271bc614851e5c4c89"
+        },
+        "native-boundary/REHEARSAL_RESULT.json": {
+          "bytes": 1211,
+          "sha256": "628d7b392b4354510402d4c1815f85132877d7f13cfcc0dbde5e14d426aedf6a"
+        },
+        "native-boundary/SIMULATED_ONLY.json": {
+          "bytes": 178,
+          "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+        },
+        "rebuild.log": {
+          "bytes": 764,
+          "sha256": "75ef3600dfea2800ec57d100d323fd7dd24e3dbfeac61f1117ee01bdbabc466d"
+        },
+        "rebuilt/PINS.json": {
+          "bytes": 3935,
+          "sha256": "853bce6864cacda39580eba7112d7cbdf1022013a8ef034c1eb5720d9e8bc4fa"
+        },
+        "source-controls.log": {
+          "bytes": 3363,
+          "sha256": "f99af4a1d4126cf0296f03a4fb2a1deb62d228ed1bceacb85b0c75229e993a74"
+        }
+      }
+    },
+    {
+      "author_body_get_attempts": 1,
+      "metadata": {
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146584706/zip",
+        "created_at": "2026-11-15T04:52:05Z",
+        "digest": "sha256:82efef942ea2d4f83f7ecfd5540a760c1cfb33e63f67585aece40eed24a28150",
+        "expired": false,
+        "expires_at": "2026-11-22T04:52:04Z",
+        "id": 14146584706,
+        "name": "dg17-windows-store-source-only",
+        "size_in_bytes": 3330,
+        "updated_at": "2026-11-15T04:52:05Z",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14146584706",
+        "workflow_run": {
+          "head_branch": "engineering/pro-executor-dg17-source-20261115",
+          "head_repository_id": 1243475954,
+          "head_sha": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+          "id": 43678583519,
+          "repository_id": 1243475954
+        }
+      },
+      "reviewer_body_get_attempts": 0,
+      "source_pins": {
+        "author_dir": "D:\\a\\_temp\\dg17-offline\\rebuilt\\author",
+        "authority": "NONE - source-only preparation, not native evidence",
+        "base_author_dir": "D:\\a\\IMPLEMENTAUDIT.md\\IMPLEMENTAUDIT.md\\handoff\\dg16-dg18-findings-20261115\\dg17-next-release\\author",
+        "limits_unchanged": true,
+        "native_admission": false,
+        "operation_A_bytes": 18437,
+        "operation_A_sha256": "ea9c5102721baf9157e84eae9e5f327cf50e32bfed3d69cbebf89e07bc9ca04f",
+        "original14_custody_unknown_differences": 14,
+        "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+        "source_head": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+        "source_tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+        "unverified_input_count": 9
+      },
+      "verified_members": {
+        "rebuild.log": {
+          "bytes": 764,
+          "sha256": "1601c530613b8a2428408f028f7fa290a0c9a7fba3e4d943206063cc459ae363"
+        },
+        "rebuilt/PINS.json": {
+          "bytes": 3851,
+          "sha256": "18d460173215f6139947a3369f12ac6ea8e758edb724689bdc62b45cf1e5ab8b"
+        },
+        "store-custody.log": {
+          "bytes": 14852,
+          "sha256": "ef52a3baa386e74437bdd6fd40465d7b6fe38db0ace153fa83cfd3eeafc6b706"
+        }
+      }
+    }
+  ],
+  "author_packet": {
+    "bytes": 43050,
+    "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43678583519/SOURCE_CI_RECEIVING.json",
+    "sha256": "c7b2ef7e4bd10232e73f8c59ae5e956a86a5efd838b4fe038bdd943e517dc2e4"
+  },
+  "authority": "NONE",
+  "disposition": "LINUX_SOURCE_RESULTS_RECEIVED_WINDOWS_SETUP_FAILURE_PRESERVED",
+  "frozen_source_records": [
+    {
+      "bytes": 3573,
+      "path": ".github/workflows/dg17-offline-lifecycle.yml",
+      "sha256": "979bbd30e672da1175900244e02f0ff33a5de2657b39784572bd4b74dd812a28"
+    },
+    {
+      "bytes": 26290,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/rehearse_lifecycle.py",
+      "sha256": "59b0cc7daf8ffd65bbff00293b03235755a668e8b94254ff42f7c3075fb4cb16"
+    },
+    {
+      "bytes": 16332,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/build_release_acl.py",
+      "sha256": "1342d5c89dbe73bba4ddeec07bc2b7217ffe211f4d6405e3f80d4e617b6adc6f"
+    },
+    {
+      "bytes": 6732,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
+      "sha256": "5d1af9a0818fbfb050682d479647fa2fa4227eae89951e3d43a5943bcb0c5abc"
+    }
+  ],
+  "genuine_codex_turns": 0,
+  "linux_job": {
+    "conclusion": "success",
+    "focused_methods_passed": 23,
+    "id": 132704049669,
+    "results": {
+      "blocked-hook": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 9.561137405,
+        "genuine_codex_turns": 0,
+        "mode": "blocked-hook",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "FIRST_NONPASS_CONTAINED_AND_CLEANED_UP",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": null,
+        "stage_A_source_steps": [
+          "01-clone.json",
+          "02-checkout.json",
+          "03-head.json",
+          "04-tree.json",
+          "05-controller-ref-absence.json",
+          "06-new-claim.json",
+          "06a-inspect-initialization.json",
+          "06b-activate-controller.json",
+          "07-source-bootstrap.json",
+          "08-source-verify.json",
+          "09-source-require.json",
+          "10-source-positive.json",
+          "11-invalidate-new-session.json",
+          "12-separate-STATE-read.json",
+          "13-separate-ROADMAP-read.json",
+          "14-native-context-resume.json",
+          "15-native-context-verify.json",
+          "16-native-context-require.json",
+          "17-current-controller.json"
+        ],
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": "AssertionError()",
+        "stage_B_status": "FIRST_EVENT_OR_LATE_EXTRA_ACTIVITY_NOT_QUALIFYING",
+        "stage_B_steps": [
+          "01-currentness.json",
+          "02-owned-init.json",
+          "03-owned-bind.json",
+          "04-owned-lookup.json",
+          "05-new-project-trust.json",
+          "06-new-hook-trust.json",
+          "07-new-hook-enable.json",
+          "08-currentness-before-model.json"
+        ],
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "full": {
+        "actual_native_acceptance": false,
+        "authority": "NONE",
+        "elapsed_seconds": 9.624214375,
+        "genuine_codex_turns": 0,
+        "mode": "full",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": null,
+        "stage_A_source_steps": [
+          "01-clone.json",
+          "02-checkout.json",
+          "03-head.json",
+          "04-tree.json",
+          "05-controller-ref-absence.json",
+          "06-new-claim.json",
+          "06a-inspect-initialization.json",
+          "06b-activate-controller.json",
+          "07-source-bootstrap.json",
+          "08-source-verify.json",
+          "09-source-require.json",
+          "10-source-positive.json",
+          "11-invalidate-new-session.json",
+          "12-separate-STATE-read.json",
+          "13-separate-ROADMAP-read.json",
+          "14-native-context-resume.json",
+          "15-native-context-verify.json",
+          "16-native-context-require.json",
+          "17-current-controller.json"
+        ],
+        "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW",
+        "stage_B_error": null,
+        "stage_B_status": "ONE_ACTUAL_SELECTED_NATIVE_ALLOW_AND_NATURAL_NONTERMINAL_COMPLETION_AWAIT_INDEPENDENT_RECEIVING",
+        "stage_B_steps": [
+          "01-currentness.json",
+          "02-owned-init.json",
+          "03-owned-bind.json",
+          "04-owned-lookup.json",
+          "05-new-project-trust.json",
+          "06-new-hook-trust.json",
+          "07-new-hook-enable.json",
+          "08-currentness-before-model.json"
+        ],
+        "teardown_known_in_simulation": true,
+        "windows_custody_exercised": false
+      },
+      "native-boundary": {
+        "authority": "NONE",
+        "elapsed_seconds": 5.97036886,
+        "genuine_codex_turns": 0,
+        "mode": "native-boundary",
+        "native_appservers_started": 0,
+        "original14_unknown_differences": 14,
+        "result": "SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED",
+        "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+        "stage_A_error": "SIMULATED stop before native appserver creation",
+        "stage_A_source_steps": [
+          "01-clone.json",
+          "02-checkout.json",
+          "03-head.json",
+          "04-tree.json",
+          "05-controller-ref-absence.json",
+          "06-new-claim.json",
+          "06a-inspect-initialization.json",
+          "06b-activate-controller.json",
+          "07-source-bootstrap.json",
+          "08-source-verify.json",
+          "09-source-require.json",
+          "10-source-positive.json"
+        ],
+        "stage_A_status": "STAGE_A_STOPPED_FIRST_REFUSAL_OR_UNKNOWN_NO_RETRY",
+        "windows_custody_exercised": false
+      }
+    }
+  },
+  "local_same_tree_commit": "c430ef8e5759bfd4eddff4c10b7ab2e442b6d60c",
+  "mutable_followup_reviewed": false,
+  "native_admission": false,
+  "original14_custody_unknown_differences": 14,
+  "overall_run_conclusion": "failure",
+  "provider_observation_sha256": "ec4b219e7ef16447a8de6c78d00b7f9f44756085185d967ab93c7a08324cb8c2",
+  "remote_commit": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+  "reviewer": "/root/dg17_independent_review",
+  "root_controller": "pro-executor-01",
+  "root_epoch": "G0004",
+  "run_id": 43678583519,
+  "schema": "dg17.independent-source-ci-receiving.v1",
+  "tests_rerun": false,
+  "tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+  "windows_job": {
+    "cases": 14,
+    "conclusion": "failure",
+    "earlier_identity_failure": "UNEXPLAINED_PRESERVED",
+    "earlier_wrong_predicate_matches": "PRESERVED_NOT_REGRADED",
+    "errors": 13,
+    "full_control_population_qualified": false,
+    "id": 132704049500,
+    "observed_first_error": "AssertionError('independent fixture owner query failed: #< CLIXML\\n<Objs Version=\"1.1.0.1\" xmlns=\"http://schemas.microsoft.com/powershell/2004/04\"><S S=\"Error\">Get-Acl : The \\'Get-Acl\\' command was found in the module \\'Microsoft.PowerShell.Security\\', but the module could not be _x000D__x000A_</S><S S=\"Error\">loaded. For more information, run \\'Import-Module Microsoft.PowerShell.Security\\'._x000D__x000A_</S><S S=\"Error\">At line:3 char:8_x000D__x000A_</S><S S=\"Error\">+ $acl = Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH_x000D__x000A_</S><S S=\"Error\">+        ~~~~~~~_x000D__x000A_</S><S S=\"Error\">    + CategoryInfo          : ObjectNotFound: (Get-Acl:String) [], ParentContainsErrorRecordException_x000D__x000A_</S><S S=\"Error\">    + FullyQualifiedErrorId : CouldNotAutoloadMatchingModule_x000D__x000A_</S><S S=\"Error\"> _x000D__x000A_</S></Objs>')",
+    "sole_intended_refusal": {
+      "case": "refused: missing directory",
+      "detail": "store custody refused: open directory failed (winerror 2): <work>\\absent",
+      "expected": "REFUSED",
+      "expected_reason": "open directory failed (winerror 2)",
+      "got": "REFUSED",
+      "ok": true,
+      "preconditions": []
+    },
+    "underlying_module_load_cause": "UNKNOWN_NOT_INFERRED",
+    "verified_preconditions": 0
+  }
+}

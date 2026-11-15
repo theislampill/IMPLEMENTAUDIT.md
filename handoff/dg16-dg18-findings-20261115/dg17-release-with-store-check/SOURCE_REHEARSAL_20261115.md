@@ -1,10 +1,10 @@
 # DG17 source qualification return — 2026-11-15
 
-Status: **the second source-only CI run passed all three Linux deterministic
-modes. Windows rebuilt successfully, then exposed a test-fixture ownership
-defect. A fixture-only repair awaits distinct source review and actual Windows
-verification. Both earlier failures remain recorded; the original file-identity
-refusal is unexplained and its guard remains unchanged**.
+Status: **the third source-only CI run passed all three Linux deterministic
+modes. Windows rebuilt, then reported 13 fixture errors because Get-Acl's module
+could not load. A smaller direct .NET owner query is locally checked and awaits
+distinct source review and Windows verification. Every failed run remains
+recorded; the original file-identity refusal is unexplained and unchanged**.
 This record grants no native admission, receiving, R0037 acceptance or closure.
 
 ## Binding and scope
@@ -346,7 +346,7 @@ controls. The exact original output remains unchanged: store-custody.log is
 4284 bytes, SHA-256
 669574b9d62dbca1f017e7d47f390bce9fc1a0becc110c90766f87819920661d.
 
-### Fixture-only correction pending actual Windows verification
+### Fixture-only correction at the second author return
 
 Only the test fixtures and their focused source controls change. The factory
 now explicitly assigns the current user's owner with icacls, then independently
@@ -382,12 +382,127 @@ The existing push workflow has no Windows-only selector, so any root publication
 using that unchanged workflow will still schedule both jobs. This does not
 authorize a protected/native retry or transform fixtures into genuine turns.
 
+## Third published source CI — run 43678583519
+
+Root retained the independently reviewed fixture correction and receiving
+records in local commit c430ef8e5759bfd4eddff4c10b7ab2e442b6d60c, then published
+the same tree f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3 as
+5f90dd5ecf80ad2d3f153811348d5da72287c4da. Run 43678583519, attempt 1, began at
+2026-11-15T04:51:45Z and was completed at 04:52:21Z with overall failure.
+Linux job 132704049669 succeeded; Windows job 132704049500 failed. Both uploads
+succeeded. Metadata and all received artifact identities bind that exact source
+HEAD/tree. Each artifact was received once, with matching byte count and digest.
+
+| Artifact | Bytes | SHA-256 |
+|---|---:|---|
+| Linux 14146654617, dg17-linux-source-only | 10848 | 87cc4c6d93f954b1f5a392a8e502d3cda61b5e3ac165baa74c8ccbddd8575bc2 |
+| Windows 14146584706, dg17-windows-store-source-only | 3330 | 82efef942ea2d4f83f7ecfd5540a760c1cfb33e63f67585aece40eed24a28150 |
+
+The immutable receiving packet is
+.IMPLEMENTAUDIT/dg17-ci-43678583519/SOURCE_CI_RECEIVING.json, 43050 bytes,
+SHA-256 c7b2ef7e4bd10232e73f8c59ae5e956a86a5efd838b4fe038bdd943e517dc2e4.
+It includes provider/jobs metadata, both artifact metadata and one-shot receipts,
+complete PINS records, all Linux result records and all original Windows rows.
+It was frozen for a distinct receiver before this next source correction.
+Received members/receipts are not rewritten. Signed URLs and raw materialization
+wrappers were transient only; no archive body was retained locally.
+
+### Deterministic results and Windows first failure
+
+| Linux mode | Actual result | Elapsed seconds | Result JSON SHA-256 |
+|---|---|---:|---|
+| native-boundary | SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED | 5.97036886 | 628d7b392b4354510402d4c1815f85132877d7f13cfcc0dbde5e14d426aedf6a |
+| full | DETERMINISTIC_LIFECYCLE_PASS_WITH_SIMULATED_NATIVE_SEAMS | 9.624214375 | 5525daa01d61c61d4d84287d68efd16c0dd96bb14f0ed4798167ca42a9993d88 |
+| blocked-hook | FIRST_NONPASS_CONTAINED_AND_CLEANED_UP | 9.561137405 | 94a42cdc93764084f3add7d3c4aa62ed1c115014cd41ba58553bbee50fb430eb |
+
+The hosted source-control suite also passed 23 methods in 0.156 seconds.
+All native-shaped activity remains simulated, genuine turns/appservers remain
+zero, and both full/blocked results retain known teardown only in simulation.
+These results add no native authority or original14 receiving.
+
+Windows again passed the unchanged seven-field source-identity check and
+generated PINS. No mismatch diagnostic was emitted; the first run's identity
+refusal remains unexplained. Its operation is 18437 bytes, SHA-256
+ea9c5102721baf9157e84eae9e5f327cf50e32bfed3d69cbebf89e07bc9ca04f;
+Linux's operation is 18684 bytes, SHA-256
+7f9b7b71127552ff4c904d81a7dd3e5e89ee08bebb3281acf0d40ec28c6753a1.
+Both remain source-only with nine unresolved inputs and unchanged limits.
+All generated member pins are retained in the receiving packet and manifest.
+
+The Windows output is CASES 14 FAILED 13. The first error is the independent
+fixture owner query: PowerShell found Get-Acl in Microsoft.PowerShell.Security
+but could not load that module, with error identifier
+CouldNotAutoloadMatchingModule. All thirteen owner-dependent cases reported
+ERROR and recorded zero verified preconditions. Only the missing-directory
+negative reached its intended refusal. This is a failed verification-helper
+execution, not demonstrated completion of the repaired owner/preimage controls.
+The underlying module-load cause is unknown and is not inferred from the log.
+
+The original store-custody.log is 14852 bytes, SHA-256
+ef52a3baa386e74437bdd6fd40465d7b6fe38db0ace153fa83cfd3eeafc6b706.
+All 13 ERROR outcomes remain unqualified. They are not relabeled as skips or
+negative-control passes. The previous 14-case/1-failure result and its seven
+intercepted negatives also remain unchanged.
+
+### Smaller owner-query correction and bounded evidence
+
+The product's existing ctypes/Win32 owner and DACL implementation and the entire
+fixture were re-read before choosing the correction. Get-Acl was introduced by
+the fixture alone. A separate engineering documentation check compared a direct
+.NET read with a new ctypes owner reader. The latter would add FFI signatures,
+token and descriptor buffers, and explicit native resource lifetimes. The
+smaller change retains the already executed fixed Windows PowerShell engine and
+replaces only its cmdlet-dependent query/output contract.
+
+Microsoft documents the .NET Framework
+[Directory.GetAccessControl](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getaccesscontrol?view=netframework-4.8.1)
+and
+[File.GetAccessControl](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getaccesscontrol?view=netframework-4.8.1)
+overloads taking AccessControlSections. The query selects Owner, chooses the
+directory/file method using the Directory attribute bit, obtains the owner as a
+SecurityIdentifier, and reads the current WindowsIdentity.User SID. The
+[WindowsIdentity.User contract](https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.user?view=netframework-4.8.1)
+and
+[ObjectSecurity.GetOwner contract](https://learn.microsoft.com/dotnet/api/system.security.accesscontrol.objectsecurity.getowner)
+support that independent SID readback. These documentation checks are not an
+actual Windows execution result.
+
+The query now disables automatic module loading and uses only direct .NET calls
+and PowerShell language constructs. It resolves both SID values, disposes the
+WindowsIdentity and emits exactly two lines with Console.WriteLine. Get-Acl,
+ConvertTo-Json and Import-Module are absent. The fixed executable, NoProfile,
+NonInteractive, encoded fixed query, absolute fixture path supplied through a
+process-local environment value, and 30-second timeout remain. No host module,
+profile, environment installation or global configuration is repaired or altered.
+
+Python requires a zero process exit and exactly two ASCII numeric SID strings.
+It preserves the distinction between a syntactically valid different owner and
+the current user: the former still fails the current-user ownership precondition.
+Every explicit ownership assignment, independent equality check, private
+baseline, child/junction preimage and intended refusal reason is unchanged.
+
+The focused contract was RED against the prior query/parser, with the failed
+log retained as owner-query-controls-red.log. After the minimal correction,
+all 24 methods passed in 0.140 seconds. Positive controls cover both matching
+and different owner SIDs; adverse controls cover nonzero query exit, missing
+values, extra output, malformed or non-ASCII SID text, and an extra blank line.
+The source control also checks both directory/file API branches, owner-only
+selection, module-autoload disablement, native identity disposal, exact console
+output population, literal path separation and the existing timeout.
+
+These are Linux source/model controls. The direct .NET calls still require
+actual Windows execution after distinct source review. This author does not
+award that result or a receiving disposition. Product guards, the seven-field
+file identity check, runtime, rehearsal, workflow and native gates are unchanged;
+no native/protected retry or workflow dispatch was performed.
+
 ## Remaining acceptance dependencies
 
-1. Distinct review and actual Windows receiving for the corrected fixture
-   preconditions and intended refusal predicates. Retain the successful Linux
-   deterministic lifecycle, the seven intercepted Windows negatives and every
-   earlier failed fixture/host outcome at their exact source identities.
+1. Distinct review and actual Windows receiving for the direct owner-query
+   execution, corrected fixture preconditions and intended refusal predicates.
+   Retain successful Linux deterministic results, the seven intercepted Windows
+   negatives, all 13 subsequent fixture errors, and every earlier failed
+   fixture/host outcome at their exact source identities.
 2. Actual final Windows location, exact product/package/tool identities, current
    issuer reconciliation and independently reviewed operation-record readback.
 3. Fresh written owner grant naming that exact operation, unchanged limits and

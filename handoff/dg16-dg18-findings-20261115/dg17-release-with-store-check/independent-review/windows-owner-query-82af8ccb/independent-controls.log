@@ -1,0 +1,12 @@
+test_different_owner_never_satisfies_current_user_precondition (__main__.OwnerQueryControls.test_different_owner_never_satisfies_current_user_precondition) ... ok
+test_every_case_preimage_and_refusal_reason_is_ast_identical (__main__.OwnerQueryControls.test_every_case_preimage_and_refusal_reason_is_ast_identical) ... ok
+test_exact_source_population_and_product_bytes_unchanged (__main__.OwnerQueryControls.test_exact_source_population_and_product_bytes_unchanged) ... ok
+test_literal_metacharacter_paths_cannot_change_fixed_command (__main__.OwnerQueryControls.test_literal_metacharacter_paths_cannot_change_fixed_command) ... ok
+test_parser_rejects_contamination_and_non_ascii_components (__main__.OwnerQueryControls.test_parser_rejects_contamination_and_non_ascii_components) ... ok
+test_query_failure_or_timeout_never_becomes_negative_credit (__main__.OwnerQueryControls.test_query_failure_or_timeout_never_becomes_negative_credit) ... ok
+test_receiving_and_prior_failure_evidence_remain_exact (__main__.OwnerQueryControls.test_receiving_and_prior_failure_evidence_remain_exact) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.099s
+
+OK

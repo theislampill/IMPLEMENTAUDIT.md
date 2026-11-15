@@ -448,8 +448,8 @@ class DriverBundle(unittest.TestCase):
         captured = []
         def run(command, **kwargs):
             captured.append((command, kwargs))
-            return types.SimpleNamespace(returncode=0, stdout=json.dumps(
-                {'owner': 'S-1-5-21-1000', 'user': 'S-1-5-21-1000'}), stderr='')
+            return types.SimpleNamespace(returncode=0,
+                stdout='S-1-5-21-1000\r\nS-1-5-21-1000\r\n', stderr='')
         ns = store_fixture_functions(subprocess=types.SimpleNamespace(run=run),
             os=types.SimpleNamespace(environ={'SIMULATED': 'yes'}))
         fixture = self.directory / "literal-'path; no command"
@@ -457,11 +457,43 @@ class DriverBundle(unittest.TestCase):
         command, kwargs = captured[0]
         self.assertEqual(command[1:4], ['-NoProfile', '-NonInteractive', '-EncodedCommand'])
         query = base64.b64decode(command[4]).decode('utf-16le')
-        self.assertIn('Get-Acl -LiteralPath $env:DG17_FIXTURE_OWNER_PATH', query)
+        self.assertIn("$PSModuleAutoLoadingPreference = 'None'", query)
+        self.assertIn('$path = $env:DG17_FIXTURE_OWNER_PATH', query)
+        self.assertIn('[System.IO.File]::GetAttributes($path)', query)
+        self.assertIn('[System.IO.FileAttributes]::Directory', query)
+        self.assertIn('[System.IO.Directory]::GetAccessControl($path, $sections)', query)
+        self.assertIn('[System.IO.File]::GetAccessControl($path, $sections)', query)
+        self.assertIn('[System.Security.AccessControl.AccessControlSections]::Owner', query)
         self.assertIn('[System.Security.Principal.WindowsIdentity]::GetCurrent()', query)
+        self.assertIn('finally { $identity.Dispose() }', query)
+        self.assertEqual(query.count('[Console]::WriteLine('), 2)
+        self.assertNotIn('Get-Acl', query)
+        self.assertNotIn('ConvertTo-Json', query)
+        self.assertNotIn('Import-Module', query)
         self.assertNotIn(str(fixture), query)
         self.assertEqual(kwargs['env']['DG17_FIXTURE_OWNER_PATH'], str(fixture))
         self.assertEqual(kwargs['timeout'], 30)
+
+    def test_store_fixture_owner_query_rejects_error_missing_extra_and_malformed_sid(self):
+        positive = 'S-1-5-32-544\r\nS-1-5-21-1000\r\n'
+        for stdout, code in [(positive, 1), ('', 0), ('S-1-5-32-544\n', 0),
+                (positive + 'unexpected\n', 0), ('not-a-sid\nS-1-5-21-1000\n', 0),
+                ('S-1-5-32-544\nS-1-5-２１-1000\n', 0),
+                ('S-1-5-32-544\nS-1-5-21-1000\n\n', 0)]:
+            def run(command, **kwargs):
+                return types.SimpleNamespace(returncode=code, stdout=stdout, stderr='SIMULATED query failure')
+            ns = store_fixture_functions(subprocess=types.SimpleNamespace(run=run),
+                os=types.SimpleNamespace(environ={'SIMULATED': 'yes'}))
+            with self.subTest(stdout=stdout, returncode=code), self.assertRaises(AssertionError):
+                ns['owner_facts'](self.directory)
+        ns = store_fixture_functions(subprocess=types.SimpleNamespace(run=lambda *a, **kw:
+            types.SimpleNamespace(returncode=0, stdout=positive, stderr='')),
+            os=types.SimpleNamespace(environ={'SIMULATED': 'yes'}), work=self.directory)
+        facts = ns['owner_facts'](self.directory)
+        self.assertNotEqual(facts['owner'], facts['user'])
+        with self.assertRaises(AssertionError):
+            ns['require_owner'](self.directory)
+        self.assertEqual(ns['require_owner'](self.directory, 'S-1-5-32-544'), facts)
 
     def test_store_fixture_all_negative_cases_have_specific_reason(self):
         source = ast.parse((HERE / 'test_store_custody.py').read_text())

@@ -1,0 +1,222 @@
+{
+  "additional_static_api_reviewer": "/root/dg17_independent_review/owner_query_api_check",
+  "authority": "NONE_ADDED_ROOT_OWNS_GUARDED_PUBLICATION",
+  "blocking_findings": [],
+  "candidate": {
+    "before_after_worktree": "CLEAN_AND_UNCHANGED",
+    "checkout": "/workspace/scratch/0269e6626329/dg17",
+    "commit": "82af8ccb20222ee9e667bb97494818d1b8853fb7",
+    "parent_commit": "c430ef8e5759bfd4eddff4c10b7ab2e442b6d60c",
+    "parent_tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+    "published_same_tree_parent": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+    "tree": "7e084c97e6198856a055434221563ea8412e673a"
+  },
+  "created_at": "2026-11-15T05:07:57.106778+00:00",
+  "disposition": "SOURCE_PUBLICATION_SCOPE_QUALIFIED",
+  "five_file_diff": {
+    "bytes": 71885,
+    "population": [
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_QUALIFICATION_MANIFEST.json",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py"
+    ],
+    "sha256": "bc327dfbfe9e9d5d6b82d060b6f7ceaf4896b6ba8ef2914b707cb636ca3d81ff"
+  },
+  "formal_audit_assess_transition": false,
+  "nonclaims": {
+    "DG17_or_R0037_acceptance_or_closure": false,
+    "actual_windows_execution": false,
+    "actual_windows_store_success_awarded": false,
+    "appservers_started": 0,
+    "artifact_bodies_reacquired": 0,
+    "genuine_codex_turns": 0,
+    "linux_lifecycle_rerun_for_query_change": false,
+    "native_acceptance": false,
+    "native_admission": false,
+    "original14_custody_unknown_differences": 14,
+    "owner_grant_issued": false,
+    "remote_mutations": 0,
+    "source_edits": 0,
+    "workflow_dispatches": 0
+  },
+  "preserved_history": {
+    "conclusion": "failure",
+    "first_run_file_identity_refusal": "UNEXPLAINED_PRESERVED_NO_GUARD_CHANGE",
+    "linux_conclusion": "success",
+    "linux_elapsed_seconds": {
+      "blocked-hook": 9.561137405,
+      "full": 9.624214375,
+      "native-boundary": 5.97036886
+    },
+    "linux_job": 132704049669,
+    "manifest_second_receiving_unchanged": true,
+    "manifest_third_receiving_exact_object_equality": true,
+    "prior_independent_run_receipt": {
+      "bytes": 14665,
+      "path": "/workspace/scratch/0269e6626329/dg17-review/receive-43678583519/INDEPENDENT_RUN_RECEIPT.json",
+      "sha256": "f8699551590e7fb5e88d9715412911723aa3d9be1953d52819b3db99629cbcd1"
+    },
+    "prior_wrong_owner_intercepted_negatives": "SEVEN_UNQUALIFIED_FOR_INTENDED_PREDICATES",
+    "run": 43678583519,
+    "third_author_packet": {
+      "bytes": 43050,
+      "path": "/workspace/scratch/0269e6626329/dg17/.IMPLEMENTAUDIT/dg17-ci-43678583519/SOURCE_CI_RECEIVING.json",
+      "sha256": "c7b2ef7e4bd10232e73f8c59ae5e956a86a5efd838b4fe038bdd943e517dc2e4"
+    },
+    "underlying_module_load_cause": "UNKNOWN_PRESERVED",
+    "windows_conclusion": "failure",
+    "windows_job": 132704049500,
+    "windows_module_failure": "Get-Acl found in Microsoft.PowerShell.Security but could not load; CouldNotAutoloadMatchingModule",
+    "windows_qualified_intended_negative": [
+      "missing directory"
+    ],
+    "windows_reported_cases": 14,
+    "windows_setup_errors": 13,
+    "windows_verified_preconditions": 0
+  },
+  "primary_documentation": [
+    "https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getaccesscontrol?view=netframework-4.8.1",
+    "https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getaccesscontrol?view=netframework-4.8.1",
+    "https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.objectsecurity?view=netframework-4.8",
+    "https://learn.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.user?view=netframework-4.8.1",
+    "https://learn.microsoft.com/en-us/dotnet/api/system.security.accesscontrol.accesscontrolsections",
+    "https://learn.microsoft.com/en-us/powershell/scripting/what-is-windows-powershell?view=powershell-5.1",
+    "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_powershell_exe?view=powershell-5.1",
+    "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables?view=powershell-5.1"
+  ],
+  "report": {
+    "bytes": 11112,
+    "path": "/workspace/scratch/0269e6626329/dg17-review/windows-owner-query-82af8ccb/INDEPENDENT_OWNER_QUERY_REVIEW.md",
+    "sha256": "f08f37b13262eb45408686e1bfe623977cf951d881c6e802e90a3727dc0e52da"
+  },
+  "reviewer": "/root/dg17_independent_review",
+  "root_controller": "pro-executor-01",
+  "root_reported_verified_generation": "G0004",
+  "schema": "dg17.independent-owner-query-source-review.v1",
+  "scope": "Exact frozen five-file module-free fixture owner-query correction; source-publication review only",
+  "source_assessment": {
+    "actual_powershell_and_clr_versions": "UNOBSERVED",
+    "builder_seven_field_equality_changed": false,
+    "case_preimage_and_reason_ast_unchanged_except_owner_query_and_parser": true,
+    "child_path_absolute": true,
+    "cmdlet_dependency_removed": true,
+    "fixed_executable": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "fixed_options": [
+      "-NoProfile",
+      "-NonInteractive",
+      "-EncodedCommand"
+    ],
+    "module_autoload": "None",
+    "original_limits_and_native_assertions_changed": false,
+    "parser": "Zero exit, exactly two S-1- lines with nonempty ASCII decimal components; current-user equality remains separate",
+    "parser_precision": "Lexical SID-shaped producer protocol; does not independently validate every SID numeric range/count. Fixed producer uses SecurityIdentifier.Value.",
+    "path_in_script_syntax": false,
+    "product_custody_identity_link_reparse_toctou_guards_changed": false,
+    "query": "Documented direct .NET Framework Directory/File.GetAccessControl(path, Owner); GetOwner(SecurityIdentifier); WindowsIdentity.GetCurrent().User; identity disposed before two Console lines",
+    "rehearsal_changed": false,
+    "runtime_changed": false,
+    "timeout_seconds": 30,
+    "workflow_changed": false
+  },
+  "source_files": [
+    {
+      "bytes": 3995,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+      "sha256": "30d5df37e88f2d165202f48bdf79990fcda2785aea404ddd56489c2f5f8d62fa"
+    },
+    {
+      "bytes": 105703,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_QUALIFICATION_MANIFEST.json",
+      "sha256": "e96074d2f5598208c63b0d437d73feedd6c48de16dc51c9d546ee0754b75c993"
+    },
+    {
+      "bytes": 33185,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+      "sha256": "b5bb731f0f428d16b75552c42277ab69942b92d78ee53eaadba1b4eb327890ff"
+    },
+    {
+      "bytes": 26955,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "sha256": "6655739d4e648ca82f5a095e6e3befd9de60b795e5ff911e614fe7915625b896"
+    },
+    {
+      "bytes": 7326,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
+      "sha256": "de7e800bdc99a6e130cff94f1d60585f6f829d77ea601e4460ec90793a5efe5f"
+    }
+  ],
+  "unchanged_focused_owners": [
+    {
+      "bytes": 3573,
+      "path": ".github/workflows/dg17-offline-lifecycle.yml",
+      "sha256": "979bbd30e672da1175900244e02f0ff33a5de2657b39784572bd4b74dd812a28"
+    },
+    {
+      "bytes": 16332,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/build_release_acl.py",
+      "sha256": "1342d5c89dbe73bba4ddeec07bc2b7217ffe211f4d6405e3f80d4e617b6adc6f"
+    },
+    {
+      "bytes": 7306,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/make_acl_stage_b.py",
+      "sha256": "0904a9bb1c524a1b47d8b445d6951bffaf6c6822ee794ddfc15d88e57cab5cbc"
+    },
+    {
+      "bytes": 26290,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/rehearse_lifecycle.py",
+      "sha256": "59b0cc7daf8ffd65bbff00293b03235755a668e8b94254ff42f7c3075fb4cb16"
+    }
+  ],
+  "verification": {
+    "author_red_green_log_hashes_verified": true,
+    "diff_check": {
+      "command": "git diff --check c430ef8e5759bfd4eddff4c10b7ab2e442b6d60c 82af8ccb20222ee9e667bb97494818d1b8853fb7",
+      "exit": 0
+    },
+    "independent": {
+      "command": "python3 -B /workspace/scratch/0269e6626329/dg17-review/windows-owner-query-82af8ccb/independent_controls.py",
+      "coverage": [
+        "exact frozen source and unchanged owner bytes",
+        "all other fixture AST including fourteen cases and eleven refusal reasons unchanged",
+        "fixed executable argv, UTF-16LE query and child environment isolation across metacharacter paths",
+        "malformed, contaminated, missing, extra and non-ASCII numeric output refusal",
+        "nonzero exit, timeout, missing executable and denied execution stay setup ERROR with zero predicate credit",
+        "different-owner current-user precondition failure for all eleven intended negative reasons",
+        "manifest file pins, exact retained third packet and unchanged second receiving"
+      ],
+      "elapsed_seconds": 0.099,
+      "exit": 0,
+      "log": {
+        "bytes": 1189,
+        "path": "/workspace/scratch/0269e6626329/dg17-review/windows-owner-query-82af8ccb/independent-controls.log",
+        "sha256": "ecc0bfbb889b46b235cf06b9a11956ae618f917bf28ccecaf43040f4fe86ce9c"
+      },
+      "methods": 7,
+      "source": {
+        "bytes": 10877,
+        "path": "/workspace/scratch/0269e6626329/dg17-review/windows-owner-query-82af8ccb/independent_controls.py",
+        "sha256": "ea9642e3e798ba1d93fc0c454e7ac492e7a8b1416f72deee1af75e96a2bc2cd4"
+      }
+    },
+    "supplied": {
+      "adaptation": "Only TemporaryDirectory destination redirected into review directory; source assertions and ROOT unchanged",
+      "command": "python3 -B /workspace/scratch/0269e6626329/dg17-review/windows-owner-query-82af8ccb/run_supplied_controls.py",
+      "elapsed_seconds": 0.154,
+      "exit": 0,
+      "log": {
+        "bytes": 3958,
+        "path": "/workspace/scratch/0269e6626329/dg17-review/windows-owner-query-82af8ccb/supplied-controls.log",
+        "sha256": "a8d53a8c70900761f2f556f8cf14bdd4a7b4f5823af1f8d7b36043d608914a86"
+      },
+      "methods": 24,
+      "runner": {
+        "bytes": 1514,
+        "path": "/workspace/scratch/0269e6626329/dg17-review/windows-owner-query-82af8ccb/run_supplied_controls.py",
+        "sha256": "7fcab302ab513f9a69bd7af11c573c99758c47e2ef14128948327283bf3d1591"
+      }
+    },
+    "warning": "Pre-existing historical stage_b.py docstring invalid escape SyntaxWarning; no failed test"
+  }
+}
