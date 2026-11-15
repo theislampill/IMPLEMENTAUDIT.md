@@ -811,8 +811,8 @@
             "mode": "100644",
             "blob": "92f15155017148ba80a8975b15e1bba1e97b6968"
           },
-          "integration_blob": "c57d6f44c830659c55674ef345f62194ebebc82b",
-          "integration_sha256": "e11c674e429fd431f69d7ab9e39f648fc7e82827a43e139e09ff9b8853b29ce3",
+          "integration_blob": "80da7627dab5ecd6164af3d9fa10de57e87b4c1a",
+          "integration_sha256": "e9e85dab4dcbd0a258400480b3c4900df0eebbd555df20653168918a638c0356",
           "disposition": "SEMANTIC_COMPOSITION",
           "reason": "Seven donor state mutations added while retaining combined read-race controls and actual physical/no-launch checks.",
           "integration_mode": "100644"

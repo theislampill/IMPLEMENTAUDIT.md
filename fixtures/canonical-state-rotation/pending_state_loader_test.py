@@ -85,9 +85,15 @@ def source_bindings(root):
         raw = path.read_bytes()
         require(identity(before) == identity(path.lstat()), "owner source changed during read")
         declared = entries[relative.as_posix()]
-        mode = "100755" if before.st_mode & 0o111 else "100644"
+        require(declared["mode"] in ("100644", "100755"), "native manifest mode is not a regular-file mode")
+        if os.name == "posix":
+            mode = "100755" if before.st_mode & 0o111 else "100644"
+        else:
+            # This host has no executable bit to read; only that comparison is skipped.
+            mode = "UNOBSERVABLE_ON_HOST"
         require(len(raw) == declared["bytes"] and sha(raw) == declared["sha256"]
-                and mode == declared["mode"], "owner source does not match its native manifest")
+                and (mode == declared["mode"] or os.name != "posix"),
+                "owner source does not match its native manifest")
         bindings[name] = {"path": str(path), "bytes": len(raw), "sha256": sha(raw),
                           "mode": mode, "identity": identity(before)}
         buffers[name] = raw
