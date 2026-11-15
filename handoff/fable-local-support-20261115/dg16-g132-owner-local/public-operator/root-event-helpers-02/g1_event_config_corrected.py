@@ -7,14 +7,14 @@ authenticated input files and are never inferred or synthesized here.
 import argparse,hashlib,json,os,re,stat,sys,time,types
 from pathlib import Path,PurePosixPath
 
-ISSUER='01a1cf82-cdd6-7053-b7b7-32f5c3d93d21'
+ISSUER='PRO-EXECUTOR-01'
 ROOT=PurePosixPath('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02')
 ROLE_PATH='/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/framed-role-02/role_process_v4.py'
 CONTROL_PATH='/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/root-control-v5/control_process_v5.py'
 RECEIVER_SHA='5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab'
 RESOLVER_SHA='377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b'
-ROLE_SHA='c6c1100a111bd823814720f942f70f0ddadaeb841ebbf27c985216e554cf7a8d'
-CONTROL_SHA='a96a0937e50335803b53d20035abd061281cd9197bcd88fee0039e335929ed64'
+ROLE_SHA='2b2d7ec31106d27fc812990cff256fc0707671c46b30a77d20e9e03a15ad183d'
+CONTROL_SHA='96754f33c376e49bb20a4441aded2126c79bd2841d79234bd64a974b5487a566'
 BINARY_JOURNAL_DEPENDENCY_SHA='5c36d0323ded3ec8d11fd34afa8664728e5e2490e46f8c0f4ac08a5d719bd5b5'
 CONTROL_READBACK_SHA='a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
 FILE_READBACK_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'

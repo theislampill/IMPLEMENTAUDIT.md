@@ -17,10 +17,10 @@ import types
 BASE = Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01')
 FINAL = BASE / 'root-final-operators-01'
 BINARY = FINAL / 'binary_publish_v3.py'
-BINARY_SHA = 'ebf8de349994b6194b9eeb6f22a26fa3b00bdd0a754192c9f76d5b0e0e7f5b0c'
+BINARY_SHA = 'a7e8a5694bf1ed417c5a3849db667e2fd95795b86d2152ed632abd40757de5fc'
 CONTROL = FINAL / 'control_process_v3.py'
 RESOLVER = BASE / 'public-receiver-02/author/resolve_artifact.py'
-ISSUER = '01a1cf82-cdd6-7053-b7b7-32f5c3d93d21'
+ISSUER = 'PRO-EXECUTOR-01'
 
 
 def need(ok, code):

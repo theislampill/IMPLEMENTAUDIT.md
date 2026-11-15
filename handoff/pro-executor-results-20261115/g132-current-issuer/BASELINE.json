@@ -1,0 +1,57 @@
+{
+  "baseline": "HISTORICAL_ISSUER_ONLY_CURRENT_SUCCESSOR_NOT_ADMITTED",
+  "evidence_plan": "Inspect exact constant/pin delta, parse six modules, verify affected pins, independently review frozen Git identity; retain earlier qualifications without replay",
+  "files": [
+    {
+      "bytes": 12925,
+      "current_pro_issuer_admitted": false,
+      "historical_issuer_constants": 1,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/framed-role-02/role_process_v4.py",
+      "sha256": "c6c1100a111bd823814720f942f70f0ddadaeb841ebbf27c985216e554cf7a8d"
+    },
+    {
+      "bytes": 19440,
+      "current_pro_issuer_admitted": false,
+      "historical_issuer_constants": 1,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/root-control-v5/control_process_v5.py",
+      "sha256": "a96a0937e50335803b53d20035abd061281cd9197bcd88fee0039e335929ed64"
+    },
+    {
+      "bytes": 24080,
+      "current_pro_issuer_admitted": false,
+      "historical_issuer_constants": 1,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-event-helpers-02/g1_event_config_corrected.py",
+      "sha256": "23b54536b74f8e9c21eb10507856109cb6403a7b6d92337d3d3ddcf647787ba5"
+    },
+    {
+      "bytes": 20616,
+      "current_pro_issuer_admitted": false,
+      "historical_issuer_constants": 1,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/binary_publish_v3.py",
+      "sha256": "ebf8de349994b6194b9eeb6f22a26fa3b00bdd0a754192c9f76d5b0e0e7f5b0c"
+    },
+    {
+      "bytes": 15861,
+      "current_pro_issuer_admitted": false,
+      "historical_issuer_constants": 1,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/root_pipeline_inputs_v2.py",
+      "sha256": "fa85a147332d383309e13e538e50ed03bbf34c055d95d80401b578bf74021ec5"
+    },
+    {
+      "bytes": 28070,
+      "current_pro_issuer_admitted": false,
+      "historical_issuer_constants": 1,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-event-helpers-02/root_live_sender_call_received.py",
+      "sha256": "b8103d35362d5803cd9b5912776dee9182a520f862efa9ffbbed866c3c264036"
+    }
+  ],
+  "host_commit_unchanged": "a33b8d1cdb967124b1b0d4fe877cf9b283304798",
+  "native_or_protected_effects": 0,
+  "observed_utc": "2026-11-15T11:31:00.568001+00:00",
+  "original_awards": [],
+  "original_requirement": "R35-P01 actual current authority and unified commission A.2 truthful PRO-EXECUTOR-01 successor identity",
+  "owner_source": "Existing six public Root operators and dependent source pins from fee1768b449483843bb35ade23790d212b3abf0d",
+  "rollback": "Revert only exact issuer/pin delta to fee1768b; no launched effects or grant state to undo",
+  "schema": "pro.g132.current-issuer-source-baseline.v1",
+  "source_qualifications_replayed": 0
+}

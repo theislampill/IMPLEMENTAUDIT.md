@@ -1,0 +1,74 @@
+{
+  "actor": "PRO-EXECUTOR-01",
+  "baseline_commit": "fee1768b449483843bb35ade23790d212b3abf0d",
+  "changed_files": 9,
+  "changed_manifest_entries": [
+    "SOURCE_SELECTION.json",
+    "framed-role-02/role_process_v4.py",
+    "public-receiver-02/root-control-v5/control_process_v5.py",
+    "root-event-helpers-02/g1_event_config_corrected.py",
+    "root-event-helpers-02/root_live_sender_call_received.py",
+    "root-final-operators-01/binary_publish_v3.py",
+    "root-final-operators-01/root_pipeline_inputs_v2.py"
+  ],
+  "host_commit_unchanged": "a33b8d1cdb967124b1b0d4fe877cf9b283304798",
+  "limits": [
+    "This is source-only qualification, not a final current installation or protected-launch admission",
+    "Historical source receiving bodies remain historical; fresh full source/currentness receiving is still required before use",
+    "Four host input bodies remain absent at their original identities; no historical body was reconstructed"
+  ],
+  "modules": [
+    {
+      "bytes": 12904,
+      "only_issuer_and_dependent_pin_changes": true,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/framed-role-02/role_process_v4.py",
+      "sha256": "2b2d7ec31106d27fc812990cff256fc0707671c46b30a77d20e9e03a15ad183d",
+      "syntax": "PASS"
+    },
+    {
+      "bytes": 19419,
+      "only_issuer_and_dependent_pin_changes": true,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/root-control-v5/control_process_v5.py",
+      "sha256": "96754f33c376e49bb20a4441aded2126c79bd2841d79234bd64a974b5487a566",
+      "syntax": "PASS"
+    },
+    {
+      "bytes": 24059,
+      "only_issuer_and_dependent_pin_changes": true,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-event-helpers-02/g1_event_config_corrected.py",
+      "sha256": "8dd96a107cb20a134e85d917487fe94ad150d6af33e05924c26763850fee5660",
+      "syntax": "PASS"
+    },
+    {
+      "bytes": 20595,
+      "only_issuer_and_dependent_pin_changes": true,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/binary_publish_v3.py",
+      "sha256": "a7e8a5694bf1ed417c5a3849db667e2fd95795b86d2152ed632abd40757de5fc",
+      "syntax": "PASS"
+    },
+    {
+      "bytes": 15840,
+      "only_issuer_and_dependent_pin_changes": true,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/root_pipeline_inputs_v2.py",
+      "sha256": "8945010eb4579f42463a15b980a5693cef3aba8467e3e9e5e4ef640836212618",
+      "syntax": "PASS"
+    },
+    {
+      "bytes": 28049,
+      "only_issuer_and_dependent_pin_changes": true,
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-event-helpers-02/root_live_sender_call_received.py",
+      "sha256": "fdb9d2cc68ae18e28e6263606fd20a2f555a50e579ef50bf62df9c8f0b27ce68",
+      "syntax": "PASS"
+    }
+  ],
+  "new_native_or_protected_effects": 0,
+  "observed_utc": "2026-11-15T11:33:55.115674+00:00",
+  "original_awards": [],
+  "original_clause": "R35-P01 and unified commission A.2",
+  "runtime_acceptance_tests_replayed": 0,
+  "schema": "pro.g132.current-issuer-source-delta-receiving.v1",
+  "status": "EXACT_SIX_ISSUER_AND_DEPENDENT_PIN_DELTA_VERIFIED",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "unchanged_manifest_entries": 91,
+  "untouched_historical_control_v3": true
+}

@@ -16,15 +16,15 @@ import time
 import types
 
 BASE = '/home/agent/pr255-g132-root-20261114-01/public-tools-source-01'
-ROOT = '01a1cf82-cdd6-7053-b7b7-32f5c3d93d21'
+ROOT = 'PRO-EXECUTOR-01'
 FINAL = BASE + '/root-final-operators-01'
 PIPELINE = FINAL + '/root_pipeline_inputs_v2.py'
 PINS = {
     'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', 'a9ff304d5506b8b751a6b8edd05f15bdc0d3b44efab968d016ea5d347abdcc38'),
     'assembler': (BASE+'/late-assembler-01/assemble_actual.py', '1f7612be70f93aaa201c36c349a3ee2bb6610cbe1fcf37c6b73210a4ca65b9c3'),
     'binder': (BASE+'/dispatcher-templates-02/bind_dispatcher.py', '14e9a31aff1220490c3c63e04b9fd8b4ef5a3cc6569f8e4e68af18197b70be80'),
-    'pipeline': (PIPELINE, 'fa85a147332d383309e13e538e50ed03bbf34c055d95d80401b578bf74021ec5'),
-    'binary': (FINAL+'/binary_publish_v3.py', 'ebf8de349994b6194b9eeb6f22a26fa3b00bdd0a754192c9f76d5b0e0e7f5b0c'),
+    'pipeline': (PIPELINE, '8945010eb4579f42463a15b980a5693cef3aba8467e3e9e5e4ef640836212618'),
+    'binary': (FINAL+'/binary_publish_v3.py', 'a7e8a5694bf1ed417c5a3849db667e2fd95795b86d2152ed632abd40757de5fc'),
     'journal': (FINAL+'/control_process_v3.py', '5c36d0323ded3ec8d11fd34afa8664728e5e2490e46f8c0f4ac08a5d719bd5b5'),
     'decoder': (FINAL+'/file_readback.py', 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'),
     'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', '377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b'),

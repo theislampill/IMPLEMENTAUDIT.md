@@ -1,7 +1,7 @@
 {
   "SOURCE_SELECTION.json": {
     "bytes": 1654,
-    "sha256": "ad99db4a22aa139a8a8ce96f6a010fb398ae50078cc9f2b24d575f51e086e41e"
+    "sha256": "8ee1f018a4d72af308d316ee70fa24b7c2c0a9dcc8124f9603c06624ccbd004f"
   },
   "dispatcher-templates-02/bind_dispatcher.py": {
     "bytes": 8942,
@@ -20,8 +20,8 @@
     "sha256": "5c36d0323ded3ec8d11fd34afa8664728e5e2490e46f8c0f4ac08a5d719bd5b5"
   },
   "framed-role-02/role_process_v4.py": {
-    "bytes": 12925,
-    "sha256": "c6c1100a111bd823814720f942f70f0ddadaeb841ebbf27c985216e554cf7a8d"
+    "bytes": 12904,
+    "sha256": "2b2d7ec31106d27fc812990cff256fc0707671c46b30a77d20e9e03a15ad183d"
   },
   "g3-intake/actual_packet.py": {
     "bytes": 9545,
@@ -348,8 +348,8 @@
     "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5"
   },
   "public-receiver-02/root-control-v5/control_process_v5.py": {
-    "bytes": 19440,
-    "sha256": "a96a0937e50335803b53d20035abd061281cd9197bcd88fee0039e335929ed64"
+    "bytes": 19419,
+    "sha256": "96754f33c376e49bb20a4441aded2126c79bd2841d79234bd64a974b5487a566"
   },
   "public-receiver-02/root-control-v5/control_readback.py": {
     "bytes": 5923,
@@ -360,16 +360,16 @@
     "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
   },
   "root-event-helpers-02/g1_event_config_corrected.py": {
-    "bytes": 24080,
-    "sha256": "23b54536b74f8e9c21eb10507856109cb6403a7b6d92337d3d3ddcf647787ba5"
+    "bytes": 24059,
+    "sha256": "8dd96a107cb20a134e85d917487fe94ad150d6af33e05924c26763850fee5660"
   },
   "root-event-helpers-02/root_live_sender_call_received.py": {
-    "bytes": 28070,
-    "sha256": "b8103d35362d5803cd9b5912776dee9182a520f862efa9ffbbed866c3c264036"
+    "bytes": 28049,
+    "sha256": "fdb9d2cc68ae18e28e6263606fd20a2f555a50e579ef50bf62df9c8f0b27ce68"
   },
   "root-final-operators-01/binary_publish_v3.py": {
-    "bytes": 20616,
-    "sha256": "ebf8de349994b6194b9eeb6f22a26fa3b00bdd0a754192c9f76d5b0e0e7f5b0c"
+    "bytes": 20595,
+    "sha256": "a7e8a5694bf1ed417c5a3849db667e2fd95795b86d2152ed632abd40757de5fc"
   },
   "root-final-operators-01/control_process_v3.py": {
     "bytes": 17493,
@@ -380,8 +380,8 @@
     "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
   },
   "root-final-operators-01/root_pipeline_inputs_v2.py": {
-    "bytes": 15861,
-    "sha256": "fa85a147332d383309e13e538e50ed03bbf34c055d95d80401b578bf74021ec5"
+    "bytes": 15840,
+    "sha256": "8945010eb4579f42463a15b980a5693cef3aba8467e3e9e5e4ef640836212618"
   },
   "root-recipient-issuer-01/issue_recipient_inputs.py": {
     "bytes": 8864,

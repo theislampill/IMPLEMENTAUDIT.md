@@ -6,7 +6,7 @@ post-encryption files and executes five exact admitted MCP writes/readbacks.
 import argparse,ast,base64,hashlib,json,os,re,stat,sys,time,types,urllib.parse
 from pathlib import Path
 ROOT=Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02')
-ISSUER='01a1cf82-cdd6-7053-b7b7-32f5c3d93d21'
+ISSUER='PRO-EXECUTOR-01'
 MAX_RESULT=4*1024**2
 FILE_READER_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
 CONTROL_DRIVER_SHA='5c36d0323ded3ec8d11fd34afa8664728e5e2490e46f8c0f4ac08a5d719bd5b5'

@@ -15,7 +15,7 @@ import time
 import types
 import urllib.parse
 
-ISSUER = '01a1cf82-cdd6-7053-b7b7-32f5c3d93d21'
+ISSUER = 'PRO-EXECUTOR-01'
 ROOT = Path('/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02')
 RECEIVER_SHA = '5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab'
 RESOLVER_SHA = '377d0b056ac0a3ef2276bd093d32fc3a628d816e6c65ba012976fa0cf5e8188b'

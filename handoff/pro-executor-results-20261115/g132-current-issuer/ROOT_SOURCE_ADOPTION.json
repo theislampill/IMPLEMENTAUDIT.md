@@ -1,0 +1,32 @@
+{
+  "actor": "/root",
+  "actual_installation_or_current_binding_received": false,
+  "candidate_commit": "a3906bbb9e03a175f567c275b5adaa9f52386054",
+  "candidate_tree": "24048b1cabd9265ad8cea810aa076a3983f18972",
+  "decision": "ADOPT_EXACT_REVIEWED_CURRENT_ISSUER_CORRECTION_AT_SOURCE_SCOPE_ONLY",
+  "effect_grant": false,
+  "host_commit_unchanged": "a33b8d1cdb967124b1b0d4fe877cf9b283304798",
+  "independent_reviewer": "/root/g132_existing_offline_intake",
+  "issuer_thread": "PRO-EXECUTOR-01",
+  "observed_utc": "2026-11-15T11:36:43.039106+00:00",
+  "operator_subtree": "3cebb942f447266f6348a1ac18e7d76bd487624e",
+  "original_awards": [],
+  "original_requirement": "R35-P01 and unified commission A.2",
+  "records": {
+    "BASELINE.json": {
+      "bytes": 2985,
+      "sha256": "5fc8c64389997e8e9de7741530739a1fa794a069aaeb5ffd0be6bb0e432c629f"
+    },
+    "INDEPENDENT_REVIEW.md": {
+      "bytes": 4494,
+      "sha256": "b0f4da013b39f3baa4ebfd3f8265020be9cd0160d477993682ac21eb5c834b57"
+    },
+    "QUALIFICATION.json": {
+      "bytes": 3475,
+      "sha256": "61feabd88484ad178650d263e264b57a94e801446e842952aa4928013ab392ef"
+    }
+  },
+  "schema": "pro.g132.current-issuer-source-adoption.v1",
+  "source_parent": "fee1768b449483843bb35ade23790d212b3abf0d",
+  "successor": "PRO-EXECUTOR-01, designated by owner"
+}
