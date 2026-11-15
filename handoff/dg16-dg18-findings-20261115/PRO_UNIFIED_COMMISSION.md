@@ -122,3 +122,39 @@ Track **M1–M6** from `ORIGINAL48_CURRENT_MAP_NOV06.json`. Each is unproved unt
 
 ### Reporting
 After each step, report in plain language first what ran, what passed and what failed, and why. Then give exact commits, trees and readbacks. Keep historical failures and protected UNKNOWN effects visible.
+
+## D. Owner addendum: failure prevention and execution economy (2026-11-15)
+This addendum supplements sections A–C. It does not replace their acceptance requirements, authority boundaries or execution plan.
+
+**Established failure pattern.** The recurring defects were in campaign-specific execution machinery, not demonstrated failures of the product:
+- G218/G219: stale literals and source pins.
+- G220: the real computation passed, but receiving rejected the actual producer output.
+- G131: the recipient was spent too close to expiry.
+- DG17: Stage A controller activation failed, and a separate Windows Stage B incompatibility was found offline afterwards.
+- DG18: a Windows test incompatibility and an undersized source-receiving bound.
+
+Historical failure evidence stays preserved at its actual scope.
+
+**Required next-operation discipline**
+1. **Rehearse complete producer-to-receiver behaviour before protected launches.** Test real deterministic producer outputs against the actual consuming code wherever possible. Distinguish offline qualification from authentic host acceptance.
+2. **Check the entire class of a demonstrated defect.** A stale digest, literal, path or output-shape failure means examining every equivalent dependency before the next launch, not just fixing the first failed occurrence.
+3. **Exercise the full deterministic driver lifecycle.** For DG17, replay Stage A and Stage B up to their authentic native or model boundaries before spending another grant. For DG16, rehearse the operator steps, result receiving and control publication before the live window.
+4. **Check time and resource feasibility before irreversible effects.** Before spending a one-shot sender or launching protected work, validate:
+   - current recipient validity;
+   - source identity;
+   - runner applicability;
+   - independent reviewer readiness;
+   - the applicable budget.
+5. **Preserve progress after failures.** Identify the first failing predicate, retain permitted evidence, reuse unchanged qualified results, and make only justified corrections. There are no automatic protected retries and no UNKNOWN replay.
+
+**Repeated-failure response.** When the same implementation-specific failure class recurs, require a source-based diagnosis and a qualified prevention measure before the next affected launch. Consider a reviewed alternative evidence or execution route wherever the campaign machinery has become more burdensome than the original requirement. The retrospective's numerical thresholds (two failures, three attempts, ten re-pinned artifacts) are diagnostic signals. They are not automatic stop, handoff or acceptance rules. R0037's prohibition on arbitrary retry-count termination policies is preserved.
+
+**Immediate application**
+- **DG16 G221:** qualify actual output shapes against both receivers, scan the pinned literals and affected dependencies, rehearse the selected evidence channel, and verify live-window feasibility before launch.
+- **DG16 G132:** dry-stage the complete G1/G3 chain, check recipient and pre-sender timing, and resolve the historical queued run (43098152901) before any fresh protected effect.
+- **DG17:** perform an end-to-end deterministic Stage A/B rehearsal, using the final Windows custody correction and the rebuilt operation record, before seeking the new native grant.
+- **DG18:** recover the actual N1 owner records, qualify the applicable source consumers, and do the independently eligible OR, C02 and W-FULL preparation without waiting for unrelated Codex turns.
+
+Completion is still defined by the original RLGWO and DAG contracts. A successful rehearsal, an absence of further failures, or this addendum does not define it. The objective is to stop using expensive accepting operations to discover preventable integration defects.
+
+Supporting diagnosis: `RETROSPECTIVE_20261115.md` in this folder.
