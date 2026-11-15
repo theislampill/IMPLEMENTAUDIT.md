@@ -1,0 +1,126 @@
+{
+  "acceptance_or_effect_grant": false,
+  "actual_model_self_report": "GPT-6 Astra Pro",
+  "artifact_id": 14163837406,
+  "artifact_name": "dg16-full-registry-43703658937-1",
+  "artifact_zip_sha256": "55a2e6bfece398f2c3fffdf3ca91dbef7f4f3ce11229f4e7223138ef34c11086",
+  "copied_evidence_bytes_altered": false,
+  "implementation_authoring_context_reuse": false,
+  "independent_live_pass_issued": false,
+  "job_id": 132779993512,
+  "member_count_excluding_this_manifest": 16,
+  "members": [
+    {
+      "bytes": 56725,
+      "path": "INDEPENDENT_RECEIVING_REPORT.md",
+      "sha256": "90d42ee64e0a6e7d2d91ebfdf002565ed04286c662a3ce03c28cb7c593c4a1a2"
+    },
+    {
+      "bytes": 19761,
+      "path": "M5_ORIGINAL_RECEIVING_REPORT.md",
+      "sha256": "c30ff3ffaf6345f36814d7b362ab61cec991762277eb6658dc9310cecedcde6f"
+    },
+    {
+      "bytes": 12209,
+      "path": "M5_RECEIVING_ADDENDUM.json",
+      "sha256": "3e02ae11aa423ccbf451ee082be5f3672dd99a189cd73529aaa16af2b2c75a05"
+    },
+    {
+      "bytes": 3937,
+      "path": "README.md",
+      "sha256": "4313c66bc0262735eec9cb7801e624cf444e896c6f6854afe0be3f447a0ed8d3"
+    },
+    {
+      "bytes": 2134,
+      "path": "ROOT_TERMINAL_RECEIVING.json",
+      "sha256": "c7a7b16e433108dbf2e3ecee69bfc731fcf9455dd5c07bb84c5de8520543192f"
+    },
+    {
+      "bytes": 108345,
+      "path": "decoded-public.json",
+      "sha256": "4d816842f8c7fa6ec7a2b7659dc8329e7374f9977b9e0d47575cc4a20aa4891d"
+    },
+    {
+      "bytes": 118454,
+      "path": "job.log",
+      "sha256": "397661fcbfdbab426c15f4593b9cdab4ba681b7f79f6b2599d92e567f0d7d24c"
+    },
+    {
+      "bytes": 6306,
+      "path": "provider-readback.json",
+      "sha256": "3a70d0289c8c5c3a7600418ed25aafa4dbe0079f74d510b9964f212d58febeb4"
+    },
+    {
+      "bytes": 14572,
+      "path": "public-artifact.zip",
+      "sha256": "55a2e6bfece398f2c3fffdf3ca91dbef7f4f3ce11229f4e7223138ef34c11086"
+    },
+    {
+      "bytes": 837,
+      "path": "public/ARTIFACT_MANIFEST.json",
+      "sha256": "bff08c0a36259a3a8105f0afbfb22ee90e7722730ff58f2a866d8165cc6666c6"
+    },
+    {
+      "bytes": 368,
+      "path": "public/CLEANUP.json",
+      "sha256": "2eb373b24efc4a8a840536640454ac6615c3bb005f1e87c632c8246d43346ded"
+    },
+    {
+      "bytes": 434,
+      "path": "public/FAILURE.json",
+      "sha256": "43c77dfef12cc7e8bdca3d68bd8063d7af4b4d7eae6cc83e0c2fed4840d61046"
+    },
+    {
+      "bytes": 33338,
+      "path": "public/HOST.json",
+      "sha256": "c998cc5a79c3b69f3d6904919bb62cf090b3ca12d8ae0881a8ca8ce823bf22bf"
+    },
+    {
+      "bytes": 30244,
+      "path": "public/PROBE.json",
+      "sha256": "0fb9525a10b9d4023e35dc3df7ff5f60e715125396e748228c466b74dde97454"
+    },
+    {
+      "bytes": 1477,
+      "path": "public/RESULT.json",
+      "sha256": "7ceede31b8671c035530ec1f7fdd215815a6c324b39308f2456d4ce4372b4aa3"
+    },
+    {
+      "bytes": 612,
+      "path": "public/SOURCE.json",
+      "sha256": "729efa5b74e2858485cf8f4e616703abddb3ea70ec1636ccaba205f4020d2fcc"
+    }
+  ],
+  "missing_relation_witness": true,
+  "packet_path": "handoff/pro-executor-results-20261115/original-acceptance/dg16-g2/run-43703658937",
+  "prepared_by": "/root/g221_direct_existing_owner_review",
+  "prior_full_report_prefix": {
+    "bytes": 48662,
+    "sha256": "ad422aa847caeb05ea9c8446b1ad0d27a2e7e13058c1b9d4e76ae71832e57460"
+  },
+  "private_streams_included": false,
+  "proposed_existing_engineering_branch": "engineering/pro-executor-original-completion-20261115",
+  "provider_auth_values_already_masked": true,
+  "public_wire_members": [
+    "public/ARTIFACT_MANIFEST.json",
+    "public/CLEANUP.json",
+    "public/FAILURE.json",
+    "public/HOST.json",
+    "public/PROBE.json",
+    "public/RESULT.json",
+    "public/SOURCE.json"
+  ],
+  "purpose": "ACTUAL_TERMINAL_G221_PUBLIC_EVIDENCE_ONLY",
+  "requested_model": "inherited_without_override",
+  "result": "UNQUALIFIED_OR_INCOMPLETE",
+  "root_consumption_issued_by_reviewer": false,
+  "root_receiving": "ROOT_TERMINAL_RECEIVING.json",
+  "run_attempt": 1,
+  "run_id": 43703658937,
+  "source_based_inference": "The known complete-raw-receiving status descriptor and returncode1 imply full_proof.all_declared_relations_equal=false in the exact reviewed driver; no proof body or relation witness was received.",
+  "staging_base_commit": "8165a1edbd057aa59faa16e97a61ad1aabbd1e18",
+  "temporary_urls_included": false,
+  "total_member_bytes": 409753,
+  "unmasked_authentication_credentials_found": false,
+  "workflow_commit": "8165a1edbd057aa59faa16e97a61ad1aabbd1e18"
+}

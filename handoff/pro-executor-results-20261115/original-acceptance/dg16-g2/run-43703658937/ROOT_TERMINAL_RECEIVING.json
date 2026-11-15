@@ -1,0 +1,51 @@
+{
+  "actual_pair": "BOTH_LEGS_EXIT_ZERO",
+  "actual_run": {
+    "conclusion": "failure",
+    "event": "push",
+    "head_branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
+    "head_sha": "8165a1edbd057aa59faa16e97a61ad1aabbd1e18",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43703658937",
+    "id": 43703658937,
+    "run_attempt": 1,
+    "status": "completed",
+    "updated_at": "2026-11-15T13:29:32Z"
+  },
+  "actual_run_raw_descriptor": {
+    "bytes": 15013,
+    "sha256": "9ea8d207312cdfb53480723e09635f6d18c73b5bf5121bba3eb2ba802cd0ac0c"
+  },
+  "artifact": {
+    "bytes": 14572,
+    "id": 14163837406,
+    "sha256": "55a2e6bfece398f2c3fffdf3ca91dbef7f4f3ce11229f4e7223138ef34c11086"
+  },
+  "author": "/root",
+  "automatic_retry": false,
+  "disposition": "RECEIVED_ACTUAL_FAILED_RUN_PUBLIC_EVIDENCE_NO_ACCEPTANCE",
+  "finalization_refusal": "EPISODE_INCOMPLETE",
+  "first_outer_refusal": "FULL_PAIR_NOT_COMPLETELY_RECEIVED",
+  "independent_live_pass": "NOT_ISSUED",
+  "independent_receiver": "/root/g221_direct_existing_owner_review",
+  "independent_terminal_report": {
+    "bytes": 56725,
+    "sha256": "90d42ee64e0a6e7d2d91ebfdf002565ed04286c662a3ce03c28cb7c593c4a1a2"
+  },
+  "live_request": "ABSENT",
+  "m2_acceptance": false,
+  "m5_addendum": {
+    "bytes": 12209,
+    "sha256": "3e02ae11aa423ccbf451ee082be5f3672dd99a189cd73529aaa16af2b2c75a05"
+  },
+  "m5_new_award": false,
+  "m5_receiver": "/root/dg16_m5_original_receiving",
+  "previous_source_qualification_repeated": false,
+  "private_streams_or_temporary_urls_published": false,
+  "received_utc": "2026-11-15T13:41:19.869503+00:00",
+  "root_control": "NOT_ISSUED",
+  "schema": "pro.dg16.g221-root-terminal-receiving.v1",
+  "source_based_inference": "Known deterministic complete-raw-receiving status descriptor plus return1 implies overall adopted relation equality was false. This is not a received full-proof body.",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "unknown": "Exact failing normalized relation and witness were not retained in public output and remain unavailable.",
+  "whole_cell_acceptance": false
+}

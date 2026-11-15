@@ -1,0 +1,214 @@
+{
+  "artifact_listing": {
+    "artifacts": [
+      {
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163837406/zip",
+        "created_at": "2026-11-15T13:29:29Z",
+        "digest": "sha256:55a2e6bfece398f2c3fffdf3ca91dbef7f4f3ce11229f4e7223138ef34c11086",
+        "expired": false,
+        "expires_at": "2026-11-22T13:29:28Z",
+        "id": 14163837406,
+        "name": "dg16-full-registry-43703658937-1",
+        "size_in_bytes": 14572,
+        "updated_at": "2026-11-15T13:29:29Z",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163837406",
+        "workflow_run": {
+          "head_branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
+          "head_repository_id": 1243475954,
+          "head_sha": "8165a1edbd057aa59faa16e97a61ad1aabbd1e18",
+          "id": 43703658937,
+          "repository_id": 1243475954
+        }
+      }
+    ]
+  },
+  "job_steps": {
+    "steps": [
+      {
+        "conclusion": "success",
+        "name": "Set up job",
+        "number": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Check out the exact reviewed packet",
+        "number": 2,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Check out the exact reviewed cumulative DG16 source",
+        "number": 3,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Provision the ordinary release dependency and verifier tools",
+        "number": 4,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Bind source and observed native prerequisite requirements",
+        "number": 5,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Claim author inspect and activate the actual fresh task",
+        "number": 6,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Discover its controller in the operation checkout",
+        "number": 7,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Record the actual fresh hosted new-session boundary",
+        "number": 8,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Read STATE in one completed host action",
+        "number": 9,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Read ROADMAP in a separate completed host action",
+        "number": 10,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Request the fresh G0001 continuity receipt",
+        "number": 11,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Verify the owner-issued resume receipt",
+        "number": 12,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Require current continuity before the full operation",
+        "number": 13,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Qualify five changed native predicates with the two maintained cases",
+        "number": 14,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Receive both actual current native cases under same-job custody",
+        "number": 15,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Execute the complete current registry legacy then DAG once",
+        "number": 16,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "name": "Independently re-read actual sealed captures in the live job",
+        "number": 17,
+        "status": "completed"
+      },
+      {
+        "conclusion": "skipped",
+        "name": "Prepare the exact actual full correspondence proof for live independent review",
+        "number": 18,
+        "status": "completed"
+      },
+      {
+        "conclusion": "skipped",
+        "name": "Validate all nine public review files before upload",
+        "number": 19,
+        "status": "completed"
+      },
+      {
+        "conclusion": "skipped",
+        "name": "Upload the actual bounded live review packet",
+        "number": 20,
+        "status": "completed"
+      },
+      {
+        "conclusion": "skipped",
+        "name": "Await actual independent review and separate root consumption within the fixed hold",
+        "number": 21,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "name": "Re-read original private custody and currentness after actual review before teardown",
+        "number": 22,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Validate all public files and encoded caps before the first line",
+        "number": 23,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Upload exactly the validated closed public population",
+        "number": 24,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Post Check out the exact reviewed cumulative DG16 source",
+        "number": 47,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Post Check out the exact reviewed packet",
+        "number": 48,
+        "status": "completed"
+      },
+      {
+        "conclusion": "success",
+        "name": "Complete job",
+        "number": 49,
+        "status": "completed"
+      }
+    ]
+  },
+  "review_artifact_listing": {
+    "artifacts": []
+  },
+  "terminal_monitor_snapshot": {
+    "active": [],
+    "completed": 27,
+    "failures": [
+      {
+        "conclusion": "failure",
+        "name": "Independently re-read actual sealed captures in the live job",
+        "number": 17,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "name": "Re-read original private custody and currentness after actual review before teardown",
+        "number": 22,
+        "status": "completed"
+      }
+    ],
+    "review_artifact_count": 0,
+    "utc": "2026-11-15T13:29:40.744Z"
+  }
+}
