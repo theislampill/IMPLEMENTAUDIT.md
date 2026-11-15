@@ -1,0 +1,18 @@
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  RELATION_INPUTS.files == physical {bytes, sha256} of all 8 relation inputs :: {"pending_relation.py": {"bytes": 30269, "sha256": "b73adbc6c8ed6aa32b6d138b839f053e80d75066f3a2d0ce42231a5ad3e546c6"}}
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  RELATION_INPUTS.json canonical encoding (full_relation.encode)
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  pair_driver.RELATION_INPUTS_SHA == sha256(RELATION_INPUTS.json) :: "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014"
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  POLICY.json canonical encoding; pair_driver.POLICY_SHA == sha256(POLICY.json) :: "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1"
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  POLICY.receiver_inputs_sha256 == RELATION_INPUTS_SHA; POLICY.full_receiver_sha256 == pair_driver.FULL_RELATION_SHA == sha256(full_relation.py)
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  POLICY / RELATION_INPUTS source commit + tree
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  run.py: 17 file pins == physical packet files
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  run.CURRENT_HOST_REQUEST_SHA == sha256(decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json) :: "16781d4f48254f5ac87d0d8741b5a1a7d33261918bdc05213a2b55ff9b289df0"
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  request.source_bindings pair_driver / policy / receiver_inputs / source_manifest == physical
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  workflow: every 64-hex literal == sha256(run.py) :: {"literals": 20, "run.py": "d951761bcfceaddc799d1ed1195f06dd656c803cf4fdfadc7fb06323a626bfd5"}
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  SOURCE_MANIFEST.json untouched: 1766 members / 167023692 bytes; pending_relation.py is not a member :: {"file_count": 1766, "members": 1766, "total_bytes": 167023692}
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  receiver/BINDING_TEMPLATE.modules == physical {bytes, sha256} of all 43 packet files :: {"modules": 43}
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  receiver/ROOT_BINDING_TEMPLATE.workflow_sha256 == sha256(workflow) :: "e24896d110c0a58c2bfd6cff299814e5d14986da4ad8262cba2a9e0cd1a0c16d"
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  author/bind_public_successor.TEMPLATE_PINS == {sha256(BINDING_TEMPLATE.json)} :: "78fe55d379d6837b7831da8d1405fc8dc6ed70ccad5e629a0b1013c341f6c211"
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  candidate SEAL.json: 66 members == physical tree, 0 mismatches, no unsealed file
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  author/compose-candidate-bound.py PINS[candidate] == sha256(candidate SEAL.json) :: "8fb0170de5db4d322314502eb4cc135e19c9a49872111ae1215959a9cf771f05"
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] PASS  author/compose-final-bound.py PINS[candidate] == sha256(candidate SEAL.json) :: "8fb0170de5db4d322314502eb4cc135e19c9a49872111ae1215959a9cf771f05"
+[TEST_ONLY-PRO-EXECUTOR-01-new-propagated-fixture] SUMMARY checks=17 failed=0

@@ -1,0 +1,20 @@
+{
+  "schema": "pro-executor.local-review-candidate-custody.v1",
+  "actor": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "review_candidate": "865791d5ba12f824311ffc53db71ed0a00e574b0",
+  "tree": "796da0948ae01e9958943e98c327b945c2225650",
+  "parent": "060902121a45b180853e630891caa5e6c9d2f704",
+  "commit_object": {
+    "path": "LOCAL_REVIEW_COMMIT_OBJECT.txt",
+    "bytes": 270,
+    "sha256": "3334ce3fb8e14f24cf9ef9725fa6223a51dc8e722ffce7bba8786bb8fa7b3791",
+    "git_commit_sha1": "865791d5ba12f824311ffc53db71ed0a00e574b0"
+  },
+  "recovery": "The exact raw commit body can reconstruct the local reviewed commit object using git hash-object -t commit; its tree and all files must separately match the published source tree. This is no provider execution receipt.",
+  "local_git_default_author_label": "Codex <codex@openai.com>",
+  "attribution_limit": "The local environment supplied this default Git author/committer metadata. It is not evidence of a Codex native model turn, a provider operation, or a distinct agent. The acting source executor is PRO-EXECUTOR-01 under the current owner commission.",
+  "provider_publication_identity": "To be received from actual GitHub commit/ref response, separately from this local candidate",
+  "original_acceptance": false,
+  "effect_grant": false
+}

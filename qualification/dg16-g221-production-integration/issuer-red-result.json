@@ -1,0 +1,12 @@
+{
+  "scope": "SOURCE_TEST_ONLY_INVALID_PUBLIC_CERTIFICATE_NO_KEYS",
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "-B",
+    "qualification/dg16-g221-production-integration/test_successor_issuer.py",
+    "SuccessorIssuer.test_designated_successor_reaches_real_propagation"
+  ],
+  "exit_code": 1,
+  "reason": "ISSUER_THREAD_SHAPE rejects owner-designated PRO-EXECUTOR-01",
+  "protected_effects": 0
+}

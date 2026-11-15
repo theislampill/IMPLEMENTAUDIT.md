@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-I",
+    "-B",
+    "/workspace/scratch/0269e6626329/g221-integration/qualification/dg16-g221-production-integration/test_approved_binding.py",
+    "ApprovedBinding.test_changed_semantic_source_is_refused_before_execution",
+    "ApprovedBinding.test_optimized_pro_mode_refuses_before_binding"
+  ],
+  "returncode": 1,
+  "TEST_ONLY": true,
+  "admissible": false
+}

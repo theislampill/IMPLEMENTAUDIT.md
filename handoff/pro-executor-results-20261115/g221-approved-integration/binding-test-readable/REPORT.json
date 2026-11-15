@@ -1,0 +1,59 @@
+{
+  "authority": "NONE",
+  "outcome": "BOUNDED_SOURCE_INTEGRATION_VERIFIED",
+  "admissible_production_evidence": false,
+  "implementation": [
+    {
+      "path": "handoff/dg16-g221-root-execution-inputs/tools/bind_harness.py",
+      "sha256": "f8c93a97642c32d5b40f940afe3f33db421c00a93e3dcce2293190d621970e0a",
+      "bytes": 10938
+    },
+    {
+      "path": "qualification/dg16-g221-production-integration/test_approved_binding.py",
+      "sha256": "f0cc75e7b0d4830f754775ee613462d792d42d331c855643a5a7a28b86a29b4a",
+      "bytes": 16863
+    }
+  ],
+  "first_red": "red-01.stderr",
+  "first_original_binding_refusal": "first-original-binding-refusal.json",
+  "first_predicate": "FROZEN_PUBLIC_BINDING_TEMPLATE",
+  "green": "green-02-loader.stderr",
+  "new_tests_passed": 5,
+  "affected_pin_chain": "affected-pin-chain.json",
+  "affected_pin_checks_passed": 17,
+  "original_semantic_observation": {
+    "TEST_ONLY": true,
+    "admissible": false,
+    "authority": "NONE",
+    "effect_grant": false,
+    "forbidden_effects": [],
+    "original_verified_calls": [
+      "native_integration.py:<module>",
+      "native_integration.py:bindings",
+      "native_integration.py:history",
+      "run.py:<module>",
+      "run.py:Deadline",
+      "run.py:Refusal",
+      "run.py:digest",
+      "run.py:load_native",
+      "run.py:need"
+    ]
+  },
+  "preservation": "preservation.json",
+  "approved_semantic_tree": "fa36b0023f581f3c7ad1122a938bd319978aae06",
+  "reference": "060902121a45b180853e630891caa5e6c9d2f704",
+  "commit_created": false,
+  "residuals": [
+    "Source fixture uses deliberately invalid ASCII certificate and test-only schema records; it proves no fresh recipient or authenticated issuer/reviewer/adoption provenance.",
+    "Actual code/native review, selected actual record custody, physical seal and all later Root gates remain external prerequisites.",
+    "No provider, CI, protected run, actual native operation, grant, acceptance or publication was attempted.",
+    "Independent integration review remains with Root."
+  ],
+  "loader_red": "red-02-loader.stderr",
+  "semantic_before_execution_sha256": "9ad95ee8a9c696548501a0404d1029ab5ff79f070a88c2e22f9a44619c47716b",
+  "loader_refusal": "APPROVED_SEMANTIC_PIN",
+  "optimized_refusal": "PRO_EXECUTOR_REQUIRES_ASSERTIONS",
+  "first_red_control_residue": "red-02-loader-TEST_ONLY retains altered-source marker and pre-fix optimized output as explicit failing-control evidence",
+  "final_green_fixture": "green-02-loader-TEST_ONLY",
+  "affected_pin_fixture": "green-01-TEST_ONLY/TEST_ONLY_workspace"
+}

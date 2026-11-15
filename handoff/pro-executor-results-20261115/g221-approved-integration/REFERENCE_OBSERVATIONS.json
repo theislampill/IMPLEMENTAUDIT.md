@@ -1,0 +1,34 @@
+{
+  "schema": "root.G221.public-preparation-reference-observations.v1",
+  "actor": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "recorded_utc": "2026-11-15 07:17:10 UTC",
+  "observations": {
+    "host": {
+      "ref": "refs/heads/pro/dg16-r5-full-g2-direct-host-21-20261115",
+      "matching_refs": [],
+      "exact_ref_absent": true
+    },
+    "control": {
+      "ref": "refs/heads/pro/dg16-r5-full-g2-direct-control-21-20261115",
+      "matching_refs": [],
+      "exact_ref_absent": true
+    },
+    "historical_g132": {
+      "id": 43098152901,
+      "status": "queued",
+      "conclusion": null,
+      "head_sha": "9e9e36635677e1cf2d1e9a2886f075eeb771c324",
+      "head_branch": "pro/dg16-g1-original-g3-19-20261111",
+      "run_attempt": 1,
+      "updated_at": "2026-11-11T20:47:56Z"
+    }
+  },
+  "effect_grant": false,
+  "launch_admission": false,
+  "protected_launches": 0,
+  "notes": [
+    "Ref absence is an observation now, not a reservation or launch admission; recheck immediately before any authorized create.",
+    "G132 historical run remains queued; owner disposition remains required before a fresh G132 protected effect. No cancellation requested or performed."
+  ]
+}

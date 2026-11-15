@@ -18,7 +18,7 @@ to Python-literal {'bytes': N, 'sha256': S} descriptors (protected_bridge.py), w
 
 usage: propagate_successor.py <universe-in> <universe-out> <report.json>
          --old-host-branch B --new-host-branch B --old-control-branch B --new-control-branch B --recipient-cert PEM
-         [--old-issuer-thread UUID --new-issuer-thread UUID]
+         [--old-issuer-thread UUID --new-issuer-thread UUID_OR_PRO-EXECUTOR-01]
 """
 import argparse, ast, hashlib, json, re, shutil
 from collections import OrderedDict
@@ -45,7 +45,7 @@ PEM = 'candidate-e76-source-01/candidate/public/qualification/dg16-r5-full-g2/PR
 assert PEM in original
 swaps = [(a.old_host_branch.encode(), a.new_host_branch.encode()), (a.old_control_branch.encode(), a.new_control_branch.encode())]
 if a.new_issuer_thread:
-    assert re.fullmatch('[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}', a.new_issuer_thread), 'ISSUER_THREAD_SHAPE'
+    assert a.new_issuer_thread == 'PRO-EXECUTOR-01' or re.fullmatch('[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}', a.new_issuer_thread), 'ISSUER_THREAD_SHAPE'
     swaps.append((a.old_issuer_thread.encode(), a.new_issuer_thread.encode()))
 seeded, seeds = {}, {}
 for name, raw in original.items():

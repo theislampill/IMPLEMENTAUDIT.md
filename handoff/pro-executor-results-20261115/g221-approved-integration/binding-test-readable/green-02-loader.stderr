@@ -1,0 +1,10 @@
+test_changed_external_selection_refuses_before_receiver_output (__main__.ApprovedBinding.test_changed_external_selection_refuses_before_receiver_output) ... ok
+test_changed_semantic_source_is_refused_before_execution (__main__.ApprovedBinding.test_changed_semantic_source_is_refused_before_execution) ... ok
+test_current_binding_reapplies_exact_original_and_verifies_without_effects (__main__.ApprovedBinding.test_current_binding_reapplies_exact_original_and_verifies_without_effects) ... ok
+test_optimized_pro_mode_refuses_before_binding (__main__.ApprovedBinding.test_optimized_pro_mode_refuses_before_binding) ... ok
+test_regenerated_binder_cannot_replace_approved_original (__main__.ApprovedBinding.test_regenerated_binder_cannot_replace_approved_original) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.860s
+
+OK

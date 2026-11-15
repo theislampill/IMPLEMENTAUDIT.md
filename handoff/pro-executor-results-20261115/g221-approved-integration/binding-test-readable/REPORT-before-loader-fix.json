@@ -1,0 +1,52 @@
+{
+  "authority": "NONE",
+  "outcome": "BOUNDED_SOURCE_INTEGRATION_VERIFIED",
+  "admissible_production_evidence": false,
+  "implementation": [
+    {
+      "path": "handoff/dg16-g221-root-execution-inputs/tools/bind_harness.py",
+      "sha256": "4d5e131dc3381a734cbcc321b345e0f89a28ddaee0b174d0a4cf91a0d0f4e860",
+      "bytes": 10517
+    },
+    {
+      "path": "qualification/dg16-g221-production-integration/test_approved_binding.py",
+      "sha256": "a527ea4acfe0a503f9d470d9fbe2e37e1f125e587b04dee77ee995dd1a02af5c",
+      "bytes": 14912
+    }
+  ],
+  "first_red": "red-01.stderr",
+  "first_original_binding_refusal": "first-original-binding-refusal.json",
+  "first_predicate": "FROZEN_PUBLIC_BINDING_TEMPLATE",
+  "green": "green-01.stderr",
+  "new_tests_passed": 3,
+  "affected_pin_chain": "affected-pin-chain.json",
+  "affected_pin_checks_passed": 17,
+  "original_semantic_observation": {
+    "TEST_ONLY": true,
+    "admissible": false,
+    "authority": "NONE",
+    "effect_grant": false,
+    "forbidden_effects": [],
+    "original_verified_calls": [
+      "native_integration.py:<module>",
+      "native_integration.py:bindings",
+      "native_integration.py:history",
+      "run.py:<module>",
+      "run.py:Deadline",
+      "run.py:Refusal",
+      "run.py:digest",
+      "run.py:load_native",
+      "run.py:need"
+    ]
+  },
+  "preservation": "preservation.json",
+  "approved_semantic_tree": "fa36b0023f581f3c7ad1122a938bd319978aae06",
+  "reference": "060902121a45b180853e630891caa5e6c9d2f704",
+  "commit_created": false,
+  "residuals": [
+    "Source fixture uses deliberately invalid ASCII certificate and test-only schema records; it proves no fresh recipient or authenticated issuer/reviewer/adoption provenance.",
+    "Actual code/native review, selected actual record custody, physical seal and all later Root gates remain external prerequisites.",
+    "No provider, CI, protected run, actual native operation, grant, acceptance or publication was attempted.",
+    "Independent integration review remains with Root."
+  ]
+}

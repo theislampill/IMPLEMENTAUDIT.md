@@ -1,0 +1,8 @@
+test_designated_successor_reaches_real_propagation (__main__.SuccessorIssuer.test_designated_successor_reaches_real_propagation) ... ok
+test_existing_uuid_shape_remains_supported_as_data_only (__main__.SuccessorIssuer.test_existing_uuid_shape_remains_supported_as_data_only) ... ok
+test_similar_or_unfilled_successors_cannot_enter_propagation (__main__.SuccessorIssuer.test_similar_or_unfilled_successors_cannot_enter_propagation) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.380s
+
+OK

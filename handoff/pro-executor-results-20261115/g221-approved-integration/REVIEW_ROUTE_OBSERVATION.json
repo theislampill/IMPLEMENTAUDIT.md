@@ -1,0 +1,16 @@
+{
+  "schema": "pro-executor.independent-source-review-route-observation.v1",
+  "actor": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "review_candidate": "865791d5ba12f824311ffc53db71ed0a00e574b0",
+  "review_kind": "ordinary independent cold source/code review",
+  "internal_child_route_selected": false,
+  "internal_child_authority": "NONE",
+  "observed_resolver_exit_code": 1,
+  "observed_resolver_diagnostic": "resolve-internal-skill: governor directory identity is not implementaudit",
+  "executing_governor": "/home/agent/.codex/skills/remote-skills/skill-6a85962852788191bb717a1a61592b58/SKILL.md",
+  "cause": "The host-selected installed directory has a UUID locator; the internal child resolver requires canonical governor directory identity. No source modification or alias was used to bypass that refusal.",
+  "containment": "No audit-assess route/envelope was issued; distinct reviewer continues the already authorized ordinary source review with identical scope and independence.",
+  "effect_grant": false,
+  "original_acceptance": false
+}

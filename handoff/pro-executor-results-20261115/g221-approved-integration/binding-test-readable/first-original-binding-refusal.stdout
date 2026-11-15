@@ -1,0 +1,30 @@
+{
+  "bind_public": "REFUSED:FROZEN_PUBLIC_BINDING_TEMPLATE",
+  "binder_sha256": "a6545228f277408d361996b9c7a5d4aecde0e25ea5efe7443f482d535da2e5c3",
+  "binding": {
+    "bytes": 8858,
+    "sha256": "32738cce9aef83bf96e79561276c5684ba63e530a090b666b79264eae791d608"
+  },
+  "mode": "g220-actual",
+  "notes": [],
+  "template_changed_template_keys": [
+    "candidate_path",
+    "candidate_seal_sha256",
+    "code_review_seal_sha256",
+    "composition_path",
+    "composition_review_reviewer",
+    "composition_review_selection",
+    "composition_seal_sha256",
+    "composition_sha256",
+    "final_tree",
+    "native_gate_sha256",
+    "native_review_seal_sha256",
+    "policy_gate_sha256",
+    "public_adoption_sha256",
+    "public_native_adoption_sha256",
+    "public_native_review_sha256",
+    "public_review_sha256",
+    "session",
+    "successor_runtime_binding"
+  ]
+}
