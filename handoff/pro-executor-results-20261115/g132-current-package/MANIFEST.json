@@ -72,6 +72,10 @@
       "bytes": 3361,
       "sha256": "3a04edfec5e6c3660c4bc712d0f0c70fd73f1dbbdfc3b579f8a9ecde9b9f80a2"
     },
+    "OPERATOR_PUBLICATION_INDEPENDENT_RECEIVING.json": {
+      "bytes": 9943,
+      "sha256": "7b6989731495827b7aec6bcd22b0ab79f9c54a812818854633eeafc4c76ddb95"
+    },
     "OPERATOR_REVIEW.json": {
       "bytes": 31948,
       "sha256": "5d3ec1ade8ada94290cb5e50076ffc8649b6b603bf11eec2d5eec851db7e1346"

@@ -1,0 +1,141 @@
+{
+  "authority": "NONE",
+  "branch": "engineering/pro-g132-current-issuer-20261115",
+  "commit": "112f85eea3d9f35b19ac1b8215844cc1e028336a",
+  "disposition": "RECEIVED_EXACT_REVIEWED_OPERATOR_SOURCE_PUBLICATION",
+  "limits": [
+    "Bounded engineering source/evidence publication receiving only; prior source qualifications are reused without rerun.",
+    "The provider commit is distinct from the local candidate commit; exact tree equality and equal parent trees are proved, not commit identity.",
+    "No protected ref was targeted by this receiver. This receipt does not grant or establish a protected launch.",
+    "Actual static preflight and corrected physical read-gate timings retain their earlier exact scopes. Live API/Root-chain timing remains unmeasured.",
+    "Exact owner launch go, applicable floor and queue disposition, fresh same-run Root bodies, sender/currentness and original G1/G3/native/full-comparison receiving predicates remain separate.",
+    "No full Q04/Q05, original M5, G1/G2/G3, native, or whole-cell award."
+  ],
+  "local_composition_receiving": {
+    "actual_delta_paths_equal_payload": true,
+    "candidate_delta_entries": 131,
+    "evidence_files_all_match_candidate_tree": 43,
+    "host_publication_receiving": {
+      "bytes": 5055,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/HOST_PUBLICATION_INDEPENDENT_RECEIVING.json",
+      "sha256": "c41a6daf9a553417c10c9a25cc22f96405a7dfc47f4b98dbadabd4ce0d5ff2a8"
+    },
+    "host_review": {
+      "bytes": 28027,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/HOST_REVIEW.json",
+      "sha256": "c7b8af0f25faacda3e3765b3ef137a4f9533a6bfd98d90a921034c93f1f94139"
+    },
+    "independent_operator_review": {
+      "bytes": 10817,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/OPERATOR_CORRECTION_REVIEW.json",
+      "sha256": "8f73a3ee2a89f729f2b60b987698dea2c13f06c36bb906363327fb853c2c4d81"
+    },
+    "index_all141_current_pins_exact": true,
+    "local_candidate": "5fafef73fbb5384212884aafed8577ac04b41af6",
+    "local_candidate_parent": "a2a590f4803e4ea86617cba64037b96cac380e64",
+    "local_candidate_tree": "04a9ac41df88a93080485fa35574633be7262e48",
+    "operator_files_all_match_candidate_tree": 142,
+    "operator_pins": {
+      "bytes": 26641,
+      "path": "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/OPERATOR_PINS.json",
+      "sha256": "1dc89a4db2db5737edcf5b5896485798d4fe2a40c6860b4f089c79b220da48c3"
+    },
+    "parent_tree_equality": true,
+    "payload": {
+      "bytes": 4393307,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/OPERATOR_CREATE_TREE.json",
+      "sha256": "2ce3a18edb08db8e48e3866d1170d574617d49013630e4bcb376d96aebb6fdae"
+    },
+    "payload_base_tree": "63a25e4f941afabc1563b19a27a86ee8ba85276f",
+    "payload_entries": 131,
+    "payload_exact_full_tree_overlay": true,
+    "phase": {
+      "bytes": 9198,
+      "path": "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/PHASE.json",
+      "sha256": "06a1cd10de8c918e0e2f214cbadf43538f7bc7f2bd4d45e9e241e2aec44e3ae9"
+    },
+    "prior_broad_review": {
+      "bytes": 31948,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/OPERATOR_REVIEW.json",
+      "sha256": "5d3ec1ade8ada94290cb5e50076ffc8649b6b603bf11eec2d5eec851db7e1346"
+    },
+    "published_parent": "c65971a51be014790cc9bd91f0e48d00d561641d",
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "root_receiving": {
+      "bytes": 1625,
+      "path": "/workspace/scratch/0269e6626329/fable-local-support/handoff/pro-executor-results-20261115/g132-current-package/ROOT_OPERATOR_SOURCE_RECEIVING.json",
+      "sha256": "29902b402ae9426b1c4b6d9f6c693bea9f96b5544fbd436ab0e1c341f3af2eb5"
+    },
+    "source_index": {
+      "bytes": 947,
+      "path": "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/SOURCES.json",
+      "sha256": "7de1096a7abf180d8fdd122ea1b08b6ab85550ef10cff429d3d4f039b57a0fcd"
+    },
+    "source_publication_action": {
+      "bytes": 3333,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/OPERATOR_PUBLICATION_ACTION.json",
+      "sha256": "f63f7329d2d9746178d35d14037cc797437a8890e825870294a6f198aa227c56"
+    },
+    "source_selection": {
+      "bytes": 1952,
+      "path": "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/SOURCE_SELECTION.json",
+      "sha256": "3ba27feca194e0ad36c8600756d3f74733f0b82385f69d24203c92e76030b77f"
+    }
+  },
+  "observed_utc": "2026-11-15T12:41:01Z",
+  "operations": {
+    "artifact_or_log_downloads": 0,
+    "external_model_or_pc_requests": 0,
+    "preflight_runs": 0,
+    "protected_launches": 0,
+    "provider_metadata_GETs": 2,
+    "provider_mutations": 0,
+    "source_edits": 0,
+    "source_qualification_runs": 0
+  },
+  "original_awards": [],
+  "predicates": {
+    "actual_provider_commit_has_exact_tree_and_sole_parent": true,
+    "actual_provider_ref_points_to_exact_commit": true,
+    "all_131_actual_payload_entries_equal_candidate_blobs_and_modes": true,
+    "all_141_operator_index_pins_match_frozen_local_bodies": true,
+    "all_142_operator_bodies_match_candidate_tree": true,
+    "all_43_evidence_bodies_match_candidate_tree": true,
+    "independent_host_review_and_publication_receiving_reused": true,
+    "local_candidate_tree_equals_provider_tree": true,
+    "payload_overlay_of_exact_base_equals_entire_candidate_tree": true,
+    "phase_exact_reviewed_body": true,
+    "published_parent_tree_equals_reviewed_local_baseline_tree": true,
+    "published_reviews_equal_existing_independent_review_bodies": true,
+    "root_receiving_binds_exact_independent_operator_review_and_preserves_gates": true,
+    "source_selection_and_source_index_exact_reviewed_bodies": true
+  },
+  "provider_readbacks": {
+    "commit": {
+      "bytes": 1675,
+      "raw_json": "{\"sha\":\"112f85eea3d9f35b19ac1b8215844cc1e028336a\",\"node_id\":\"C_kwDOSh3v8toAKDExMmY4NWVlYTNkOWYzNWIxOWFjMWI4MjE1ODQ0Y2MxZTAyODMzNmE\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/112f85eea3d9f35b19ac1b8215844cc1e028336a\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/112f85eea3d9f35b19ac1b8215844cc1e028336a\",\"author\":{\"name\":\"theIslampill\",\"email\":\"theislampill@gmail.com\",\"date\":\"2026-11-15T12:40:10Z\"},\"committer\":{\"name\":\"theIslampill\",\"email\":\"theislampill@gmail.com\",\"date\":\"2026-11-15T12:40:10Z\"},\"tree\":{\"sha\":\"04a9ac41df88a93080485fa35574633be7262e48\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/04a9ac41df88a93080485fa35574633be7262e48\"},\"message\":\"Receive current G132 package consumer and exact reviewed operator bindings\\n\\nsuccessor: PRO-EXECUTOR-01, designated by owner\\n\\nOriginal R35-P01/Q04/Q05: preserve actual package/source identities and original limits; bind the independently reviewed host434f12 and final 141-member operator index1dc89a4d. Retain the two demonstrated stale-pin failures and their narrow received correction8f73a3ee.\\n\\nEngineering source and evidence publication only. No protected launch, native result, G1/G3 award, or whole-cell acceptance.\",\"parents\":[{\"sha\":\"c65971a51be014790cc9bd91f0e48d00d561641d\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/c65971a51be014790cc9bd91f0e48d00d561641d\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/c65971a51be014790cc9bd91f0e48d00d561641d\"}],\"verification\":{\"verified\":false,\"reason\":\"unsigned\",\"signature\":null,\"payload\":null,\"verified_at\":null}}",
+      "sha256": "8f2ecf5951d8f718a0ddc81ce6cf2b9c15ce318e8e2f8c63501ca435c54761d0",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/112f85eea3d9f35b19ac1b8215844cc1e028336a"
+    },
+    "ref": {
+      "bytes": 494,
+      "raw_json": "{\"ref\":\"refs/heads/engineering/pro-g132-current-issuer-20261115\",\"node_id\":\"REF_kwDOSh3v8toAN3JlZnMvaGVhZHMvZW5naW5lZXJpbmcvcHJvLWcxMzItY3VycmVudC1pc3N1ZXItMjAyNjExMTU\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/engineering/pro-g132-current-issuer-20261115\",\"object\":{\"sha\":\"112f85eea3d9f35b19ac1b8215844cc1e028336a\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/112f85eea3d9f35b19ac1b8215844cc1e028336a\"}}",
+      "sha256": "356161a7de1fa396847e3e6948c652f0dceed4ca27a10f2cadab7a2be9bf557c",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/pro-g132-current-issuer-20261115"
+    }
+  },
+  "ref": "refs/heads/engineering/pro-g132-current-issuer-20261115",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "agent": "/root/dg16_m5_original_receiving",
+    "authoring_context_reused": false,
+    "distinct_from_publisher": "/root",
+    "publication_performed_by_receiver": false,
+    "requested_model": "GPT-6 Astra Pro",
+    "source_author": false
+  },
+  "schema": "pro.g132.operator-publication-independent-receiving.v1",
+  "sole_parent": "c65971a51be014790cc9bd91f0e48d00d561641d",
+  "tree": "04a9ac41df88a93080485fa35574633be7262e48"
+}
