@@ -15,3 +15,13 @@ focused controls and the remaining host/acceptance boundaries. The author set
 and Windows evidence above remain historical inputs. The revised generator
 requires explicit `--source-root` and `--output-author` arguments and never
 grants native admission.
+
+The first source-only CI run, 43675846002 at published commit 52065bcee405715a2fc31d78b3aefd2958ba96a0,
+is received with both jobs failed. Linux Stage A steps 01–10 reached the explicit
+native boundary; the full fixture then exposed a process-guard argument/data
+mistake, and Windows stopped at an unresolved lstat/fstat identity comparison
+before store tests. The report preserves both failures, exact artifact and
+generated-source identities, the focused harness correction, and the unchanged
+Windows refusal with bounded diagnostics. Complete lifecycle and Windows
+qualification remain pending independent review and source-only CI; no native
+authority or custody difference changes.

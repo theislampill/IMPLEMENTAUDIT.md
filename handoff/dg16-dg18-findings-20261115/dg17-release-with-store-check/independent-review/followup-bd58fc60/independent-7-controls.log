@@ -1,0 +1,12 @@
+test_diagnostic_failure_does_not_replace_original_exception (__main__.Followup.test_diagnostic_failure_does_not_replace_original_exception) ... ok
+test_exact_executables_and_only_two_bash_owners (__main__.Followup.test_exact_executables_and_only_two_bash_owners) ... ok
+test_exact_parent_guard_false_positive_and_successor_binding_data (__main__.Followup.test_exact_parent_guard_false_positive_and_successor_binding_data) ... ok
+test_exact_six_file_manifest_and_received_hosted_member_hashes (__main__.Followup.test_exact_six_file_manifest_and_received_hosted_member_hashes) ... ok
+test_first_failure_and_cleanup_failure_both_retained_with_bounds (__main__.Followup.test_first_failure_and_cleanup_failure_both_retained_with_bounds) ... ok
+test_identity_diagnostic_refuses_before_any_payload_read (__main__.Followup.test_identity_diagnostic_refuses_before_any_payload_read) ... ok
+test_original_after_read_identity_refusal_remains (__main__.Followup.test_original_after_read_identity_refusal_remains) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.017s
+
+OK

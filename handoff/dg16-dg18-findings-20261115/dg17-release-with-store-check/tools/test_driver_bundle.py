@@ -9,6 +9,7 @@ import os
 from pathlib import Path
 import shutil
 import subprocess
+import sys
 import tempfile
 import types
 import unittest
@@ -27,6 +28,7 @@ def load(path, name):
 
 builder = load(HERE / 'build_release_acl.py', 'bundle_builder')
 generator = load(HERE / 'make_acl_stage_b.py', 'acl_generator')
+rehearsal = load(HERE / 'rehearse_lifecycle.py', 'lifecycle_rehearsal')
 
 
 class Call:
@@ -293,6 +295,68 @@ class DriverBundle(unittest.TestCase):
             physical = path.stat()
             with self.assertRaises(AssertionError):
                 parent.capture(path, expected, physical=(physical.st_dev, physical.st_ino + 1, physical.st_nlink))
+
+    def test_process_guard_accepts_codex_only_as_binding_data(self):
+        allowed = {'python': str(Path(sys.executable).resolve()),
+                   'bash': str(Path(shutil.which('bash')).resolve()),
+                   'git': str(Path(shutil.which('git')).resolve())}
+        owner = str((self.directory / 'source-owner.sh').resolve())
+        rehearsal.admit_deterministic_process(
+            [allowed['python'], '-I', '-S', '-B', '/SIMULATED/host-session-binding.py',
+             '--store', '/SIMULATED/store', 'bind', '--host-id', 'codex'], allowed, {owner})
+        rehearsal.admit_deterministic_process([allowed['bash'], owner, '--host-id', 'codex'],
+                                              allowed, {owner})
+        for command, shell in [
+                (['/SIMULATED/codex', 'app-server'], False),
+                ([allowed['python'], 'app-server'], False),
+                ([allowed['bash'], '-c', 'printf ok; codex app-server'], False),
+                ([allowed['bash'], '-lc', 'codex exec'], False),
+                ([allowed['bash'], '/SIMULATED/foreign-owner.sh'], False),
+                ([allowed['bash'], owner], True),
+                ('codex app-server', False)]:
+            with self.subTest(command=command, shell=shell), self.assertRaises(AssertionError):
+                rehearsal.admit_deterministic_process(command, allowed, {owner}, shell=shell)
+
+    def test_identity_diagnostic_preserves_each_original_refusal(self):
+        path = self.directory / 'identity-diagnostic'
+        path.write_bytes(b'SIMULATED content must not be in the diagnostic')
+        fields = ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+        original = os.fstat
+        for field in fields:
+            def changed(fd):
+                values = {key: getattr(original(fd), key) for key in fields}
+                values[field] += 1
+                return types.SimpleNamespace(**values)
+            with self.subTest(field=field), patch.object(os, 'fstat', changed):
+                with self.assertRaisesRegex(ValueError, 'Input identity changed before read') as caught:
+                    builder.pin(path)
+                message = str(caught.exception)
+                facts = json.loads(message.split(': ', 1)[1])
+                self.assertEqual(facts['mismatch_fields'], [field])
+                self.assertEqual(set(facts['before']), set(fields))
+                self.assertEqual(set(facts['opened']), set(fields))
+                self.assertEqual(facts['python_version'], sys.version.split()[0])
+                self.assertNotIn(str(path), message)
+                self.assertNotIn('content must not', message)
+
+    def test_failure_summary_keeps_first_source_predicate_and_no_authority(self):
+        fixture = rehearsal.Fixture.__new__(rehearsal.Fixture)
+        fixture.work = self.directory / 'failed-fixture'
+        fixture.case = fixture.work / 'SIMULATED-case'
+        fixture.mode = 'full'
+        out = fixture.case / 'evidence/stage-B01'
+        out.mkdir(parents=True)
+        rehearsal.save(out / '03-owned-bind.json', {'exit': 2, 'stderr': 'SIMULATED first predicate'})
+        rehearsal.save(out / 'POST_B.json', {'status': 'STOPPED_TEARDOWN_UNKNOWN_NO_RETRY',
+                       'error': 'SIMULATED first predicate', 'cleanup': {'known': False}})
+        fixture.preserve_failure(RuntimeError('SIMULATED cleanup exception'))
+        result = json.loads((fixture.work / 'REHEARSAL_RESULT.json').read_bytes())
+        self.assertEqual(result['result'], 'SOURCE_REHEARSAL_REFUSED')
+        self.assertEqual(result['stages']['B']['error'], 'SIMULATED first predicate')
+        self.assertEqual(result['failed_source_commands'][0]['exit'], 2)
+        self.assertEqual(result['authority'], 'NONE')
+        self.assertEqual(result['genuine_codex_turns'], 0)
+        self.assertFalse(result['native_acceptance'])
 
 
 if __name__ == '__main__':

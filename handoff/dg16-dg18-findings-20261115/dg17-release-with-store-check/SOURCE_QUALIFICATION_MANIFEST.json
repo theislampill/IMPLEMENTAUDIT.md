@@ -9,19 +9,19 @@
       "sha256": "979bbd30e672da1175900244e02f0ff33a5de2657b39784572bd4b74dd812a28"
     },
     {
-      "bytes": 1940,
+      "bytes": 2630,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
-      "sha256": "2b51b416ef09512667fd5de80e7ca4ae5b5c0ee759b8f43440a2202397d4930c"
+      "sha256": "3327dc00d87c8ef9026e6f24da8cf50b0937534648cbf63e2e346f25426e2dca"
     },
     {
-      "bytes": 9689,
+      "bytes": 17098,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
-      "sha256": "23fd1397ea5e68eb4feb0d04b1417e6dd227bb9711aaad5f8c8c01c37b70503c"
+      "sha256": "0296e334ffbadcdc2910543843eec1104ca78e82aac81585b56b6c930180a189"
     },
     {
-      "bytes": 15714,
+      "bytes": 16332,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/build_release_acl.py",
-      "sha256": "1101be665939e5a0c60b609f2266e35a3046ad372554e22a9cbdb682327ee1bd"
+      "sha256": "1342d5c89dbe73bba4ddeec07bc2b7217ffe211f4d6405e3f80d4e617b6adc6f"
     },
     {
       "bytes": 7306,
@@ -29,14 +29,14 @@
       "sha256": "0904a9bb1c524a1b47d8b445d6951bffaf6c6822ee794ddfc15d88e57cab5cbc"
     },
     {
-      "bytes": 23484,
+      "bytes": 26290,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/rehearse_lifecycle.py",
-      "sha256": "632096eec33abc19860fa3b05e4f5616af0a84f0c5aa614c9242c97022ab4065"
+      "sha256": "59b0cc7daf8ffd65bbff00293b03235755a668e8b94254ff42f7c3075fb4cb16"
     },
     {
-      "bytes": 14148,
+      "bytes": 18126,
       "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
-      "sha256": "7523e5b3d39b6fa5d4a7c4d6addd261dac07de2f31d7835e548c6d81c30e22c8"
+      "sha256": "55eba74095bbfeddd0f70bd773dd32be78b4ab64f73c431858c46a7fe1f2b066"
     },
     {
       "bytes": 3644,
@@ -45,6 +45,51 @@
     }
   ],
   "genuine_codex_turns": 0,
+  "initial_author_snapshot": {
+    "changed_file_population_excludes_this_manifest": [
+      {
+        "bytes": 3573,
+        "path": ".github/workflows/dg17-offline-lifecycle.yml",
+        "sha256": "979bbd30e672da1175900244e02f0ff33a5de2657b39784572bd4b74dd812a28"
+      },
+      {
+        "bytes": 1940,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+        "sha256": "2b51b416ef09512667fd5de80e7ca4ae5b5c0ee759b8f43440a2202397d4930c"
+      },
+      {
+        "bytes": 9689,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+        "sha256": "23fd1397ea5e68eb4feb0d04b1417e6dd227bb9711aaad5f8c8c01c37b70503c"
+      },
+      {
+        "bytes": 15714,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/build_release_acl.py",
+        "sha256": "1101be665939e5a0c60b609f2266e35a3046ad372554e22a9cbdb682327ee1bd"
+      },
+      {
+        "bytes": 7306,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/make_acl_stage_b.py",
+        "sha256": "0904a9bb1c524a1b47d8b445d6951bffaf6c6822ee794ddfc15d88e57cab5cbc"
+      },
+      {
+        "bytes": 23484,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/rehearse_lifecycle.py",
+        "sha256": "632096eec33abc19860fa3b05e4f5616af0a84f0c5aa614c9242c97022ab4065"
+      },
+      {
+        "bytes": 14148,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+        "sha256": "7523e5b3d39b6fa5d4a7c4d6addd261dac07de2f31d7835e548c6d81c30e22c8"
+      },
+      {
+        "bytes": 3644,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
+        "sha256": "4ff9db2278431b8281ff54b3958e357a0f656f895b1f97504dfd714d578e6896"
+      }
+    ],
+    "commit": "017d652586004b86468042b7142b4349c2a07619"
+  },
   "local_evidence_not_native_acceptance": [
     {
       "bytes": 72,
@@ -110,6 +155,293 @@
   "local_operation_sha256": "c497826f6b3b803390b344a1df40e8eccb6d0a6a7544ca3b2e119380ed6edca4",
   "native_admission": false,
   "original14_custody_unknown_differences": 14,
-  "review_status": "PENDING_INDEPENDENT_REVIEW",
-  "schema": "dg17.source-qualification-manifest.v1"
+  "review_status": "PENDING_INDEPENDENT_TARGETED_REVIEW_AFTER_CI_FAILURE",
+  "schema": "dg17.source-qualification-manifest.v1",
+  "source_ci_followup": {
+    "artifacts": [
+      {
+        "job_conclusion": "failure",
+        "job_id": 132695703877,
+        "metadata": {
+          "digest": "sha256:1898209fe489e8c726f1551ebb57974a2b1dabee2c99b1264ad9fd479d17177f",
+          "id": 14146507079,
+          "name": "dg17-linux-source-only",
+          "size_in_bytes": 6315,
+          "workflow_run": {
+            "head_branch": "engineering/pro-executor-dg17-source-20261115",
+            "head_repository_id": 1243475954,
+            "head_sha": "52065bcee405715a2fc31d78b3aefd2958ba96a0",
+            "id": 43675846002,
+            "repository_id": 1243475954
+          }
+        },
+        "receipt": {
+          "archive_sha256": "1898209fe489e8c726f1551ebb57974a2b1dabee2c99b1264ad9fd479d17177f",
+          "artifact_id": 14146507079,
+          "authority": "NONE",
+          "body_get_attempts": 1,
+          "members": {
+            "full.log": {
+              "bytes": 3307,
+              "sha256": "55b2aad658a20e44e0b5623775e41cc12c2d2d031d3c39f9e458b88504626298"
+            },
+            "full/SIMULATED_ONLY.json": {
+              "bytes": 178,
+              "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+            },
+            "native-boundary.log": {
+              "bytes": 1161,
+              "sha256": "fb664574eaf635c8eedb626fc1b5d58836bf2e44c42475dfd949982b180267ad"
+            },
+            "native-boundary/REHEARSAL_RESULT.json": {
+              "bytes": 1212,
+              "sha256": "fa29f86df2cc923a998ee54949c39ea00875b9569f46c3e973997b1dbfb40167"
+            },
+            "native-boundary/SIMULATED_ONLY.json": {
+              "bytes": 178,
+              "sha256": "afa739a84220944543daaf03335ef126d294eddf8c81be4efb9194f02052a474"
+            },
+            "rebuild.log": {
+              "bytes": 764,
+              "sha256": "1c9e4be179d08a21261f1d71cc8282c975ff3c7a20fe5d7ef1b2b5a46aa91dba"
+            },
+            "rebuilt/PINS.json": {
+              "bytes": 3935,
+              "sha256": "c78f6332e614ba9d4ed3f4ea4ca96eb05f7758e21153782d439a25bf1a2706d1"
+            },
+            "source-controls.log": {
+              "bytes": 2129,
+              "sha256": "fd2a0e45f0bbd630df606b48c73c5b1686805031923ec66bb0eaa24b4799c569"
+            }
+          },
+          "raw_wrapper_retained": false,
+          "signed_url_retained": false,
+          "status": "SOURCE_LOGS_RECEIVED"
+        },
+        "upload_conclusion": "success"
+      },
+      {
+        "job_conclusion": "failure",
+        "job_id": 132695704092,
+        "metadata": {
+          "digest": "sha256:0dae263a22520d082f295e4aed4e46aa9ea0841d24f2a4d269de59ab1e83c449",
+          "id": 14145752673,
+          "name": "dg17-windows-store-source-only",
+          "size_in_bytes": 474,
+          "workflow_run": {
+            "head_branch": "engineering/pro-executor-dg17-source-20261115",
+            "head_repository_id": 1243475954,
+            "head_sha": "52065bcee405715a2fc31d78b3aefd2958ba96a0",
+            "id": 43675846002,
+            "repository_id": 1243475954
+          }
+        },
+        "receipt": {
+          "archive_sha256": "0dae263a22520d082f295e4aed4e46aa9ea0841d24f2a4d269de59ab1e83c449",
+          "artifact_id": 14145752673,
+          "authority": "NONE",
+          "body_get_attempts": 1,
+          "members": {
+            "rebuild.log": {
+              "bytes": 1087,
+              "sha256": "2feea6bbab976b5496a41e59353add154ddb82cee7cd73054bca4a4eb750723f"
+            }
+          },
+          "raw_wrapper_retained": false,
+          "signed_url_retained": false,
+          "status": "SOURCE_LOGS_RECEIVED"
+        },
+        "upload_conclusion": "success"
+      }
+    ],
+    "base_tree": "7da9f4e0d40e8dfb32d5dcf78df46b4e70c31f14",
+    "changed_file_population_excludes_this_manifest": [
+      {
+        "bytes": 2630,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+        "sha256": "3327dc00d87c8ef9026e6f24da8cf50b0937534648cbf63e2e346f25426e2dca"
+      },
+      {
+        "bytes": 17098,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+        "sha256": "0296e334ffbadcdc2910543843eec1104ca78e82aac81585b56b6c930180a189"
+      },
+      {
+        "bytes": 16332,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/build_release_acl.py",
+        "sha256": "1342d5c89dbe73bba4ddeec07bc2b7217ffe211f4d6405e3f80d4e617b6adc6f"
+      },
+      {
+        "bytes": 26290,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/rehearse_lifecycle.py",
+        "sha256": "59b0cc7daf8ffd65bbff00293b03235755a668e8b94254ff42f7c3075fb4cb16"
+      },
+      {
+        "bytes": 18126,
+        "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+        "sha256": "55eba74095bbfeddd0f70bd773dd32be78b4ab64f73c431858c46a7fe1f2b066"
+      }
+    ],
+    "focused_controls": {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "elapsed_seconds": 0.129,
+      "exit": 0,
+      "log": {
+        "bytes": 2556,
+        "path": ".IMPLEMENTAUDIT/dg17-ci-43675846002/source-correction-controls-final.log",
+        "sha256": "91447933341ff4d2340c8d0abee9004be1a06818d4b718b462742bf78ebaba38"
+      },
+      "methods": 18
+    },
+    "genuine_codex_turns": 0,
+    "linux_full_fixture": {
+      "blocked_hook_reached": false,
+      "cleanup_qualified": false,
+      "final_error": "Teardown unknown; parent reconciliation required",
+      "first_refusal": "Harness process guard rejected codex as data in --host-id codex before 03-owned-bind spawn",
+      "full_lifecycle_qualified": false,
+      "operation_B_bytes": 6566,
+      "operation_B_sha256": "7540dd1e20e32fb151a79b106d87032e937642a443ad6c045b7505d8326af736",
+      "stage_A_remaining_global_seconds": 892.083397502,
+      "stage_A_status": "STAGE_A_BOUND_CONTEXT_READY_FOR_INDEPENDENT_REVIEW"
+    },
+    "linux_native_boundary": {
+      "authority": "NONE",
+      "elapsed_seconds": 6.317373794,
+      "genuine_codex_turns": 0,
+      "mode": "native-boundary",
+      "native_appservers_started": 0,
+      "original14_unknown_differences": 14,
+      "result": "SOURCE_STEPS_01_TO_10_PASS_NATIVE_BOUNDARY_NOT_CROSSED",
+      "schema": "dg17.SIMULATED-deterministic-rehearsal.v1",
+      "seams": [
+        "native RPC and model traffic simulated",
+        "fresh simulated grant/reviewer inputs",
+        "constructor fixed host literals rebound only in test copies",
+        "Stage B operation path routed to test copy",
+        "Windows ACL replaced by POSIX private test directory"
+      ],
+      "simulated_calls": [
+        "SIMULATED:Client"
+      ],
+      "stage_A_error": "SIMULATED stop before native appserver creation",
+      "stage_A_source_steps": [
+        "01-clone.json",
+        "02-checkout.json",
+        "03-head.json",
+        "04-tree.json",
+        "05-controller-ref-absence.json",
+        "06-new-claim.json",
+        "06a-inspect-initialization.json",
+        "06b-activate-controller.json",
+        "07-source-bootstrap.json",
+        "08-source-verify.json",
+        "09-source-require.json",
+        "10-source-positive.json"
+      ],
+      "stage_A_status": "STAGE_A_STOPPED_FIRST_REFUSAL_OR_UNKNOWN_NO_RETRY",
+      "windows_custody_exercised": false
+    },
+    "local_base_commit": "5a6825c73de82d7ba45d584527da882310f20a62",
+    "native_admission": false,
+    "original14_custody_unknown_differences": 14,
+    "published_base_commit": "52065bcee405715a2fc31d78b3aefd2958ba96a0",
+    "received_pins": {
+      "author_dir": "/home/runner/work/_temp/dg17-offline/rebuilt/author",
+      "authority": "NONE - source-only preparation, not native evidence",
+      "base_author_dir": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/handoff/dg16-dg18-findings-20261115/dg17-next-release/author",
+      "files": {
+        "OPERATION_A.json": {
+          "bytes": 18684,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/OPERATION_A.json",
+          "previous_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+          "sha256": "43e1428c469a8919aead08ce530c64b8c94b82addeb4ce8904bae3ede2546d43"
+        },
+        "PROFILE.toml": {
+          "bytes": 535,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/PROFILE.toml",
+          "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+          "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+        },
+        "bind_stage_b.py": {
+          "bytes": 3244,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/bind_stage_b.py",
+          "previous_sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+          "sha256": "2f0a37e9611ee7d88229311f522665f506c80d9dce87ae636e90a07ed74d1731"
+        },
+        "native_rpc.py": {
+          "bytes": 13921,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/native_rpc.py",
+          "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+          "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+        },
+        "parent_launch_a.py": {
+          "bytes": 6069,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_a.py",
+          "previous_sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+          "sha256": "7a068cbb4309dd7539dd7f3d2538549cdd521745cce983b467a0019d3a599176"
+        },
+        "parent_launch_b.py": {
+          "bytes": 5054,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/parent_launch_b.py",
+          "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+          "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+        },
+        "positive_hook_constructor.py": {
+          "bytes": 10996,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/positive_hook_constructor.py",
+          "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+          "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+        },
+        "source_setup.py": {
+          "bytes": 1252,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/source_setup.py",
+          "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+          "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+        },
+        "stage_a.py": {
+          "bytes": 24857,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_a.py",
+          "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+          "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+        },
+        "stage_b.py": {
+          "bytes": 33468,
+          "path": "/home/runner/work/_temp/dg17-offline/rebuilt/author/stage_b.py",
+          "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+          "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+        }
+      },
+      "limits_unchanged": true,
+      "native_admission": false,
+      "operation_A_bytes": 18684,
+      "operation_A_sha256": "43e1428c469a8919aead08ce530c64b8c94b82addeb4ce8904bae3ede2546d43",
+      "original14_custody_unknown_differences": 14,
+      "previous_operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+      "source_head": "52065bcee405715a2fc31d78b3aefd2958ba96a0",
+      "source_tree": "7da9f4e0d40e8dfb32d5dcf78df46b4e70c31f14",
+      "unverified_input_count": 9
+    },
+    "review_status": "PENDING_INDEPENDENT_TARGETED_REVIEW_AFTER_CI_FAILURE",
+    "run_conclusion": "failure",
+    "run_id": 43675846002,
+    "windows_rebuild": {
+      "actual_before_open_values": "UNOBSERVED",
+      "compared_fields": [
+        "st_dev",
+        "st_ino",
+        "st_mode",
+        "st_nlink",
+        "st_size",
+        "st_mtime_ns",
+        "st_ctime_ns"
+      ],
+      "first_refusal": "Input identity changed before read",
+      "followup": "Original comparison unchanged; bounded first-refusal facts added for a reviewed source-only run",
+      "generated_pins_received": false,
+      "python_version": "UNOBSERVED",
+      "store_controls_reached": false
+    },
+    "workflow_changed": false
+  }
 }

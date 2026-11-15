@@ -49,11 +49,19 @@ def pin(path):
     before = path.lstat()
     if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
         raise ValueError('Non-regular or multiply linked input: ' + str(path))
-    identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size,
-                          s.st_mtime_ns, s.st_ctime_ns)
+    fields = ('st_dev', 'st_ino', 'st_mode', 'st_nlink', 'st_size', 'st_mtime_ns', 'st_ctime_ns')
+    identity = lambda s: tuple(getattr(s, field) for field in fields)
     with path.open('rb') as stream:
-        if identity(before) != identity(os.fstat(stream.fileno())):
-            raise ValueError('Input identity changed before read')
+        opened = os.fstat(stream.fileno())
+        if identity(before) != identity(opened):
+            # Preserve the exact refusal. Observe differing API facts before any
+            # proposal to change this guard; no path or file contents are logged.
+            facts = {'python_version': sys.version.split()[0],
+                     'mismatch_fields': [field for field in fields
+                                         if getattr(before, field) != getattr(opened, field)],
+                     'before': dict(zip(fields, identity(before))),
+                     'opened': dict(zip(fields, identity(opened)))}
+            raise ValueError('Input identity changed before read: ' + json.dumps(facts, sort_keys=True))
         raw = stream.read(before.st_size + 1)
         after = os.fstat(stream.fileno())
     if identity(before) != identity(after) or identity(after) != identity(path.lstat()):

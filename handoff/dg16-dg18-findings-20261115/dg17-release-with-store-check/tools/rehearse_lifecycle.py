@@ -46,6 +46,22 @@ def load(path, name):
     return module
 
 
+def admit_deterministic_process(argv, allowed, bash_scripts, *, shell=False):
+    """Admit executable/entrypoint identities, not protocol data such as codex."""
+    if not isinstance(argv, (list, tuple)) or not argv or shell:
+        raise AssertionError('Rehearsal refuses shell/string process launch')
+    executable = shutil.which(str(argv[0])) if not Path(argv[0]).is_absolute() else str(argv[0])
+    resolved = str(Path(executable).resolve()) if executable else None
+    if resolved not in allowed.values():
+        raise AssertionError('Rehearsal refuses any process except its exact Python, Bash and Git')
+    if any(str(arg) == 'app-server' for arg in argv[1:]):
+        raise AssertionError('No appserver invocation is permitted in this rehearsal')
+    if resolved == allowed['bash']:
+        if (len(argv) < 2 or not Path(argv[1]).is_absolute()
+                or str(Path(argv[1]).resolve()) not in bash_scripts):
+            raise AssertionError('Rehearsal Bash requires an exact deterministic owner script')
+
+
 class NativeBoundary(RuntimeError):
     pass
 
@@ -369,6 +385,33 @@ class Fixture:
         save(self.work / 'REHEARSAL_RESULT.json', summary)
         return summary
 
+    def preserve_failure(self, error):
+        # Preserve the first source-command failure even when the driver's
+        # cleanup exception is the final traceback. All inputs are this fixture.
+        stages = {}
+        for name, path in [('A', self.case / 'evidence/POST_A.json'),
+                           ('B', self.case / 'evidence/stage-B01/POST_B.json')]:
+            if path.is_file() and not path.is_symlink() and path.stat().st_size <= 262144:
+                value = json.loads(path.read_bytes())
+                stages[name] = {key: value.get(key) for key in ['status', 'error']}
+                stages[name]['cleanup_known'] = value.get('cleanup', {}).get('known')
+        failed = []
+        evidence = self.case / 'evidence'
+        for path in sorted(evidence.rglob('*.json')) if evidence.exists() else []:
+            if path.is_symlink() or path.stat().st_size > 262144:
+                continue
+            value = json.loads(path.read_bytes())
+            if isinstance(value, dict) and type(value.get('exit')) is int and value['exit'] != 0:
+                failed.append({'member': path.relative_to(evidence).as_posix(),
+                               'exit': value['exit'], 'stderr': str(value.get('stderr', ''))[-4096:]})
+        save(self.work / 'REHEARSAL_RESULT.json', {
+            'schema': 'dg17.SIMULATED-deterministic-rehearsal.v1', 'authority': 'NONE',
+            'result': 'SOURCE_REHEARSAL_REFUSED', 'mode': self.mode,
+            'genuine_codex_turns': 0, 'native_appservers_started': 0,
+            'original14_unknown_differences': 14, 'error_type': type(error).__name__,
+            'stages': stages, 'failed_source_commands': failed,
+            'native_acceptance': False, 'windows_custody_exercised': False})
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -379,19 +422,23 @@ def main():
     os.environ['IMPLEMENTAUDIT_PYTHON'] = str(Path(sys.executable).resolve())
     fixture = Fixture(args.author, args.work, args.mode)
     original_popen = subprocess.Popen
-    allowed = {str(Path(p).resolve()) for p in [fixture.python, fixture.bash, fixture.op['git']]}
+    allowed = {name: str(Path(path).resolve()) for name, path in {
+        'python': fixture.python, 'bash': fixture.bash, 'git': fixture.op['git']}.items()}
+    bash_scripts = {str((fixture.case / 'source/skills/implementaudit/scripts' / name).resolve())
+                    for name in ['claim-run.sh', 'validate-run-root.sh']}
     def deterministic_process(argv, *pargs, **kwargs):
-        if not isinstance(argv, (list, tuple)) or kwargs.get('shell'):
-            raise AssertionError('Rehearsal refuses shell/string process launch')
-        executable = shutil.which(str(argv[0])) if not Path(argv[0]).is_absolute() else str(argv[0])
-        if not executable or str(Path(executable).resolve()) not in allowed:
-            raise AssertionError('Rehearsal refuses any process except its exact Python, Bash and Git')
-        if any(str(arg) == 'app-server' or Path(str(arg)).name.lower().startswith('codex')
-               for arg in argv[1:]):
-            raise AssertionError('No Codex or appserver invocation is permitted in this rehearsal')
+        admit_deterministic_process(argv, allowed, bash_scripts, shell=kwargs.get('shell', False))
         return original_popen(argv, *pargs, **kwargs)
-    with patch.object(subprocess, 'Popen', deterministic_process):
-        result = fixture.run()
+    try:
+        with patch.object(subprocess, 'Popen', deterministic_process):
+            result = fixture.run()
+    except BaseException as error:
+        try:
+            fixture.preserve_failure(error)
+        except Exception as diagnostic_error:
+            print(json.dumps({'result': 'FAILURE_DIAGNOSTIC_UNAVAILABLE', 'authority': 'NONE',
+                              'error_type': type(diagnostic_error).__name__}), file=sys.stderr)
+        raise
     print(json.dumps({k: v for k, v in result.items() if k != 'simulated_calls'}, indent=2))
 
 
