@@ -1,0 +1,118 @@
+{
+  "authority": "NONE - proposed source only",
+  "author_dir": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author",
+  "operation_A_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+  "operation_A_bytes": 18215,
+  "previous_operation_A_sha256": "9b8712288d8ca4be1ac460d90c3b6dfd49b230b44e34c006f16961340a631d39",
+  "case": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\case-native-02",
+  "stage_a_driver_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+  "stage_b_driver_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+  "parent_launch_a": {
+    "OP_SHA": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+    "DRIVER_SHA": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+    "window": "EPISODE_WINDOW_02.json",
+    "job_dir": "parent-A-02",
+    "job_result": "PARENT_STAGE_A_JOB_RESULT_02.json"
+  },
+  "parent_launch_b": {
+    "DRIVER_SHA": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00"
+  },
+  "bind_stage_b": {
+    "A_SHA": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485"
+  },
+  "operation_keys_changed": [
+    "case",
+    "constructor",
+    "episode_successor",
+    "readset",
+    "rpc_module"
+  ],
+  "limits_and_core_pins_unchanged": true,
+  "readset_verified_on_disk": 27,
+  "readset_not_read_by_design": [
+    "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\isolated-home-01\\config.toml"
+  ],
+  "readset_mismatch_on_disk": [],
+  "files": {
+    "bind_stage_b.py": {
+      "sha256": "d0a40042743a783e39dcbed929098dbc3762c6b0af4630c2f75b4516a6ad2ebd",
+      "bytes": 3244,
+      "original_sha256": "d8107ac0112a5e68ba6c699b773a815b2763cc2f29ce85a3903eafb3642447bf",
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 1
+    },
+    "native_rpc.py": {
+      "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+      "bytes": 13921,
+      "original_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "OPERATION_A.json": {
+      "sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+      "bytes": 18215,
+      "original_sha256": "9b8712288d8ca4be1ac460d90c3b6dfd49b230b44e34c006f16961340a631d39",
+      "changed": true,
+      "added_lines": 18,
+      "removed_lines": 17
+    },
+    "parent_launch_a.py": {
+      "sha256": "9b754ddff36f8d7ca4dd216f4e4e3ec156da92a61e96dc4960c96a805f4a9fa0",
+      "bytes": 4775,
+      "original_sha256": "2b5db2aa30359558bc8597d1debe5bcb12d31eee42189b9a7e69a46c015a0f55",
+      "changed": true,
+      "added_lines": 4,
+      "removed_lines": 4
+    },
+    "parent_launch_b.py": {
+      "sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+      "bytes": 5054,
+      "original_sha256": "d9e0e0ea9951331018393fda103f0ee12d53fb91c993d563518e3150d67e3c93",
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 1
+    },
+    "positive_hook_constructor.py": {
+      "sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+      "bytes": 10996,
+      "original_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "PROFILE.toml": {
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+      "bytes": 535,
+      "original_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "source_setup.py": {
+      "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+      "bytes": 1252,
+      "original_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+      "changed": false,
+      "added_lines": 0,
+      "removed_lines": 0
+    },
+    "stage_a.py": {
+      "sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+      "bytes": 24895,
+      "original_sha256": "61f76fd5f497849153e36699fe7db07f54d9aa771e70f28f64c588d3d9f56ebc",
+      "changed": true,
+      "added_lines": 11,
+      "removed_lines": 2
+    },
+    "stage_b.py": {
+      "sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+      "bytes": 27433,
+      "original_sha256": "d253cd1bf51ab752c7d8b70d1b415198ad9b5f700f1ccda411cc018bb0966f21",
+      "changed": true,
+      "added_lines": 1,
+      "removed_lines": 0
+    }
+  }
+}

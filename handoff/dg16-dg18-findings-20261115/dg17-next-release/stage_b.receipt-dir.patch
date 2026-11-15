@@ -1,0 +1,10 @@
+--- a/stage_b.py
++++ b/stage_b.py
+@@ -91,6 +91,7 @@
+  assert session==inp['host_session_id'] and expected['binding_generation']=='G0001'
+  store=Path(inp['binding_store']);assert not store.exists(),'No re-init/rebind of existing or tombstoned store'
+  hook=Path(manifest['intended_project_hook_path']);assert sha(hook.read_bytes())==manifest['hook_sha256']
++ events=Path(inp['evidence_directory']);assert events==case/'evidence'/'native-stop' and not events.exists(),'Fresh Stop receipt directory required';events.mkdir()
+  env=os.environ|{'PATH':op['fixed_path'],'PYTHONDONTWRITEBYTECODE':'1','CODEX_HOME':op['expected_codex_home']}
+  result=dict(stage='B',operation_sha256=sha(op_raw),post_A_sha256=op['post_A']['sha256'],status='STARTED',window_start_ns=a['window_start_ns'],thread_start_calls=0,model_turn_requests=0,selected_starts=0,selected_completions=0,host_h0_bound=False,config_write_attempts=0)
+  client=None;bound=False;writes=False;qual_id=None;fence=None;cleanup_mode=False

@@ -1,0 +1,22 @@
+{"control": "before.init_refused", "error": "host-session store custody is unsupported on this platform", "holds": true, "rc": 2}
+{"control": "after.init", "error": null, "holds": true, "rc": 0, "status": "READY"}
+{"control": "after.bind", "error": null, "holds": true, "rc": 0, "status": "BOUND"}
+{"control": "after.lookup", "error": null, "holds": true, "rc": 0, "status": "BOUND"}
+{"control": "after.tombstone", "error": null, "holds": true, "rc": 0, "status": "TOMBSTONED"}
+{"control": "after.lookup_after_tombstone", "error": null, "holds": true, "rc": 0, "status": "TOMBSTONED"}
+{"control": "after.foreign_owner_refused", "error": "foreign store owner", "holds": true, "rc": 2}
+{"control": "adverse.junction_ancestor_init_refused", "error": "store ancestor is a symlink, reparse point, or non-directory", "holds": true, "rc": 2}
+{"control": "adverse.junction_store_lookup_refused", "error": "store owner state directory is a symlink, reparse point, or non-directory", "holds": true, "rc": 2}
+{"control": "adverse.junction_inside_store_lookup_refused", "error": "binding state directory is a symlink, reparse point, or non-directory", "holds": true, "rc": 2}
+{"control": "adverse.junction_inside_store_bind_refused_without_write", "error": "adfa2b24c2d924fe6383d8804be55afb98ea3eb0e14c3470ac3a0f651b9a422e.json directory is a symlink, reparse point, or non-directory", "holds": true, "rc": 2}
+{"control": "adverse.hardlinked_owner_refused", "error": "store owner state is not a safe regular file", "holds": true, "rc": 2}
+{"control": "adverse.hardlinked_binding_refused", "error": "binding state is not a safe regular file", "holds": true, "rc": 2}
+{"control": "adverse.hardlinked_writer_lock_refused", "error": "writer lock is unsafe", "holds": true, "rc": 2}
+{"control": "adverse.symlinked_binding_refused", "holds": null, "skipped": "[WinError 1314] A required privilege is not held by the client: 'C:\\\\Users\\\\theis\\\\AppData\\\\Local\\\\Temp\\\\dg17b2-mu91ygdz\\\\symlink-binding\\\\foreign.json' -> 'C:\\\\Users\\\\theis\\\\AppData\\\\Local\\\\Temp\\\\dg17b2-mu91ygdz\\\\symlink-binding\\\\store\\\\bindings\\\\be\\\\befefd4d8b71f359618646fac4dd321a3bf850c185d5fad3c72ecf0f7a18c2d7\\\\binding.json'"}
+{"control": "control.in_process_read_accepts_untouched_file", "holds": true, "rc": 0}
+{"control": "adverse.replaced_before_open_refused", "error": "binding state changed before its checked read", "holds": true, "rc": 2}
+{"control": "adverse.changed_during_read_refused", "error": "binding state changed during its checked read", "holds": true, "rc": 2}
+{"control": "adverse.grown_during_read_refused", "error": "binding state changed during its checked read", "holds": true, "rc": 2}
+{"control": "observation.replace_under_open_reader_is_denied_by_windows", "holds": true}
+{"control": "identity.fstat_equals_lstat_snapshot", "holds": true, "st_ino_nonzero": true}
+{"python": "3.11.9", "controls": 20, "holding": 20, "all_hold": true}
