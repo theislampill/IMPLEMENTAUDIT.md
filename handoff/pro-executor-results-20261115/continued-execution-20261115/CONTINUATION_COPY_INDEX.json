@@ -1,0 +1,82 @@
+{
+  "dg18/WFULL_DORMANT_REF_INTENT.json": {
+    "bytes": 355,
+    "sha256": "a5ea3ae3a43f4dadc282352777d32d48e308cc0497a2934fb6dfce9ef3fc0eea"
+  },
+  "dg18/WFULL_DORMANT_REF_READBACK.json": {
+    "bytes": 2460,
+    "sha256": "03cd4d12503ffabac9766c39db73283c980737d0381db2d0e50b557e59fc05fc"
+  },
+  "dg18/WFULL_DORMANT_REF_RESULT.json": {
+    "bytes": 148,
+    "sha256": "90e8998d88c5b076f89f568e256b4600a92a80e80603572832e45a7026f3f754"
+  },
+  "g132/CONTINUATION_PUBLICATION_INDEPENDENT_RECEIVING.md": {
+    "bytes": 3715,
+    "sha256": "95d12bae2c1b7209a364439325f1fe5869479fb3ee54590d7a4f8a5e7cf926b2"
+  },
+  "g132/ORDINARY_COPY_AND_DORMANT_REF_RECEIVING.md": {
+    "bytes": 2820,
+    "sha256": "fc926a91dfddc8f073fcd8ecf850096a642bf6e4d986c1c4768d3060b8090566"
+  },
+  "g132/continuation/FINAL_BINDING_REPORT.md": {
+    "bytes": 3697,
+    "sha256": "79eb84fe4d189fa9b4e985e1a3fa9f3cd54d63d205f2fa95ba8e7eb772ddad3e"
+  },
+  "g132/continuation/FINAL_FREEZE.json": {
+    "bytes": 14138,
+    "sha256": "726472290826125da0c3ad3fe57989caf2c1df9b521947fc848beb82d90f0e8d"
+  },
+  "g132/continuation/FINAL_PIN_VERIFICATION.json": {
+    "bytes": 8866,
+    "sha256": "bd11d3de035b873e4b14072fe8dc92e78c86e6706f093a8addca310b23fda1ca"
+  },
+  "g132/continuation/HOST_SOURCE_REF_READBACK.json": {
+    "bytes": 1776,
+    "sha256": "bb7f669aeb55d50450e6a04327f90c647b4393728e86102126e92c1e6ee015dd"
+  },
+  "g132/continuation/INDEPENDENT_FINAL_BINDING_REVIEW.md": {
+    "bytes": 7192,
+    "sha256": "b86e4d5e25c6e349eafd9d1396904760a8a9aab5a5c24279f366ad81527a850e"
+  },
+  "g132/continuation/INDEPENDENT_REVIEW.md": {
+    "bytes": 13926,
+    "sha256": "b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4"
+  },
+  "g132/continuation/LINUX_DISPATCH_TRANSPORT.js": {
+    "bytes": 3752,
+    "sha256": "9a35f3538fec80cfbc5f24c8740b156c12c674d40f50479e873ecf53fa2a2112"
+  },
+  "g132/continuation/LINUX_DISPATCH_TRANSPORT_INDEPENDENT_REVIEW.md": {
+    "bytes": 3477,
+    "sha256": "6e9c0ba2dc496243b05ea5276ba1ad9c42610d8898f10bca9e460a206411fbd6"
+  },
+  "g132/continuation/LINUX_DISPATCH_TRANSPORT_UNEXECUTED_PREDECESSOR.js": {
+    "bytes": 2499,
+    "sha256": "4bb5eceec5ac0d1d3db9a38764b6135f16b65a4d42fb9779f02ebb7b02ac145a"
+  },
+  "g132/continuation/OPERATOR_MATERIALIZATION_RECEIVING.json": {
+    "bytes": 5275,
+    "sha256": "c8ec86260eb959306fb92f658f005caef44b76127b67a9b4d668f59a11f8479c"
+  },
+  "g132/continuation/OPERATOR_PUBLICATION_READBACK.json": {
+    "bytes": 5925,
+    "sha256": "35c50ea6fda39afb8b84395853b4a64610b83daa7d89e6bdec22c101ae36453b"
+  },
+  "g132/continuation/ROOT_CONTINUATION_RECEIVING.json": {
+    "bytes": 3072,
+    "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+  },
+  "publication-receiving/FINAL_CURRENT_PROVIDER.json": {
+    "bytes": 35224,
+    "sha256": "6c4ccf26f976c4437db8c716da77d41a9fb99f2b84564dca5d438a2e6a5ccba7"
+  },
+  "publication-receiving/G2_DG17_WFULL_PUBLICATION.md": {
+    "bytes": 3569,
+    "sha256": "8288a6875241c1d491a96ef93719bf296f3bc96aef76863ddc958fa5c1e93c9f"
+  },
+  "publication-receiving/G2_DG17_WFULL_ROOT_READBACK.json": {
+    "bytes": 11590,
+    "sha256": "39c7bb998d227cdc5639692bb28aa554248c46e5962fba9e1a23f31ee55f30a3"
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "actual_review": {
+    "bytes": 13926,
+    "sha256": "b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4"
+  },
+  "actual_root_receiving": {
+    "bytes": 3072,
+    "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+  },
+  "author": "/root/g2_receiving",
+  "authority": "NONE",
+  "baseline": "68bb72ecd2ec082cb7e358d7c0e28c94c94d6bbf",
+  "changed_or_new_path_count": 47,
+  "changed_or_new_paths": {
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/OPERATOR_PINS.json": {
+      "bytes": 27159,
+      "sha256": "c7ac3f5a95dec2c05f10201d96429c27d3e9d5e19f6d1a8051c3c14912b90309"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/SOURCE_SELECTION.json": {
+      "bytes": 1965,
+      "sha256": "1e3f89a600824a90c13edeaa1da177809f7ab2b2201352a4b72c4b0668cbf122"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/framed-role-02/control_process_v3.py": {
+      "bytes": 17557,
+      "sha256": "506fbae322a25e3947320d35818075ca99edfa2f305c2632fc40e2647913a082"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/framed-role-02/role_process_v4.py": {
+      "bytes": 13091,
+      "sha256": "1c520600bec646918d78386eb9f907d9c3cd635f9f8c17c4a629d3e2600da49e"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/g3-intake/actual_packet.py": {
+      "bytes": 9609,
+      "sha256": "404081ab968e166aa96bf87370d634da67d35c027a6a0c3b14ed751af96215a9"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/assemble_actual.py": {
+      "bytes": 9678,
+      "sha256": "40d01e8db285e790b098856114a74267f3a2218febde98a1d0c1e2344d02bc47"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/late_sender_current04_v2.py": {
+      "bytes": 10612,
+      "sha256": "0fe33d8a9f72fbb058c95272946b246410b3a7eaa45b5e8980f08aeb7e985e56"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json": {
+      "bytes": 6050,
+      "sha256": "60531d3239b9985e9986a76d75c58b0542cb68e7c1341112d2dc4599a5fec495"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/publication.py": {
+      "bytes": 3272,
+      "sha256": "ec5034db8b271f44bac7b88a4d3b8ce41ee2906c8d7a75ce308fb3b27a43e7e8"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/workflow.py": {
+      "bytes": 7544,
+      "sha256": "6ecc11053ef3c2508669cd36d5d0597475b8309aff70218fc9c01c394c7a13de"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/SOURCES.json": {
+      "bytes": 1143,
+      "sha256": "75c2919f51949940f1654a32f2750a9d5f8bd9207cf0dc0fc34ed3e9a70f9871"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/author/receiver.py": {
+      "bytes": 69810,
+      "sha256": "8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/author/resolve_artifact.py": {
+      "bytes": 11390,
+      "sha256": "35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/evidence/continuation_host_review.md": {
+      "bytes": 13926,
+      "sha256": "b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/evidence/continuation_root_offline_receiving.json": {
+      "bytes": 3072,
+      "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/evidence/original_host_commit.json": {
+      "bytes": 1697,
+      "sha256": "8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/BOOTSTRAP_ADMISSION_REQUIREMENTS.json": {
+      "bytes": 703,
+      "sha256": "11d405d7925878a4c903a39e442b09aa545024ec002e0aef29b0fac4a538026c"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/CARRIER_ADMISSION_REQUIREMENTS.json": {
+      "bytes": 1418,
+      "sha256": "16860b557d470c4374a4a507f627e765df0f1b95d9906b86ed07279fda29ad67"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/COMPOSITION_RESULT.json": {
+      "bytes": 658,
+      "sha256": "b5b03e1fe404f9a75aba2b2d0607a30c29dd662576e7304e6b81da11e298937e"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/PHASE.json": {
+      "bytes": 9199,
+      "sha256": "4e86bdba51012a0a10cd042f92ba48677c50b299b6f757856641155d87ccec8d"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/PUBLIC_PACKET_MANIFEST.json": {
+      "bytes": 4886,
+      "sha256": "5e508a20dd849af72aae37f1e66823c0b1f5ea170150f5d12c5c585c63f303e7"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/publication/CreateCommit.json": {
+      "bytes": 179,
+      "sha256": "b44c08f31410951807e9a8291060bb690599a5119d38dc2ac0694e535e2152ac"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/publication/CreateTree.json": {
+      "bytes": 1591773,
+      "sha256": "303aeaecd6edab531c0f50952ad80a3454e93a470a267aa4ad59503631d9f9bf"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/publication/EXPECTED_PUBLIC_TREE.json": {
+      "bytes": 418684,
+      "sha256": "157ad60eb2b9a3ae041812e080370173810eb122d9d27c5678aa008ba72b4f73"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/publication/PUBLICATION_RECONSTRUCTION.json": {
+      "bytes": 1129,
+      "sha256": "3bd3980bb516d7283e0f82a0579de23e5b67835a09e83ade563ffc1e9a92a3ac"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/.github/workflows/dg16-r5-g1-hosted-episode.yml": {
+      "bytes": 35452,
+      "sha256": "ee4ad7076831b39e1d66d5bfe442782558683de63369661c81f9dd5d0f428112"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json": {
+      "bytes": 521,
+      "sha256": "b859765d200ea98a6a62bb735853f8d4cd5b6d9c4505a12c9ee8b903741bfe67"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json": {
+      "bytes": 4886,
+      "sha256": "5e508a20dd849af72aae37f1e66823c0b1f5ea170150f5d12c5c585c63f303e7"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py": {
+      "bytes": 23451,
+      "sha256": "8d9724e29dd98d500474ca4efd21924c8d7b10ce7777bae9c51b0d7ee8831735"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py": {
+      "bytes": 21414,
+      "sha256": "0f85d87bfb4668c7c634c983b4f033f144ce03e1167ef3f821c65b7389dbb1a9"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/entry_common.py": {
+      "bytes": 9851,
+      "sha256": "1db3c3b0e836aaa8d6cdadb57a14f76ad6a6fb5a7341ba6d2edd589f1815a7c3"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py": {
+      "bytes": 21383,
+      "sha256": "923c245d66ef9b2ca10bd2056afe22167d018b395eac010690499f31a7afd275"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py": {
+      "bytes": 21391,
+      "sha256": "f89647b0183edfa64f978d6cab7702a7c8187359211f43a64d02e47606fd72ec"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py": {
+      "bytes": 21380,
+      "sha256": "7dc4e71901fc5abbe5537c5c39348d5c5f9b3a5889e9c61848359f61b998b022"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py": {
+      "bytes": 21419,
+      "sha256": "9de6f3ba5893e174a2f3d2f0df3a672063ba5cfc7128aaef0130932c9f718d9f"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json": {
+      "bytes": 1238,
+      "sha256": "9c1f6589bb68036930c6eeb33e53efc2328edf945b6ac7087ccb8dd8ed477d16"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_COMPOSITION.json": {
+      "bytes": 2211,
+      "sha256": "fafbd269b2bbc65a8e3d2979828cb292ee30cdf6f20958687ab914d9bd82a682"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_loader.py": {
+      "bytes": 4677,
+      "sha256": "d7759264060c1f2074386500061c0260fab45f11fb96ced42a0f4d71ceca242e"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py": {
+      "bytes": 13530,
+      "sha256": "8927e4b885ffc6c556270ae060ee372eef075b6427a8a574ff77d5d6842e03d7"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/root-control-v5/control_process_v5.py": {
+      "bytes": 19603,
+      "sha256": "aca764b8edbb8aa29088c408dd19000cdbef0867df2a2f6e0d32eedceaca4468"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-event-helpers-02/g1_event_config_corrected.py": {
+      "bytes": 24506,
+      "sha256": "c8839eaca5ae2a485cf4ec643e1e0b2f428c5067b1d59502b25ffef327f671c3"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-event-helpers-02/root_live_sender_call_received.py": {
+      "bytes": 28372,
+      "sha256": "2bc90cd69601b78b6f8427878cb5ffc911388cfe1a114160743d20ca72834660"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/binary_publish_v3.py": {
+      "bytes": 20775,
+      "sha256": "3ea4f721116cc15d8b12b60ac6c186dfe81e78116bc8347aa4fcec07d39e1482"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/control_process_v3.py": {
+      "bytes": 17557,
+      "sha256": "506fbae322a25e3947320d35818075ca99edfa2f305c2632fc40e2647913a082"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-final-operators-01/root_pipeline_inputs_v2.py": {
+      "bytes": 16004,
+      "sha256": "7edc9231a0d5fbe29cdbdf428857e3534105f79a3af4b34b5215afdc127725e9"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/root-recipient-issuer-01/issue_recipient_inputs.py": {
+      "bytes": 8988,
+      "sha256": "b610f6fb79e18a5e4c4be5668aacd4c9591553f81d63d71f4cb6af25811a8667"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/source_selected_event.py": {
+      "bytes": 10178,
+      "sha256": "aeff899e15bb0b2b93f86e5e901fe45254d007693611a9cf8143768fe56122ec"
+    }
+  },
+  "final_binding_delta": {
+    "bytes": 46662,
+    "sha256": "3e911f00169c623df7bc0febf87625ee6ec5a8838ccf59d38db8f59e10287f68"
+  },
+  "final_binding_verification": {
+    "bytes": 8866,
+    "sha256": "bd11d3de035b873e4b14072fe8dc92e78c86e6706f093a8addca310b23fda1ca"
+  },
+  "historical_bodies_preserved": true,
+  "host_commit": "2f6a96427a307dc57ed88664aeb8224918fe6bf5",
+  "host_phase_unchanged_after_source_review": true,
+  "host_sole_parent": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+  "host_tree": "8a8023d6db96fb7adbc3d65ddf042ce0760ecea8",
+  "native_execution": false,
+  "only_pending_receiving": "Distinct final binding/pin follow-up; exact changed-host owner decision and operational receiving remain Root-owned.",
+  "operator_index": {
+    "bytes": 27159,
+    "sha256": "c7ac3f5a95dec2c05f10201d96429c27d3e9d5e19f6d1a8051c3c14912b90309"
+  },
+  "operator_member_count": 144,
+  "original_awards": [],
+  "phase": {
+    "bytes": 9199,
+    "sha256": "4e86bdba51012a0a10cd042f92ba48677c50b299b6f757856641155d87ccec8d"
+  },
+  "phase_member_count": 59,
+  "preclosure_freeze": {
+    "bytes": 12540,
+    "sha256": "a3cb6f119650af5a7f4c360bbd424c23cb08998b4dcae52614f6c0097101340e"
+  },
+  "preclosure_source_patch": {
+    "bytes": 4167487,
+    "sha256": "80668c1edfb4e9fe66a5dbf4eba0c7140b3ce1db749d03206b2bc9eac1525c4b"
+  },
+  "product_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "product_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "protected_effects": false,
+  "schema": "dg16.g132-continuation-final-freeze.v1",
+  "worktree": "/workspace/scratch/7fbb79f74aa4/recovery/g132-continuation"
+}

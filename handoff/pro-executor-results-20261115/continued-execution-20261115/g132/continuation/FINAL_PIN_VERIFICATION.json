@@ -1,0 +1,262 @@
+{
+  "actual_new_bodies": {
+    "public-receiver-02/evidence/continuation_host_review.md": {
+      "bytes": 13926,
+      "sha256": "b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4",
+      "source": "INDEPENDENT_REVIEW.md"
+    },
+    "public-receiver-02/evidence/continuation_root_offline_receiving.json": {
+      "bytes": 3072,
+      "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef",
+      "source": "ROOT_CONTINUATION_RECEIVING.json"
+    }
+  },
+  "author": "/root/g2_receiving",
+  "author_index_unchanged": true,
+  "authority": "NONE",
+  "basis_preclosure_index": {
+    "bytes": 26809,
+    "sha256": "bbc60bbad8ae807f7cda9c06649ddf38bacd3685c172a9e646a131ac3a64f68f"
+  },
+  "changed_python_compiles": true,
+  "changed_runtime_count": 13,
+  "changed_runtime_only_sha256_tokens": true,
+  "delta_patch": {
+    "bytes": 46662,
+    "sha256": "3e911f00169c623df7bc0febf87625ee6ec5a8838ccf59d38db8f59e10287f68"
+  },
+  "existing_logical_slot_keys_unchanged": true,
+  "finding": "G132-CONT-01",
+  "followup_independent_review": "PENDING",
+  "git_diff_check": true,
+  "historical_evidence_unchanged": {
+    "public-receiver-02/evidence/host_review.json": {
+      "bytes": 28027,
+      "sha256": "c7b8af0f25faacda3e3765b3ef137a4f9533a6bfd98d90a921034c93f1f94139"
+    },
+    "public-receiver-02/evidence/original_host_commit.json": {
+      "bytes": 1697,
+      "sha256": "8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"
+    },
+    "public-receiver-02/evidence/root_offline_receiving.json": {
+      "bytes": 2374,
+      "sha256": "1ebe7d18dfd5bdac49055dce01460477e6e55fc620c96b1e345ac98d626908a4"
+    }
+  },
+  "host_commit": "2f6a96427a307dc57ed88664aeb8224918fe6bf5",
+  "host_tree": "8a8023d6db96fb7adbc3d65ddf042ce0760ecea8",
+  "logical_slots": {
+    "evidence/host_review.json": {
+      "bytes": 13926,
+      "path": "evidence/continuation_host_review.md",
+      "sha256": "b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4"
+    },
+    "evidence/original_host_commit.json": {
+      "bytes": 1697,
+      "path": "evidence/original_host_commit.json",
+      "sha256": "8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"
+    },
+    "evidence/root_offline_receiving.json": {
+      "bytes": 3072,
+      "path": "evidence/continuation_root_offline_receiving.json",
+      "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+    }
+  },
+  "metadata_and_runtime_delta": {
+    "SOURCE_SELECTION.json": {
+      "after": {
+        "bytes": 1965,
+        "sha256": "1e3f89a600824a90c13edeaa1da177809f7ab2b2201352a4b72c4b0668cbf122"
+      },
+      "before": {
+        "bytes": 1952,
+        "sha256": "f2f17623289f5b6b868ba543dd8371bdecba9832f48c57058b04f0ce69d81b7f"
+      }
+    },
+    "framed-role-02/control_process_v3.py": {
+      "after": {
+        "bytes": 17557,
+        "sha256": "506fbae322a25e3947320d35818075ca99edfa2f305c2632fc40e2647913a082"
+      },
+      "before": {
+        "bytes": 17557,
+        "sha256": "24616becb4334952f0938f16409d3b1511f36af3ad604ee0e9c7a7480bf9d394"
+      }
+    },
+    "framed-role-02/role_process_v4.py": {
+      "after": {
+        "bytes": 13091,
+        "sha256": "1c520600bec646918d78386eb9f907d9c3cd635f9f8c17c4a629d3e2600da49e"
+      },
+      "before": {
+        "bytes": 13091,
+        "sha256": "2e81c20314e5d020446efa7e2f3beaca391fbacfd909c340da374c5172449bf2"
+      }
+    },
+    "g3-intake/actual_packet.py": {
+      "after": {
+        "bytes": 9609,
+        "sha256": "404081ab968e166aa96bf87370d634da67d35c027a6a0c3b14ed751af96215a9"
+      },
+      "before": {
+        "bytes": 9609,
+        "sha256": "c73da5a698795ddf9716b43664ea0dc7d2ff7e6954989109d77fbab5de5dcc4d"
+      }
+    },
+    "late-assembler-01/assemble_actual.py": {
+      "after": {
+        "bytes": 9678,
+        "sha256": "40d01e8db285e790b098856114a74267f3a2218febde98a1d0c1e2344d02bc47"
+      },
+      "before": {
+        "bytes": 9678,
+        "sha256": "54830928fb57c9c25be8ffae22a46304e6b8eeb7785f8bd5c52eae9b97814211"
+      }
+    },
+    "public-receiver-02/SOURCES.json": {
+      "after": {
+        "bytes": 1143,
+        "sha256": "75c2919f51949940f1654a32f2750a9d5f8bd9207cf0dc0fc34ed3e9a70f9871"
+      },
+      "before": {
+        "bytes": 1119,
+        "sha256": "a4d1d5c14545a5e3ad50b5da7259200686883cddc99b3642b46f5c518fd56ee8"
+      }
+    },
+    "public-receiver-02/author/receiver.py": {
+      "after": {
+        "bytes": 69810,
+        "sha256": "8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b"
+      },
+      "before": {
+        "bytes": 69810,
+        "sha256": "0b1efd0595b4d30413f6918ff25da37c7e2f996ff9ee64f5b25612e12a9f2c94"
+      }
+    },
+    "public-receiver-02/author/resolve_artifact.py": {
+      "after": {
+        "bytes": 11390,
+        "sha256": "35c709a35c96c2d49913db93e7a2b9091290c6690477e8f17873e85618df1e22"
+      },
+      "before": {
+        "bytes": 11390,
+        "sha256": "31beeeec78f30c4941bc3c1d386f6af0148dc62c18294ec62053b7c62d232d86"
+      }
+    },
+    "public-receiver-02/evidence/continuation_host_review.md": {
+      "after": {
+        "bytes": 13926,
+        "sha256": "b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4"
+      },
+      "before": null
+    },
+    "public-receiver-02/evidence/continuation_root_offline_receiving.json": {
+      "after": {
+        "bytes": 3072,
+        "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+      },
+      "before": null
+    },
+    "public-receiver-02/root-control-v5/control_process_v5.py": {
+      "after": {
+        "bytes": 19603,
+        "sha256": "aca764b8edbb8aa29088c408dd19000cdbef0867df2a2f6e0d32eedceaca4468"
+      },
+      "before": {
+        "bytes": 19603,
+        "sha256": "e977ae7b4a01c6f3a57576e67c10520ebca2e40ccb6175d4de2a1417158a589c"
+      }
+    },
+    "root-event-helpers-02/g1_event_config_corrected.py": {
+      "after": {
+        "bytes": 24506,
+        "sha256": "c8839eaca5ae2a485cf4ec643e1e0b2f428c5067b1d59502b25ffef327f671c3"
+      },
+      "before": {
+        "bytes": 24506,
+        "sha256": "78c8346b7c8850d1d7ec940f9cb2cbaed6492b72f2e9d8a17834887fa3168412"
+      }
+    },
+    "root-event-helpers-02/root_live_sender_call_received.py": {
+      "after": {
+        "bytes": 28372,
+        "sha256": "2bc90cd69601b78b6f8427878cb5ffc911388cfe1a114160743d20ca72834660"
+      },
+      "before": {
+        "bytes": 28372,
+        "sha256": "c3a5083bc47b5e9aeb0b88e1582f828e51a756918539bae5d2fee4e8d479baf2"
+      }
+    },
+    "root-final-operators-01/binary_publish_v3.py": {
+      "after": {
+        "bytes": 20775,
+        "sha256": "3ea4f721116cc15d8b12b60ac6c186dfe81e78116bc8347aa4fcec07d39e1482"
+      },
+      "before": {
+        "bytes": 20775,
+        "sha256": "a613982b3a0d5e22b56fcdfbff7007d7c41c7ec0fadfce7b465c5918f9199c52"
+      }
+    },
+    "root-final-operators-01/control_process_v3.py": {
+      "after": {
+        "bytes": 17557,
+        "sha256": "506fbae322a25e3947320d35818075ca99edfa2f305c2632fc40e2647913a082"
+      },
+      "before": {
+        "bytes": 17557,
+        "sha256": "24616becb4334952f0938f16409d3b1511f36af3ad604ee0e9c7a7480bf9d394"
+      }
+    },
+    "root-final-operators-01/root_pipeline_inputs_v2.py": {
+      "after": {
+        "bytes": 16004,
+        "sha256": "7edc9231a0d5fbe29cdbdf428857e3534105f79a3af4b34b5215afdc127725e9"
+      },
+      "before": {
+        "bytes": 16004,
+        "sha256": "9cb15d22dd864451179b00c0e67891c7ad92e69edf21d65d91423ddd23d837f1"
+      }
+    },
+    "root-recipient-issuer-01/issue_recipient_inputs.py": {
+      "after": {
+        "bytes": 8988,
+        "sha256": "b610f6fb79e18a5e4c4be5668aacd4c9591553f81d63d71f4cb6af25811a8667"
+      },
+      "before": {
+        "bytes": 8988,
+        "sha256": "6a967d1a5fb7762edc6f44ffdb44c553eaded94b81272f697d12be362c144a49"
+      }
+    }
+  },
+  "operator_index": {
+    "bytes": 27159,
+    "sha256": "c7ac3f5a95dec2c05f10201d96429c27d3e9d5e19f6d1a8051c3c14912b90309"
+  },
+  "operator_member_count": 144,
+  "original_awards": [],
+  "phase": {
+    "bytes": 9199,
+    "sha256": "4e86bdba51012a0a10cd042f92ba48677c50b299b6f757856641155d87ccec8d"
+  },
+  "phase_unchanged": true,
+  "propagation_round_changed_counts": [
+    3,
+    10,
+    9,
+    5,
+    3,
+    1,
+    0
+  ],
+  "protected_effects": false,
+  "root_source_receiving": {
+    "path": "/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/evidence/continuation_root_offline_receiving.json",
+    "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+  },
+  "runtime_execution": false,
+  "schema": "dg16.g132-continuation-final-pin-delta.v1",
+  "selected_root_body_same": true,
+  "source_pin_and_index_closure": true,
+  "stale_prior_runtime_pins": [],
+  "unchanged_phase_member_count": 59
+}
