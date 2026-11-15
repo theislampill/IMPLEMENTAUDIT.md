@@ -1,15 +1,17 @@
-name: DG17 offline source lifecycle
+name: DG17 source and installed consumer qualification
 
 on:
   push:
     branches:
       - engineering/pro-executor-dg17-source-20261115
+      - engineering/pro-executor-dg17-installed-20261115
 
 permissions:
   contents: read
 
 jobs:
   linux-deterministic:
+    if: github.ref == 'refs/heads/engineering/pro-executor-dg17-source-20261115'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
@@ -44,6 +46,7 @@ jobs:
             ${{ runner.temp }}/dg17-offline/*/SIMULATED_ONLY.json
             ${{ runner.temp }}/dg17-offline/rebuilt/PINS.json
   windows-store-only:
+    if: github.ref == 'refs/heads/engineering/pro-executor-dg17-source-20261115'
     runs-on: windows-2022
     timeout-minutes: 10
     env:
@@ -79,3 +82,81 @@ jobs:
           path: |
             ${{ runner.temp }}/dg17-offline/*.log
             ${{ runner.temp }}/dg17-offline/rebuilt/PINS.json
+  actual-installed-consumer:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-executor-dg17-installed-20261115'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      DG17_ADAPTER: packet/handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/installed_nonterminal.py
+      DG17_ADAPTER_SHA: 7a9cd9f9d4b0e31d57c4475374ab706ef860d2d8a1a9db40389f3b6769515eba
+    steps:
+      - name: Check out the exact reviewed operation
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          persist-credentials: false
+      - name: Check out the exact qualified DG17 product
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: a297957be11feb494c0ec467235794a1e0c54751
+          path: qualified-source
+          persist-credentials: false
+      - name: Provision the existing release build prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo -n /usr/bin/apt-get -qq update
+          sudo -n /usr/bin/apt-get -qq install -y --no-install-recommends --no-upgrade python3-venv
+      - name: Build install and initialize the actual disposable task
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(/usr/bin/sha256sum "$DG17_ADAPTER")"
+          test "${actual%% *}" = "$DG17_ADAPTER_SHA"
+          /usr/bin/python3 -I -S -B "$DG17_ADAPTER" --step prepare \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg17-installed-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Read actual installed task STATE in one host action
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(/usr/bin/sha256sum "$DG17_ADAPTER")"
+          test "${actual%% *}" = "$DG17_ADAPTER_SHA"
+          /usr/bin/python3 -I -S -B "$DG17_ADAPTER" --step read-state \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg17-installed-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Read actual installed task ROADMAP in a separate host action
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(/usr/bin/sha256sum "$DG17_ADAPTER")"
+          test "${actual%% *}" = "$DG17_ADAPTER_SHA"
+          /usr/bin/python3 -I -S -B "$DG17_ADAPTER" --step read-roadmap \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg17-installed-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Obtain actual currentness and consume installed nonterminal state
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(/usr/bin/sha256sum "$DG17_ADAPTER")"
+          test "${actual%% *}" = "$DG17_ADAPTER_SHA"
+          /usr/bin/python3 -I -S -B "$DG17_ADAPTER" --step consume \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg17-installed-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Retain actual task evidence with no native acceptance claim
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-actual-installed-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 7
+          if-no-files-found: error
+          include-hidden-files: true
+          path: |
+            ${{ runner.temp }}/dg17-installed-${{ github.run_id }}-${{ github.run_attempt }}/evidence/
+            ${{ runner.temp }}/dg17-installed-${{ github.run_id }}-${{ github.run_attempt }}/packages/IMPLEMENTAUDIT.plugin.zip
+            ${{ runner.temp }}/dg17-installed-${{ github.run_id }}-${{ github.run_attempt }}/packages/IMPLEMENTAUDIT.skill
+            ${{ runner.temp }}/dg17-installed-${{ github.run_id }}-${{ github.run_attempt }}/packages/CHECKSUMS.txt
