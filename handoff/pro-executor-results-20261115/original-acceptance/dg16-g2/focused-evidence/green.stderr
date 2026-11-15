@@ -1,0 +1,12 @@
+test_changed_policy_blocks_pair (__main__.DirectPairCallerTests.test_changed_policy_blocks_pair) ... ok
+test_current_host_pair_keeps_native_and_currentness_without_crypto (__main__.DirectPairCallerTests.test_current_host_pair_keeps_native_and_currentness_without_crypto) ... ok
+test_currentness_refusal_blocks_pair (__main__.DirectPairCallerTests.test_currentness_refusal_blocks_pair) ... ok
+test_failed_pair_remains_failed_and_retains_output (__main__.DirectPairCallerTests.test_failed_pair_remains_failed_and_retains_output) ... ok
+test_matching_historical_host_still_requires_native_receiving (__main__.DirectPairCallerTests.test_matching_historical_host_still_requires_native_receiving) ... ok
+test_missing_native_receiving_blocks_pair (__main__.DirectPairCallerTests.test_missing_native_receiving_blocks_pair) ... ok
+test_no_entrypoint_invokes_supplementary_crypto (__main__.DirectPairCallerTests.test_no_entrypoint_invokes_supplementary_crypto) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.135s
+
+OK

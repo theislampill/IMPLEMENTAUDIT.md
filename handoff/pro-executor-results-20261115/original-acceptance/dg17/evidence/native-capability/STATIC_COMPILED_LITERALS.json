@@ -1,0 +1,131 @@
+{
+  "schema": "dg17.local-cli-static-capability.v1",
+  "path": "/opt/codex/bin/codex",
+  "bytes": 324012616,
+  "sha256": "57c94ea520df28beb76955316c5c48f672550fe42c6cff7003badb76e1ee10d8",
+  "method": "Exact byte-literal membership only; no execution, auth/config read, disassembly or protocol activation",
+  "claim_ceiling": "COMPILED_LITERAL_PRESENCE_NOT_RUNTIME_INTERFACE_PROOF",
+  "literals": [
+    {
+      "literal": "StopCommandOutputWire",
+      "present": true,
+      "first_offsets_up_to_20": [
+        267255068,
+        267255369
+      ]
+    },
+    {
+      "literal": "StopCommandInput",
+      "present": true,
+      "first_offsets_up_to_20": [
+        262824912
+      ]
+    },
+    {
+      "literal": "stop_hook_active",
+      "present": true,
+      "first_offsets_up_to_20": [
+        262824896,
+        267281429,
+        267281909,
+        267286413,
+        267286830
+      ]
+    },
+    {
+      "literal": "hook_event_name",
+      "present": true,
+      "first_offsets_up_to_20": [
+        266237758,
+        267212292,
+        267254478,
+        267262614,
+        267263383,
+        267265469,
+        267266166,
+        267269153,
+        267269691,
+        267270752,
+        267271493,
+        267274047,
+        267274584,
+        267275545,
+        267276178,
+        267277735,
+        267278047,
+        267278578,
+        267279232,
+        267280979
+      ]
+    },
+    {
+      "literal": "last_assistant_message",
+      "present": true,
+      "first_offsets_up_to_20": [
+        266237850,
+        267281065,
+        267281825,
+        267286049,
+        267286746
+      ]
+    },
+    {
+      "literal": "TaskComplete",
+      "present": false,
+      "first_offsets_up_to_20": []
+    },
+    {
+      "literal": "TurnComplete",
+      "present": true,
+      "first_offsets_up_to_20": [
+        263020086,
+        264058639,
+        264061630,
+        264696632,
+        264699393,
+        264944957,
+        264973072,
+        264980839,
+        265001878,
+        265451030,
+        265466717,
+        266248226,
+        266251408,
+        266708322,
+        267568140,
+        268642593,
+        268867432,
+        268916619,
+        268920499,
+        268968013
+      ]
+    },
+    {
+      "literal": "turn.completed",
+      "present": true,
+      "first_offsets_up_to_20": [
+        266708335
+      ]
+    },
+    {
+      "literal": "systemMessage",
+      "present": true,
+      "first_offsets_up_to_20": [
+        267254844,
+        267264965,
+        267268618,
+        267270223,
+        267273519,
+        267275114,
+        267277304,
+        267280364,
+        267282894,
+        267285542,
+        267287797,
+        267289143,
+        267290153,
+        267292568
+      ]
+    }
+  ]
+}

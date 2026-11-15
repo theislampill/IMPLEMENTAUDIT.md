@@ -1,0 +1,30 @@
+{
+  "actor": "/root",
+  "captured_utc": "2026-11-15T09:41:45.054405+00:00",
+  "dg17_manifest_note": "The retained original EVIDENCE_MANIFEST binds the complete local capture. This publication includes the public command/results/capability subset; runtime-before/runtime-after and redundant published source copies remain outside this public subset. No original acceptance depends on this failed invocation.",
+  "dg18_native_or_owner_result": false,
+  "exact_evidence_whitespace_preserved": [
+    {
+      "path": "handoff/pro-executor-results-20261115/original-acceptance/dg16-m5/INDEPENDENT_ORIGINAL_RECEIVING.md",
+      "reason": "Retain original independent Markdown hard breaks or actual CLI blank-line bytes.",
+      "sha256": "69af7acfce0ed7ea7dadd6d8274c9c359c907a4c912ac97a6cd7f681cef8c4d8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/original-acceptance/dg17/evidence/native-capability/exec-help.stdout.txt",
+      "reason": "Retain original independent Markdown hard breaks or actual CLI blank-line bytes.",
+      "sha256": "df0d864ca2076f7654288c6a1e3394e3eaa2ea8f15021df2524efdd90c70986c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/original-acceptance/dg17/evidence/native-capability/help.stdout.txt",
+      "reason": "Retain original independent Markdown hard breaks or actual CLI blank-line bytes.",
+      "sha256": "b69c5454449539e250b4d7f636e612e7a6686d60d1a9d2d50c8b82628af00dde"
+    }
+  ],
+  "original_acceptance": false,
+  "private_root_runtime_bodies_uploaded": false,
+  "protected_g2_raw": false,
+  "schema": "pro.original-acceptance-evidence-retention.v1",
+  "scope": "PERMITTED_PUBLIC_SOURCE_AND_BOUNDED_READONLY_RESULTS",
+  "source_copies_reused_by_published_commit": true,
+  "successor": "PRO-EXECUTOR-01, designated by owner"
+}

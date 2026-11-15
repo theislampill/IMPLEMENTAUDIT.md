@@ -1,0 +1,40 @@
+{
+  "additional_bound_files": {
+    ".github/workflows/dg16-r5-full-g2.yml": {
+      "bytes": 21086,
+      "sha256": "54091ee76bcb392a8dc2f4f445d59e478d16e3d4c01b1b049c4424a6e4444956"
+    },
+    "qualification/dg16-g221-production-integration/test_no_supplementary_export.py": {
+      "bytes": 5467,
+      "sha256": "a1f55df34d8351345cfc4bd4abdb24c5893270b3f0964dda539bab174de10a6b"
+    },
+    "qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json": {
+      "bytes": 6612,
+      "sha256": "16781d4f48254f5ac87d0d8741b5a1a7d33261918bdc05213a2b55ff9b289df0"
+    }
+  },
+  "capture_plan_profile": "single-proc-v2",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-21-20261115",
+  "effect_grant": false,
+  "execution_entrypoint": "run.py",
+  "host_branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
+  "issuer": "PRO-EXECUTOR-01",
+  "maintained_source_changes": false,
+  "original_acceptance": false,
+  "original_native_predicates_and_selection_unchanged": true,
+  "original_policy_decision_sequence_unchanged": true,
+  "original_resource_policy_unchanged": true,
+  "original_runner_lifecycle_unchanged": true,
+  "pair_entrypoint": "pair_driver.py",
+  "prior_scoped_candidate_seal_sha256": "aa832689f58942a7802113aac7e2cb5cc1abe2122ae6b6e4d83bc70b0136afb0",
+  "qualification_census_encoding": "UTF-8 json.dumps(rows, indent=2, sort_keys=True) plus LF; rows sorted by filename with path, bytes, sha256",
+  "qualification_census_sha256": "2c4f274fab500422814d7de708954bff6953fb80f6c536a84e65609e14d28c15",
+  "qualification_commit": "e7e32b9c15551dbe5f24ff8717ddea00e14eec30",
+  "qualification_directory": "qualification/dg16-r5-full-g2",
+  "qualification_files": 43,
+  "qualification_repository_tree": "e2c02bce33c2708fc72569d4cd232b62ebe23805",
+  "qualification_tree": "284d0ab463ddced138f7e950326fd8affc04c535",
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "supplementary_crypto_and_recipient_invocations_selected": false
+}

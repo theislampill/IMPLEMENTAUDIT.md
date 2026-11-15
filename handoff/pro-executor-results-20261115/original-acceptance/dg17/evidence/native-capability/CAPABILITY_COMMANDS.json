@@ -1,0 +1,45 @@
+[
+  {
+    "command": [
+      "/opt/codex/bin/codex",
+      "--version"
+    ],
+    "started_utc": "2026-11-15T09:22:08.397132+00:00",
+    "elapsed_seconds": 0.008524773998942692,
+    "exit_code": 0,
+    "stdout_bytes": 26,
+    "stdout_sha256": "f95bff5c891cee4f0393cf4d0b611b5bdaa480b0912c81721f8ff2139777b5c0",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "model_invocation": false
+  },
+  {
+    "command": [
+      "/opt/codex/bin/codex",
+      "--help"
+    ],
+    "started_utc": "2026-11-15T09:22:08.405956+00:00",
+    "elapsed_seconds": 0.018304617999092443,
+    "exit_code": 0,
+    "stdout_bytes": 5860,
+    "stdout_sha256": "b69c5454449539e250b4d7f636e612e7a6686d60d1a9d2d50c8b82628af00dde",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "model_invocation": false
+  },
+  {
+    "command": [
+      "/opt/codex/bin/codex",
+      "exec",
+      "--help"
+    ],
+    "started_utc": "2026-11-15T09:22:08.424551+00:00",
+    "elapsed_seconds": 0.01093168199986394,
+    "exit_code": 0,
+    "stdout_bytes": 4331,
+    "stdout_sha256": "df0d864ca2076f7654288c6a1e3394e3eaa2ea8f15021df2524efdd90c70986c",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "model_invocation": false
+  }
+]

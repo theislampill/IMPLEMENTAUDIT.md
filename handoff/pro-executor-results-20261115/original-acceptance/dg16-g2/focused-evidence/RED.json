@@ -1,0 +1,13 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "qualification/dg16-g221-production-integration/test_no_supplementary_export.py",
+    "-v"
+  ],
+  "exit_code": 1,
+  "scope": "FOCUSED_STUBBED_CALLER_CONTROLS_NO_ACCEPTING_EFFECT",
+  "stderr_sha256": "cf6d05a8b5b0e7ffe75b83aa0a38348f40782406bdff844d7dc341d050f5db35",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "utc": "2026-11-15T09:31:44.884313+00:00"
+}

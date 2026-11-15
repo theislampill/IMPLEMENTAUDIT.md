@@ -11,7 +11,7 @@ import re
 import time
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-20-20261114'
+CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-21-20261115'
 REMOTE = 'https://github.com/' + REPOSITORY + '.git'
 AUTHOR = '/root/linux02_delta_review'
 ADAPTER_AUTHOR = '/root/source_package'

@@ -1,0 +1,149 @@
+[
+  {
+    "candidate": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+    "resolved": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "regular": true,
+    "executable": true,
+    "magic4": "7f454c46",
+    "bytes": 30894944,
+    "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "chain": [
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/",
+        "uid": 1000,
+        "mode": "0o755"
+      }
+    ]
+  },
+  {
+    "candidate": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "resolved": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "regular": true,
+    "executable": true,
+    "magic4": "7f454c46",
+    "bytes": 30894944,
+    "sha256": "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "chain": [
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime/dependencies",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes/codex-primary-runtime",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex/runtimes",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt/codex",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/opt",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/",
+        "uid": 1000,
+        "mode": "0o755"
+      }
+    ]
+  },
+  {
+    "candidate": "/usr/bin/python3",
+    "resolved": "/usr/bin/python3.13",
+    "regular": true,
+    "executable": true,
+    "magic4": "7f454c46",
+    "bytes": 6832784,
+    "sha256": "889c603f0d17cb54060951bcf4c4f9b8c9ebd9e52b392c70209bbb9755d797d9",
+    "chain": [
+      {
+        "path": "/usr/bin/python3.13",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/usr/bin",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/usr",
+        "uid": 65534,
+        "mode": "0o755"
+      },
+      {
+        "path": "/",
+        "uid": 1000,
+        "mode": "0o755"
+      }
+    ]
+  },
+  {
+    "candidate": "/usr/local/bin/python3",
+    "error": "FileNotFoundError"
+  }
+]

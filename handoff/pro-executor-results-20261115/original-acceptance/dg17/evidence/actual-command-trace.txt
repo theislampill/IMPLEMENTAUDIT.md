@@ -1,0 +1,54 @@
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:3: set -uo pipefail
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:5: err_count=0
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:15: '[' --nonterminal-yield = --turn-disposition ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:431: '[' --nonterminal-yield = --claim-only ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:431: '[' --nonterminal-yield = --claim-custody-only ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:505: graph_python=()
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:506: case "${1:-}" in
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:521: '[' --nonterminal-yield = --graph-scope ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:521: '[' --nonterminal-yield = --graph-parent ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:803: '[' --nonterminal-yield = --graph-freshness ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1127: mode=full
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1128: nonterminal_yield=no
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1129: '[' --nonterminal-yield = --micro ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1132: '[' --nonterminal-yield = --ledger ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1135: '[' --nonterminal-yield = --nonterminal-yield ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1136: nonterminal_yield=yes
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1137: shift
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1139: run_root=/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1140: '[' -z /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1140: '[' yes = yes ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1140: '[' 1 -ne 1 ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1152: '[' full '!=' ledger ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1162: '[' -d /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1167: state=/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/STATE.md
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1168: roadmap=/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/ROADMAP.md
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1169: canonical_record_root=/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1170: canonical_roots=()
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1171: canonical_snapshots=()
++++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1172: dirname /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh
+++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1172: cd /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts
+++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1172: pwd
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1172: reader=/workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/read-canonical-pair.py
+++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1173: mktemp -d
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1173: validation_snapshots=/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg17-direct-current-receiving/temp/tmp.YtbjW1AXQS
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1174: trap 'wait 2>/dev/null; rm -rf "$validation_snapshots"' EXIT
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1175: reader_py=()
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1186: mkdir /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg17-direct-current-receiving/temp/tmp.YtbjW1AXQS/pair
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1187: canonical_selection /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg17-direct-current-receiving/temp/tmp.YtbjW1AXQS/pair
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1177: local selected_root=/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS output=/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg17-direct-current-receiving/temp/tmp.YtbjW1AXQS/pair
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1178: '[' 0 -eq 0 ']'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1179: command -v python
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1179: reader_py=(python -B)
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1184: PYTHONDONTWRITEBYTECODE=1
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1184: python -B /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/read-canonical-pair.py --run-root /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS --output /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg17-direct-current-receiving/temp/tmp.YtbjW1AXQS/pair --native-guards
+read-canonical-pair: native canonical generation JOIN refused; root fallback is forbidden
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1188: selection_rc=1
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1189: case "$selection_rc" in
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1198: err 'canonical pair selection refused; root compatibility fallback is forbidden'
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:7: printf 'validate-run-root: ERROR: %s\n' 'canonical pair selection refused; root compatibility fallback is forbidden'
+validate-run-root: ERROR: canonical pair selection refused; root compatibility fallback is forbidden
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:8: err_count=1
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1198: exit 1
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1: wait
++ /workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/validate-run-root.sh:1: rm -rf /workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg17-direct-current-receiving/temp/tmp.YtbjW1AXQS

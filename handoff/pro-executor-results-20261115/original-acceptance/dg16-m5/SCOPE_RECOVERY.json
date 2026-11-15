@@ -1,0 +1,15 @@
+{
+  "different_historical_27_method_scope_not_substituted": true,
+  "earned_27_control_qualification_preserved": true,
+  "matching_exact_accepted_scope_recovered": false,
+  "new_original_award": false,
+  "new_tests_run": 0,
+  "original_receiver_agent_context_contacted": "/root/dg18_engineering",
+  "original_receiver_confirmation": "Historical receiving completed; no original command names, expected predicates, actual outcomes or acceptance matrix survive in current context/records.",
+  "original_receiver_return": "GAP \u2014 ORIGINAL_ACCEPTED_SCOPE_MAP_NOT_RETAINED",
+  "personal_context_tool_available_to_root": true,
+  "query_scope": "Only prior receiver accepted-scope statement for source205 27-control receipt88010959",
+  "schema": "dg16.m5-scope-recovery-result.v1",
+  "scope_limit": "The returned checkpoint summaries retain completed receiving but do not supply its exact original-conjunct map.",
+  "tool_search_completed": true
+}

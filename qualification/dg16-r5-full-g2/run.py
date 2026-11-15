@@ -19,7 +19,7 @@ import time
 import types
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-BRANCH = 'pro/dg16-r5-full-g2-direct-host-20-20261114'
+BRANCH = 'pro/dg16-r5-full-g2-direct-host-21-20261115'
 SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
 SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
 UTILITY_SHA = '02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5'
@@ -30,7 +30,7 @@ FULL_RELATION_SHA = '04fe4362385b819363f8785d0ad9a346724937f2e798e25536a7ad67db5
 RELATION_INPUTS_SHA = '41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014'
 POLICY_SHA = '21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1'
 POLICY_CONTROL_SHA = '8d7c9deca483085c206ddd4372d52052d543b563faf26189a3582e2e3a245d54'
-LIVE_CONTROL_SHA = '8a65f6f51fd3749a2fdeeddf851810fd3c2e13a8e6e77ac31cb807ea56760993'
+LIVE_CONTROL_SHA = '2154177c5ad6cc3864407a2f7c0254cb21645d89cb8c45f9cfba247b39e63a88'
 PREREQUISITE_SHA = '770ea10da4120e22102c32b9ef75ffc5643ceb45292bfff5060b3c2ef513ac05'
 NATIVE_CLOSURE_SHA = 'e57a705f0bb34b1a32ce852311ca5aa172dde1aea74b20a5ee16e2fa390fe463'
 CHECKOUT_PREPARE_SHA = '1cab07709dc06f5eae35da4abcc358fd2d4f1ed8885e7e8e731e104fa54d5c1a'
@@ -39,11 +39,10 @@ NATIVE_EVIDENCE_IO_SHA = 'c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f70
 NATIVE_PROFILE_SHA = 'c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d'
 NATIVE_ADMISSION_SHA = 'd96262b67a18f62a7fe07264a3b5a08b5a8016a237d9b46ca7c781e234421342'
 NATIVE_RECEIVER_SHA = '594ac753bbfda9cfa3285a7c5a31018fd5384bb3d3f0afcd89bc29cea7749f42'
-CURRENT_HOST_SHA = '893ad0f5c8b59d7bff47985cfe94ef8d76d5b1cbb76f4076c1efdf86fe10d3fc'
-CURRENT_HOST_REQUEST_SHA = '74c652e86b69a14e6503bf31867d35ae310313653046d3cc9b0a8bd02aecf6cf'
+CURRENT_HOST_SHA = '1ebde896d865667963a5ec760e34b0b38445889e3e9123ccce4f3d109a30c8d7'
+CURRENT_HOST_REQUEST_SHA = '16781d4f48254f5ac87d0d8741b5a1a7d33261918bdc05213a2b55ff9b289df0'
 NATIVE_INTEGRATION_SHA = 'c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266'
 FINAL_COMPOSITION_READY = True
-PROTECTED_BRIDGE_SHA = 'b2a740fc2d47d90ae64b721baef111dd64ac56799fd1a6cc614b94bc7882b238'
 # Root must join received F6 correction, workflow/receiver pins and real decisions.
 OWNER = 'skills/implementaudit/scripts/claim-run.sh'
 AUTHOR = 'fixtures/controller-initialization/author_checkpoint.py'
@@ -806,29 +805,6 @@ def failed_leg_public_budget(state,u):
             'scope':'CAPACITY_ONLY_NOT_OPERATION_EVIDENCE','original_acceptance':False}
 
 
-def load_protected(u):
-    return load_adapter('protected_bridge.py',PROTECTED_BRIDGE_SHA,u)
-
-def protected_capacity(value,u):
-    return load_protected(u).reserve_capacity(value,u)
-
-def protected_preflight(state,source,output,u,tools,manifest):
-    parent=types.SimpleNamespace(**globals())
-    return load_protected(u).preflight(parent,state,source,output,u,tools,manifest)
-
-def protected_failed_finalize(state,source,output,u,tools,manifest,deadline):
-    parent=types.SimpleNamespace(**globals())
-    return load_protected(u).failed_finalize(parent,state,source,output,u,tools,manifest,deadline)
-
-def protected_emit(source,output,u):
-    # A supplementary eligibility refusal never blocks original public upload.
-    eligible=False
-    try:
-        state=u.parse_json(u.checked_file(output/'private/episode.json',1024**2))
-        eligible=load_protected(u).emit_eligibility(types.SimpleNamespace(**globals()),state,source,output,u)
-    except BaseException:pass
-    print('eligible='+('true' if eligible else 'false'),flush=True)
-
 def operation(step,state,source,output,tools,u,manifest,command):
     docs=state['docs'];probe=docs['PROBE.json'];helper=str(source/OWNER);controller=state['controller'];private=output/'private'
     def owner(label,args):
@@ -897,12 +873,8 @@ def operation(step,state,source,output,tools,u,manifest,command):
     elif step=='pair':
         need(actual_policy_adoption(u)==state['policy_adoption'],'POLICY_ADOPTION_CHANGED_BEFORE_PAIR')
         current('before-pair-currentness');probe['currentness_before_pair']=True
-        state['failed_leg_public_capacity']=protected_capacity(failed_leg_public_budget(state,u),u)
-        if state['native']['current_host_request'] is not None:
-            require_native_for_pair(state,output,u)
-        protected_preflight(state,source,output,u,tools,manifest)
-        if state['native']['current_host_request'] is None:
-            require_native_for_pair(state,output,u)
+        state['failed_leg_public_capacity']=failed_leg_public_budget(state,u)
+        require_native_for_pair(state,output,u)
         probe['started']=True
         driver=checked_driver(u)
         argv=[tools['python3'],'-I','-S','-B',str(driver),'--source',str(source),'--out',str(private/'full-pair'),
@@ -1112,8 +1084,6 @@ def execute(mode,source,output,u):
             rc,out,err=command('live-closing-currentness',[tools['bash'],str(source/OWNER),'--require-current-continuity',state['controller']],seconds=20)
             write_private(output/'private/final-currentness.stdout',out);write_private(output/'private/final-currentness.stderr',err)
             need(rc==0 and out.decode().strip()==state['receipt'],'FINAL_CURRENTNESS_REFUSED')
-            if state['failed']:
-                protected_failed_finalize(state,source,output,u,tools,manifest,deadline)
             need(state['completed']==list(STEPS) and not state['failed'],'EPISODE_INCOMPLETE')
             need(docs['PROBE.json']['receiving']['status']=='RECEIVED_COMPLETE_RAW_PAIR','LIVE_RECEIVING_MISSING')
             need(actual_policy_adoption(u)==state['policy_adoption'],'CLOSING_POLICY_ADOPTION_CHANGED')
@@ -1200,12 +1170,10 @@ def execute(mode,source,output,u):
 
 def main():
     need(FINAL_COMPOSITION_READY, 'FINAL_CURRENT_G2_COMPOSITION_UNBOUND')
-    p=argparse.ArgumentParser();p.add_argument('--step',choices=(*STEPS,'finalize'));p.add_argument('--emit-public',action='store_true');p.add_argument('--emit-review',action='store_true');p.add_argument('--emit-protected',action='store_true')
+    p=argparse.ArgumentParser();p.add_argument('--step',choices=(*STEPS,'finalize'));p.add_argument('--emit-public',action='store_true');p.add_argument('--emit-review',action='store_true')
     p.add_argument('--source',required=True);p.add_argument('--output',required=True);a=p.parse_args()
-    need(sum((bool(a.step),bool(a.emit_public),bool(a.emit_review),bool(a.emit_protected)))==1,'MODE_REFUSED');u=load_utility()
+    need(sum((bool(a.step),bool(a.emit_public),bool(a.emit_review)))==1,'MODE_REFUSED');u=load_utility()
     source=Path(a.source).absolute();output=Path(a.output).absolute()
-    if a.emit_protected:
-        protected_emit(source,output,u);return 0
     if a.emit_public:
         emit_bound_public(output,source,u);return 0
     if a.emit_review:

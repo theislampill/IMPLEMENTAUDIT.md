@@ -1,0 +1,14 @@
+{
+  "schema": "pro-executor.dg17.first-refusal-diagnosis.v1",
+  "command": [
+    "bash",
+    "/workspace/scratch/0269e6626329/dg17/skills/implementaudit/scripts/claim-run.sh",
+    "--resolve-canonical-generation",
+    "pro-executor-01"
+  ],
+  "utc": "2026-11-15T09:17:12.079496+00:00",
+  "exit_code": 1,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "350da0e6ea2b2a99856813af988b2527f1c3031403ecd6664ea863e89359ef71",
+  "scope": "READ_ONLY_RESOLVER_DIAGNOSTIC_NOT_REPLAY_OR_NATIVE_EFFECT"
+}

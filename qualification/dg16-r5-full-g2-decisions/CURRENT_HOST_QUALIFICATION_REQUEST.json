@@ -12,15 +12,15 @@
     "test_valid_original14_owner_does_not_supply_missing_graph_document"
   ],
   "boot_policy": "BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB",
-  "branch": "pro/dg16-r5-full-g2-direct-host-20-20261114",
-  "control_branch": "pro/dg16-r5-full-g2-direct-control-20-20261114",
+  "branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-21-20261115",
   "current_port_tests": [
     "test_native_intake_uses_current_original14_not_retired_root",
     "test_native_intake_later_boundary_prevents_return"
   ],
   "decision": "REQUEST_ONE_FRESH_CURRENT_HOST_QUALIFICATION",
   "effect_grant": false,
-  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "issuer_thread": "PRO-EXECUTOR-01",
   "limits": {
     "bank_seconds": 600,
     "command_metadata_bytes": 131072,
@@ -42,7 +42,7 @@
     "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
     "probe_sha256": "4974d29580dd219898816a2a84133fb45fd7ca152cca08ee5cc904358232b9b3",
     "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
-    "qualification_sha256": "893ad0f5c8b59d7bff47985cfe94ef8d76d5b1cbb76f4076c1efdf86fe10d3fc",
+    "qualification_sha256": "1ebde896d865667963a5ec760e34b0b38445889e3e9123ccce4f3d109a30c8d7",
     "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
     "source_applicability_sha256": "61c4969ef48bd2118849e64705a0df8f687f703971d01e971c6999c50c1e2576",
     "source_manifest_sha256": "328bfd9ba1711260d6efa19ed8fcf45651d375e7c3685b9ce50bd03f1c3803ee",
