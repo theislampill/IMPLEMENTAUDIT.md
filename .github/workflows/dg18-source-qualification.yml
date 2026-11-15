@@ -2,10 +2,11 @@ name: DG18 deterministic source CLI qualification
 
 on:
   push:
-    branches: [engineering/pro-executor-dg18-source-20261115, engineering/pro-dg18-c02-cli-20261115]
+    branches: [engineering/pro-executor-dg18-source-20261115, engineering/pro-dg18-c02-cli-20261115, engineering/pro-dg18-installed-current-20261115]
     paths:
       - .github/workflows/dg18-source-qualification.yml
       - handoff/dg16-dg18-findings-20261115/dg18-source-qualification/**
+      - handoff/pro-executor-results-20261115/dg18-installed-current/**
       - fixtures/canonical-state-rotation/c02_cli_source_test.py
       - skills/implementaudit/scripts/claim-run-rotation.py
       - skills/implementaudit/scripts/claim-run.sh
@@ -165,3 +166,77 @@ jobs:
             ${{ env.DG18_C02_OUTPUT }}/EXIT_CODE.txt
             ${{ env.DG18_C02_OUTPUT }}/test.stdout
             ${{ env.DG18_C02_OUTPUT }}/test.stderr
+
+  installed-current:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-dg18-installed-current-20261115' &&
+      github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out exact installed-consumer instructions and retained archives
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          persist-credentials: false
+          fetch-depth: 1
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the exact archive source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a
+          path: qualified-source
+          persist-credentials: false
+          fetch-depth: 1
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Install the retained packages and initialize fresh actual tasks
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          export DG18_INSTALLED_OUTPUT="$RUNNER_TEMP/dg18-installed-$GITHUB_RUN_ID-1"
+          printf 'DG18_INSTALLED_OUTPUT=%s\n' "$DG18_INSTALLED_OUTPUT" >> "$GITHUB_ENV"
+          /usr/bin/python3 -I -B "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py" \
+            --step prepare --source "$GITHUB_WORKSPACE/qualified-source" --output "$DG18_INSTALLED_OUTPUT"
+
+      - name: Read each actual STATE
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -B "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py" \
+            --step read-state --source "$GITHUB_WORKSPACE/qualified-source" --output "$DG18_INSTALLED_OUTPUT"
+
+      - name: Read each actual ROADMAP
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -B "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py" \
+            --step read-roadmap --source "$GITHUB_WORKSPACE/qualified-source" --output "$DG18_INSTALLED_OUTPUT"
+
+      - name: Receive actual installed receipts and currentness
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -B "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py" \
+            --step consume --source "$GITHUB_WORKSPACE/qualified-source" --output "$DG18_INSTALLED_OUTPUT"
+
+      - name: Retain actual installed-consumer evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-installed-current-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+          path: ${{ env.DG18_INSTALLED_OUTPUT }}/evidence/**
