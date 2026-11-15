@@ -307,11 +307,11 @@
     "next_after_records": "Original owner validates its authentic selection/store/assignment; then fresh exact-operation grant and bounded audit-state execution; distinct cold receiver completes only afterwards."
   },
   "source_only_ci_continuation": {
-    "status": "PREPARED_NOT_RUN_HOSTED_PENDING_DISTINCT_REVIEW",
+    "status": "CONFIGURATION_CORRECTED_PENDING_DISTINCT_REVIEW_AND_HOSTED_EXECUTION",
     "workflow": {
       "path": ".github/workflows/dg18-source-qualification.yml",
-      "bytes": 3900,
-      "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+      "bytes": 3976,
+      "sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
     },
     "runner": {
       "path": "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py",
@@ -326,6 +326,24 @@
       "root guarded engineering publication",
       "actual hosted result"
     ],
-    "missing_native_authority_unchanged": true
+    "missing_native_authority_unchanged": true,
+    "initial_workflow_pin": {
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "bytes": 3900,
+      "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+    },
+    "initial_hosted_failure": {
+      "run_id": 43675724954,
+      "head_sha": "fbe537794f886b31d85ccd5c665c31ad8070f435",
+      "status": "FAILURE_BEFORE_ANY_JOB",
+      "jobs": 0,
+      "artifacts": 0,
+      "source_cases_executed": 0
+    },
+    "configuration_validation": {
+      "path": "CONFIG_VALIDATION.json",
+      "bytes": 6149,
+      "sha256": "9ca87d8f2b1ab4466150e8660114271c037bc064785a09dda16a18acfcf29c82"
+    }
   }
 }

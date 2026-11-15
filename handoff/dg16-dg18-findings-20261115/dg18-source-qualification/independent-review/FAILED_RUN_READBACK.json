@@ -1,0 +1,46 @@
+{
+  "schema": "dg18.source-ci-initial-failure-readback.v1",
+  "reviewer": "/root/dg18_independent_review",
+  "run": {
+    "id": 43675724954,
+    "name": ".github/workflows/dg18-source-qualification.yml",
+    "head_branch": "engineering/pro-executor-dg18-source-20261115",
+    "head_sha": "fbe537794f886b31d85ccd5c665c31ad8070f435",
+    "path": ".github/workflows/dg18-source-qualification.yml",
+    "run_number": 1,
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "workflow_id": 418861239,
+    "check_suite_id": 118251598170,
+    "run_attempt": 1,
+    "created_at": "2026-11-15T04:12:18Z",
+    "updated_at": "2026-11-15T04:12:18Z",
+    "run_started_at": "2026-11-15T04:12:18Z",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43675724954"
+  },
+  "head_tree": "ddf65c6f7e351cf98633598e8dff81f69ccb9bc3",
+  "jobs": [],
+  "artifacts": [],
+  "classification": "WORKFLOW_STARTUP_FAILURE_ZERO_JOBS_NOT_A_FIXTURE_TEST_FAILURE",
+  "literal_validation_annotation": "NOT_RETRIEVED",
+  "annotation_access_limit": "HTTPError: 400: GitHub Fetch URL is not an allowed public GitHub repository or search endpoint. (Response: None)",
+  "primary_source": {
+    "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability",
+    "job_env_allowed_contexts": [
+      "github",
+      "needs",
+      "strategy",
+      "matrix",
+      "vars",
+      "secrets",
+      "inputs"
+    ],
+    "runner_context_permitted_in_step_env_run_with": true
+  },
+  "source_defect": "The frozen workflow uses runner.temp in jobs.source-cli.env.DG18_SOURCE_OUTPUT, where runner is not an available context.",
+  "diagnostic_limit": "The source defect is proved against GitHub's documented context schema; its relation to this zero-job failure is an evidence-based diagnosis, not a retrieved server error annotation.",
+  "source_tests_executed_in_this_failed_hosted_run": 0,
+  "native_acceptance_delta": 0,
+  "reviewer_did_not_rerun_or_publish": true
+}

@@ -24,7 +24,6 @@ jobs:
     timeout-minutes: 15
     env:
       PYTHONDONTWRITEBYTECODE: '1'
-      DG18_SOURCE_OUTPUT: ${{ runner.temp }}/dg18-source-cli-${{ github.run_id }}-${{ github.run_attempt }}
       DG18_SOURCE_RUNNER: handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py
     steps:
       - name: Check out exact reviewed source without retained credentials
@@ -42,6 +41,8 @@ jobs:
         run: |
           set -euo pipefail
           umask 077
+          export DG18_SOURCE_OUTPUT="$RUNNER_TEMP/dg18-source-cli-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          printf 'DG18_SOURCE_OUTPUT=%s\n' "$DG18_SOURCE_OUTPUT" >> "$GITHUB_ENV"
           /usr/bin/python3 -B "$DG18_SOURCE_RUNNER" --output "$DG18_SOURCE_OUTPUT" --preflight
 
       - name: Install the fixed test tokenizer in the disposable system interpreter

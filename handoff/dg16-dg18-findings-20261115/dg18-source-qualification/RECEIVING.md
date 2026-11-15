@@ -148,6 +148,39 @@ This candidate's hosted result is **pending**. A green source-only job would
 qualify the three fixture paths at that exact source; it would provide no
 actual C02 issuer authority, native OR observation or original acceptance.
 
+### First hosted configuration failure and bounded correction
+
+Root published the reviewed source tree `ddf65c6f7e351cf98633598e8dff81f69ccb9bc3`
+as remote commit `fbe537794f886b31d85ccd5c665c31ad8070f435`. Actual
+[run 43675724954](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43675724954)
+failed immediately, with zero jobs, check runs and artifacts. It executed no
+source cases. Preserve this first failure independently of any later result.
+
+`CONFIG_VALIDATION.json` records the demonstrated configuration defect:
+job-level `env` referenced `runner.temp`, although GitHub does not permit the
+`runner` context at that location. Actionlint 1.7.12 rejects the exact published
+workflow at line 27, column 31. The GitHub server's literal validation
+annotation was not retrieved; the actionlint diagnostic is local evidence.
+Generic YAML parsing and `bash -n` had not covered this semantic validation.
+
+The correction removes that one assignment and adds two lines to the preflight
+shell step. The shell exports the same task-specific path under `RUNNER_TEMP`
+and records it in `GITHUB_ENV` before invoking preflight. Export makes the value
+available in that step; GitHub makes the recorded value available to later
+steps. The checkout, source pins, interpreter guard, three fixture selections,
+permissions, branch restriction and artifact allowlist are unchanged. The path
+remains outside the checkout and outside native stores.
+
+The corrected file passes actionlint with no ignored diagnostics and passes all
+four shell syntax checks. No source tests or hosted jobs were rerun by the
+author. The prior independent review remains an immutable review of its
+original subject; this configuration delta requires distinct receiving before
+root's guarded publication. These records claim configuration validity, not a
+hosted source-test pass or native acceptance.
+
+Primary rules: [GitHub context availability](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)
+and [setting an environment variable](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable).
+
 ## Remaining concrete inputs
 
 ### OR

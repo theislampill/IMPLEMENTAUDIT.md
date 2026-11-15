@@ -1,0 +1,118 @@
+{
+  "schema": "implementaudit.dg18.source-ci-config-validation.v1",
+  "recorded_utc": "2026-11-15T04:15:26Z",
+  "authority_ceiling": "LOCAL_SOURCE_CONFIGURATION_ONLY_NO_NATIVE_EFFECT_AUTHORITY",
+  "author": "/root/dg18_engineering under PRO-EXECUTOR-01",
+  "local_baseline_commit": "c9f0ceb93a1cb6503121560de4a92d5d5a35f8c2",
+  "local_baseline_tree": "ddf65c6f7e351cf98633598e8dff81f69ccb9bc3",
+  "baseline_tracked_worktree": "CLEAN_BEFORE_CONFIGURATION_MUTATION",
+  "first_hosted_failure": {
+    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43675724954",
+    "api_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43675724954",
+    "id": 43675724954,
+    "head_branch": "engineering/pro-executor-dg18-source-20261115",
+    "head_sha": "fbe537794f886b31d85ccd5c665c31ad8070f435",
+    "tree": "ddf65c6f7e351cf98633598e8dff81f69ccb9bc3",
+    "name": ".github/workflows/dg18-source-qualification.yml",
+    "event": "push",
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "created_at": "2026-11-15T04:12:18Z",
+    "updated_at": "2026-11-15T04:12:18Z",
+    "jobs_total_count": 0,
+    "check_runs_total_count": 0,
+    "literal_server_validation_annotation": null,
+    "artifacts_total_count": 0
+  },
+  "diagnosis": {
+    "demonstrated_source_defect": "jobs.source-cli.env.DG18_SOURCE_OUTPUT used runner.temp where the runner context is unavailable.",
+    "evidence_scope": "Exact local published-tree workflow rejected by actionlint and contradicted by primary GitHub context availability documentation. This defect is consistent with the observed immediate zero-job failure.",
+    "server_annotation": "NOT_RETRIEVED; actionlint diagnostic is a local validator result, not a captured GitHub annotation.",
+    "original_yaml_and_bash_validation_limit": "Generic YAML parsing and bash -n do not validate GitHub expression context availability."
+  },
+  "primary_references": [
+    {
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability",
+      "fact": "jobs.<job_id>.env excludes runner; step env/run/with permit runner."
+    },
+    {
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable",
+      "fact": "GITHUB_ENV sets a variable for subsequent steps; an explicit shell export also provides it within the creating step."
+    }
+  ],
+  "validator": {
+    "release": {
+      "url": "https://github.com/rhysd/actionlint/releases/tag/v1.7.12",
+      "version": "v1.7.12",
+      "asset": {
+        "name": "actionlint_1.7.12_linux_amd64.tar.gz",
+        "url": "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz",
+        "bytes": 2353908,
+        "digest": "sha256:8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8"
+      }
+    },
+    "binary_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+    "version_output": "1.7.12\ninstalled by downloading from release page\nbuilt with go1.26.1 compiler for linux/amd64\n",
+    "command_flags": [
+      "-no-color"
+    ],
+    "ignored_diagnostics": [],
+    "optional_tools_on_path": {
+      "shellcheck": null,
+      "pyflakes": null
+    }
+  },
+  "before": {
+    "argv": [
+      "/workspace/scratch/0269e6626329/dg18/.qualification/actionlint-1.7.12/actionlint",
+      "-no-color",
+      ".github/workflows/dg18-source-qualification.yml"
+    ],
+    "exit_code": 1,
+    "workflow_sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb",
+    "validator_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+    "version": "1.7.12\ninstalled by downloading from release page\nbuilt with go1.26.1 compiler for linux/amd64\n",
+    "stdout": ".github/workflows/dg18-source-qualification.yml:27:31: context \"runner\" is not allowed here. available contexts are \"github\", \"inputs\", \"matrix\", \"needs\", \"secrets\", \"strategy\", \"vars\". see https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability for more details [expression]\n   |\n27 |       DG18_SOURCE_OUTPUT: ${{ runner.temp }}/dg18-source-cli-${{ github.run_id }}-${{ github.run_attempt }}\n   |                               ^~~~~~~~~~~\n",
+    "stderr": ""
+  },
+  "after": {
+    "argv": [
+      "/workspace/scratch/0269e6626329/dg18/.qualification/actionlint-1.7.12/actionlint",
+      "-no-color",
+      ".github/workflows/dg18-source-qualification.yml"
+    ],
+    "exit_code": 0,
+    "workflow_sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c",
+    "validator_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+    "stdout": "",
+    "stderr": "",
+    "bash_n_shell_steps": 4
+  },
+  "correction": {
+    "workflow": {
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "bytes": 3976,
+      "sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
+    },
+    "description": "Remove unsupported job env expression; export the same task-specific path from RUNNER_TEMP/GITHUB_RUN_ID/GITHUB_RUN_ATTEMPT in the preflight shell step and append it to GITHUB_ENV before invoking preflight.",
+    "diff_insertions": 2,
+    "diff_deletions": 1,
+    "all_other_yaml_semantics_unchanged": true,
+    "path_scope": "Same runner temporary directory; no relocation into the checkout or protected stores.",
+    "upload_allowlist_unchanged": true,
+    "runner_source_unchanged": true,
+    "runtime_source_unchanged": true,
+    "original_acceptance_delta": 0
+  },
+  "validation": {
+    "actionlint_before_exit": 1,
+    "actionlint_after_exit": 0,
+    "bash_n_shell_steps": 4,
+    "source_tests_rerun": false,
+    "hosted_jobs_rerun": false,
+    "remote_write_by_author": false
+  },
+  "independent_receiving": "PENDING_DISTINCT_RECEIVER_FOR_THIS_CONFIGURATION_DELTA",
+  "next_action": "Root obtains independent review of the exact correction, then owns guarded source publication and actual hosted result receiving. No success or native acceptance follows from local configuration validation."
+}

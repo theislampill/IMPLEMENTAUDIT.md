@@ -1,0 +1,67 @@
+{
+  "schema": "dg18.independent-ci-correction-review-receipt.v1",
+  "reviewer": "/root/dg18_independent_review",
+  "candidate_commit": "a65c478475c292c74a71ed856a02d0f29c305376",
+  "candidate_tree": "4675d67a39424ebb7dcfad7671b6c303a1077b37",
+  "parent_commit": "c9f0ceb93a1cb6503121560de4a92d5d5a35f8c2",
+  "parent_tree": "ddf65c6f7e351cf98633598e8dff81f69ccb9bc3",
+  "disposition": "NO_BLOCKING_FINDING_IN_SOURCE_CONFIGURATION_CORRECTION",
+  "focused_checks": 62,
+  "failed_checks": 0,
+  "first_failed_run": 43675724954,
+  "first_run_source_cases_executed": 0,
+  "literal_server_validation_annotation_retrieved": false,
+  "actionlint_before_exit": 1,
+  "actionlint_after_exit": 0,
+  "source_tests_rerun": false,
+  "hosted_jobs_rerun": false,
+  "remote_write": false,
+  "native_acceptance_delta": 0,
+  "files": [
+    {
+      "path": "CONFIG_CORRECTION_REVIEW.md",
+      "bytes": 5524,
+      "sha256": "ef335fcb8a8b41d64f296f8cdbddf470b3bcdb0c9bafd089ea946477ac5e0a93"
+    },
+    {
+      "path": "FAILED_RUN_READBACK.json",
+      "bytes": 2017,
+      "sha256": "f8153ab3efe5267866d6822a4e5f6b6f87284355c8a9a01a3a04feae4ec15f65"
+    },
+    {
+      "path": "config-correction/VERIFICATION.json",
+      "bytes": 7607,
+      "sha256": "e1854c8ada52d6f6e4060335c4e199373a9c503df03e788cee494e686a7cbfae"
+    },
+    {
+      "path": "config-correction/before.yml",
+      "bytes": 3900,
+      "sha256": "acddb8336fc182bf676d76b43d10879f62ac53b31a9b982fdacfb49d68a246cb"
+    },
+    {
+      "path": "config-correction/before.stdout.txt",
+      "bytes": 467,
+      "sha256": "eba6d2232ea27f81c79bf5b5c003772e586f508594008e6227ead3668741d643"
+    },
+    {
+      "path": "config-correction/before.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "config-correction/after.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "config-correction/after.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "config-correction/GITHUB_ENV.txt",
+      "bytes": 123,
+      "sha256": "e0ab3db55dd2063beb12afa19ac40e186b0c354c3bb30096ba0247700bcef477"
+    }
+  ]
+}

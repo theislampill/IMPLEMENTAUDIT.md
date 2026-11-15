@@ -1,0 +1,294 @@
+{
+  "schema": "dg18.independent-ci-correction-verification.v1",
+  "candidate_commit": "a65c478475c292c74a71ed856a02d0f29c305376",
+  "candidate_tree": "4675d67a39424ebb7dcfad7671b6c303a1077b37",
+  "parent": "c9f0ceb93a1cb6503121560de4a92d5d5a35f8c2",
+  "scope": "LOCAL_SOURCE_CONFIGURATION_REVIEW_ONLY",
+  "checks": [
+    {
+      "check": "frozen_identity",
+      "passed": true
+    },
+    {
+      "check": "baseline_workflow_pin",
+      "passed": true
+    },
+    {
+      "check": "corrected_workflow_pin",
+      "passed": true
+    },
+    {
+      "check": "all_other_yaml_semantics_unchanged",
+      "passed": true
+    },
+    {
+      "check": "no_runtime_runner_or_test_delta",
+      "passed": true
+    },
+    {
+      "check": "historical_independent_records_unchanged",
+      "passed": true,
+      "detail": [
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/independent-review/RECEIPT.json",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/independent-review/verification.json",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/independent-review/INDEPENDENT_REVIEW.md"
+      ]
+    },
+    {
+      "check": "diff_check",
+      "passed": true
+    },
+    {
+      "check": "manifest:C5_AMENDMENT_ORIGINAL.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:CONFIG_VALIDATION.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:ISSUE215_ORIGINAL.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:RECEIVING.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:ci_source_qualification.py",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/INDEPENDENT_REVIEW.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/RECEIPT.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/verification.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/ci-local-preflight.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-c02_cli_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-c02_native_source_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-input_contract_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-native_input_adapter_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-native_or_rotation_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-token_admission_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/peer-c02_native_source_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/peer-input_contract_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/peer-native_or_rotation_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:.github/workflows/dg18-source-qualification.yml",
+      "passed": true
+    },
+    {
+      "check": "current_workflow_pin:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "configuration_pin:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "initial_workflow_preserved:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "zero_job_failure_preserved:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "current_workflow_pin:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "configuration_pin:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "initial_workflow_preserved:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "zero_job_failure_preserved:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:id",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:head_branch",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:head_sha",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:name",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:event",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:status",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:conclusion",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:run_attempt",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:created_at",
+      "passed": true
+    },
+    {
+      "check": "actual_failed_run:updated_at",
+      "passed": true
+    },
+    {
+      "check": "literal_server_annotation_not_invented",
+      "passed": true
+    },
+    {
+      "check": "validator_binary_pin",
+      "passed": true
+    },
+    {
+      "check": "validator_version",
+      "passed": true,
+      "detail": "1.7.12\ninstalled by downloading from release page\nbuilt with go1.26.1 compiler for linux/amd64\n"
+    },
+    {
+      "check": "baseline_review_copy_matches",
+      "passed": true
+    },
+    {
+      "check": "actionlint_before",
+      "passed": true,
+      "detail": {
+        "argv": [
+          "/workspace/scratch/0269e6626329/dg18/.qualification/actionlint-1.7.12/actionlint",
+          "-no-color",
+          "/workspace/scratch/0269e6626329/dg18-review/config-correction/before.yml"
+        ],
+        "exit_code": 1,
+        "stdout": "../dg18-review/config-correction/before.yml:27:31: context \"runner\" is not allowed here. available contexts are \"github\", \"inputs\", \"matrix\", \"needs\", \"secrets\", \"strategy\", \"vars\". see https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability for more details [expression]\n   |\n27 |       DG18_SOURCE_OUTPUT: ${{ runner.temp }}/dg18-source-cli-${{ github.run_id }}-${{ github.run_attempt }}\n   |                               ^~~~~~~~~~~\n",
+        "stderr": ""
+      }
+    },
+    {
+      "check": "baseline_exact_context_diagnostic",
+      "passed": true
+    },
+    {
+      "check": "actionlint_after",
+      "passed": true,
+      "detail": {
+        "argv": [
+          "/workspace/scratch/0269e6626329/dg18/.qualification/actionlint-1.7.12/actionlint",
+          "-no-color",
+          "/workspace/scratch/0269e6626329/dg18/.github/workflows/dg18-source-qualification.yml"
+        ],
+        "exit_code": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "check": "corrected_no_diagnostics",
+      "passed": true
+    },
+    {
+      "check": "bash_syntax:1",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "bash_syntax:2",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "bash_syntax:3",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "bash_syntax:4",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "same_step_export_value",
+      "passed": true
+    },
+    {
+      "check": "github_env_subsequent_step_record",
+      "passed": true
+    },
+    {
+      "check": "source_tree_still_clean",
+      "passed": true
+    },
+    {
+      "check": "local_parent_tree_matches_actual_failed_remote_run",
+      "passed": true,
+      "tree": "ddf65c6f7e351cf98633598e8dff81f69ccb9bc3"
+    }
+  ],
+  "passed": 62,
+  "total": 62,
+  "failed": [],
+  "source_tests_rerun": false,
+  "hosted_jobs_rerun": false,
+  "publication": false
+}
