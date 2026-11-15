@@ -1,0 +1,21 @@
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+sandbox_mode = "read-only"
+approval_policy = "never"
+web_search = "disabled"
+
+[features]
+apps = false
+plugins = true
+hooks = true
+multi_agent = false
+multi_agent_v2 = false
+memories = false
+
+[marketplaces.implementaudit]
+source_type = "local"
+source = "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source"
+
+[plugins."implementaudit@implementaudit"]
+enabled = true
+

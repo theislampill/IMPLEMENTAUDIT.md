@@ -1,0 +1,273 @@
+{
+  "appserver_argv": [
+    "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\dist\\codex-x86_64-pc-windows-msvc.exe",
+    "-c",
+    "features.apps=false",
+    "-c",
+    "features.plugins=true",
+    "-c",
+    "features.multi_agent=false",
+    "-c",
+    "features.multi_agent_v2=false",
+    "-c",
+    "features.memories=false",
+    "-c",
+    "features.hooks=true",
+    "-c",
+    "web_search=\"disabled\"",
+    "-c",
+    "model_reasoning_effort=\"high\"",
+    "app-server",
+    "--stdio"
+  ],
+  "bash": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "bash_sha256": "9aa00217a92def5fed1b15c6e2b34a7f89e3781af822ecc00960fe5340df093e",
+  "binding_owner": {
+    "bytes": 58351,
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\implementaudit\\scripts\\host-session-binding.py",
+    "sha256": "8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef"
+  },
+  "branch": "engineering/pr255-owner-execution-20261112",
+  "case": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\case-native-02",
+  "constructor": {
+    "bytes": 10996,
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\positive_hook_constructor.py",
+    "sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655"
+  },
+  "constructor_gate": "Constructor calledonlywithactualnewprincipal/claim/currentness. IndependentpostA review (resume_reconciliation) plus exactparentBgrant required; noBautostart/label. NoH0/trust effects inA.",
+  "controller": "dg17-windows-stop-t12-20261114-01",
+  "critical_safety_deltas": "['Emptyenvironments[] omitted; actualsandboxreadOnly/networkfalse/never and scope/modelgate beforemodel', 'Requireactualdisabled feature subset and multi_agent_v2falseifadvertised; noDG18strict23off, unified_execallowedforreads', 'Config rawbytes hashonly; effectiveboolean/layer/hookpopulation projections, no env/auth/headers/configwholecopy', 'Actualthread/start response/newvalidatedUUID retained BEFORE permissiongate failure; cleanupneverlosesknownprincipal', 'Contextnetworkabsence notdefaultFalse: explicitFalse or actualnativeResponseexplicitFalse+matchingclosedreadonly typedvariant; unknownbroaderprofileSTOP', 'TurnRPC included180absolute deadline; stderrdoesnotresettimeout', 'ParentprovidedfullHEAD/TREE epochrows+all7 templates; G1historicalstate/row retainedbeforeG2', '900clock muststartbeforefirstadmittedparentJob/log/CASEeffect and continueacross independentreview/B; A reserves90cleanupseconds']; successor scoped by SOURCE_PREPARATION and actualRoot grant; no oldclock/actor/G4/G1 reused.",
+  "declared_effects": [
+    "Root source-setup only creates isolated home/config from exacttemplate; no authmaterial copied",
+    "Root original parent Job starts shared900sclock before actual A effects; fresh exactb0clone/claim/G1/G2 only",
+    "Only selected local canonicalplugin installation into isolatedhome and read-only metadata/physical five-skill receiving; no remote marketplace or app/MCP/hook install",
+    "At mostone freshprincipal and one StageA readonlymodelturn; conditional StageB sameprincipal/secondturn/onefixedStop only",
+    "Declared and loaded inventories remain separate, exact no-other-active-hook gate; no H0/trust/qualifying effect inStageA",
+    "NativeA process/Job independently terminal/idle received before B; 900sincludesreview+cleanup; no ambiguousretry"
+  ],
+  "episode_successor": "DG17 next episode after spent Stage A of 2026-11-14 (operation 9b871228). Deltas: corrected stage_a.py (steps 06a/06b, activatable STATE); stage_b.py creates the Stop receipt directory; new case path; all limits, owner approval carrier, source head/tree and every other pin unchanged. Inert until fresh owner approval and Root grant.",
+  "expected_codex_home": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\isolated-home-01",
+  "fixed_path": "C:\\Users\\theis\\AppData\\Local\\Programs\\Python\\Python311;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\usr\\bin;C:\\Windows\\System32;C:\\Windows",
+  "git": "C:\\Program Files\\Git\\cmd\\git.exe",
+  "guarded_auth_route": "Actual isolated account/read must show authenticated account before thread/start. This source neither copies realhomeauth nor logs accountbody; Root must supply an existing authorized isolated auth route or hold before nativewindow.",
+  "issuer": "PRO-EXECUTOR-01",
+  "issuer_rebinding": {
+    "historical_base_operation_sha256": "60517142091aa3c21c5b7dece79d52c6e1cff030476deda74c33c47a01d3f485",
+    "previous_issuer": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+    "role": "/root successor designated by owner; not Astra",
+    "scope": "Issuer identity for DG17 Stage A/B grants only. Not a native grant.",
+    "status": "CANDIDATE for PRO-EXECUTOR-01 review; prepared by Claude Fable 5.2 as local support, not adopted",
+    "successor": "PRO-EXECUTOR-01"
+  },
+  "limits": {
+    "appservers_this_stage": 1,
+    "automatic_retries": 0,
+    "cleanup_to_seconds": 895,
+    "enumerated_total_clients": "A1 now; B1 later on SAMEprincipal with supportedthread/resume only if exactindependentgate/newparentadmission. No secondthread/start/concurrentactor/unknownretry.",
+    "global_episode_seconds": 900,
+    "model_turns_this_stage": 1,
+    "new_journal_bound": 16777216,
+    "preliminary_turn_seconds_including_RPC": 180,
+    "stage": "A_ONLY",
+    "thread_start_calls": 1,
+    "total_model_turns_case": 2,
+    "wire_frame_bound": 4194304,
+    "work_cutoff_seconds": 810
+  },
+  "local_plugin_selection": {
+    "key": "implementaudit@implementaudit",
+    "marketplace_file": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\.claude-plugin\\marketplace.json",
+    "source_root": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source"
+  },
+  "native_skill_pins": {
+    "audit-andon": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9",
+    "audit-assess": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4",
+    "audit-implement": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2",
+    "audit-state": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d",
+    "implementaudit": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+  },
+  "no_B_native_acceptance": "StageA source/principalpreparation is not actualY04/T12ALLOW; fullCE079 remainsunsatisfied; alloldnegative/G4/actor/source8.766/source87/pendingrights retained.; successor scoped by SOURCE_PREPARATION and actualRoot grant; no oldclock/actor/G4/G1 reused.",
+  "observation_members": [
+    "skills/implementaudit/scripts/host-stop-interlock.py",
+    "skills/implementaudit/scripts/validate-run-root.sh",
+    "skills/implementaudit/scripts/canonical_custody.py"
+  ],
+  "original_T12_scope": "Native discovery/activation/routing independently received at actual achieved scope; copy/metadata/sourcehash alone is never fullT12acceptance",
+  "owner_approval": {
+    "bytes": 1634,
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\OWNER_AUTHORIZATION.json",
+    "sha256": "05a0767e4a4a72eb7ff13f11bf9341a270b46954bab0e8e57e3e6c7bfa411aff"
+  },
+  "package": {
+    "bytes": 588548,
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\build-ci-r1\\IMPLEMENTAUDIT.plugin.zip",
+    "sha256": "9e0af3506d9c604fdc8a6f94713f498a22e22909dc737a8a1612bff73f79ebc5"
+  },
+  "parent_launch": "Capture/hash exactstage_a.py and native_rpc.py buffers; compile actualdriverbytes with __file__/__name__, pass --grant and --window-start-ns. Existing6dc qualifiedJob beforeanychild, assignedbefore/nobreakaway, parent independentCIM afterA. ResourceACK rechecked beforegrant.; successor scoped by SOURCE_PREPARATION and actualRoot grant; no oldclock/actor/G4/G1 reused.",
+  "profile_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+  "python": {
+    "bytes": 103192,
+    "path": "C:\\Users\\theis\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+    "sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec"
+  },
+  "readset": [
+    {
+      "bytes": 1634,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\OWNER_AUTHORIZATION.json",
+      "sha256": "05a0767e4a4a72eb7ff13f11bf9341a270b46954bab0e8e57e3e6c7bfa411aff"
+    },
+    {
+      "bytes": 368970544,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\dist\\codex-x86_64-pc-windows-msvc.exe",
+      "sha256": "6ca87057d80648f18f8cba0db224ae3e885b25326c07dcc798d38caef22c302c"
+    },
+    {
+      "bytes": 103192,
+      "path": "C:\\Users\\theis\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec"
+    },
+    {
+      "bytes": 47008,
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "sha256": "9aa00217a92def5fed1b15c6e2b34a7f89e3781af822ecc00960fe5340df093e"
+    },
+    {
+      "bytes": 46480,
+      "path": "C:\\Program Files\\Git\\cmd\\git.exe",
+      "sha256": "81ef35ae005ca9318018d18e3327578ce939fb99feaad6b2d7c8ab15f3de8db5"
+    },
+    {
+      "bytes": 10996,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\positive_hook_constructor.py",
+      "sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655"
+    },
+    {
+      "bytes": 13921,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\native_rpc.py",
+      "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+    },
+    {
+      "bytes": 24895,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\stage_a.py",
+      "sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8"
+    },
+    {
+      "bytes": 27433,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\stage_b.py",
+      "sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00"
+    },
+    {
+      "bytes": 535,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\PROFILE.toml",
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+    },
+    {
+      "bytes": 588548,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\build-ci-r1\\IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "9e0af3506d9c604fdc8a6f94713f498a22e22909dc737a8a1612bff73f79ebc5"
+    },
+    {
+      "bytes": 423,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\SIGNATURE.json",
+      "sha256": "42655f87faf982b0fe102f96382177f7f93fe476f2cd06f611f0ae62d42a5bbc"
+    },
+    {
+      "bytes": 630,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\RESTORE.json",
+      "sha256": "53404bd29b209641864cb28d1a420eb8c2e8be1f9136fd5a3ec30bb3ccdf43cd"
+    },
+    {
+      "bytes": 31585,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\implementaudit\\scripts\\host-stop-interlock.py",
+      "sha256": "b42fbbc2184aee40e507dcd2be4630ce14b68cacc13a42264b8ca874563f8837"
+    },
+    {
+      "bytes": 123126,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\implementaudit\\scripts\\validate-run-root.sh",
+      "sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+    },
+    {
+      "bytes": 36367,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\implementaudit\\scripts\\canonical_custody.py",
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+    },
+    {
+      "bytes": 27208,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\implementaudit\\scripts\\read-canonical-pair.py",
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+    },
+    {
+      "bytes": 32290,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\implementaudit\\scripts\\claim-run.sh",
+      "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353"
+    },
+    {
+      "bytes": 922,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\.codex-plugin\\plugin.json",
+      "sha256": "4c527c0d567d74bd6d61294e6ce81db8c7cd8b674141d40ff069d4e3d82d664d"
+    },
+    {
+      "bytes": 351,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\.claude-plugin\\marketplace.json",
+      "sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544"
+    },
+    {
+      "bytes": 21259,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\implementaudit\\SKILL.md",
+      "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+    },
+    {
+      "bytes": 3858,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\audit-state\\SKILL.md",
+      "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+    },
+    {
+      "bytes": 2039,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\audit-assess\\SKILL.md",
+      "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+    },
+    {
+      "bytes": 5448,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\audit-implement\\SKILL.md",
+      "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+    },
+    {
+      "bytes": 2812,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\engineering-return-20261113-01\\sol-dg17-approved-source-20261114-01\\plugin-source\\skills\\audit-andon\\SKILL.md",
+      "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+    },
+    {
+      "bytes": 535,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\isolated-home-01\\config.toml",
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+    },
+    {
+      "bytes": 1252,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\source_setup.py",
+      "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+    },
+    {
+      "bytes": 5054,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\parent_launch_b.py",
+      "sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76"
+    }
+  ],
+  "rpc_module": {
+    "bytes": 13921,
+    "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-successor-recovery-20261112\\claude-hold-20261113-R1\\FABLE_WORK_WIN\\dg17-next\\release\\author\\native_rpc.py",
+    "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+  },
+  "schema": "ordinary.sol-seven.DG17.authorized-stageA-runtime.v1",
+  "source_head": "b0fcb565d1c81900899181d4607e2f3a8cc621a6",
+  "source_pins": {
+    "skills/implementaudit/scripts/canonical_custody.py": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389",
+    "skills/implementaudit/scripts/claim-run.sh": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353",
+    "skills/implementaudit/scripts/host-stop-interlock.py": "b42fbbc2184aee40e507dcd2be4630ce14b68cacc13a42264b8ca874563f8837",
+    "skills/implementaudit/scripts/read-canonical-pair.py": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
+    "skills/implementaudit/scripts/validate-run-root.sh": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+  },
+  "source_tree": "539af162fd0d22b0dc30b1da18957b6cfbdb7cc1",
+  "source_worktree": "C:\\Users\\theis\\.codex\\worktrees\\pr255-owner-execution-20261112\\IMPLEMENTAUDIT",
+  "status": "INERT_SOURCE_SUCCESSOR_REQUIRES_ROOT_SOURCE_REVIEW_RESOURCE_GRANT_AND_AUTH_ROUTE",
+  "successor_delta": "Pinned schema HookEventName lowercasestop; require isManaged explicitlyFalse and actualuntrusted before A gate. Configfile Stop key remains uppercase in unchanged constructor. No disabled-profile semanticclaim. All old code/op preserved; no effects yet."
+}

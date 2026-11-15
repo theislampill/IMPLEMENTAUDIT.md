@@ -1,0 +1,15 @@
+package-contract: ok
+{
+  "authority": "NONE - source-only preparation, not native evidence",
+  "author_dir": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author",
+  "base_author_dir": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\base-author",
+  "source_head": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "operation_A_sha256": "aa93fda5c8335a892e0dcd1f022375f53aeab53a1350ab54cc943de182234cf7",
+  "operation_A_bytes": 19215,
+  "previous_operation_A_sha256": "6fb8b07c4274464cd46b84d639e0268348113c46777a4caa764e2b78033f68c9",
+  "limits_unchanged": true,
+  "unverified_input_count": 4,
+  "native_admission": false,
+  "original14_custody_unknown_differences": 14
+}

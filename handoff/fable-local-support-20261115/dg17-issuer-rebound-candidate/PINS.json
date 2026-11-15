@@ -1,0 +1,76 @@
+{
+  "author_dir": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author",
+  "authority": "NONE - source-only preparation, not native evidence",
+  "base_author_dir": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\base-author",
+  "files": {
+    "OPERATION_A.json": {
+      "bytes": 19215,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\OPERATION_A.json",
+      "previous_sha256": "6fb8b07c4274464cd46b84d639e0268348113c46777a4caa764e2b78033f68c9",
+      "sha256": "aa93fda5c8335a892e0dcd1f022375f53aeab53a1350ab54cc943de182234cf7"
+    },
+    "PROFILE.toml": {
+      "bytes": 535,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\PROFILE.toml",
+      "previous_sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7",
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+    },
+    "bind_stage_b.py": {
+      "bytes": 3244,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\bind_stage_b.py",
+      "previous_sha256": "a69fbf9a7b54cef880205cc7bab17abe3256a2ac3160c584d74049f924c59ed0",
+      "sha256": "b36e405a84900ab8101cc7e7e0322de41ec3d858a7330a46637a1a2b1d958293"
+    },
+    "native_rpc.py": {
+      "bytes": 13921,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\native_rpc.py",
+      "previous_sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89",
+      "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+    },
+    "parent_launch_a.py": {
+      "bytes": 6069,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\parent_launch_a.py",
+      "previous_sha256": "b5487d5c497c35fee11fcc4b29a73efeeb16c35a1032d42e9f1b1f071ebd4095",
+      "sha256": "83dd8b2f68cc6e1049254b0328cf934ab281729de1eb1abe70e82f0f967fdda3"
+    },
+    "parent_launch_b.py": {
+      "bytes": 5054,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\parent_launch_b.py",
+      "previous_sha256": "71126c3fcf735fb6b752773d69800fb5fd5c96e82eddf7cfc009151f13138d76",
+      "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+    },
+    "positive_hook_constructor.py": {
+      "bytes": 10996,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\positive_hook_constructor.py",
+      "previous_sha256": "8462a1f1f28896c4177b193d2d17be6671a13ead1552cd4b07ed3b1ef5635655",
+      "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+    },
+    "source_setup.py": {
+      "bytes": 1252,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\source_setup.py",
+      "previous_sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194",
+      "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+    },
+    "stage_a.py": {
+      "bytes": 24857,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\stage_a.py",
+      "previous_sha256": "d24fe5fdb87eb1cd6c2b3482475de3cbe9b4b811d5e39921d497064dad45c2d8",
+      "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+    },
+    "stage_b.py": {
+      "bytes": 33468,
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\issuer-rebound\\author\\stage_b.py",
+      "previous_sha256": "450d29564a7b0a06ccd26d695502b70a3164bb1964bc8b1f7a1cb3ed51b9bf00",
+      "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+    }
+  },
+  "limits_unchanged": true,
+  "native_admission": false,
+  "operation_A_bytes": 19215,
+  "operation_A_sha256": "aa93fda5c8335a892e0dcd1f022375f53aeab53a1350ab54cc943de182234cf7",
+  "original14_custody_unknown_differences": 14,
+  "previous_operation_A_sha256": "6fb8b07c4274464cd46b84d639e0268348113c46777a4caa764e2b78033f68c9",
+  "source_head": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "unverified_input_count": 4
+}
