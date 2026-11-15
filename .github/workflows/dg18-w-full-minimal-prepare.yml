@@ -2,10 +2,13 @@ name: DG18 existing W-FULL subject and operation preparation
 
 on:
   push:
-    branches: [engineering/pro-dg18-w-full-minimal-20261115]
+    branches:
+      - engineering/pro-dg18-w-full-minimal-20261115
+      - engineering/pro-dg18-w-full-once-20261115
     paths:
       - .github/workflows/dg18-w-full-minimal-prepare.yml
       - handoff/pro-executor-results-20261115/hosted-w-full-minimal/**
+      - handoff/pro-executor-results-20261115/hosted-w-full-continuation/**
 
 permissions:
   contents: read
@@ -95,3 +98,162 @@ jobs:
             ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/SUBJECT.tar
             ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/raw/**
             ${{ runner.temp }}/dg18-w-full-${{ github.run_id }}-${{ github.run_attempt }}/operation/**
+
+  execute-received-operation:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.event.created == false &&
+      github.event.deleted == false &&
+      github.event.forced == false &&
+      github.ref == 'refs/heads/engineering/pro-dg18-w-full-once-20261115' &&
+      github.run_attempt == '1'
+    runs-on: windows-2022
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      actions: read
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the reviewed continuation and actual external references
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 3
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Require the sole guarded continuation push and actual external references
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $packet = Join-Path $env:GITHUB_WORKSPACE 'packet'
+          $relative = 'handoff/pro-executor-results-20261115/hosted-w-full-continuation/'
+          $references = Join-Path $packet $relative
+          $names = @('OWNER_GRANT_REFERENCE.txt', 'DG16_NONCONFLICT_REFERENCE.txt', 'DG17_NONCONFLICT_REFERENCE.txt', 'EXPECTED_PREDECESSOR.txt')
+          $predecessorFile = Join-Path $references 'EXPECTED_PREDECESSOR.txt'
+          if (-not (Test-Path -LiteralPath $predecessorFile -PathType Leaf)) { throw 'Exact reviewed predecessor is absent.' }
+          $predecessor = [System.IO.File]::ReadAllText($predecessorFile).Trim()
+          if ($predecessor -cnotmatch '^[0-9a-f]{40}$') { throw 'Exact reviewed predecessor must be one full commit ID.' }
+          $event = [System.IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
+          if ($event.created -ne $false -or $event.deleted -ne $false -or $event.forced -ne $false -or $env:GITHUB_RUN_ATTEMPT -cne '1') { throw 'Only the first unforced continuation push is eligible.' }
+          if ($event.before -cne $predecessor -or $event.after -cne $env:GITHUB_SHA) { throw 'Push does not continue the exact reviewed predecessor.' }
+          $head = @(& git -C $packet rev-parse HEAD)
+          if ($LASTEXITCODE -ne 0 -or $head.Count -ne 1 -or $head[0] -cne $env:GITHUB_SHA) { throw 'Packet checkout differs from the push commit.' }
+          $parents = @(& git -C $packet rev-list --parents -n 1 HEAD)
+          if ($LASTEXITCODE -ne 0 -or $parents.Count -ne 1 -or $parents[0] -cne ($env:GITHUB_SHA + ' ' + $predecessor)) { throw 'Continuation must have only the exact reviewed predecessor as parent.' }
+          $reviewedParents = @(& git -C $packet rev-list --parents -n 1 $predecessor)
+          if ($LASTEXITCODE -ne 0 -or $reviewedParents.Count -ne 1 -or $reviewedParents[0] -cne ($predecessor + ' 095ed1623d5fa22ac6f2e306702142d071135db6')) { throw 'Dormant reviewed source must directly continue the fixed preparation source; no later linear push can re-arm this branch.' }
+          $changes = @(& git -C $packet diff --no-renames --name-status $predecessor $env:GITHUB_SHA --)
+          if ($LASTEXITCODE -ne 0 -or $changes.Count -ne $names.Count) { throw 'Continuation must add exactly the four approved input files.' }
+          $expectedChanges = @($names | ForEach-Object { "A`t$relative$_" } | Sort-Object -CaseSensitive)
+          $changes = @($changes | Sort-Object -CaseSensitive)
+          for ($i = 0; $i -lt $names.Count; $i++) {
+            if ($changes[$i] -cne $expectedChanges[$i]) { throw 'Continuation changed source or an unexpected input.' }
+          }
+          foreach ($name in $names) {
+            $relativePath = $relative + $name
+            $entry = @(& git -C $packet ls-tree HEAD -- $relativePath)
+            if ($LASTEXITCODE -ne 0 -or $entry.Count -ne 1 -or $entry[0] -cnotmatch ('^100644 blob [0-9a-f]{40}\t' + [regex]::Escape($relativePath) + '$')) { throw "Input must be a new ordinary text file: $name" }
+            $path = Join-Path $references $name
+            if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw "Actual external reference is absent: $name" }
+            $text = [System.IO.File]::ReadAllText($path).Trim()
+            if (-not $text -or $text.Length -gt 8192) { throw "Actual external reference is empty or excessive: $name" }
+          }
+          Write-Output ('Verified sole continuation push from ' + $predecessor + ' to ' + $env:GITHUB_SHA + '; exactly four input additions; reviewed source unchanged.')
+
+      - name: Check out the unchanged qualified runtime at its original path
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        env:
+          GIT_CONFIG_COUNT: '1'
+          GIT_CONFIG_KEY_0: core.autocrlf
+          GIT_CONFIG_VALUE_0: 'false'
+        with:
+          ref: 775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Select the original physical Python runtime
+        id: python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.10'
+          architecture: x64
+
+      - name: Receive the exact previously unexecuted operation artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          artifact-ids: '14163814811'
+          repository: theislampill/IMPLEMENTAUDIT.md
+          run-id: '43721708486'
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/dg18-w-full-original-43721708486-1
+          merge-multiple: true
+
+      - name: Restore exact paths, bodies, refs and current source without creating a boundary
+        id: restore
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $helper = Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/hosted-w-full-continuation/restore.py'
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          $transport = Join-Path $env:RUNNER_TEMP 'dg18-w-full-original-43721708486-1'
+          $out = Join-Path $env:RUNNER_TEMP ('dg18-w-full-continuation-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT)
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $helper restore --artifact $transport --source $source --out $out
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Execute the separately entitled exact G0003 owner operation once
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $env:TEMP = 'C:\Users\runneradmin\AppData\Local\Temp'
+          $env:TMP = $env:TEMP
+          $source = Join-Path $env:GITHUB_WORKSPACE 'qualified-source'
+          $grant = Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/hosted-w-full-continuation/OWNER_GRANT_REFERENCE.txt'
+          $entitlement = [System.IO.File]::ReadAllText($grant).Trim()
+          if (-not $entitlement) { throw 'The actual separate owner grant reference is absent.' }
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B (Join-Path $source 'scripts/run-r0039-windows-resume.py') execute `
+            --plan 'D:\a\_temp\dg18-w-full-43721708486-1\operation\OPERATION.json' `
+            --plan-sha256 'e0ac5d2992e44b45e838802c571fa84e27542aa72afab6ebb05c015e3207ec23' `
+            --entitlement-reference $entitlement
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain the actual restored subject after success or failure without replay
+        if: always() && steps.python.outcome == 'success'
+        shell: pwsh
+        env:
+          DG18_PHYSICAL_PYTHON: ${{ steps.python.outputs.python-path }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $helper = Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/hosted-w-full-continuation/restore.py'
+          $out = Join-Path $env:RUNNER_TEMP ('dg18-w-full-continuation-' + $env:GITHUB_RUN_ID + '-' + $env:GITHUB_RUN_ATTEMPT)
+          & $env:DG18_PHYSICAL_PYTHON -I -X utf8 -B $helper capture --out $out
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Retain original operation outputs, process accounting and actual task state
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-w-full-continuation-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/dg18-w-full-continuation-${{ github.run_id }}-${{ github.run_attempt }}/**
+            ${{ steps.restore.outcome == 'success' && 'D:/a/_temp/dg18-w-full-43721708486-1/operation/**' || '' }}
